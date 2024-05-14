@@ -1,22 +1,19 @@
-﻿using System;
+﻿using SharedLivingCostCalculator.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WGMietkosten.Models;
-using WGMietkosten.ViewModels;
 
-namespace WGMietkosten.Navigation
+namespace SharedLivingCostCalculator.Navigation
 {
     class NavigationStore
     {
-        private FlatManagement _flatManagement;
 
-        private ViewModelBase _currentViewModel;
+        private BaseViewModel _currentViewModel;
 
-        public FlatManagement FlatManager => _flatManagement;
 
-        public ViewModelBase CurrentViewModel
+        public BaseViewModel CurrentViewModel
         {
             get => _currentViewModel;
             set
@@ -31,10 +28,6 @@ namespace WGMietkosten.Navigation
             CurrentViewModelChanged?.Invoke();
         }
 
-        public NavigationStore(ref FlatManagement flatManagement)
-        {
-                _flatManagement = flatManagement;
-        }
 
         public event Action CurrentViewModelChanged;
     }

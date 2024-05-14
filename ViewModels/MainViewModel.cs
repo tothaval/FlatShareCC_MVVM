@@ -1,18 +1,30 @@
-﻿using System;
+﻿using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WGMietkosten.Models;
-using WGMietkosten.Navigation;
+using System.Windows;
+using System.Windows.Input;
 
-namespace WGMietkosten.ViewModels
+namespace SharedLivingCostCalculator.ViewModels
 {
-    class MainViewModel : ViewModelBase
+    internal class MainViewModel : BaseViewModel
     {
+
         private readonly NavigationStore _navigationStore;
-        
-        public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
+
+        private string mainWindowTitle;
+
+        public string MainWindowTitle
+        {
+            get { return mainWindowTitle; }
+            set { mainWindowTitle = value; OnPropertyChanged(nameof(MainWindowTitle)); }
+        }
+
+
+        public BaseViewModel CurrentViewModel => _navigationStore.CurrentViewModel;
 
         public MainViewModel(NavigationStore navigationStore)
         {
@@ -23,7 +35,9 @@ namespace WGMietkosten.ViewModels
 
         private void OnCurrentViewModelChanged()
         {
+
             OnPropertyChanged(nameof(CurrentViewModel));
+            MainWindowTitle = CurrentViewModel.MainWindowTitleText;
         }
     }
 }

@@ -4,8 +4,10 @@
 
 current features:
 
--add flat setup to ui, switch back to flat management ui
--show room setup ui, switch back to flat management ui
+-create new flat, setup flat with address, area, roomcount, return to flat overview
+
+-a new flat can have several rooms, if combined area
+of rooms exceeds flat area, an error is raised
 
 
 !!! data will not be saved nor loaded in the current build !!!

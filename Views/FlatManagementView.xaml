@@ -1,58 +1,47 @@
-﻿<UserControl x:Class="WGMietkosten.Views.FlatManagementView"
+﻿<UserControl x:Class="SharedLivingCostCalculator.Views.FlatManagementView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WGMietkosten.Views"
+             xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Style TargetType="GridViewColumnHeader">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="10 0"/>
-            <Setter Property="MinWidth" Value="80"/>
-
-        </Style>
+        <Style x:Key="Header" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Verdana"/>
+            <Setter Property="Foreground" Value="DarkSlateGray"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="20 5 20 5"/>
+        </Style>        
+        
     </UserControl.Resources>
     
-    <Grid Grid.IsSharedSizeScope="True" HorizontalAlignment="Center">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        
-        <TextBlock Grid.Row="0"
-                   Text="Flats"
-                   FontSize="24"/>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button Content="Add Flat" Grid.Column="0"
-                    Command="{Binding AddFlatCommand}"/>
-            <Button Content="Remove Flat" Grid.Column="1"
-                    Command="{Binding RemoveFlatCommand}"
-                    CommandParameter="{Binding ElementName=LV_Flats, Path=SelectedItem}"/>
-        </Grid>
-        
-        <ListView x:Name="LV_Flats" Grid.Row="2"
-                  ItemsSource="{Binding FlatSetups}">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="Margin" Value="2"/>
-                    <Setter Property="MinWidth" Value="80"/>
-                </Style>
-            </ListView.ItemContainerStyle>
+        <TextBlock Text="{Binding HeaderText}"
+                   Grid.Row="0"
+                   Style="{StaticResource Header}"/>
+
+        <Button Content="New Flat"
+                Grid.Row="1"
+                Command="{Binding NewFlatCommand}"/>
+
+        <ListView ItemsSource="{Binding FlatCollection}"
+                  Grid.Row="2">
             
             <ListView.View>
                 <GridView>
-                    
+
                     <GridViewColumn Header="Flat ID">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -93,23 +82,20 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="Tenants">
+                    <GridViewColumn Header="Room Sizes">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Tenants}"/>
+                                <TextBlock Text="{Binding Sizes}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
-                </GridView>                
+                </GridView>
             </ListView.View>
         </ListView>
-                
-        <Button Content="Show Flat"
-                Grid.Row="3"
-                Command="{Binding ShowFlatCommand}"
-                CommandParameter="{Binding ElementName=LV_Flats, Path=SelectedItem}"/>
 
+        <Button Content="Enter Flat"
+                Grid.Row="3"
+                Command="{Binding EnterFlatCommand}"/>
 
     </Grid>
 </UserControl>

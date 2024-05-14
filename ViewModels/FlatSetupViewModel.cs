@@ -1,66 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
-using WGMietkosten.Commands;
-using WGMietkosten.Models;
-using WGMietkosten.Navigation;
+using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.Services;
 
-namespace WGMietkosten.ViewModels
+namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class FlatSetupViewModel : ViewModelBase
+    internal class FlatSetupViewModel : BaseViewModel
     {
-		private string address;
+        private ObservableCollection<FlatViewModel> _flatCollection;
+        private FlatViewModel _flatsetup;
+        public FlatViewModel FlatSetup => _flatsetup;
 
-		public string Address
-		{
-			get { return address; }
-			set { address = value; OnPropertyChanged(nameof(Address));	}
-		}
+        public ICommand FlatSetupCommand {  get; }
+        public ICommand LeaveViewCommand {  get; }
 
-        private string details;
-
-        public string Details
+        public FlatSetupViewModel(ObservableCollection<FlatViewModel> flatCollection, INavigationService flatManagementNavigationService)
         {
-            get { return details; }
-            set { details = value; OnPropertyChanged(nameof(Details)); }
+            _flatCollection = flatCollection;
+
+            _flatsetup = new FlatViewModel(new Flat());
+
+            MainWindowTitleText = "Shared Living Cost Calculator - Flat Setup";
+
+            FlatSetupCommand = new FlatSetupCommand(_flatCollection, this, flatManagementNavigationService);
+            LeaveViewCommand = new NavigateCommand(flatManagementNavigationService);
+
+            _flatsetup.RoomCreation += _flatsetup_RoomCreation;
+            
         }
 
-        private double area;
-
-        public double Area
+        private void _flatsetup_RoomCreation()
         {
-            get { return area; }
-            set { area = value; OnPropertyChanged(nameof(Area)); }
-        }
-
-        private int rooms;
-
-        public int Rooms
-        {
-            get { return rooms; }
-            set { rooms = value; OnPropertyChanged(nameof(Rooms)); }
-        }
-
-        private string tenants;
-
-        public string Tenants
-        {
-            get { return tenants; }
-            set { tenants = value; OnPropertyChanged(nameof(Tenants)); }
-        }
-
-        public ICommand FinishSetupCommand { get; }
-        public ICommand CancelSetupCommand { get; }
-
-        public FlatSetupViewModel(NavigationStore navigationStore)
-        {
-            FinishSetupCommand = new FinishFlatSetupCommand(navigationStore, this);
-            CancelSetupCommand = new CancelFlatSetupCommand(navigationStore);
-                
+            OnPropertyChanged(nameof(FlatSetup));
         }
     }
 }

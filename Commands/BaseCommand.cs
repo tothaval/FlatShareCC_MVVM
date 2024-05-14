@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace WGMietkosten.Commands
+namespace SharedLivingCostCalculator.Commands
 {
-    internal abstract class CommandBase : ICommand
+    internal abstract class BaseCommand : ICommand
     {
         public event EventHandler? CanExecuteChanged;
 

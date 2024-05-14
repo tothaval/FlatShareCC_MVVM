@@ -1,14 +1,16 @@
-﻿<Window x:Class="WGMietkosten.MainWindow"
+﻿<Window x:Class="SharedLivingCostCalculator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WGMietkosten"
-        xmlns:views="clr-namespace:WGMietkosten.Views"
-        xmlns:vms="clr-namespace:WGMietkosten.ViewModels"
+        xmlns:local="clr-namespace:SharedLivingCostCalculator"
+        xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels"
+        xmlns:views="clr-namespace:SharedLivingCostCalculator.Views"
+        x:Name="ExampleMainWindowName"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="960">
-    <Grid>
+        SizeToContent="WidthAndHeight"
+        Title="{Binding MainWindowTitle}" Height="450" Width="800">
+    <Grid MinHeight="200" Margin="20">
         <Grid.Resources>
             <DataTemplate DataType="{x:Type vms:FlatManagementViewModel}">
                 <views:FlatManagementView/>
@@ -18,12 +20,16 @@
                 <views:FlatSetupView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:RoomSetupViewModel}">
-                <views:RoomSetupView/>
-            </DataTemplate>
         </Grid.Resources>
 
-        <ContentControl Content="{Binding CurrentViewModel}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="7"/>
+        </Grid.RowDefinitions>
+        
 
+        <ContentControl Content="{Binding CurrentViewModel}"
+                        Grid.Row="1"/>
     </Grid>
 </Window>

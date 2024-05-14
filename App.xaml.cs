@@ -1,41 +1,55 @@
-﻿using System.Configuration;
+﻿using SharedLivingCostCalculator.Navigation;
+using SharedLivingCostCalculator.Services;
+using SharedLivingCostCalculator.ViewModels;
+using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Data;
 using System.Windows;
-using WGMietkosten.Models;
-using WGMietkosten.Navigation;
-using WGMietkosten.ViewModels;
 
-namespace WGMietkosten
+namespace SharedLivingCostCalculator
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
-        private FlatManagement _flatManagement;
         private NavigationStore _navigationStore;
+        private MainViewModel _mainViewModel;
+        private ObservableCollection<FlatViewModel> _flatCollection;
 
         public App()
         {
-            _flatManagement = new FlatManagement();
-            _navigationStore = new NavigationStore(ref _flatManagement);
+            _navigationStore = new NavigationStore();
+            _mainViewModel = new MainViewModel(_navigationStore);
+            _flatCollection = new ObservableCollection<FlatViewModel>();
         }
+
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _navigationStore.CurrentViewModel = new FlatManagementViewModel(_navigationStore);
-
+            CreateFlatManagementViewModel().ChangeView();
+            
             MainWindow mainWindow = new MainWindow()
             {
-                DataContext = new MainViewModel(_navigationStore)
+                DataContext = _mainViewModel
             };
+
             mainWindow.Show();
-
-
 
 
             base.OnStartup(e);
         }
+
+        private INavigationService CreateFlatManagementViewModel()
+        {
+            return new NavigationService<FlatManagementViewModel>(_navigationStore, () => new FlatManagementViewModel(_flatCollection, CreateFlatSetupViewModel()));
+        }
+
+        private INavigationService CreateFlatSetupViewModel()
+        {
+            return new NavigationService<FlatSetupViewModel>(_navigationStore, () => new FlatSetupViewModel(_flatCollection, CreateFlatManagementViewModel()));
+        }
+
     }
 
 }

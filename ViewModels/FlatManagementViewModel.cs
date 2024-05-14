@@ -1,58 +1,47 @@
-﻿using System;
+﻿using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WGMietkosten.Commands;
-using WGMietkosten.Models;
-using WGMietkosten.Navigation;
 
-namespace WGMietkosten.ViewModels
+namespace SharedLivingCostCalculator.ViewModels
 {
-    class FlatManagementViewModel : ViewModelBase
+    internal class FlatManagementViewModel : BaseViewModel
     {
-        private ObservableCollection<AddFlatViewModel> _flatSetups;
-        public ObservableCollection<AddFlatViewModel> FlatSetups => _flatSetups;
+        private string headerText;
 
-        private NavigationStore _navigationStore;
-
-        public ICommand AddFlatCommand { get; }
-        public ICommand RemoveFlatCommand { get; }
-        public ICommand ShowFlatCommand { get; }
-
-        public FlatManagementViewModel(NavigationStore navigationStore)
+        public string HeaderText
         {
-            _flatSetups = new ObservableCollection<AddFlatViewModel>();
-            _navigationStore = navigationStore;
-
-            foreach (FlatSetup flatSetup in navigationStore.FlatManager.GetFlats())
-            {
-                _flatSetups.Add(new AddFlatViewModel(flatSetup));
-            }
-            //[
-            //    new AddFlatViewModel(new FlatSetup(
-            //         0, "Königsbrücker Platz 2, 01097 Dresden", "VH 3.OG Links", 88.88, 3)),
-                
-            //    new AddFlatViewModel(new FlatSetup(
-            //         1, "Rudolf-Leonhardt-Straße 38, 01097 Dresden", "VH 2.OG Links", 60, 2)),
-                
-            //    new AddFlatViewModel(new FlatSetup(
-            //         2, "Königsbrücker Platz 2, 01097 Dresden", "VH 1.OG Rechts", 92, 4)),
-            // ];
-
-            AddFlatCommand = new AddFlatSetupCommand(navigationStore);
-            RemoveFlatCommand = new RemoveFlatSetupCommand(this);
-
-            ShowFlatCommand = new ShowRoomSetupCommand(navigationStore);
+            get { return headerText; }
+            set { headerText = value; OnPropertyChanged(nameof(HeaderText)); }
         }
 
-        public void AddFlatSetup(FlatSetup flatSetup)
-        {
-            _flatSetups.Add(new AddFlatViewModel(flatSetup));
+        private ObservableCollection<FlatViewModel> _flatCollection;
+        public ObservableCollection<FlatViewModel> FlatCollection => _flatCollection;
 
-             _navigationStore.FlatManager.AddFlat(flatSetup);
+
+        public ICommand NewFlatCommand { get; }
+        public ICommand EnterFlatCommand { get; }
+
+        public FlatManagementViewModel(ObservableCollection<FlatViewModel> flatCollection, INavigationService newFlatSetupNavigationService)
+        {
+            NewFlatCommand = new CreateNewFlatCommand(newFlatSetupNavigationService);
+
+            _flatCollection = flatCollection;
+
+            MainWindowTitleText = "Shared Living Cost Calculator - Flat Overview";
+            HeaderText = "Flat Overview";
+        }
+
+
+        public void NewFlat(FlatViewModel flatViewModel)
+        {
+            FlatCollection.Add(flatViewModel);
         }
     }
 }
