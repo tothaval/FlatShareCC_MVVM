@@ -26,22 +26,26 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         public ICommand NewFlatCommand { get; }
-        public ICommand EnterFlatCommand { get; }
+        public ICommand AccountingCommand { get; }
+        public ICommand EditFlatCommand { get; }
 
-        public FlatManagementViewModel(ObservableCollection<FlatViewModel> flatCollection, INavigationService newFlatSetupNavigationService)
+        public ICommand DeleteFlatCommand { get; }
+
+        public FlatManagementViewModel(ObservableCollection<FlatViewModel> flatCollection, INavigationService newFlatSetupNavigationService,
+            INavigationService newFlatManagementNavigationService)
         {
-            NewFlatCommand = new CreateNewFlatCommand(newFlatSetupNavigationService);
+            NewFlatCommand = new NavigateCommand(newFlatSetupNavigationService);
+
+            AccountingCommand = new ShowFlatAccountingCommand(newFlatManagementNavigationService);
+
+            EditFlatCommand = new ShowEditFlatCommand(newFlatManagementNavigationService);
+
+            DeleteFlatCommand = new ExecuteDeleteFlatCommand(flatCollection);
 
             _flatCollection = flatCollection;
 
             MainWindowTitleText = "Shared Living Cost Calculator - Flat Overview";
             HeaderText = "Flat Overview";
-        }
-
-
-        public void NewFlat(FlatViewModel flatViewModel)
-        {
-            FlatCollection.Add(flatViewModel);
         }
     }
 }

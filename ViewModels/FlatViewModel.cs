@@ -26,7 +26,20 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             _flat = flat;
 
+            ConnectRooms();
         }
+
+        private void ConnectRooms()
+        {
+            if (rooms != null && rooms.Count > 0)
+            {
+                foreach (Room room in rooms)
+                {
+                    room.PropertyChanged += Room_PropertyChanged;
+                }
+            }
+        }
+
 
         private void CreateRooms()
         {

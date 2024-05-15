@@ -20,6 +20,14 @@
                 <views:FlatSetupView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vms:EditFlatViewModel}">
+                <views:FlatSetupView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vms:AccountingViewModel}">
+                <views:AccountingView/>
+            </DataTemplate>
+            
         </Grid.Resources>
 
         <Grid.RowDefinitions>

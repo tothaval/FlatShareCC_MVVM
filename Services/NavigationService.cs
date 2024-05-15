@@ -20,9 +20,18 @@ namespace SharedLivingCostCalculator.Services
             _createViewModel = createViewModel;
         }
 
+        public void ChangeView(BaseViewModel viewModel) { 
+            _navigationStore.CurrentViewModel = viewModel;
+        }
+
         public void ChangeView()
         {
             _navigationStore.CurrentViewModel = _createViewModel();
+        }
+
+        public NavigationStore GetNavigationStore()
+        {
+            return _navigationStore;
         }
 
         public BaseViewModel GetViewModel()
