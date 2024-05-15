@@ -20,6 +20,8 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
         </Style>
+
+        <BooleanToVisibilityConverter x:Key="ProceedCommandVisibility" />
     </UserControl.Resources>
     
     <Grid HorizontalAlignment="Stretch"
@@ -53,7 +55,8 @@
                                  Grid.Row="2"/>
 
         <c_views:SimpleInputView Label="Area"
-                                 Value="{Binding FlatSetup.Area, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 Value="{Binding FlatSetup.Area, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                StringFormat=\{0:n\}, Delay=500}"
                                  Foreground="DarkSlateGray"
                                  Grid.Row="3"/>
         
@@ -78,7 +81,8 @@
                                  Foreground="DarkSlateGray" Padding="5 0"/>
 
                             <c_views:SimpleInputView Label="Area"
-                                 Value="{Binding RoomArea, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 Value="{Binding RoomArea, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                StringFormat=\{0:n\}, Delay=500}"
                                  Foreground="DarkSlateGray" Padding="5 0"/>
                         </WrapPanel>
                     </Border>
@@ -92,6 +96,7 @@
         <Button Grid.Row="7"
                 HorizontalAlignment="Stretch"
                 
+                Visibility="{Binding FlatSetupCommandVisibility, Converter={StaticResource ProceedCommandVisibility}}"
                 Content="Proceed"
                 Command="{Binding FlatSetupCommand}"/>
 

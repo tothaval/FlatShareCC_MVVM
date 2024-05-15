@@ -19,23 +19,29 @@ namespace SharedLivingCostCalculator.ViewModels
         private FlatViewModel _flatsetup;
         public FlatViewModel FlatSetup => _flatsetup;
 
+        public bool FlatSetupCommandVisibility => true;
+
         public ICommand FlatSetupCommand {  get; }
         public ICommand LeaveViewCommand {  get; }
 
         public FlatSetupViewModel(ObservableCollection<FlatViewModel> flatCollection, INavigationService flatManagementNavigationService)
         {
             _flatCollection = flatCollection;
-
+            
             _flatsetup = new FlatViewModel(new Flat());
-
+            
+            
             MainWindowTitleText = "Shared Living Cost Calculator - Flat Setup";
 
             FlatSetupCommand = new FlatSetupCommand(_flatCollection, this, flatManagementNavigationService);
             LeaveViewCommand = new NavigateCommand(flatManagementNavigationService);
 
             _flatsetup.RoomCreation += _flatsetup_RoomCreation;
-            
+
+            OnPropertyChanged(nameof(FlatSetupCommandVisibility));
         }
+
+
 
         private void _flatsetup_RoomCreation()
         {

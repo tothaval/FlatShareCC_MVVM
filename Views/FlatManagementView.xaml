@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             x:Name="FMV"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -19,12 +20,11 @@
         
     </UserControl.Resources>
     
-    <Grid>
+    <Grid Margin="7">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
@@ -37,11 +37,12 @@
                 Command="{Binding NewFlatCommand}"/>
 
         <ListView ItemsSource="{Binding FlatCollection}"
+                  x:Name="LV_FlatCollection"
+                  SelectionMode="Single"
                   Grid.Row="2">
             
             <ListView.View>
                 <GridView>
-
                     <GridViewColumn Header="Flat ID">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -88,14 +89,32 @@
                                 <TextBlock Text="{Binding Sizes}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    </GridViewColumn>                
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <Button Content="Enter Flat"
-                Grid.Row="3"
-                Command="{Binding EnterFlatCommand}"/>
+        <StackPanel Orientation="Horizontal"                   
+                    HorizontalAlignment="Center"
+                    Grid.Row="4">
+            <Button Content="Accounting"
+                Command="{Binding AccountingCommand}"
+                CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
+                    HorizontalContentAlignment="Center"/>
+
+
+            <Button Content="Edit Flat"                 
+                    HorizontalAlignment="Stretch"
+                Command="{Binding EditFlatCommand}"
+                CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
+                    HorizontalContentAlignment="Center"/>
+
+            <Button Content="Delete Flat"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding DeleteFlatCommand}"
+                    CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
+                    HorizontalContentAlignment="Center"/>
+        </StackPanel>
 
     </Grid>
 </UserControl>

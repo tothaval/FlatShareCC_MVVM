@@ -5,27 +5,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Navigation;
 
 namespace SharedLivingCostCalculator.Commands
 {
-    internal class CreateNewFlatCommand : BaseCommand
+    class ShowFlatAccountingCommand : BaseCommand
     {
         private INavigationService _navigationService;
 
-        public CreateNewFlatCommand(INavigationService navigationService)
-        {          
+        public ShowFlatAccountingCommand(INavigationService navigationService)
+        {
             _navigationService = navigationService;
         }
 
+
         public override void Execute(object? parameter)
         {
-            if (parameter != null)
+            if (parameter != null && parameter.GetType()==typeof(FlatViewModel))
             {
-                MessageBox.Show(parameter.ToString());
+                _navigationService.ChangeView(new AccountingViewModel(
+                                        (FlatViewModel)parameter, _navigationService));
             }
 
-            _navigationService.ChangeView();
         }
     }
 }

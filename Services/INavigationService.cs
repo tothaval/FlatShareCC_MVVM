@@ -1,4 +1,5 @@
-﻿using SharedLivingCostCalculator.ViewModels;
+﻿using SharedLivingCostCalculator.Navigation;
+using SharedLivingCostCalculator.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,11 @@ namespace SharedLivingCostCalculator.Services
     internal interface INavigationService
     {
         void ChangeView();
+        void ChangeView(BaseViewModel baseViewModel);
 
         BaseViewModel GetViewModel();
+
+        NavigationStore GetNavigationStore();
+    
     }
 }
