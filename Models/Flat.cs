@@ -16,6 +16,8 @@ namespace SharedLivingCostCalculator.Models
         public double Area { get; set; }
         public int RoomCount { get; set; }
         public ObservableCollection<Room> Rooms { get; set; }
+        public ObservableCollection<BillingPeriod> BillingPeriods { get; set; }
+        public ObservableCollection<Rent> RentUpdates { get; set; }
 
         public Flat()
         {
@@ -25,6 +27,8 @@ namespace SharedLivingCostCalculator.Models
             Area = 0.0;
             RoomCount = 0;
             Rooms = new ObservableCollection<Room>();
+            BillingPeriods = new ObservableCollection<BillingPeriod>();
+            RentUpdates = new ObservableCollection<Rent>();
         }
 
         public Flat(int id, string address, double area, int roomCount, string details = "")
@@ -42,12 +46,18 @@ namespace SharedLivingCostCalculator.Models
             {
                 Rooms.Add(new Room(i));
             }
+
+            BillingPeriods = new ObservableCollection<BillingPeriod>();
+            RentUpdates = new ObservableCollection<Rent>();
         }
 
         public Flat(int iD, string address, double area, int roomCount, ObservableCollection<Room> rooms, string details = "") : this(iD, address, area, roomCount)
         {
             Rooms = rooms;
             Details += details;
+
+            BillingPeriods = new ObservableCollection<BillingPeriod>();
+            RentUpdates = new ObservableCollection<Rent>();
         }
     }
 }

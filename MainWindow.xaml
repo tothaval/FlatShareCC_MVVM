@@ -27,7 +27,17 @@
             <DataTemplate DataType="{x:Type vms:AccountingViewModel}">
                 <views:AccountingView/>
             </DataTemplate>
-            
+
+
+            <DataTemplate DataType="{x:Type vms:BillingPeriodViewModel}">
+                <views:BillingPeriodView/>
+            </DataTemplate>
+
+
+            <DataTemplate DataType="{x:Type vms:RentUpdateViewModel}">
+                <views:RentUpdateView/>
+            </DataTemplate>
+
         </Grid.Resources>
 
         <Grid.RowDefinitions>

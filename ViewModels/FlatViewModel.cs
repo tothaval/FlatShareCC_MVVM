@@ -22,6 +22,20 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public ObservableCollection<Room> rooms { get { return _flat.Rooms; } set { _flat.Rooms = value; } }
 
+        public ObservableCollection<BillingPeriod> BillingPeriods
+        {
+            get { return _flat.BillingPeriods; }
+            set { _flat.BillingPeriods = value; }
+        }
+
+
+        public ObservableCollection<Rent> RentUpdates
+        {
+            get { return _flat.RentUpdates; }
+            set { _flat.RentUpdates = value; }
+        }
+
+
         public FlatViewModel(Flat flat)
         {
             _flat = flat;

@@ -6,7 +6,9 @@ current features:
 
 -create new flat, setup flat with address, area, roomcount, return to flat overview
 -edit or delete existing flat
--enter accounting page (no further functionality than to leave accounting page atm.)
+-enter accounting page
+- add or delete or edit Rent Update Data
+- add or delete or edit Billing Period Data
 
 -a new flat can have several rooms, if combined area
 of rooms exceeds flat area, an error is raised

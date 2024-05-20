@@ -13,10 +13,16 @@
     <Compile Update="Views\AccountingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\BillingPeriodView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\FlatManagementView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\FlatSetupView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RentUpdateView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -30,10 +36,16 @@
     <Page Update="Views\AccountingView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\BillingPeriodView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\FlatManagementView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\FlatSetupView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RentUpdateView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
