@@ -22,6 +22,27 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public ObservableCollection<Room> rooms { get { return _flat.Rooms; } set { _flat.Rooms = value; } }
 
+<<<<<<< Updated upstream
+=======
+        public ObservableCollection<BillingPeriod> BillingPeriods
+        {
+            get { return _flat.BillingPeriods; }
+            set { _flat.BillingPeriods = value;
+                OnPropertyChanged(nameof(BillingPeriods));
+            }
+        }
+
+
+        public ObservableCollection<Rent> RentUpdates
+        {
+            get { return _flat.RentUpdates; }
+            set { _flat.RentUpdates = value;
+                OnPropertyChanged(nameof(RentUpdates));
+            }
+        }
+
+
+>>>>>>> Stashed changes
         public FlatViewModel(Flat flat)
         {
             _flat = flat;

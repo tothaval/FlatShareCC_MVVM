@@ -11,5 +11,7 @@ current features:
 -a new flat can have several rooms, if combined area
 of rooms exceeds flat area, an error is raised
 
+-there is data validation setup on some of the property bindings
+
 
 !!! data will not be saved nor loaded in the current build !!!

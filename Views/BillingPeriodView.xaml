@@ -1,0 +1,183 @@
+﻿<UserControl x:Class="SharedLivingCostCalculator.Views.BillingPeriodView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components.ComponentViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+
+        <BooleanToVisibilityConverter x:Key="BillingPeriodVisibilityConverter" />
+    </UserControl.Resources>
+    <StackPanel>
+    <Button Content="Add Billing Period"
+       Command="{Binding AddBillingPeriodCommand}"
+                 Grid.Column="0" Grid.Row="0"/>
+
+        <DataGrid ItemsSource="{Binding Billings}"
+              SelectedValue="{Binding Path=SelectedValue}"
+              CanUserSortColumns="True"
+              SelectionMode="Single"
+              AutoGenerateColumns="False"
+              IsReadOnly="True"
+              Grid.Column="0" Grid.Row="1"
+              >
+        <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding StartDate, StringFormat=\{0:yyyy.MM.dd\}}"
+                           Header="StartDate" SortMemberPath="StartDate" SortDirection="Descending"
+                                    Width="90"/>
+                <DataGridTextColumn Binding="{Binding EndDate, StringFormat=\{0:yyyy.MM.dd\}}"
+                           Header="EndDate" Width="90"/>
+
+                <DataGridTextColumn Binding="{Binding TotalCostsPerPeriod, StringFormat=N2}"
+                           Header="Total Costs" Width="90"/>
+                <DataGridTextColumn Binding="{Binding TotalFixedCostsPerPeriod, StringFormat=N2}"
+                           Header="Fixed Costs" Width="90"/>
+                <DataGridTextColumn Binding="{Binding TotalHeatingCostsPerPeriod, StringFormat=N2}"
+                           Header="Heating Costs" Width="90"/>
+
+                <DataGridTextColumn Binding="{Binding TotalHeatingUnitsConsumption, StringFormat=N2}"
+                           Header="Heating Units" Width="90"/>
+            </DataGrid.Columns>
+    </DataGrid>
+
+
+        <Grid  Visibility="{Binding BillingPeriodSelected, Converter={StaticResource BillingPeriodVisibilityConverter}}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Center">
+
+                <TextBlock Text="Billing Period Data" Margin="5 10"
+                       TextAlignment="Center" FontSize="14"/>
+
+                <StackPanel Margin="5 5" Orientation="Horizontal">
+                    <TextBlock Text="Start Date" Width="150" VerticalAlignment="Center" />
+                    <DatePicker SelectedDate="{Binding SelectedValue.StartDate,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=true, Delay=500}"
+                                Padding="2" Width="100"/>
+                </StackPanel>
+
+                <StackPanel Margin="5 5" Orientation="Horizontal">
+                    <TextBlock Text="End Date" Width="150" VerticalAlignment="Center" />
+                    <DatePicker SelectedDate="{Binding SelectedValue.EndDate,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=true, Delay=500}"
+                                Padding="2" Width="100"
+                                ToolTip="{Binding Helper[EndDate]}"/>
+            </StackPanel>
+
+                <StackPanel Margin="5 5" Orientation="Horizontal">
+                    <TextBlock Text="Total Costs" Width="150" VerticalAlignment="Center" />
+                    <TextBox Text="{Binding SelectedValue.TotalCostsPerPeriod,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=N2, Delay=500}"
+                             Padding="2"/>
+            </StackPanel>
+
+                <StackPanel Margin="5 5" Orientation="Horizontal">
+                    <TextBlock Text="Fixed Costs" Width="150" VerticalAlignment="Center" />
+                    <TextBox Text="{Binding SelectedValue.TotalFixedCostsPerPeriod,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=N2, Delay=500}"
+                             Padding="2"/>
+            </StackPanel>
+
+                <StackPanel Margin="5 5" Orientation="Horizontal">
+                    <TextBlock Text="Heating Costs" Width="150" VerticalAlignment="Center" />
+                    <TextBox Text="{Binding SelectedValue.TotalHeatingCostsPerPeriod,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=N2, Delay=500}"
+                             Padding="2"/>
+            </StackPanel>
+
+                <StackPanel Margin="5 5" Orientation="Horizontal">
+                    <TextBlock Text="Heating Units" Width="150" VerticalAlignment="Center" />
+                    <TextBox Text="{Binding SelectedValue.TotalHeatingUnitsConsumption,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=N4, Delay=500}"
+                             Padding="2"/>
+            </StackPanel>
+
+            <TextBlock Text="Heating Units Consumption per Room" Margin="5 10"
+                       TextAlignment="Center" FontSize="14"/>
+
+                <ListView ItemsSource="{Binding Rooms}"
+           SelectionMode="Single"
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
+               BorderThickness="0"
+               Margin="0 5 0 0"
+               >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Room ID" Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Room.ID}" Padding="5 2"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="RoomName">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Room.RoomName}"  Padding="5 2" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Area" Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Room.RoomArea}"  Padding="5 2" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Heating Units" Width="auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding HeatingUnitsConsumption,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=true,
+                                            StringFormat=N4, Delay=500}"
+                                                  Padding="5 2" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>                         
+                        </GridView>
+                    </ListView.View>        
+            </ListView>
+
+        </StackPanel>
+
+            <Button Command="{Binding DeleteCommand}"
+                    Grid.Column="1" VerticalAlignment="Top"
+                    Padding="5"
+                    Margin="5 10 0 0">
+                <TextBlock TextAlignment="Left">
+                    Delete
+                    <LineBreak/>
+                    Billing
+                    <LineBreak/>
+                    Period
+                    <LineBreak/>
+                    Data
+                </TextBlock>
+                
+            </Button>
+
+        </Grid>
+    </StackPanel>
+</UserControl>
