@@ -24,6 +24,19 @@ namespace SharedLivingCostCalculator.ViewModels
         private ObservableCollection<FlatViewModel> _flatCollection;
         public ObservableCollection<FlatViewModel> FlatCollection => _flatCollection;
 
+        private FlatViewModel _selectedValue; // private BillingPeriod _selectedBillingPeriod
+
+        public FlatViewModel SelectedValue
+        {
+            get { return _selectedValue; }
+            set
+            {
+                if (_selectedValue == value) return;
+                _selectedValue = value;
+
+                OnPropertyChanged(nameof(SelectedValue));
+            }
+        }
 
         public ICommand NewFlatCommand { get; }
         public ICommand AccountingCommand { get; }
@@ -43,6 +56,8 @@ namespace SharedLivingCostCalculator.ViewModels
             DeleteFlatCommand = new ExecuteDeleteFlatCommand(flatCollection);
 
             _flatCollection = flatCollection;
+
+            SelectedValue = _flatCollection?.First();
 
             MainWindowTitleText = "Shared Living Cost Calculator - Flat Overview";
             HeaderText = "Flat Overview";

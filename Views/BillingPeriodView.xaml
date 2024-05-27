@@ -13,8 +13,7 @@
     </UserControl.Resources>
     <StackPanel>
     <Button Content="Add Billing Period"
-       Command="{Binding AddBillingPeriodCommand}"
-                 Grid.Column="0" Grid.Row="0"/>
+       Command="{Binding AddBillingPeriodCommand}"/>
 
         <DataGrid ItemsSource="{Binding Billings}"
               SelectedValue="{Binding Path=SelectedValue}"
@@ -22,13 +21,14 @@
               SelectionMode="Single"
               AutoGenerateColumns="False"
               IsReadOnly="True"
-              Grid.Column="0" Grid.Row="1"
               >
         <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding StartDate, StringFormat=\{0:yyyy.MM.dd\}}"
+                <DataGridTextColumn Binding="{Binding StartDate, StringFormat=\{0:yyyy.MM.dd\},
+                        ValidatesOnDataErrors=true, Delay=500}"
                            Header="StartDate" SortMemberPath="StartDate" SortDirection="Descending"
                                     Width="90"/>
-                <DataGridTextColumn Binding="{Binding EndDate, StringFormat=\{0:yyyy.MM.dd\}}"
+                <DataGridTextColumn Binding="{Binding EndDate, StringFormat=\{0:yyyy.MM.dd\},
+                        ValidatesOnDataErrors=true, Delay=500}"
                            Header="EndDate" Width="90"/>
 
                 <DataGridTextColumn Binding="{Binding TotalCostsPerPeriod, StringFormat=N2}"
@@ -59,41 +59,54 @@
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="Start Date" Width="150" VerticalAlignment="Center" />
-                    <DatePicker SelectedDate="{Binding SelectedValue.StartDate, UpdateSourceTrigger=PropertyChanged}"
+                    <DatePicker SelectedDate="{Binding SelectedValue.StartDate,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=true, Delay=500}"
                                 Padding="2" Width="100"/>
                 </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="End Date" Width="150" VerticalAlignment="Center" />
-                    <DatePicker SelectedDate="{Binding SelectedValue.EndDate, UpdateSourceTrigger=PropertyChanged}"
-                                Padding="2" Width="100"/>
+                    <DatePicker SelectedDate="{Binding SelectedValue.EndDate,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=true, Delay=500}"
+                                Padding="2" Width="100"
+                                ToolTip="{Binding Helper[EndDate]}"/>
             </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="Total Costs" Width="150" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding SelectedValue.TotalCostsPerPeriod, UpdateSourceTrigger=PropertyChanged,
-                        ValidatesOnDataErrors=True, StringFormat=N2, Delay=500}"
+                    <TextBox Text="{Binding SelectedValue.TotalCostsPerPeriod,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=N2, Delay=500}"
                              Padding="2"/>
             </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="Fixed Costs" Width="150" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding SelectedValue.TotalFixedCostsPerPeriod, UpdateSourceTrigger=PropertyChanged,
-                        ValidatesOnDataErrors=True, StringFormat=N2, Delay=500}"
+                    <TextBox Text="{Binding SelectedValue.TotalFixedCostsPerPeriod,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=N2, Delay=500}"
                              Padding="2"/>
             </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="Heating Costs" Width="150" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding SelectedValue.TotalHeatingCostsPerPeriod, UpdateSourceTrigger=PropertyChanged,
-                        ValidatesOnDataErrors=True, StringFormat=N2, Delay=500}"
+                    <TextBox Text="{Binding SelectedValue.TotalHeatingCostsPerPeriod,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=N2, Delay=500}"
                              Padding="2"/>
             </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="Heating Units" Width="150" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding SelectedValue.TotalHeatingUnitsConsumption, UpdateSourceTrigger=PropertyChanged,
-                        ValidatesOnDataErrors=True, StringFormat=N4, Delay=500}"
+                    <TextBox Text="{Binding SelectedValue.TotalHeatingUnitsConsumption,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=N4, Delay=500}"
                              Padding="2"/>
             </StackPanel>
 
@@ -135,7 +148,9 @@
                             <GridViewColumn Header="Heating Units" Width="auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding HeatingUnitsConsumption, UpdateSourceTrigger=PropertyChanged,
+                                        <TextBox Text="{Binding HeatingUnitsConsumption,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=true,
                                             StringFormat=N4, Delay=500}"
                                                   Padding="5 2" VerticalAlignment="Center" />
                                     </DataTemplate>

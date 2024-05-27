@@ -13,14 +13,13 @@
     </UserControl.Resources>
     <StackPanel>
         <Button Content="Add Rent Update"
-             Command="{Binding AddRentUpdateCommand}"
-             Grid.Column="0" Grid.Row="0"/>
+             Command="{Binding AddRentUpdateCommand}"/>
 
         <DataGrid ItemsSource="{Binding RentUpdates}"
                   SelectedValue="{Binding Path=SelectedValue}"
                   CanUserSortColumns="True"
                   SelectionMode="Single"
-                  AutoGenerateColumns="False" Grid.Column="0" Grid.Row="1"
+                  AutoGenerateColumns="False"
                   IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding StartDate, StringFormat=\{0:yyyy.MM.dd\}}"
@@ -55,31 +54,39 @@
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="Start Date" Width="150" VerticalAlignment="Bottom" />
-                    <DatePicker Text="start date"  SelectedDate="{Binding SelectedValue.StartDate, UpdateSourceTrigger=PropertyChanged}"
+                    <DatePicker Text="start date"  SelectedDate="{Binding SelectedValue.StartDate,
+                        UpdateSourceTrigger=PropertyChanged}"
                                  Width="100"/>
                 </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="Cold Rent" Width="150" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding SelectedValue.ColdRent, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,
-                                StringFormat=N2, Delay=500}"/>
+                    <TextBox Text="{Binding SelectedValue.ColdRent,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=N2, Delay=500}"/>
                 </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="Fixed Costs Advance" Width="150" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding SelectedValue.ExtraCostsShared, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,
-                                StringFormat=N2, Delay=500}"/>
+                    <TextBox Text="{Binding SelectedValue.ExtraCostsShared,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=N2, Delay=500}"/>
                 </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="Heating Costs Advance" Width="150" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding SelectedValue.ExtraCostsHeating, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,
-                                StringFormat=N2, Delay=500}"/>
+                    <TextBox Text="{Binding SelectedValue.ExtraCostsHeating,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=N2, Delay=500}"/>
                 </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal" Background="LightGray">
                     <TextBlock Text="Total Extra Costs Advance" Width="150" VerticalAlignment="Center" />
-                    <TextBox IsReadOnly="True" Text="{Binding SelectedValue.ExtraCostsTotal, Mode=OneWay, StringFormat=N2}"
+                    <TextBox IsReadOnly="True" Text="{Binding SelectedValue.ExtraCostsTotal,
+                        Mode=OneWay, StringFormat=N2}"
                              Background="LightGray"/>
                 </StackPanel>
             </StackPanel>
