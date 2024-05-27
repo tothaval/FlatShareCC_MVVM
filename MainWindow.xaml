@@ -9,6 +9,7 @@
         x:Name="ExampleMainWindowName"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
         Title="{Binding MainWindowTitle}" Height="450" Width="800">
     <Grid MinHeight="200" Margin="20">
         <Grid.Resources>
@@ -32,7 +33,10 @@
             <DataTemplate DataType="{x:Type vms:BillingPeriodViewModel}">
                 <views:BillingPeriodView/>
             </DataTemplate>
-
+            
+            <DataTemplate DataType="{x:Type vms:PaymentsViewModel}">
+                <views:PaymentsView/>
+            </DataTemplate>
 
             <DataTemplate DataType="{x:Type vms:RentUpdateViewModel}">
                 <views:RentUpdateView/>

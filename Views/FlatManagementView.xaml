@@ -16,15 +16,16 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="20 5 20 5"/>
-        </Style>        
-        
+        </Style>
+
     </UserControl.Resources>
-    
+
     <Grid Margin="7">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
@@ -37,10 +38,11 @@
                 Command="{Binding NewFlatCommand}"/>
 
         <ListView ItemsSource="{Binding FlatCollection}"
+                  SelectedItem="{Binding SelectedValue}"
                   x:Name="LV_FlatCollection"
                   SelectionMode="Single"
                   Grid.Row="2">
-            
+
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Flat ID">
@@ -82,21 +84,13 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
-                    <GridViewColumn Header="Room Sizes">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Sizes}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>                
                 </GridView>
             </ListView.View>
         </ListView>
 
         <StackPanel Orientation="Horizontal"                   
                     HorizontalAlignment="Center"
-                    Grid.Row="4">
+                    Grid.Row="3">
             <Button Content="Accounting"
                 Command="{Binding AccountingCommand}"
                 CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
@@ -114,6 +108,118 @@
                     Command="{Binding DeleteFlatCommand}"
                     CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
                     HorizontalContentAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" HorizontalAlignment="Center">
+
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Address: "
+                       Grid.Column="0" Grid.Row="0"/>
+                <TextBlock Text="{Binding SelectedValue.Address, Mode=OneWay,
+                    NotifyOnSourceUpdated=True}"
+                       Grid.Column="1" Grid.Row="0"/>
+                <TextBlock Text="Details: "
+                       Grid.Column="2" Grid.Row="0"/>
+                <TextBlock Text="{Binding SelectedValue.Details, Mode=OneWay,
+                    NotifyOnSourceUpdated=True}"
+                       Grid.Column="3" Grid.Row="0"/>
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Area: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Area, Mode=OneWay,
+                    NotifyOnSourceUpdated=True, StringFormat=N2}"
+                       Grid.Column="1" Grid.Row="1"/>
+
+
+                <TextBlock Text="Shared Area: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.SharedArea, Mode=OneWay,
+                    NotifyOnSourceUpdated=True, StringFormat=N2}"
+                       Grid.Column="1" Grid.Row="1"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Cold Rent: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.Rent, Mode=OneWay,
+                    NotifyOnSourceUpdated=True, StringFormat=N2}"
+                       Grid.Column="1" Grid.Row="1"/>
+
+
+                <TextBlock Text="Shared Cold Rent: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.SharedRent, Mode=OneWay,
+                    NotifyOnSourceUpdated=True, StringFormat=N2}"
+                       Grid.Column="1" Grid.Row="1"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Extra Costs: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.ExtraCosts, Mode=OneWay,
+                    NotifyOnSourceUpdated=True, StringFormat=N2}"
+                       Grid.Column="1" Grid.Row="1"/>
+
+
+                <TextBlock Text="Shared Extra Costs: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.SharedExtraCosts, Mode=OneWay,
+                    NotifyOnSourceUpdated=True, StringFormat=N2}"
+                       Grid.Column="1" Grid.Row="1"/>
+            </StackPanel>
+
+
+            <ListView ItemsSource="{Binding SelectedValue.Costs.RoomCosts}"
+                  SelectionMode="Single" Grid.Row="5"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      BorderThickness="0"
+                      Margin="0 5 0 0"
+                      >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding RoomName,
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=OneWay}" Header="Room Name"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding RoomArea,
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=OneWay,
+                                StringFormat=N2, Delay=500}" Header="Room Area"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding RentShare,
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=OneWay,
+                                StringFormat=N2, Delay=500}" Header="Rent Share"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding ExtraCostsShare,
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=OneWay,
+                                StringFormat=N2, Delay=500}" Header="Extra Costs Share"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding CombinedCostShare,
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=OneWay,
+                                StringFormat=N2, Delay=500}" Header="Combined Cost Share"/>
+                    </GridView>
+                </ListView.View>
+
+            </ListView>
+
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Extra Costs: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.ExtraCosts, Mode=OneWay,
+                    NotifyOnSourceUpdated=True, StringFormat=N2}"
+                       Grid.Column="1" Grid.Row="1"/>
+
+
+                <TextBlock Text="Shared Extra Costs: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.SharedExtraCosts, Mode=OneWay,
+                    NotifyOnSourceUpdated=True, StringFormat=N2}"
+                       Grid.Column="1" Grid.Row="1"/>
+            </StackPanel>
         </StackPanel>
 
     </Grid>

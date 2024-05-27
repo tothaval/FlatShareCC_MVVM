@@ -23,6 +23,9 @@ namespace SharedLivingCostCalculator.ViewModels
         private BillingPeriodViewModel _billingPeriodViewModel;
         public BillingPeriodViewModel BillingPeriod => _billingPeriodViewModel;
 
+        private PaymentsViewModel _paymentsViewModel;
+        public PaymentsViewModel Payments => _paymentsViewModel;
+
         public ICommand LeaveCommand { get; }
 
 
@@ -34,6 +37,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             _billingPeriodViewModel = new BillingPeriodViewModel(FlatViewModel);
             _rentUpdateViewModel = new RentUpdateViewModel(FlatViewModel);
+            _paymentsViewModel = new PaymentsViewModel(FlatViewModel);
 
         }
     }

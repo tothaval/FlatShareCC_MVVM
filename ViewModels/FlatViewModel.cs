@@ -12,33 +12,43 @@ namespace SharedLivingCostCalculator.ViewModels
     internal class FlatViewModel : BaseViewModel
     {
         private Flat _flat;
+        private Costs _costs;
 
         public int ID => _flat.ID;
         public string Address { get { return _flat.Address; } set { _flat.Address = value; } }
         public string Details { get { return _flat.Details; } set { _flat.Details = value; } } 
         public double Area { get { return _flat.Area; } set { _flat.Area = value; } }
         public int Rooms { get { return _flat.RoomCount; } set { _flat.RoomCount = value; CreateRooms(); } }
-        public string Sizes => GetSizes();
 
         public ObservableCollection<Room> rooms { get { return _flat.Rooms; } set { _flat.Rooms = value; } }
 
         public ObservableCollection<BillingPeriod> BillingPeriods
         {
             get { return _flat.BillingPeriods; }
-            set { _flat.BillingPeriods = value; }
+            set { _flat.BillingPeriods = value;
+                OnPropertyChanged(nameof(BillingPeriods));
+            }
         }
 
 
         public ObservableCollection<Rent> RentUpdates
         {
             get { return _flat.RentUpdates; }
-            set { _flat.RentUpdates = value; }
+            set { _flat.RentUpdates = value;
+                OnPropertyChanged(nameof(RentUpdates));
+            }
+        }
+
+        public Costs Costs
+        {
+            get { return _costs; }
         }
 
 
         public FlatViewModel(Flat flat)
         {
             _flat = flat;
+            _costs = new Costs(_flat);
 
             ConnectRooms();
         }
@@ -94,18 +104,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
         public event Action RoomCreation;
-
-        public string GetSizes()
-        {
-            StringBuilder sizes = new StringBuilder();
-
-            foreach (Room room in _flat.Rooms)
-            {
-                sizes.Append($"<{room.RoomName} {room.RoomArea}>");
-            }
-
-            return sizes.ToString();
-        }
 
     }
 }
