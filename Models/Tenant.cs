@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.Models
 {
-    internal class Tenant
+    public class Tenant
     {
         public int ID { get; set; }
         public string Name { get; set; }

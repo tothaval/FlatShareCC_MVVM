@@ -39,4 +39,8 @@ current features:
 		-> setup a new flat, setup a rent, leave BillingPeriod empty
 		-> the youngest Rent data will be used for calculation of currentRent
 
+-> Settings
+	->show Settings window
+	-> Background, Foreground, FontFamily and FontSize can be set
+
 !!! data will not be saved nor loaded in the current build !!!

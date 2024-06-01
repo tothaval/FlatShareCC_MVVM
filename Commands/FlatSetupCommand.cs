@@ -1,6 +1,7 @@
 ﻿using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Services;
 using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,15 +14,15 @@ namespace SharedLivingCostCalculator.Commands
 {
     internal class FlatSetupCommand : BaseCommand
     {
-        private ObservableCollection<FlatViewModel> _flatCollection;
-        private FlatSetupViewModel _viewModel;
-        private INavigationService _navigationService;
+        private readonly ObservableCollection<FlatViewModel> _flatCollection;
+        private readonly FlatSetupViewModel _viewModel;
+        private readonly FlatSetupView _flatSetupView;
 
-        public FlatSetupCommand(ObservableCollection<FlatViewModel> flatCollection, FlatSetupViewModel viewModel, INavigationService navigationService)
+        public FlatSetupCommand(ObservableCollection<FlatViewModel> flatCollection, FlatSetupViewModel viewModel, FlatSetupView flatSetupView)
         {
             _flatCollection = flatCollection;
             _viewModel = viewModel;
-            _navigationService = navigationService;
+            _flatSetupView = flatSetupView;
         }
 
         public override void Execute(object? parameter)
@@ -32,11 +33,11 @@ namespace SharedLivingCostCalculator.Commands
                         _flatCollection.Count,
                         _viewModel.FlatSetup.Address,
                         _viewModel.FlatSetup.Area,
+                        _viewModel.FlatSetup.RoomCount,
                         _viewModel.FlatSetup.Rooms,
-                        _viewModel.FlatSetup.rooms,
                         _viewModel.FlatSetup.Details)));
-            
-            _navigationService.ChangeView();            
+
+            _flatSetupView.Close();
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class FlatViewModel : BaseViewModel
+    public class FlatViewModel : BaseViewModel
     {
         private Flat _flat;
         private Costs _costs;
@@ -18,9 +18,9 @@ namespace SharedLivingCostCalculator.ViewModels
         public string Address { get { return _flat.Address; } set { _flat.Address = value; } }
         public string Details { get { return _flat.Details; } set { _flat.Details = value; } } 
         public double Area { get { return _flat.Area; } set { _flat.Area = value; } }
-        public int Rooms { get { return _flat.RoomCount; } set { _flat.RoomCount = value; CreateRooms(); } }
+        public int RoomCount { get { return _flat.RoomCount; } set { _flat.RoomCount = value; CreateRooms(); } }
 
-        public ObservableCollection<Room> rooms { get { return _flat.Rooms; } set { _flat.Rooms = value; } }
+        public ObservableCollection<Room> Rooms { get { return _flat.Rooms; } set { _flat.Rooms = value; } }
 
         public ObservableCollection<BillingPeriod> BillingPeriods
         {
@@ -29,7 +29,6 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(BillingPeriods));
             }
         }
-
 
         public ObservableCollection<Rent> RentUpdates
         {
@@ -48,16 +47,16 @@ namespace SharedLivingCostCalculator.ViewModels
         public FlatViewModel(Flat flat)
         {
             _flat = flat;
-            _costs = new Costs(_flat);
+            _costs = new Costs(this);
 
             ConnectRooms();
         }
 
         private void ConnectRooms()
         {
-            if (rooms != null && rooms.Count > 0)
+            if (Rooms != null && Rooms.Count > 0)
             {
-                foreach (Room room in rooms)
+                foreach (Room room in Rooms)
                 {
                     room.PropertyChanged += Room_PropertyChanged;
                 }
@@ -67,14 +66,14 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private void CreateRooms()
         {
-            rooms.Clear();
+            Rooms.Clear();
 
-            for (int i = 0; i < Rooms; i++)
+            for (int i = 0; i < RoomCount; i++)
             {
                 Room room = new Room(i, $"room{i + 1}", 0);
 
                 room.PropertyChanged += Room_PropertyChanged;
-                rooms.Add(room);
+                Rooms.Add(room);
             }
         }
 
@@ -94,7 +93,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (area < 0)
                 {
                     room.RoomArea = 0;
-                    MessageBox.Show("combined area of rooms is larger than flat area");
+                    MessageBox.Show("combined area of Rooms is larger than flat area");
                 }
                 
             }

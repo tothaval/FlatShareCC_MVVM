@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.Models
 {
-    internal class Room : INotifyPropertyChanged
+    public class Room : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

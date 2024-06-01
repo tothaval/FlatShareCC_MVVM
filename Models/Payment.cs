@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.Models
 {
-    internal class Payment : INotifyPropertyChanged
+    public class Payment : INotifyPropertyChanged
     {
         private readonly RoomViewModel _roomViewModel;
 
@@ -26,6 +26,7 @@ namespace SharedLivingCostCalculator.Models
             set { _paymentQuantity = value;
                 OnPropertyChanged(nameof(PaymentQuantity));
                 OnPropertyChanged(nameof(PaymentTotal));
+                OnPropertyChanged(nameof(EndDateVisible));
                 _roomViewModel.CalculatePayments();
             }
         }
@@ -43,6 +44,8 @@ namespace SharedLivingCostCalculator.Models
         }
 
         public double PaymentTotal => Sum * PaymentQuantity;
+
+        public bool EndDateVisible => PaymentQuantity > 1;
 
         public Payment(RoomViewModel roomViewModel)
         {

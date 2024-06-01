@@ -1,4 +1,4 @@
-﻿using SharedLivingCostCalculator.BoilerPlateReduction;
+﻿using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels;
 using System;
 using System.Collections;
@@ -13,10 +13,9 @@ using System.Windows.Navigation;
 
 namespace SharedLivingCostCalculator.Models
 {
-    internal class BillingPeriod : INotifyDataErrorInfo
+    public class BillingPeriod : INotifyDataErrorInfo
     {
-        private ValidationHelper helper;
-        public ValidationHelper Helper { get; }
+        private ValidationHelper helper = new ValidationHelper();
 
         private readonly FlatViewModel _flatViewModel;
 
@@ -89,7 +88,7 @@ namespace SharedLivingCostCalculator.Models
 
         // fixed costs
         // can be calculated per room using
-        // (((room area) + (shared space)/(amount of rooms))/(total area)) * fixed costs
+        // (((room area) + (shared space)/(amount of Rooms))/(total area)) * fixed costs
         private double totalFixedCostsPerPeriod;
 
         public double TotalFixedCostsPerPeriod
@@ -111,7 +110,7 @@ namespace SharedLivingCostCalculator.Models
                 totalFixedCostsPerPeriod = value; }
         }
         // heating costs 
-        // shared space heating costs can be devided by the number of rooms
+        // shared space heating costs can be devided by the number of Rooms
         // room based heating costs must take heating units constumption into
         // account
         private double totalHeatingCostsPerPeriod;
@@ -135,7 +134,7 @@ namespace SharedLivingCostCalculator.Models
                 totalHeatingCostsPerPeriod = value; }
         }
         // heating units used in billing period
-        // values for rooms must be determined in order to
+        // values for Rooms must be determined in order to
         // calculate new rent shares based on consumption
         private double totalHeatingUnitsConsumption;
 
@@ -163,13 +162,11 @@ namespace SharedLivingCostCalculator.Models
         //    EndDate = endDate;
         //}
 
-        public BillingPeriod(ValidationHelper validationHelper)
+        public BillingPeriod()
         {
-            helper = validationHelper;
-
-            Helper.ErrorsChanged += (_, e) =>
+            helper.ErrorsChanged += (_, e) =>
             {
-                OnPropertyChanged(nameof(Helper));
+                OnPropertyChanged(nameof(helper));
                 this.ErrorsChanged?.Invoke(this, e);
             };
                 
@@ -186,16 +183,13 @@ namespace SharedLivingCostCalculator.Models
         // additional fields for room heating units consumption
         // a separate class for RoomPayments on a per room basis
 
-        public BillingPeriod(FlatViewModel flatViewModel, ValidationHelper validationHelper)
+        public BillingPeriod(FlatViewModel flatViewModel)
         {
-            helper = validationHelper;
-
             RoomConsumptionValues = new ObservableCollection<RoomHeatingUnitsConsumption>();
 
-            foreach (Room room in flatViewModel.rooms)
+            foreach (Room room in flatViewModel.Rooms)
             {
-                RoomConsumptionValues.Add(
-                    new RoomHeatingUnitsConsumption(room));
+                RoomConsumptionValues.Add(new RoomHeatingUnitsConsumption(room, this));
             }
         }
 

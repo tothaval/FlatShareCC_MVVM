@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.Commands
 {
-    internal abstract class BaseCommand : ICommand
+    public abstract class BaseCommand : ICommand
     {
         public event EventHandler? CanExecuteChanged;
 
@@ -18,7 +18,7 @@ namespace SharedLivingCostCalculator.Commands
 
         public abstract void Execute(object? parameter);
 
-        protected void OnCanExecutedChanged()
+        protected void OnCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, new EventArgs());
         }

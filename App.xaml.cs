@@ -1,10 +1,13 @@
 ﻿using SharedLivingCostCalculator.Navigation;
 using SharedLivingCostCalculator.Services;
+using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Media;
 
 namespace SharedLivingCostCalculator
 {
@@ -16,12 +19,14 @@ namespace SharedLivingCostCalculator
         private NavigationStore _navigationStore;
         private MainViewModel _mainViewModel;
         private ObservableCollection<FlatViewModel> _flatCollection;
+        private ResourceDictionary _resourceDictionary;
 
         public App()
         {
             _navigationStore = new NavigationStore();
             _mainViewModel = new MainViewModel(_navigationStore);
             _flatCollection = new ObservableCollection<FlatViewModel>();
+            _resourceDictionary = new ResourceDictionary();
 
             Models.Flat flat = new Models.Flat()
             {
@@ -30,16 +35,6 @@ namespace SharedLivingCostCalculator
                 Details = "Mittelhaus, 5. Etage",
                 Area = 113.57,
                 RoomCount = 5,
-                RentUpdates = new ObservableCollection<Models.Rent>
-                {
-                    new Models.Rent()
-                    {
-                        StartDate = DateTime.Now,
-                        ColdRent = 940.87,
-                        ExtraCostsShared = 197.25,
-                        ExtraCostsHeating = 328.55
-                    }
-                },
                 Rooms = new ObservableCollection<Models.Room>
                 {
                     new Models.Room()
@@ -75,6 +70,17 @@ namespace SharedLivingCostCalculator
                 }
             };
 
+            FlatViewModel flatViewModel = new FlatViewModel(flat);
+
+            flat.RentUpdates.Add(new Models.Rent(flatViewModel)
+            {
+                StartDate = DateTime.Now,
+                ColdRent = 940.87,
+                ExtraCostsShared = 197.25,
+                ExtraCostsHeating = 328.55
+            });
+       
+
             _flatCollection.Add(new FlatViewModel(flat));
 
 
@@ -107,6 +113,7 @@ namespace SharedLivingCostCalculator
 
         protected override void OnStartup(StartupEventArgs e)
         {
+
             CreateFlatManagementViewModel().ChangeView();
 
             MainWindow mainWindow = new MainWindow()
@@ -116,20 +123,38 @@ namespace SharedLivingCostCalculator
 
             mainWindow.Show();
 
-
             base.OnStartup(e);
+
+            AddResources();
+
         }
 
         private INavigationService CreateFlatManagementViewModel()
         {
-            return new NavigationService<FlatManagementViewModel>(_navigationStore, () => new FlatManagementViewModel(_flatCollection, CreateFlatSetupViewModel(), CreateFlatManagementViewModel()));
+            return new NavigationService<FlatManagementViewModel>(_navigationStore, () => new FlatManagementViewModel(_flatCollection, CreateFlatManagementViewModel()));
         }
 
-        private INavigationService CreateFlatSetupViewModel()
+        private void AddResources()
         {
-            return new NavigationService<FlatSetupViewModel>(_navigationStore, () => new FlatSetupViewModel(_flatCollection, CreateFlatManagementViewModel()));
-        }
+            _resourceDictionary.Add("R_Background", new SolidColorBrush(Colors.White));
+            _resourceDictionary.Add("R_Foreground", new SolidColorBrush(Colors.Black));
+            _resourceDictionary.Add("R_Header", new SolidColorBrush(Colors.Black));
+            _resourceDictionary.Add("R_FontFamily", new FontFamily("Segoe"));
+            _resourceDictionary.Add("R_FontSize", (double)11);
+            
+            // once the main functionality is finished, integrate a way to change cultureInfo/Currency 
+            // binding it as a dynamic resource does not seem to work so far.
+            //_resourceDictionary.Add("Culture", CultureInfo.CurrentCulture = new CultureInfo("de-DE"));
 
+            Application.Current.Resources["R_Background"] = new SolidColorBrush(Colors.White);
+            Application.Current.Resources["R_Foreground"] = new SolidColorBrush(Colors.Black);
+            Application.Current.Resources["R_Header"] = new SolidColorBrush(Colors.Green);
+            Application.Current.Resources["R_FontFamiliy"] = new FontFamily("Segoe");
+            Application.Current.Resources["R_FontSize"] = (double)11;
+            
+            //Application.Current.Resources["Culture"] = new CultureInfo("de-DE");
+
+        }
     }
 
 }

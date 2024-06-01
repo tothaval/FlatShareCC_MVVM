@@ -9,7 +9,9 @@
         x:Name="ExampleMainWindowName"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterScreen"  
+        Foreground="{DynamicResource R_Foreground}"
+        Background="{DynamicResource R_Background}"
         Title="{Binding MainWindowTitle}" Height="450" Width="800">
     <Grid MinHeight="200" Margin="20">
         <Grid.Resources>
@@ -29,7 +31,6 @@
                 <views:AccountingView/>
             </DataTemplate>
 
-
             <DataTemplate DataType="{x:Type vms:BillingPeriodViewModel}">
                 <views:BillingPeriodView/>
             </DataTemplate>
@@ -42,6 +43,10 @@
                 <views:RentUpdateView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vms:SettingsViewModel}">
+                <views:SettingsView/>
+            </DataTemplate>
+
         </Grid.Resources>
 
         <Grid.RowDefinitions>
@@ -49,9 +54,13 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="7"/>
         </Grid.RowDefinitions>
-        
 
-        <ContentControl Content="{Binding CurrentViewModel}"
-                        Grid.Row="1"/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto"
+                      CanContentScroll="True"
+                      Grid.Row="1">
+            <ContentControl Content="{Binding CurrentViewModel}"/>
+        </ScrollViewer>
     </Grid>
 </Window>

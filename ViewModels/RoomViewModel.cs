@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class RoomViewModel : BaseViewModel
+    public class RoomViewModel : BaseViewModel
     {
         private Room _room;
 

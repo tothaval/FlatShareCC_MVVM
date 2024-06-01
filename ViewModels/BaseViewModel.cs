@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedLivingCostCalculator.BoilerPlateReduction
+namespace SharedLivingCostCalculator.Utility
 {
     public class ValidationHelper : INotifyDataErrorInfo
     {
@@ -36,7 +36,7 @@ namespace SharedLivingCostCalculator.BoilerPlateReduction
                 {
                     return errorList[propertyName].First();
                 }
-                return String.Empty;
+                return string.Empty;
             }
         }
 

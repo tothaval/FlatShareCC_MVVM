@@ -64,7 +64,7 @@ namespace SharedLivingCostCalculator.ViewModels
             _quantity = 1;
 
 
-            foreach (Room room in _flatViewModel.rooms)
+            foreach (Room room in _flatViewModel.Rooms)
             {
                 Rooms.Add(new RoomViewModel(room));
             }

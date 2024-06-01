@@ -7,7 +7,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Components\ComponentViews\SimpleInputView.xaml.cs">
+    <Compile Update="Components\SimpleInputView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\AccountingView.xaml.cs">
@@ -28,9 +28,12 @@
     <Compile Update="Views\RentUpdateView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\SettingsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Components\ComponentViews\SimpleInputView.xaml">
+    <Page Update="Components\SimpleInputView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
@@ -52,6 +55,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\RentUpdateView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -12,8 +12,10 @@
         <Style TargetType="TextBox">
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
-        </Style>        
-        
+        </Style>
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
     </UserControl.Resources>
         <TabControl ItemsSource="{Binding Rooms}"
                     SelectedItem="{Binding SelectedValue}">
@@ -39,7 +41,7 @@
                     <TextBlock Margin="5 10" FontSize="14" HorizontalAlignment="Center" >
                         <Run Text="{Binding RoomName, Mode=OneWay}" />
                         <Run Text="combined payments total: "/>
-                        <Run Text="{Binding TotalPayments, NotifyOnSourceUpdated=True, Mode=OneWay}"/>
+                        <Run Text="{Binding TotalPayments, NotifyOnSourceUpdated=True, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"/>
                     </TextBlock>
                     
 
@@ -57,7 +59,8 @@
                                                 <DatePicker SelectedDate="{Binding StartDate,
                                                     UpdateSourceTrigger=PropertyChanged,
                                                     ValidatesOnDataErrors=true}"
-                                                         Padding="5 2" VerticalAlignment="Center" />
+                                                         Padding="5 2" VerticalAlignment="Center"
+                                                            HorizontalContentAlignment="Right"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -68,7 +71,10 @@
                                                 <DatePicker SelectedDate="{Binding EndDate,
                                                     UpdateSourceTrigger=PropertyChanged,
                                                     ValidatesOnDataErrors=true}"
-                                                         Padding="5 2" VerticalAlignment="Center" />
+                                                         Padding="5 2" VerticalAlignment="Center"
+                                                            HorizontalContentAlignment="Right"
+                                                            Visibility="{Binding EndDateVisible, 
+                                                    Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -78,8 +84,11 @@
                                             <DataTemplate>
                                                 <TextBox Text="{Binding Sum,
                                                     UpdateSourceTrigger=PropertyChanged,                                                    
-                                                    ValidatesOnDataErrors=true, StringFormat=N2, Delay=500}"
-                                                         Padding="5 2" VerticalAlignment="Center" />
+                                                    ValidatesOnDataErrors=true,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    Delay=500}"
+                                                         Padding="5 2" VerticalAlignment="Center" 
+                                           TextAlignment="Right"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -90,7 +99,8 @@
                                                 <TextBox Text="{Binding PaymentQuantity,
                                                     UpdateSourceTrigger=PropertyChanged,
                                                     ValidatesOnDataErrors=true}"
-                                                         Padding="5 2" VerticalAlignment="Center" />
+                                                         Padding="5 2" VerticalAlignment="Center" 
+                                           TextAlignment="Right"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -98,8 +108,9 @@
                                     <GridViewColumn Header="Total" Width="auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding PaymentTotal}"
-                                                         Padding="5 2" VerticalAlignment="Center" />
+                                                <TextBlock Text="{Binding PaymentTotal, StringFormat=C2, ConverterCulture=de-DE}"
+                                                         Padding="5 2" VerticalAlignment="Center" 
+                                           TextAlignment="Right"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>

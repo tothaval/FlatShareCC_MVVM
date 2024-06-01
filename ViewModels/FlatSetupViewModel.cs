@@ -10,6 +10,7 @@ using System.Windows.Input;
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Services;
+using SharedLivingCostCalculator.Views;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
@@ -18,23 +19,40 @@ namespace SharedLivingCostCalculator.ViewModels
         private ObservableCollection<FlatViewModel> _flatCollection;
         private FlatViewModel _flatsetup;
         public FlatViewModel FlatSetup => _flatsetup;
+        private FlatSetupView _flatSetupView;
 
         public bool FlatSetupCommandVisibility => true;
 
-        public ICommand FlatSetupCommand {  get; }
-        public ICommand LeaveViewCommand {  get; }
 
-        public FlatSetupViewModel(ObservableCollection<FlatViewModel> flatCollection, INavigationService flatManagementNavigationService)
+        private string _flatSetupTitleText;
+
+        public string FlatSetupTitleText
+        {
+            get { return _flatSetupTitleText; }
+            set
+            {
+                _flatSetupTitleText = value;
+                OnPropertyChanged(nameof(FlatSetupTitleText));
+            }
+        }
+
+
+
+        public ICommand FlatSetupCommand { get; }
+        public ICommand LeaveViewCommand { get; }
+
+
+        public FlatSetupViewModel(ObservableCollection<FlatViewModel> flatCollection, FlatSetupView flatSetupView)
         {
             _flatCollection = flatCollection;
-            
-            _flatsetup = new FlatViewModel(new Flat());
-            
-            
-            MainWindowTitleText = "Shared Living Cost Calculator - Flat Setup";
+            _flatSetupView = flatSetupView;
 
-            FlatSetupCommand = new FlatSetupCommand(_flatCollection, this, flatManagementNavigationService);
-            LeaveViewCommand = new NavigateCommand(flatManagementNavigationService);
+            _flatsetup = new FlatViewModel(new Flat());
+
+            FlatSetupTitleText = "Shared Living Cost Calculator - Flat Setup";
+
+            FlatSetupCommand = new FlatSetupCommand(_flatCollection, this, flatSetupView);
+            LeaveViewCommand = new RelayCommand(Close, (s) => true);
 
             _flatsetup.RoomCreation += _flatsetup_RoomCreation;
 
@@ -42,6 +60,29 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        public FlatSetupViewModel(ObservableCollection<FlatViewModel> flatCollection, FlatSetupView flatSetupView,
+                FlatViewModel flatViewModel)
+        {
+            _flatCollection = flatCollection;
+            _flatSetupView = flatSetupView;
+
+            _flatsetup = flatViewModel;
+
+            FlatSetupTitleText = "Shared Living Cost Calculator - Flat Setup";
+
+            FlatSetupCommand = new FlatSetupCommand(_flatCollection, this, flatSetupView);
+            LeaveViewCommand = new RelayCommand(Close, (s) => true);
+
+            _flatsetup.RoomCreation += _flatsetup_RoomCreation;
+
+            OnPropertyChanged(nameof(FlatSetupCommandVisibility));
+        }
+
+
+        private void Close(object obj)
+        {
+            _flatSetupView.Close();
+        }
 
         private void _flatsetup_RoomCreation()
         {

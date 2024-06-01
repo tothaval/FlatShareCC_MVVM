@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedLivingCostCalculator.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.Models
 {
-    internal class Costs
+    public class Costs
     {
-        private readonly Flat _flat;
-        public Flat Flat => _flat;
+        private readonly FlatViewModel _flatViewModel;
+        public FlatViewModel FlatViewModel => _flatViewModel;
 
         public ObservableCollection<RoomCosts> RoomCosts => GetRoomCosts();
 
@@ -29,18 +30,18 @@ namespace SharedLivingCostCalculator.Models
         }
 
 
-        public Costs(Flat flat)
+        public Costs(FlatViewModel flatViewModel)
         {
-            _flat = flat;
+            _flatViewModel = flatViewModel;
         }
 
         private double CalculateSharedArea()
         {
-            if (_flat != null)
+            if (_flatViewModel != null)
             {
-                double shared_area = _flat.Area;
+                double shared_area = _flatViewModel.Area;
 
-                foreach (Room room in _flat.Rooms)
+                foreach (Room room in _flatViewModel.Rooms)
                 {
                     shared_area -= room.RoomArea;
                 }
@@ -52,11 +53,11 @@ namespace SharedLivingCostCalculator.Models
         }
         private double CalculateSharedExtraCosts()
         {
-            if (_flat != null)
+            if (_flatViewModel != null)
             {
                 double shared_area = CalculateSharedArea();
 
-                double shared_rent = shared_area / _flat.Area * CurrentExtraCosts();
+                double shared_rent = shared_area / _flatViewModel.Area * CurrentExtraCosts();
 
                 return shared_rent;
             }
@@ -66,11 +67,11 @@ namespace SharedLivingCostCalculator.Models
 
         private double CalculateSharedRent()
         {
-            if (_flat != null)
+            if (_flatViewModel != null)
             {
                 double shared_area = CalculateSharedArea();
 
-                double shared_rent = shared_area / _flat.Area * CurrentRent();
+                double shared_rent = shared_area / _flatViewModel.Area * CurrentRent();
 
                 return shared_rent;
             }
@@ -80,11 +81,12 @@ namespace SharedLivingCostCalculator.Models
         private double CurrentExtraCosts()
         {
 
-            if (_flat != null)
+            if (_flatViewModel != null)
             {
-                Rent currentRent = new Rent();
+                Rent currentRent = new Rent(_flatViewModel);
+                currentRent.StartDate = new DateTime(1,1,1);
 
-                foreach (Rent rent in _flat.RentUpdates)
+                foreach (Rent rent in _flatViewModel.RentUpdates)
                 {
                     if (rent.StartDate > currentRent.StartDate)
                     {
@@ -101,11 +103,11 @@ namespace SharedLivingCostCalculator.Models
         private double CurrentRent()
         {
 
-            if (_flat != null)
+            if (_flatViewModel != null)
             {
-                Rent currentRent = new Rent();
+                Rent currentRent = new Rent(_flatViewModel);
 
-                foreach (Rent rent in _flat.RentUpdates)
+                foreach (Rent rent in _flatViewModel.RentUpdates)
                 {
                     if (rent.StartDate > currentRent.StartDate)
                     {
@@ -124,10 +126,10 @@ namespace SharedLivingCostCalculator.Models
         {
             ObservableCollection<RoomCosts> roomCosts = new ObservableCollection<RoomCosts>();
 
-            if (_flat != null)
+            if (_flatViewModel != null)
             {
 
-                foreach (Room room in _flat.Rooms)
+                foreach (Room room in _flatViewModel.Rooms)
                 {
                     roomCosts.Add(new RoomCosts(room,this));
                 }              
