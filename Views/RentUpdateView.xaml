@@ -4,39 +4,39 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             x:Name="rentUpdateView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
 
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <BooleanToVisibilityConverter x:Key="RentUpdateVisibilityConverter" />
 
     </UserControl.Resources>
     <StackPanel>
         <Button Content="Add Rent Update"
-             Command="{Binding AddRentUpdateCommand}"
-             Grid.Column="0" Grid.Row="0"/>
+             Command="{Binding AddRentUpdateCommand}"/>
 
         <DataGrid ItemsSource="{Binding RentUpdates}"
                   SelectedValue="{Binding Path=SelectedValue}"
                   CanUserSortColumns="True"
                   SelectionMode="Single"
-                  AutoGenerateColumns="False" Grid.Column="0" Grid.Row="1"
+                  AutoGenerateColumns="False"
                   IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding StartDate, StringFormat=\{0:yyyy.MM.dd\}}"
                      Header="begin" SortMemberPath="StartDate" SortDirection="Descending"/>
-                <!--<DataGridTextColumn Binding="{Binding EndDate, StringFormat=d}"
-                     Header="EndDate" />-->
-                <DataGridTextColumn Binding="{Binding ColdRent, StringFormat=N2}"
+
+                <DataGridTextColumn Binding="{Binding ColdRent, StringFormat=C2, ConverterCulture=de-DE}"
                                     Header="rent / month" />
 
-                <DataGridTextColumn Binding="{Binding AnnualRent, StringFormat=N2}"
+                <DataGridTextColumn Binding="{Binding AnnualRent, StringFormat=C2, ConverterCulture=de-DE}"
                                     Header="rent / year" />
 
-                <DataGridTextColumn Binding="{Binding ExtraCostsTotal, StringFormat=N2}"
+                <DataGridTextColumn Binding="{Binding ExtraCostsTotal, StringFormat=C2, ConverterCulture=de-DE}"
                                     Header="extra costs / month" />
 
-                <DataGridTextColumn Binding="{Binding AnnualExtraCosts, StringFormat=N2}"
+                <DataGridTextColumn Binding="{Binding AnnualExtraCosts, StringFormat=C2, ConverterCulture=de-DE}"
                                     Header="extra costs / year" />
             </DataGrid.Columns>
 
@@ -55,38 +55,54 @@
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="Start Date" Width="150" VerticalAlignment="Bottom" />
-                    <DatePicker Text="start date"  SelectedDate="{Binding SelectedValue.StartDate, UpdateSourceTrigger=PropertyChanged}"
+                    <DatePicker Text="start date"  SelectedDate="{Binding SelectedValue.StartDate,
+                        UpdateSourceTrigger=PropertyChanged}"
                                  Width="100"/>
                 </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
                     <TextBlock Text="Cold Rent" Width="150" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding SelectedValue.ColdRent, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,
-                                StringFormat=N2, Delay=500}"/>
+                    <TextBox Text="{Binding SelectedValue.ColdRent,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=C2, ConverterCulture=de-DE, Delay=500}"/>
                 </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
-                    <TextBlock Text="Fixed Costs Advance" Width="150" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding SelectedValue.ExtraCostsShared, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,
-                                StringFormat=N2, Delay=500}"/>
+                    <TextBlock Text="Advance Fixed" Width="150" VerticalAlignment="Center" />
+                    <TextBox Text="{Binding SelectedValue.ExtraCostsShared,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=C2, ConverterCulture=de-DE, Delay=500}"/>
                 </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal">
-                    <TextBlock Text="Heating Costs Advance" Width="150" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding SelectedValue.ExtraCostsHeating, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,
-                                StringFormat=N2, Delay=500}"/>
+                    <TextBlock Text="Advance Heating" Width="150" VerticalAlignment="Center" />
+                    <TextBox Text="{Binding SelectedValue.ExtraCostsHeating,
+                        UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=True,
+                        StringFormat=C2, ConverterCulture=de-DE, Delay=500}"/>
                 </StackPanel>
 
                 <StackPanel Margin="5 5" Orientation="Horizontal" Background="LightGray">
-                    <TextBlock Text="Total Extra Costs Advance" Width="150" VerticalAlignment="Center" />
-                    <TextBox IsReadOnly="True" Text="{Binding SelectedValue.ExtraCostsTotal, Mode=OneWay, StringFormat=N2}"
+                    <TextBlock Text="Advance Total" Width="150" VerticalAlignment="Center" />
+                    <TextBox IsReadOnly="True" Text="{Binding SelectedValue.ExtraCostsTotal,
+                        Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
                              Background="LightGray"/>
                 </StackPanel>
+
+                <StackPanel Margin="5 5" Orientation="Horizontal" Background="LightGray">
+                    <TextBlock Text="Total" Width="150" VerticalAlignment="Center" />
+                    <TextBox IsReadOnly="True" Text="{Binding SelectedValue.CostsTotal,
+                        Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
+                             Background="LightGray"/>
+                </StackPanel>
+
             </StackPanel>
 
             <Button Command="{Binding DeleteCommand}"
                     Grid.Column="1" VerticalAlignment="Top"
-                    Padding="5"
+                    Padding="2"
                     Margin="5 10 0 0">
                 <TextBlock TextAlignment="Left">
                     Delete

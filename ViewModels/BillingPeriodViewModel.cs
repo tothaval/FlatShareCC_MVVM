@@ -1,6 +1,8 @@
 ﻿using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -17,6 +19,8 @@ namespace SharedLivingCostCalculator.ViewModels
         public bool BillingPeriodSelected { get; set; }
 
         private BillingPeriod _selectedValue; // private BillingPeriod _selectedBillingPeriod
+
+
 
         public BillingPeriod SelectedValue
         {
@@ -48,8 +52,8 @@ namespace SharedLivingCostCalculator.ViewModels
         { 
             flatViewModel = _flatViewModel;
 
-            AddBillingPeriodCommand = new ActionCommand(p => AddBillingPeriod());
-            DeleteCommand = new ActionCommand(p => DeleteBillingPeriod());
+            AddBillingPeriodCommand = new RelayCommand(p => AddBillingPeriod(), (s) => true);
+            DeleteCommand = new RelayCommand(p => DeleteBillingPeriod(), (s) => true);
 
             Billings = CollectionViewSource.GetDefaultView(flatViewModel.BillingPeriods);
             Billings.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
@@ -62,7 +66,7 @@ namespace SharedLivingCostCalculator.ViewModels
                     EndDate = new DateTime(2025, 08, 01),
                     TotalCostsPerPeriod = 1500,
                     TotalFixedCostsPerPeriod = 700,
-                    TotalHeatingCostsPerPeriod = 800
+                    TotalHeatingCostsPerPeriod = 800   
                 });
                 flatViewModel.BillingPeriods.Add(new Models.BillingPeriod(flatViewModel)
                 {
@@ -86,9 +90,11 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private void AddBillingPeriod()
         {
-            BillingPeriod billingPeriod = new BillingPeriod(flatViewModel);
-            billingPeriod.StartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-            
+            BillingPeriod billingPeriod = new BillingPeriod(flatViewModel)
+            {
+                StartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
+                EndDate = new DateTime(DateTime.Now.Year + 1, 1, 1)
+            };
 
             flatViewModel.BillingPeriods.Add(billingPeriod);
             SelectedValue = billingPeriod;
@@ -100,5 +106,5 @@ namespace SharedLivingCostCalculator.ViewModels
             BillingPeriodSelected = false;
             OnPropertyChanged(nameof(BillingPeriodSelected));
         }
-    }   
+    }
 }

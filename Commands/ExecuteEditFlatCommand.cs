@@ -18,7 +18,7 @@ namespace SharedLivingCostCalculator.Commands
 
         public ExecuteEditFlatCommand(INavigationService navigationService)
         {
-            //_flatViewModel = flatViewModel;
+            //_flatViewModel = _flatViewModel;
             //_viewModel = viewModel;
             _navigationService = navigationService;
         }
@@ -33,8 +33,8 @@ namespace SharedLivingCostCalculator.Commands
             //            _flatCollection.Count,
             //            _viewModel.FlatSetup.Address,
             //            _viewModel.FlatSetup.Area,
+            //            _viewModel.FlatSetup.RoomCount,
             //            _viewModel.FlatSetup.Rooms,
-            //            _viewModel.FlatSetup.rooms,
             //            _viewModel.FlatSetup.Details)));
 
             _navigationService.ChangeView();

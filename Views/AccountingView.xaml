@@ -7,33 +7,57 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0"
+        <TabControl Grid.Row="1" ItemsSource="{Binding Tabs}" Margin="10 5">
+            <TabItem Header="Rent" IsSelected="True">
+                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0"
                     Margin="20 10">
-            <TextBlock Text="Rent" FontSize="48"/>
-            <ContentControl d:DataContext="{d:DesignInstance Type=viewmodels:RentUpdateViewModel}"
+                    <TextBlock Text="Rent" FontSize="48"/>
+                    <ContentControl d:DataContext="{d:DesignInstance Type=viewmodels:RentUpdateViewModel}"
                             Content="{Binding RentUpdate}"/>
-        </StackPanel>
-
-
-        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0"
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Annual" IsSelected="True">
+                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0"
                     Margin="20 10">
-            <TextBlock Text="Accounting" FontSize="48"/>
-            <ContentControl d:DataContext="{d:DesignInstance Type=viewmodels:BillingPeriodViewModel}"
+                    <TextBlock Text="Billing" FontSize="48"/>
+                    <ContentControl d:DataContext="{d:DesignInstance Type=viewmodels:BillingPeriodViewModel}"
                             Content="{Binding BillingPeriod}"/>
-        </StackPanel>
+                </StackPanel>
+            </TabItem>
+            
+            <TabItem Header="Payments" IsSelected="True">
+                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0"
+                    Margin="20 10">
+                    <TextBlock Text="Payments" FontSize="48"/>
+                    <ContentControl d:DataContext="{d:DesignInstance Type=viewmodels:PaymentsViewModel}"
+                            Content="{Binding Payments}"/>
+                </StackPanel>
+            </TabItem>
+            
+            <TabItem Header="Current" IsSelected="True">
+                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0"
+                    Margin="20 10">
+                    <TextBlock Text="Current" FontSize="48"/>
+                    <ContentControl d:DataContext="{d:DesignInstance Type=viewmodels:CurrentViewModel}"
+                            Content="{Binding Current}"/>
+                </StackPanel>
+            </TabItem>
 
-        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Content="Leave" Command="{Binding LeaveCommand}"
+        </TabControl>
+        
+
+
+
+
+
+        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Content="Leave" Command="{Binding LeaveCommand}"
                 Margin="20 10"
                 />
     </Grid>

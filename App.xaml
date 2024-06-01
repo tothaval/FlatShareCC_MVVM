@@ -1,14 +1,88 @@
 ﻿<Application x:Class="SharedLivingCostCalculator.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SharedLivingCostCalculator">
+             xmlns:local="clr-namespace:SharedLivingCostCalculator"
+        xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components.ComponentViews">
     <Application.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="MinWidth" Value="100"/>
-        </Style>
+        <ResourceDictionary>
+ 
+            
+            
+            <Style TargetType="DataGridCell">
+                <Style.Setters>
+                    <Setter Property="TextBlock.TextAlignment" Value="Right"/>
+                </Style.Setters>
+            </Style>
+            
+            <Style TargetType="Grid">
+                <Setter Property="Background"  Value="Transparent"/>
+            </Style>
+            
+            <Style TargetType="c_views:SimpleInputView">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="3"/>
+                <Setter Property="Padding" Value="2"/>
+                <Setter Property="Background" Value="Transparent"/>
+            </Style>
 
-        <Style TargetType="TextBox">
-            <Setter Property="MinWidth" Value="100"/>
-        </Style>
+            <Style TargetType="ListView">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="TabControl">
+                <Setter Property="Background"  Value="Transparent"/>
+            </Style>
+
+            <Style TargetType="TabItem">
+                <Setter Property="Background"  Value="Transparent"/>
+            </Style>
+
+            <Style TargetType="ListViewItem">
+                <Setter Property="Background" Value="Transparent"/>
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="Padding" Value="2 2"/>
+                <Setter Property="Background" Value="{DynamicResource R_Background}"/>
+                <Setter Property="Foreground" Value="{DynamicResource R_Foreground}"/>
+                <Setter Property="FontFamily" Value="{DynamicResource R_FontFamiliy}"/>
+                <Setter Property="FontSize" Value="{DynamicResource R_FontSize}"/>
+            </Style>
+
+            <Style TargetType="GridViewColumnHeader">
+                <Setter Property="Padding" Value="2 2"/>
+                <Setter Property="Margin" Value="0 2"/>
+                <Setter Property="Background" Value="Transparent"/>
+            </Style>
+            
+
+            <Style TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Padding" Value="2 2"/>
+                <Setter Property="Margin" Value="2 2"/>
+                <Setter Property="Background" Value="{DynamicResource R_Background}"/>
+                <Setter Property="Foreground" Value="{DynamicResource R_Foreground}"/>
+                <Setter Property="FontFamily" Value="{DynamicResource R_FontFamiliy}"/>
+                <Setter Property="FontSize" Value="{DynamicResource R_FontSize}"/>
+                <Setter Property="MinWidth" Value="100"/>
+            </Style>
+
+            <Style TargetType="TextBox">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="TextAlignment" Value="Right"/>
+                <Setter Property="Padding" Value="2 2"/>
+                <Setter Property="Margin" Value="2 2"/>
+                <Setter Property="Background" Value="{DynamicResource R_Background}"/>
+                <Setter Property="Foreground" Value="{DynamicResource R_Foreground}"/>
+                <Setter Property="FontFamily" Value="{DynamicResource R_FontFamiliy}"/>
+                <Setter Property="FontSize" Value="{DynamicResource R_FontSize}"/>
+                <Setter Property="MinWidth" Value="100"/>
+            </Style>
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

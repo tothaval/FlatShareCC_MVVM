@@ -15,5 +15,9 @@
     <Page Remove="Resources\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="PropertyTools.Wpf" Version="3.1.0" />
+  </ItemGroup>
+
 	
 </Project>

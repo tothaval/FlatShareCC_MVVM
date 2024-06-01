@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -13,7 +15,7 @@ namespace SharedLivingCostCalculator.ViewModels
 {
     class RentUpdateViewModel : BaseViewModel
     {
-        private FlatViewModel flatViewModel;
+        private FlatViewModel _flatViewModel;
         public bool RentUpdateSelected { get; set; }
 
         private Rent _selectedValue; // private BillingPeriod _selectedBillingPeriod
@@ -37,36 +39,35 @@ namespace SharedLivingCostCalculator.ViewModels
         public ICollectionView RentUpdates { get; set; }
 
 
-        public RentUpdateViewModel(FlatViewModel _flatViewModel)
+        public RentUpdateViewModel(FlatViewModel flatViewModel)
         {
-            flatViewModel = _flatViewModel;
+            _flatViewModel = flatViewModel;
 
-            AddRentUpdateCommand = new ActionCommand(p => AddRentUpdate());
-            DeleteCommand = new ActionCommand(p => DeleteRentUpdate());
+            AddRentUpdateCommand = new RelayCommand(p => AddRentUpdate(), (s) => true);
+            DeleteCommand = new RelayCommand(p => DeleteRentUpdate(), (s) => true);
 
-            RentUpdates = CollectionViewSource.GetDefaultView(flatViewModel.RentUpdates);
+            RentUpdates = CollectionViewSource.GetDefaultView(this._flatViewModel.RentUpdates);
             RentUpdates.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
 
-            if (flatViewModel.RentUpdates.Count == 0)
+            if (this._flatViewModel.RentUpdates.Count == 0)
             {
-                flatViewModel.RentUpdates.Add(new Rent(new DateTime(2021, 9, 15), 500, 56, 89));
-                flatViewModel.RentUpdates.Add(new Rent(new DateTime(2022, 10, 1), 520, 59, 94));
-                flatViewModel.RentUpdates.Add(new Rent(new DateTime(2023, 10, 1), 550, 63, 97));
+                _flatViewModel.RentUpdates.Add(new Rent(new DateTime(2021, 9, 15), 500, 56, 89, _flatViewModel));
+                _flatViewModel.RentUpdates.Add(new Rent(new DateTime(2022, 10, 1), 520, 59, 94, _flatViewModel));
+                _flatViewModel.RentUpdates.Add(new Rent(new DateTime(2023, 10, 1), 550, 63, 97, _flatViewModel));
             }
-
         }
 
         private void AddRentUpdate()
         {
-            Rent rent = new Rent();
+            Rent rent = new Rent(_flatViewModel);
             rent.StartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
                  
-            flatViewModel.RentUpdates.Add(rent);
+            _flatViewModel.RentUpdates.Add(rent);
             SelectedValue = rent;
         }
         private void DeleteRentUpdate()
         {
-            flatViewModel.RentUpdates.Remove(SelectedValue);
+            _flatViewModel.RentUpdates.Remove(SelectedValue);
             RentUpdateSelected = false;
             OnPropertyChanged(nameof(RentUpdateSelected));
         }

@@ -1,5 +1,4 @@
-﻿using SharedLivingCostCalculator.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SharedLivingCostCalculator.Views
@@ -19,7 +17,7 @@ namespace SharedLivingCostCalculator.Views
     /// <summary>
     /// Interaktionslogik für FlatSetupView.xaml
     /// </summary>
-    public partial class FlatSetupView : UserControl
+    public partial class FlatSetupView : Window
     {
         public FlatSetupView()
         {

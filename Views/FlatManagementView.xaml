@@ -6,25 +6,31 @@
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              x:Name="FMV"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             >
     <UserControl.Resources>
+        
+        
+        
         <Style x:Key="Header" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource R_Header}"/>
             <Setter Property="FontSize" Value="36"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontFamily" Value="Verdana"/>
-            <Setter Property="Foreground" Value="DarkSlateGray"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="20 5 20 5"/>
-        </Style>        
-        
+        </Style>
+
     </UserControl.Resources>
-    
+
     <Grid Margin="7">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
@@ -32,21 +38,36 @@
                    Grid.Row="0"
                    Style="{StaticResource Header}"/>
 
-        <Button Content="New Flat"
-                Grid.Row="1"
-                Command="{Binding NewFlatCommand}"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="0.2*"/>
+            </Grid.ColumnDefinitions>
+        
+            <Button Content="New Flat"
+                Command="{Binding NewFlatCommand}"
+                    CommandParameter="{x:Reference Name=FMV}"
+                    Grid.Column="0" Grid.ColumnSpan="1"/>
 
+            <Button Content="Settings"
+                    Command="{Binding SettingsCommand}"
+                    CommandParameter="{x:Reference Name=FMV}"
+                    Grid.Column="1"/>
+        </Grid>
+        
         <ListView ItemsSource="{Binding FlatCollection}"
+                  SelectedItem="{Binding SelectedValue}"
                   x:Name="LV_FlatCollection"
                   SelectionMode="Single"
-                  Grid.Row="2">
-            
-            <ListView.View>
+                  Grid.Row="2">                    
+                
+        <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Flat ID">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ID}"/>
+                                <TextBlock Text="{Binding ID}"
+                                           TextAlignment="Right"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -54,7 +75,8 @@
                     <GridViewColumn Header="Address">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Address}"/>
+                                <TextBlock Text="{Binding Address}"
+                                           TextAlignment="Right"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -62,7 +84,8 @@
                     <GridViewColumn Header="Details">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Details}"/>
+                                <TextBlock Text="{Binding Details}"
+                                           TextAlignment="Right"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -70,7 +93,8 @@
                     <GridViewColumn Header="Area">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Area}"/>
+                                <TextBlock Text="{Binding Area}"
+                                           TextAlignment="Right"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -78,43 +102,150 @@
                     <GridViewColumn Header="Rooms">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Rooms}"/>
+                                <TextBlock Text="{Binding RoomCount}"
+                                           TextAlignment="Right"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
-                    <GridViewColumn Header="Room Sizes">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Sizes}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>                
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <StackPanel Orientation="Horizontal"                   
-                    HorizontalAlignment="Center"
-                    Grid.Row="4">
-            <Button Content="Accounting"
-                Command="{Binding AccountingCommand}"
-                CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
-                    HorizontalContentAlignment="Center"/>
+        <Grid
+            Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.7*"/>
+                <ColumnDefinition Width="0.3*"/>
+                
+
+            </Grid.ColumnDefinitions>
+            
 
 
-            <Button Content="Edit Flat"                 
+
+            <Button Content="Edit"                 
                     HorizontalAlignment="Stretch"
                 Command="{Binding EditFlatCommand}"
                 CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
-                    HorizontalContentAlignment="Center"/>
+                    HorizontalContentAlignment="Center"
+                    Grid.Column="0"/>
 
-            <Button Content="Delete Flat"
+            <Button Content="Delete"
                     HorizontalAlignment="Stretch"
                     Command="{Binding DeleteFlatCommand}"
                     CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
-                    HorizontalContentAlignment="Center"/>
+                    HorizontalContentAlignment="Center"
+                    Grid.Column="1"/>
+        </Grid>
+
+        <StackPanel Grid.Row="4" HorizontalAlignment="Center">
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Address: "
+                       Grid.Column="0" Grid.Row="0"/>
+                <TextBlock Text="{Binding SelectedValue.Address, Mode=OneWay,
+                    NotifyOnSourceUpdated=True}"
+                       Grid.Column="1" Grid.Row="0"/>
+                <TextBlock Text="Details: "
+                       Grid.Column="2" Grid.Row="0"/>
+                <TextBlock Text="{Binding SelectedValue.Details, Mode=OneWay,
+                    NotifyOnSourceUpdated=True}"
+                       Grid.Column="3" Grid.Row="0"/>
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Area: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Area, Mode=OneWay,
+                    NotifyOnSourceUpdated=True, StringFormat=N2}"
+                       Grid.Column="1" Grid.Row="1"/>
+
+
+                <TextBlock Text="Shared Area: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.SharedArea, Mode=OneWay,
+                    NotifyOnSourceUpdated=True, StringFormat=N2}"
+                       Grid.Column="1" Grid.Row="1"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Cold Rent: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.Rent, Mode=OneWay,
+                    NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                       Grid.Column="1" Grid.Row="1"/>
+
+
+                <TextBlock Text="Shared Cold Rent: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.SharedRent, Mode=OneWay,
+                    NotifyOnSourceUpdated=True,  StringFormat=C2, ConverterCulture=de-DE}"
+                       Grid.Column="1" Grid.Row="1"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Extra Costs: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.ExtraCosts, Mode=OneWay,
+                    NotifyOnSourceUpdated=True,  StringFormat=C2, ConverterCulture=de-DE}"
+                       Grid.Column="1" Grid.Row="1"/>
+
+
+                <TextBlock Text="Shared Extra Costs: "
+                       Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedValue.Costs.SharedExtraCosts, Mode=OneWay,
+                    NotifyOnSourceUpdated=True,  StringFormat=C2, ConverterCulture=de-DE}"
+                       Grid.Column="1" Grid.Row="1"/>
+            </StackPanel>
+
+
+            <ListView ItemsSource="{Binding SelectedValue.Costs.RoomCosts}"
+                  SelectionMode="Single" Grid.Row="5"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      BorderThickness="0"
+                      Margin="0 5 0 0"
+                      >
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                        <Setter Property="TextBlock.TextAlignment" Value="Right"/>
+                        <Setter Property="TextBox.TextAlignment" Value="Right"/>
+                    </Style>                    
+                </ListView.ItemContainerStyle>
+                
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding RoomName,
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=OneWay}" Header="Room"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding RoomArea,
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=OneWay,
+                                StringFormat=N2, Delay=500}" Header="Area"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding RentShare,
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE, Delay=500}" Header="Rent"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding ExtraCostsShare,
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE, Delay=500}" Header="Extra"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding CombinedCostShare,
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE, Delay=500}" Header="Total"/>
+                    </GridView>
+                </ListView.View>
+
+            </ListView>
+
+
         </StackPanel>
 
+
+        <Button Content="Accounting"
+                Command="{Binding AccountingCommand}"
+                CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
+                    HorizontalContentAlignment="Center"
+                        Grid.Row="5"
+                        />
     </Grid>
 </UserControl>
