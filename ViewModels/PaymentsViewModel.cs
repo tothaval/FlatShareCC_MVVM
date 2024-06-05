@@ -15,25 +15,12 @@ namespace SharedLivingCostCalculator.ViewModels
 {
     internal class PaymentsViewModel : BaseViewModel
     {
-        private readonly FlatViewModel _flatViewModel;
-        public ObservableCollection<RoomViewModel> Rooms { get; set; }
-        
-        private RoomViewModel _selectedValue; // private BillingPeriod _selectedBillingPeriod
+        private readonly RoomViewModel _roomViewModel;
+        public RoomViewModel RoomViewModel => _roomViewModel;
 
-        public RoomViewModel SelectedValue
-        {
-            get { return _selectedValue; }
-            set
-            {
-                if (_selectedValue == value) return;
-                _selectedValue = value;
-                
-                OnPropertyChanged(nameof(SelectedValue));
-            }
-        }
+        public ObservableCollection<Payment> Payments => _roomViewModel.Payments;
 
         private int _quantity;
-
         public int Quantity
         {
             get { return _quantity; }
@@ -42,32 +29,13 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        //private BaseViewModel currentPaymentViewModel;
-
-        //public BaseViewModel CurrentPaymentViewModel
-        //{
-        //    get { return currentPaymentViewModel; }
-        //    set {
-        //        currentPaymentViewModel = value;
-        //        OnPropertyChanged(nameof(CurrentPaymentViewModel));
-        //    }
-        //}
-
-
         public ICommand AddPaymentCommand { get; }
         public ICommand DeletePaymentCommand { get; }
 
-        public PaymentsViewModel(FlatViewModel flatViewModel)
+        public PaymentsViewModel(RoomViewModel roomViewModel)
         {
-            _flatViewModel = flatViewModel;
-            Rooms = new ObservableCollection<RoomViewModel>();
+            _roomViewModel = roomViewModel;
             _quantity = 1;
-
-
-            foreach (Room room in _flatViewModel.Rooms)
-            {
-                Rooms.Add(new RoomViewModel(room));
-            }
 
             AddPaymentCommand = new AddPaymentCommand(this);
             DeletePaymentCommand = new DeletePaymentCommand(this);

@@ -10,18 +10,20 @@ using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.Models
 {
-    public class RoomHeatingUnitsConsumption : INotifyDataErrorInfo
+    public class RoomHeatingUnits : BaseViewModel, INotifyDataErrorInfo
     {
-        private readonly BillingPeriod _billingPeriod;
+        private readonly Billing _billingPeriod;
         private ValidationHelper helper = new ValidationHelper();
-        
+
+        public event EventHandler? HeatingUnitsChange;
 
         public Room Room {  get; }
 
         private double _heatingUnitsConsumption;
         public double HeatingUnitsConsumption
         {
-            get { return _heatingUnitsConsumption; }
+            get { return _heatingUnitsConsumption;
+            }
             set {
 
                 helper.ClearError(nameof(HeatingUnitsConsumption));
@@ -37,13 +39,17 @@ namespace SharedLivingCostCalculator.Models
                         "or equal to the total consumption", nameof(HeatingUnitsConsumption));
                 }
 
-                _heatingUnitsConsumption = value;            
+                _heatingUnitsConsumption = value;
+                OnPropertyChanged(nameof(HeatingUnitsConsumption));
+                OnPropertyChanged(nameof(Percentage));
 
+                HeatingUnitsChange?.Invoke(this, EventArgs.Empty);
             }
         }
 
+        public double Percentage => _heatingUnitsConsumption / _billingPeriod.TotalHeatingUnitsConsumption * 100;
 
-        public RoomHeatingUnitsConsumption(Room room, BillingPeriod billingPeriod)
+        public RoomHeatingUnits(Room room, Billing billingPeriod)
         {
                 Room = room;
             _billingPeriod = billingPeriod;
@@ -53,7 +59,7 @@ namespace SharedLivingCostCalculator.Models
         {
             double totalConsumption = _billingPeriod.TotalHeatingUnitsConsumption;
 
-            foreach (RoomHeatingUnitsConsumption roomConsumption in _billingPeriod.RoomConsumptionValues)
+            foreach (RoomHeatingUnits roomConsumption in _billingPeriod.RoomConsumptionValues)
             {
                 totalConsumption -= roomConsumption.HeatingUnitsConsumption;
 

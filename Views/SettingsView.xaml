@@ -7,9 +7,7 @@
         xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels" 
         xmlns:toolkit="http://propertytools.org/wpf"
         mc:Ignorable="d"
-        Name="SettingsViewWindow"        
-        Foreground="{DynamicResource R_Foreground}"
-        Background="{DynamicResource R_Background}"
+        Name="SettingsViewWindow"
         Title="Settings" Height="350" Width="350">
     <Window.Resources>
         <Style TargetType="StackPanel">
@@ -17,7 +15,6 @@
         </Style>
     </Window.Resources>
     <Grid>
-
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>

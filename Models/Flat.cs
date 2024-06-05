@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedLivingCostCalculator.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,8 +17,8 @@ namespace SharedLivingCostCalculator.Models
         public double Area { get; set; }
         public int RoomCount { get; set; }
         public ObservableCollection<Room> Rooms { get; set; }
-        public ObservableCollection<BillingPeriod> BillingPeriods { get; set; }
-        public ObservableCollection<Rent> RentUpdates { get; set; }
+        public ObservableCollection<BillingViewModel> BillingPeriods { get; set; }
+        public ObservableCollection<RentViewModel> RentUpdates { get; set; }
 
         public Flat()
         {
@@ -27,8 +28,8 @@ namespace SharedLivingCostCalculator.Models
             Area = 0.0;
             RoomCount = 0;
             Rooms = new ObservableCollection<Room>();
-            BillingPeriods = new ObservableCollection<BillingPeriod>();
-            RentUpdates = new ObservableCollection<Rent>();
+            BillingPeriods = new ObservableCollection<BillingViewModel>();
+            RentUpdates = new ObservableCollection<RentViewModel>();
         }
 
         public Flat(int id, string address, double area, int roomCount, string details = "")
@@ -47,8 +48,8 @@ namespace SharedLivingCostCalculator.Models
                 Rooms.Add(new Room(i));
             }
 
-            BillingPeriods = new ObservableCollection<BillingPeriod>();
-            RentUpdates = new ObservableCollection<Rent>();
+            BillingPeriods = new ObservableCollection<BillingViewModel>();
+            RentUpdates = new ObservableCollection<RentViewModel>();
         }
 
         public Flat(int iD, string address, double area, int roomCount, ObservableCollection<Room> rooms, string details = "") : this(iD, address, area, roomCount)
@@ -56,8 +57,8 @@ namespace SharedLivingCostCalculator.Models
             Rooms = rooms;
             Details += details;
 
-            BillingPeriods = new ObservableCollection<BillingPeriod>();
-            RentUpdates = new ObservableCollection<Rent>();
+            BillingPeriods = new ObservableCollection<BillingViewModel>();
+            RentUpdates = new ObservableCollection<RentViewModel>();
         }
     }
 }

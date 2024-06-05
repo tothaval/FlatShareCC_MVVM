@@ -1,4 +1,5 @@
-﻿using SharedLivingCostCalculator.ViewModels;
+﻿using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedLivingCostCalculator.Models
+namespace SharedLivingCostCalculator.Calculations
 {
     public class Costs
     {
@@ -83,10 +84,10 @@ namespace SharedLivingCostCalculator.Models
 
             if (_flatViewModel != null)
             {
-                Rent currentRent = new Rent(_flatViewModel);
-                currentRent.StartDate = new DateTime(1,1,1);
+                RentViewModel currentRent = new RentViewModel(new Models.Rent());
+                currentRent.StartDate = new DateTime(1, 1, 1);
 
-                foreach (Rent rent in _flatViewModel.RentUpdates)
+                foreach (RentViewModel rent in _flatViewModel.RentUpdates)
                 {
                     if (rent.StartDate > currentRent.StartDate)
                     {
@@ -105,9 +106,9 @@ namespace SharedLivingCostCalculator.Models
 
             if (_flatViewModel != null)
             {
-                Rent currentRent = new Rent(_flatViewModel);
+                RentViewModel currentRent = new RentViewModel(new Models.Rent());
 
-                foreach (Rent rent in _flatViewModel.RentUpdates)
+                foreach (RentViewModel rent in _flatViewModel.RentUpdates)
                 {
                     if (rent.StartDate > currentRent.StartDate)
                     {
@@ -131,8 +132,8 @@ namespace SharedLivingCostCalculator.Models
 
                 foreach (Room room in _flatViewModel.Rooms)
                 {
-                    roomCosts.Add(new RoomCosts(room,this));
-                }              
+                    roomCosts.Add(new RoomCosts(room, this));
+                }
             }
 
             return roomCosts;

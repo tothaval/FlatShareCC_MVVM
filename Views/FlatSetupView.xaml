@@ -9,15 +9,13 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:FlatSetupViewModel}"
         mc:Ignorable="d" 
         Title="{Binding FlatSetupTitleText}"
-        Foreground="{DynamicResource R_Foreground}"
-        Background="{DynamicResource R_Background}"
         Width="450" Height="600">
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="ProceedCommandVisibility" />
     </Window.Resources>
 
-    <Grid Margin="10">
+    <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

@@ -24,7 +24,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 _backgroundColor = value;
 
                 Background = new SolidColorBrush(BackgroundColor);
-                Application.Current.Resources["R_Background"] = Background;
+                Application.Current.Resources["SCB_Background"] = Background;
 
                 OnPropertyChanged(nameof(BackgroundColor));
             }
@@ -40,8 +40,8 @@ namespace SharedLivingCostCalculator.ViewModels
                 _foregroundColor = value;
 
                 Foreground = new SolidColorBrush(ForegroundColor);
-                Application.Current.Resources["R_Foreground"] = Foreground;
-                Application.Current.Resources["R_Header"] = Foreground;
+                Application.Current.Resources["SCB_Text"] = Foreground;
+                Application.Current.Resources["SCB_Text_Header"] = Foreground;
 
                 OnPropertyChanged(nameof(ForegroundColor));
             }
@@ -97,7 +97,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _fontSize = value;
 
-                Application.Current.Resources["R_FontSize"] = FontSize;
+                Application.Current.Resources["FS"] = FontSize;
                 OnPropertyChanged(nameof(FontSize));
             }
         }
@@ -138,11 +138,11 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             LeaveCommand = new RelayCommand(CloseWindow, CanExecute);
 
-            FontSize = (double)Application.Current.Resources["R_FontSize"];
-            FontFamily = (FontFamily)Application.Current.Resources["R_FontFamiliy"];
+            FontSize = (double)Application.Current.Resources["FS"];
+            FontFamily = (FontFamily)Application.Current.Resources["FF"];
 
-            BackgroundColor = ((SolidColorBrush)Application.Current.Resources["R_Background"]).Color;
-            ForegroundColor = ((SolidColorBrush)Application.Current.Resources["R_Foreground"]).Color;
+            BackgroundColor = ((SolidColorBrush)Application.Current.Resources["SCB_Background"]).Color;
+            ForegroundColor = ((SolidColorBrush)Application.Current.Resources["SCB_Text"]).Color;
         }
         
         private void CloseWindow(object obj)

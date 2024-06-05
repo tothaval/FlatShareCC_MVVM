@@ -1,11 +1,12 @@
-﻿using SharedLivingCostCalculator.ViewModels;
+﻿using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedLivingCostCalculator.Models
+namespace SharedLivingCostCalculator.Calculations
 {
     public class RoomCosts
     {

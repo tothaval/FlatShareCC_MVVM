@@ -26,12 +26,10 @@ namespace SharedLivingCostCalculator.Commands
             {
                 int quantity = (int)parameter;
 
-
-
                 for (int i = 0; i < quantity; i++)
                 {
-                    _paymentsViewModel.SelectedValue.Payments?.Add(
-                        new Payment(_paymentsViewModel.SelectedValue)
+                    _paymentsViewModel.RoomViewModel.Payments?.Add(
+                        new Payment(_paymentsViewModel.RoomViewModel)
                         {
                             StartDate = DateTime.Now,
                             EndDate = DateTime.Now,

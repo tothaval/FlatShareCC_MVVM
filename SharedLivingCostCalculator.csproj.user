@@ -13,6 +13,9 @@
     <Compile Update="Views\AccountingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\BillingManagementView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\BillingPeriodView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -22,7 +25,13 @@
     <Compile Update="Views\FlatSetupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\PaymentManagementView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\PaymentsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RentManagementView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\RentUpdateView.xaml.cs">
@@ -39,7 +48,13 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Themes\Default.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\AccountingView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\BillingManagementView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\BillingPeriodView.xaml">
@@ -51,7 +66,13 @@
     <Page Update="Views\FlatSetupView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\PaymentManagementView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\PaymentsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RentManagementView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\RentUpdateView.xaml">
