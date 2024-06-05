@@ -9,8 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800"
              >
     <UserControl.Resources>
-        
-        
+                
         
         <Style x:Key="Header" TargetType="TextBlock">
             <Setter Property="Foreground" Value="{DynamicResource R_Header}"/>
@@ -114,8 +113,8 @@
         <Grid
             Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.7*"/>
-                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="0.2*"/>
                 
 
             </Grid.ColumnDefinitions>

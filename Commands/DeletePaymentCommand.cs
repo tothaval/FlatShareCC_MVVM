@@ -33,7 +33,7 @@ namespace SharedLivingCostCalculator.Commands
 
             foreach (var item in selected)
             {
-                _paymentsViewModel.SelectedValue.Payments.Remove(item);
+                _paymentsViewModel.RoomViewModel.Payments.Remove(item);
             }
 
         }

@@ -16,19 +16,85 @@ namespace SharedLivingCostCalculator.ViewModels
         public int ID => _room.ID;
         public string RoomName => _room.RoomName;
         public double RoomArea => _room.RoomArea;
-        public double TotalPayments => _room.TotalPayments;
 
-        public ObservableCollection<Payment> Payments => _room.Payments;
+        public double CombinedPayments => CalculateTotalPayments();
+        
+        public DateTime StartDate => FindOldestPayment();
+        public DateTime EndDate => FindNewestPayment(); 
+
+
+        public ObservableCollection<Payment> Payments
+        {
+            get { return _room.Payments; }
+            set
+            {
+                _room.Payments = value;
+                OnPropertyChanged(nameof(Payments));
+                OnPropertyChanged(nameof(CombinedPayments));
+            }
+        }
 
         public RoomViewModel(Room room)
         {
             _room = room;
         }
 
-        public void CalculatePayments()
+
+        public double CalculateTotalPayments()
         {
-            _room.CalculateTotalPayments();
-            OnPropertyChanged(nameof(TotalPayments));
+            double total = 0.0;
+
+            if (Payments != null)
+            {
+                foreach (Payment item in Payments)
+                {
+                    total += item.PaymentTotal;
+                }
+            }
+
+
+            return total;
+        }
+
+        public DateTime FindNewestPayment()
+        {
+            DateTime end = new DateTime();
+
+            if (Payments != null)
+            {
+                foreach (Payment item in Payments)
+                {
+                    if (item.StartDate > end)
+                    {
+                        end = item.StartDate;
+
+                        if (item.EndDate > end)
+                        {
+                            end = item.EndDate;
+                        }
+                    }
+                }
+            }
+
+            return end;
+        }
+
+        public DateTime FindOldestPayment()
+        {
+            DateTime start = new DateTime();
+
+            if (Payments != null)
+            {
+                foreach (Payment item in Payments)
+                {
+                    if (item.StartDate < start)
+                    {
+                        start = item.StartDate;
+                    }
+                }
+            }
+
+            return start;
         }
 
     }

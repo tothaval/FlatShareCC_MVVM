@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -17,17 +18,23 @@ namespace SharedLivingCostCalculator.ViewModels
         private FlatViewModel _flatViewModel;
         public FlatViewModel FlatViewModel => _flatViewModel;
 
-        private RentUpdateViewModel _rentUpdateViewModel;
-        public RentUpdateViewModel RentUpdate => _rentUpdateViewModel;
+        private RentManagementViewModel _rents;
+        public RentManagementViewModel Rents => _rents;
 
-        private BillingPeriodViewModel _billingPeriodViewModel;
-        public BillingPeriodViewModel BillingPeriod => _billingPeriodViewModel;
+        private BillingManagementViewModel _billings;
+        public BillingManagementViewModel Billings => _billings;
 
-        private PaymentsViewModel _paymentsViewModel;
-        public PaymentsViewModel Payments => _paymentsViewModel;
+        private PaymentManagementViewModel _payments;
+        public PaymentManagementViewModel Payments => _payments;
 
         public ICommand LeaveCommand { get; }
 
+        public string Address => _flatViewModel.Address;
+        public string Details => _flatViewModel.Details;
+        public double Area  => _flatViewModel.Area;
+        public int RoomCount => _flatViewModel.RoomCount;
+
+        public double FontSize = (double)App.Current.FindResource("FS") * 2;
 
 
         public AccountingViewModel(FlatViewModel flatViewModel, INavigationService navigationService)
@@ -35,10 +42,9 @@ namespace SharedLivingCostCalculator.ViewModels
             _flatViewModel = flatViewModel;
             LeaveCommand = new NavigateCommand(navigationService);
 
-            _billingPeriodViewModel = new BillingPeriodViewModel(FlatViewModel);
-            _rentUpdateViewModel = new RentUpdateViewModel(FlatViewModel);
-            _paymentsViewModel = new PaymentsViewModel(FlatViewModel);
-
+            _billings = new BillingManagementViewModel(FlatViewModel);
+            _payments = new PaymentManagementViewModel(FlatViewModel);
+            _rents = new RentManagementViewModel(FlatViewModel);
         }
     }
 }

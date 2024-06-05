@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="SharedLivingCostCalculator.Views.PaymentManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <!--<Style TargetType="TextBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        </Style>-->
+
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Vertical" Margin="20">
+
+        <DataGrid ItemsSource="{Binding Rooms}"
+                SelectedValue="{Binding Path=SelectedValue}"
+                CanUserSortColumns="True"
+                SelectionMode="Single"
+                AutoGenerateColumns="False"
+                IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding RoomName}"
+                   Header="Room" SortMemberPath="ID" SortDirection="Ascending"/>
+
+                <DataGridTextColumn Binding="{Binding RoomArea, StringFormat=N2}"
+                   Header="Area" SortMemberPath="ID" SortDirection="Ascending"/>
+
+                <DataGridTextColumn Binding="{Binding CombinedPayments, NotifyOnSourceUpdated=True,
+                    Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
+                   Header="Payments" SortMemberPath="ID" SortDirection="Ascending"/>
+
+                <DataGridTextColumn Binding="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
+                                                    UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True,
+                                                    ValidatesOnDataErrors=true}"
+                   Header="Begin" SortMemberPath="ID" SortDirection="Ascending"/>
+
+                <DataGridTextColumn Binding="{Binding EndDate,StringFormat=d, ConverterCulture=de-DE,
+                                                    UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,
+                                                    ValidatesOnDataErrors=true}"
+                   Header="End" SortMemberPath="ID" SortDirection="Ascending"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid>
+            <local:PaymentsView  DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />
+        </Grid>
+
+    </StackPanel>
+</UserControl>

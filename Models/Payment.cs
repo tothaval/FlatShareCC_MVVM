@@ -14,12 +14,32 @@ namespace SharedLivingCostCalculator.Models
         private readonly RoomViewModel _roomViewModel;
 
         public event PropertyChangedEventHandler? PropertyChanged;
-    
-        public DateTime StartDate {  get; set; }
-        public DateTime EndDate { get; set; }
+
+
+        private DateTime _StartDate;
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set
+            {
+                _StartDate = value;
+                OnPropertyChanged(nameof(StartDate));
+            }
+        }
+
+        private DateTime _EndDate;
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set
+            {
+                _EndDate = value;
+                OnPropertyChanged(nameof(EndDate));
+            }
+        }
+
 
         private int _paymentQuantity;
-
         public int PaymentQuantity
         {
             get { return _paymentQuantity; }
@@ -27,7 +47,6 @@ namespace SharedLivingCostCalculator.Models
                 OnPropertyChanged(nameof(PaymentQuantity));
                 OnPropertyChanged(nameof(PaymentTotal));
                 OnPropertyChanged(nameof(EndDateVisible));
-                _roomViewModel.CalculatePayments();
             }
         }
 
@@ -39,7 +58,6 @@ namespace SharedLivingCostCalculator.Models
             set { _sum = value;
                 OnPropertyChanged(nameof(Sum));
                 OnPropertyChanged(nameof(PaymentTotal));
-                _roomViewModel.CalculatePayments();
             }
         }
 

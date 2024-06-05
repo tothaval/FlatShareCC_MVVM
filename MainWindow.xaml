@@ -10,10 +10,8 @@
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"  
-        Foreground="{DynamicResource R_Foreground}"
-        Background="{DynamicResource R_Background}"
         Title="{Binding MainWindowTitle}" Height="450" Width="800">
-    <Grid MinHeight="200" Margin="20">
+    <Grid MinHeight="200">
         <Grid.Resources>
             <DataTemplate DataType="{x:Type vms:FlatManagementViewModel}">
                 <views:FlatManagementView/>
@@ -31,12 +29,24 @@
                 <views:AccountingView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vms:BillingManagementViewModel}">
+                <views:BillingManagementView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type vms:BillingPeriodViewModel}">
                 <views:BillingPeriodView/>
             </DataTemplate>
-            
+
+            <DataTemplate DataType="{x:Type vms:PaymentManagementViewModel}">
+                <views:PaymentManagementView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type vms:PaymentsViewModel}">
                 <views:PaymentsView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vms:RentManagementViewModel}">
+                <views:RentManagementView/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type vms:RentUpdateViewModel}">

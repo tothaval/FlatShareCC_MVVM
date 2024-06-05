@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SharedLivingCostCalculator.Views" xmlns:viewmodels="clr-namespace:SharedLivingCostCalculator.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:RentUpdateViewModel}"
+             xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:viewmodels="clr-namespace:SharedLivingCostCalculator.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:AccountingViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -14,51 +16,43 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
+        <StackPanel VerticalAlignment="Center" Margin="10 5" Grid.Row="0">            
+            <TextBlock Text="{Binding Address, Mode=OneWay}"
+                       FontSize="{Binding FontSize}" FontWeight="Bold"/>
+            <TextBlock>
+                <Run Text="{Binding Details, Mode=OneWay}"
+                     FontSize="{DynamicResource FS}"/>
+                <LineBreak/>
+                <Run Text="{Binding Area, Mode=OneWay}"
+                     FontSize="{DynamicResource FS}"/>
+                <Run Text="m², "/>
+                <Run Text="{Binding RoomCount, Mode=OneWay}"
+                     FontSize="{DynamicResource FS}"/>
+                <Run Text=" rooms"/>
+            </TextBlock>
+        </StackPanel>
+
         <TabControl Grid.Row="1" ItemsSource="{Binding Tabs}" Margin="10 5">
             <TabItem Header="Rent" IsSelected="True">
-                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0"
-                    Margin="20 10">
-                    <TextBlock Text="Rent" FontSize="48"/>
-                    <ContentControl d:DataContext="{d:DesignInstance Type=viewmodels:RentUpdateViewModel}"
-                            Content="{Binding RentUpdate}"/>
-                </StackPanel>
+                <local:RentManagementView DataContext="{Binding Rents}"/>
             </TabItem>
-            <TabItem Header="Annual" IsSelected="True">
-                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0"
-                    Margin="20 10">
-                    <TextBlock Text="Billing" FontSize="48"/>
-                    <ContentControl d:DataContext="{d:DesignInstance Type=viewmodels:BillingPeriodViewModel}"
-                            Content="{Binding BillingPeriod}"/>
-                </StackPanel>
+            
+            <TabItem Header="Billing" IsSelected="True">
+                <local:BillingManagementView DataContext="{Binding Billings}" />
             </TabItem>
             
             <TabItem Header="Payments" IsSelected="True">
-                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0"
-                    Margin="20 10">
-                    <TextBlock Text="Payments" FontSize="48"/>
-                    <ContentControl d:DataContext="{d:DesignInstance Type=viewmodels:PaymentsViewModel}"
-                            Content="{Binding Payments}"/>
-                </StackPanel>
+                <local:PaymentManagementView DataContext="{Binding Payments}"/>
             </TabItem>
             
             <TabItem Header="Current" IsSelected="True">
-                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0"
-                    Margin="20 10">
-                    <TextBlock Text="Current" FontSize="48"/>
-                    <ContentControl d:DataContext="{d:DesignInstance Type=viewmodels:CurrentViewModel}"
-                            Content="{Binding Current}"/>
-                </StackPanel>
+
             </TabItem>
 
         </TabControl>
-        
-
-
-
-
 
         <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Content="Leave" Command="{Binding LeaveCommand}"
-                Margin="20 10"
+                Margin="10 5"
                 />
     </Grid>
 </UserControl>

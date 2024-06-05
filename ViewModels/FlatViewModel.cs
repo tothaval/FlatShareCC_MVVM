@@ -1,4 +1,5 @@
-﻿using SharedLivingCostCalculator.Models;
+﻿using SharedLivingCostCalculator.Calculations;
+using SharedLivingCostCalculator.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,7 +23,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public ObservableCollection<Room> Rooms { get { return _flat.Rooms; } set { _flat.Rooms = value; } }
 
-        public ObservableCollection<BillingPeriod> BillingPeriods
+        public ObservableCollection<BillingViewModel> BillingPeriods
         {
             get { return _flat.BillingPeriods; }
             set { _flat.BillingPeriods = value;
@@ -30,7 +31,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        public ObservableCollection<Rent> RentUpdates
+        public ObservableCollection<RentViewModel> RentUpdates
         {
             get { return _flat.RentUpdates; }
             set { _flat.RentUpdates = value;

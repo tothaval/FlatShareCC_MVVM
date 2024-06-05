@@ -28,7 +28,7 @@ namespace SharedLivingCostCalculator.ViewModels
         private ObservableCollection<FlatViewModel> _flatCollection;
         public ObservableCollection<FlatViewModel> FlatCollection => _flatCollection;
 
-        private FlatViewModel _selectedValue; // private BillingPeriod _selectedBillingPeriod
+        private FlatViewModel _selectedValue; // private Billing _selectedBillingPeriod
 
         public FlatViewModel SelectedValue
         {

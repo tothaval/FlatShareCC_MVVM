@@ -1,6 +1,8 @@
 ﻿using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,63 +15,122 @@ using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    class RentUpdateViewModel : BaseViewModel
+    class RentUpdateViewModel : BaseViewModel, INotifyDataErrorInfo
     {
-        private FlatViewModel _flatViewModel;
-        public bool RentUpdateSelected { get; set; }
+        private readonly RentViewModel _rentViewModel;
+        public RentViewModel RentViewModel => _rentViewModel;
+        private ValidationHelper _helper = new ValidationHelper();
 
-        private Rent _selectedValue; // private BillingPeriod _selectedBillingPeriod
+        public double AnnualRent => _rentViewModel.AnnualRent;
+        public double AnnualExtraCosts => _rentViewModel.AnnualExtraCosts;
+        public double AnnualCostsTotal => _rentViewModel.AnnualCostsTotal;
 
-        public Rent SelectedValue
+        public double ExtraCostsTotal => ExtraCostsShared + ExtraCostsHeating;
+
+        public double CostsTotal => ColdRent + ExtraCostsTotal;
+
+        public bool HasErrors => ((INotifyDataErrorInfo)_helper).HasErrors;
+
+
+        public DateTime StartDate
         {
-            get { return _selectedValue; }
+            get { return _rentViewModel.StartDate; }
             set
             {
-                if (_selectedValue == value) return;
-                _selectedValue = value;
-
-                RentUpdateSelected = true;
-                OnPropertyChanged(nameof(RentUpdateSelected));
-                OnPropertyChanged(nameof(SelectedValue));
+                _rentViewModel.StartDate = value;
+                OnPropertyChanged(nameof(StartDate));
             }
         }
 
-        public ICommand AddRentUpdateCommand { get; }
-        public ICommand DeleteCommand { get; }
-        public ICollectionView RentUpdates { get; set; }
-
-
-        public RentUpdateViewModel(FlatViewModel flatViewModel)
+        public double ColdRent
         {
-            _flatViewModel = flatViewModel;
-
-            AddRentUpdateCommand = new RelayCommand(p => AddRentUpdate(), (s) => true);
-            DeleteCommand = new RelayCommand(p => DeleteRentUpdate(), (s) => true);
-
-            RentUpdates = CollectionViewSource.GetDefaultView(this._flatViewModel.RentUpdates);
-            RentUpdates.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
-
-            if (this._flatViewModel.RentUpdates.Count == 0)
+            get { return _rentViewModel.ColdRent; }
+            set
             {
-                _flatViewModel.RentUpdates.Add(new Rent(new DateTime(2021, 9, 15), 500, 56, 89, _flatViewModel));
-                _flatViewModel.RentUpdates.Add(new Rent(new DateTime(2022, 10, 1), 520, 59, 94, _flatViewModel));
-                _flatViewModel.RentUpdates.Add(new Rent(new DateTime(2023, 10, 1), 550, 63, 97, _flatViewModel));
+                _helper.ClearError();
+
+                if (Double.IsNaN(value))
+                {
+                    _helper.AddError("value must be a number", nameof(ColdRent));
+                }
+
+                if (value < 0)
+                {
+                    _helper.AddError("value must be greater than 0", nameof(ColdRent));
+                }
+
+                _rentViewModel.ColdRent = value;
+                OnPropertyChanged(nameof(ColdRent));
+                OnPropertyChanged(nameof(AnnualRent));
+                OnPropertyChanged(nameof(CostsTotal));
             }
         }
 
-        private void AddRentUpdate()
+        public double ExtraCostsShared
         {
-            Rent rent = new Rent(_flatViewModel);
-            rent.StartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-                 
-            _flatViewModel.RentUpdates.Add(rent);
-            SelectedValue = rent;
+            get { return _rentViewModel.ExtraCostsShared; }
+            set
+            {
+                _helper.ClearError();
+
+                if (Double.IsNaN(value))
+                {
+                    _helper.AddError("value must be a number", nameof(ExtraCostsShared));
+                }
+
+                if (value < 0)
+                {
+                    _helper.AddError("value must be greater than 0", nameof(ExtraCostsShared));
+                }
+
+                _rentViewModel.ExtraCostsShared = value;
+                OnPropertyChanged(nameof(ExtraCostsShared));
+                OnPropertyChanged(nameof(ExtraCostsTotal));
+                OnPropertyChanged(nameof(AnnualExtraCosts));
+                OnPropertyChanged(nameof(CostsTotal));
+            }
         }
-        private void DeleteRentUpdate()
+
+
+        public double ExtraCostsHeating
         {
-            _flatViewModel.RentUpdates.Remove(SelectedValue);
-            RentUpdateSelected = false;
-            OnPropertyChanged(nameof(RentUpdateSelected));
+            get { return _rentViewModel.ExtraCostsHeating; }
+            set
+            {
+                _helper.ClearError();
+
+                if (Double.IsNaN(value))
+                {
+                    _helper.AddError("value must be a number", nameof(ExtraCostsHeating));
+                }
+
+                if (value < 0)
+                {
+                    _helper.AddError("value must be greater than 0", nameof(ExtraCostsHeating));
+                }
+
+                _rentViewModel.ExtraCostsHeating = value;
+                OnPropertyChanged(nameof(ExtraCostsHeating));
+                OnPropertyChanged(nameof(ExtraCostsTotal));
+                OnPropertyChanged(nameof(AnnualExtraCosts));
+                OnPropertyChanged(nameof(CostsTotal));
+            }
+        }
+
+
+        public RentUpdateViewModel(RentViewModel rentViewModel)
+        {
+            _rentViewModel = rentViewModel;
+            _helper.ErrorsChanged += (_, e) => this.ErrorsChanged?.Invoke(this, e);
+        }
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public IEnumerable GetErrors(string? propertyName)
+        {
+            return ((INotifyDataErrorInfo)_helper).GetErrors(propertyName);
         }
     }
 }
