@@ -7,13 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <UserControl.Resources>
-        <!--<Style TargetType="TextBox">
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalContentAlignment" Value="Right"/>
-        </Style>-->
-
-    </UserControl.Resources>
 
     <StackPanel Orientation="Vertical" Margin="20">
 
@@ -47,7 +40,7 @@
         </DataGrid>
 
         <Grid>
-            <local:PaymentsView  DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />
+            <local:PaymentsSetupView  DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />
         </Grid>
 
     </StackPanel>

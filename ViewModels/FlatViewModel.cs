@@ -13,7 +13,13 @@ namespace SharedLivingCostCalculator.ViewModels
     public class FlatViewModel : BaseViewModel
     {
         private Flat _flat;
+        public Flat GetFlat => _flat;
+
         private Costs _costs;
+        public Costs Costs
+        {
+            get { return _costs; }
+        }
 
         public int ID => _flat.ID;
         public string Address { get { return _flat.Address; } set { _flat.Address = value; } }
@@ -21,7 +27,7 @@ namespace SharedLivingCostCalculator.ViewModels
         public double Area { get { return _flat.Area; } set { _flat.Area = value; } }
         public int RoomCount { get { return _flat.RoomCount; } set { _flat.RoomCount = value; CreateRooms(); } }
 
-        public ObservableCollection<Room> Rooms { get { return _flat.Rooms; } set { _flat.Rooms = value; } }
+        public ObservableCollection<RoomViewModel> Rooms { get { return _flat.Rooms; } set { _flat.Rooms = value; } }
 
         public ObservableCollection<BillingViewModel> BillingPeriods
         {
@@ -39,10 +45,6 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        public Costs Costs
-        {
-            get { return _costs; }
-        }
 
 
         public FlatViewModel(Flat flat)
@@ -57,7 +59,7 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             if (Rooms != null && Rooms.Count > 0)
             {
-                foreach (Room room in Rooms)
+                foreach (RoomViewModel room in Rooms)
                 {
                     room.PropertyChanged += Room_PropertyChanged;
                 }
@@ -71,7 +73,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             for (int i = 0; i < RoomCount; i++)
             {
-                Room room = new Room(i, $"room{i + 1}", 0);
+                RoomViewModel room = new RoomViewModel(new Room(i, $"room{i + 1}", 0));
 
                 room.PropertyChanged += Room_PropertyChanged;
                 Rooms.Add(room);
@@ -80,13 +82,13 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private void Room_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            Room? room = sender as Room;
+            RoomViewModel? room = sender as RoomViewModel;
 
             if (room != null)
             {
                 double area = _flat.Area;
 
-                foreach (Room item in _flat.Rooms)
+                foreach (RoomViewModel item in _flat.Rooms)
                 {
                     area -= item.RoomArea;
                 }

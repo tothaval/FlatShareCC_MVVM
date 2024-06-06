@@ -6,9 +6,11 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Models
 {
+    [Serializable]
     public class Flat
     {
         public int ID { get; set; }
@@ -16,8 +18,14 @@ namespace SharedLivingCostCalculator.Models
         public string Details { get; set; }
         public double Area { get; set; }
         public int RoomCount { get; set; }
-        public ObservableCollection<Room> Rooms { get; set; }
+
+        [XmlIgnore]
+        public ObservableCollection<RoomViewModel> Rooms { get; set; }
+
+        [XmlIgnore]
         public ObservableCollection<BillingViewModel> BillingPeriods { get; set; }
+
+        [XmlIgnore]
         public ObservableCollection<RentViewModel> RentUpdates { get; set; }
 
         public Flat()
@@ -27,7 +35,7 @@ namespace SharedLivingCostCalculator.Models
             Details = string.Empty;
             Area = 0.0;
             RoomCount = 0;
-            Rooms = new ObservableCollection<Room>();
+            Rooms = new ObservableCollection<RoomViewModel>();
             BillingPeriods = new ObservableCollection<BillingViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();
         }
@@ -41,18 +49,18 @@ namespace SharedLivingCostCalculator.Models
 
             Details = details;           
 
-            Rooms = new ObservableCollection<Room> { };
+            Rooms = new ObservableCollection<RoomViewModel> { };
 
             for (int i = 0; i < roomCount; i++)
             {
-                Rooms.Add(new Room(i));
+                Rooms.Add(new RoomViewModel(new Room(i)));
             }
 
             BillingPeriods = new ObservableCollection<BillingViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();
         }
 
-        public Flat(int iD, string address, double area, int roomCount, ObservableCollection<Room> rooms, string details = "") : this(iD, address, area, roomCount)
+        public Flat(int iD, string address, double area, int roomCount, ObservableCollection<RoomViewModel> rooms, string details = "") : this(iD, address, area, roomCount)
         {
             Rooms = rooms;
             Details += details;

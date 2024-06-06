@@ -121,6 +121,13 @@ namespace SharedLivingCostCalculator.ViewModels
         public RentUpdateViewModel(RentViewModel rentViewModel)
         {
             _rentViewModel = rentViewModel;
+
+
+            if (_rentViewModel == null)
+            {
+                _rentViewModel = new RentViewModel(new Rent());
+            }
+
             _helper.ErrorsChanged += (_, e) => this.ErrorsChanged?.Invoke(this, e);
         }
 

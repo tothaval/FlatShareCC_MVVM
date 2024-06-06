@@ -68,8 +68,11 @@ namespace SharedLivingCostCalculator.ViewModels
 
             _flatCollection = flatCollection;
 
-            SelectedValue = _flatCollection?.First();
-
+            if (_flatCollection.Count > 0)
+            {
+                SelectedValue = _flatCollection?.First();
+            }
+            
             MainWindowTitleText = "Shared Living Cost Calculator - Flat Overview";
             HeaderText = "Flat Overview";
         }

@@ -15,12 +15,12 @@ namespace SharedLivingCostCalculator.Commands
 {
     internal class DeletePaymentCommand : BaseCommand
     {
-        private readonly PaymentsViewModel _paymentsViewModel;
+        private readonly PaymentsSetupViewModel _paymentsSetupViewModel;
 
 
-        public DeletePaymentCommand(PaymentsViewModel paymentsViewModel)
+        public DeletePaymentCommand(PaymentsSetupViewModel paymentsSetupViewModel)
         {
-            _paymentsViewModel = paymentsViewModel;
+            _paymentsSetupViewModel = paymentsSetupViewModel;
         }
 
 
@@ -29,11 +29,11 @@ namespace SharedLivingCostCalculator.Commands
             IList selection = (IList)parameter;
 
 
-            var selected = selection.Cast<Payment>().ToArray();
+            var selected = selection.Cast<PaymentViewModel>().ToArray();
 
             foreach (var item in selected)
             {
-                _paymentsViewModel.RoomViewModel.Payments.Remove(item);
+                _paymentsSetupViewModel.RoomViewModel.Payments.Remove(item);
             }
 
         }

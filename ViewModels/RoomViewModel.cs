@@ -12,18 +12,76 @@ namespace SharedLivingCostCalculator.ViewModels
     public class RoomViewModel : BaseViewModel
     {
         private Room _room;
+        public Room GetRoom => _room;
 
-        public int ID => _room.ID;
-        public string RoomName => _room.RoomName;
-        public double RoomArea => _room.RoomArea;
+        public int ID
+        {
+            get { return _room.ID; }
+            set
+            {
+                _room.ID = value;
+                OnPropertyChanged(nameof(ID));
+            }
+        }
 
-        public double CombinedPayments => CalculateTotalPayments();
-        
-        public DateTime StartDate => FindOldestPayment();
-        public DateTime EndDate => FindNewestPayment(); 
+        public string RoomName
+        {
+            get { return _room.RoomName; }
+            set
+            {
+                _room.RoomName = value;
+                OnPropertyChanged(nameof(RoomName));
+            }
+        }
+
+        public double RoomArea
+        {
+            get { return _room.RoomArea; }
+            set
+            {
+                _room.RoomArea = value;
+                OnPropertyChanged(nameof(RoomArea));
+            }
+        }
 
 
-        public ObservableCollection<Payment> Payments
+        private double _CombinedPayments;
+
+        public double CombinedPayments
+        {
+            get { return _CombinedPayments; }
+            set
+            {
+                _CombinedPayments = value;
+                OnPropertyChanged(nameof(CombinedPayments));
+            }
+        }
+
+
+        private DateTime _StartDate;
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set
+            {
+                _StartDate = value;
+                OnPropertyChanged(nameof(StartDate));
+            }
+        }
+
+        private DateTime _EndDate;
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set
+            {
+                _EndDate = value;
+                OnPropertyChanged(nameof(EndDate));
+            }
+        }
+
+
+        public ObservableCollection<PaymentViewModel> Payments
         {
             get { return _room.Payments; }
             set
@@ -39,6 +97,28 @@ namespace SharedLivingCostCalculator.ViewModels
             _room = room;
         }
 
+        public void RegisterPaymentEvents()
+        {
+            foreach (PaymentViewModel item in Payments)
+            {
+                item.PropertyChanged += Payment_Change;
+            }
+        }
+
+        private void Payment_Change(object? sender, EventArgs e)
+        {
+            DetermineValues();
+        }
+
+        public void DetermineValues()
+        {
+            CombinedPayments = CalculateTotalPayments();
+
+            StartDate = FindOldestPayment();
+            EndDate = FindNewestPayment();
+        }
+
+
 
         public double CalculateTotalPayments()
         {
@@ -46,7 +126,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (Payments != null)
             {
-                foreach (Payment item in Payments)
+                foreach (PaymentViewModel item in Payments)
                 {
                     total += item.PaymentTotal;
                 }
@@ -62,15 +142,20 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (Payments != null)
             {
-                foreach (Payment item in Payments)
+                foreach (PaymentViewModel item in Payments)
                 {
-                    if (item.StartDate > end)
+                    if (item.PaymentQuantity > 1)
                     {
-                        end = item.StartDate;
-
                         if (item.EndDate > end)
                         {
                             end = item.EndDate;
+                        }                    
+                    }
+                    else
+                    {
+                        if (item.StartDate > end)
+                        {
+                            end = item.StartDate;
                         }
                     }
                 }
@@ -81,11 +166,11 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public DateTime FindOldestPayment()
         {
-            DateTime start = new DateTime();
+            DateTime start = DateTime.Now;
 
             if (Payments != null)
             {
-                foreach (Payment item in Payments)
+                foreach (PaymentViewModel item in Payments)
                 {
                     if (item.StartDate < start)
                     {

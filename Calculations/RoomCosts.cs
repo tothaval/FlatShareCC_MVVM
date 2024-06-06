@@ -10,7 +10,7 @@ namespace SharedLivingCostCalculator.Calculations
 {
     public class RoomCosts
     {
-        private readonly Room _room;
+        private readonly RoomViewModel _room;
         private readonly Costs _costs;
 
 
@@ -26,7 +26,7 @@ namespace SharedLivingCostCalculator.Calculations
 
 
 
-        public RoomCosts(Room room, Costs costs)
+        public RoomCosts(RoomViewModel room, Costs costs)
         {
             _room = room;
             _costs = costs;

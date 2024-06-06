@@ -41,8 +41,8 @@
                 <views:PaymentManagementView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:PaymentsViewModel}">
-                <views:PaymentsView/>
+            <DataTemplate DataType="{x:Type vms:PaymentsSetupViewModel}">
+                <views:PaymentsSetupView/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type vms:RentManagementViewModel}">
