@@ -42,7 +42,7 @@ namespace SharedLivingCostCalculator.Calculations
             {
                 double shared_area = _flatViewModel.Area;
 
-                foreach (Room room in _flatViewModel.Rooms)
+                foreach (RoomViewModel room in _flatViewModel.Rooms)
                 {
                     shared_area -= room.RoomArea;
                 }
@@ -107,6 +107,7 @@ namespace SharedLivingCostCalculator.Calculations
             if (_flatViewModel != null)
             {
                 RentViewModel currentRent = new RentViewModel(new Models.Rent());
+                currentRent.StartDate = new DateTime();
 
                 foreach (RentViewModel rent in _flatViewModel.RentUpdates)
                 {
@@ -130,7 +131,7 @@ namespace SharedLivingCostCalculator.Calculations
             if (_flatViewModel != null)
             {
 
-                foreach (Room room in _flatViewModel.Rooms)
+                foreach (RoomViewModel room in _flatViewModel.Rooms)
                 {
                     roomCosts.Add(new RoomCosts(room, this));
                 }

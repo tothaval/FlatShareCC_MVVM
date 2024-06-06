@@ -28,7 +28,7 @@
     <Compile Update="Views\PaymentManagementView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\PaymentsView.xaml.cs">
+    <Compile Update="Views\PaymentsSetupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\RentManagementView.xaml.cs">
@@ -69,7 +69,7 @@
     <Page Update="Views\PaymentManagementView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\PaymentsView.xaml">
+    <Page Update="Views\PaymentsSetupView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\RentManagementView.xaml">

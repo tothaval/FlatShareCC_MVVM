@@ -43,4 +43,7 @@ current features:
 	->show Settings window
 	-> Background, Foreground, FontFamily and FontSize can be set
 
-!!! data will not be saved nor loaded in the current build !!!
+
+	data will be saved and loaded in the current build 
+
+!!!	settings will not be saved nor loaded in the current build

@@ -28,6 +28,7 @@ namespace SharedLivingCostCalculator.ViewModels
         public bool HasErrors => _helper.HasErrors;
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
 
+
         public DateTime StartDate
         {
             get { return _billingViewModel.StartDate; ; }
@@ -225,7 +226,7 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public ObservableCollection<RoomHeatingUnits> RoomConsumptionValues => _billingViewModel.RoomConsumptionValues;
+        public ObservableCollection<RoomHeatingUnitsViewModel> RoomConsumptionValues => _billingViewModel.RoomConsumptionValues;
 
 
         public void CalculateRoomsConsumption()
@@ -234,10 +235,12 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 TotalHeatingUnitsRoom = 0.0;
 
-                foreach (RoomHeatingUnits roomConsumption in RoomConsumptionValues)
+                foreach (RoomHeatingUnitsViewModel roomConsumption in RoomConsumptionValues)
                 {
                     TotalHeatingUnitsRoom += roomConsumption.HeatingUnitsConsumption;
                 }
+
+                OnPropertyChanged(nameof(TotalHeatingUnitsRoom));
             }
         }
 
@@ -245,16 +248,23 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             _billingViewModel = billingViewModel;
 
+            if (_billingViewModel == null)
+            {
+                _billingViewModel = new BillingViewModel(new Billing(new FlatViewModel(new Flat())));
+            }
+
+
             _helper.ErrorsChanged += (_, e) =>
             {
                 OnPropertyChanged(nameof(_helper));
                 this.ErrorsChanged?.Invoke(this, e);
             };
 
-            foreach (RoomHeatingUnits rhu in RoomConsumptionValues)
-            {
-                rhu.HeatingUnitsChange += HeatingUnitsChange;
-            }
+                foreach (RoomHeatingUnitsViewModel rhu in RoomConsumptionValues)
+                {
+                    rhu.HeatingUnitsChange += HeatingUnitsChange;
+                }
+
         }
 
         private void HeatingUnitsChange(object? sender, EventArgs e)

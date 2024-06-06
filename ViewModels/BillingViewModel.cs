@@ -12,6 +12,7 @@ namespace SharedLivingCostCalculator.ViewModels
     public class BillingViewModel : BaseViewModel
     {
         private readonly Billing _billing;
+        public Billing GetBilling => _billing;
         
         // a new billing must allways create a new RentViewModel
         //
@@ -85,7 +86,7 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public ObservableCollection<RoomHeatingUnits> RoomConsumptionValues
+        public ObservableCollection<RoomHeatingUnitsViewModel> RoomConsumptionValues
         {
             get { return _billing.RoomConsumptionValues; }
             set
@@ -98,7 +99,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public BillingViewModel(Billing billing)
         {
-            _billing = billing;
+            _billing = billing;            
         }
     }
 }

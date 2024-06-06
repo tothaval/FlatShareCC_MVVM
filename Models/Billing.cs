@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 
 namespace SharedLivingCostCalculator.Models
 {
+
     public class Billing
     {
         private readonly FlatViewModel _flatViewModel;
@@ -47,13 +48,13 @@ namespace SharedLivingCostCalculator.Models
         public double TotalHeatingUnitsRoom {  get; set; } = 0.0;
 
         // room data on heating units consumption per billing
-        public ObservableCollection<RoomHeatingUnits> RoomConsumptionValues { get; set; }
+        public ObservableCollection<RoomHeatingUnitsViewModel> RoomConsumptionValues { get; set; }
 
         public Billing(FlatViewModel flatViewModel)
         {
             _flatViewModel = flatViewModel;
 
-            RoomConsumptionValues = new ObservableCollection<RoomHeatingUnits>();
+            RoomConsumptionValues = new ObservableCollection<RoomHeatingUnitsViewModel>();
 
             ActivateCollection();
         }
@@ -67,6 +68,8 @@ namespace SharedLivingCostCalculator.Models
             double totalHeatingUnitsConsumption,
             double totalHeatingUnitsRoom)
         {
+            RoomConsumptionValues = new ObservableCollection<RoomHeatingUnitsViewModel>();
+
             _flatViewModel = flatViewModel;
 
             StartDate = startDate;
@@ -82,11 +85,14 @@ namespace SharedLivingCostCalculator.Models
 
         private void ActivateCollection()
         {
-            RoomConsumptionValues.Clear();
-
-            foreach (Room room in _flatViewModel.Rooms)
+            if (RoomConsumptionValues.Count < _flatViewModel.Rooms.Count)
             {
-                RoomConsumptionValues.Add(new RoomHeatingUnits(room, this));
+                RoomConsumptionValues.Clear();
+
+                foreach (RoomViewModel room in _flatViewModel.Rooms)
+                {
+                    RoomConsumptionValues.Add(new RoomHeatingUnitsViewModel(new RoomHeatingUnits(room), new BillingViewModel(this)));
+                }
             }
         }
     }

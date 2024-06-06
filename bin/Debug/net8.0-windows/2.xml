@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Flat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ID>3</ID>
+  <Address>fancy address 3</Address>
+  <Details>5.og rechts</Details>
+  <Area>78</Area>
+  <RoomCount>3</RoomCount>
+  <Rooms>
+    <RoomData>
+      <ID>0</ID>
+      <RoomName>Room 0</RoomName>
+      <RoomArea>19</RoomArea>
+      <Payments>
+        <Payment>
+          <StartDate>2024-06-03T00:00:00</StartDate>
+          <EndDate>2024-06-06T21:05:01.5631933+02:00</EndDate>
+          <PaymentQuantity>1</PaymentQuantity>
+          <Sum>150</Sum>
+        </Payment>
+      </Payments>
+    </RoomData>
+    <RoomData>
+      <ID>1</ID>
+      <RoomName>Room 1</RoomName>
+      <RoomArea>15</RoomArea>
+      <Payments>
+        <Payment>
+          <StartDate>2024-06-06T21:05:06.6368207+02:00</StartDate>
+          <EndDate>2024-06-06T21:05:06.6368236+02:00</EndDate>
+          <PaymentQuantity>1</PaymentQuantity>
+          <Sum>175</Sum>
+        </Payment>
+      </Payments>
+    </RoomData>
+    <RoomData>
+      <ID>2</ID>
+      <RoomName>Room 2</RoomName>
+      <RoomArea>12.4</RoomArea>
+      <Payments>
+        <Payment>
+          <StartDate>2024-05-09T00:00:00</StartDate>
+          <EndDate>2024-06-06T21:05:11.2444038+02:00</EndDate>
+          <PaymentQuantity>1</PaymentQuantity>
+          <Sum>201</Sum>
+        </Payment>
+      </Payments>
+    </RoomData>
+  </Rooms>
+  <Billings />
+  <Rents>
+    <Rent>
+      <StartDate>2023-10-01T00:00:00</StartDate>
+      <ColdRent>575</ColdRent>
+      <ExtraCostsShared>105</ExtraCostsShared>
+      <ExtraCostsHeating>137</ExtraCostsHeating>
+    </Rent>
+  </Rents>
+</Flat>

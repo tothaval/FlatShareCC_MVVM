@@ -6,74 +6,28 @@ using System.Linq;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Models
 {
-    public class Payment : INotifyPropertyChanged
+    [Serializable]
+    public class Payment
     {
-        private readonly RoomViewModel _roomViewModel;
+        public DateTime StartDate { get; set; } = new DateTime();
+                
+        public DateTime EndDate { get; set; } = new DateTime();
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public int PaymentQuantity { get; set; } = 1;
 
+        public double Sum { get; set; } = 0.0;
 
-        private DateTime _StartDate;
-        public DateTime StartDate
-        {
-            get { return _StartDate; }
-            set
-            {
-                _StartDate = value;
-                OnPropertyChanged(nameof(StartDate));
-            }
-        }
-
-        private DateTime _EndDate;
-        public DateTime EndDate
-        {
-            get { return _EndDate; }
-            set
-            {
-                _EndDate = value;
-                OnPropertyChanged(nameof(EndDate));
-            }
-        }
-
-
-        private int _paymentQuantity;
-        public int PaymentQuantity
-        {
-            get { return _paymentQuantity; }
-            set { _paymentQuantity = value;
-                OnPropertyChanged(nameof(PaymentQuantity));
-                OnPropertyChanged(nameof(PaymentTotal));
-                OnPropertyChanged(nameof(EndDateVisible));
-            }
-        }
-
-        private double _sum;
-
-        public double Sum
-        {
-            get { return _sum; }
-            set { _sum = value;
-                OnPropertyChanged(nameof(Sum));
-                OnPropertyChanged(nameof(PaymentTotal));
-            }
-        }
-
+        [XmlIgnore]
         public double PaymentTotal => Sum * PaymentQuantity;
-
+        [XmlIgnore]
         public bool EndDateVisible => PaymentQuantity > 1;
 
-        public Payment(RoomViewModel roomViewModel)
-        {
-            _roomViewModel = roomViewModel;                
-        }
-
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public Payment()
+        {              
         }
     }
 }

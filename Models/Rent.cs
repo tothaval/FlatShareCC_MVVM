@@ -9,15 +9,18 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Models
 {
+    [Serializable]
     public class Rent
     {
         public DateTime StartDate { get; set; } = DateTime.Now;
 
         public double ColdRent { get; set; } = 0.0;
 
+        [XmlIgnore]
         public double AnnualRent => ColdRent * 12;
 
         public double ExtraCostsShared { get; set; } = 0.0;
@@ -25,7 +28,9 @@ namespace SharedLivingCostCalculator.Models
         public double ExtraCostsHeating { get; set; } = 0.0;
 
         public double ExtraCostsTotal => ExtraCostsShared + ExtraCostsHeating;
+
         public double CostsTotal => ColdRent + ExtraCostsTotal;
+        [XmlIgnore]
         public double AnnualExtraCosts => ExtraCostsTotal * 12;
 
         public Rent()

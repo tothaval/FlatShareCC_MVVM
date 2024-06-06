@@ -64,15 +64,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
             RentUpdates = CollectionViewSource.GetDefaultView(this._flatViewModel.RentUpdates);
             RentUpdates.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
-
-            if (this._flatViewModel.RentUpdates.Count == 0)
-            {
-                _flatViewModel.RentUpdates.Add(new RentViewModel(new Rent(
-                    new DateTime(2021, 9, 15), 500, 56, 89))
-                    );
-                _flatViewModel.RentUpdates.Add(new RentViewModel(new Rent(new DateTime(2022, 10, 1), 520, 59, 94)));
-                _flatViewModel.RentUpdates.Add(new RentViewModel(new Rent(new DateTime(2023, 10, 1), 550, 63, 97)));
-            }
         }
 
 

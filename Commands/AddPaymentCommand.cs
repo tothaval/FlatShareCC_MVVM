@@ -11,31 +11,33 @@ namespace SharedLivingCostCalculator.Commands
 {
     internal class AddPaymentCommand : BaseCommand
     {
-        private readonly PaymentsViewModel _paymentsViewModel;
+        private readonly PaymentsSetupViewModel _paymentsSetupViewModel;
 
 
-        public AddPaymentCommand(PaymentsViewModel paymentsViewModel)
+        public AddPaymentCommand(PaymentsSetupViewModel paymentsViewModel)
         {
-            _paymentsViewModel = paymentsViewModel;
+            _paymentsSetupViewModel = paymentsViewModel;
         }
 
 
         public override void Execute(object? parameter)
         {
-            if (parameter.GetType() == typeof(int) && _paymentsViewModel != null)
+            if (parameter.GetType() == typeof(int) && _paymentsSetupViewModel != null)
             {
                 int quantity = (int)parameter;
 
                 for (int i = 0; i < quantity; i++)
                 {
-                    _paymentsViewModel.RoomViewModel.Payments?.Add(
-                        new Payment(_paymentsViewModel.RoomViewModel)
+                    _paymentsSetupViewModel.RoomViewModel.Payments?.Add(
+                        //new PaymentViewModel(_paymentsSetupViewModel.RoomViewModel)
+                        new PaymentViewModel(new Payment()
                         {
                             StartDate = DateTime.Now,
                             EndDate = DateTime.Now,
                             Sum = 0.0,
                             PaymentQuantity = 1
-                        });
+                        }));
+                    _paymentsSetupViewModel.RoomViewModel.RegisterPaymentEvents();
                 }
             }            
         }

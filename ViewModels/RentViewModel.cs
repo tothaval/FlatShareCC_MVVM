@@ -10,6 +10,7 @@ namespace SharedLivingCostCalculator.ViewModels
     public class RentViewModel : BaseViewModel
     {
         private readonly Rent _rent;
+        public Rent GetRent => _rent;
 
         // startdates in RentViewModel list indicate enddates of older rentviewmodels
         // the next oldest RentViewModel is the successor of a RentViewModel

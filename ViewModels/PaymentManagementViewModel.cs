@@ -13,10 +13,10 @@ namespace SharedLivingCostCalculator.ViewModels
     internal class PaymentManagementViewModel : BaseViewModel
     {
         private readonly FlatViewModel _flatViewModel;
-        public ObservableCollection<RoomViewModel> Rooms { get; set; }
+        public ObservableCollection<RoomViewModel> Rooms => _flatViewModel.Rooms;
 
-        private PaymentsViewModel _updateViewModel;
-        public PaymentsViewModel UpdateViewModel
+        private PaymentsSetupViewModel _updateViewModel;
+        public PaymentsSetupViewModel UpdateViewModel
         {
             get { return _updateViewModel; }
             set
@@ -36,9 +36,15 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (_selectedValue == value) return;
                 _selectedValue = value;
 
-                UpdateViewModel = new PaymentsViewModel(SelectedValue);
+                UpdateViewModel = new PaymentsSetupViewModel(SelectedValue);
 
                 OnPropertyChanged(nameof(SelectedValue));
+
+                foreach (RoomViewModel room in Rooms)
+                {
+                    room.RegisterPaymentEvents();
+                    room.DetermineValues();
+                }
             }
         }
 
@@ -54,35 +60,15 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        //private BaseViewModel currentPaymentViewModel;
-
-        //public BaseViewModel CurrentPaymentViewModel
-        //{
-        //    get { return currentPaymentViewModel; }
-        //    set {
-        //        currentPaymentViewModel = value;
-        //        OnPropertyChanged(nameof(CurrentPaymentViewModel));
-        //    }
-        //}
-
-
-        //public ICommand AddPaymentCommand { get; }
-        //public ICommand DeletePaymentCommand { get; }
-
         public PaymentManagementViewModel(FlatViewModel flatViewModel)
         {
             _flatViewModel = flatViewModel;
-            Rooms = new ObservableCollection<RoomViewModel>();
             _quantity = 1;
 
-
-            foreach (Room room in _flatViewModel.Rooms)
+            foreach (RoomViewModel room in Rooms)
             {
-                Rooms.Add(new RoomViewModel(room));
+                room.DetermineValues();
             }
-
-            //AddPaymentCommand = new AddPaymentCommand(this);
-            //DeletePaymentCommand = new DeletePaymentCommand(this);
         }
         
     }
