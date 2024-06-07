@@ -5,17 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
         xmlns:viewmodels="clr-namespace:SharedLivingCostCalculator.ViewModels"
-        xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components.ComponentViews"
-        d:DataContext="{d:DesignInstance Type=viewmodels:FlatSetupViewModel}"
+        xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components.ComponentViews"        
         mc:Ignorable="d" 
+        Name="FlatSetupWindow"
         Title="{Binding FlatSetupTitleText}"
-        Width="450" Height="600">
+        Width="450" Height="600"
+        Background="{DynamicResource SCB_Background}">
+    
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="ProceedCommandVisibility" />
     </Window.Resources>
 
-    <Grid>
+    <Grid  Margin="20">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -36,6 +38,7 @@
 
         <c_views:SimpleInputView Label="Address"
                                  Value="{Binding FlatSetup.Address, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 IsEnabled="{Binding IsNewFlatWindow}"
                                  Foreground="DarkSlateGray"
                                  Grid.Row="1"/>
 
@@ -46,12 +49,14 @@
 
         <c_views:SimpleInputView Label="Area"
                                  Value="{Binding FlatSetup.Area, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                                StringFormat=\{0:n\}, Delay=500}"
+                                StringFormat=\{0:n\}, Delay=500}"                                 
+                                 IsEnabled="{Binding IsNewFlatWindow}"
                                  Foreground="DarkSlateGray"
                                  Grid.Row="3"/>
 
         <c_views:SimpleInputView Label="Rooms"
                                  Value="{Binding FlatSetup.RoomCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 IsEnabled="{Binding IsNewFlatWindow}"
                                  Foreground="DarkSlateGray"
                                  Grid.Row="4"/>
 
@@ -66,14 +71,15 @@
                     <Border Background="FloralWhite">
                         <WrapPanel Orientation="Vertical" Margin="0 5">
                             <c_views:SimpleInputView Label="{Binding ID, StringFormat='Room {0}'}"
-                                 Value="{Binding RoomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 Value="{Binding RoomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                  Foreground="DarkSlateGray" Padding="5 0"/>
-
                             <c_views:SimpleInputView Label="Area"
                                  Value="{Binding RoomArea, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                 StringFormat=\{0:n\}, Delay=500}"
+                                 IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"
                                  Foreground="DarkSlateGray" Padding="5 0"/>
                         </WrapPanel>
+                        <!--IsEnabled="{Binding Path=IsNewFlatWindow, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}, NotifyOnSourceUpdated=True}"-->
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -84,7 +90,7 @@
 
         <Button Grid.Row="7"
                 
-                Visibility="{Binding FlatSetupCommandVisibility, Converter={StaticResource ProceedCommandVisibility}}"
+                Visibility="{Binding IsNewFlatWindow, Converter={StaticResource ProceedCommandVisibility}}"
                 Command="{Binding FlatSetupCommand}">
             <TextBlock Text="Proceed" HorizontalAlignment="Center"
                        TextAlignment="Center"/>

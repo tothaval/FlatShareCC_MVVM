@@ -8,13 +8,13 @@
         xmlns:toolkit="http://propertytools.org/wpf"
         mc:Ignorable="d"
         Name="SettingsViewWindow"
-        Title="Settings" Height="350" Width="350">
+        Title="Settings" Height="400" Width="400"  Background="{DynamicResource SCB_Background}">
     <Window.Resources>
         <Style TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal"/>
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>

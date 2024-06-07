@@ -51,8 +51,13 @@ namespace SharedLivingCostCalculator
             };
 
             mainWindow.Show();
-
+                        
             base.OnStartup(e);
+        }
+
+        private void AddResources()
+        {
+            new Resources();
         }
 
 
@@ -63,16 +68,49 @@ namespace SharedLivingCostCalculator
 
             List<string> files = Directory.GetFiles(folder, filter, SearchOption.TopDirectoryOnly).ToList();
 
+            if (!Directory.EnumerateFiles(folder).Any(f => f.Contains("resources.xml")))
+            {
+                AddResources();
+            }
+
 
             foreach (string file in files)
             {
-                var xmlSerializer = new XmlSerializer(typeof(PersistanceDataSet));
-
-                using (var writer = new StreamReader(file))
+                if (!file.EndsWith("resources.xml"))
                 {
-                    var member = (PersistanceDataSet)xmlSerializer.Deserialize(writer);
+                    var xmlSerializer = new XmlSerializer(typeof(PersistanceDataSet));
 
-                    _flatCollection.Add(member.GetFlatData());
+                    using (var writer = new StreamReader(file))
+                    {
+                        try
+                        {
+                            var member = (PersistanceDataSet)xmlSerializer.Deserialize(writer);
+
+                            _flatCollection.Add(member.GetFlatData());
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                }
+
+                if (file.EndsWith("resources.xml"))
+                {
+                    var xmlSerializer = new XmlSerializer(typeof(Resources));
+
+                    using (var writer = new StreamReader(file))
+                    {
+                        try
+                        {
+                            var member = (Resources)xmlSerializer.Deserialize(writer);
+
+                            member.SetResources();
+                                                       
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -80,7 +118,10 @@ namespace SharedLivingCostCalculator
 
         protected override void OnExit(ExitEventArgs e)
         {
-            new PersistanceHandler(_flatCollection).Serialize();
+            PersistanceHandler persistanceHandler = new PersistanceHandler();
+
+            persistanceHandler.SerializeFlatData(_flatCollection);
+            persistanceHandler.SerializeResources();
 
             base.OnExit(e);
         }

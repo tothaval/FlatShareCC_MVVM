@@ -99,7 +99,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public BillingViewModel(Billing billing)
         {
-            _billing = billing;            
+            _billing = billing;                        
         }
     }
 }

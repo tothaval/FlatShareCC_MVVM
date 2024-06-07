@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.Calculations
 {
-    public class Costs
+    public class Costs // need time? or billing id?
     {
         private readonly FlatViewModel _flatViewModel;
         public FlatViewModel FlatViewModel => _flatViewModel;

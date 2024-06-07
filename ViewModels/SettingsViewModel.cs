@@ -56,6 +56,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _fontFamiliy = value;
 
+                Application.Current.Resources["FF"] = FontFamily;
                 OnPropertyChanged(nameof(FontFamily));
             }
         }

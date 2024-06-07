@@ -25,8 +25,21 @@ namespace SharedLivingCostCalculator.ViewModels
             set { headerText = value; OnPropertyChanged(nameof(HeaderText)); }
         }
 
-        private ObservableCollection<FlatViewModel> _flatCollection;
-        public ObservableCollection<FlatViewModel> FlatCollection => _flatCollection;
+        private ObservableCollection<FlatViewModel> _flatCollection; // private Billing _selectedBillingPeriod
+
+        public ObservableCollection<FlatViewModel> FlatCollection
+        {
+            get { return _flatCollection; }
+            set
+            {
+                if (_flatCollection == value) return;
+                _flatCollection = value;
+
+                OnPropertyChanged(nameof(FlatCollection));
+            }
+        }
+
+
 
         private FlatViewModel _selectedValue; // private Billing _selectedBillingPeriod
 
@@ -41,6 +54,21 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(SelectedValue));
             }
         }
+
+
+
+        private bool _FlatCollectionFilled;
+
+        public bool FlatCollectionFilled
+        {
+            get { return _FlatCollectionFilled; }
+            set
+            {
+                _FlatCollectionFilled = value;
+                OnPropertyChanged(nameof(FlatCollectionFilled));
+            }
+        }      
+
 
         public ICommand NewFlatCommand { get; }
         public ICommand SettingsCommand { get; }
@@ -71,10 +99,18 @@ namespace SharedLivingCostCalculator.ViewModels
             if (_flatCollection.Count > 0)
             {
                 SelectedValue = _flatCollection?.First();
+                FlatCollectionFilled = true;
+
+                _flatCollection.CollectionChanged += _flatCollection_CollectionChanged;
             }
             
             MainWindowTitleText = "Shared Living Cost Calculator - Flat Overview";
             HeaderText = "Flat Overview";
+        }
+
+        private void _flatCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            FlatCollectionFilled = FlatCollection.Count > 0;
         }
 
         private bool CanShowWindow(object obj)

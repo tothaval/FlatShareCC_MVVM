@@ -29,6 +29,39 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public double CostsTotal => ColdRent + ExtraCostsTotal;
 
+        public DateTime? BillingStartDate => GetBillingStartDate();
+        public DateTime? BillingEndDate => GetBillingEndDate();
+        public double? BillingConsumedUnits => GetBillingConsumedUnits();
+
+        private DateTime? GetBillingStartDate()
+        {
+            if (RentViewModel.BillingViewModel != null)
+            {
+                return RentViewModel.BillingViewModel.StartDate;
+            }
+            return null;
+        }
+
+        private DateTime? GetBillingEndDate()
+        {
+            if (RentViewModel.BillingViewModel != null)
+            {
+                return RentViewModel.BillingViewModel.EndDate;
+            }
+            return null;
+        }
+
+        private double? GetBillingConsumedUnits()
+        {
+            if (RentViewModel.BillingViewModel != null)
+            {
+                return RentViewModel.BillingViewModel.TotalHeatingUnitsConsumption;
+            }
+            return null;
+        }
+
+
+
         public bool HasErrors => ((INotifyDataErrorInfo)_helper).HasErrors;
 
 

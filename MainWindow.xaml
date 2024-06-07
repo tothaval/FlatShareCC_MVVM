@@ -53,6 +53,10 @@
                 <views:RentUpdateView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vms:CostsViewModel}">
+                <views:CostsView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type vms:SettingsViewModel}">
                 <views:SettingsView/>
             </DataTemplate>

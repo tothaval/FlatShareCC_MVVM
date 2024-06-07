@@ -11,7 +11,7 @@ namespace SharedLivingCostCalculator.Commands
 {
     class ExecuteDeleteFlatCommand : BaseCommand
     {
-        private ObservableCollection<FlatViewModel> _flatCollection;
+        private readonly ObservableCollection<FlatViewModel> _flatCollection;
 
         public ExecuteDeleteFlatCommand(ObservableCollection<FlatViewModel> flatCollection)
         {

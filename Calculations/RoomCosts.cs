@@ -13,10 +13,23 @@ namespace SharedLivingCostCalculator.Calculations
         private readonly RoomViewModel _room;
         private readonly Costs _costs;
 
+        public RoomViewModel Room => _room;
 
-        public string RoomName => _room.RoomName;
+        //public string RoomName => _room.RoomName;
 
-        public double RoomArea => _room.RoomArea;
+        //private object _MyProperty;
+
+        //public object MyProperty
+        //{
+        //    get { return _MyProperty; }
+        //    set
+        //    {
+        //        _MyProperty = value;
+        //        OnPropertyChanged(nameof(MyProperty));
+        //    }
+        //}
+
+        //public double RoomArea => _room.RoomArea;
 
         public double ExtraCostsShare => CalculateExtraCosts();
 
@@ -38,30 +51,39 @@ namespace SharedLivingCostCalculator.Calculations
         /// <returns></returns>
         private double CalculateExtraCosts()
         {
+            double extraCosts = -1.0;
+
             if (_costs != null && _room != null)
             {
+                double sharedAreaShare = _costs.SharedArea / _costs.FlatViewModel.RoomCount;
+
+                double rentedArea = _room.RoomArea + sharedAreaShare;
+
                 // Case: new flat, calculation based on area ratio
                 if (_costs.FlatViewModel.BillingPeriods.Count == 0)
                 {
-                    double sharedAreaShare = _costs.SharedArea / _costs.FlatViewModel.RoomCount;
-
-                    double rentedArea = _room.RoomArea + sharedAreaShare;
-
-                    double extraCosts = rentedArea / _costs.FlatViewModel.Area * _costs.ExtraCosts;
+                    extraCosts = rentedArea / _costs.FlatViewModel.Area * _costs.ExtraCosts;
 
                     return extraCosts;
                 }
 
-
-
                 // Case: annual billing received, calculation is based on area ratio
                 // for shared area and on consumption ratio of heating units 
+
+                //double consumedUnits =
+
+
+                // wie eintragen, welche billing genutzt werden soll?
+                // bzw. über eine methode erledigen, die eine billing entgegen nimmt.
+                // ggf. costs verschieben oder auch als liste machen
+                // wäre dann immer das rentupdate, welches ausschlaggebend ist,
+                // pro cost object ein rent update,
 
 
 
             }
 
-            return -1.0;
+            return extraCosts;
         }
 
         /// <summary>
