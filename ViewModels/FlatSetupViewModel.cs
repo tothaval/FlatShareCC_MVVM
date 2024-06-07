@@ -21,8 +21,7 @@ namespace SharedLivingCostCalculator.ViewModels
         public FlatViewModel FlatSetup => _flatsetup;
         private FlatSetupView _flatSetupView;
 
-        public bool FlatSetupCommandVisibility => true;
-
+        public bool IsNewFlatWindow { get; set; } = false;
 
         private string _flatSetupTitleText;
 
@@ -42,8 +41,15 @@ namespace SharedLivingCostCalculator.ViewModels
         public ICommand LeaveViewCommand { get; }
 
 
+        /// <summary>
+        /// Called on New Flat Button clicked
+        /// </summary>
+        /// <param name="flatCollection"></param>
+        /// <param name="flatSetupView"></param>
         public FlatSetupViewModel(ObservableCollection<FlatViewModel> flatCollection, FlatSetupView flatSetupView)
         {
+            IsNewFlatWindow = true;
+
             _flatCollection = flatCollection;
             _flatSetupView = flatSetupView;
 
@@ -54,15 +60,25 @@ namespace SharedLivingCostCalculator.ViewModels
             FlatSetupCommand = new FlatSetupCommand(_flatCollection, this, flatSetupView);
             LeaveViewCommand = new RelayCommand(Close, (s) => true);
 
-            _flatsetup.RoomCreation += _flatsetup_RoomCreation;
-
-            OnPropertyChanged(nameof(FlatSetupCommandVisibility));
+            if (_flatsetup != null)
+            {
+                _flatsetup.RoomCreation += _flatsetup_RoomCreation;
+            }
         }
 
-
+        /// <summary>
+        /// Called on Edit Button is clicked, Proceed Button is hidden,
+        /// by default, all input fields except Details and RoomNames are readonly
+        /// an option in Settings may be used to allow for all fields to be edited.
+        /// </summary>
+        /// <param name="flatCollection"></param>
+        /// <param name="flatSetupView"></param>
+        /// <param name="flatViewModel"></param>
         public FlatSetupViewModel(ObservableCollection<FlatViewModel> flatCollection, FlatSetupView flatSetupView,
                 FlatViewModel flatViewModel)
         {
+            IsNewFlatWindow = false;
+
             _flatCollection = flatCollection;
             _flatSetupView = flatSetupView;
 
@@ -73,9 +89,10 @@ namespace SharedLivingCostCalculator.ViewModels
             FlatSetupCommand = new FlatSetupCommand(_flatCollection, this, flatSetupView);
             LeaveViewCommand = new RelayCommand(Close, (s) => true);
 
-            _flatsetup.RoomCreation += _flatsetup_RoomCreation;
-
-            OnPropertyChanged(nameof(FlatSetupCommandVisibility));
+            if (_flatsetup != null)
+            {
+                _flatsetup.RoomCreation += _flatsetup_RoomCreation;
+            }
         }
 
 
@@ -86,6 +103,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private void _flatsetup_RoomCreation()
         {
+            OnPropertyChanged(nameof(IsNewFlatWindow));
             OnPropertyChanged(nameof(FlatSetup));
         }
     }

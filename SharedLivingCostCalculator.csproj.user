@@ -19,6 +19,9 @@
     <Compile Update="Views\BillingPeriodView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\CostsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\FlatManagementView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -58,6 +61,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\BillingPeriodView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\CostsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\FlatManagementView.xaml">

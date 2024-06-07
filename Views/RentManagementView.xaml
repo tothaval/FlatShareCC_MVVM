@@ -128,7 +128,9 @@
             </DataGrid.Columns>
         </DataGrid>
         <Grid Visibility="{Binding RentUpdateSelected, Converter={StaticResource RentUpdateVisibilityConverter}}">
-            <local:RentUpdateView DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}"/>
+            <local:RentUpdateView DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />
         </Grid>
+
+        <Button Content="Show Costs" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding RentUpdateSelected}"/>
     </StackPanel>
 </UserControl>

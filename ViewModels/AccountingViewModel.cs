@@ -34,7 +34,21 @@ namespace SharedLivingCostCalculator.ViewModels
         public double Area  => _flatViewModel.Area;
         public int RoomCount => _flatViewModel.RoomCount;
 
-        public double FontSize = (double)App.Current.FindResource("FS") * 2;
+        public double FontSize => (double)App.Current.FindResource("FS") * 2;
+
+
+        private int _SelectedIndex;
+
+        public int SelectedIndex
+        {
+            get { return _SelectedIndex; }
+            set
+            {
+                _SelectedIndex = value;
+                OnPropertyChanged(nameof(SelectedIndex));
+            }
+        }
+
 
 
         public AccountingViewModel(FlatViewModel flatViewModel, INavigationService navigationService)
@@ -42,9 +56,11 @@ namespace SharedLivingCostCalculator.ViewModels
             _flatViewModel = flatViewModel;
             LeaveCommand = new NavigateCommand(navigationService);
 
-            _billings = new BillingManagementViewModel(FlatViewModel);
+            _billings = new BillingManagementViewModel(FlatViewModel, this);
             _payments = new PaymentManagementViewModel(FlatViewModel);
             _rents = new RentManagementViewModel(FlatViewModel);
+
+            MainWindowTitleText = "Shared Living Cost Calculator - Accounting";
         }
     }
 }

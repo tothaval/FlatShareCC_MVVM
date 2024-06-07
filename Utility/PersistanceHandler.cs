@@ -13,32 +13,35 @@ namespace SharedLivingCostCalculator.Utility
 {
     internal class PersistanceHandler
     {
-        [XmlIgnore]
-        private ObservableCollection<PersistanceDataSet> _persistanceDataSet;
-
-        public void Serialize()
+        public void SerializeFlatData(ObservableCollection<FlatViewModel> flats)
         {
-            for (int i = 0; i < _persistanceDataSet.Count; i++)
+            for (int i = 0; i < flats.Count; i++)
             {
                 var xmlSerializer = new XmlSerializer(typeof(PersistanceDataSet));
 
                 using (var writer = new StreamWriter($"{i}.xml"))
                 {
-                    xmlSerializer.Serialize(writer, _persistanceDataSet[i]);
+                    xmlSerializer.Serialize(writer, new PersistanceDataSet(flats[i]));
                 }
             }
         }
 
-
-        public PersistanceHandler(ObservableCollection<FlatViewModel> flats)
+        public void SerializeResources()
         {
-            _persistanceDataSet = new ObservableCollection<PersistanceDataSet>();
+            var xmlSerializer = new XmlSerializer(typeof(Resources));
+            Resources resources = new Resources().GetResources();
 
-            foreach (FlatViewModel item in flats)
+
+            using (var writer = new StreamWriter("resources.xml"))
             {
-                _persistanceDataSet.Add(new PersistanceDataSet(item)); ;
-
+                xmlSerializer.Serialize(writer, resources);
             }
+        }
+
+
+        public PersistanceHandler()
+        {
+            
         }
     }
 }

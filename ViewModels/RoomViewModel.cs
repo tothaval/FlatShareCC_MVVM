@@ -31,6 +31,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _room.RoomName = value;
                 OnPropertyChanged(nameof(RoomName));
+                
             }
         }
 

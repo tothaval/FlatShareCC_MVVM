@@ -8,55 +8,71 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <StackPanel HorizontalAlignment="Left">
-
-        <TextBlock Text="Rent Update Data" Margin="5 10"
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Column="0" HorizontalAlignment="Left">
+            <TextBlock Text="Rent Update Data" Margin="5 10"
                        TextAlignment="Center" FontSize="14"/>
 
-        <StackPanel Margin="5 5" Orientation="Horizontal">
-            <TextBlock Text="Start Date" Width="150" VerticalAlignment="Bottom" />
-            <DatePicker Text="start date"  SelectedDate="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
+            <StackPanel Margin="5 5" Orientation="Horizontal">
+                <TextBlock Text="Start Date" Width="150" VerticalAlignment="Bottom" />
+                <DatePicker Text="start date"  SelectedDate="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
                         UpdateSourceTrigger=PropertyChanged}"
                                  Width="100"/>
-        </StackPanel>
+            </StackPanel>
 
-        <StackPanel Margin="5 5" Orientation="Horizontal">
-            <TextBlock Text="Cold Rent" Width="150" VerticalAlignment="Center" />
-            <TextBox Text="{Binding ColdRent,
+            <StackPanel Margin="5 5" Orientation="Horizontal">
+                <TextBlock Text="Cold Rent" Width="150" VerticalAlignment="Center" />
+                <TextBox Text="{Binding ColdRent,
                         UpdateSourceTrigger=PropertyChanged,
                         ValidatesOnDataErrors=True,
                         StringFormat=C2, ConverterCulture=de-DE, Delay=500}"/>
-        </StackPanel>
+            </StackPanel>
 
-        <StackPanel Margin="5 5" Orientation="Horizontal">
-            <TextBlock Text="Advance Fixed" Width="150" VerticalAlignment="Center" />
-            <TextBox Text="{Binding ExtraCostsShared,
+            <StackPanel Margin="5 5" Orientation="Horizontal">
+                <TextBlock Text="Advance Fixed" Width="150" VerticalAlignment="Center" />
+                <TextBox Text="{Binding ExtraCostsShared,
                         UpdateSourceTrigger=PropertyChanged,
                         ValidatesOnDataErrors=True,
                         StringFormat=C2, ConverterCulture=de-DE, Delay=500}"/>
-        </StackPanel>
+            </StackPanel>
 
-        <StackPanel Margin="5 5" Orientation="Horizontal">
-            <TextBlock Text="Advance Heating" Width="150" VerticalAlignment="Center" />
-            <TextBox Text="{Binding ExtraCostsHeating,
+            <StackPanel Margin="5 5" Orientation="Horizontal">
+                <TextBlock Text="Advance Heating" Width="150" VerticalAlignment="Center" />
+                <TextBox Text="{Binding ExtraCostsHeating,
                         UpdateSourceTrigger=PropertyChanged,
                         ValidatesOnDataErrors=True,
                         StringFormat=C2, ConverterCulture=de-DE, Delay=500}"/>
-        </StackPanel>
+            </StackPanel>
 
-        <StackPanel Margin="5 5" Orientation="Horizontal" Background="LightGray">
-            <TextBlock Text="Advance Total" Width="150" VerticalAlignment="Center" />
-            <TextBox IsReadOnly="True" Text="{Binding ExtraCostsTotal,
+            <StackPanel Margin="5 5" Orientation="Horizontal" Background="LightGray">
+                <TextBlock Text="Advance Total" Width="150" VerticalAlignment="Center" />
+                <TextBox IsReadOnly="True" Text="{Binding ExtraCostsTotal,
                         Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
                              Background="LightGray"/>
-        </StackPanel>
+            </StackPanel>
 
-        <StackPanel Margin="5 5" Orientation="Horizontal" Background="LightGray">
-            <TextBlock Text="Total" Width="150" VerticalAlignment="Center" />
-            <TextBox IsReadOnly="True" Text="{Binding CostsTotal,
+            <StackPanel Margin="5 5" Orientation="Horizontal" Background="LightGray">
+                <TextBlock Text="Total" Width="150" VerticalAlignment="Center" />
+                <TextBox IsReadOnly="True" Text="{Binding CostsTotal,
                         Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
                              Background="LightGray"/>
+            </StackPanel>
+
         </StackPanel>
 
-    </StackPanel>
+        <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+            <TextBlock Text="{Binding BillingStartDate}"/>
+            <TextBlock Text="{Binding BillingEndDate}"/>
+            <TextBlock Text="{Binding BillingConsumedUnits}"/>
+
+
+        </StackPanel>
+
+    </Grid>
+
 </UserControl>

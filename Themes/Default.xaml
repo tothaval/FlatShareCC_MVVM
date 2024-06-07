@@ -37,19 +37,10 @@
         <Setter Property="Background" Value="Transparent"/>
     </Style>
 
-    <Style TargetType="Button">
-        <Setter Property="Padding" Value="2 2"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="TextBlock.Background" Value="Transparent"/>
-        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
-        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
-        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
-    </Style>
-
     <Style TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <!--<Setter Property="HorizontalAlignment" Value="Right"/>-->
+        <Setter Property="TextAlignment" Value="Right"/>
         <Setter Property="Padding" Value="2 2"/>
         <Setter Property="Margin" Value="2 2"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -61,7 +52,7 @@
 
     <Style TargetType="TextBox">
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <!--<Setter Property="HorizontalAlignment" Value="Right"/>-->
         <Setter Property="TextAlignment" Value="Right"/>
         <Setter Property="Padding" Value="2 2"/>
         <Setter Property="Margin" Value="2 2"/>
@@ -73,4 +64,16 @@
     </Style>
 
 
+    <Style TargetType="Button">
+        <Setter Property="Padding" Value="2 2"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="TextBlock.Background" Value="Transparent"/>
+        <!--<Setter Property="TextBlock.TextAlignment" Value="Center"/>-->
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+    </Style>
+    
 </ResourceDictionary>

@@ -124,11 +124,11 @@
             </DataGrid.Columns>
             </DataGrid>
 
-            <Grid  Visibility="{Binding BillingPeriodSelected, Converter={StaticResource BillingPeriodVisibilityConverter}}" >
-
+        <Grid  Visibility="{Binding BillingPeriodSelected, Converter={StaticResource BillingPeriodVisibilityConverter}}" >
             <local:BillingPeriodView DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />
-
         </Grid>
+
+        <Button Content="Show Costs" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding BillingPeriodSelected}"/>
 
     </StackPanel>
 </UserControl>

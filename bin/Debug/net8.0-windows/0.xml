@@ -56,6 +56,12 @@
           <PaymentQuantity>1</PaymentQuantity>
           <Sum>120</Sum>
         </Payment>
+        <Payment>
+          <StartDate>2024-06-07T18:45:19.7020609+02:00</StartDate>
+          <EndDate>2024-06-07T18:45:19.702064+02:00</EndDate>
+          <PaymentQuantity>1</PaymentQuantity>
+          <Sum>0</Sum>
+        </Payment>
       </Payments>
     </RoomData>
     <RoomData>

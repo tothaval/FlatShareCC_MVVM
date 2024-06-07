@@ -10,6 +10,9 @@ namespace SharedLivingCostCalculator.ViewModels
     public class RentViewModel : BaseViewModel
     {
         private readonly Rent _rent;
+        public readonly BillingViewModel? BillingViewModel;
+        public bool HasBilling { get; } = false;
+
         public Rent GetRent => _rent;
 
         // startdates in RentViewModel list indicate enddates of older rentviewmodels
@@ -76,9 +79,16 @@ namespace SharedLivingCostCalculator.ViewModels
         // annual costs sum
         public double AnnualCostsTotal => AnnualRent + AnnualExtraCosts;
 
-        public RentViewModel(Rent rent)
+        public RentViewModel(Rent rent, BillingViewModel? billingViewModel = null)
         {
             _rent = rent;
+
+            if (billingViewModel != null)
+            {
+                HasBilling = true;
+            }
+            BillingViewModel = billingViewModel;
+
         }
     }
 }
