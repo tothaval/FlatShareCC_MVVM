@@ -120,6 +120,24 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        public double CalculatePaymentsPerPeriod(DateTime StartDate, DateTime EndDate)
+        {
+            double paymentsPerPeriod = 0.0;
+
+            foreach (PaymentViewModel payment in _room.Payments)
+            {
+                if (
+                    payment.StartDate >= StartDate && payment.StartDate <= EndDate
+                    && payment.EndDate >= StartDate && payment.EndDate <= EndDate
+                    )
+                {
+                    paymentsPerPeriod += payment.PaymentTotal;
+                }
+
+            }
+
+            return paymentsPerPeriod;
+        }
 
         public double CalculateTotalPayments()
         {

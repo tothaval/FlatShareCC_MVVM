@@ -16,8 +16,12 @@ namespace SharedLivingCostCalculator.ViewModels
     internal class RentManagementViewModel : BaseViewModel
     {
         private FlatViewModel _flatViewModel;
-        public bool RentUpdateSelected { get; set; }
 
+
+        public bool RentUpdateSelected { get; set; }
+        public bool HasRentUpdate => _flatViewModel.RentUpdates.Count > 0;
+
+        public string RentManagementInstructionText { get; set; }
 
         private RentUpdateViewModel _updateViewModel;
         public RentUpdateViewModel UpdateViewModel
@@ -40,12 +44,14 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (_selectedValue == value) return;
                 _selectedValue = value;
 
-                UpdateViewModel = new RentUpdateViewModel(SelectedValue);
+                UpdateViewModel = new RentUpdateViewModel(_flatViewModel, SelectedValue);
 
                 RentUpdateSelected = true;
                 OnPropertyChanged(nameof(RentUpdateSelected));
                 OnPropertyChanged(nameof(SelectedValue));
             }
+
+
         }
 
         public ICommand AddRentUpdateCommand { get; }
@@ -74,13 +80,17 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 SelectedValue = _flatViewModel?.RentUpdates?.Last();
             }
+
+
+            RentManagementInstructionText = InstructionText();
         }
 
 
         private void AddRentUpdate()
         {
             RentViewModel rentViewModel = new RentViewModel(
-                new Rent(
+                _flatViewModel,
+                new Rent(_flatViewModel.RentUpdates.Count,
                     new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
                     0.0,
                     0.0,
@@ -90,12 +100,32 @@ namespace SharedLivingCostCalculator.ViewModels
 
             _flatViewModel.RentUpdates.Add(rentViewModel);
             SelectedValue = rentViewModel;
+            OnPropertyChanged(nameof(HasRentUpdate));
         }
         private void DeleteRentUpdate()
         {
             _flatViewModel.RentUpdates.Remove(SelectedValue);
             RentUpdateSelected = false;
             OnPropertyChanged(nameof(RentUpdateSelected));
+            OnPropertyChanged(nameof(HasRentUpdate));
+        }
+
+        private string InstructionText()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append(
+                "Rent Management\n" +
+                "\n" +
+                "-> click \"Add Rent\" to create new rent\n" +
+                "-> select rent to view its data\n" +
+                "-> click \"Delete\" to delete selected rent\n" +
+                "-> specify billing in combobox if calculation\n" +
+                "   should be based on consumption ratio and area ratio\n" +
+                "-> click \"Show Costs\" to display costs."
+                );
+
+            return stringBuilder.ToString();
         }
 
         private void ShowCosts()
@@ -116,7 +146,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 costs.Owner = Application.Current.MainWindow;
                 costs.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-                costs.DataContext = new CostsViewModel(SelectedValue);
+                costs.DataContext = new CostsViewModel(SelectedValue, _flatViewModel);
 
 
                 costs.Show();

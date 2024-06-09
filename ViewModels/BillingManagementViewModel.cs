@@ -17,8 +17,11 @@ namespace SharedLivingCostCalculator.ViewModels
     {
         private readonly AccountingViewModel _accountingViewModel;
         private FlatViewModel _flatViewModel;
-        public bool BillingPeriodSelected { get; set; }
 
+        public bool BillingPeriodSelected { get; set; }
+        public bool HasBillingPeriod => _flatViewModel.BillingPeriods.Count > 0;
+
+        public string BillingManagementInstructionText { get; set; }
 
         private BillingPeriodViewModel _updateViewModel;
         public BillingPeriodViewModel UpdateViewModel
@@ -31,8 +34,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        private BillingViewModel _selectedValue; // private Billing _selectedBillingPeriod
-
+        private BillingViewModel _selectedValue;
         public BillingViewModel SelectedValue
         {
             get { return _selectedValue; }
@@ -41,11 +43,9 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (_selectedValue == value) return;
                 _selectedValue = value;
 
-                UpdateViewModel = new BillingPeriodViewModel(SelectedValue);
+                UpdateViewModel = new BillingPeriodViewModel(_flatViewModel, SelectedValue);
 
                 BillingPeriodSelected = true;
-                //Rooms = CollectionViewSource.GetDefaultView(_selectedValue?.RoomConsumptionValues);
-                //Rooms?.Refresh();
 
                 OnPropertyChanged(nameof(BillingPeriodSelected));
                 OnPropertyChanged(nameof(SelectedValue));
@@ -77,12 +77,15 @@ namespace SharedLivingCostCalculator.ViewModels
             if (_flatViewModel.BillingPeriods.Count > 0)
             {
                 SelectedValue = _flatViewModel?.BillingPeriods?.First();
+                OnPropertyChanged(nameof(HasBillingPeriod));
             }
+
+            BillingManagementInstructionText = InstructionText();
         }
 
         private void AddBillingPeriod()
         {
-            BillingViewModel billingPeriod = new BillingViewModel(new Billing(_flatViewModel)                
+            BillingViewModel billingPeriod = new BillingViewModel(_flatViewModel ,new Billing()                
             {
                 StartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
                 EndDate = new DateTime(DateTime.Now.Year + 1, 1, 1)
@@ -93,6 +96,23 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
             OnPropertyChanged(nameof(SelectedValue));
+            OnPropertyChanged(nameof(HasBillingPeriod));
+        }
+
+        private string InstructionText()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append(
+                "Billing Management\n" +
+                "\n" +
+                "-> click \"Add Billing\" to create new billing\n" +
+                "-> select billing to view its data\n" +
+                "-> click \"Delete\" to delete selected billing\n" +
+                "-> click \"Show Costs\" to display costs."
+                );
+
+            return stringBuilder.ToString();
         }
 
         private void ShowCosts()
@@ -103,13 +123,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 costs.Owner = Application.Current.MainWindow;
                 costs.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-                costs.DataContext = new CostsViewModel(SelectedValue);
-
-                // not sure yet on how to handle this, either a new rent is created automatically
-                // once the show costs button is hit (check if it exists) or the user has to
-                // create rents when needed and has to select a billing from a combobox in rentupdateview.
-
-                //_flatViewModel.RentUpdates.Add(new RentViewModel(new Rent(), billingPeriod));
+                costs.DataContext = new CostsViewModel(SelectedValue, _flatViewModel);
 
                 costs.Show();
             }            
@@ -120,6 +134,7 @@ namespace SharedLivingCostCalculator.ViewModels
             _flatViewModel.BillingPeriods.Remove(SelectedValue);
             BillingPeriodSelected = false;
             OnPropertyChanged(nameof(BillingPeriodSelected));
+            OnPropertyChanged(nameof(HasBillingPeriod));
         }
     }
 }

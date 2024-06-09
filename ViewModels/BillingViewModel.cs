@@ -1,7 +1,9 @@
-﻿using SharedLivingCostCalculator.Models;
+﻿using SharedLivingCostCalculator.Calculations;
+using SharedLivingCostCalculator.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,13 +11,18 @@ using System.Windows;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    public class BillingViewModel : BaseViewModel
+    public class BillingViewModel : BaseViewModel, IRoomCostsCarrier
     {
+        private readonly FlatViewModel _flatViewModel;
+        public RentViewModel RentViewModel { get; set; }
+
+        public int basedOnRent_ID => RentViewModel.ID;
+
+
         private readonly Billing _billing;
         public Billing GetBilling => _billing;
         
-        // a new billing must allways create a new RentViewModel
-        //
+        // a new billing must allways create a new RentViewModel        
         //
 
         //
@@ -25,13 +32,21 @@ namespace SharedLivingCostCalculator.ViewModels
         public DateTime StartDate
         {
             get { return _billing.StartDate; }
-            set { _billing.StartDate = value; OnPropertyChanged(nameof(StartDate)); }
+            set { _billing.StartDate = value; OnPropertyChanged(nameof(StartDate)); 
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
+                GetRentViewModel();
+
+
+            }
         }
 
         public DateTime EndDate
         {
             get { return _billing.EndDate; }
-            set { _billing.EndDate = value; OnPropertyChanged(nameof(EndDate)); }
+            set { _billing.EndDate = value; OnPropertyChanged(nameof(EndDate));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(EndDate)));
+                GetRentViewModel();
+            }
         }
 
         // monthly costs
@@ -42,6 +57,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _billing.TotalCostsPerPeriod = value;
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalCostsPerPeriod)));
             }
         }
 
@@ -52,6 +68,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _billing.TotalFixedCostsPerPeriod = value;
                 OnPropertyChanged(nameof(TotalFixedCostsPerPeriod));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalFixedCostsPerPeriod)));
             }
         }
 
@@ -62,6 +79,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _billing.TotalHeatingCostsPerPeriod = value;
                 OnPropertyChanged(nameof(TotalHeatingCostsPerPeriod));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingCostsPerPeriod)));
             }
         }
 
@@ -72,6 +90,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _billing.TotalHeatingUnitsConsumption = value;
                 OnPropertyChanged(nameof(TotalHeatingUnitsConsumption));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsConsumption)));
             }
         }
 
@@ -82,24 +101,54 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _billing.TotalHeatingUnitsRoom = value;
                 OnPropertyChanged(nameof(TotalHeatingUnitsRoom));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsRoom)));
             }
         }
 
 
-        public ObservableCollection<RoomHeatingUnitsViewModel> RoomConsumptionValues
+        private ObservableCollection<RoomCostsViewModel> _RoomCosts;
+
+        public event PropertyChangedEventHandler DataChange;
+
+        public ObservableCollection<RoomCostsViewModel> RoomCosts
         {
-            get { return _billing.RoomConsumptionValues; }
+            get { return _RoomCosts; }
             set
             {
-                _billing.RoomConsumptionValues = value;
-                OnPropertyChanged(nameof(RoomConsumptionValues));
+                _RoomCosts = value;
+                OnPropertyChanged(nameof(RoomCosts));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
             }
         }
 
 
-        public BillingViewModel(Billing billing)
+        public BillingViewModel(FlatViewModel flatViewModel, Billing billing)
         {
-            _billing = billing;                        
+            _flatViewModel = flatViewModel;
+            _billing = billing;
+
+            RoomCosts = new ObservableCollection<RoomCostsViewModel>();
+            GetRentViewModel();
+        }
+        
+        private void GetRentViewModel()
+        {
+            RentViewModel = _flatViewModel.GetRentForPeriod(this);
+        }
+        
+        public void GenerateRoomCosts()
+        {
+            RoomCosts = new ObservableCollection<RoomCostsViewModel>();
+            
+            foreach (RoomViewModel room in GetFlatViewModel().Rooms)
+            {
+                RoomCosts.Add(new RoomCostsViewModel(room, this));
+            }            
+        }
+
+        public FlatViewModel GetFlatViewModel()
+        {
+            return _flatViewModel;
         }
     }
 }

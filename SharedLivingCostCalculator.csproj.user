@@ -7,10 +7,16 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Components\SimpleInputView.xaml.cs">
+    <Compile Update="Components\CurrencyInputView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Components\ObjectInputView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\AccountingView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\BillingCostsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\BillingManagementView.xaml.cs">
@@ -34,6 +40,9 @@
     <Compile Update="Views\PaymentsSetupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\RentCostsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\RentManagementView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -45,7 +54,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Components\SimpleInputView.xaml">
+    <Page Update="Components\CurrencyInputView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Components\ObjectInputView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
@@ -55,6 +67,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AccountingView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\BillingCostsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\BillingManagementView.xaml">
@@ -76,6 +91,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PaymentsSetupView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RentCostsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\RentManagementView.xaml">

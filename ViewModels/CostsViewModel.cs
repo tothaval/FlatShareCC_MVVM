@@ -11,17 +11,28 @@ namespace SharedLivingCostCalculator.ViewModels
         // if objects are chained together (f.e. a rent object and a billing object)
         // they should be selected together in every relevant tab
 
-        // split viewmodels in two view models, one for rent costs and one for billing costs?
-
         // combobox to select billing on rentupdateview
 
 
         private readonly BillingViewModel? _billingViewModel;
         private readonly RentViewModel? _rentViewModel;
 
+        private readonly FlatViewModel _flatViewModel;
+
+
+        private BaseViewModel _ActiveViewModel;
+        public BaseViewModel ActiveViewModel
+        {
+            get { return _ActiveViewModel; }
+            set
+            {
+                _ActiveViewModel = value;
+                OnPropertyChanged(nameof(ActiveViewModel));
+            }
+        }
+
 
         private string _WindowTitle;
-
 		public string WindowTitle
 		{
 			get { return _WindowTitle; }
@@ -32,25 +43,29 @@ namespace SharedLivingCostCalculator.ViewModels
 			}
 		}
 
-
-        public CostsViewModel(RentViewModel rentViewModel)
+        public CostsViewModel(RentViewModel rentViewModel, FlatViewModel flatViewModel)
         {
-			WindowTitle = "Shared Living Cost Calculator - Costs - Rent";
+            WindowTitle = "Shared Living Cost Calculator - Costs - Rent";
 
-			_rentViewModel = rentViewModel;
+            _rentViewModel = rentViewModel;
+            _flatViewModel = flatViewModel;
 
             if (_rentViewModel.BillingViewModel != null)
             {
                 _billingViewModel = _rentViewModel.BillingViewModel;
             }
 
+            ActiveViewModel = new RentCostsViewModel(_rentViewModel, _flatViewModel);
         }
 
-        public CostsViewModel(BillingViewModel billingViewModel)
+        public CostsViewModel(BillingViewModel billingViewModel, FlatViewModel flatViewModel)
         {
             WindowTitle = "Shared Living Cost Calculator - Costs - Annual Billing";
 
             _billingViewModel = billingViewModel;
+            _flatViewModel = flatViewModel;
+
+            ActiveViewModel = new BillingCostsViewModel(_billingViewModel, _flatViewModel);
         }
     }
 }

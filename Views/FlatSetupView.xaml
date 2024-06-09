@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
         xmlns:viewmodels="clr-namespace:SharedLivingCostCalculator.ViewModels"
-        xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components.ComponentViews"        
+        xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components"        
         mc:Ignorable="d" 
         Name="FlatSetupWindow"
         Title="{Binding FlatSetupTitleText}"
@@ -36,25 +36,25 @@
                    HorizontalAlignment="Stretch"
                    TextAlignment="Center"/>
 
-        <c_views:SimpleInputView Label="Address"
+        <c_views:ObjectInputView Label="Address"
                                  Value="{Binding FlatSetup.Address, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="{Binding IsNewFlatWindow}"
                                  Foreground="DarkSlateGray"
                                  Grid.Row="1"/>
 
-        <c_views:SimpleInputView Label="Details"
+        <c_views:ObjectInputView Label="Details"
                                  Value="{Binding FlatSetup.Details, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  Foreground="DarkSlateGray"
                                  Grid.Row="2"/>
 
-        <c_views:SimpleInputView Label="Area"
+        <c_views:ObjectInputView Label="Area"
                                  Value="{Binding FlatSetup.Area, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                 StringFormat=\{0:n\}, Delay=500}"                                 
                                  IsEnabled="{Binding IsNewFlatWindow}"
                                  Foreground="DarkSlateGray"
                                  Grid.Row="3"/>
 
-        <c_views:SimpleInputView Label="Rooms"
+        <c_views:ObjectInputView Label="Rooms"
                                  Value="{Binding FlatSetup.RoomCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="{Binding IsNewFlatWindow}"
                                  Foreground="DarkSlateGray"
@@ -70,10 +70,10 @@
                 <DataTemplate>
                     <Border Background="FloralWhite">
                         <WrapPanel Orientation="Vertical" Margin="0 5">
-                            <c_views:SimpleInputView Label="{Binding ID, StringFormat='Room {0}'}"
+                            <c_views:ObjectInputView Label="{Binding ID, StringFormat='Room {0}'}"
                                  Value="{Binding RoomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                  Foreground="DarkSlateGray" Padding="5 0"/>
-                            <c_views:SimpleInputView Label="Area"
+                            <c_views:ObjectInputView Label="Area"
                                  Value="{Binding RoomArea, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                 StringFormat=\{0:n\}, Delay=500}"
                                  IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"

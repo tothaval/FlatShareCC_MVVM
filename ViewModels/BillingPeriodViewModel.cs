@@ -1,4 +1,5 @@
-﻿using SharedLivingCostCalculator.Commands;
+﻿using SharedLivingCostCalculator.Calculations;
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
 using System;
@@ -226,16 +227,16 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public ObservableCollection<RoomHeatingUnitsViewModel> RoomConsumptionValues => _billingViewModel.RoomConsumptionValues;
+        public ObservableCollection<RoomCostsViewModel> RoomCosts => _billingViewModel.RoomCosts;
 
 
         public void CalculateRoomsConsumption()
         {
-            if (RoomConsumptionValues != null)
+            if (RoomCosts != null)
             {
                 TotalHeatingUnitsRoom = 0.0;
 
-                foreach (RoomHeatingUnitsViewModel roomConsumption in RoomConsumptionValues)
+                foreach (RoomCostsViewModel roomConsumption in RoomCosts)
                 {
                     TotalHeatingUnitsRoom += roomConsumption.HeatingUnitsConsumption;
                 }
@@ -244,13 +245,13 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        public BillingPeriodViewModel(BillingViewModel billingViewModel)
+        public BillingPeriodViewModel(FlatViewModel flatViewModel, BillingViewModel billingViewModel)
         {
             _billingViewModel = billingViewModel;
 
             if (_billingViewModel == null)
             {
-                _billingViewModel = new BillingViewModel(new Billing(new FlatViewModel(new Flat())));
+                _billingViewModel = new BillingViewModel(flatViewModel, new Billing());
             }
 
 
@@ -260,10 +261,13 @@ namespace SharedLivingCostCalculator.ViewModels
                 this.ErrorsChanged?.Invoke(this, e);
             };
 
-                foreach (RoomHeatingUnitsViewModel rhu in RoomConsumptionValues)
+            if (_billingViewModel != null)
+            {
+                foreach (RoomCostsViewModel rhu in RoomCosts)
                 {
                     rhu.HeatingUnitsChange += HeatingUnitsChange;
                 }
+            }
 
         }
 

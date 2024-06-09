@@ -1,8 +1,11 @@
 ﻿using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +13,18 @@ using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class PaymentManagementViewModel : BaseViewModel
+    internal class PaymentManagementViewModel : BaseViewModel, INotifyDataErrorInfo
     {
+        private ValidationHelper _helper = new ValidationHelper();
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public bool HasErrors => _helper.HasErrors;
+        public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
+
+
         private readonly FlatViewModel _flatViewModel;
         public ObservableCollection<RoomViewModel> Rooms => _flatViewModel.Rooms;
 
@@ -48,28 +61,26 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        private int _quantity;
+        //private int _quantity;
 
-        public int Quantity
-        {
-            get { return _quantity; }
-            set
-            {
-                _quantity = value;
-                OnPropertyChanged(nameof(Quantity));
-            }
-        }
+        //public int Quantity
+        //{
+        //    get { return _quantity; }
+        //    set
+        //    {
+        //        _quantity = value;
+        //        OnPropertyChanged(nameof(Quantity));
+        //    }
+        //}
 
         public PaymentManagementViewModel(FlatViewModel flatViewModel)
         {
             _flatViewModel = flatViewModel;
-            _quantity = 1;
 
             foreach (RoomViewModel room in Rooms)
             {
                 room.DetermineValues();
             }
         }
-        
     }
 }

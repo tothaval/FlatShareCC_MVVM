@@ -3,10 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+        xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels"
+        xmlns:views="clr-namespace:SharedLivingCostCalculator.Views"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="800">
+        Title="{Binding WindowTitle}" Height="450" Width="800"
+        SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vms:RentCostsViewModel}">
+            <views:RentCostsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vms:BillingCostsViewModel}">
+            <views:BillingCostsView/>
+        </DataTemplate>
+
+    </Window.Resources>
+    
     <Grid>
-        <TextBlock Text="Moin" HorizontalAlignment="Center" TextAlignment="Center"/>
+        <ContentPresenter Content="{Binding ActiveViewModel, NotifyOnSourceUpdated=True}"/>
     </Grid>
 </Window>

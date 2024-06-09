@@ -16,6 +16,8 @@ namespace SharedLivingCostCalculator.Models
     [Serializable]
     public class Rent
     {
+        public int ID {  get; set; } = 0;
+
         public DateTime StartDate { get; set; } = DateTime.Now;
 
         public double ColdRent { get; set; } = 0.0;
@@ -30,16 +32,23 @@ namespace SharedLivingCostCalculator.Models
         public double ExtraCostsTotal => ExtraCostsShared + ExtraCostsHeating;
 
         public double CostsTotal => ColdRent + ExtraCostsTotal;
+
         [XmlIgnore]
         public double AnnualExtraCosts => ExtraCostsTotal * 12;
 
         public Rent()
         {
-                
+
         }
 
-        public Rent(DateTime startDate, double coldRent, double extraCostsShared, double extraCostsHeating)
+        public Rent(
+            int id,
+            DateTime startDate,
+            double coldRent,
+            double extraCostsShared,
+            double extraCostsHeating)
         {
+            ID = id;
             StartDate = startDate;
             ColdRent = coldRent;
             ExtraCostsShared = extraCostsShared;

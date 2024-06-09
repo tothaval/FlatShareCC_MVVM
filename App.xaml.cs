@@ -38,7 +38,6 @@ namespace SharedLivingCostCalculator
             _NavigateToFlatManagementViewModel = new NavigationService<FlatManagementViewModel>(_navigationStore, () => new FlatManagementViewModel(_flatCollection, _NavigateToFlatManagementViewModel));
         }
 
-
         protected override void OnStartup(StartupEventArgs e)
         {
             LoadData();
@@ -115,9 +114,27 @@ namespace SharedLivingCostCalculator
             }
         }
 
+        private void CleanFolder()
+        {
+            string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+            string filter = "*.xml";
+
+            List<string> files = Directory.GetFiles(folder, filter, SearchOption.TopDirectoryOnly).ToList();
+
+            foreach (string file in files)
+            {
+                if (!file.EndsWith("resources.xml"))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
+
 
         protected override void OnExit(ExitEventArgs e)
         {
+            CleanFolder();
+
             PersistanceHandler persistanceHandler = new PersistanceHandler();
 
             persistanceHandler.SerializeFlatData(_flatCollection);

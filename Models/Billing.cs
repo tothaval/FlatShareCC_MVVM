@@ -16,8 +16,6 @@ namespace SharedLivingCostCalculator.Models
 
     public class Billing
     {
-        private readonly FlatViewModel _flatViewModel;
-
         // begin of billing period
         public DateTime StartDate { get; set; } = DateTime.Now - TimeSpan.FromDays(365);
 
@@ -47,19 +45,11 @@ namespace SharedLivingCostCalculator.Models
         // combined sum of room heating units consumption
         public double TotalHeatingUnitsRoom {  get; set; } = 0.0;
 
-        // room data on heating units consumption per billing
-        public ObservableCollection<RoomHeatingUnitsViewModel> RoomConsumptionValues { get; set; }
-
-        public Billing(FlatViewModel flatViewModel)
+        public Billing()
         {
-            _flatViewModel = flatViewModel;
-
-            RoomConsumptionValues = new ObservableCollection<RoomHeatingUnitsViewModel>();
-
-            ActivateCollection();
         }
 
-        public Billing(FlatViewModel flatViewModel,
+        public Billing(
             DateTime startDate,
             DateTime endDate,
             double totalCostsPerPeriod,
@@ -68,10 +58,6 @@ namespace SharedLivingCostCalculator.Models
             double totalHeatingUnitsConsumption,
             double totalHeatingUnitsRoom)
         {
-            RoomConsumptionValues = new ObservableCollection<RoomHeatingUnitsViewModel>();
-
-            _flatViewModel = flatViewModel;
-
             StartDate = startDate;
             EndDate = endDate;
             TotalCostsPerPeriod = totalCostsPerPeriod;
@@ -79,21 +65,6 @@ namespace SharedLivingCostCalculator.Models
             TotalHeatingCostsPerPeriod = totalHeatingCostsPerPeriod;
             TotalHeatingUnitsConsumption = totalHeatingUnitsConsumption;
             TotalHeatingUnitsRoom = totalHeatingUnitsRoom;
-
-            ActivateCollection();
-        }
-
-        private void ActivateCollection()
-        {
-            if (RoomConsumptionValues.Count < _flatViewModel.Rooms.Count)
-            {
-                RoomConsumptionValues.Clear();
-
-                foreach (RoomViewModel room in _flatViewModel.Rooms)
-                {
-                    RoomConsumptionValues.Add(new RoomHeatingUnitsViewModel(new RoomHeatingUnits(room), new BillingViewModel(this)));
-                }
-            }
         }
     }
 }

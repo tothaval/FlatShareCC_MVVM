@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    class RentUpdateViewModel : BaseViewModel, INotifyDataErrorInfo
+    class RentUpdateViewModel : BaseViewModel
     {
         private readonly RentViewModel _rentViewModel;
         public RentViewModel RentViewModel => _rentViewModel;
@@ -101,7 +101,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public double ExtraCostsShared
         {
-            get { return _rentViewModel.ExtraCostsShared; }
+            get { return _rentViewModel.FixedCostsAdvance; }
             set
             {
                 _helper.ClearError();
@@ -116,7 +116,7 @@ namespace SharedLivingCostCalculator.ViewModels
                     _helper.AddError("value must be greater than 0", nameof(ExtraCostsShared));
                 }
 
-                _rentViewModel.ExtraCostsShared = value;
+                _rentViewModel.FixedCostsAdvance = value;
                 OnPropertyChanged(nameof(ExtraCostsShared));
                 OnPropertyChanged(nameof(ExtraCostsTotal));
                 OnPropertyChanged(nameof(AnnualExtraCosts));
@@ -127,7 +127,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public double ExtraCostsHeating
         {
-            get { return _rentViewModel.ExtraCostsHeating; }
+            get { return _rentViewModel.HeatingCostsAdvance; }
             set
             {
                 _helper.ClearError();
@@ -142,7 +142,7 @@ namespace SharedLivingCostCalculator.ViewModels
                     _helper.AddError("value must be greater than 0", nameof(ExtraCostsHeating));
                 }
 
-                _rentViewModel.ExtraCostsHeating = value;
+                _rentViewModel.HeatingCostsAdvance = value;
                 OnPropertyChanged(nameof(ExtraCostsHeating));
                 OnPropertyChanged(nameof(ExtraCostsTotal));
                 OnPropertyChanged(nameof(AnnualExtraCosts));
@@ -151,17 +151,17 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public RentUpdateViewModel(RentViewModel rentViewModel)
+        public RentUpdateViewModel(FlatViewModel flatViewModel, RentViewModel rentViewModel)
         {
             _rentViewModel = rentViewModel;
 
 
             if (_rentViewModel == null)
             {
-                _rentViewModel = new RentViewModel(new Rent());
+                _rentViewModel = new RentViewModel(flatViewModel, new Rent());
             }
 
-            _helper.ErrorsChanged += (_, e) => this.ErrorsChanged?.Invoke(this, e);
+            _helper.ErrorsChanged += (_, e) => ErrorsChanged?.Invoke(this, e);
         }
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
