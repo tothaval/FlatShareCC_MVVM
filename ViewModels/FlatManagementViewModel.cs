@@ -18,15 +18,15 @@ namespace SharedLivingCostCalculator.ViewModels
         private INavigationService _navigationService;
 
         private string headerText;
-
         public string HeaderText
         {
             get { return headerText; }
             set { headerText = value; OnPropertyChanged(nameof(HeaderText)); }
         }
 
-        private ObservableCollection<FlatViewModel> _flatCollection; // private Billing _selectedBillingPeriod
+        public string FlatManagementInstructionText { get; set; }
 
+        private ObservableCollection<FlatViewModel> _flatCollection;
         public ObservableCollection<FlatViewModel> FlatCollection
         {
             get { return _flatCollection; }
@@ -41,8 +41,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
 
-        private FlatViewModel _selectedValue; // private Billing _selectedBillingPeriod
-
+        private FlatViewModel _selectedValue;
         public FlatViewModel SelectedValue
         {
             get { return _selectedValue; }
@@ -51,14 +50,18 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (_selectedValue == value) return;
                 _selectedValue = value;
 
+                if (_flatCollection.Count > 0 && _selectedValue != null)
+                {                    
+                    _selectedValue.SetMostRecentCosts();
+                }
+
                 OnPropertyChanged(nameof(SelectedValue));
             }
         }
 
-
+        public bool HasFlat => _flatCollection.Count > 0;
 
         private bool _FlatCollectionFilled;
-
         public bool FlatCollectionFilled
         {
             get { return _FlatCollectionFilled; }
@@ -106,11 +109,20 @@ namespace SharedLivingCostCalculator.ViewModels
             
             MainWindowTitleText = "Shared Living Cost Calculator - Flat Overview";
             HeaderText = "Flat Overview";
+
+            FlatManagementInstructionText = InstructionText();
         }
 
         private void _flatCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             FlatCollectionFilled = FlatCollection.Count > 0;
+
+            if (_flatCollection.Count > 0)
+            {
+                SelectedValue = _flatCollection?.First();
+                FlatCollectionFilled = true;
+            }
+            OnPropertyChanged(nameof(HasFlat));
         }
 
         private bool CanShowWindow(object obj)
@@ -118,6 +130,25 @@ namespace SharedLivingCostCalculator.ViewModels
             return true;
         }
 
+        private string InstructionText()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append(
+                "Flat Management\n" +
+                "\n" +
+                "-> click \"New Flat\" to show flat setup window\n" +
+                "\t setup flat, !!! address, area(s) and room counts can not be edited\n" +
+                "\t -> click \"Proceed\" to create new flat\n" +
+                "\t -> click \"Leave\" to return to flat management\n" +
+                "-> select flat to view its most recent data\n" +
+                "-> click \"Delete\" to delete selected flat\n" +
+                "-> click \"Accounting\" to enter accounting for selected flat\n" +
+                "-> click \"Settings\" to show settings window\n"
+                );
+
+            return stringBuilder.ToString();
+        }
 
         private void NewFlatSetupWindow(object obj)
         {

@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="SharedLivingCostCalculator.Views.RentCostsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:components="clr-namespace:SharedLivingCostCalculator.Components"
+             xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+            
+        
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Vertical"
+                        Grid.Row="0">
+                <TextBlock Text="per Month"/>
+                <components:CurrencyInputView Label="Total Rent Costs" Value="{Binding TotalRentCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                                        LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
+                <components:CurrencyInputView Label="Total Extra Costs" Value="{Binding TotalExtraCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                                        LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
+                <components:CurrencyInputView Label="Total Costs" Value="{Binding TotalCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                                        LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
+        </StackPanel>
+
+            <StackPanel Orientation="Vertical"
+                        Grid.Row="0">
+                <TextBlock Text="per year"/>
+                <components:CurrencyInputView Label="Annual Rent Costs" Value="{Binding AnnualRentCosts, NotifyOnSourceUpdated=True}"
+                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
+                <components:CurrencyInputView Label="Annual Extra Costs" Value="{Binding AnnualExtraCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
+                <components:CurrencyInputView Label="Annual Costs" Value="{Binding AnnualCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
+            </StackPanel>
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding RoomCosts}"
+                  HorizontalAlignment="Left"                  
+                  SelectionMode="Single"
+                  AutoGenerateColumns="False"
+                  HorizontalContentAlignment="Right"
+                  TextBlock.TextAlignment="Right"
+                  Grid.Row="1"
+                  ColumnWidth="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Room" Binding="{Binding Room.RoomName,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+                <DataGridTextColumn Header="Area" Binding="{Binding Room.RoomArea,StringFormat=N2,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+                <DataGridTextColumn Header="Rent Share" Binding="{Binding RentShare,StringFormat=C2, ConverterCulture=de-DE,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+                <DataGridTextColumn Header="Fixed Share" Binding="{Binding FixedShare,StringFormat=C2, ConverterCulture=de-DE,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+                <DataGridTextColumn Header="Heating Share" Binding="{Binding HeatingShare,StringFormat=C2, ConverterCulture=de-DE,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+                <DataGridTextColumn Header="Total Costs" Binding="{Binding TotalCosts,StringFormat=C2, ConverterCulture=de-DE,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+                <DataGridTextColumn Header="%" Binding="{Binding CostsPercentage,StringFormat=N2, 
+                    ValidatesOnDataErrors=true, Delay=500}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid ItemsSource="{Binding RoomCosts}"
+                  HorizontalAlignment="Left"                  
+                  SelectionMode="Single"
+                  AutoGenerateColumns="False"
+                  HorizontalContentAlignment="Right"
+                  TextBlock.TextAlignment="Right"
+                  Grid.Row="2"
+                  ColumnWidth="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Room" Binding="{Binding Room.RoomName,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+                <DataGridTextColumn Header="Area" Binding="{Binding Room.RoomArea,StringFormat=N2,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+                <DataGridTextColumn Header="Annual Rent" Binding="{Binding AnnualRentShare,StringFormat=C2, ConverterCulture=de-DE,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+                <DataGridTextColumn Header="Annual Fixed" Binding="{Binding AnnualFixedShare,StringFormat=C2, ConverterCulture=de-DE,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+                <DataGridTextColumn Header="Annual Heating" Binding="{Binding AnnualHeatingShare,StringFormat=C2, ConverterCulture=de-DE,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+                <DataGridTextColumn Header="Annual Costs" Binding="{Binding AnnualCosts,StringFormat=C2, ConverterCulture=de-DE,
+                        ValidatesOnDataErrors=true, Delay=500}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</UserControl>

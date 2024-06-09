@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <utils:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
+        <utils:VisibilityConverter x:Key="VisibilityConverter"/>
+        
         <BooleanToVisibilityConverter x:Key="RentUpdateVisibilityConverter" />
 
     </UserControl.Resources>
@@ -24,11 +26,17 @@
            Command="{Binding AddRentUpdateCommand}"/>
 
             <Button Command="{Binding DeleteCommand}"
+                     Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"
                     Grid.Column="1" Content="Delete"/>
         </Grid>
 
+        <TextBlock Text="{Binding RentManagementInstructionText}"
+                     Visibility="{Binding HasRentUpdate, Converter={StaticResource InverseVisibilityConverter}}"
+                   Margin="20" HorizontalAlignment="Center" TextAlignment="Left"/>
+
         <DataGrid ItemsSource="{Binding RentUpdates}"
                   SelectedValue="{Binding Path=SelectedValue}"
+                     Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"
                   CanUserSortColumns="True"
                   SelectionMode="Single"
                   AutoGenerateColumns="False"
@@ -55,6 +63,17 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>                    
                 </DataGridTemplateColumn>-->
+
+                <DataGridTextColumn Binding="{Binding ID}"
+                   SortMemberPath="StartDate" SortDirection="Descending">
+                    <DataGridTextColumn.Header>
+                        <TextBlock HorizontalAlignment="Right">
+                            <Run Text="Rent ID"/>
+                            <LineBreak/>
+                            <Run Text=""/>
+                        </TextBlock>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
 
                 <DataGridTextColumn Binding="{Binding StartDate, StringFormat=d, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}"
                    SortMemberPath="StartDate" SortDirection="Descending">
@@ -127,10 +146,14 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        
+        
         <Grid Visibility="{Binding RentUpdateSelected, Converter={StaticResource RentUpdateVisibilityConverter}}">
             <local:RentUpdateView DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />
         </Grid>
 
-        <Button Content="Show Costs" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding RentUpdateSelected}"/>
+        
+        <Button Content="Show Costs" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding RentUpdateSelected}"
+                     Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"/>
     </StackPanel>
 </UserControl>

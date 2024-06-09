@@ -30,18 +30,26 @@ current features:
 			-> create, edit, delete Payments data per room
 			-> setup n payments per room				
 			-> payments can be setup as ranges with quantity and enddate
-			-> no checks are in place
 
 	-> leave Button -> return to Flatmanagement Overview page
 
 -> Costs
 	-> Flatmanagement overview page will show Costs data of selected flat
-	-> atm if flat has BillingPeriod items, extra costs will not be calculated	
-	-> atm the newest Rent data will be used for calculation of currentRent
+	-> the newest Rent data will be used for calculation of currentRent
+	
+-> Costs Window
+	-> displays Costs for Rent and for Billing
+		-> Rent shows monthly and annual costs based on rent values
+		-> Billing shows billing related costs
+	-> !!! beware of results, calculations haven't been thoroughly tested yet
+	-> !!! new rent values are not yet based on previous consumption values of billing,
+			the results are based on area ratio
 
 -> Settings
 	->show Settings window
 	-> Background, Foreground, FontFamily and FontSize can be set
 
--> data will be saved and loaded
+-> !!! heating unit data will not be loaded
+
+-> most data will be saved and loaded
 -> settings will be saved and loaded

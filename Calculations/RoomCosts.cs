@@ -5,105 +5,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Calculations
 {
+    [Serializable]
     public class RoomCosts
     {
-        private readonly RoomViewModel _room;
-        private readonly Costs _costs;
+        [XmlIgnore]
+        public RoomViewModel GetRoomViewModel { get; }
+        
+        public int RoomID { get; set; }
+        
+        public double HeatingUnitsConsumption { get; set; }
 
-        public RoomViewModel Room => _room;
+        public double RentShare { get; set; }
 
-        //public string RoomName => _room.RoomName;
+        public double FixedShare { get; set; }
 
-        //private object _MyProperty;
+        public double HeatingShare { get; set; }
 
-        //public object MyProperty
-        //{
-        //    get { return _MyProperty; }
-        //    set
-        //    {
-        //        _MyProperty = value;
-        //        OnPropertyChanged(nameof(MyProperty));
-        //    }
-        //}
-
-        //public double RoomArea => _room.RoomArea;
-
-        public double ExtraCostsShare => CalculateExtraCosts();
-
-        public double RentShare => CalculateRent();
-
-        public double CombinedCostShare => RentShare + ExtraCostsShare;
-
-
-
-        public RoomCosts(RoomViewModel room, Costs costs)
+        public RoomCosts()
         {
-            _room = room;
-            _costs = costs;
+                
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private double CalculateExtraCosts()
+        public RoomCosts(RoomViewModel room)
         {
-            double extraCosts = -1.0;
+            GetRoomViewModel = room;
 
-            if (_costs != null && _room != null)
+            if (room != null)
             {
-                double sharedAreaShare = _costs.SharedArea / _costs.FlatViewModel.RoomCount;
-
-                double rentedArea = _room.RoomArea + sharedAreaShare;
-
-                // Case: new flat, calculation based on area ratio
-                if (_costs.FlatViewModel.BillingPeriods.Count == 0)
-                {
-                    extraCosts = rentedArea / _costs.FlatViewModel.Area * _costs.ExtraCosts;
-
-                    return extraCosts;
-                }
-
-                // Case: annual billing received, calculation is based on area ratio
-                // for shared area and on consumption ratio of heating units 
-
-                //double consumedUnits =
-
-
-                // wie eintragen, welche billing genutzt werden soll?
-                // bzw. über eine methode erledigen, die eine billing entgegen nimmt.
-                // ggf. costs verschieben oder auch als liste machen
-                // wäre dann immer das rentupdate, welches ausschlaggebend ist,
-                // pro cost object ein rent update,
-
-
-
+                RoomID = room.ID;
             }
-
-            return extraCosts;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private double CalculateRent()
-        {
-            if (_costs != null && _room != null)
-            {
-                double sharedAreaShare = _costs.SharedArea / _costs.FlatViewModel.RoomCount;
-
-                double rentedArea = _room.RoomArea + sharedAreaShare;
-
-                double rent = rentedArea / _costs.FlatViewModel.Area * _costs.Rent;
-
-                return rent;
-            }
-
-            return -1.0;
+            
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SharedLivingCostCalculator.Models;
+﻿using SharedLivingCostCalculator.Calculations;
+using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -26,11 +27,11 @@ namespace SharedLivingCostCalculator.Utility
 
         public double TotalHeatingUnitsRoom { get; set; } = 0.0;
 
-        public ObservableCollection<RoomHeatingUnits> RoomConsumptionValues { get; set; }
+        public ObservableCollection<RoomCosts> RoomConsumptionValues { get; set; }
 
         public BillingData()
         {
-            RoomConsumptionValues = new ObservableCollection<RoomHeatingUnits>();
+            RoomConsumptionValues = new ObservableCollection<RoomCosts>();
                 
         }
     }

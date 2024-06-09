@@ -27,15 +27,30 @@ namespace SharedLivingCostCalculator.Commands
 
         public override void Execute(object? parameter)
         {
-            _flatCollection.Add(
-                new FlatViewModel(
-                    new Flat(
+            FlatViewModel flatViewModel = new FlatViewModel(
+                new Flat(
                         _flatCollection.Count,
                         _viewModel.FlatSetup.Address,
                         _viewModel.FlatSetup.Area,
                         _viewModel.FlatSetup.RoomCount,
                         _viewModel.FlatSetup.Rooms,
-                        _viewModel.FlatSetup.Details)));
+                        _viewModel.FlatSetup.Details));
+
+            RentViewModel rentViewModel = new RentViewModel(
+                flatViewModel,
+                new Rent(
+                    0,
+                    DateTime.Now,
+                    0.0,
+                    0.0,
+                    0.0
+                    )
+                );                       
+
+            flatViewModel.RentUpdates.Add(rentViewModel);
+
+
+            _flatCollection.Add(flatViewModel);
 
             _flatSetupView.Close();
         }

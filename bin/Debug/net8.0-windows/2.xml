@@ -2,7 +2,7 @@
 <Flat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ID>3</ID>
   <Address>fancy address 3</Address>
-  <Details>5.og rechts</Details>
+  <Details>USE CASE: just moved in</Details>
   <Area>78</Area>
   <RoomCount>3</RoomCount>
   <Rooms>
@@ -14,8 +14,8 @@
         <Payment>
           <StartDate>2024-06-03T00:00:00</StartDate>
           <EndDate>2024-06-06T21:05:01.5631933+02:00</EndDate>
-          <PaymentQuantity>1</PaymentQuantity>
-          <Sum>150</Sum>
+          <PaymentQuantity>4</PaymentQuantity>
+          <Sum>233</Sum>
         </Payment>
       </Payments>
     </RoomData>
@@ -49,6 +49,7 @@
   <Billings />
   <Rents>
     <Rent>
+      <ID>0</ID>
       <StartDate>2023-10-01T00:00:00</StartDate>
       <ColdRent>575</ColdRent>
       <ExtraCostsShared>105</ExtraCostsShared>

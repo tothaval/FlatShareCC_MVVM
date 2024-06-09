@@ -4,10 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
 
+        <utils:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
+        <utils:VisibilityConverter x:Key="VisibilityConverter"/>
         <BooleanToVisibilityConverter x:Key="BillingPeriodVisibilityConverter" />
     </UserControl.Resources>
     
@@ -23,12 +26,17 @@
                     Grid.Column="0"/>
 
             <Button Command="{Binding DeleteCommand}"
-                Content="Delete" Grid.Column="1" TextBlock.TextAlignment="Center"/>
+                Content="Delete" Grid.Column="1" TextBlock.TextAlignment="Center"
+                     Visibility="{Binding HasBillingPeriod, Converter={StaticResource VisibilityConverter}}"/>
         </Grid>
 
+        <TextBlock Text="{Binding BillingManagementInstructionText}"
+                     Visibility="{Binding HasBillingPeriod, Converter={StaticResource InverseVisibilityConverter}}"
+                   Margin="20" HorizontalAlignment="Center" TextAlignment="Left"/>
 
         <DataGrid ItemsSource="{Binding Billings}"
               SelectedValue="{Binding Path=SelectedValue}"
+                     Visibility="{Binding HasBillingPeriod, Converter={StaticResource VisibilityConverter}}"
               CanUserSortColumns="True"
               SelectionMode="Single"
               AutoGenerateColumns="False"
@@ -128,7 +136,8 @@
             <local:BillingPeriodView DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />
         </Grid>
 
-        <Button Content="Show Costs" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding BillingPeriodSelected}"/>
+        <Button Content="Show Costs" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding BillingPeriodSelected}"
+                     Visibility="{Binding HasBillingPeriod, Converter={StaticResource VisibilityConverter}}"/>
 
     </StackPanel>
 </UserControl>
