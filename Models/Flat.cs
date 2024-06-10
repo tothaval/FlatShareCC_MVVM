@@ -18,6 +18,7 @@ namespace SharedLivingCostCalculator.Models
         public string Details { get; set; }
         public double Area { get; set; }
         public int RoomCount { get; set; }
+        public string FlatNotes { get; set; } = "notes";
 
         [XmlIgnore]
         public ObservableCollection<RoomViewModel> Rooms { get; set; }

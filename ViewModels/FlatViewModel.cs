@@ -21,6 +21,7 @@ namespace SharedLivingCostCalculator.ViewModels
         public string Details { get { return _flat.Details; } set { _flat.Details = value; } }
         public double Area { get { return _flat.Area; } set { _flat.Area = value; } }
         public int RoomCount { get { return _flat.RoomCount; } set { _flat.RoomCount = value; CreateRooms(); } }
+        public string FlatNotes { get { return _flat.FlatNotes; } set { _flat.FlatNotes = value; OnPropertyChanged(nameof(FlatNotes)); } }
 
         public ObservableCollection<RoomCostsViewModel> CurrentRoomCosts { get; set; }
 
@@ -72,13 +73,22 @@ namespace SharedLivingCostCalculator.ViewModels
             ConnectRooms();
         }
 
-        public void Calculate()
+        public BillingViewModel AddBilling(RentViewModel rentViewModel)
         {
-            foreach (BillingViewModel billingViewModel in BillingPeriods)
-            {
-                billingViewModel.GenerateRoomCosts();
-            }
+            BillingViewModel billingViewModel = new BillingViewModel(this, new Billing());
+            billingViewModel.StartDate = rentViewModel.StartDate - TimeSpan.FromDays(365);
+            billingViewModel.EndDate = rentViewModel.StartDate;
+            billingViewModel.RentViewModel = rentViewModel;
+            billingViewModel.GenerateRoomCosts();
 
+            BillingPeriods.Add(billingViewModel);
+            OnPropertyChanged(nameof(BillingPeriods));
+
+            return billingViewModel;
+        }
+
+        public async Task Calculate()
+        {
             foreach (RentViewModel rentViewModel in RentUpdates)
             {
                 rentViewModel.GenerateRoomCosts();

@@ -50,8 +50,6 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(RentUpdateSelected));
                 OnPropertyChanged(nameof(SelectedValue));
             }
-
-
         }
 
         public ICommand AddRentUpdateCommand { get; }

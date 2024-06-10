@@ -91,6 +91,9 @@ namespace SharedLivingCostCalculator.ViewModels
                 EndDate = new DateTime(DateTime.Now.Year + 1, 1, 1)
             });
 
+
+            billingPeriod.GenerateRoomCosts();
+
             _flatViewModel.BillingPeriods.Add(billingPeriod);
             SelectedValue = billingPeriod;
 

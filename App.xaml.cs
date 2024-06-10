@@ -60,7 +60,7 @@ namespace SharedLivingCostCalculator
         }
 
 
-        private void LoadData()
+        private async void LoadData()
         {
             string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
             string filter = "*.xml";
@@ -71,7 +71,6 @@ namespace SharedLivingCostCalculator
             {
                 AddResources();
             }
-
 
             foreach (string file in files)
             {
@@ -85,7 +84,9 @@ namespace SharedLivingCostCalculator
                         {
                             var member = (PersistanceDataSet)xmlSerializer.Deserialize(writer);
 
-                            _flatCollection.Add(member.GetFlatData());
+                            FlatViewModel flatViewModel = await member.GetFlatData();
+
+                            _flatCollection.Add(flatViewModel);
                         }
                         catch (Exception)
                         {
@@ -114,20 +115,25 @@ namespace SharedLivingCostCalculator
             }
         }
 
-        private void CleanFolder()
+        private async void CleanFolder()
         {
             string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
             string filter = "*.xml";
 
             List<string> files = Directory.GetFiles(folder, filter, SearchOption.TopDirectoryOnly).ToList();
 
-            foreach (string file in files)
+            if (files.Count > _flatCollection.Count)
             {
-                if (!file.EndsWith("resources.xml"))
+                foreach (string file in files)
                 {
-                    File.Delete(file);
+                    if (!file.EndsWith("resources.xml"))
+                    {
+                        File.Delete(file);
+                    }
                 }
             }
+
+            await Task.Delay(15);
         }
 
 

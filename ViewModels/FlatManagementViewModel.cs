@@ -41,21 +41,21 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
 
-        private FlatViewModel _selectedValue;
-        public FlatViewModel SelectedValue
+        private FlatViewModel _SelectedItem;
+        public FlatViewModel SelectedItem
         {
-            get { return _selectedValue; }
+            get { return _SelectedItem; }
             set
             {
-                if (_selectedValue == value) return;
-                _selectedValue = value;
+                if (_SelectedItem == value) return;
+                _SelectedItem = value;
 
-                if (_flatCollection.Count > 0 && _selectedValue != null)
-                {                    
-                    _selectedValue.SetMostRecentCosts();
+                if (_flatCollection.Count > 0 && _SelectedItem != null)
+                {
+                    _SelectedItem.SetMostRecentCosts();
                 }
 
-                OnPropertyChanged(nameof(SelectedValue));
+                OnPropertyChanged(nameof(SelectedItem));
             }
         }
 
@@ -101,7 +101,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (_flatCollection.Count > 0)
             {
-                SelectedValue = _flatCollection?.First();
+                SelectedItem = _flatCollection?.First();
                 FlatCollectionFilled = true;
 
                 _flatCollection.CollectionChanged += _flatCollection_CollectionChanged;
@@ -119,7 +119,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (_flatCollection.Count > 0)
             {
-                SelectedValue = _flatCollection?.First();
+                SelectedItem = _flatCollection?.First();
                 FlatCollectionFilled = true;
             }
             OnPropertyChanged(nameof(HasFlat));
@@ -171,7 +171,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             FlatSetupView flatSetupView = new FlatSetupView();
             
-            flatSetupView.DataContext = new FlatSetupViewModel(_flatCollection, flatSetupView, SelectedValue);
+            flatSetupView.DataContext = new FlatSetupViewModel(_flatCollection, flatSetupView, SelectedItem);
                       
             flatSetupView.Owner = mainWindow;
             flatSetupView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;

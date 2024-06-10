@@ -18,6 +18,9 @@
     </Window.Resources>
 
     <Grid  Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -25,71 +28,102 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Flat Setup" FontSize="24" Grid.Row="0"
                    Foreground="{DynamicResource R_Header}"
-                   HorizontalAlignment="Stretch"
+                   HorizontalAlignment="Stretch"                   
                    TextAlignment="Center"/>
 
         <c_views:ObjectInputView Label="Address"
                                  Value="{Binding FlatSetup.Address, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="{Binding IsNewFlatWindow}"
                                  Foreground="DarkSlateGray"
-                                 Grid.Row="1"/>
+                                                     ValueMinWidth="120"
+                                 Grid.Row="1" HorizontalAlignment="Stretch"/>
 
         <c_views:ObjectInputView Label="Details"
                                  Value="{Binding FlatSetup.Details, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  Foreground="DarkSlateGray"
-                                 Grid.Row="2"/>
+                                                     ValueMinWidth="120"
+                                 Grid.Row="2" HorizontalAlignment="Stretch"/>
 
         <c_views:ObjectInputView Label="Area"
                                  Value="{Binding FlatSetup.Area, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                 StringFormat=\{0:n\}, Delay=500}"                                 
                                  IsEnabled="{Binding IsNewFlatWindow}"
                                  Foreground="DarkSlateGray"
-                                 Grid.Row="3"/>
+                                                     ValueMinWidth="120"
+                                 ValueAlignment="Right"
+                                 Grid.Row="3" HorizontalAlignment="Stretch"/>
 
         <c_views:ObjectInputView Label="Rooms"
                                  Value="{Binding FlatSetup.RoomCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="{Binding IsNewFlatWindow}"
                                  Foreground="DarkSlateGray"
-                                 Grid.Row="4"/>
+                                                     ValueMinWidth="120"
+                                 ValueAlignment="Right"
+                                 Grid.Row="4" HorizontalAlignment="Stretch"/>
 
+        <TextBox Grid.Row="5" Text="{Binding FlatSetup.FlatNotes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                 HorizontalContentAlignment="Left"/>
+
+        <ContentControl Grid.Column="0" Grid.Row="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                        >
+        
         <ListView ItemsSource="{Binding FlatSetup.Rooms}"
-                  SelectionMode="Single" Grid.Row="5"
+                  SelectionMode="Single"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      BorderThickness="0"
+                      BorderThickness="2"
                       Margin="0 5 0 0"
+                  HorizontalContentAlignment="Stretch"
                       >
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border Background="FloralWhite">
-                        <WrapPanel Orientation="Vertical" Margin="0 5">
-                            <c_views:ObjectInputView Label="{Binding ID, StringFormat='Room {0}'}"
+                    <Border Background="FloralWhite" HorizontalAlignment="Stretch" BorderBrush="Black"
+                            BorderThickness="2">
+                        <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                            <c_views:ObjectInputView Label="{Binding ID, StringFormat='Room {0}'}" Grid.Row="0"
                                  Value="{Binding RoomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                 Foreground="DarkSlateGray" Padding="5 0"/>
+                                 Foreground="DarkSlateGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                                     ValueMinWidth="120"/>
                             <c_views:ObjectInputView Label="Area"
-                                 Value="{Binding RoomArea, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                 Value="{Binding RoomArea, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, 
                                 StringFormat=\{0:n\}, Delay=500}"
                                  IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"
-                                 Foreground="DarkSlateGray" Padding="5 0"/>
-                        </WrapPanel>
-                        <!--IsEnabled="{Binding Path=IsNewFlatWindow, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}, NotifyOnSourceUpdated=True}"-->
+                                 Foreground="DarkSlateGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                                     ValueAlignment="Right"
+                                                     ValueMinWidth="120"
+                                                     Grid.Row="1"/>
+                            <c_views:ObjectInputView Label="Tenant"
+                                                     Value="{Binding Tenant, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                StringFormat=\{0:n\}, Delay=500}" 
+                                                     Foreground="DarkSlateGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                                     ValueMinWidth="120"
+                                                     Grid.Row="2"/>
+                        </Grid>                        
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
 
         </ListView>
-
-        <TextBlock Grid.Row="6" />
+        </ContentControl>
 
         <Button Grid.Row="7"
-                
+                Margin="0 10"
                 Visibility="{Binding IsNewFlatWindow, Converter={StaticResource ProceedCommandVisibility}}"
                 Command="{Binding FlatSetupCommand}">
             <TextBlock Text="Proceed" HorizontalAlignment="Center"
@@ -97,7 +131,7 @@
         </Button>
 
         <Button Grid.Row="8"                               
-                Command="{Binding LeaveViewCommand}">
+                Command="{Binding LeaveViewCommand}" Margin="0 20 0 0">
             <TextBlock Text="Leave" HorizontalAlignment="Center"
                        TextAlignment="Center"/>
         </Button>

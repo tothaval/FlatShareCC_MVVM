@@ -14,8 +14,21 @@ namespace SharedLivingCostCalculator.ViewModels
     {
         private readonly FlatViewModel _flatViewModel;
         private readonly Rent _rent;
-        public readonly BillingViewModel? BillingViewModel;
-        public bool HasBilling { get; } = false;
+        
+
+        private BillingViewModel _BillingViewModel;
+
+        public BillingViewModel BillingViewModel
+        {
+            get { return _BillingViewModel; }
+            set
+            {
+                _BillingViewModel = value;                                
+                OnPropertyChanged(nameof(BillingViewModel));
+            }
+        }
+
+        public bool HasBilling => BillingViewModel != null;
 
         public Rent GetRent => _rent;
 
@@ -114,12 +127,8 @@ namespace SharedLivingCostCalculator.ViewModels
             _flatViewModel = flatViewModel;
             _rent = rent;         
 
-            if (billingViewModel != null)
-            {
-                HasBilling = true;
-            }
-
             BillingViewModel = billingViewModel;
+            OnPropertyChanged(nameof(HasBilling));
         }
 
         public void GenerateRoomCosts()

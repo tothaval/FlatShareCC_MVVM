@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Utility
 {
@@ -25,6 +26,9 @@ namespace SharedLivingCostCalculator.Utility
 
         public double TotalHeatingUnitsConsumption { get; set; } = 0.0;
 
+        public int basedOnRent_ID { get; set; } = -1;
+
+       [XmlIgnore]
         public double TotalHeatingUnitsRoom { get; set; } = 0.0;
 
         public ObservableCollection<RoomCosts> RoomConsumptionValues { get; set; }

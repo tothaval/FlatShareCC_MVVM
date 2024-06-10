@@ -45,6 +45,8 @@ namespace SharedLivingCostCalculator.Models
         // combined sum of room heating units consumption
         public double TotalHeatingUnitsRoom {  get; set; } = 0.0;
 
+        public int RentID { get; set; } = -1;
+
         public Billing()
         {
         }

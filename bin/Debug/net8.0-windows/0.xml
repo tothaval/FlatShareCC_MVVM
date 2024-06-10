@@ -5,6 +5,7 @@
   <Details>USE CASE: first billing received</Details>
   <Area>128</Area>
   <RoomCount>5</RoomCount>
+  <FlatNotes>new notes on this flat</FlatNotes>
   <Rooms>
     <RoomData>
       <ID>0</ID>
@@ -73,42 +74,88 @@
       <TotalFixedCostsPerPeriod>720</TotalFixedCostsPerPeriod>
       <TotalHeatingCostsPerPeriod>730</TotalHeatingCostsPerPeriod>
       <TotalHeatingUnitsConsumption>1400</TotalHeatingUnitsConsumption>
-      <TotalHeatingUnitsRoom>1290</TotalHeatingUnitsRoom>
+      <basedOnRent_ID>1</basedOnRent_ID>
       <RoomConsumptionValues>
         <RoomCosts>
           <RoomID>0</RoomID>
-          <HeatingUnitsConsumption>150</HeatingUnitsConsumption>
+          <HeatingUnitsConsumption>145</HeatingUnitsConsumption>
           <RentShare>123.82499999999999</RentShare>
           <FixedShare>14.049374999999998</FixedShare>
-          <HeatingShare>89.68571428571428</HeatingShare>
+          <HeatingShare>13.858285714285715</HeatingShare>
         </RoomCosts>
         <RoomCosts>
           <RoomID>1</RoomID>
-          <HeatingUnitsConsumption>200</HeatingUnitsConsumption>
+          <HeatingUnitsConsumption>235</HeatingUnitsConsumption>
           <RentShare>101.075</RentShare>
           <FixedShare>11.468124999999999</FixedShare>
-          <HeatingShare>115.75714285714285</HeatingShare>
+          <HeatingShare>19.901142857142855</HeatingShare>
         </RoomCosts>
         <RoomCosts>
           <RoomID>2</RoomID>
-          <HeatingUnitsConsumption>320</HeatingUnitsConsumption>
+          <HeatingUnitsConsumption>245</HeatingUnitsConsumption>
           <RentShare>83.19999999999999</RentShare>
           <FixedShare>9.439999999999998</FixedShare>
-          <HeatingShare>178.32857142857142</HeatingShare>
+          <HeatingShare>20.572571428571425</HeatingShare>
         </RoomCosts>
         <RoomCosts>
           <RoomID>3</RoomID>
-          <HeatingUnitsConsumption>400</HeatingUnitsConsumption>
+          <HeatingUnitsConsumption>347</HeatingUnitsConsumption>
           <RentShare>101.88749999999999</RentShare>
           <FixedShare>11.560312499999998</FixedShare>
-          <HeatingShare>220.04285714285714</HeatingShare>
+          <HeatingShare>27.421142857142858</HeatingShare>
         </RoomCosts>
         <RoomCosts>
           <RoomID>4</RoomID>
-          <HeatingUnitsConsumption>220</HeatingUnitsConsumption>
+          <HeatingUnitsConsumption>121</HeatingUnitsConsumption>
           <RentShare>110.01249999999999</RentShare>
           <FixedShare>12.482187499999998</FixedShare>
-          <HeatingShare>126.18571428571428</HeatingShare>
+          <HeatingShare>12.246857142857143</HeatingShare>
+        </RoomCosts>
+      </RoomConsumptionValues>
+    </BillingData>
+    <BillingData>
+      <StartDate>2022-11-01T00:00:00</StartDate>
+      <EndDate>2023-11-01T00:00:00</EndDate>
+      <TotalCostsPerPeriod>0</TotalCostsPerPeriod>
+      <TotalFixedCostsPerPeriod>0</TotalFixedCostsPerPeriod>
+      <TotalHeatingCostsPerPeriod>0</TotalHeatingCostsPerPeriod>
+      <TotalHeatingUnitsConsumption>0</TotalHeatingUnitsConsumption>
+      <basedOnRent_ID>-1</basedOnRent_ID>
+      <RoomConsumptionValues>
+        <RoomCosts>
+          <RoomID>0</RoomID>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>NaN</HeatingShare>
+        </RoomCosts>
+        <RoomCosts>
+          <RoomID>1</RoomID>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>NaN</HeatingShare>
+        </RoomCosts>
+        <RoomCosts>
+          <RoomID>2</RoomID>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>NaN</HeatingShare>
+        </RoomCosts>
+        <RoomCosts>
+          <RoomID>3</RoomID>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>NaN</HeatingShare>
+        </RoomCosts>
+        <RoomCosts>
+          <RoomID>4</RoomID>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>NaN</HeatingShare>
         </RoomCosts>
       </RoomConsumptionValues>
     </BillingData>
