@@ -15,6 +15,22 @@ namespace SharedLivingCostCalculator.ViewModels
 {
     public class RoomCostsViewModel : BaseViewModel, INotifyDataErrorInfo
     {
+        /// <summary>
+        /// to do:
+        /// 
+        /// write new functions to specifically calculate billing period costs
+        /// write new functions to calculate rent based on billing values
+        /// 
+        /// check every formula for mistakes
+        /// 
+        /// structure code and refactor or split this class and its components
+        /// 
+        /// comment methods and calculations
+        /// 
+        /// unit test calculations and modules
+        /// </summary>
+
+
         private ValidationHelper _helper = new ValidationHelper();
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
@@ -84,6 +100,12 @@ namespace SharedLivingCostCalculator.ViewModels
             set { _roomCosts.HeatingShare = value; OnPropertyChanged(nameof(HeatingShare)); }
         }
 
+        public double Consumption => CalculateConsumption();
+        public double RentCosts => CalculateRentCosts();
+        public double FixedCosts => CalculateFixedCosts();
+        public double HeatingCosts => CalculateHeatingCosts();
+        public double BillingCosts => FixedCosts + HeatingCosts;
+
         public double AnnualRentShare => RentShare * 12;
         public double AnnualFixedShare => FixedShare * 12;
         public double AnnualHeatingShare => HeatingShare * 12;
@@ -120,20 +142,74 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public void CalculateData()
         {
-            RentShare = CalculateRentShare();
-            FixedShare = CalculateFixedShare();
-            HeatingShare = CalculateHeatingShare();            
+            RentShare = CalculateRentCosts();
+            FixedShare = CalculateFixedCosts();
+            HeatingShare = CalculateHeatingCosts();            
         }
 
-        private double CalculateBalance()
+        private double CalculateRentCosts()
         {
-            double balance = -1.0;
+            double rentCosts = 0.0;
 
             if (_roomCostsCarrier.GetType() == typeof(BillingViewModel))
             {
                 BillingViewModel billingViewModel = (BillingViewModel)_roomCostsCarrier;
 
-                balance = ExtraCostsShare - GetPayments();
+                TimeSpan timeSpan = billingViewModel.EndDate - billingViewModel.StartDate;
+
+                int months = timeSpan.Days / 30;
+
+                if (billingViewModel.RentViewModel != null)
+                {
+                    rentCosts = AreaRatio() * billingViewModel.RentViewModel.ColdRent * months;
+                }
+            }
+
+            return rentCosts;
+        }
+
+
+        private double CalculateFixedCosts()
+        {
+            double fixedCosts = 0.0;
+
+            if (_roomCostsCarrier.GetType() == typeof(BillingViewModel))
+            {
+                BillingViewModel billingViewModel = (BillingViewModel)_roomCostsCarrier;
+
+                fixedCosts = billingViewModel.TotalFixedCostsPerPeriod * AreaRatio();
+            }
+
+            return fixedCosts;
+        }
+
+        private double CalculateHeatingCosts()
+        {
+            double heatingCosts = 0.0;
+
+            if (_roomCostsCarrier.GetType() == typeof(BillingViewModel))
+            {
+                BillingViewModel billingViewModel = (BillingViewModel)_roomCostsCarrier;
+
+                double consumptionRatio = CalculateConsumptionRatio();
+
+                heatingCosts = billingViewModel.TotalHeatingCostsPerPeriod * consumptionRatio;      
+            }
+
+            return heatingCosts;
+        }
+
+
+
+        private double CalculateBalance()
+        {
+            double balance = 0.0;
+
+            if (_roomCostsCarrier.GetType() == typeof(BillingViewModel))
+            {
+                BillingViewModel billingViewModel = (BillingViewModel)_roomCostsCarrier;
+
+                balance = TotalPayments - BillingCosts - RentCosts;
             }
 
             return balance;
@@ -160,7 +236,7 @@ namespace SharedLivingCostCalculator.ViewModels
             
         private double CalculateConsumptionRatio()
         {
-            double consumptionRatio = -1.0;
+            double consumptionRatio = 0.0;
 
             if (_roomCostsCarrier.GetType() == typeof(BillingViewModel))
             {
@@ -179,12 +255,16 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private double CalculateFixedShare()
         {
-            double fixedShare = -1.0;
-
+            double fixedShare = 0.0;
 
             if (_roomCostsCarrier.GetType() == typeof(BillingViewModel))
             {
-                fixedShare = AreaRatio() * ((BillingViewModel)_roomCostsCarrier).RentViewModel.FixedCostsAdvance;
+                BillingViewModel billingViewModel = (BillingViewModel)_roomCostsCarrier;
+
+                if (billingViewModel.RentViewModel != null)
+                {
+                    fixedShare = AreaRatio() * billingViewModel.RentViewModel.FixedCostsAdvance;
+                }
             }
 
 
@@ -201,15 +281,18 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private double CalculateHeatingShare()
         {
-            double heatingShare = -1.0;
+            double heatingShare = 0.0;
 
             if (_roomCostsCarrier.GetType() == typeof(BillingViewModel))
             {
                 BillingViewModel billingViewModel = (BillingViewModel)_roomCostsCarrier;
+               
                 double consumptionRatio = CalculateConsumptionRatio();
-                double heatingCosts = billingViewModel.TotalHeatingCostsPerPeriod;
 
-                heatingShare = consumptionRatio * heatingCosts;
+                if (billingViewModel.RentViewModel != null)
+                {
+                    heatingShare = consumptionRatio * billingViewModel.RentViewModel.HeatingCostsAdvance;
+                }
             }
 
 
@@ -244,7 +327,14 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (_roomCostsCarrier.GetType() == typeof(BillingViewModel))
             {
-                percentage = TotalCosts / ((BillingViewModel)_roomCostsCarrier).RentViewModel.CostsTotal * 100;
+                BillingViewModel billingViewModel = (BillingViewModel)_roomCostsCarrier;
+
+                percentage = (FixedCosts + HeatingCosts) / billingViewModel.TotalCostsPerPeriod * 100;
+
+                // anteil müsste sein alle kosten über zeitraum pro raum /  alle kosten über zeitraum
+                // also werte aus billingviewmodel ziehen.
+                // rent vorerst außen vor, ist ein anderer kostenteil, ist auch in der abrechnung
+                // nicht ausgewiesen, wird nur benötigt um die payments korrekt zu rechnen.
             }
 
             if (_roomCostsCarrier.GetType() == typeof(RentViewModel))
@@ -262,7 +352,12 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (_roomCostsCarrier.GetType() == typeof(BillingViewModel))
             {
-                rent = AreaRatio() * ((BillingViewModel)_roomCostsCarrier).RentViewModel.ColdRent;
+                BillingViewModel billingViewModel = (BillingViewModel)_roomCostsCarrier;
+
+                if (billingViewModel.RentViewModel != null)
+                {
+                    rent = AreaRatio() * billingViewModel.RentViewModel.ColdRent;
+                }
             }
 
             if (_roomCostsCarrier.GetType() == typeof(RentViewModel))

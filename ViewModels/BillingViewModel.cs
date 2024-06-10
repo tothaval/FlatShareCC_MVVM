@@ -14,10 +14,24 @@ namespace SharedLivingCostCalculator.ViewModels
     public class BillingViewModel : BaseViewModel, IRoomCostsCarrier
     {
         private readonly FlatViewModel _flatViewModel;
-        public RentViewModel RentViewModel { get; set; }
 
-        public int basedOnRent_ID => RentViewModel.ID;
+        private RentViewModel _rentViewModel;
+        public RentViewModel RentViewModel 
+        { 
+            get { return _rentViewModel; }
+            set { _rentViewModel = value;
+                RentId = (_rentViewModel != null) ? _rentViewModel.ID : RentId = -1;
+            }
+        }
 
+        public int RentId
+        {
+            get { return GetBilling.RentID; }
+            set { GetBilling.RentID = value; 
+            }
+        } 
+
+        public string Signature => $"{StartDate:d} - {EndDate:d}\n{TotalHeatingUnitsConsumption} units";
 
         private readonly Billing _billing;
         public Billing GetBilling => _billing;
@@ -128,14 +142,37 @@ namespace SharedLivingCostCalculator.ViewModels
             _billing = billing;
 
             RoomCosts = new ObservableCollection<RoomCostsViewModel>();
+
+            RoomCosts.CollectionChanged += RoomCosts_CollectionChanged;
+
             GetRentViewModel();
         }
-        
+
+        private void RoomCosts_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(RoomCosts));
+            DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
+        }
+
         private void GetRentViewModel()
         {
             RentViewModel = _flatViewModel.GetRentForPeriod(this);
         }
         
+        public void registerEvents()
+        {
+            foreach (RoomCostsViewModel roomCostsViewModel in RoomCosts)
+            {
+                roomCostsViewModel.HeatingUnitsChange += RoomCostsViewModel_HeatingUnitsChange;
+            }
+        }
+
+        private void RoomCostsViewModel_HeatingUnitsChange(object? sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(RoomCosts));
+            DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
+        }
+
         public void GenerateRoomCosts()
         {
             RoomCosts = new ObservableCollection<RoomCostsViewModel>();

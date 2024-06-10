@@ -41,15 +41,16 @@ current features:
 	-> displays Costs for Rent and for Billing
 		-> Rent shows monthly and annual costs based on rent values
 		-> Billing shows billing related costs
-	-> !!! beware of results, calculations haven't been thoroughly tested yet
+		
+	-> !!! beware of results, calculations haven't been thoroughly tested yet	
 	-> !!! new rent values are not yet based on previous consumption values of billing,
-			the results are based on area ratio
+			the results are based on area ratio or false values since linking between
+			objects is not yet fully implemented
 
 -> Settings
 	->show Settings window
 	-> Background, Foreground, FontFamily and FontSize can be set
 
--> !!! heating unit data will not be loaded
 
--> most data will be saved and loaded
+-> data will be saved and loaded
 -> settings will be saved and loaded

@@ -19,7 +19,30 @@ namespace SharedLivingCostCalculator.ViewModels
     {
         private readonly RentViewModel _rentViewModel;
         public RentViewModel RentViewModel => _rentViewModel;
+
+        public bool SetBillingVisibility => HasBilling;
+        
+        private bool _HasBilling;
+
+        public bool HasBilling
+        {
+            get { return _HasBilling; }
+            set
+            {
+                _HasBilling = value;
+                OnPropertyChanged(nameof(HasBilling));
+                OnPropertyChanged(nameof(SetBillingVisibility));
+            }
+        }
+
         private ValidationHelper _helper = new ValidationHelper();
+        public bool HasErrors => ((INotifyDataErrorInfo)_helper).HasErrors;
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public IEnumerable GetErrors(string? propertyName)
+        {
+            return ((INotifyDataErrorInfo)_helper).GetErrors(propertyName);
+        }
 
         public double AnnualRent => _rentViewModel.AnnualRent;
         public double AnnualExtraCosts => _rentViewModel.AnnualExtraCosts;
@@ -32,6 +55,25 @@ namespace SharedLivingCostCalculator.ViewModels
         public DateTime? BillingStartDate => GetBillingStartDate();
         public DateTime? BillingEndDate => GetBillingEndDate();
         public double? BillingConsumedUnits => GetBillingConsumedUnits();
+
+        public ICommand NewBillingCommand { get; }
+
+        public ICollectionView BillingViewModels { get; set; }
+
+        private BillingViewModel _SelectedItem;
+        public BillingViewModel SelectedItem
+        {
+            get { return _SelectedItem; }
+            set
+            {
+                _SelectedItem = value;
+
+                RentViewModel.BillingViewModel = SelectedItem;
+
+                OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
+
 
         private DateTime? GetBillingStartDate()
         {
@@ -60,9 +102,6 @@ namespace SharedLivingCostCalculator.ViewModels
             return null;
         }
 
-
-
-        public bool HasErrors => ((INotifyDataErrorInfo)_helper).HasErrors;
 
 
         public DateTime StartDate
@@ -162,15 +201,24 @@ namespace SharedLivingCostCalculator.ViewModels
             }
 
             _helper.ErrorsChanged += (_, e) => ErrorsChanged?.Invoke(this, e);
+
+            BillingViewModels = CollectionViewSource.GetDefaultView(RentViewModel.GetFlatViewModel().BillingPeriods);
+            BillingViewModels.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
+
+            NewBillingCommand = new RelayCommand(p => AddBilling(), (s) => true);
+
+            if (RentViewModel.HasBilling)
+            {
+                SelectedItem = RentViewModel.BillingViewModel;
+                HasBilling = true;
+                OnPropertyChanged(nameof(SelectedItem));
+            }
         }
 
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public IEnumerable GetErrors(string? propertyName)
+        private void AddBilling()
         {
-            return ((INotifyDataErrorInfo)_helper).GetErrors(propertyName);
+            RentViewModel.BillingViewModel = RentViewModel.GetFlatViewModel().AddBilling(RentViewModel);
+            SelectedItem = RentViewModel.BillingViewModel;
         }
     }
 }

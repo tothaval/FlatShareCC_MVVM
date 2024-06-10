@@ -1,5 +1,4 @@
-﻿using SharedLivingCostCalculator.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,38 +16,33 @@ using System.Windows.Shapes;
 namespace SharedLivingCostCalculator.Components
 {
     /// <summary>
-    /// Interaktionslogik für ObjectInputView.xaml
+    /// Interaktionslogik für DoubleInputView.xaml
     /// </summary>
-    public partial class ObjectInputView : UserControl
+    public partial class DoubleInputView : UserControl
     {
-        public ObjectInputView()
+        public DoubleInputView()
         {
             InitializeComponent();
-
             this.TB_Value.DataContext = this;
         }
-
 
         public string Label
         {
             get { return (string)GetValue(LabelProperty); }
-            set { SetValue(LabelProperty, value);}
+            set { SetValue(LabelProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for InputDesignator.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LabelProperty =
-            DependencyProperty.Register("Label", typeof(string), typeof(ObjectInputView), new PropertyMetadata(""));
+            DependencyProperty.Register("Label", typeof(string), typeof(DoubleInputView), new PropertyMetadata(""));
 
-        public object Value
+        public double Value
         {
-            get { return (object)GetValue(ValueProperty); }
+            get { return (double)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for InputDesignator.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof(object), typeof(ObjectInputView), new PropertyMetadata(null));
-
+            DependencyProperty.Register("Value", typeof(double), typeof(DoubleInputView), new PropertyMetadata(0.0));
 
 
         public double LabelMinWidth
@@ -57,9 +51,8 @@ namespace SharedLivingCostCalculator.Components
             set { SetValue(LabelMinWidthProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for LabelMinWidth.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LabelMinWidthProperty =
-            DependencyProperty.Register("LabelMinWidth", typeof(double), typeof(ObjectInputView), new PropertyMetadata(100.0));
+            DependencyProperty.Register("LabelMinWidth", typeof(double), typeof(DoubleInputView), new PropertyMetadata(100.0));
 
 
         public double ValueMinWidth
@@ -68,9 +61,9 @@ namespace SharedLivingCostCalculator.Components
             set { SetValue(ValueMinWidthProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for LabelMinWidth.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ValueMinWidthProperty =
-            DependencyProperty.Register("ValueMinWidth", typeof(double), typeof(ObjectInputView), new PropertyMetadata(250.0));
+            DependencyProperty.Register("ValueMinWidth", typeof(double), typeof(DoubleInputView), new PropertyMetadata(250.0));
+
 
 
         public bool IsReadOnly
@@ -79,9 +72,9 @@ namespace SharedLivingCostCalculator.Components
             set { SetValue(IsReadOnlyProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsReadOnly.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsReadOnlyProperty =
-            DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(ObjectInputView), new PropertyMetadata(false));
+            DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(DoubleInputView), new PropertyMetadata(false));
+
 
 
 
@@ -91,9 +84,8 @@ namespace SharedLivingCostCalculator.Components
             set { SetValue(ValueAlignmentProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ValueAlignment.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ValueAlignmentProperty =
-            DependencyProperty.Register("ValueAlignment", typeof(TextAlignment), typeof(ObjectInputView), new PropertyMetadata(null));
+            DependencyProperty.Register("ValueAlignment", typeof(TextAlignment), typeof(DoubleInputView), new PropertyMetadata(null));
 
 
     }

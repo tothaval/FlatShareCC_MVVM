@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility"
              x:Name="FMV"
              mc:Ignorable="d" 
@@ -47,7 +48,7 @@
                 <ColumnDefinition Width="0.15*"/>
                 <ColumnDefinition Width="0.15*"/>
             </Grid.ColumnDefinitions>
-        
+
             <Button Content="New Flat"
                 Command="{Binding NewFlatCommand}"
                     CommandParameter="{x:Reference Name=FMV}"
@@ -56,7 +57,7 @@
             <Button Content="Edit"                 
                   HorizontalAlignment="Stretch"
                     Command="{Binding EditFlatCommand}"
-                    CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
+                    CommandParameter="{Binding ElementName=DG_FlatCollection, Path=SelectedItem}"
                     IsEnabled="{Binding FlatCollectionFilled, NotifyOnSourceUpdated=True}"
                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
                     HorizontalContentAlignment="Center"
@@ -65,7 +66,7 @@
             <Button Content="Delete"
                     HorizontalAlignment="Stretch"
                     Command="{Binding DeleteFlatCommand}"
-                    CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
+                    CommandParameter="{Binding ElementName=DG_FlatCollection, Path=SelectedItem}"
                     IsEnabled="{Binding FlatCollectionFilled, NotifyOnSourceUpdated=True}"
                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
                     HorizontalContentAlignment="Center"
@@ -83,67 +84,37 @@
                    Margin="20" HorizontalAlignment="Center" TextAlignment="Left"
                    Grid.Row="2"/>
 
-        <ListView ItemsSource="{Binding FlatCollection}"
-                  SelectedItem="{Binding SelectedValue}"
-                     Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
-                  x:Name="LV_FlatCollection"
+        <DataGrid ItemsSource="{Binding FlatCollection}"
                   SelectionMode="Single"
-                  Grid.Row="2">                    
-                
-        <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Flat ID">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding ID}"
-                                           TextAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                  SelectedItem="{Binding SelectedItem}"
+                  Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
+                  x:Name="DG_FlatCollection"      
+                  AutoGenerateColumns="False"                  
+                  HorizontalAlignment="Stretch"                  
+                  TextBlock.TextAlignment="Right"                  
+                  MinColumnWidth="50"
+                  ColumnWidth="Auto"
+                  IsReadOnly="True"
+                  Grid.Row="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ID}"
+                                    CanUserSort="True" Header="ID">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Address" Binding="{Binding Address}"
+                                    CanUserSort="True"/>
+                <DataGridTextColumn Header="Details" Binding="{Binding Details}"
+                                    CanUserSort="True"/>
+                <DataGridTextColumn Header="Area" Binding="{Binding Area}"
+                                    CanUserSort="True"/>
+                <DataGridTextColumn Header="RoomCount" Binding="{Binding RoomCount}"
+                                    CanUserSort="True"/>
+            </DataGrid.Columns>
 
-                    <GridViewColumn Header="Address">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Address}"
-                                           TextAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn Header="Details">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Details}"
-                                           TextAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn Header="Area">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Area}"
-                                           TextAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn Header="Rooms">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RoomCount}"
-                                           TextAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-
+        </DataGrid>
 
         <Button Content="Accounting"
                 Command="{Binding AccountingCommand}"
-                CommandParameter="{Binding ElementName=LV_FlatCollection, Path=SelectedItem}"
+                CommandParameter="{Binding ElementName=DG_FlatCollection, Path=SelectedItem}"
                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
                 Grid.Row="3"
                 />
@@ -151,97 +122,109 @@
         <StackPanel Grid.Row="4" 
                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}">
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Address:"/>
-                <TextBlock Text="{Binding SelectedValue.Address, Mode=OneWay,
-                    NotifyOnSourceUpdated=True}"/>
-                <TextBlock Text="Details:"/>
-                <TextBlock Text="{Binding SelectedValue.Details, Mode=OneWay,
-                    NotifyOnSourceUpdated=True}"/>
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="left"/>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="middle"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <comps:DoubleInputView Label="Area:"
+                                       Value="{Binding SelectedItem.Area, StringFormat=N2}"
+                                       IsReadOnly="True"
+                                       ValueAlignment="Right"
+                                       LabelMinWidth="90"
+                                       ValueMinWidth="90"
+                                       Grid.Column="0" Grid.Row="0"/>
+                <comps:DoubleInputView Label="Shared Area:"
+                                           Value="{Binding SelectedItem.SharedArea, StringFormat=N2}"
+                                           IsReadOnly="True"
+                                               ValueAlignment="Right"
+                                       LabelMinWidth="90"
+                                       ValueMinWidth="90"
+                                       Grid.Column="1" Grid.Row="0"/>
+
+                <comps:CurrencyInputView Label="Rent:"
+                                           Value="{Binding SelectedItem.Rent,NotifyOnSourceUpdated=True}"
+                                           IsReadOnly="True"
+                                               ValueAlignment="Right"
+                                       LabelMinWidth="90"
+                                       ValueMinWidth="90"
+                                       Grid.Column="0" Grid.Row="1"/>
+                <comps:CurrencyInputView Label="Shared Rent:"
+                                           Value="{Binding SelectedItem.SharedRent,NotifyOnSourceUpdated=True}"
+                                           IsReadOnly="True"
+                                               ValueAlignment="Right"
+                                       LabelMinWidth="90"
+                                       ValueMinWidth="90"
+                                       Grid.Column="1" Grid.Row="1"/>
+
+                <comps:CurrencyInputView Label="Extra:"
+                                           Value="{Binding SelectedItem.ExtraCosts, NotifyOnSourceUpdated=True}"
+                                           IsReadOnly="True"
+                                               ValueAlignment="Right"
+                                       LabelMinWidth="90"
+                                       ValueMinWidth="90"
+                                       Grid.Column="0" Grid.Row="2"/>
+                <comps:CurrencyInputView Label="Shared Extra:"
+                                           Value="{Binding SelectedItem.SharedExtraCosts, NotifyOnSourceUpdated=True}"
+                                           IsReadOnly="True"
+                                               ValueAlignment="Right"
+                                       LabelMinWidth="90"
+                                       ValueMinWidth="90"
+                                       Grid.Column="1" Grid.Row="2" Grid.IsSharedSizeScope="True"/>
+
+                <TextBox Text="{Binding SelectedItem.FlatNotes, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"
+                     Grid.Column="2" VerticalAlignment="Stretch"
+                         Grid.Row="0"
+                         Grid.RowSpan="3"
+                         HorizontalAlignment="Stretch"
+                         HorizontalContentAlignment="Left"/>
+            </Grid>
 
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Area:"/>
-                <TextBlock Text="{Binding SelectedValue.Area, Mode=OneWay,
-                    NotifyOnSourceUpdated=True, StringFormat=N2}"/>
-
-
-                <TextBlock Text="Shared Area:"/>
-                <TextBlock Text="{Binding SelectedValue.CurrentCosts.SharedArea, Mode=OneWay,
-                    NotifyOnSourceUpdated=True, StringFormat=N2}"/>
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Cold Rent:"/>
-                <TextBlock Text="{Binding SelectedValue.CurrentCosts.Rent, Mode=OneWay,
-                    NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"/>
-
-
-                <TextBlock Text="Shared Cold Rent:"/>
-                <TextBlock Text="{Binding SelectedValue.CurrentCosts.SharedRent, Mode=OneWay,
-                    NotifyOnSourceUpdated=True,  StringFormat=C2, ConverterCulture=de-DE}"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Extra Costs:"/>
-                <TextBlock Text="{Binding SelectedValue.CurrentCosts.ExtraCosts, Mode=OneWay,
-                    NotifyOnSourceUpdated=True,  StringFormat=C2, ConverterCulture=de-DE}"/>
-
-
-                <TextBlock Text="Shared Extra Costs:"/>
-                <TextBlock Text="{Binding SelectedValue.CurrentCosts.SharedExtraCosts, Mode=OneWay,
-                    NotifyOnSourceUpdated=True,  StringFormat=C2, ConverterCulture=de-DE}"/>
-            </StackPanel>
-
-
-            <ListView ItemsSource="{Binding SelectedValue.CurrentRoomCosts, NotifyOnSourceUpdated=True,
-                UpdateSourceTrigger=PropertyChanged}"
-                  SelectionMode="Single" Grid.Row="5"
-                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      BorderThickness="0"
-                      Margin="0 5 0 0"
-                      >
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Right"/>
-                        <Setter Property="TextBlock.TextAlignment" Value="Right"/>
-                        <Setter Property="TextBox.TextAlignment" Value="Right"/>
-                    </Style>                    
-                </ListView.ItemContainerStyle>
-                
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Room.ID,
-                                UpdateSourceTrigger=PropertyChanged,
-                            NotifyOnSourceUpdated=True, 
-                                Mode=OneWay}" Header="Room"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Room.RoomName,
-                                UpdateSourceTrigger=PropertyChanged,
-                            NotifyOnSourceUpdated=True, 
-                                Mode=OneWay}" Header="Room"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Room.RoomArea,
-                                UpdateSourceTrigger=PropertyChanged,
-                            NotifyOnSourceUpdated=True,
-                                Mode=OneWay,
-                                StringFormat=N2, Delay=500}" Header="Area"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding RentShare,
-                                UpdateSourceTrigger=PropertyChanged,
-                            NotifyOnSourceUpdated=True,
-                                Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE, Delay=500}" Header="Rent"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding ExtraCostsShare,
-                                UpdateSourceTrigger=PropertyChanged,
-                            NotifyOnSourceUpdated=True,
-                                Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE, Delay=500}" Header="Extra"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding TotalCosts,
-                                UpdateSourceTrigger=PropertyChanged,
-                            NotifyOnSourceUpdated=True,
-                                Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE, Delay=500}" Header="Total"/>
-                    </GridView>
-                </ListView.View>
-
-            </ListView>
-
+            <DataGrid ItemsSource="{Binding SelectedItem.CurrentRoomCosts, NotifyOnSourceUpdated=True}"
+                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
+                  SelectionMode="Single"  
+                  AutoGenerateColumns="False"                  
+                  HorizontalAlignment="Stretch"                  
+                  TextBlock.TextAlignment="Right"                  
+                  MinColumnWidth="50"
+                  ColumnWidth="Auto"
+                  IsReadOnly="True"
+                  Grid.Row="5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Room" CanUserSort="True"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Room.RoomName}"/>
+                    
+                    <DataGridTextColumn Header="Area" CanUserSort="True"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Room.RoomArea, StringFormat=N2}"/>
+                    
+                    <DataGridTextColumn Header="Rent Share" CanUserSort="True"
+                                        IsReadOnly="True"
+                                        Binding="{Binding RentShare, StringFormat=C2, ConverterCulture=de-DE}"/>
+                    
+                    <DataGridTextColumn Header="Extra Share" CanUserSort="True"
+                                        IsReadOnly="True"
+                                        Binding="{Binding ExtraCostsShare, StringFormat=C2, ConverterCulture=de-DE}"/>
+                    
+                    <DataGridTextColumn Header="Total Share" CanUserSort="True"
+                                        IsReadOnly="True"
+                                        Binding="{Binding TotalCosts, StringFormat=C2, ConverterCulture=de-DE}"/>
+                    
+                    <DataGridTextColumn Header="%" CanUserSort="True"
+                                        IsReadOnly="True"
+                                        Binding="{Binding CostsPercentage, StringFormat=N2}"/>
+                </DataGrid.Columns>                
+            </DataGrid>
 
         </StackPanel>
     </Grid>

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SharedLivingCostCalculator.Components.CurrencyInputView"
+﻿<UserControl x:Class="SharedLivingCostCalculator.Components.DoubleInputView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -20,7 +20,7 @@
                    TextAlignment="Left"
                    Foreground="{Binding Path=Foreground, ElementName=SIV}"
                    />
-        <TextBox Text="{Binding Path=Value, ElementName=SIV, UpdateSourceTrigger=PropertyChanged, StringFormat=C2, ConverterCulture=de-DE}"
+        <TextBox Text="{Binding Path=Value, ElementName=SIV, UpdateSourceTrigger=PropertyChanged, StringFormat=N2, ConverterCulture=de-DE}"
                  IsReadOnly="{Binding Path=IsReadOnly, ElementName=SIV}"                 
                  x:Name="TB_Value"
                      Grid.Column="1"

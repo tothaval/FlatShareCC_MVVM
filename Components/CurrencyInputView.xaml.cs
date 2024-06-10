@@ -73,9 +73,20 @@ namespace SharedLivingCostCalculator.Components
             set { SetValue(IsReadOnlyProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsReadOnly.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsReadOnlyProperty =
             DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(CurrencyInputView), new PropertyMetadata(false));
+
+
+
+
+        public TextAlignment ValueAlignment
+        {
+            get { return (TextAlignment)GetValue(ValueAlignmentProperty); }
+            set { SetValue(ValueAlignmentProperty, value); }
+        }
+
+        public static readonly DependencyProperty ValueAlignmentProperty =
+            DependencyProperty.Register("ValueAlignment", typeof(TextAlignment), typeof(CurrencyInputView), new PropertyMetadata(null));
 
 
     }

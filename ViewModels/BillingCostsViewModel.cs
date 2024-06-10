@@ -14,7 +14,7 @@ namespace SharedLivingCostCalculator.ViewModels
         private readonly BillingViewModel _billingViewModel;
         private readonly FlatViewModel _flatViewModel;
 
-        public int ID => _billingViewModel.basedOnRent_ID;
+        public int ID => _billingViewModel.RentId;
 
         public double TotalExtraCosts => _billingViewModel.TotalCostsPerPeriod;
         public double TotalCosts => TotalRentCosts + TotalExtraCosts;

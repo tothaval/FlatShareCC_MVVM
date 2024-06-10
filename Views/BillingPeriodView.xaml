@@ -104,7 +104,7 @@
             </StackPanel>
 
 
-            <ListView ItemsSource="{Binding RoomCosts}"
+            <ListView ItemsSource="{Binding RoomCosts, NotifyOnSourceUpdated=True}"
                       SelectionMode="Single"
                       TextBlock.TextAlignment="Right"       
                       Margin="5 5"

@@ -10,6 +10,9 @@
     <Compile Update="Components\CurrencyInputView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Components\DoubleInputView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Components\ObjectInputView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -55,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Components\CurrencyInputView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Components\DoubleInputView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Components\ObjectInputView.xaml">
