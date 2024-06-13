@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -21,15 +22,17 @@ namespace SharedLivingCostCalculator.ViewModels
         public RentViewModel RentViewModel => _rentViewModel;
 
         public bool SetBillingVisibility => HasBilling;
-        
-        private bool _HasBilling;
 
         public bool HasBilling
         {
-            get { return _HasBilling; }
-            set
-            {
-                _HasBilling = value;
+            get { return RentViewModel.HasBilling; }
+            set { RentViewModel.HasBilling = value;
+
+                if (!HasBilling)
+                {
+                    SelectedItem = null;
+                }
+
                 OnPropertyChanged(nameof(HasBilling));
                 OnPropertyChanged(nameof(SetBillingVisibility));
             }

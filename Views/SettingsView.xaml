@@ -5,55 +5,80 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SharedLivingCostCalculator.Views" 
         xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels" 
+        xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility" 
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:toolkit="http://propertytools.org/wpf"
         mc:Ignorable="d"
         Name="SettingsViewWindow"
-        Title="Settings" Height="400" Width="400"  Background="{DynamicResource SCB_Background}">
+        Title="{DynamicResource IDF_SettingsTitleText}" Height="400" Width="400"  Background="{DynamicResource SCB_Background}">
     <Window.Resources>
         <Style TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal"/>
         </Style>
-    </Window.Resources>
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
 
-        <!--<StackPanel Grid.Row="0">
+        <ObjectDataProvider x:Key="enumValues"
+   MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="utils:SupportedLanguages"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <StackPanel Orientation="Vertical">
+        <TextBlock Text="{DynamicResource SettingsHeaderText}"
+                   Style="{StaticResource Header}"/>
+        
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!--<StackPanel Grid.Row="0">
             <TextBlock Text="Currency"/>
             <ComboBox ItemsSource="{Binding Currency}" Width="200" Padding="5" Margin="5" />
         </StackPanel>-->
-        
-        <StackPanel Grid.Row="2">
-        <TextBlock Text="Fontsize"/>
-            <TextBox Text="{Binding FontSize}" Width="200"/>
-        </StackPanel>
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="{DynamicResource IDF_Language}"/>
+                <ComboBox ItemsSource="{Binding Source={StaticResource enumValues}}"
+                          SelectedItem="{Binding SelectedItem}"/>
+            </StackPanel>
 
-        <StackPanel Grid.Row="3">
-        <TextBlock Text="FontFamily"/>
-            <TextBox Text="{Binding FontFamily}" Width="200"/>
-        </StackPanel>
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="{DynamicResource IDF_Country}"/>
+            </StackPanel>
 
-        <StackPanel Grid.Row="4">
-        <TextBlock Text="Foreground"/>
-        <toolkit:ColorPicker Padding="5" Margin="5" Width="200" HorizontalAlignment="Left"
+
+            <StackPanel Grid.Row="2">
+                <TextBlock Text="{DynamicResource IDF_FontSize}"/>
+                <TextBox Text="{Binding FontSize}" Width="200"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3">
+                <TextBlock Text="{DynamicResource IDF_FontFamily}"/>
+                <TextBox Text="{Binding FontFamily}" Width="200"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="4">
+                <TextBlock Text="{DynamicResource IDF_Foreground}"/>
+                <toolkit:ColorPicker Padding="5" Margin="5" Width="200" HorizontalAlignment="Left"
                              SelectedColor="{Binding ForegroundColor}"/>
-        </StackPanel>
+            </StackPanel>
 
-        <StackPanel Grid.Row="5">
-        <TextBlock Text="Background"/>
-        <toolkit:ColorPicker Padding="5" Margin="5" Width="200" HorizontalAlignment="Left"
+            <StackPanel Grid.Row="5">
+                <TextBlock Text="{DynamicResource IDF_Background}"/>
+                <toolkit:ColorPicker Padding="5" Margin="5" Width="200" HorizontalAlignment="Left"
                              SelectedColor="{Binding BackgroundColor}"/>
-        </StackPanel>
+            </StackPanel>
 
-        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"
-        Content="Leave" Command="{Binding LeaveCommand}" CommandParameter="{Binding ElementName=SettingsViewWindow}"/>
+            <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"
+        Content="{DynamicResource IDF_Back}" Command="{Binding LeaveCommand}" CommandParameter="{Binding ElementName=SettingsViewWindow}"/>
 
-    </Grid>
+        </Grid>
+    </StackPanel>
 </Window>

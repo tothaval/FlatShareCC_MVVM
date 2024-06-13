@@ -22,18 +22,18 @@
         </Grid.ColumnDefinitions>
         
         <StackPanel Grid.Column="0" HorizontalAlignment="Left">
-            <TextBlock Text="Rent Update Data" Margin="5 10"
+            <TextBlock Text="{DynamicResource IDF_RentUpdateData}" Margin="5 10"
                        TextAlignment="Center" FontSize="14"/>
 
             <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="Start Date" Width="150" VerticalAlignment="Bottom" />
-                <DatePicker Text="start date"  SelectedDate="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
+                <TextBlock Text="{DynamicResource IDF_StartDate}" Width="150" VerticalAlignment="Bottom" />
+                <DatePicker SelectedDate="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
                         UpdateSourceTrigger=PropertyChanged}"
                                  Width="100"/>
             </StackPanel>
 
             <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="Cold Rent" Width="150" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource IDF_Rent}" Width="150" VerticalAlignment="Center" />
                 <TextBox Text="{Binding ColdRent,
                         UpdateSourceTrigger=PropertyChanged,
                         ValidatesOnDataErrors=True,
@@ -41,7 +41,7 @@
             </StackPanel>
 
             <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="Advance Fixed" Width="150" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource IDF_AdvanceFixed}" Width="150" VerticalAlignment="Center" />
                 <TextBox Text="{Binding ExtraCostsShared,
                         UpdateSourceTrigger=PropertyChanged,
                         ValidatesOnDataErrors=True,
@@ -49,7 +49,7 @@
             </StackPanel>
 
             <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="Advance Heating" Width="150" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource IDF_AdvanceHeating}" Width="150" VerticalAlignment="Center" />
                 <TextBox Text="{Binding ExtraCostsHeating,
                         UpdateSourceTrigger=PropertyChanged,
                         ValidatesOnDataErrors=True,
@@ -57,14 +57,14 @@
             </StackPanel>
 
             <StackPanel Margin="5 5" Orientation="Horizontal" Background="LightGray">
-                <TextBlock Text="Advance Total" Width="150" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource IDF_AdvanceTotal}" Width="150" VerticalAlignment="Center" />
                 <TextBox IsReadOnly="True" Text="{Binding ExtraCostsTotal,
                         Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
                              Background="LightGray"/>
             </StackPanel>
 
             <StackPanel Margin="5 5" Orientation="Horizontal" Background="LightGray">
-                <TextBlock Text="Total" Width="150" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource IDF_PriceTotal}" Width="150" VerticalAlignment="Center" />
                 <TextBox IsReadOnly="True" Text="{Binding CostsTotal,
                         Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
                              Background="LightGray"/>
@@ -73,14 +73,14 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Orientation="Vertical" Margin="20">
-            <CheckBox Content="base calculation on billing" IsChecked="{Binding HasBilling}" />
+            <CheckBox Content="{DynamicResource IDF_BaseRentOnBilling}" IsChecked="{Binding HasBilling}" />
 
             <Grid Margin="0 10" Visibility="{Binding SetBillingVisibility,  Converter={StaticResource VisibilityConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Content="new Billing" Command="{Binding NewBillingCommand}"
+                <Button Content="{DynamicResource IDF_NewBilling}" Command="{Binding NewBillingCommand}"
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Left"
                         Padding="2"

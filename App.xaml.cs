@@ -40,6 +40,13 @@ namespace SharedLivingCostCalculator
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\language\\";
+
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
             LoadData();
 
             _NavigateToFlatManagementViewModel.ChangeView();
@@ -145,6 +152,9 @@ namespace SharedLivingCostCalculator
 
             persistanceHandler.SerializeFlatData(_flatCollection);
             persistanceHandler.SerializeResources();
+
+            //only needed to get a language resource string xml template
+            persistanceHandler.SerializeLanguage(SupportedLanguages.English); 
 
             base.OnExit(e);
         }

@@ -15,7 +15,7 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Vertical" Grid.Column="0">
-                <TextBlock Text="Billing Period Data" Margin="5 10"
+                <TextBlock Text="{DynamicResource IDF_BillingPeriodData}" Margin="5 10"
                        TextAlignment="Center" FontSize="14"/>
                 <TextBlock>
                     <Run Text="{Binding StartDate, StringFormat=d, ConverterCulture=de-DE}"/>
@@ -24,7 +24,7 @@
                 </TextBlock>
 
             <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="Start Date" Width="150" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource IDF_StartDate}" Width="150" VerticalAlignment="Center" />
                 <DatePicker SelectedDate="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
                         UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
@@ -34,7 +34,7 @@
             </StackPanel>
 
             <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="End Date" Width="150" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource IDF_EndDate}" Width="150" VerticalAlignment="Center" />
                 <DatePicker SelectedDate="{Binding EndDate,StringFormat=d, ConverterCulture=de-DE,
                         UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
@@ -45,7 +45,7 @@
             </StackPanel>
 
             <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="Total Costs" Width="150" VerticalAlignment="Center" Padding="2" />
+                <TextBlock Text="{DynamicResource IDF_TotalCosts}" Width="150" VerticalAlignment="Center" Padding="2" />
                 <TextBox Text="{Binding TotalCostsPerPeriod,
                         UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
@@ -55,7 +55,7 @@
             </StackPanel>
 
             <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="Fixed" Width="150" VerticalAlignment="Center" Padding="2" />
+                <TextBlock Text="{DynamicResource IDF_FixedCosts}" Width="150" VerticalAlignment="Center" Padding="2" />
                 <TextBox Text="{Binding TotalFixedCostsPerPeriod,
                         UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
@@ -65,7 +65,7 @@
             </StackPanel>
 
             <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="Heating" Width="150" VerticalAlignment="Center" Padding="2" />
+                <TextBlock Text="{DynamicResource IDF_HeatingCosts}" Width="150" VerticalAlignment="Center" Padding="2" />
                 <TextBox Text="{Binding TotalHeatingCostsPerPeriod,
                         UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
@@ -77,11 +77,11 @@
 
 
         <StackPanel Orientation="Vertical" Grid.Column="1">
-            <TextBlock Text="Consumption" Margin="5 10"
+            <TextBlock Text="{DynamicResource IDF_Consumption}" Margin="5 10"
                        TextAlignment="Center" FontSize="14"/>
 
             <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="Total" Width="150" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource IDF_TotalConsumption}" Width="150" VerticalAlignment="Center" />
                 <TextBox Text="{Binding TotalHeatingUnitsConsumption,
                         UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
@@ -92,7 +92,7 @@
             </StackPanel>
 
             <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="Total Rooms" Width="150" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource IDF_TotalRooms}" Width="150" VerticalAlignment="Center" />
                 <TextBox Text="{Binding TotalHeatingUnitsRoom,
                     UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
@@ -123,7 +123,7 @@
 
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Room" HorizontalContentAlignment="Left" Width="Auto"/>
+                                <GridViewColumnHeader Content="{DynamicResource IDF_RoomName}" HorizontalContentAlignment="Left" Width="Auto"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -135,7 +135,7 @@
 
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Area" HorizontalContentAlignment="Left" Width="Auto"/>
+                                <GridViewColumnHeader Content="{DynamicResource IDF_RoomArea}" HorizontalContentAlignment="Left" Width="Auto"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -147,7 +147,7 @@
 
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Heating Units" HorizontalContentAlignment="Left" Width="Auto"/>
+                                <GridViewColumnHeader Content="{DynamicResource IDF_RoomHeatingUnits}" HorizontalContentAlignment="Left" Width="Auto"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -165,7 +165,7 @@
 
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="%" HorizontalContentAlignment="Left" Width="Auto"/>
+                                <GridViewColumnHeader Content="{DynamicResource IDF_Percentage}" HorizontalContentAlignment="Left" Width="Auto"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

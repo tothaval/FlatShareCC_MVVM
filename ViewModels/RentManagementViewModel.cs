@@ -76,11 +76,8 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (_flatViewModel.RentUpdates.Count > 0)
             {
-                SelectedValue = _flatViewModel?.RentUpdates?.Last();
+                SelectedValue = _flatViewModel.GetMostRecentRent();                    
             }
-
-
-            RentManagementInstructionText = InstructionText();
         }
 
 
@@ -102,29 +99,22 @@ namespace SharedLivingCostCalculator.ViewModels
         }
         private void DeleteRentUpdate()
         {
-            _flatViewModel.RentUpdates.Remove(SelectedValue);
-            RentUpdateSelected = false;
-            OnPropertyChanged(nameof(RentUpdateSelected));
-            OnPropertyChanged(nameof(HasRentUpdate));
+            MessageBoxResult result = MessageBox.Show(
+                $"Do you wan't to delete this rent data:\n\n" +
+                $"\t{SelectedValue.GetFlatViewModel().Address}\n" +
+                $"{SelectedValue.StartDate:d};\n{SelectedValue.ColdRent:C2};\n" +
+                $"{SelectedValue.FixedCostsAdvance:C2};\n{SelectedValue.HeatingCostsAdvance:C2};\n",
+                "Remove Rent", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                _flatViewModel.RentUpdates.Remove(SelectedValue);
+                RentUpdateSelected = false;
+                OnPropertyChanged(nameof(RentUpdateSelected));
+                OnPropertyChanged(nameof(HasRentUpdate));
+            }
+
         }
 
-        private string InstructionText()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.Append(
-                "Rent Management\n" +
-                "\n" +
-                "-> click \"Add Rent\" to create new rent\n" +
-                "-> select rent to view its data\n" +
-                "-> click \"Delete\" to delete selected rent\n" +
-                "-> specify billing in combobox if calculation\n" +
-                "   should be based on consumption ratio and area ratio\n" +
-                "-> click \"Show Costs\" to display costs."
-                );
-
-            return stringBuilder.ToString();
-        }
 
         private void ShowCosts()
         {

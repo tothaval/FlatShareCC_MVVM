@@ -2,20 +2,30 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-
+    
     <SolidColorBrush x:Key="SCB_Background" Color="White"/>
     <SolidColorBrush x:Key="SCB_Text" Color="#444"/>
     <SolidColorBrush x:Key="SCB_Text_Header" Color="Black"/>
     <FontFamily x:Key="FF">Verdana</FontFamily>
     <sys:Double x:Key="FS">11</sys:Double>
 
+    <Style x:Key="Header" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource R_Header}"/>
+        <Setter Property="FontSize" Value="36"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontFamily" Value="Verdana"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="20 5 20 5"/>
+    </Style>
+
     <Style TargetType="Grid">
         <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
     </Style>
-
-    <Style TargetType="DataGridColumnHeader">
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+      
+    <Style TargetType="DataGrid">
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="AutoGenerateColumns" Value="False"/>
     </Style>
     
     <Style TargetType="c_views:CurrencyInputView">
@@ -32,11 +42,6 @@
         <Setter Property="Padding" Value="2"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
-    
-    <Style TargetType="ListView">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
 
     <Style TargetType="TabControl">
         <Setter Property="Background"  Value="Transparent"/>
@@ -46,13 +51,10 @@
         <Setter Property="Background"  Value="Transparent"/>
     </Style>
 
-    <Style TargetType="ListViewItem">
-        <Setter Property="Background" Value="Transparent"/>
-    </Style>
-
     <Style TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="2 2"/>
+        <Setter Property="Padding" Value="5 2"/>
         <Setter Property="Margin" Value="2 2"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
@@ -61,8 +63,10 @@
     </Style>
 
     <Style TargetType="TextBox">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="2 2"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="5 2"/>
         <Setter Property="Margin" Value="2 2"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>

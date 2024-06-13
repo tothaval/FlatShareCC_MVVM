@@ -16,28 +16,17 @@
         <utils:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
         <utils:VisibilityConverter x:Key="VisibilityConverter"/>
 
-        <Style x:Key="Header" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{DynamicResource R_Header}"/>
-            <Setter Property="FontSize" Value="36"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontFamily" Value="Verdana"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="20 5 20 5"/>
-        </Style>
-
     </UserControl.Resources>
 
-    <Grid Margin="20">
+    <Grid Margin="20" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="{Binding HeaderText}"
+        <TextBlock Text="{DynamicResource FlatManagementHeaderText}"
                    Grid.Row="0"
                    Style="{StaticResource Header}"/>
 
@@ -48,78 +37,77 @@
                 <ColumnDefinition Width="0.15*"/>
                 <ColumnDefinition Width="0.15*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
             <Button Content="New Flat"
                 Command="{Binding NewFlatCommand}"
                     CommandParameter="{x:Reference Name=FMV}"
-                    Grid.Column="0"/>
+                    Grid.Column="0" Grid.Row="0"/>
 
-            <Button Content="Edit"                 
-                  HorizontalAlignment="Stretch"
+            <Button Content="Edit"                
                     Command="{Binding EditFlatCommand}"
                     CommandParameter="{Binding ElementName=DG_FlatCollection, Path=SelectedItem}"
                     IsEnabled="{Binding FlatCollectionFilled, NotifyOnSourceUpdated=True}"
                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
                     HorizontalContentAlignment="Center"
-                    Grid.Column="1"/>
+                    Grid.Column="1" Grid.Row="0"/>
 
             <Button Content="Delete"
-                    HorizontalAlignment="Stretch"
                     Command="{Binding DeleteFlatCommand}"
                     CommandParameter="{Binding ElementName=DG_FlatCollection, Path=SelectedItem}"
                     IsEnabled="{Binding FlatCollectionFilled, NotifyOnSourceUpdated=True}"
                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
                     HorizontalContentAlignment="Center"
-                    Grid.Column="2"/>
+                    Grid.Column="2" Grid.Row="0"/>
 
             <Button Content="Settings"
                     Command="{Binding SettingsCommand}"
                     CommandParameter="{x:Reference Name=FMV}"
-                    Grid.Column="3"/>
-        </Grid>
+                    Grid.Column="3" Grid.Row="0"/>
 
 
-        <TextBlock Text="{Binding FlatManagementInstructionText}"
+
+            <TextBlock Text="{DynamicResource FlatManagementInstructionText}"
                      Visibility="{Binding HasFlat, Converter={StaticResource InverseVisibilityConverter}}"
-                   Margin="20" HorizontalAlignment="Center" TextAlignment="Left"
-                   Grid.Row="2"/>
+                   Margin="20" TextAlignment="Left"
+                   Grid.Column="0"
+                   Grid.Row="1"/>
 
-        <DataGrid ItemsSource="{Binding FlatCollection}"
+            <DataGrid ItemsSource="{Binding FlatCollection}"
                   SelectionMode="Single"
                   SelectedItem="{Binding SelectedItem}"
                   Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
                   x:Name="DG_FlatCollection"      
-                  AutoGenerateColumns="False"                  
-                  HorizontalAlignment="Stretch"                  
-                  TextBlock.TextAlignment="Right"                  
-                  MinColumnWidth="50"
-                  ColumnWidth="Auto"
+                  AutoGenerateColumns="False"
+                  TextBlock.TextAlignment="Right"   
                   IsReadOnly="True"
-                  Grid.Row="2">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding ID}"
-                                    CanUserSort="True" Header="ID">
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Address" Binding="{Binding Address}"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="3" Grid.Row="1">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{DynamicResource IDF_Address}" Binding="{Binding Address}"
                                     CanUserSort="True"/>
-                <DataGridTextColumn Header="Details" Binding="{Binding Details}"
+                    <DataGridTextColumn Header="{DynamicResource IDF_Details}" Binding="{Binding Details}"
                                     CanUserSort="True"/>
-                <DataGridTextColumn Header="Area" Binding="{Binding Area}"
+                    <DataGridTextColumn Header="{DynamicResource IDF_FlatArea}" Binding="{Binding Area}"
+                                    CanUserSort="True" MinWidth="75"/>
+                    <DataGridTextColumn Header="{DynamicResource IDF_Rooms}" Binding="{Binding RoomCount}"
                                     CanUserSort="True"/>
-                <DataGridTextColumn Header="RoomCount" Binding="{Binding RoomCount}"
-                                    CanUserSort="True"/>
-            </DataGrid.Columns>
+                </DataGrid.Columns>
 
-        </DataGrid>
+            </DataGrid>
 
-        <Button Content="Accounting"
+            <Button Content="{DynamicResource IDF_Accounting}" 
                 Command="{Binding AccountingCommand}"
                 CommandParameter="{Binding ElementName=DG_FlatCollection, Path=SelectedItem}"
                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
-                Grid.Row="3"
+               Grid.Column="3"  Grid.Row="1"
                 />
+        </Grid>
 
-        <StackPanel Grid.Row="4" 
+        <StackPanel Grid.Row="2"
                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}">
 
             <Grid>
@@ -135,48 +123,48 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <comps:DoubleInputView Label="Area:"
+                <comps:DoubleInputView Label="{DynamicResource IDF_FlatArea}"
                                        Value="{Binding SelectedItem.Area, StringFormat=N2}"
                                        IsReadOnly="True"
                                        ValueAlignment="Right"
                                        LabelMinWidth="90"
                                        ValueMinWidth="90"
                                        Grid.Column="0" Grid.Row="0"/>
-                <comps:DoubleInputView Label="Shared Area:"
+                <comps:DoubleInputView Label="{DynamicResource IDF_SharedFlatArea}"
                                            Value="{Binding SelectedItem.SharedArea, StringFormat=N2}"
                                            IsReadOnly="True"
                                                ValueAlignment="Right"
-                                       LabelMinWidth="90"
+                                       LabelMinWidth="120"
                                        ValueMinWidth="90"
                                        Grid.Column="1" Grid.Row="0"/>
 
-                <comps:CurrencyInputView Label="Rent:"
+                <comps:CurrencyInputView Label="{DynamicResource IDF_Rent}"
                                            Value="{Binding SelectedItem.Rent,NotifyOnSourceUpdated=True}"
                                            IsReadOnly="True"
                                                ValueAlignment="Right"
                                        LabelMinWidth="90"
                                        ValueMinWidth="90"
                                        Grid.Column="0" Grid.Row="1"/>
-                <comps:CurrencyInputView Label="Shared Rent:"
+                <comps:CurrencyInputView Label="{DynamicResource IDF_SharedRent}"
                                            Value="{Binding SelectedItem.SharedRent,NotifyOnSourceUpdated=True}"
                                            IsReadOnly="True"
                                                ValueAlignment="Right"
-                                       LabelMinWidth="90"
+                                       LabelMinWidth="120"
                                        ValueMinWidth="90"
                                        Grid.Column="1" Grid.Row="1"/>
 
-                <comps:CurrencyInputView Label="Extra:"
+                <comps:CurrencyInputView Label="{DynamicResource IDF_Advance}"
                                            Value="{Binding SelectedItem.ExtraCosts, NotifyOnSourceUpdated=True}"
                                            IsReadOnly="True"
                                                ValueAlignment="Right"
                                        LabelMinWidth="90"
                                        ValueMinWidth="90"
                                        Grid.Column="0" Grid.Row="2"/>
-                <comps:CurrencyInputView Label="Shared Extra:"
+                <comps:CurrencyInputView Label="{DynamicResource IDF_SharedAdvance}"
                                            Value="{Binding SelectedItem.SharedExtraCosts, NotifyOnSourceUpdated=True}"
                                            IsReadOnly="True"
                                                ValueAlignment="Right"
-                                       LabelMinWidth="90"
+                                       LabelMinWidth="120"
                                        ValueMinWidth="90"
                                        Grid.Column="1" Grid.Row="2" Grid.IsSharedSizeScope="True"/>
 
@@ -193,37 +181,35 @@
                       Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
                   SelectionMode="Single"  
                   AutoGenerateColumns="False"                  
-                  HorizontalAlignment="Stretch"                  
-                  TextBlock.TextAlignment="Right"                  
-                  MinColumnWidth="50"
-                  ColumnWidth="Auto"
+                  HorizontalAlignment="Stretch"      
+                  TextBlock.TextAlignment="Right"
                   IsReadOnly="True"
-                  Grid.Row="5">
+                  Grid.Row="3">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Room" CanUserSort="True"
-                                        IsReadOnly="True"
+                    <DataGridTextColumn Header="{DynamicResource IDF_RoomName}" CanUserSort="True"
+                                        IsReadOnly="True" MinWidth="150"
                                         Binding="{Binding Room.RoomName}"/>
-                    
-                    <DataGridTextColumn Header="Area" CanUserSort="True"
+
+                    <DataGridTextColumn Header="{DynamicResource IDF_RoomName}" CanUserSort="True"
                                         IsReadOnly="True"
                                         Binding="{Binding Room.RoomArea, StringFormat=N2}"/>
-                    
-                    <DataGridTextColumn Header="Rent Share" CanUserSort="True"
+
+                    <DataGridTextColumn Header="{DynamicResource IDF_RentShare}" CanUserSort="True"
                                         IsReadOnly="True"
                                         Binding="{Binding RentShare, StringFormat=C2, ConverterCulture=de-DE}"/>
-                    
-                    <DataGridTextColumn Header="Extra Share" CanUserSort="True"
+
+                    <DataGridTextColumn Header="{DynamicResource IDF_AdvanceTotal}" CanUserSort="True"
                                         IsReadOnly="True"
                                         Binding="{Binding ExtraCostsShare, StringFormat=C2, ConverterCulture=de-DE}"/>
-                    
-                    <DataGridTextColumn Header="Total Share" CanUserSort="True"
+
+                    <DataGridTextColumn Header="{DynamicResource IDF_PriceTotal}" CanUserSort="True"
                                         IsReadOnly="True"
                                         Binding="{Binding TotalCosts, StringFormat=C2, ConverterCulture=de-DE}"/>
-                    
-                    <DataGridTextColumn Header="%" CanUserSort="True"
-                                        IsReadOnly="True"
+
+                    <DataGridTextColumn Header="{DynamicResource IDF_Percentage}" CanUserSort="True" MinWidth="75"
+                                        IsReadOnly="True" TextBlock.TextAlignment="Right"
                                         Binding="{Binding CostsPercentage, StringFormat=N2}"/>
-                </DataGrid.Columns>                
+                </DataGrid.Columns>
             </DataGrid>
 
         </StackPanel>

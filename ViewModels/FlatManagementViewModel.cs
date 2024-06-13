@@ -106,11 +106,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 _flatCollection.CollectionChanged += _flatCollection_CollectionChanged;
             }
-            
-            MainWindowTitleText = "Shared Living Cost Calculator - Flat Overview";
-            HeaderText = "Flat Overview";
-
-            FlatManagementInstructionText = InstructionText();
         }
 
         private void _flatCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -130,25 +125,7 @@ namespace SharedLivingCostCalculator.ViewModels
             return true;
         }
 
-        private string InstructionText()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append(
-                "Flat Management\n" +
-                "\n" +
-                "-> click \"New Flat\" to show flat setup window\n" +
-                "\t setup flat, !!! address, area(s) and room counts can not be edited\n" +
-                "\t -> click \"Proceed\" to create new flat\n" +
-                "\t -> click \"Leave\" to return to flat management\n" +
-                "-> select flat to view its most recent data\n" +
-                "-> click \"Delete\" to delete selected flat\n" +
-                "-> click \"Accounting\" to enter accounting for selected flat\n" +
-                "-> click \"Settings\" to show settings window\n"
-                );
-
-            return stringBuilder.ToString();
-        }
 
         private void NewFlatSetupWindow(object obj)
         {

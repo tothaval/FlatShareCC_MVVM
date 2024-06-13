@@ -22,21 +22,22 @@
                 <ColumnDefinition Width="0.8*"/>
                 <ColumnDefinition Width="0.2*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="Add Rent" Grid.Column="0"
-           Command="{Binding AddRentUpdateCommand}"/>
+            
+            <Button Content="{DynamicResource IDF_NewRent}" Grid.Column="0"
+                    Command="{Binding AddRentUpdateCommand}"/>
 
             <Button Command="{Binding DeleteCommand}"
-                     Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"
-                    Grid.Column="1" Content="Delete"/>
+                    Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"
+                    Grid.Column="1" Content="{DynamicResource IDF_DeleteRent}"/>
         </Grid>
 
-        <TextBlock Text="{Binding RentManagementInstructionText}"
-                     Visibility="{Binding HasRentUpdate, Converter={StaticResource InverseVisibilityConverter}}"
+        <TextBlock Text="{DynamicResource RentManagementInstructionText}"
+                   Visibility="{Binding HasRentUpdate, Converter={StaticResource InverseVisibilityConverter}}"
                    Margin="20" HorizontalAlignment="Center" TextAlignment="Left"/>
 
         <DataGrid ItemsSource="{Binding RentUpdates}"
                   SelectedValue="{Binding Path=SelectedValue}"
-                     Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"
+                  Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"
                   CanUserSortColumns="True"
                   SelectionMode="Single"
                   AutoGenerateColumns="False"
@@ -54,106 +55,35 @@
                   MinColumnWidth="90"
                   ColumnWidth="*">
             <DataGrid.Columns>
-                
-                <!--<DataGridTemplateColumn>                    
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Width="auto" Height="auto" Padding="2"
-                                       Background="red" Foreground="{DynamicResource SCB_Text}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>                    
-                </DataGridTemplateColumn>-->
-
-                <DataGridTextColumn Binding="{Binding ID}"
-                   SortMemberPath="StartDate" SortDirection="Descending">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="Rent ID"/>
-                            <LineBreak/>
-                            <Run Text=""/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
 
                 <DataGridTextColumn Binding="{Binding StartDate, StringFormat=d, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}"
-                   SortMemberPath="StartDate" SortDirection="Descending">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="begin"/>
-                            <LineBreak/>
-                            <Run Text=""/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                   SortMemberPath="StartDate" Header="{DynamicResource IDF_RentStartDate}" SortDirection="Descending"/>
 
-                <DataGridTextColumn Binding="{Binding ColdRent, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="rent"/>
-                            <LineBreak/>
-                            <Run Text="per month"/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>                   
-                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding ColdRent, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}"
+                                    Header="{DynamicResource IDF_RentPerMonth}"/>
 
-                    <DataGridTextColumn Binding="{Binding ExtraCostsTotal, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="extra costs"/>
-                            <LineBreak/>
-                            <Run Text="per month"/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding ExtraCostsTotal, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}"
+                                    Header="{DynamicResource IDF_ExtraCostsPerMonth}"/>
 
-                <DataGridTextColumn Binding="{Binding CostsTotal, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="total costs"/>
-                            <LineBreak/>
-                            <Run Text="per month"/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding CostsTotal, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}"
+                                    Header="{DynamicResource IDF_TotalPricePerMonth}"/>
 
-                <DataGridTextColumn Binding="{Binding AnnualRent, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="rent"/>
-                            <LineBreak/>
-                            <Run Text="per year"/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding AnnualRent, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}"
+                                    Header="{DynamicResource IDF_RentPerYear}"/>
 
-                <DataGridTextColumn Binding="{Binding AnnualExtraCosts, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="extra costs"/>
-                            <LineBreak/>
-                            <Run Text="per year"/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding AnnualCostsTotal, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="total costs"/>
-                            <LineBreak/>
-                            <Run Text="per year"/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding AnnualExtraCosts, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}"
+                                    Header="{DynamicResource IDF_ExtraCostsPerYear}"/>
+
+                <DataGridTextColumn Binding="{Binding AnnualCostsTotal, StringFormat=C2, ConverterCulture=de-DE, NotifyOnSourceUpdated=True}"
+                                    Header="{DynamicResource IDF_TotalPricePerYear}"/>
             </DataGrid.Columns>
         </DataGrid>
-        
-        
+                
         <Grid Visibility="{Binding RentUpdateSelected, Converter={StaticResource RentUpdateVisibilityConverter}}">
             <local:RentUpdateView DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />
         </Grid>
-
         
-        <Button Content="Show Costs" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding RentUpdateSelected}"
+        <Button Content="{DynamicResource IDF_ShowCosts}" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding RentUpdateSelected}"
                      Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"/>
     </StackPanel>
 </UserControl>

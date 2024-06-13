@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Margin="20">
-        <Grid>
+        <Grid HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -21,27 +21,27 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <comps:CurrencyInputView Grid.Column="0" Label="Rent" Value="{Binding TotalRentCosts, NotifyOnSourceUpdated=True}"
+            <comps:CurrencyInputView Grid.Column="0" Label="{DynamicResource IDF_Rent}" Value="{Binding TotalRentCosts, NotifyOnSourceUpdated=True}"
                                      ValueAlignment="Right"
                                      LabelMinWidth="50"
                                      ValueMinWidth="90"
                                      IsReadOnly="True"/>
-            <comps:CurrencyInputView Grid.Column="1" Label="Extra" Value="{Binding TotalExtraCosts, NotifyOnSourceUpdated=True}"
+            <comps:CurrencyInputView Grid.Column="1" Label="{DynamicResource IDF_ExtraCosts}" Value="{Binding TotalExtraCosts, NotifyOnSourceUpdated=True}"
                                      ValueAlignment="Right"
                                      LabelMinWidth="50"
                                      ValueMinWidth="90"
                                      IsReadOnly="True"/>
-            <comps:CurrencyInputView Grid.Column="2" Label="Total" Value="{Binding TotalCosts, NotifyOnSourceUpdated=True}"
+            <comps:CurrencyInputView Grid.Column="2" Label="{DynamicResource IDF_TotalCosts}" Value="{Binding TotalCosts, NotifyOnSourceUpdated=True}"
                                      ValueAlignment="Right"
                                      LabelMinWidth="50"
                                      ValueMinWidth="90"
                                      IsReadOnly="True"/>
-            <comps:CurrencyInputView Grid.Column="3" Label="Payments" Value="{Binding TotalPayments, NotifyOnSourceUpdated=True}"
+            <comps:CurrencyInputView Grid.Column="3" Label="{DynamicResource IDF_Payments}" Value="{Binding TotalPayments, NotifyOnSourceUpdated=True}"
                                      ValueAlignment="Right"
                                      LabelMinWidth="50"
                                      ValueMinWidth="90"
                                      IsReadOnly="True"/>
-            <comps:CurrencyInputView Grid.Column="4" Label="Balance" Value="{Binding Balance, NotifyOnSourceUpdated=True}"
+            <comps:CurrencyInputView Grid.Column="4" Label="{DynamicResource IDF_Balance}" Value="{Binding Balance, NotifyOnSourceUpdated=True}"
                                      ValueAlignment="Right"
                                      LabelMinWidth="50"
                                      ValueMinWidth="90"
@@ -52,47 +52,47 @@
         <DataGrid ItemsSource="{Binding RoomCosts}"
                   SelectionMode="Single"
                   AutoGenerateColumns="False"                  
-                  HorizontalAlignment="Stretch"                  
-                  TextBlock.TextAlignment="Right"                  
-                  MinColumnWidth="50"
-                  ColumnWidth="Auto"
+                  HorizontalAlignment="Center"                  
+                  TextBlock.TextAlignment="Right"     
+                  VerticalContentAlignment="Top"
                   IsReadOnly="True"
                   Grid.Row="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Room.ID}"
-                                    CanUserSort="True" Header="ID"/>
+                                    CanUserSort="True" Header="{DynamicResource IDF_ID}"/>
 
                 <DataGridTextColumn Binding="{Binding Room.RoomName}"
-                                    CanUserSort="True" Header="Room"/>
+                                    CanUserSort="True" Header="{DynamicResource IDF_RoomName}"/>
 
                 <DataGridTextColumn Binding="{Binding Room.RoomArea}"
-                                    CanUserSort="True" Header="Area"/>
+                                    CanUserSort="True" Header="{DynamicResource IDF_RoomArea}"/>
 
                 <DataGridTextColumn Binding="{Binding Consumption, StringFormat=N4}"
-                                    CanUserSort="True" Header="Heating Units"/>
+                                    CanUserSort="True" Header="{DynamicResource IDF_RoomHeatingUnits}"/>
 
                 <DataGridTextColumn Binding="{Binding Percentage, StringFormat=N2}"
-                                    CanUserSort="True" Header="%"/>
+                                    CanUserSort="True" Header="{DynamicResource IDF_Percentage}"/>
 
                 <DataGridTextColumn Binding="{Binding RentCosts, StringFormat=C2, ConverterCulture=de-DE}"
-                                    CanUserSort="True" Header="Rent"/>
+                                    CanUserSort="True" Header="{DynamicResource IDF_Rent}"/>
 
                 <DataGridTextColumn Binding="{Binding FixedCosts, StringFormat=C2, ConverterCulture=de-DE}"
-                                    CanUserSort="True" Header="Fixed"/>
+                                    CanUserSort="True" Header="{DynamicResource IDF_FixedCosts}"/>
 
                 <DataGridTextColumn Binding="{Binding HeatingCosts, StringFormat=C2, ConverterCulture=de-DE}"
-                                    CanUserSort="True" Header="Heating"/>
+                                    CanUserSort="True" Header="{DynamicResource IDF_HeatingCosts}"/>
 
                 <DataGridTextColumn Binding="{Binding BillingCosts, StringFormat=C2, ConverterCulture=de-DE}"
-                                    CanUserSort="True" Header="Total"/>
+                                    CanUserSort="True" Header="{DynamicResource IDF_TotalCosts}"/>
+
                 <DataGridTextColumn Binding="{Binding CostsPercentage, StringFormat=N2, ConverterCulture=de-DE}"
-                                    CanUserSort="True" Header="%"/>
-                
+                                    CanUserSort="True" Header="{DynamicResource IDF_Percentage}"/>
+
                 <DataGridTextColumn Binding="{Binding TotalPayments, StringFormat=C2, ConverterCulture=de-DE}"
-                                    CanUserSort="True" Header="Payments"/>
+                                    CanUserSort="True" Header="{DynamicResource IDF_Payments}"/>
 
                 <DataGridTextColumn Binding="{Binding Balance, StringFormat=C2, ConverterCulture=de-DE}"
-                                    CanUserSort="True" Header="Balance"/>
+                                    CanUserSort="True" Header="{DynamicResource IDF_Balance}"/>
             </DataGrid.Columns>
         </DataGrid>
 

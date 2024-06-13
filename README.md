@@ -1,6 +1,9 @@
 # SharedLivingCostCalculator dev_build
  rebuild of FSCC using MVVM WPF pattern
- primary use case: me learning and practicing MVVM
+ primary use case:  calculation of costs and advances 
+					for people who share a rentable area.
+					
+					me learning and practicing MVVM
 
 current features:
 
@@ -24,7 +27,7 @@ current features:
 	-> Accounting Button -> enter Accounting View
 		
 	Accounting View
-		Tab Rent -> create, edit, delete Rent data, show Costs Button -> Costs Window
+		Tab Rent -> create, edit, delete Rent data, show Costs Button, base Rent on Billing -> Costs Window
 		Tab Billing -> create, edit, delete BillingPeriod data, show Costs Button -> Costs Window
 		Tab Payments -> select room 
 			-> create, edit, delete Payments data per room
@@ -42,14 +45,12 @@ current features:
 		-> Rent shows monthly and annual costs based on rent values
 		-> Billing shows billing related costs
 		
-	-> !!! beware of results, calculations haven't been thoroughly tested yet	
-	-> !!! new rent values are not yet based on previous consumption values of billing,
-			the results are based on area ratio or false values since linking between
-			objects is not yet fully implemented
+	-> !!! beware of results, calculations haven't been thoroughly tested yet
 
 -> Settings
 	->show Settings window
 	-> Background, Foreground, FontFamily and FontSize can be set
+	-> partially supports second language
 
 
 -> data will be saved and loaded

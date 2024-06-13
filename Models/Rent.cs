@@ -18,6 +18,8 @@ namespace SharedLivingCostCalculator.Models
     {
         public int ID {  get; set; } = 0;
 
+        public int BillingID { get; set; } = -1;
+
         public DateTime StartDate { get; set; } = DateTime.Now;
 
         public double ColdRent { get; set; } = 0.0;

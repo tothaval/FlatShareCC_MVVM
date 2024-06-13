@@ -1,9 +1,13 @@
-﻿using System;
+﻿using SharedLivingCostCalculator.Models;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Xml.Serialization;
 
@@ -13,6 +17,7 @@ namespace SharedLivingCostCalculator.Utility
     [XmlRoot("Resources")]
     public class Resources
     {
+        public string Language { get; set; } = SupportedLanguages.English.ToString();
 
         [XmlIgnore]
         public SolidColorBrush SCB_Background { get; set; } = new SolidColorBrush(Colors.White);
@@ -35,6 +40,10 @@ namespace SharedLivingCostCalculator.Utility
 
         public Resources GetResources()
         {
+
+            // sprachdatei.xml laden und werte zuweisen?
+            Language = Application.Current.Resources["Language"].ToString();
+
             SCB_Background = (SolidColorBrush)Application.Current.Resources["SCB_Background"];
             C_Background = SCB_Background.Color;
 
@@ -55,12 +64,31 @@ namespace SharedLivingCostCalculator.Utility
 
         public void SetResources()
         {
+            Application.Current.Resources["Language"] = Language;
+
             Application.Current.Resources["FS"] = FS;
             Application.Current.Resources["FF"] = new FontFamily(FontFamily);
 
             Application.Current.Resources["SCB_Background"] = new SolidColorBrush(C_Background);
             Application.Current.Resources["SCB_Text"] = new SolidColorBrush(C_Text);
             Application.Current.Resources["SCB_Text_Header"] = new SolidColorBrush(C_Text_Header);
+
+            // languages => select languagefile            
+            new LanguageResources(Language);
+
+            // country => specify ConverterCulture   
+            // ??? how to apply global to app?
+
+
+            //string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+            //string filter = "*.xml";
+
+            //List<string> files = Directory.GetFiles(folder, filter, SearchOption.TopDirectoryOnly).ToList();
+
+            //foreach (string file in files)
+            //{
+            //}
+
         }
     }
 }

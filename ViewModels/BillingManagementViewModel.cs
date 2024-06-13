@@ -79,8 +79,6 @@ namespace SharedLivingCostCalculator.ViewModels
                 SelectedValue = _flatViewModel?.BillingPeriods?.First();
                 OnPropertyChanged(nameof(HasBillingPeriod));
             }
-
-            BillingManagementInstructionText = InstructionText();
         }
 
         private void AddBillingPeriod()
@@ -102,21 +100,6 @@ namespace SharedLivingCostCalculator.ViewModels
             OnPropertyChanged(nameof(HasBillingPeriod));
         }
 
-        private string InstructionText()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.Append(
-                "Billing Management\n" +
-                "\n" +
-                "-> click \"Add Billing\" to create new billing\n" +
-                "-> select billing to view its data\n" +
-                "-> click \"Delete\" to delete selected billing\n" +
-                "-> click \"Show Costs\" to display costs."
-                );
-
-            return stringBuilder.ToString();
-        }
 
         private void ShowCosts()
         {
@@ -134,10 +117,20 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private void DeleteBillingPeriod()
         {
-            _flatViewModel.BillingPeriods.Remove(SelectedValue);
-            BillingPeriodSelected = false;
-            OnPropertyChanged(nameof(BillingPeriodSelected));
-            OnPropertyChanged(nameof(HasBillingPeriod));
+            MessageBoxResult result = MessageBox.Show(
+                $"Do you wan't to delete this billing data:\n\n" +
+                $"{SelectedValue.StartDate:d} - {SelectedValue.EndDate:d};\n" +
+                $"{SelectedValue.TotalCostsPerPeriod:C2}\n" +
+                $"{SelectedValue.TotalFixedCostsPerPeriod:C2}\n" +
+                $"{SelectedValue.TotalHeatingCostsPerPeriod:C2}\n",
+                "Remove Billing", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                _flatViewModel.BillingPeriods.Remove(SelectedValue);
+                BillingPeriodSelected = false;
+                OnPropertyChanged(nameof(BillingPeriodSelected));
+                OnPropertyChanged(nameof(HasBillingPeriod));
+            }
         }
     }
 }

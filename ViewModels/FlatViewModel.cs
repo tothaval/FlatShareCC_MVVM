@@ -92,6 +92,7 @@ namespace SharedLivingCostCalculator.ViewModels
             foreach (RentViewModel rentViewModel in RentUpdates)
             {
                 rentViewModel.GenerateRoomCosts();
+                rentViewModel.SetBilling();
             }
         }
 
@@ -181,7 +182,7 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private RentViewModel? GetMostRecentRent()
+        public RentViewModel? GetMostRecentRent()
         {
             RentViewModel? rentViewModel = null;
             if (RentUpdates.Count > 0)
