@@ -3,6 +3,7 @@ using SharedLivingCostCalculator.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,26 @@ namespace SharedLivingCostCalculator.Utility
                 }
             }
         }
+
+        public void SerializeLanguage(SupportedLanguages language)
+        {
+            var xmlSerializer = new XmlSerializer(typeof(LanguageResourceStrings));
+            LanguageResourceStrings LRS = new LanguageResourceStrings(language);
+
+            string lang = language.ToString();
+            string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\language\\";
+
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
+            using (var writer = new StreamWriter($"{folder}\\{lang}.xml"))
+            {
+                xmlSerializer.Serialize(writer, LRS);
+            }
+        }
+
 
         public void SerializeResources()
         {

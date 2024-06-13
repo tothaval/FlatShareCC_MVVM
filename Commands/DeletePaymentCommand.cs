@@ -28,14 +28,21 @@ namespace SharedLivingCostCalculator.Commands
         {
             IList selection = (IList)parameter;
 
-
-            var selected = selection.Cast<PaymentViewModel>().ToArray();
-
-            foreach (var item in selected)
+            if (selection != null)
             {
-                _paymentsSetupViewModel.RoomViewModel.Payments.Remove(item);
-            }
+                MessageBoxResult result = MessageBox.Show(
+                    $"Do you wan't to delete selected payments?",
+                    "Remove Payment(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    var selected = selection.Cast<PaymentViewModel>().ToArray();
 
+                    foreach (var item in selected)
+                    {
+                        _paymentsSetupViewModel.RoomViewModel.Payments.Remove(item);
+                    }
+                }
+            }
         }
     }
 }

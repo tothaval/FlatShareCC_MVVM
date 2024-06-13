@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Themes\Default.xaml~RF1756f9.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="PropertyTools.Wpf" Version="3.1.0" />
   </ItemGroup>
 

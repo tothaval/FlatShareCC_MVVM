@@ -7,40 +7,43 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-
     <StackPanel Orientation="Vertical" Margin="20">
 
-        <DataGrid ItemsSource="{Binding Rooms}"
-                SelectedValue="{Binding Path=SelectedValue}"
-                CanUserSortColumns="True"
-                SelectionMode="Single"
-                AutoGenerateColumns="False"
-                IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding RoomName}"
-                   Header="Room" SortMemberPath="ID" SortDirection="Ascending"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <DataGrid ItemsSource="{Binding Rooms}"
+                      SelectedValue="{Binding Path=SelectedValue}"
+                      CanUserSortColumns="True"
+                      IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding RoomName}"
+                   Header="{DynamicResource IDF_RoomName}" SortMemberPath="RoomName" SortDirection="Ascending"/>
 
-                <DataGridTextColumn Binding="{Binding RoomArea, StringFormat=N2}"
-                   Header="Area" SortMemberPath="ID" SortDirection="Ascending"/>
+                    <DataGridTextColumn Binding="{Binding RoomArea, StringFormat=N2}"
+                   Header="{DynamicResource IDF_RoomArea}" SortMemberPath="RoomArea" SortDirection="Ascending"/>
 
-                <DataGridTextColumn Binding="{Binding CombinedPayments, NotifyOnSourceUpdated=True,
+                    <DataGridTextColumn Binding="{Binding CombinedPayments, NotifyOnSourceUpdated=True,
                     Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
-                   Header="Payments" SortMemberPath="ID" SortDirection="Ascending"/>
+                   Header="{DynamicResource IDF_Payments}" SortMemberPath="CombinedPayments" SortDirection="Ascending"/>
 
-                <DataGridTextColumn Binding="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
+                    <DataGridTextColumn Binding="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
                                                     UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True,
                                                     ValidatesOnDataErrors=true}"
-                   Header="Begin" SortMemberPath="ID" SortDirection="Ascending"/>
+                                        Header="{DynamicResource IDF_PaymentStartDate}"
+                                        SortMemberPath="StartDate" SortDirection="Ascending"/>
 
-                <DataGridTextColumn Binding="{Binding EndDate,StringFormat=d, ConverterCulture=de-DE,
+                    <DataGridTextColumn Binding="{Binding EndDate,StringFormat=d, ConverterCulture=de-DE,
                                                     UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,
                                                     ValidatesOnDataErrors=true}"
-                   Header="End" SortMemberPath="ID" SortDirection="Ascending"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                                        Header="{DynamicResource IDF_PaymentEndDate}"
+                                        SortMemberPath="EndDate"
+                                        SortDirection="Ascending"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
 
         <Grid>
-            <local:PaymentsSetupView  DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />
+            <local:PaymentsSetupView  DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}"/>
         </Grid>
 
     </StackPanel>

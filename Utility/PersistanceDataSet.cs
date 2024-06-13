@@ -156,8 +156,6 @@ namespace SharedLivingCostCalculator.Utility
             {
                 RentViewModel rentViewModel = new RentViewModel(flatViewModel, rent);
 
-                rentViewModel.GenerateRoomCosts();
-
                 rentViewModels.Add(rentViewModel);
             }
 

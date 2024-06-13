@@ -13,78 +13,92 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-            
-        
-        <StackPanel Orientation="Horizontal">
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel Orientation="Vertical"
                         Grid.Row="0">
-                <TextBlock Text="per Month"/>
-                <components:CurrencyInputView Label="Total Rent Costs" Value="{Binding TotalRentCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
-                                        LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
-                <components:CurrencyInputView Label="Total Extra Costs" Value="{Binding TotalExtraCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
-                                        LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
-                <components:CurrencyInputView Label="Total Costs" Value="{Binding TotalCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
-                                        LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
-        </StackPanel>
+                <TextBlock Text="{DynamicResource IDF_perMonth}"/>
+                <components:CurrencyInputView Label="{DynamicResource IDF_Rent}" Value="{Binding TotalRentCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                                        LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
+                                              ValueAlignment="Right"/>
+                <components:CurrencyInputView Label="{DynamicResource IDF_Advance}" Value="{Binding TotalExtraCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                                        LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
+                                              ValueAlignment="Right"/>
+                <components:CurrencyInputView Label="{DynamicResource IDF_Price}" Value="{Binding TotalCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                                        LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
+                                              ValueAlignment="Right"/>
+            </StackPanel>
 
             <StackPanel Orientation="Vertical"
                         Grid.Row="0">
-                <TextBlock Text="per year"/>
-                <components:CurrencyInputView Label="Annual Rent Costs" Value="{Binding AnnualRentCosts, NotifyOnSourceUpdated=True}"
-                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
-                <components:CurrencyInputView Label="Annual Extra Costs" Value="{Binding AnnualExtraCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
-                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
-                <components:CurrencyInputView Label="Annual Costs" Value="{Binding AnnualCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
-                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"/>
+                <TextBlock Text="{DynamicResource IDF_perYear}"/>
+                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualRent}" Value="{Binding AnnualRentCosts, NotifyOnSourceUpdated=True}"
+                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
+                                              ValueAlignment="Right"/>
+                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualExtra}" Value="{Binding AnnualExtraCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
+                                              ValueAlignment="Right"/>
+                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualPrice}" Value="{Binding AnnualCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
+                                              ValueAlignment="Right"/>
             </StackPanel>
         </StackPanel>
 
         <DataGrid ItemsSource="{Binding RoomCosts}"
-                  HorizontalAlignment="Left"                  
+                  HorizontalAlignment="Center"          
                   SelectionMode="Single"
                   AutoGenerateColumns="False"
                   HorizontalContentAlignment="Right"
                   TextBlock.TextAlignment="Right"
-                  Grid.Row="1"
-                  ColumnWidth="Auto">
+                  Grid.Row="1">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Room" Binding="{Binding Room.RoomName,
+                <DataGridTextColumn Header="{DynamicResource IDF_RoomName}" Binding="{Binding Room.RoomName,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="Area" Binding="{Binding Room.RoomArea,StringFormat=N2,
+                <DataGridTextColumn Header="{DynamicResource IDF_RoomArea}" Binding="{Binding Room.RoomArea,StringFormat=N2,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="Rent Share" Binding="{Binding RentShare,StringFormat=C2, ConverterCulture=de-DE,
+                <DataGridTextColumn Header="{DynamicResource IDF_RentShare}" Binding="{Binding RentShare,StringFormat=C2, ConverterCulture=de-DE,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="Fixed Share" Binding="{Binding FixedShare,StringFormat=C2, ConverterCulture=de-DE,
+                <DataGridTextColumn Header="{DynamicResource IDF_AdvanceFixed}" Binding="{Binding FixedShare,StringFormat=C2, ConverterCulture=de-DE,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="Heating Share" Binding="{Binding HeatingShare,StringFormat=C2, ConverterCulture=de-DE,
+                <DataGridTextColumn Header="{DynamicResource IDF_AdvanceHeating}" Binding="{Binding HeatingShare,StringFormat=C2, ConverterCulture=de-DE,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="Total Costs" Binding="{Binding TotalCosts,StringFormat=C2, ConverterCulture=de-DE,
+                <DataGridTextColumn Header="{DynamicResource IDF_PriceTotal}" Binding="{Binding TotalCosts,StringFormat=C2, ConverterCulture=de-DE,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="%" Binding="{Binding CostsPercentage,StringFormat=N2, 
-                    ValidatesOnDataErrors=true, Delay=500}"/>
             </DataGrid.Columns>
         </DataGrid>
 
         <DataGrid ItemsSource="{Binding RoomCosts}"
-                  HorizontalAlignment="Left"                  
+                  HorizontalAlignment="Center"                  
                   SelectionMode="Single"
                   AutoGenerateColumns="False"
                   HorizontalContentAlignment="Right"
                   TextBlock.TextAlignment="Right"
                   Grid.Row="2"
-                  ColumnWidth="Auto">
+                  >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Room" Binding="{Binding Room.RoomName,
+                <DataGridTextColumn Header="{DynamicResource IDF_RoomName}" Binding="{Binding Room.RoomName,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="Area" Binding="{Binding Room.RoomArea,StringFormat=N2,
+                <DataGridTextColumn Header="{DynamicResource IDF_RoomArea}" Binding="{Binding Room.RoomArea,StringFormat=N2,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="Annual Rent" Binding="{Binding AnnualRentShare,StringFormat=C2, ConverterCulture=de-DE,
+                <DataGridTextColumn Header="{DynamicResource IDF_AnnualRent}" Binding="{Binding AnnualRentShare,StringFormat=C2, ConverterCulture=de-DE,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="Annual Fixed" Binding="{Binding AnnualFixedShare,StringFormat=C2, ConverterCulture=de-DE,
+                <DataGridTextColumn Header="{DynamicResource IDF_AnnualFixed}" Binding="{Binding AnnualFixedShare,StringFormat=C2, ConverterCulture=de-DE,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="Annual Heating" Binding="{Binding AnnualHeatingShare,StringFormat=C2, ConverterCulture=de-DE,
+                <DataGridTextColumn Header="{DynamicResource IDF_AnnualHeating}" Binding="{Binding AnnualHeatingShare,StringFormat=C2, ConverterCulture=de-DE,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="Annual Costs" Binding="{Binding AnnualCosts,StringFormat=C2, ConverterCulture=de-DE,
+                <DataGridTextColumn Header="{DynamicResource IDF_AnnualPrice}" Binding="{Binding AnnualCosts,StringFormat=C2, ConverterCulture=de-DE,
+                    NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
             </DataGrid.Columns>
         </DataGrid>

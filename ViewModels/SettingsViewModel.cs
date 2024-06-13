@@ -1,8 +1,10 @@
 ﻿using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +16,38 @@ namespace SharedLivingCostCalculator.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private Color _backgroundColor;
+        private SupportedLanguages _Language;
+        public SupportedLanguages Language
+        {
+            get { return _Language; }
+            set
+            {
+                _Language = value;
 
+                Application.Current.Resources["Language"] = Language.ToString();
+                new LanguageResources(Language.ToString());
+
+                OnPropertyChanged(nameof(Language));
+            }
+        }
+
+
+        private SupportedLanguages _SelectedItem;
+
+        public SupportedLanguages SelectedItem
+        {
+            get { return _SelectedItem; }
+            set
+            {
+                _SelectedItem = value;
+                Language = value;
+                OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
+
+
+
+        private Color _backgroundColor;
         public Color BackgroundColor
         {
             get { return _backgroundColor; }
@@ -144,6 +176,8 @@ namespace SharedLivingCostCalculator.ViewModels
 
             BackgroundColor = ((SolidColorBrush)Application.Current.Resources["SCB_Background"]).Color;
             ForegroundColor = ((SolidColorBrush)Application.Current.Resources["SCB_Text"]).Color;
+
+            SelectedItem = (SupportedLanguages)System.Enum.Parse(typeof(SupportedLanguages), Application.Current.Resources["Language"].ToString());
         }
         
         private void CloseWindow(object obj)

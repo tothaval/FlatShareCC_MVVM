@@ -8,7 +8,7 @@
         xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components"        
         mc:Ignorable="d" 
         Name="FlatSetupWindow"
-        Title="{Binding FlatSetupTitleText}"
+        Title="{DynamicResource IDF_FlatSetupTitleText}"
         Width="450" Height="600"
         Background="{DynamicResource SCB_Background}">
     
@@ -34,25 +34,23 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Flat Setup" FontSize="24" Grid.Row="0"
-                   Foreground="{DynamicResource R_Header}"
-                   HorizontalAlignment="Stretch"                   
-                   TextAlignment="Center"/>
+        <TextBlock Text="{DynamicResource FlatSetupHeaderText}" Grid.Row="0"
+                   Style="{StaticResource Header}"/>
 
-        <c_views:ObjectInputView Label="Address"
+        <c_views:ObjectInputView Label="{DynamicResource IDF_Address}"
                                  Value="{Binding FlatSetup.Address, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="{Binding IsNewFlatWindow}"
                                  Foreground="DarkSlateGray"
                                                      ValueMinWidth="120"
                                  Grid.Row="1" HorizontalAlignment="Stretch"/>
 
-        <c_views:ObjectInputView Label="Details"
+        <c_views:ObjectInputView Label="{DynamicResource IDF_Details}"
                                  Value="{Binding FlatSetup.Details, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  Foreground="DarkSlateGray"
                                                      ValueMinWidth="120"
                                  Grid.Row="2" HorizontalAlignment="Stretch"/>
 
-        <c_views:ObjectInputView Label="Area"
+        <c_views:ObjectInputView Label="{DynamicResource IDF_FlatArea}"
                                  Value="{Binding FlatSetup.Area, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                 StringFormat=\{0:n\}, Delay=500}"                                 
                                  IsEnabled="{Binding IsNewFlatWindow}"
@@ -61,7 +59,7 @@
                                  ValueAlignment="Right"
                                  Grid.Row="3" HorizontalAlignment="Stretch"/>
 
-        <c_views:ObjectInputView Label="Rooms"
+        <c_views:ObjectInputView Label="{DynamicResource IDF_Rooms}"
                                  Value="{Binding FlatSetup.RoomCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="{Binding IsNewFlatWindow}"
                                  Foreground="DarkSlateGray"
@@ -96,11 +94,11 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                            <c_views:ObjectInputView Label="{Binding ID, StringFormat='Room {0}'}" Grid.Row="0"
+                            <c_views:ObjectInputView Label="{DynamicResource IDF_RoomName}" Grid.Row="0"
                                  Value="{Binding RoomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                  Foreground="DarkSlateGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                                                      ValueMinWidth="120"/>
-                            <c_views:ObjectInputView Label="Area"
+                            <c_views:ObjectInputView Label="{DynamicResource IDF_RoomArea}"
                                  Value="{Binding RoomArea, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, 
                                 StringFormat=\{0:n\}, Delay=500}"
                                  IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"
@@ -108,7 +106,7 @@
                                                      ValueAlignment="Right"
                                                      ValueMinWidth="120"
                                                      Grid.Row="1"/>
-                            <c_views:ObjectInputView Label="Tenant"
+                            <c_views:ObjectInputView Label="{DynamicResource IDF_RoomTenant}"
                                                      Value="{Binding Tenant, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                 StringFormat=\{0:n\}, Delay=500}" 
                                                      Foreground="DarkSlateGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
@@ -132,7 +130,7 @@
 
         <Button Grid.Row="8"                               
                 Command="{Binding LeaveViewCommand}" Margin="0 20 0 0">
-            <TextBlock Text="Leave" HorizontalAlignment="Center"
+            <TextBlock Text="{DynamicResource IDF_Back}" HorizontalAlignment="Center"
                        TextAlignment="Center"/>
         </Button>
 

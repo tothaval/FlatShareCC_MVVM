@@ -51,6 +51,7 @@
   <Rents>
     <Rent>
       <ID>0</ID>
+      <BillingID>-1</BillingID>
       <StartDate>2023-10-01T00:00:00</StartDate>
       <ColdRent>575</ColdRent>
       <ExtraCostsShared>105</ExtraCostsShared>

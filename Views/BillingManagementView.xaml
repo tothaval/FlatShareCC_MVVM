@@ -21,16 +21,16 @@
                 <ColumnDefinition Width="0.8*"/>
                 <ColumnDefinition Width="0.2*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="Add Billing"
+            <Button Content="{DynamicResource IDF_NewBilling}"
                 Command="{Binding AddBillingPeriodCommand}"
                     Grid.Column="0"/>
 
             <Button Command="{Binding DeleteCommand}"
-                Content="Delete" Grid.Column="1" TextBlock.TextAlignment="Center"
+                Content="{DynamicResource IDF_DeleteBilling}" Grid.Column="1" TextBlock.TextAlignment="Center"
                      Visibility="{Binding HasBillingPeriod, Converter={StaticResource VisibilityConverter}}"/>
         </Grid>
 
-        <TextBlock Text="{Binding BillingManagementInstructionText}"
+        <TextBlock Text="{DynamicResource BillingManagementInstructionText}"
                      Visibility="{Binding HasBillingPeriod, Converter={StaticResource InverseVisibilityConverter}}"
                    Margin="20" HorizontalAlignment="Center" TextAlignment="Left"/>
 
@@ -54,80 +54,30 @@
                   MinColumnWidth="90"
                   ColumnWidth="*">
                 <DataGrid.Columns>
+                    
                 <DataGridTextColumn Binding="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
                         ValidatesOnDataErrors=true, Delay=500}"
-                                    SortMemberPath="StartDate" SortDirection="Descending">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="begin"/>
-                            <LineBreak/>
-                            <Run Text=""/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                                    SortMemberPath="StartDate" SortDirection="Descending"
+                                    Header="{DynamicResource IDF_StartDate}"/>
+                    
                 <DataGridTextColumn Binding="{Binding EndDate, StringFormat=d, ConverterCulture=de-DE,
-                        ValidatesOnDataErrors=true, Delay=500}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="end"/>
-                            <LineBreak/>
-                            <Run Text=""/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                        ValidatesOnDataErrors=true, Delay=500}"
+                                    Header="{DynamicResource IDF_EndDate}"/>
 
                 <DataGridTextColumn Binding="{Binding TotalCostsPerPeriod,  StringFormat=C2, ConverterCulture=de-DE,
-                        ValidatesOnDataErrors=true, Delay=500}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="total"/>
-                            <LineBreak/>
-                            <Run Text="costs"/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                        ValidatesOnDataErrors=true, Delay=500}" Header="{DynamicResource IDF_TotalCosts}"/>
+
                 <DataGridTextColumn Binding="{Binding TotalFixedCostsPerPeriod,  StringFormat=C2, ConverterCulture=de-DE,
-                        ValidatesOnDataErrors=true, Delay=500}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="fixed"/>
-                            <LineBreak/>
-                            <Run Text="costs"/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                        ValidatesOnDataErrors=true, Delay=500}" Header="{DynamicResource IDF_FixedCosts}"/>
+
                 <DataGridTextColumn Binding="{Binding TotalHeatingCostsPerPeriod, StringFormat=C2, ConverterCulture=de-DE,
-                        ValidatesOnDataErrors=true, Delay=500}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="heating"/>
-                            <LineBreak/>
-                            <Run Text="costs"/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                        ValidatesOnDataErrors=true, Delay=500}" Header="{DynamicResource IDF_HeatingCosts}"/>
 
                 <DataGridTextColumn Binding="{Binding TotalHeatingUnitsConsumption, StringFormat=N4,
-                        ValidatesOnDataErrors=true, Delay=500}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="heating units"/>
-                            <LineBreak/>
-                            <Run Text="total"/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                        ValidatesOnDataErrors=true, Delay=500}" Header="{DynamicResource IDF_RoomHeatingUnits}"/>
 
                 <DataGridTextColumn Binding="{Binding TotalHeatingUnitsRoom, StringFormat=N4,
-                        ValidatesOnDataErrors=true, Delay=500}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock HorizontalAlignment="Right">
-                            <Run Text="heating units"/>
-                            <LineBreak/>
-                            <Run Text="rooms"/>
-                        </TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
+                        ValidatesOnDataErrors=true, Delay=500}" Header="{DynamicResource IDF_CombinedRoomHeatingUnits}"/>
 
             </DataGrid.Columns>
             </DataGrid>
@@ -136,7 +86,7 @@
             <local:BillingPeriodView DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />
         </Grid>
 
-        <Button Content="Show Costs" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding BillingPeriodSelected}"
+        <Button Content="{DynamicResource IDF_ShowCosts}" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding BillingPeriodSelected}"
                      Visibility="{Binding HasBillingPeriod, Converter={StaticResource VisibilityConverter}}"/>
 
     </StackPanel>

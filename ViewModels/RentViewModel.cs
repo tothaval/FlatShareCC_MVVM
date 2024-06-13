@@ -23,12 +23,31 @@ namespace SharedLivingCostCalculator.ViewModels
             get { return _BillingViewModel; }
             set
             {
-                _BillingViewModel = value;                                
+                _BillingViewModel = value;
+
+                if (_BillingViewModel != null)
+                {
+                    GetRent.BillingID = _flatViewModel.BillingPeriods.IndexOf(_BillingViewModel);
+                }
+
                 OnPropertyChanged(nameof(BillingViewModel));
             }
         }
 
-        public bool HasBilling => BillingViewModel != null;
+        private bool _HasBilling;
+
+        public bool HasBilling
+        {
+            get { return _HasBilling; }
+            set
+            {
+                _HasBilling = value;
+
+                if (!HasBilling) { RemoveBilling(); }
+
+                OnPropertyChanged(nameof(HasBilling));
+            }
+        }
 
         public Rent GetRent => _rent;
 
@@ -128,8 +147,29 @@ namespace SharedLivingCostCalculator.ViewModels
             _rent = rent;         
 
             BillingViewModel = billingViewModel;
+
+            SetBilling();
+
             OnPropertyChanged(nameof(HasBilling));
         }
+
+
+
+        public void RemoveBilling()
+        {
+            BillingViewModel = null;
+        }
+
+
+        public void SetBilling()
+        {
+            if (GetRent.BillingID != -1 && GetFlatViewModel().BillingPeriods.Count > GetRent.BillingID)
+            {
+                BillingViewModel = GetFlatViewModel().BillingPeriods[GetRent.BillingID];
+                HasBilling = true;
+            }
+        }
+
 
         public void GenerateRoomCosts()
         {

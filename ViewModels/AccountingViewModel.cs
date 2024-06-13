@@ -59,8 +59,6 @@ namespace SharedLivingCostCalculator.ViewModels
             _billings = new BillingManagementViewModel(FlatViewModel, this);
             _payments = new PaymentManagementViewModel(FlatViewModel);
             _rents = new RentManagementViewModel(FlatViewModel);
-
-            MainWindowTitleText = "Shared Living Cost Calculator - Accounting";
         }
     }
 }
