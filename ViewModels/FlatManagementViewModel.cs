@@ -1,13 +1,22 @@
-﻿using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Models;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  FlatManagementViewModel  : BaseViewModel
+ * 
+ *  viewmodel
+ *  
+ *  purpose:
+ *      -> display existing flats
+ *      -> create, edit, delete flats
+ *      -> open Settings view
+ *      -> display most recent rent of selected flat
+ *      
+ *      -> application main view
+ */
+
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Services;
 using SharedLivingCostCalculator.Views;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,7 +24,9 @@ namespace SharedLivingCostCalculator.ViewModels
 {
     internal class FlatManagementViewModel : BaseViewModel
     {
+
         private INavigationService _navigationService;
+
 
         private string headerText;
         public string HeaderText
@@ -24,7 +35,6 @@ namespace SharedLivingCostCalculator.ViewModels
             set { headerText = value; OnPropertyChanged(nameof(HeaderText)); }
         }
 
-        public string FlatManagementInstructionText { get; set; }
 
         private ObservableCollection<FlatViewModel> _flatCollection;
         public ObservableCollection<FlatViewModel> FlatCollection
@@ -38,7 +48,6 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(FlatCollection));
             }
         }
-
 
 
         private FlatViewModel _SelectedItem;
@@ -59,7 +68,9 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         public bool HasFlat => _flatCollection.Count > 0;
+
 
         private bool _FlatCollectionFilled;
         public bool FlatCollectionFilled
@@ -74,12 +85,18 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         public ICommand NewFlatCommand { get; }
+
+
         public ICommand SettingsCommand { get; }
 
-        public ICommand AccountingCommand { get; }
-        public ICommand EditFlatCommand { get; }
-        public ICommand DeleteFlatCommand { get; }
 
+        public ICommand AccountingCommand { get; }
+
+
+        public ICommand EditFlatCommand { get; }
+
+
+        public ICommand DeleteFlatCommand { get; }
 
 
         public FlatManagementViewModel(ObservableCollection<FlatViewModel> flatCollection,
@@ -108,6 +125,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         private void _flatCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             FlatCollectionFilled = FlatCollection.Count > 0;
@@ -120,11 +138,11 @@ namespace SharedLivingCostCalculator.ViewModels
             OnPropertyChanged(nameof(HasFlat));
         }
 
+
         private bool CanShowWindow(object obj)
         {
             return true;
         }
-
 
 
         private void NewFlatSetupWindow(object obj)
@@ -156,6 +174,7 @@ namespace SharedLivingCostCalculator.ViewModels
             flatSetupView.Show();
         }
 
+
         private void ShowSettingsWindow(object obj)
         {
             var mainWindow = Application.Current.MainWindow;
@@ -171,5 +190,8 @@ namespace SharedLivingCostCalculator.ViewModels
 
             settingsView.Show();
         }
+
+
     }
 }
+// EOF

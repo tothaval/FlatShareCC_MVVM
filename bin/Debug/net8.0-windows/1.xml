@@ -2,14 +2,24 @@
 <Flat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ID>2</ID>
   <Address>Addresse 2, 00770 stadt</Address>
-  <Details>USE CASE: several years</Details>
+  <Details>USE CASE: several years++</Details>
   <Area>109</Area>
   <RoomCount>4</RoomCount>
-  <FlatNotes>flat two</FlatNotes>
+  <FlatNotes>flat two
+
+
+
+
+
+
+
+
+
+</FlatNotes>
   <Rooms>
     <RoomData>
       <ID>0</ID>
-      <RoomName>ZIMMER 00</RoomName>
+      <RoomName>ZIMMER 000</RoomName>
       <RoomArea>25.4</RoomArea>
       <Payments>
         <Payment>

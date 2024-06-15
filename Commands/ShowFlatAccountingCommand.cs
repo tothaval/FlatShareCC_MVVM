@@ -1,17 +1,21 @@
-﻿using SharedLivingCostCalculator.Services;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  ShowFlatAccountingCommand 
+ * 
+ *  a specific navigate command which changes 
+ *  the MainWindow.xaml CurrentViewModel to
+ *  the AccountingViewModel
+ */
+
+using SharedLivingCostCalculator.Services;
 using SharedLivingCostCalculator.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Navigation;
 
 namespace SharedLivingCostCalculator.Commands
 {
     class ShowFlatAccountingCommand : BaseCommand
     {
         private INavigationService _navigationService;
+
 
         public ShowFlatAccountingCommand(INavigationService navigationService)
         {
@@ -28,5 +32,8 @@ namespace SharedLivingCostCalculator.Commands
             }
 
         }
+
+
     }
 }
+// EOF

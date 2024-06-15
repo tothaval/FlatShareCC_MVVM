@@ -1,33 +1,52 @@
-﻿using SharedLivingCostCalculator.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  Flat 
+ * 
+ *  serializable data model class
+ *  for FlatViewModel
+ */
+
+using SharedLivingCostCalculator.ViewModels;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
+
 
 namespace SharedLivingCostCalculator.Models
 {
+
     [Serializable]
     public class Flat
     {
+
         public int ID { get; set; }
+
+
         public string Address { get; set; }
+
+
         public string Details { get; set; }
+
+
         public double Area { get; set; }
+
+
         public int RoomCount { get; set; }
+
+
         public string FlatNotes { get; set; } = "notes";
+
 
         [XmlIgnore]
         public ObservableCollection<RoomViewModel> Rooms { get; set; }
 
+
         [XmlIgnore]
         public ObservableCollection<BillingViewModel> BillingPeriods { get; set; }
 
+
         [XmlIgnore]
         public ObservableCollection<RentViewModel> RentUpdates { get; set; }
+
 
         public Flat()
         {
@@ -40,6 +59,7 @@ namespace SharedLivingCostCalculator.Models
             BillingPeriods = new ObservableCollection<BillingViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();
         }
+
 
         public Flat(int id, string address, double area, int roomCount, string details = "")
         {
@@ -61,6 +81,7 @@ namespace SharedLivingCostCalculator.Models
             RentUpdates = new ObservableCollection<RentViewModel>();
         }
 
+
         public Flat(int iD, string address, double area, int roomCount, ObservableCollection<RoomViewModel> rooms, string details = "") : this(iD, address, area, roomCount)
         {
             Rooms = rooms;
@@ -69,5 +90,8 @@ namespace SharedLivingCostCalculator.Models
             BillingPeriods = new ObservableCollection<BillingViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();
         }
+
+
     }
 }
+// EOF

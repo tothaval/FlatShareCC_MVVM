@@ -1,29 +1,47 @@
-﻿using SharedLivingCostCalculator.Calculations;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  FlatViewModel  : BaseViewModel
+ * 
+ *  viewmodel for Flat model
+ *  
+ *  the most important data object
+ */
 using SharedLivingCostCalculator.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     public class FlatViewModel : BaseViewModel
     {
+
+        public event Action RoomCreation;
+
+
         private Flat _flat;
         public Flat GetFlat => _flat;
 
+
         public int ID => _flat.ID;
+
+
         public string Address { get { return _flat.Address; } set { _flat.Address = value; } }
+
+
         public string Details { get { return _flat.Details; } set { _flat.Details = value; } }
+
+
         public double Area { get { return _flat.Area; } set { _flat.Area = value; } }
+
+
         public int RoomCount { get { return _flat.RoomCount; } set { _flat.RoomCount = value; CreateRooms(); } }
+
+
         public string FlatNotes { get { return _flat.FlatNotes; } set { _flat.FlatNotes = value; OnPropertyChanged(nameof(FlatNotes)); } }
 
+
         public ObservableCollection<RoomCostsViewModel> CurrentRoomCosts { get; set; }
+
 
         public ObservableCollection<RoomViewModel> Rooms
         {
@@ -35,6 +53,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         public ObservableCollection<BillingViewModel> BillingPeriods
         {
             get { return _flat.BillingPeriods; }
@@ -44,6 +63,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(BillingPeriods));
             }
         }
+
 
         public ObservableCollection<RentViewModel> RentUpdates
         {
@@ -57,12 +77,18 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         public double ExtraCosts => CurrentExtraCosts();
+
+
         public double SharedExtraCosts => CalculateSharedExtraCosts();
 
-        public double Rent => CurrentRent();
-        public double SharedRent => CalculateSharedRent();
-        public double SharedArea => CalculateSharedArea();
 
+        public double Rent => CurrentRent();
+
+
+        public double SharedRent => CalculateSharedRent();
+
+
+        public double SharedArea => CalculateSharedArea();
 
 
         public FlatViewModel(Flat flat)
@@ -72,6 +98,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             ConnectRooms();
         }
+
 
         public BillingViewModel AddBilling(RentViewModel rentViewModel)
         {
@@ -87,6 +114,7 @@ namespace SharedLivingCostCalculator.ViewModels
             return billingViewModel;
         }
 
+
         public async Task Calculate()
         {
             foreach (RentViewModel rentViewModel in RentUpdates)
@@ -99,61 +127,24 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public void SetMostRecentCosts()
         {
-            ObservableCollection<RoomCostsViewModel> roomCosts = new ObservableCollection<RoomCostsViewModel>();
+            RentViewModel? rent = GetMostRecentRent();
 
-            BillingViewModel? billing = GetMostRecentBillingPeriod();
-
-            if (billing != null)
+            if (rent != null)
             {
-                roomCosts = billing.RoomCosts;
-            }
-            else
-            {
-                RentViewModel? rent = GetMostRecentRent();
-
-                if (rent != null)
+                if (rent.RoomCosts.Count == 0)
                 {
-                    if (rent.RoomCosts.Count == 0)
+                    foreach (RoomViewModel room in Rooms)
                     {
-                        foreach (RoomViewModel room in Rooms)
-                        {
-                            rent.RoomCosts.Add(new RoomCostsViewModel(room, rent));
-                        }
-                    }
-                    else
-                    {
-                        roomCosts = rent.RoomCosts;
+                        rent.RoomCosts.Add(new RoomCostsViewModel(room, rent));
                     }
                 }
-            }
 
-            CurrentRoomCosts = roomCosts;
+                CurrentRoomCosts = rent.RoomCosts;
+            }
 
             OnPropertyChanged(nameof(CurrentRoomCosts));
         }
 
-        public ObservableCollection<RoomCostsViewModel> GetMostRecentCosts()
-        {
-            ObservableCollection<RoomCostsViewModel> roomCosts = new ObservableCollection<RoomCostsViewModel>();
-
-            BillingViewModel? billing = GetMostRecentBillingPeriod();
-
-            if (billing != null)
-            {
-                roomCosts = billing.RoomCosts;
-            }
-            else
-            {
-                RentViewModel? rent = GetMostRecentRent();
-
-                if (rent != null)
-                {
-                    roomCosts = rent.RoomCosts;
-                }
-            }
-
-            return roomCosts;
-        }
 
         private BillingViewModel? GetMostRecentBillingPeriod()
         {
@@ -206,6 +197,7 @@ namespace SharedLivingCostCalculator.ViewModels
             return rentViewModel;
         }
 
+
         public double GetPaymentsPerPeriod(BillingViewModel billingViewModel)
         {
             double paymentsPerPeriod = 0;
@@ -226,6 +218,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             return paymentsPerPeriod;
         }
+
 
         public RentViewModel? GetRentForPeriod(BillingViewModel billingViewModel)
         {
@@ -260,6 +253,7 @@ namespace SharedLivingCostCalculator.ViewModels
             return rentViewModel;
         }
 
+
         private void ConnectRooms()
         {
             if (Rooms != null && Rooms.Count > 0)
@@ -285,6 +279,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         private void Room_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             RoomViewModel? room = sender as RoomViewModel;
@@ -306,10 +301,6 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        public event Action RoomCreation;
-
-
-
 
         private double CalculateSharedArea()
         {
@@ -324,6 +315,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         }
 
+
         private double CalculateSharedExtraCosts()
         {
             double shared_area = CalculateSharedArea();
@@ -334,6 +326,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         }
 
+
         private double CalculateSharedRent()
         {
             double shared_area = CalculateSharedArea();
@@ -343,6 +336,8 @@ namespace SharedLivingCostCalculator.ViewModels
             return shared_rent;
 
         }
+
+
         private double CurrentExtraCosts()
         {
             RentViewModel currentRent = new RentViewModel(this, new Models.Rent());
@@ -358,6 +353,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             return currentRent.ExtraCostsTotal;
         }
+
 
         private double CurrentRent()
         {
@@ -376,6 +372,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-
     }
 }
+// EOF

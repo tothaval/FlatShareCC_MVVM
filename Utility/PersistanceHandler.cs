@@ -1,19 +1,21 @@
-﻿using SharedLivingCostCalculator.Models;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  PersistanceHandler 
+ * 
+ *  helper class for serializing data
+ */
 using SharedLivingCostCalculator.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
+
 
 namespace SharedLivingCostCalculator.Utility
 {
     internal class PersistanceHandler
     {
+
         public void SerializeFlatData(ObservableCollection<FlatViewModel> flats)
         {
             for (int i = 0; i < flats.Count; i++)
@@ -27,6 +29,7 @@ namespace SharedLivingCostCalculator.Utility
             }
         }
 
+
         public void SerializeLanguage(SupportedLanguages language)
         {
             var xmlSerializer = new XmlSerializer(typeof(LanguageResourceStrings));
@@ -34,11 +37,6 @@ namespace SharedLivingCostCalculator.Utility
 
             string lang = language.ToString();
             string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\language\\";
-
-            if (!Directory.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
 
             using (var writer = new StreamWriter($"{folder}\\{lang}.xml"))
             {
@@ -64,5 +62,8 @@ namespace SharedLivingCostCalculator.Utility
         {
             
         }
+
+
     }
 }
+// EOF

@@ -1,12 +1,11 @@
-﻿using SharedLivingCostCalculator.Commands;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  MainViewModel  : BaseViewModel
+ * 
+ *  viewmodel for MainWindow
+ */
 using SharedLivingCostCalculator.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
+
 
 namespace SharedLivingCostCalculator.ViewModels
 {
@@ -15,7 +14,9 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private readonly NavigationStore _navigationStore;
 
+
         private string mainWindowTitle;
+
 
         public string MainWindowTitle
         {
@@ -26,6 +27,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public BaseViewModel CurrentViewModel => _navigationStore.CurrentViewModel;
 
+
         public MainViewModel(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
@@ -33,11 +35,13 @@ namespace SharedLivingCostCalculator.ViewModels
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
 
+
         private void OnCurrentViewModelChanged()
         {
-
             OnPropertyChanged(nameof(CurrentViewModel));
-            MainWindowTitle = CurrentViewModel.MainWindowTitleText;
         }
+
+
     }
 }
+// EOF

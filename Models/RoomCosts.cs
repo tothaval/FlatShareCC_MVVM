@@ -1,22 +1,24 @@
-﻿using SharedLivingCostCalculator.Models;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RoomCosts 
+ * 
+ *  serializable data model class
+ *  for RoomCostsViewModel
+ */
+
 using SharedLivingCostCalculator.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace SharedLivingCostCalculator.Calculations
+namespace SharedLivingCostCalculator.Models
 {
     [Serializable]
     public class RoomCosts
     {
         [XmlIgnore]
         public RoomViewModel GetRoomViewModel { get; }
-        
+
         public int RoomID { get; set; }
-        
+
         public double HeatingUnitsConsumption { get; set; }
 
         public double RentShare { get; set; }
@@ -27,7 +29,7 @@ namespace SharedLivingCostCalculator.Calculations
 
         public RoomCosts()
         {
-                
+
         }
 
         public RoomCosts(RoomViewModel room)
@@ -38,7 +40,8 @@ namespace SharedLivingCostCalculator.Calculations
             {
                 RoomID = room.ID;
             }
-            
+
         }
     }
 }
+// EOF

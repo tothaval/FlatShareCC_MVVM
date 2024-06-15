@@ -1,22 +1,28 @@
-﻿using SharedLivingCostCalculator.Models;
-using SharedLivingCostCalculator.Services;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  FlatSetupCommand 
+ * 
+ *  adds a new FlatViewModel instance
+ *  to the _flatCollection ObservableCollection<FlatViewModel>
+ */
+using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.Views;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace SharedLivingCostCalculator.Commands
 {
     internal class FlatSetupCommand : BaseCommand
     {
+
         private readonly ObservableCollection<FlatViewModel> _flatCollection;
+
+
         private readonly FlatSetupViewModel _viewModel;
+
+
         private readonly FlatSetupView _flatSetupView;
+
 
         public FlatSetupCommand(ObservableCollection<FlatViewModel> flatCollection, FlatSetupViewModel viewModel, FlatSetupView flatSetupView)
         {
@@ -24,6 +30,7 @@ namespace SharedLivingCostCalculator.Commands
             _viewModel = viewModel;
             _flatSetupView = flatSetupView;
         }
+
 
         public override void Execute(object? parameter)
         {
@@ -45,14 +52,18 @@ namespace SharedLivingCostCalculator.Commands
                     0.0,
                     0.0
                     )
-                );                       
+                );
+
+            rentViewModel.GenerateRoomCosts();
 
             flatViewModel.RentUpdates.Add(rentViewModel);
-
 
             _flatCollection.Add(flatViewModel);
 
             _flatSetupView.Close();
         }
+
+
     }
 }
+// EOF

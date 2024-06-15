@@ -42,12 +42,12 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <Button Content="New Flat"
+            <Button Content="{DynamicResource IDF_NewFlat}"
                 Command="{Binding NewFlatCommand}"
                     CommandParameter="{x:Reference Name=FMV}"
                     Grid.Column="0" Grid.Row="0"/>
 
-            <Button Content="Edit"                
+            <Button Content="{DynamicResource IDF_EditFlat}"                
                     Command="{Binding EditFlatCommand}"
                     CommandParameter="{Binding ElementName=DG_FlatCollection, Path=SelectedItem}"
                     IsEnabled="{Binding FlatCollectionFilled, NotifyOnSourceUpdated=True}"
@@ -55,7 +55,7 @@
                     HorizontalContentAlignment="Center"
                     Grid.Column="1" Grid.Row="0"/>
 
-            <Button Content="Delete"
+            <Button Content="{DynamicResource IDF_DeleteFlat}"
                     Command="{Binding DeleteFlatCommand}"
                     CommandParameter="{Binding ElementName=DG_FlatCollection, Path=SelectedItem}"
                     IsEnabled="{Binding FlatCollectionFilled, NotifyOnSourceUpdated=True}"
@@ -63,11 +63,10 @@
                     HorizontalContentAlignment="Center"
                     Grid.Column="2" Grid.Row="0"/>
 
-            <Button Content="Settings"
+            <Button Content="{DynamicResource IDF_Settings}"
                     Command="{Binding SettingsCommand}"
                     CommandParameter="{x:Reference Name=FMV}"
                     Grid.Column="3" Grid.Row="0"/>
-
 
 
             <TextBlock Text="{DynamicResource FlatManagementInstructionText}"
@@ -76,6 +75,7 @@
                    Grid.Column="0"
                    Grid.Row="1"/>
 
+            
             <DataGrid ItemsSource="{Binding FlatCollection}"
                   SelectionMode="Single"
                   SelectedItem="{Binding SelectedItem}"
@@ -112,68 +112,88 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="left"/>
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="middle"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="B"/>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="C"/>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="D"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <comps:DoubleInputView Label="{DynamicResource IDF_FlatArea}"
-                                       Value="{Binding SelectedItem.Area, StringFormat=N2}"
-                                       IsReadOnly="True"
-                                       ValueAlignment="Right"
-                                       LabelMinWidth="90"
-                                       ValueMinWidth="90"
-                                       Grid.Column="0" Grid.Row="0"/>
-                <comps:DoubleInputView Label="{DynamicResource IDF_SharedFlatArea}"
-                                           Value="{Binding SelectedItem.SharedArea, StringFormat=N2}"
-                                           IsReadOnly="True"
-                                               ValueAlignment="Right"
-                                       LabelMinWidth="120"
-                                       ValueMinWidth="90"
-                                       Grid.Column="1" Grid.Row="0"/>
+                <TextBlock Text="{DynamicResource IDF_Address}"
+                           Grid.Column="0" Grid.Row="1"
+                           />
 
-                <comps:CurrencyInputView Label="{DynamicResource IDF_Rent}"
-                                           Value="{Binding SelectedItem.Rent,NotifyOnSourceUpdated=True}"
-                                           IsReadOnly="True"
-                                               ValueAlignment="Right"
-                                       LabelMinWidth="90"
-                                       ValueMinWidth="90"
-                                       Grid.Column="0" Grid.Row="1"/>
-                <comps:CurrencyInputView Label="{DynamicResource IDF_SharedRent}"
-                                           Value="{Binding SelectedItem.SharedRent,NotifyOnSourceUpdated=True}"
-                                           IsReadOnly="True"
-                                               ValueAlignment="Right"
-                                       LabelMinWidth="120"
-                                       ValueMinWidth="90"
-                                       Grid.Column="1" Grid.Row="1"/>
+                <TextBlock Text="{Binding SelectedItem.Address, StringFormat=N2}"
+                           Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"
+                           />
 
-                <comps:CurrencyInputView Label="{DynamicResource IDF_Advance}"
-                                           Value="{Binding SelectedItem.ExtraCosts, NotifyOnSourceUpdated=True}"
-                                           IsReadOnly="True"
-                                               ValueAlignment="Right"
-                                       LabelMinWidth="90"
-                                       ValueMinWidth="90"
-                                       Grid.Column="0" Grid.Row="2"/>
-                <comps:CurrencyInputView Label="{DynamicResource IDF_SharedAdvance}"
-                                           Value="{Binding SelectedItem.SharedExtraCosts, NotifyOnSourceUpdated=True}"
-                                           IsReadOnly="True"
-                                               ValueAlignment="Right"
-                                       LabelMinWidth="120"
-                                       ValueMinWidth="90"
-                                       Grid.Column="1" Grid.Row="2" Grid.IsSharedSizeScope="True"/>
+                <TextBlock Text="{DynamicResource IDF_FlatArea}"
+                           Grid.Column="0" Grid.Row="2"
+                           />
 
-                <TextBox Text="{Binding SelectedItem.FlatNotes, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"
-                     Grid.Column="2" VerticalAlignment="Stretch"
+                <TextBlock Text="{Binding SelectedItem.Area, StringFormat=N2}"
+                           Grid.Column="1" Grid.Row="2"
+                           />
+
+                <TextBlock Text="{DynamicResource IDF_SharedFlatArea}"
+                           Grid.Column="2" Grid.Row="2"
+                           />
+
+                <TextBlock Text="{Binding SelectedItem.SharedArea, StringFormat=N2}"
+                           Grid.Column="3" Grid.Row="2"
+                           />
+
+                <TextBlock Text="{DynamicResource IDF_Rent}"
+                           Grid.Column="0" Grid.Row="3"
+                           />
+
+                <TextBlock Text="{Binding SelectedItem.Rent, StringFormat=C2, ConverterCulture=de-DE}"
+                           Grid.Column="1" Grid.Row="3"
+                           />
+                <TextBlock Text="{DynamicResource IDF_SharedRent}"
+                           Grid.Column="2" Grid.Row="3"
+                           />
+
+                <TextBlock Text="{Binding SelectedItem.SharedRent, StringFormat=C2, ConverterCulture=de-DE}"
+                           Grid.Column="3" Grid.Row="3"
+                           />
+
+                <TextBlock Text="{DynamicResource IDF_Advance}"
+                           Grid.Column="0" Grid.Row="4"
+                           />
+
+                <TextBlock Text="{Binding SelectedItem.ExtraCosts, StringFormat=C2, ConverterCulture=de-DE}"
+                           Grid.Column="1" Grid.Row="4"
+                           />
+                <TextBlock Text="{DynamicResource IDF_SharedAdvance}"
+                           Grid.Column="2" Grid.Row="4"
+                           />
+
+                <TextBlock Text="{Binding SelectedItem.SharedExtraCosts, StringFormat=C2, ConverterCulture=de-DE}"
+                           Grid.Column="3" Grid.Row="4"
+                           />
+
+                <TextBox Text="{Binding SelectedItem.FlatNotes, UpdateSourceTrigger=PropertyChanged}"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         Grid.Column="4"
                          Grid.Row="0"
-                         Grid.RowSpan="3"
+                         Grid.RowSpan="5"
+                         Width="200"
+                         MaxHeight="200"
+                         VerticalScrollBarVisibility="Auto"
                          HorizontalAlignment="Stretch"
-                         HorizontalContentAlignment="Left"/>
+                         VerticalAlignment="Stretch"
+                         HorizontalContentAlignment="Left"
+                         VerticalContentAlignment="Top"/>
             </Grid>
 
 
@@ -190,7 +210,7 @@
                                         IsReadOnly="True" MinWidth="150"
                                         Binding="{Binding Room.RoomName}"/>
 
-                    <DataGridTextColumn Header="{DynamicResource IDF_RoomName}" CanUserSort="True"
+                    <DataGridTextColumn Header="{DynamicResource IDF_RoomArea}" CanUserSort="True"
                                         IsReadOnly="True"
                                         Binding="{Binding Room.RoomArea, StringFormat=N2}"/>
 

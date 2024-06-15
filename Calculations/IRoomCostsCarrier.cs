@@ -1,12 +1,13 @@
-﻿using SharedLivingCostCalculator.Navigation;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  IRoomCostsCarrier 
+ * 
+ *  interface for viewmodels containing instances
+ *  of RoomCostsViewModel
+ */
+
 using SharedLivingCostCalculator.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.Calculations
 {
@@ -19,3 +20,4 @@ namespace SharedLivingCostCalculator.Calculations
         event PropertyChangedEventHandler DataChange;
     }
 }
+// EOF

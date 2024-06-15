@@ -1,27 +1,44 @@
-﻿using SharedLivingCostCalculator.Commands;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  BillingManagementViewModel  : BaseViewModel
+ * 
+ *  viewmodel for BillingManagementView
+ *  
+ *  displays the elements of ObservableCollection<BillingViewModel>
+ *  of the selected FlatViewModel instance, offers management functions
+ *  to add or remove elements to the collection
+ *  
+ *  holds an instance of BillingPeriodViewModel, which is responsible
+ *  for editing the data of BillingViewModel instances
+ */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Views;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     internal class BillingManagementViewModel : BaseViewModel
     {
+
         private readonly AccountingViewModel _accountingViewModel;
+
+
         private FlatViewModel _flatViewModel;
 
+
         public bool BillingPeriodSelected { get; set; }
+
+
         public bool HasBillingPeriod => _flatViewModel.BillingPeriods.Count > 0;
 
+
         public string BillingManagementInstructionText { get; set; }
+
 
         private BillingPeriodViewModel _updateViewModel;
         public BillingPeriodViewModel UpdateViewModel
@@ -33,6 +50,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(UpdateViewModel));
             }
         }
+
 
         private BillingViewModel _selectedValue;
         public BillingViewModel SelectedValue
@@ -53,11 +71,19 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         public ICommand AddBillingPeriodCommand { get; }
+
+
         public ICommand DeleteCommand { get; }
+
+
         public ICommand ShowCostsCommand { get; }
 
+
         public ICollectionView Billings { get; set; }
+
+
         public ICollectionView Rooms { get; set; }
 
 
@@ -66,19 +92,37 @@ namespace SharedLivingCostCalculator.ViewModels
             _accountingViewModel = accountingViewModel;
             _flatViewModel = flatViewModel;
 
-            AddBillingPeriodCommand = new RelayCommand(p => AddBillingPeriod(), (s) => true);
-            DeleteCommand = new RelayCommand(p => DeleteBillingPeriod(), (s) => true);
+            //AddBillingPeriodCommand = new RelayCommand(p => AddBillingPeriod(), (s) => true);
+            //DeleteCommand = new RelayCommand(p => DeleteBillingPeriod(), (s) => true);
 
             ShowCostsCommand = new RelayCommand(p => ShowCosts(), (s) => true);
 
             Billings = CollectionViewSource.GetDefaultView(_flatViewModel.BillingPeriods);
             Billings.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
 
-            if (_flatViewModel.BillingPeriods.Count > 0)
+            if (_flatViewModel.BillingPeriods.Count > 0
+                && _accountingViewModel.Rents != null
+                && _accountingViewModel.Rents.SelectedValue != null
+                && _accountingViewModel.Rents.SelectedValue.HasBilling == true)
             {
-                SelectedValue = _flatViewModel?.BillingPeriods?.First();
+                SelectedValue = _accountingViewModel.Rents.SelectedValue.BillingViewModel;
                 OnPropertyChanged(nameof(HasBillingPeriod));
             }
+            else if (_flatViewModel.BillingPeriods.Count > 0)
+            {
+                SelectedValue = _flatViewModel.BillingPeriods.First();
+            }
+        }
+
+
+        private void RentManagementViewModelSelectionChange(object? sender, EventArgs e)
+        {
+            BillingViewModel? billingViewModel = _accountingViewModel.Rents.SelectedValue.BillingViewModel;
+
+            if (billingViewModel != null)
+            {
+                SelectedValue = billingViewModel;
+            }            
         }
 
         private void AddBillingPeriod()
@@ -115,6 +159,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }            
         }
 
+
         private void DeleteBillingPeriod()
         {
             MessageBoxResult result = MessageBox.Show(
@@ -132,5 +177,8 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(HasBillingPeriod));
             }
         }
+
+
     }
 }
+// EOF

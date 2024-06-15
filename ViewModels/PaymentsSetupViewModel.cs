@@ -1,36 +1,49 @@
-﻿using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Models;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  PaymentsSetupViewModel  : BaseViewModel
+ * 
+ *  viewmodel for PaymentsSetupView
+ *  
+ *  displays all elements of ObservableCollection<PaymentViewModel>
+ *  for a selected instance of RoomViewModel
+ *  
+ *  create, edit or delete instances of PaymentViewModel for a
+ *  selected RoomViewModel instance
+ */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Utility;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     internal class PaymentsSetupViewModel : BaseViewModel, INotifyDataErrorInfo
     {
+
         private ValidationHelper _helper = new ValidationHelper();
+
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
+
         public bool HasErrors => _helper.HasErrors;
+
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
+
 
         private readonly RoomViewModel _roomViewModel;
         public RoomViewModel RoomViewModel => _roomViewModel;
 
+
         public ObservableCollection<PaymentViewModel> Payments => _roomViewModel.Payments;
 
-        private int _quantity;
 
+        private int _quantity;
         public int Quantity
         {
             get { return _quantity; }
@@ -52,7 +65,10 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         public ICommand AddPaymentCommand { get; }
+
+
         public ICommand DeletePaymentCommand { get; }
 
 
@@ -65,5 +81,7 @@ namespace SharedLivingCostCalculator.ViewModels
             DeletePaymentCommand = new DeletePaymentCommand(this);
         }
 
+
     }
 }
+// EOF
