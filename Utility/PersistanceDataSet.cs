@@ -1,41 +1,54 @@
-﻿using SharedLivingCostCalculator.Calculations;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  PersistanceDataSet 
+ * 
+ *  serializable helper class to
+ *  store and retrieve FlatViewModel
+ *  data to or from hard drive storage  
+ */
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
 using System.Xml.Serialization;
+
 
 namespace SharedLivingCostCalculator.Utility
 {
+
     [Serializable]
     [XmlRoot("Flat")]
     public class PersistanceDataSet
     {
+
         [XmlIgnore]
         private readonly FlatViewModel _flatViewModel;
 
+
         public int ID { get; set; }
+
+
         public string Address { get; set; }
+
+
         public string Details { get; set; }
+
+
         public double Area { get; set; }
+
+
         public int RoomCount { get; set; }
+
+
         public string FlatNotes { get; set; }
+
 
         [XmlArray("Rooms")]
         public ObservableCollection<RoomData> Rooms { get; set; }
-        //{
-        //    get { return GetRooms(); }
-        //    set
-        //    { Rooms = value; }
-        //}
+
 
         [XmlArray("Billings")]
         public ObservableCollection<BillingData> BillingPeriods { get; set; }
+
 
         [XmlArray("Rents")]
         public ObservableCollection<Rent> Rents { get; set; }
@@ -82,6 +95,7 @@ namespace SharedLivingCostCalculator.Utility
             return rents;
         }
 
+
         private ObservableCollection<RoomData> GetRooms()
         {
             ObservableCollection<RoomData> rooms = new ObservableCollection<RoomData>();
@@ -103,6 +117,7 @@ namespace SharedLivingCostCalculator.Utility
 
             return rooms;
         }
+
 
         public async Task<ObservableCollection<BillingViewModel>> GetBillingViewModels(FlatViewModel flatViewModel)
         {
@@ -162,6 +177,7 @@ namespace SharedLivingCostCalculator.Utility
             return rentViewModels;
         }
 
+
         public async Task<ObservableCollection<RoomViewModel>> GetRoomViewModels(FlatViewModel flatViewModel)
         {
             ObservableCollection<RoomViewModel> roomViewModels = new ObservableCollection<RoomViewModel>();
@@ -208,6 +224,7 @@ namespace SharedLivingCostCalculator.Utility
             return flatViewModel;
         }
 
+
         public PersistanceDataSet()
         {
             _flatViewModel = new FlatViewModel(new Flat());
@@ -216,6 +233,7 @@ namespace SharedLivingCostCalculator.Utility
             Rents = new ObservableCollection<Rent>();
             Rooms = new ObservableCollection<RoomData>();
         }
+
 
         public PersistanceDataSet(FlatViewModel flatViewModel)
         {
@@ -232,5 +250,8 @@ namespace SharedLivingCostCalculator.Utility
             Rents = GetRents();
             Rooms = GetRooms();
         }
+
+
     }
 }
+// EOF

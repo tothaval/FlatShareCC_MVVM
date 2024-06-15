@@ -1,18 +1,21 @@
-﻿using SharedLivingCostCalculator.Models;
-using System;
-using System.Collections.Generic;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RoomViewModel  : BaseViewModel
+ * 
+ *  viewmodel for Room model
+ */
+using SharedLivingCostCalculator.Models;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Printing;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     public class RoomViewModel : BaseViewModel
     {
+
         private Room _room;
         public Room GetRoom => _room;
+
 
         public int ID
         {
@@ -24,6 +27,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         public string RoomName
         {
             get { return _room.RoomName; }
@@ -34,6 +38,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 
             }
         }
+
 
         public double RoomArea
         {
@@ -47,7 +52,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         private double _CombinedPayments;
-
         public double CombinedPayments
         {
             get { return _CombinedPayments; }
@@ -58,8 +62,8 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-
-        private DateTime _StartDate;
+        
+        private DateTime _StartDate;   
         public DateTime StartDate
         {
             get { return _StartDate; }
@@ -69,6 +73,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(StartDate));
             }
         }
+
 
         private DateTime _EndDate;
         public DateTime EndDate
@@ -93,10 +98,12 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         public RoomViewModel(Room room)
         {
             _room = room;
         }
+
 
         public void RegisterPaymentEvents()
         {
@@ -106,10 +113,12 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         private void Payment_Change(object? sender, EventArgs e)
         {
             DetermineValues();
         }
+
 
         public void DetermineValues()
         {
@@ -139,6 +148,7 @@ namespace SharedLivingCostCalculator.ViewModels
             return paymentsPerPeriod;
         }
 
+
         public double CalculateTotalPayments()
         {
             double total = 0.0;
@@ -154,6 +164,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             return total;
         }
+
 
         public DateTime FindNewestPayment()
         {
@@ -183,6 +194,7 @@ namespace SharedLivingCostCalculator.ViewModels
             return end;
         }
 
+
         public DateTime FindOldestPayment()
         {
             DateTime start = DateTime.Now;
@@ -201,5 +213,7 @@ namespace SharedLivingCostCalculator.ViewModels
             return start;
         }
 
+
     }
 }
+// EOF

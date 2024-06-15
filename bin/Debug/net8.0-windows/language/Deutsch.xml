@@ -1,97 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Language>German</Language>
+  <Language>Deutsch</Language>
   <IDF_StartDate>Beginn</IDF_StartDate>
   <IDF_EndDate>Ende</IDF_EndDate>
   <IDF_ID>ID</IDF_ID>
   <IDF_RoomName>Raum</IDF_RoomName>
   <IDF_RoomArea>Fläche</IDF_RoomArea>
   <IDF_MainWindowTitle>Kostenrechner für Mietergemeinschaften</IDF_MainWindowTitle>
-  <IDF_FlatSetupTitleText>SLCC Mietobjekt</IDF_FlatSetupTitleText>
+  <IDF_FlatSetupTitleText>SLCC Mietobjekt anlegen</IDF_FlatSetupTitleText>
   <FlatSetupHeaderText>Mietobjekt</FlatSetupHeaderText>
   <IDF_Address>Adresse</IDF_Address>
-  <IDF_FlatArea>Wohnfläche</IDF_FlatArea>
+  <IDF_FlatArea>Fläche</IDF_FlatArea>
   <IDF_Details>Details</IDF_Details>
   <IDF_Rooms>Räume</IDF_Rooms>
   <IDF_RoomTenant>Mietpartei</IDF_RoomTenant>
-  <IDF_SharedFlatArea>gemeinsame Wohnfläche</IDF_SharedFlatArea>
+  <IDF_SharedFlatArea>gemeinsam
+genutzte Fläche</IDF_SharedFlatArea>
   <AccountingHeaderText>Abrechnung</AccountingHeaderText>
-  <FlatManagementHeaderText>Flat Management</FlatManagementHeaderText>
-  <IDF_SettingsTitleText>SLCC Settings</IDF_SettingsTitleText>
+  <FlatManagementHeaderText>Mietobjekte</FlatManagementHeaderText>
+  <IDF_SettingsTitleText>SLCC Optionen</IDF_SettingsTitleText>
   <IDF_Language>Sprache</IDF_Language>
   <IDF_Country>Land</IDF_Country>
   <IDF_FontSize>Schriftgröße</IDF_FontSize>
   <IDF_FontFamily>Schriftart</IDF_FontFamily>
-  <IDF_Foreground>Foreground</IDF_Foreground>
-  <IDF_Background>Background</IDF_Background>
+  <IDF_Foreground>Vordergrund</IDF_Foreground>
+  <IDF_Background>Hintergrund</IDF_Background>
   <SettingsHeaderText>Optionen</SettingsHeaderText>
   <IDF_Rent>Miete</IDF_Rent>
   <IDF_RentUpdateData>Mietdaten</IDF_RentUpdateData>
   <IDF_RentShare>Mietanteil</IDF_RentShare>
-  <IDF_AdvanceFixed>NK-Anteil</IDF_AdvanceFixed>
-  <IDF_AdvanceHeating>HK-Anteil</IDF_AdvanceHeating>
-  <IDF_AdvanceTotal>BK-Anteil</IDF_AdvanceTotal>
-  <IDF_PriceTotal>Gesamt</IDF_PriceTotal>
-  <IDF_BaseRentOnBilling>BKA</IDF_BaseRentOnBilling>
+  <IDF_AdvanceFixed>Vorauszahlung
+NK-Anteil pro Monat</IDF_AdvanceFixed>
+  <IDF_AdvanceHeating>Vorauszahlung
+HK-Anteil pro Monat</IDF_AdvanceHeating>
+  <IDF_AdvanceTotal>Vorauszahlung
+BK-Anteil pro Monat</IDF_AdvanceTotal>
+  <IDF_PriceTotal>Preis
+pro Monat</IDF_PriceTotal>
+  <IDF_BaseRentOnBilling>BKA berücksichtigen für Mietanteile</IDF_BaseRentOnBilling>
   <IDF_RentStartDate>Beginn
-
 </IDF_RentStartDate>
-  <IDF_RentPerMonth>monatliche
-Miete</IDF_RentPerMonth>
-  <IDF_ExtraCostsPerMonth>extra costs
-month</IDF_ExtraCostsPerMonth>
-  <IDF_TotalPricePerMonth>total price
-month</IDF_TotalPricePerMonth>
-  <IDF_RentPerYear>rent
-year</IDF_RentPerYear>
-  <IDF_ExtraCostsPerYear>extra costs
-year</IDF_ExtraCostsPerYear>
-  <IDF_TotalPricePerYear>total price
-year</IDF_TotalPricePerYear>
-  <IDF_SharedRent>shared rent</IDF_SharedRent>
-  <IDF_Advance>advance</IDF_Advance>
-  <IDF_SharedAdvance>shared advance</IDF_SharedAdvance>
-  <IDF_Price>price</IDF_Price>
-  <IDF_Accounting>accounting</IDF_Accounting>
-  <IDF_AnnualRent>annual rent</IDF_AnnualRent>
-  <IDF_AnnualExtra>annual extra</IDF_AnnualExtra>
-  <IDF_AnnualFixed>annual fixed</IDF_AnnualFixed>
-  <IDF_AnnualHeating>annual heating</IDF_AnnualHeating>
-  <IDF_AnnualPrice>annual price</IDF_AnnualPrice>
-  <IDF_perYear>per year</IDF_perYear>
-  <IDF_perMonth>per month</IDF_perMonth>
-  <IDF_Billing>Billing</IDF_Billing>
-  <IDF_BillingPeriodData>Billing Period Data</IDF_BillingPeriodData>
-  <IDF_Consumption>Consumption</IDF_Consumption>
-  <IDF_ExtraCosts>Extra
-Costs</IDF_ExtraCosts>
-  <IDF_FixedCosts>Fixed
-Costs</IDF_FixedCosts>
-  <IDF_HeatingCosts>Heating
-Costs</IDF_HeatingCosts>
-  <IDF_TotalCosts>Total
-Costs</IDF_TotalCosts>
-  <IDF_Balance>Balance</IDF_Balance>
-  <IDF_RoomHeatingUnits>Heating Units</IDF_RoomHeatingUnits>
-  <IDF_CombinedRoomHeatingUnits>all rooms
-heating units</IDF_CombinedRoomHeatingUnits>
+  <IDF_RentPerMonth>Miete
+pro Monat</IDF_RentPerMonth>
+  <IDF_ExtraCostsPerMonth>BK-Vorauszahlung
+pro Monat</IDF_ExtraCostsPerMonth>
+  <IDF_TotalPricePerMonth>Kosten
+pro Monat</IDF_TotalPricePerMonth>
+  <IDF_RentPerYear>Miete
+pro Jahr</IDF_RentPerYear>
+  <IDF_ExtraCostsPerYear>BK-Vorauszahlung
+pro Jahr</IDF_ExtraCostsPerYear>
+  <IDF_TotalPricePerYear>Kosten
+pro Jahr</IDF_TotalPricePerYear>
+  <IDF_SharedRent>gemeinsamer
+Mietanteil</IDF_SharedRent>
+  <IDF_Advance>Vorauszahlungen</IDF_Advance>
+  <IDF_SharedAdvance>gemeinsame
+BK-Vorauszahlung</IDF_SharedAdvance>
+  <IDF_Price>Preis</IDF_Price>
+  <IDF_Accounting>Abrechnung</IDF_Accounting>
+  <IDF_AnnualRent>Miete
+pro Jahr</IDF_AnnualRent>
+  <IDF_AnnualExtra>Vorauszahlung
+BK-Anteil pro Jahr</IDF_AnnualExtra>
+  <IDF_AnnualFixed>Vorauszahlung
+NK-Anteil pro Jahr</IDF_AnnualFixed>
+  <IDF_AnnualHeating>Vorauszahlung
+HK-Anteil pro Jahr</IDF_AnnualHeating>
+  <IDF_AnnualPrice>Preis
+pro Jahr</IDF_AnnualPrice>
+  <IDF_perYear>pro Jahr</IDF_perYear>
+  <IDF_perMonth>pro Monat</IDF_perMonth>
+  <IDF_Billing>BKA</IDF_Billing>
+  <IDF_BillingPeriodData>BKA Daten</IDF_BillingPeriodData>
+  <IDF_Consumption>Verbrauch</IDF_Consumption>
+  <IDF_ExtraCosts>Betriebskosten</IDF_ExtraCosts>
+  <IDF_FixedCosts>Nebenkosten</IDF_FixedCosts>
+  <IDF_HeatingCosts>Heizkosten</IDF_HeatingCosts>
+  <IDF_TotalCosts>Gesamtkosten</IDF_TotalCosts>
+  <IDF_Balance>nach Abrechnung</IDF_Balance>
+  <IDF_RoomHeatingUnits>Gesamtverbrauch</IDF_RoomHeatingUnits>
+  <IDF_CombinedRoomHeatingUnits>Raumverbauch</IDF_CombinedRoomHeatingUnits>
   <IDF_Percentage>%</IDF_Percentage>
-  <IDF_TotalConsumption>total consumption</IDF_TotalConsumption>
-  <IDF_TotalRooms>rooms consumption</IDF_TotalRooms>
-  <IDF_Payments>Payments</IDF_Payments>
-  <IDF_Quantity>Quantity</IDF_Quantity>
-  <IDF_AddPayment>Add Payment(s)</IDF_AddPayment>
-  <IDF_DeletePayment>Delete Payment</IDF_DeletePayment>
-  <IDF_PaymentStartDate>start</IDF_PaymentStartDate>
-  <IDF_PaymentEndDate>end</IDF_PaymentEndDate>
-  <IDF_Payment>payment</IDF_Payment>
-  <IDF_PaymentQuantity>payment
-quantity</IDF_PaymentQuantity>
-  <IDF_PaymentTotal>total</IDF_PaymentTotal>
-  <IDF_Back>Back</IDF_Back>
-  <IDF_NewBilling>New Billing</IDF_NewBilling>
-  <IDF_DeleteBilling>Delete</IDF_DeleteBilling>
-  <IDF_ShowCosts>Show Costs</IDF_ShowCosts>
-  <IDF_NewRent>New Rent</IDF_NewRent>
-  <IDF_DeleteRent>Delete Rent</IDF_DeleteRent>
+  <IDF_TotalConsumption>Gesamtverbrauch</IDF_TotalConsumption>
+  <IDF_TotalRooms>Raumverbrauch</IDF_TotalRooms>
+  <IDF_Payments>Zahlungen</IDF_Payments>
+  <IDF_Quantity>Anzahl</IDF_Quantity>
+  <IDF_AddPayment>Zahlung(en) hinzufügen</IDF_AddPayment>
+  <IDF_DeletePayment>Zahlung(en) löschen</IDF_DeletePayment>
+  <IDF_PaymentStartDate>Beginn</IDF_PaymentStartDate>
+  <IDF_PaymentEndDate>Ende</IDF_PaymentEndDate>
+  <IDF_Payment>Zahlung</IDF_Payment>
+  <IDF_PaymentQuantity>Anzahl
+Zahlungen</IDF_PaymentQuantity>
+  <IDF_PaymentTotal>Summe</IDF_PaymentTotal>
+  <IDF_Back>Zurück</IDF_Back>
+  <IDF_NewBilling>Neue BKA</IDF_NewBilling>
+  <IDF_DeleteBilling>BKA löschen</IDF_DeleteBilling>
+  <IDF_ShowCosts>Zeige Kosten</IDF_ShowCosts>
+  <IDF_NewRent>Neue Miete</IDF_NewRent>
+  <IDF_DeleteRent>Miete löschen</IDF_DeleteRent>
+  <IDF_NewFlat>Mietobjekt anlegen</IDF_NewFlat>
+  <IDF_EditFlat>Mietobjekt bearbeiten</IDF_EditFlat>
+  <IDF_DeleteFlat>Mietobjekt löschen</IDF_DeleteFlat>
+  <IDF_Settings>Einstellungen</IDF_Settings>
 </Language>

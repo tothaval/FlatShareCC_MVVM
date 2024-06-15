@@ -1,32 +1,37 @@
-﻿using SharedLivingCostCalculator.Commands;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  PaymentViewModel  : BaseViewModel
+ * 
+ *  viewmodel for Payment model
+ */
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Input;
+
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     public class PaymentViewModel : BaseViewModel, INotifyDataErrorInfo
     {
+
         private ValidationHelper _helper = new ValidationHelper();
+
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
+
         public bool HasErrors => _helper.HasErrors;
+
+
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
 
+
         private readonly Payment _payment;
+
 
         public Payment GetPayment => _payment;
 
@@ -47,6 +52,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(StartDate));
             }
         }
+
 
         public DateTime EndDate
         {
@@ -96,6 +102,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         public double Sum
         {
             get { return _payment.Sum; }
@@ -122,12 +129,16 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public double PaymentTotal => Sum * PaymentQuantity;
 
+
         public bool EndDateVisible => PaymentQuantity > 1;
+
 
         public PaymentViewModel(Payment payment)
         {
             _payment = payment;
         }
 
+
     }
 }
+// EOF

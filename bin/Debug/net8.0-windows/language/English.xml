@@ -33,6 +33,13 @@
   <IDF_AdvanceTotal>advance total</IDF_AdvanceTotal>
   <IDF_PriceTotal>price total</IDF_PriceTotal>
   <IDF_BaseRentOnBilling>base calculation on billing</IDF_BaseRentOnBilling>
+  <IDF_OtherCosts>other costs</IDF_OtherCosts>
+  <IDF_Credit>credit(s)</IDF_Credit>
+  <IDF_HasOtherCosts>factor in other costs</IDF_HasOtherCosts>
+  <IDF_NewOtherCosts>setup other costs</IDF_NewOtherCosts>
+  <IDF_CreditReceived>factor in a credit</IDF_CreditReceived>
+  <IDF_NewCredit>setup credit</IDF_NewCredit>
+  <IDF_LockData>lock data</IDF_LockData>
   <IDF_RentStartDate>begin
 
 </IDF_RentStartDate>
@@ -94,4 +101,8 @@ quantity</IDF_PaymentQuantity>
   <IDF_ShowCosts>Show Costs</IDF_ShowCosts>
   <IDF_NewRent>New Rent</IDF_NewRent>
   <IDF_DeleteRent>Delete Rent</IDF_DeleteRent>
+  <IDF_NewFlat>New Flat</IDF_NewFlat>
+  <IDF_EditFlat>Edit Flat</IDF_EditFlat>
+  <IDF_DeleteFlat>Delete Flat</IDF_DeleteFlat>
+  <IDF_Settings>Settings</IDF_Settings>
 </Language>

@@ -1,9 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  LanguageResourceStrings 
+ * 
+ *  serializable data model class 
+ *  for the language infrastructure 
+ *  holds all texts within the application
+ *  
+ *  to do:
+ *  
+ *  split the member definitions into 
+ *  several parts for every viewmodel
+ */
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Utility
@@ -62,6 +70,20 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_AdvanceTotal { get; set; } = "advance total";
         public string IDF_PriceTotal { get; set; } = "price total";
         public string IDF_BaseRentOnBilling { get; set; } = "base calculation on billing";
+        public string IDF_OtherCosts { get; set; } = "other costs";
+        public string IDF_Credit { get; set; } = "credit(s)";
+
+        public string IDF_HasOtherCosts { get; set; } = "factor in other costs";
+        
+        
+        public string IDF_NewOtherCosts { get; set; } = "setup other costs";
+        
+        
+        public string IDF_CreditReceived { get; set; } = "factor in a credit";
+        
+        
+        public string IDF_NewCredit { get; set; } = "setup credit";
+        public string IDF_LockData { get; set; } = "lock data";
 
         public string IDF_RentStartDate { get; set; } = "begin\n\n";
         public string IDF_RentPerMonth { get; set; } = "rent\nmonth";
@@ -130,6 +152,12 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_ShowCosts { get; set; } = "Show Costs";
         public string IDF_NewRent { get; set; } = "New Rent";
         public string IDF_DeleteRent { get; set; } = "Delete Rent";
+
+
+        public string IDF_NewFlat { get; set; } = "New Flat";
+        public string IDF_EditFlat { get; set; } = "Edit Flat";
+        public string IDF_DeleteFlat { get; set; } = "Delete Flat";
+        public string IDF_Settings { get; set; } = "Settings";
 
 
 
@@ -205,3 +233,4 @@ namespace SharedLivingCostCalculator.Utility
         }
     }
 }
+// EOF

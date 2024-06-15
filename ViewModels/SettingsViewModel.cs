@@ -1,21 +1,25 @@
-﻿using SharedLivingCostCalculator.Commands;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  SettingsViewModel  : BaseViewModel
+ * 
+ *  viewmodel for SettingsView
+ *  
+ *  shows a separate window which enables the
+ *  user to edit some application properties.
+ */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.Views;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
+
         private SupportedLanguages _Language;
         public SupportedLanguages Language
         {
@@ -33,7 +37,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         private SupportedLanguages _SelectedItem;
-
         public SupportedLanguages SelectedItem
         {
             get { return _SelectedItem; }
@@ -44,7 +47,6 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
-
 
 
         private Color _backgroundColor;
@@ -62,8 +64,8 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        private Color _foregroundColor;
 
+        private Color _foregroundColor;
         public Color ForegroundColor
         {
             get { return _foregroundColor; }
@@ -79,8 +81,8 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        private FontFamily _fontFamiliy;
 
+        private FontFamily _fontFamiliy;
         public FontFamily FontFamily
         {
             get { return _fontFamiliy; }
@@ -93,36 +95,8 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        // once the main functionality is up and running
-        // implement some options to change displayed currency
-                
-        //public ObservableCollection<string> Currency = new ObservableCollection<string>() 
-        //{ "Dollar", "Euro", "Pound" };
-
-        //private Dictionary<string, string> _countries = new Dictionary<string, string>()
-        //{
-        //    { "$", "en-EN" },
-        //    { "Germany", "de-DE"  },
-        //    { "United States", "en-US" }
-        //};               
-
-
-        //private string _selectedCountry;
-
-        //public string SelectedCountry
-        //{
-        //    get { return _selectedCountry; }
-        //    set
-        //    {
-        //        _selectedCountry = value;
-        //        OnPropertyChanged(nameof(SelectedCountry));
-        //    }
-        //}
-
-
 
         private double _fontSize;
-
         public double FontSize
         {
             get { return _fontSize; }
@@ -137,7 +111,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         private Brush _background;
-
         public Brush Background
         {
             get { return _background; }
@@ -149,9 +122,7 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-
         private Brush _foreground;
-
         public Brush Foreground
         {
             get { return _foreground; }
@@ -162,7 +133,9 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         public ICommand LeaveCommand { get; }
+
 
         private readonly SettingsView _settingsView;
 
@@ -179,7 +152,16 @@ namespace SharedLivingCostCalculator.ViewModels
 
             SelectedItem = (SupportedLanguages)System.Enum.Parse(typeof(SupportedLanguages), Application.Current.Resources["Language"].ToString());
         }
-        
+
+
+        // relay command pre execution validation
+        private bool CanExecute(object obj)
+        {
+            return true;
+        }
+
+
+        // relay command effect
         private void CloseWindow(object obj)
         {
             SettingsView? settingsView = (SettingsView)obj;
@@ -187,9 +169,7 @@ namespace SharedLivingCostCalculator.ViewModels
             settingsView?.Close();
         }
 
-        private bool CanExecute(object obj)
-        {
-            return true;
-        }
+
     }
 }
+// EOF

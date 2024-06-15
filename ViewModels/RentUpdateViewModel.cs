@@ -1,27 +1,49 @@
-﻿using SharedLivingCostCalculator.Commands;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RentUpdateViewModel  : BaseViewModel
+ * 
+ *  viewmodel for RentUpdateView
+ *  
+ *  allows for editing of RentViewModel
+ *  
+ *  is encapsulated within a RentManagementViewModel
+ */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
+
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     class RentUpdateViewModel : BaseViewModel
     {
+
+        public event EventHandler RentConfigurationChange;
+
+
         private readonly RentViewModel _rentViewModel;
         public RentViewModel RentViewModel => _rentViewModel;
 
+
         public bool SetBillingVisibility => HasBilling;
+        public bool SetOtherCostsVisibility => HasOtherCosts;
+        public bool SetCreditVisibility => HasCredit;
+
+        private bool _DataLockCheckbox;
+        public bool DataLockCheckbox {
+            get { return _DataLockCheckbox; }
+            set {
+                _DataLockCheckbox = value;
+                OnPropertyChanged(nameof(DataLockCheckbox));
+                OnPropertyChanged(nameof(DataLock));
+            }
+        }
+
+        public bool DataLock => !DataLockCheckbox;
 
         public bool HasBilling
         {
@@ -30,50 +52,119 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 if (!HasBilling)
                 {
-                    SelectedItem = null;
+                    SelectedBillingViewModel = null;
                 }
 
                 OnPropertyChanged(nameof(HasBilling));
                 OnPropertyChanged(nameof(SetBillingVisibility));
+
+                RentConfigurationChange?.Invoke(this, EventArgs.Empty);
             }
         }
 
+        
+        public bool HasCredit
+        {
+            get { return RentViewModel.HasCredit; }
+            set
+            {
+                RentViewModel.HasCredit = value;
+
+                if (!HasCredit)
+                {
+                    //SelectedCreditViewModel = null;
+                }
+
+                OnPropertyChanged(nameof(HasCredit));
+                OnPropertyChanged(nameof(SetCreditVisibility));
+
+                RentConfigurationChange?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+
+        public bool HasOtherCosts
+        {
+            get { return RentViewModel.HasOtherCosts; }
+            set
+            {
+                RentViewModel.HasOtherCosts = value;
+
+                if (!HasOtherCosts)
+                {
+                    //SelectedOtherCostsViewModel = null;
+                }
+
+                OnPropertyChanged(nameof(HasOtherCosts));
+                OnPropertyChanged(nameof(SetOtherCostsVisibility));
+
+                RentConfigurationChange?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+
+
         private ValidationHelper _helper = new ValidationHelper();
+
+
         public bool HasErrors => ((INotifyDataErrorInfo)_helper).HasErrors;
+
+
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+
         public event PropertyChangedEventHandler? PropertyChanged;
+
+
         public IEnumerable GetErrors(string? propertyName)
         {
             return ((INotifyDataErrorInfo)_helper).GetErrors(propertyName);
         }
 
+
         public double AnnualRent => _rentViewModel.AnnualRent;
+
+
         public double AnnualExtraCosts => _rentViewModel.AnnualExtraCosts;
+
+
         public double AnnualCostsTotal => _rentViewModel.AnnualCostsTotal;
+
 
         public double ExtraCostsTotal => ExtraCostsShared + ExtraCostsHeating;
 
+
         public double CostsTotal => ColdRent + ExtraCostsTotal;
 
+
         public DateTime? BillingStartDate => GetBillingStartDate();
+
+
         public DateTime? BillingEndDate => GetBillingEndDate();
+
+
         public double? BillingConsumedUnits => GetBillingConsumedUnits();
 
+
         public ICommand NewBillingCommand { get; }
+        public ICommand NewCreditCommand { get; }
+        public ICommand NewOtherCostsCommand { get; }
+                
 
         public ICollectionView BillingViewModels { get; set; }
 
-        private BillingViewModel _SelectedItem;
-        public BillingViewModel SelectedItem
+
+        private BillingViewModel _SelectedBillingViewModel;
+        public BillingViewModel SelectedBillingViewModel
         {
-            get { return _SelectedItem; }
+            get { return _SelectedBillingViewModel; }
             set
             {
-                _SelectedItem = value;
+                _SelectedBillingViewModel = value;
 
-                RentViewModel.BillingViewModel = SelectedItem;
+                RentViewModel.BillingViewModel = SelectedBillingViewModel;
 
-                OnPropertyChanged(nameof(SelectedItem));
+                OnPropertyChanged(nameof(SelectedBillingViewModel));
             }
         }
 
@@ -87,6 +178,7 @@ namespace SharedLivingCostCalculator.ViewModels
             return null;
         }
 
+
         private DateTime? GetBillingEndDate()
         {
             if (RentViewModel.BillingViewModel != null)
@@ -95,6 +187,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
             return null;
         }
+
 
         private double? GetBillingConsumedUnits()
         {
@@ -106,7 +199,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-
         public DateTime StartDate
         {
             get { return _rentViewModel.StartDate; }
@@ -116,6 +208,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(StartDate));
             }
         }
+
 
         public double ColdRent
         {
@@ -140,6 +233,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(CostsTotal));
             }
         }
+
 
         public double ExtraCostsShared
         {
@@ -209,19 +303,51 @@ namespace SharedLivingCostCalculator.ViewModels
             BillingViewModels.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
 
             NewBillingCommand = new RelayCommand(p => AddBilling(), (s) => true);
+            NewCreditCommand = new RelayCommand(p => AddCredit(), (s) => true);
+            NewOtherCostsCommand = new RelayCommand(p => AddOtherCosts(), (s) => true);
 
             if (RentViewModel.HasBilling)
             {
-                SelectedItem = RentViewModel.BillingViewModel;
+                SelectedBillingViewModel = RentViewModel.BillingViewModel;
                 HasBilling = true;
-                OnPropertyChanged(nameof(SelectedItem));
+                OnPropertyChanged(nameof(SelectedBillingViewModel));
             }
+            if (RentViewModel.HasCredit)
+            {
+                //SelectedCreditViewModel = RentViewModel.CreditViewModel;
+                HasCredit = true;
+                //OnPropertyChanged(nameof(SelectedCreditViewModel));
+            }
+            if (RentViewModel.HasOtherCosts)
+            {
+                //SelectedOtherCostsViewModel = RentViewModel.OtherCosstsViewModel;
+                HasOtherCosts = true;
+                //OnPropertyChanged(nameof(SelectedOtherCostsViewModel));
+            }
+
+            //DataLockCheckbox = false;
         }
+
 
         private void AddBilling()
         {
             RentViewModel.BillingViewModel = RentViewModel.GetFlatViewModel().AddBilling(RentViewModel);
-            SelectedItem = RentViewModel.BillingViewModel;
+            SelectedBillingViewModel = RentViewModel.BillingViewModel;
         }
+
+
+        private void AddCredit()
+        {
+            //throw new NotImplementedException();
+        }
+
+
+        private void AddOtherCosts()
+        {
+            //throw new NotImplementedException();
+        }
+
+
     }
 }
+// EOF

@@ -1,12 +1,20 @@
-﻿using SharedLivingCostCalculator.Commands;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RentManagementViewModel  : BaseViewModel
+ * 
+ *  viewmodel for RentManagementView
+ *  
+ *  displays the elements of ObservableCollection<RentViewModel>
+ *  of the selected FlatViewModel instance, offers management functions
+ *  to add or remove elements to the collection
+ *  
+ *  holds an instance of RentUpdateViewModel, which is responsible
+ *  for editing the data of RentViewModel instances
+ */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Views;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -19,9 +27,13 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         public bool RentUpdateSelected { get; set; }
+
+
         public bool HasRentUpdate => _flatViewModel.RentUpdates.Count > 0;
 
+
         public string RentManagementInstructionText { get; set; }
+
 
         private RentUpdateViewModel _updateViewModel;
         public RentUpdateViewModel UpdateViewModel
@@ -30,6 +42,7 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _updateViewModel = value;
+
                 OnPropertyChanged(nameof(UpdateViewModel));
             }
         }
@@ -52,12 +65,17 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         public ICommand AddRentUpdateCommand { get; }
+
+
         public ICommand DeleteCommand { get; }
+
+
         public ICommand ShowCostsCommand { get; }
 
-        public ICollectionView RentUpdates { get; set; }
 
+        public ICollectionView RentUpdates { get; set; }
 
 
         public RentManagementViewModel(FlatViewModel flatViewModel)
@@ -78,6 +96,14 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 SelectedValue = _flatViewModel.GetMostRecentRent();                    
             }
+
+            if (SelectedValue != null)
+            {
+                if (!SelectedValue.HasBilling)
+                {
+                    
+                }
+            }
         }
 
 
@@ -97,6 +123,8 @@ namespace SharedLivingCostCalculator.ViewModels
             SelectedValue = rentViewModel;
             OnPropertyChanged(nameof(HasRentUpdate));
         }
+
+
         private void DeleteRentUpdate()
         {
             MessageBoxResult result = MessageBox.Show(
@@ -121,12 +149,6 @@ namespace SharedLivingCostCalculator.ViewModels
             // if objects are chained together (f.e. a rent object and a billing object)
             // they should be selected together in every relevant tab
 
-            // calculate costs button on RentUpdates as well? or make it so that
-            // rent is automatically calculated per area share, until/unless a
-            // combobox item is selected, which must be a billing.            
-            // CostsViewModel should be able to handle both types of viewmodels
-            // it has to check if a billing view model is present, oth
-
 
             if (SelectedValue != null)
             {
@@ -140,5 +162,8 @@ namespace SharedLivingCostCalculator.ViewModels
                 costs.Show();
             }
         }
+
+
     }
 }
+// EOF

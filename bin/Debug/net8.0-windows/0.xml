@@ -2,10 +2,17 @@
 <Flat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ID>1</ID>
   <Address>Addresse 1</Address>
-  <Details>USE CASE: first billing received</Details>
+  <Details>USE CASE: first billing received.</Details>
   <Area>128</Area>
   <RoomCount>5</RoomCount>
-  <FlatNotes>new notes on this flat</FlatNotes>
+  <FlatNotes>eine etwas längere Testnotiz über mehrere Zeilen bis hin zu den Begrenzungen dieses Textfeldes, welches maximal  200*200 Pixel groß sein kann.
+
+
+
+
+
+
+Für kleine Notizen und Anmerkungen sollte es reichen.</FlatNotes>
   <Rooms>
     <RoomData>
       <ID>0</ID>
@@ -28,7 +35,7 @@
     </RoomData>
     <RoomData>
       <ID>1</ID>
-      <RoomName>zimmer 1</RoomName>
+      <RoomName>zimmer 01</RoomName>
       <RoomArea>16.8</RoomArea>
       <Payments>
         <Payment>

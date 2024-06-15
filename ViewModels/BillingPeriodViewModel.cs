@@ -1,33 +1,58 @@
-﻿using SharedLivingCostCalculator.Calculations;
-using SharedLivingCostCalculator.Commands;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  BillingPeriodViewModel : BaseViewModel
+ * 
+ *  viewmodel for BillingPeriodView
+ *  
+ *  allows for editing of BillingViewModel
+ *  
+ *  is encapsulated within a BillingManagementViewModel
+ */
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Input;
+
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     class BillingPeriodViewModel : BaseViewModel, INotifyDataErrorInfo
     {
+
         private readonly BillingViewModel _billingViewModel;
         public BillingViewModel BillingViewModel => _billingViewModel;
+
+
         private ValidationHelper _helper = new ValidationHelper();
+
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
+
         public bool HasErrors => _helper.HasErrors;
+
+
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
+
+
+        private bool _DataLockCheckbox;
+        public bool DataLockCheckbox
+        {
+            get { return _DataLockCheckbox; }
+            set
+            {
+                _DataLockCheckbox = value;
+                OnPropertyChanged(nameof(DataLockCheckbox));
+                OnPropertyChanged(nameof(DataLock));
+            }
+        }
+
+
+        public bool DataLock => !DataLockCheckbox;
 
 
         public DateTime StartDate
@@ -67,6 +92,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         // combined costs of fixed costs and heating costs
         // costs need to take RoomPayments per room into consideration
         public double TotalCostsPerPeriod
@@ -96,6 +122,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
             }
         }
+
 
         // fixed costs
         // can be calculated per room using
@@ -129,6 +156,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         // heating costs 
         // shared space heating costs can be devided by the number of Rooms
         // room based heating costs must take heating units constumption into
@@ -159,6 +187,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(TotalFixedCostsPerPeriod));
             }
         }
+
 
         // heating units used in billing period
         // values for Rooms must be determined in order to
@@ -194,6 +223,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(TotalHeatingUnitsConsumption));
             }
         }
+
 
         public double TotalHeatingUnitsRoom
         {
@@ -245,6 +275,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         public BillingPeriodViewModel(FlatViewModel flatViewModel, BillingViewModel billingViewModel)
         {
             _billingViewModel = billingViewModel;
@@ -268,13 +299,15 @@ namespace SharedLivingCostCalculator.ViewModels
                     rhu.HeatingUnitsChange += HeatingUnitsChange;
                 }
             }
-
         }
+
 
         private void HeatingUnitsChange(object? sender, EventArgs e)
         {
             CalculateRoomsConsumption();
         }
 
+
     }
 }
+// EOF

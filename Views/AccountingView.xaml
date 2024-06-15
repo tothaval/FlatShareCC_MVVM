@@ -5,9 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              xmlns:viewmodels="clr-namespace:SharedLivingCostCalculator.ViewModels"
+             xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility"
              d:DataContext="{d:DesignInstance Type=viewmodels:AccountingViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <utils:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
+        <utils:VisibilityConverter x:Key="VisibilityConverter"/>
+    </UserControl.Resources>
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
 
         <Grid.RowDefinitions>
@@ -43,14 +48,29 @@
                 <local:RentManagementView DataContext="{Binding Rents}"/>
             </TabItem>
 
-            <TabItem Header="{DynamicResource IDF_Billing}" IsSelected="True">
-                <local:BillingManagementView DataContext="{Binding Billings}" />
+            <TabItem Header="{DynamicResource IDF_Billing}" IsSelected="True"
+                                             Visibility="{Binding SelectionHasBilling, Converter={StaticResource VisibilityConverter},
+                NotifyOnSourceUpdated=True, Mode=OneWay}">
+                <local:BillingManagementView DataContext="{Binding Billings}"/>
             </TabItem>
 
-            <TabItem Header="{DynamicResource IDF_Payments}" IsSelected="True">
+            <TabItem Header="{DynamicResource IDF_Payments}" IsSelected="True"
+                                             Visibility="{Binding SelectionHasBilling, Converter={StaticResource VisibilityConverter},
+                NotifyOnSourceUpdated=True, Mode=OneWay}">
                 <local:PaymentManagementView DataContext="{Binding Payments}"/>
             </TabItem>
 
+            <TabItem Header="{DynamicResource IDF_OtherCosts}" IsSelected="True"
+                                             Visibility="{Binding SelectionHasOtherCosts, Converter={StaticResource VisibilityConverter},
+                NotifyOnSourceUpdated=True, Mode=OneWay}">
+                <!--<local:PaymentManagementView DataContext="{Binding Payments}"/>-->
+            </TabItem>
+
+            <TabItem Header="{DynamicResource IDF_Credit}" IsSelected="True"
+                                             Visibility="{Binding SelectionHasCredit, Converter={StaticResource VisibilityConverter},
+                NotifyOnSourceUpdated=True, Mode=OneWay}">
+                <!--<local:PaymentManagementView DataContext="{Binding Payments}"/>-->
+            </TabItem>
         </TabControl>
 
         <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Content="{DynamicResource IDF_Back}" Command="{Binding LeaveCommand}"

@@ -47,11 +47,44 @@
       </Payments>
     </RoomData>
   </Rooms>
-  <Billings />
+  <Billings>
+    <BillingData>
+      <StartDate>2022-10-01T00:00:00</StartDate>
+      <EndDate>2023-10-01T00:00:00</EndDate>
+      <TotalCostsPerPeriod>0</TotalCostsPerPeriod>
+      <TotalFixedCostsPerPeriod>0</TotalFixedCostsPerPeriod>
+      <TotalHeatingCostsPerPeriod>0</TotalHeatingCostsPerPeriod>
+      <TotalHeatingUnitsConsumption>0</TotalHeatingUnitsConsumption>
+      <basedOnRent_ID>0</basedOnRent_ID>
+      <RoomConsumptionValues>
+        <RoomCosts>
+          <RoomID>0</RoomID>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>217.7136752136752</RentShare>
+          <FixedShare>39.756410256410255</FixedShare>
+          <HeatingShare>NaN</HeatingShare>
+        </RoomCosts>
+        <RoomCosts>
+          <RoomID>1</RoomID>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>188.22649572649573</RentShare>
+          <FixedShare>34.37179487179487</FixedShare>
+          <HeatingShare>NaN</HeatingShare>
+        </RoomCosts>
+        <RoomCosts>
+          <RoomID>2</RoomID>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>169.05982905982907</RentShare>
+          <FixedShare>30.871794871794872</FixedShare>
+          <HeatingShare>NaN</HeatingShare>
+        </RoomCosts>
+      </RoomConsumptionValues>
+    </BillingData>
+  </Billings>
   <Rents>
     <Rent>
       <ID>0</ID>
-      <BillingID>-1</BillingID>
+      <BillingID>0</BillingID>
       <StartDate>2023-10-01T00:00:00</StartDate>
       <ColdRent>575</ColdRent>
       <ExtraCostsShared>105</ExtraCostsShared>

@@ -1,9 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  CostsViewModel  : BaseViewModel
+ * 
+ *  viewmodel for CostsView
+ *  
+ *  a separate window which shows either a
+ *  RentCostsViewModel or BillingCostsViewModel
+ *  depending on constructor
+ */
 namespace SharedLivingCostCalculator.ViewModels
 {
     internal class CostsViewModel : BaseViewModel
@@ -15,7 +19,10 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         private readonly BillingViewModel? _billingViewModel;
+
+
         private readonly RentViewModel? _rentViewModel;
+
 
         private readonly FlatViewModel _flatViewModel;
 
@@ -43,6 +50,7 @@ namespace SharedLivingCostCalculator.ViewModels
 			}
 		}
 
+
         public CostsViewModel(RentViewModel rentViewModel, FlatViewModel flatViewModel)
         {
             WindowTitle = "Shared Living Cost Calculator - Costs - Rent";
@@ -58,6 +66,7 @@ namespace SharedLivingCostCalculator.ViewModels
             ActiveViewModel = new RentCostsViewModel(_rentViewModel, _flatViewModel);
         }
 
+
         public CostsViewModel(BillingViewModel billingViewModel, FlatViewModel flatViewModel)
         {
             WindowTitle = "Shared Living Cost Calculator - Costs - Annual Billing";
@@ -67,5 +76,8 @@ namespace SharedLivingCostCalculator.ViewModels
 
             ActiveViewModel = new BillingCostsViewModel(_billingViewModel, _flatViewModel);
         }
+
+
     }
 }
+// EOF

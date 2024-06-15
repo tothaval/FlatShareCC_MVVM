@@ -29,7 +29,7 @@
                         UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
                     NotifyOnValidationError=True,
-                        ValidatesOnDataErrors=true, Delay=500}"
+                        ValidatesOnDataErrors=true, Delay=500}" IsEnabled="{Binding DataLock}"
                                 Padding="2" Width="100" Margin="2 0"/>
             </StackPanel>
 
@@ -39,7 +39,7 @@
                         UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
                     NotifyOnValidationError=True,
-                        ValidatesOnDataErrors=true, Delay=500}"
+                        ValidatesOnDataErrors=true, Delay=500}" IsEnabled="{Binding DataLock}"
                                 Padding="2" Width="100" Margin="2 0"
                                 ToolTip="{Binding Helper[EndDate]}"/>
             </StackPanel>
@@ -50,7 +50,7 @@
                         UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
                     NotifyOnValidationError=True,
-                        ValidatesOnDataErrors=True, StringFormat=C2, ConverterCulture=de-DE, Delay=500}"
+                        ValidatesOnDataErrors=True, StringFormat=C2, ConverterCulture=de-DE, Delay=500}" IsEnabled="{Binding DataLock}"
                              Padding="2"/>
             </StackPanel>
 
@@ -60,7 +60,7 @@
                         UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
                     NotifyOnValidationError=True,
-                        ValidatesOnDataErrors=True, StringFormat=C2, ConverterCulture=de-DE, Delay=500}"
+                        ValidatesOnDataErrors=True, StringFormat=C2, ConverterCulture=de-DE, Delay=500}" IsEnabled="{Binding DataLock}"
                              Padding="2"/>
             </StackPanel>
 
@@ -70,7 +70,7 @@
                         UpdateSourceTrigger=PropertyChanged,
                     NotifyOnSourceUpdated=True,
                     NotifyOnValidationError=True,
-                        ValidatesOnDataErrors=True, StringFormat=C2, ConverterCulture=de-DE, Delay=500}"
+                        ValidatesOnDataErrors=True, StringFormat=C2, ConverterCulture=de-DE, Delay=500}" IsEnabled="{Binding DataLock}"
                              Padding="2"/>
             </StackPanel>
         </StackPanel>
@@ -87,7 +87,7 @@
                     NotifyOnSourceUpdated=True,
                     NotifyOnValidationError=True,
                         ValidatesOnDataErrors=True,
-                        StringFormat=N4, Delay=500}"
+                        StringFormat=N4, Delay=500}" IsEnabled="{Binding DataLock}"
                              Padding="2"/>
             </StackPanel>
 
@@ -156,7 +156,7 @@
                                             NotifyOnTargetUpdated=True,
                                             NotifyOnSourceUpdated=True,
                                             ValidatesOnDataErrors=true,
-                                            StringFormat=N4, Delay=500}"
+                                            StringFormat=N4, Delay=500}" IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:BillingPeriodView}}"
                                                   Padding="2" VerticalAlignment="Center" 
                                                TextAlignment="Right" HorizontalAlignment="Right"/>
                                 </DataTemplate>
@@ -182,6 +182,8 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+
+            <CheckBox Content="{DynamicResource IDF_LockData}" IsChecked="{Binding DataLockCheckbox}" />
         </StackPanel>
 
     </Grid>

@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RelayCommand 
+ * 
+ *  keeps Command logic inside a viewmodel
+ */
 
 namespace SharedLivingCostCalculator.Commands
 {
@@ -11,7 +12,10 @@ namespace SharedLivingCostCalculator.Commands
 
         public event EventHandler? CanExecuteChanged;
 
+
         private Action<object> _Execute { get; set; }
+
+
         private Predicate<object> _CanExecute { get; set; }
 
 
@@ -27,9 +31,11 @@ namespace SharedLivingCostCalculator.Commands
             return _CanExecute(parameter);
         }
 
+
         public override void Execute(object? parameter)
         {
             _Execute(parameter);
         }
     }
 }
+// EOF

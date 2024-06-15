@@ -1,17 +1,22 @@
-﻿using SharedLivingCostCalculator.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  ExecuteDeleteFlatCommand 
+ * 
+ *  command for removing a flatviewmodel
+ *  instance from the _flatCollection   
+ *  ObservableCollection<FlatViewModel>
+ */
+using SharedLivingCostCalculator.ViewModels;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SharedLivingCostCalculator.Commands
 {
     class ExecuteDeleteFlatCommand : BaseCommand
     {
+
         private readonly ObservableCollection<FlatViewModel> _flatCollection;
+
 
         public ExecuteDeleteFlatCommand(ObservableCollection<FlatViewModel> flatCollection)
         {
@@ -39,5 +44,8 @@ namespace SharedLivingCostCalculator.Commands
                 }
             }
         }
+
+
     }
 }
+// EOF

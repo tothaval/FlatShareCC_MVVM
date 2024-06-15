@@ -1,29 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *   
+ *  FlatSetupViewModel  : BaseViewModel
+ * 
+ *  viewmodel for FlatSetupView
+ *  
+ *  displays a seperate window for creating
+ *  or editing of FlatViewModel instances
+ */
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
-using SharedLivingCostCalculator.Services;
 using SharedLivingCostCalculator.Views;
+
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     internal class FlatSetupViewModel : BaseViewModel
     {
+
         private ObservableCollection<FlatViewModel> _flatCollection;
+
+
         private FlatViewModel _flatsetup;
         public FlatViewModel FlatSetup => _flatsetup;
+
+
         private FlatSetupView _flatSetupView;
+
 
         public bool IsNewFlatWindow { get; set; } = false;
 
+
         private string _flatSetupTitleText;
+
 
         public string FlatSetupTitleText
         {
@@ -36,8 +46,9 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-
         public ICommand FlatSetupCommand { get; }
+
+
         public ICommand LeaveViewCommand { get; }
 
 
@@ -65,6 +76,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 _flatsetup.RoomCreation += _flatsetup_RoomCreation;
             }
         }
+
 
         /// <summary>
         /// Called on Edit Button is clicked, Proceed Button is hidden,
@@ -101,10 +113,14 @@ namespace SharedLivingCostCalculator.ViewModels
             _flatSetupView.Close();
         }
 
+
         private void _flatsetup_RoomCreation()
         {
             OnPropertyChanged(nameof(IsNewFlatWindow));
             OnPropertyChanged(nameof(FlatSetup));
         }
+
+
     }
 }
+// EOF

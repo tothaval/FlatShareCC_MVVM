@@ -1,25 +1,26 @@
-﻿using SharedLivingCostCalculator.Calculations;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RoomCostsViewModel  : BaseViewModel
+ * 
+ *  viewmodel for RoomCosts model
+ *  
+ *  purpose:
+ *      -> calculate costs for a room instance
+ *          within IRoomCostCarrier classes BillingViewModel or RentViewModel 
+ */
+using SharedLivingCostCalculator.Calculations;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     public class RoomCostsViewModel : BaseViewModel, INotifyDataErrorInfo
     {
+
         /// <summary>
         /// to do:
-        /// 
-        /// write new functions to specifically calculate billing period costs
-        /// write new functions to calculate rent based on billing values
         /// 
         /// check every formula for mistakes
         /// 
@@ -29,24 +30,37 @@ namespace SharedLivingCostCalculator.ViewModels
         /// 
         /// unit test calculations and modules
         /// </summary>
+        /// 
+
+
+        public event EventHandler? HeatingUnitsChange;
 
 
         private ValidationHelper _helper = new ValidationHelper();
 
+
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+
         public bool HasErrors => _helper.HasErrors;
+
+
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
 
+
         private readonly IRoomCostsCarrier _roomCostsCarrier;
+
 
         private readonly RoomViewModel _room;
         public RoomViewModel Room => _room;
 
+
         private readonly RoomCosts _roomCosts;
         public RoomCosts GetRoomCosts => _roomCosts;
+
 
         public double HeatingUnitsConsumption
         {
@@ -78,9 +92,9 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        public event EventHandler? HeatingUnitsChange;
 
         public double Percentage => CalculateConsumptionRatio() * 100;
+
 
         public double RentShare
         {
@@ -88,11 +102,13 @@ namespace SharedLivingCostCalculator.ViewModels
             set { _roomCosts.RentShare = value; OnPropertyChanged(nameof(RentShare)); }
         }
 
+
         public double FixedShare
         {
             get { return _roomCosts.FixedShare; }
             set { _roomCosts.FixedShare = value; OnPropertyChanged(nameof(FixedShare)); }
         }
+
 
         public double HeatingShare
         {
@@ -100,26 +116,47 @@ namespace SharedLivingCostCalculator.ViewModels
             set { _roomCosts.HeatingShare = value; OnPropertyChanged(nameof(HeatingShare)); }
         }
 
+
         public double Consumption => CalculateConsumption();
+
+
         public double RentCosts => CalculateRentCosts();
+
+
         public double FixedCosts => CalculateFixedCosts();
+
+
         public double HeatingCosts => CalculateHeatingCosts();
+
+
         public double BillingCosts => RentCosts + FixedCosts + HeatingCosts;
 
+
         public double AnnualRentShare => RentShare * 12;
+
+
         public double AnnualFixedShare => FixedShare * 12;
+
+
         public double AnnualHeatingShare => HeatingShare * 12;
+
+
         public double AnnualCosts => TotalCosts * 12;
+
 
         public double CostsPercentage => CalculateCostsPercentage();
 
+
         public double ExtraCostsShare => CalculateExtraCosts();
+
 
         public double TotalCosts => RentShare + ExtraCostsShare;
 
+
         public double TotalPayments => GetPayments();
 
-        public double Balance => CalculateBalance(); // braucht visibility oder andere einschränkung
+
+        public double Balance => CalculateBalance();
 
 
         public RoomCostsViewModel(RoomViewModel room, IRoomCostsCarrier roomCostsCarrier)
@@ -134,6 +171,7 @@ namespace SharedLivingCostCalculator.ViewModels
             CalculateData();
         }
 
+
         private void _roomCostsCarrier_DataChange(object? sender, PropertyChangedEventArgs e)
         {
             CalculateData();
@@ -146,6 +184,7 @@ namespace SharedLivingCostCalculator.ViewModels
             FixedShare = CalculateFixedShare();
             HeatingShare = CalculateHeatingShare();            
         }
+
 
         private double CalculateRentCosts()
         {
@@ -183,6 +222,7 @@ namespace SharedLivingCostCalculator.ViewModels
             return fixedCosts;
         }
 
+
         private double CalculateHeatingCosts()
         {
             double heatingCosts = 0.0;
@@ -200,7 +240,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-
         private double CalculateBalance()
         {
             double balance = 0.0;
@@ -215,12 +254,14 @@ namespace SharedLivingCostCalculator.ViewModels
             return balance;
         }
 
+
         private double GetPayments()
         {
             BillingViewModel billingViewModel = (BillingViewModel)_roomCostsCarrier;
 
             return _room.CalculatePaymentsPerPeriod(billingViewModel.StartDate, billingViewModel.EndDate);
         }
+
 
         private double CalculateConsumption()
         {
@@ -258,7 +299,7 @@ namespace SharedLivingCostCalculator.ViewModels
             return consumption;
         }
 
-            
+
         private double CalculateConsumptionRatio()
         {
             double consumptionRatio = 0.0;
@@ -433,5 +474,8 @@ namespace SharedLivingCostCalculator.ViewModels
 
             return totalConsumption >= 0;
         }
+
+
     }
 }
+// EOF

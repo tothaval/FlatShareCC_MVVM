@@ -21,20 +21,20 @@
                 <ColumnDefinition Width="0.8*"/>
                 <ColumnDefinition Width="0.2*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="{DynamicResource IDF_NewBilling}"
+            <!--<Button Content="{DynamicResource IDF_NewBilling}"
                 Command="{Binding AddBillingPeriodCommand}"
                     Grid.Column="0"/>
 
             <Button Command="{Binding DeleteCommand}"
                 Content="{DynamicResource IDF_DeleteBilling}" Grid.Column="1" TextBlock.TextAlignment="Center"
-                     Visibility="{Binding HasBillingPeriod, Converter={StaticResource VisibilityConverter}}"/>
+                     Visibility="{Binding HasBillingPeriod, Converter={StaticResource VisibilityConverter}}"/>-->
         </Grid>
 
         <TextBlock Text="{DynamicResource BillingManagementInstructionText}"
                      Visibility="{Binding HasBillingPeriod, Converter={StaticResource InverseVisibilityConverter}}"
                    Margin="20" HorizontalAlignment="Center" TextAlignment="Left"/>
 
-        <DataGrid ItemsSource="{Binding Billings}"
+        <!--<DataGrid ItemsSource="{Binding Billings}"
               SelectedValue="{Binding Path=SelectedValue}"
                      Visibility="{Binding HasBillingPeriod, Converter={StaticResource VisibilityConverter}}"
               CanUserSortColumns="True"
@@ -80,7 +80,7 @@
                         ValidatesOnDataErrors=true, Delay=500}" Header="{DynamicResource IDF_CombinedRoomHeatingUnits}"/>
 
             </DataGrid.Columns>
-            </DataGrid>
+            </DataGrid>-->
 
         <Grid  Visibility="{Binding BillingPeriodSelected, Converter={StaticResource BillingPeriodVisibilityConverter}}" >
             <local:BillingPeriodView DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />

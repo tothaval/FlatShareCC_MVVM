@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  LanguageResources 
+ * 
+ *  helper class of the language infrastructure
+ *  which assignes the members of a LanguageResourceStrings instance
+ *  to the application resources 
+ */
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Serialization;
 
@@ -12,6 +15,13 @@ namespace SharedLivingCostCalculator.Utility
 {
     public class LanguageResources
     {
+
+        // to do
+        // change this into a list/collection and use it
+        // as itemsource for the language combobox.
+        // this way languages could be added very easy
+        // by adding an apropriate file into the language
+        // folder.
         private SupportedLanguages _SupportedLanguages;
 
 
@@ -22,6 +32,7 @@ namespace SharedLivingCostCalculator.Utility
             LoadLanguageResource();
 
         }
+
 
         public void ChangeResources()
         {
@@ -119,6 +130,13 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_PriceTotal"] = languageResource.IDF_PriceTotal;
             Application.Current.Resources["IDF_BaseRentOnBilling"] = languageResource.IDF_BaseRentOnBilling;
 
+            Application.Current.Resources["IDF_HasOtherCosts"] = languageResource.IDF_HasOtherCosts;
+            Application.Current.Resources["IDF_NewOtherCosts"] = languageResource.IDF_NewOtherCosts;
+            Application.Current.Resources["IDF_CreditReceived"] = languageResource.IDF_CreditReceived;
+            Application.Current.Resources["IDF_NewCredit"] = languageResource.IDF_NewCredit;
+
+            Application.Current.Resources["IDF_LockData"] = languageResource.IDF_LockData;
+
             Application.Current.Resources["IDF_RentStartDate"] = languageResource.IDF_RentStartDate;
             Application.Current.Resources["IDF_RentPerMonth"] = languageResource.IDF_RentPerMonth;
             Application.Current.Resources["IDF_ExtraCostsPerMonth"] = languageResource.IDF_ExtraCostsPerMonth;
@@ -185,8 +203,13 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_NewRent"] = languageResource.IDF_NewRent;
             Application.Current.Resources["IDF_DeleteRent"] = languageResource.IDF_DeleteRent;
 
+            Application.Current.Resources["IDF_NewFlat"] = languageResource.IDF_NewFlat;
+            Application.Current.Resources["IDF_EditFlat"] = languageResource.IDF_EditFlat;
+            Application.Current.Resources["IDF_DeleteFlat"] = languageResource.IDF_DeleteFlat;
+            Application.Current.Resources["IDF_Settings"] = languageResource.IDF_Settings;
 
 
         }
     }
 }
+// EOF

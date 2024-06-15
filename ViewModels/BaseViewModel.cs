@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  BaseViewModel
+ * 
+ *  helper class that implements INotifyPropertyChanged
+ */
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string MainWindowTitleText { get; set; }
-        public object ViewModelObject { get; set; }
+        public event PropertyChangedEventHandler? PropertyChanged;
 
 
         protected void OnPropertyChanged(string propertyName)
@@ -20,6 +20,10 @@ namespace SharedLivingCostCalculator.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+
         protected virtual void Dispose() { }
+
+
     }
 }
+// EOF

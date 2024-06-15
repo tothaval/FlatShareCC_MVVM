@@ -1,23 +1,28 @@
-﻿using SharedLivingCostCalculator.Calculations;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RentViewModel  : BaseViewModel
+ * 
+ *  viewmodel for Rent model
+ */
+using SharedLivingCostCalculator.Calculations;
 using SharedLivingCostCalculator.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     public class RentViewModel : BaseViewModel, IRoomCostsCarrier
     {
+
         private readonly FlatViewModel _flatViewModel;
+
+
         private readonly Rent _rent;
-        
+        public Rent GetRent => _rent;
+
 
         private BillingViewModel _BillingViewModel;
-
         public BillingViewModel BillingViewModel
         {
             get { return _BillingViewModel; }
@@ -34,8 +39,8 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        private bool _HasBilling;
 
+        private bool _HasBilling;
         public bool HasBilling
         {
             get { return _HasBilling; }
@@ -49,20 +54,39 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        public Rent GetRent => _rent;
+        private bool _HasCredit;
+        public bool HasCredit
+        {
+            get { return _HasCredit; }
+            set
+            {
+                _HasCredit = value;
 
-        // startdates in RentViewModel list indicate enddates of older rentviewmodels
-        // the next oldest RentViewModel is the successor of a RentViewModel
-        // this has to be taken into account for the cost calculations
+                if (!HasCredit) { RemoveCredit(); }
 
-        // a new billing must allways create a new RentViewModel
-        // the user can add RentViewModels, in case a raise was received
-        // for different reasons than annual billing
+                OnPropertyChanged(nameof(HasCredit));
+            }
+        }
+
+        private bool _HasOtherCosts;
+        public bool HasOtherCosts
+        {
+            get { return _HasOtherCosts; }
+            set
+            {
+                _HasOtherCosts = value;
+
+                if (!HasOtherCosts) { RemoveOtherCosts(); }
+
+                OnPropertyChanged(nameof(HasOtherCosts));
+            }
+        }
 
         public int ID
         {
             get { return _rent.ID; }
         }
+
 
         public DateTime StartDate
         {
@@ -87,6 +111,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         }
 
+
         public double FixedCostsAdvance
         {
             get { return _rent.ExtraCostsShared; }
@@ -99,6 +124,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(FixedCostsAdvance)));
             }
         }
+
 
         public double HeatingCostsAdvance
         {
@@ -116,7 +142,9 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private ObservableCollection<RoomCostsViewModel> _RoomCosts;
 
+
         public event PropertyChangedEventHandler DataChange;
+
 
         public ObservableCollection<RoomCostsViewModel> RoomCosts
         {
@@ -132,14 +160,21 @@ namespace SharedLivingCostCalculator.ViewModels
 
         // monthly costs sums
         public double ExtraCostsTotal => FixedCostsAdvance + HeatingCostsAdvance;
+
+
         public double CostsTotal => ColdRent + ExtraCostsTotal;
+
 
         // annual interval sums
         public double AnnualRent => ColdRent * 12;
+
+
         public double AnnualExtraCosts => ExtraCostsTotal * 12;
+
 
         // annual costs sum
         public double AnnualCostsTotal => AnnualRent + AnnualExtraCosts;
+
 
         public RentViewModel(FlatViewModel flatViewModel, Rent rent, BillingViewModel? billingViewModel = null)
         {
@@ -151,23 +186,6 @@ namespace SharedLivingCostCalculator.ViewModels
             SetBilling();
 
             OnPropertyChanged(nameof(HasBilling));
-        }
-
-
-
-        public void RemoveBilling()
-        {
-            BillingViewModel = null;
-        }
-
-
-        public void SetBilling()
-        {
-            if (GetRent.BillingID != -1 && GetFlatViewModel().BillingPeriods.Count > GetRent.BillingID)
-            {
-                BillingViewModel = GetFlatViewModel().BillingPeriods[GetRent.BillingID];
-                HasBilling = true;
-            }
         }
 
 
@@ -188,9 +206,60 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
         public FlatViewModel GetFlatViewModel()
         {
             return _flatViewModel;
         }
+
+
+        public void RemoveBilling()
+        {
+            BillingViewModel = null;
+        }
+
+
+        public void RemoveCredit()
+        {
+            //CreditViewModel = null;
+        }
+
+
+        public void RemoveOtherCosts()
+        {
+            //OtherCostsViewModel = null;
+        }
+
+
+        public void SetBilling()
+        {
+            if (GetRent.BillingID != -1 && GetFlatViewModel().BillingPeriods.Count > GetRent.BillingID)
+            {
+                BillingViewModel = GetFlatViewModel().BillingPeriods[GetRent.BillingID];
+                HasBilling = true;
+            }
+        }
+
+
+        public void SetCredit()
+        {
+            //if (GetRent.BillingID != -1 && GetFlatViewModel().BillingPeriods.Count > GetRent.BillingID)
+            //{
+            //    BillingViewModel = GetFlatViewModel().BillingPeriods[GetRent.BillingID];
+            //    HasBilling = true;
+            //}
+        }
+
+
+        public void SetOtherCosts()
+        {
+            //if (GetRent.BillingID != -1 && GetFlatViewModel().BillingPeriods.Count > GetRent.BillingID)
+            //{
+            //    BillingViewModel = GetFlatViewModel().BillingPeriods[GetRent.BillingID];
+            //    HasBilling = true;
+            //}
+        }
+
     }
 }
+// EOF

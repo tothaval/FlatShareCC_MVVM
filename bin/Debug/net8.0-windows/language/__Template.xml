@@ -94,4 +94,8 @@ quantity</IDF_PaymentQuantity>
   <IDF_ShowCosts>Show Costs</IDF_ShowCosts>
   <IDF_NewRent>New Rent</IDF_NewRent>
   <IDF_DeleteRent>Delete Rent</IDF_DeleteRent>
+  <IDF_NewFlat>New Flat</IDF_NewFlat>
+  <IDF_EditFlat>Edit Flat</IDF_EditFlat>
+  <IDF_DeleteFlat>Delete Flat</IDF_DeleteFlat>
+  <IDF_Settings>Settings</IDF_Settings>
 </Language>
