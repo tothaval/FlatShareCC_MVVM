@@ -34,9 +34,49 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _ActiveViewModel = value;
+
                 OnPropertyChanged(nameof(ActiveViewModel));
             }
         }
+
+
+        private bool _BillingSelected;
+        public bool BillingSelected
+        {
+            get { return _BillingSelected; }
+            set
+            {
+                _BillingSelected = value;
+
+                if (_BillingSelected)
+                {
+                    ActiveViewModel = new BillingCostsViewModel(_billingViewModel, _flatViewModel);
+                }
+                OnPropertyChanged(nameof(BillingSelected));
+            }
+        }
+
+
+        public bool HasBilling => _billingViewModel != null;
+
+
+        private bool _RentSelected;
+
+        public bool RentSelected
+        {
+            get { return _RentSelected; }
+            set
+            {
+                _RentSelected = value;
+
+                if (_RentSelected)
+                {
+                    ActiveViewModel = new RentCostsViewModel(_rentViewModel, _flatViewModel);
+                }
+                OnPropertyChanged(nameof(RentSelected));
+            }
+        }
+
 
 
         private string _WindowTitle;
@@ -63,18 +103,9 @@ namespace SharedLivingCostCalculator.ViewModels
                 _billingViewModel = _rentViewModel.BillingViewModel;
             }
 
-            ActiveViewModel = new RentCostsViewModel(_rentViewModel, _flatViewModel);
-        }
+            RentSelected = true;
 
-
-        public CostsViewModel(BillingViewModel billingViewModel, FlatViewModel flatViewModel)
-        {
-            WindowTitle = "Shared Living Cost Calculator - Costs - Annual Billing";
-
-            _billingViewModel = billingViewModel;
-            _flatViewModel = flatViewModel;
-
-            ActiveViewModel = new BillingCostsViewModel(_billingViewModel, _flatViewModel);
+            OnPropertyChanged(nameof(HasBilling));
         }
 
 

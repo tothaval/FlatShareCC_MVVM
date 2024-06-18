@@ -41,10 +41,6 @@ namespace SharedLivingCostCalculator.Models
 
 
         [XmlIgnore]
-        public ObservableCollection<BillingViewModel> BillingPeriods { get; set; }
-
-
-        [XmlIgnore]
         public ObservableCollection<RentViewModel> RentUpdates { get; set; }
 
 
@@ -56,7 +52,6 @@ namespace SharedLivingCostCalculator.Models
             Area = 0.0;
             RoomCount = 0;
             Rooms = new ObservableCollection<RoomViewModel>();
-            BillingPeriods = new ObservableCollection<BillingViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();
         }
 
@@ -77,7 +72,6 @@ namespace SharedLivingCostCalculator.Models
                 Rooms.Add(new RoomViewModel(new Room(i)));
             }
 
-            BillingPeriods = new ObservableCollection<BillingViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();
         }
 
@@ -87,7 +81,6 @@ namespace SharedLivingCostCalculator.Models
             Rooms = rooms;
             Details += details;
 
-            BillingPeriods = new ObservableCollection<BillingViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();
         }
 

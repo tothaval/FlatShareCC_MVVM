@@ -23,16 +23,17 @@ namespace SharedLivingCostCalculator.ViewModels
 {
     internal class RentManagementViewModel : BaseViewModel
     {
+
         private FlatViewModel _flatViewModel;
+
+        
+        public ICollectionView RentUpdates { get; set; }
 
 
         public bool RentUpdateSelected { get; set; }
 
 
         public bool HasRentUpdate => _flatViewModel.RentUpdates.Count > 0;
-
-
-        public string RentManagementInstructionText { get; set; }
 
 
         private RentUpdateViewModel _updateViewModel;
@@ -48,7 +49,7 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private RentViewModel _selectedValue; // private Billing _selectedBillingPeriod
+        private RentViewModel _selectedValue;
         public RentViewModel SelectedValue
         {
             get { return _selectedValue; }
@@ -75,8 +76,6 @@ namespace SharedLivingCostCalculator.ViewModels
         public ICommand ShowCostsCommand { get; }
 
 
-        public ICollectionView RentUpdates { get; set; }
-
 
         public RentManagementViewModel(FlatViewModel flatViewModel)
         {
@@ -87,22 +86,12 @@ namespace SharedLivingCostCalculator.ViewModels
 
             ShowCostsCommand = new RelayCommand(p => ShowCosts(), (s) => true);
 
-            RentUpdateSelected = false;
-
             RentUpdates = CollectionViewSource.GetDefaultView(this._flatViewModel.RentUpdates);
             RentUpdates.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
 
             if (_flatViewModel.RentUpdates.Count > 0)
             {
                 SelectedValue = _flatViewModel.GetMostRecentRent();                    
-            }
-
-            if (SelectedValue != null)
-            {
-                if (!SelectedValue.HasBilling)
-                {
-                    
-                }
             }
         }
 
@@ -111,7 +100,8 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             RentViewModel rentViewModel = new RentViewModel(
                 _flatViewModel,
-                new Rent(_flatViewModel.RentUpdates.Count,
+                new Rent(_flatViewModel,
+                    _flatViewModel.RentUpdates.Count,
                     new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
                     0.0,
                     0.0,
@@ -139,6 +129,12 @@ namespace SharedLivingCostCalculator.ViewModels
                 RentUpdateSelected = false;
                 OnPropertyChanged(nameof(RentUpdateSelected));
                 OnPropertyChanged(nameof(HasRentUpdate));
+                SelectedValue = null;
+
+                if (_flatViewModel.RentUpdates.Count > 0)
+                {
+                    SelectedValue = _flatViewModel.RentUpdates[0];
+                }
             }
 
         }

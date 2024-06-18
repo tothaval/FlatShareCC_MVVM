@@ -38,9 +38,6 @@ namespace SharedLivingCostCalculator.Utility
         public double TotalHeatingUnitsConsumption { get; set; } = 0.0;
 
 
-        public int basedOnRent_ID { get; set; } = -1;
-
-
        [XmlIgnore]
         public double TotalHeatingUnitsRoom { get; set; } = 0.0;
 

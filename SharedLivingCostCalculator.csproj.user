@@ -22,10 +22,13 @@
     <Compile Update="Views\BillingCostsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\BillingManagementView.xaml.cs">
+    <Compile Update="Views\BillingPeriodView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\BillingPeriodView.xaml.cs">
+    <Compile Update="Views\BillingWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ConsumptionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\CostsView.xaml.cs">
@@ -78,10 +81,13 @@
     <Page Update="Views\BillingCostsView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\BillingManagementView.xaml">
+    <Page Update="Views\BillingPeriodView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\BillingPeriodView.xaml">
+    <Page Update="Views\BillingWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ConsumptionView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\CostsView.xaml">

@@ -46,6 +46,7 @@ namespace SharedLivingCostCalculator.Commands
             RentViewModel rentViewModel = new RentViewModel(
                 flatViewModel,
                 new Rent(
+                    flatViewModel,
                     0,
                     DateTime.Now,
                     0.0,
@@ -53,8 +54,6 @@ namespace SharedLivingCostCalculator.Commands
                     0.0
                     )
                 );
-
-            rentViewModel.GenerateRoomCosts();
 
             flatViewModel.RentUpdates.Add(rentViewModel);
 

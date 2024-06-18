@@ -120,6 +120,7 @@ namespace SharedLivingCostCalculator.Utility
 
             // rent views
             Application.Current.Resources["IDF_Rent"] = languageResource.IDF_Rent;
+            Application.Current.Resources["IDF_RentChange"] = languageResource.IDF_RentChange;
 
             Application.Current.Resources["IDF_RentUpdateData"] = languageResource.IDF_RentUpdateData;
 
@@ -132,9 +133,12 @@ namespace SharedLivingCostCalculator.Utility
 
             Application.Current.Resources["IDF_HasOtherCosts"] = languageResource.IDF_HasOtherCosts;
             Application.Current.Resources["IDF_NewOtherCosts"] = languageResource.IDF_NewOtherCosts;
-            Application.Current.Resources["IDF_CreditReceived"] = languageResource.IDF_CreditReceived;
-            Application.Current.Resources["IDF_NewCredit"] = languageResource.IDF_NewCredit;
+            
+            Application.Current.Resources["IDF_Credit"] = languageResource.IDF_Credit;
+            Application.Current.Resources["IDF_FactorInCredit"] = languageResource.IDF_FactorInCredit; 
+            Application.Current.Resources["IDF_FactorInPayments"] = languageResource.IDF_FactorInPayments;
 
+            Application.Current.Resources["IDF_NewCredit"] = languageResource.IDF_NewCredit;
             Application.Current.Resources["IDF_LockData"] = languageResource.IDF_LockData;
 
             Application.Current.Resources["IDF_RentStartDate"] = languageResource.IDF_RentStartDate;
@@ -201,7 +205,9 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_DeleteBilling"] = languageResource.IDF_DeleteBilling;
             Application.Current.Resources["IDF_ShowCosts"] = languageResource.IDF_ShowCosts;
             Application.Current.Resources["IDF_NewRent"] = languageResource.IDF_NewRent;
+            Application.Current.Resources["IDF_NewRentChange"] = languageResource.IDF_NewRentChange;
             Application.Current.Resources["IDF_DeleteRent"] = languageResource.IDF_DeleteRent;
+            Application.Current.Resources["IDF_DeleteRentChange"] = languageResource.IDF_DeleteRentChange;
 
             Application.Current.Resources["IDF_NewFlat"] = languageResource.IDF_NewFlat;
             Application.Current.Resources["IDF_EditFlat"] = languageResource.IDF_EditFlat;

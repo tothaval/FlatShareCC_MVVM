@@ -24,9 +24,6 @@ namespace SharedLivingCostCalculator.ViewModels
         private readonly FlatViewModel _flatViewModel;
 
 
-        public int ID => _billingViewModel.RentId;
-
-
         public double TotalExtraCosts => _billingViewModel.TotalCostsPerPeriod;
 
 
@@ -34,7 +31,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         // rent costs must be subtracted based on most recent rent before billing
-        public double TotalPayments => _flatViewModel.GetPaymentsPerPeriod(_billingViewModel);
+        public double TotalPayments => _billingViewModel.CalculatePaymentsPerPeriod();
 
 
         public double Balance => TotalPayments - TotalCosts;
@@ -48,14 +45,16 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public double TotalRentCosts
         {
-            get {
-                if (_billingViewModel.RentViewModel == null)
-                {
-                    return -1.0;
-                }
+            get { return -1.0; }
+            //get {
+            //    if (_billingViewModel.RentViewModel == null)
+            //    {
+            //        return -1.0;
+            //    }
 
-                return _billingViewModel.RentViewModel.AnnualRent;
-            }
+            //    // DetermineAnnualRent via calculation and date checks of rent updates in flatviewmodel
+            //    return _billingViewModel.RentViewModel.AnnualRent;
+            //}
         }
 
 

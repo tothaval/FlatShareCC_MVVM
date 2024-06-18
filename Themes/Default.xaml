@@ -11,12 +11,8 @@
 
     <Style x:Key="Header" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource R_Header}"/>
-        <Setter Property="FontSize" Value="36"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="FontFamily" Value="Verdana"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="20 5 20 5"/>
     </Style>
 
     <Style TargetType="Grid">

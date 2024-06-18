@@ -28,12 +28,8 @@ current features:
 	-> Accounting Button -> enter Accounting View
 		
 	Accounting View
-		Tab Rent -> create, edit, delete Rent data, show Costs Button, base Rent on Billing -> Costs Window
-		Tab Billing -> edit BillingPeriod data, show Costs Button -> Costs Window
-		Tab Payments -> select room 
-			-> create, edit, delete Payments data per room
-			-> setup n payments per room				
-			-> payments can be setup as ranges with quantity and enddate
+		WIP
+
 
 	-> leave Button -> return to Flatmanagement Overview page
 
@@ -57,5 +53,3 @@ current features:
 -> data will be saved and loaded
 -> settings will be saved and loaded
 
-
--> lock data setting will not be saved

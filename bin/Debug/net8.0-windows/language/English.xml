@@ -26,6 +26,7 @@
   <IDF_Background>Background</IDF_Background>
   <SettingsHeaderText>Settings</SettingsHeaderText>
   <IDF_Rent>Rent</IDF_Rent>
+  <IDF_RentChange>Rent Change(s)</IDF_RentChange>
   <IDF_RentUpdateData>Rent Update Data</IDF_RentUpdateData>
   <IDF_RentShare>rent share</IDF_RentShare>
   <IDF_AdvanceFixed>advance fixed</IDF_AdvanceFixed>
@@ -37,7 +38,8 @@
   <IDF_Credit>credit(s)</IDF_Credit>
   <IDF_HasOtherCosts>factor in other costs</IDF_HasOtherCosts>
   <IDF_NewOtherCosts>setup other costs</IDF_NewOtherCosts>
-  <IDF_CreditReceived>factor in a credit</IDF_CreditReceived>
+  <IDF_FactorInCredit>factor in a credit</IDF_FactorInCredit>
+  <IDF_FactorInPayments>factor in payments</IDF_FactorInPayments>
   <IDF_NewCredit>setup credit</IDF_NewCredit>
   <IDF_LockData>lock data</IDF_LockData>
   <IDF_RentStartDate>begin
@@ -100,7 +102,9 @@ quantity</IDF_PaymentQuantity>
   <IDF_DeleteBilling>Delete</IDF_DeleteBilling>
   <IDF_ShowCosts>Show Costs</IDF_ShowCosts>
   <IDF_NewRent>New Rent</IDF_NewRent>
+  <IDF_NewRentChange>New Rent Change</IDF_NewRentChange>
   <IDF_DeleteRent>Delete Rent</IDF_DeleteRent>
+  <IDF_DeleteRentChange>Delete Rent Change(s)</IDF_DeleteRentChange>
   <IDF_NewFlat>New Flat</IDF_NewFlat>
   <IDF_EditFlat>Edit Flat</IDF_EditFlat>
   <IDF_DeleteFlat>Delete Flat</IDF_DeleteFlat>

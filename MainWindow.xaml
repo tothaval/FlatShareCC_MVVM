@@ -9,7 +9,7 @@
         x:Name="ExampleMainWindowName"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="Manual"
         Title="{DynamicResource IDF_MainWindowTitle}" Height="450" Width="800">
     <Grid MinHeight="200">
         <Grid.Resources>
@@ -24,13 +24,9 @@
             <DataTemplate DataType="{x:Type vms:AccountingViewModel}">
                 <views:AccountingView/>
             </DataTemplate>
-
-            <DataTemplate DataType="{x:Type vms:BillingManagementViewModel}">
-                <views:BillingManagementView/>
-            </DataTemplate>
-
+            
             <DataTemplate DataType="{x:Type vms:BillingPeriodViewModel}">
-                <views:BillingPeriodView/>
+                <views:BillingWindow/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type vms:PaymentManagementViewModel}">
@@ -64,7 +60,11 @@
             <DataTemplate DataType="{x:Type vms:BillingCostsViewModel}">
                 <views:BillingCostsView/>
             </DataTemplate>
-
+            
+            <DataTemplate DataType="{x:Type vms:ConsumptionViewModel}">
+                <views:ConsumptionView/>
+            </DataTemplate>
+            
         </Grid.Resources>
 
         <Grid.RowDefinitions>

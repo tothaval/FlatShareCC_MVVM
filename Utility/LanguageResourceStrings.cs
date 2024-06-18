@@ -61,6 +61,7 @@ namespace SharedLivingCostCalculator.Utility
                    
         // rent views
         public string IDF_Rent { get; set; } = "Rent";
+        public string IDF_RentChange { get; set; } = "Rent Change(s)";
 
         public string IDF_RentUpdateData { get; set; } = "Rent Update Data";
 
@@ -71,6 +72,7 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_PriceTotal { get; set; } = "price total";
         public string IDF_BaseRentOnBilling { get; set; } = "base calculation on billing";
         public string IDF_OtherCosts { get; set; } = "other costs";
+
         public string IDF_Credit { get; set; } = "credit(s)";
 
         public string IDF_HasOtherCosts { get; set; } = "factor in other costs";
@@ -79,9 +81,10 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_NewOtherCosts { get; set; } = "setup other costs";
         
         
-        public string IDF_CreditReceived { get; set; } = "factor in a credit";
-        
-        
+        public string IDF_FactorInCredit { get; set; } = "factor in a credit";
+        public string IDF_FactorInPayments { get; set; } = "factor in payments";
+
+
         public string IDF_NewCredit { get; set; } = "setup credit";
         public string IDF_LockData { get; set; } = "lock data";
 
@@ -151,7 +154,9 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_DeleteBilling { get; set; } = "Delete";
         public string IDF_ShowCosts { get; set; } = "Show Costs";
         public string IDF_NewRent { get; set; } = "New Rent";
+        public string IDF_NewRentChange { get; set; } = "New Rent Change";
         public string IDF_DeleteRent { get; set; } = "Delete Rent";
+        public string IDF_DeleteRentChange { get; set; } = "Delete Rent Change(s)";
 
 
         public string IDF_NewFlat { get; set; } = "New Flat";

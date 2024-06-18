@@ -5,11 +5,14 @@
  *  data model class for BillingViewModel
  */
 
+using SharedLivingCostCalculator.ViewModels;
+using System.Collections.ObjectModel;
+
 namespace SharedLivingCostCalculator.Models
 {
+    [Serializable]
     public class Billing
     {
-
         // begin of billing period
         public DateTime StartDate { get; set; } = DateTime.Now - TimeSpan.FromDays(365);
 
@@ -46,7 +49,23 @@ namespace SharedLivingCostCalculator.Models
         public double TotalHeatingUnitsRoom {  get; set; } = 0.0;
 
 
-        public int RentID { get; set; } = -1;
+        public bool HasPayments { get; set; } = false;
+
+                
+        public bool HasCredit {  get; set; } = false;
+
+
+        public bool HasDataLock { get; set; } = false;
+
+
+        // storing the payments of each room
+        // per billing period
+        public ObservableCollection<RoomPayments> RoomPayments { get; set; } = new ObservableCollection<RoomPayments>();
+
+        // storing the costs of each room
+        // per billing period and the consumption of heating units per billing period
+        public ObservableCollection<RoomCosts> RoomCostsConsumptionValues { get; set; } = new ObservableCollection<RoomCosts>();
+        
 
 
         public Billing()
@@ -55,13 +74,28 @@ namespace SharedLivingCostCalculator.Models
 
 
         public Billing(
-            DateTime startDate,
-            DateTime endDate,
-            double totalCostsPerPeriod,
-            double totalFixedCostsPerPeriod,
-            double totalHeatingCostsPerPeriod,
-            double totalHeatingUnitsConsumption,
-            double totalHeatingUnitsRoom)
+                FlatViewModel model
+                )
+        {
+
+            foreach (RoomViewModel room in model.Rooms)
+            {
+                RoomCostsConsumptionValues.Add(new RoomCosts(room));
+                RoomPayments.Add(new RoomPayments(room));
+            }
+        }
+
+
+        public Billing(
+                        FlatViewModel model,
+                        DateTime startDate,
+                        DateTime endDate,
+                        double totalCostsPerPeriod,
+                        double totalFixedCostsPerPeriod,
+                        double totalHeatingCostsPerPeriod,
+                        double totalHeatingUnitsConsumption,
+                        double totalHeatingUnitsRoom
+                        )
         {
             StartDate = startDate;
             EndDate = endDate;
@@ -70,6 +104,12 @@ namespace SharedLivingCostCalculator.Models
             TotalHeatingCostsPerPeriod = totalHeatingCostsPerPeriod;
             TotalHeatingUnitsConsumption = totalHeatingUnitsConsumption;
             TotalHeatingUnitsRoom = totalHeatingUnitsRoom;
+
+            foreach (RoomViewModel room in model.Rooms)
+            {
+                RoomCostsConsumptionValues.Add(new RoomCosts(room));
+                RoomPayments.Add(new RoomPayments(room));
+            }
         }
 
 

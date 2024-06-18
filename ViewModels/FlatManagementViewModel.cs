@@ -120,9 +120,9 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 SelectedItem = _flatCollection?.First();
                 FlatCollectionFilled = true;
-
-                _flatCollection.CollectionChanged += _flatCollection_CollectionChanged;
             }
+
+            _flatCollection.CollectionChanged += _flatCollection_CollectionChanged;
         }
 
 
