@@ -5,6 +5,9 @@
  *  serializable data model class
  *  for RentViewModel
  */
+using SharedLivingCostCalculator.Utility;
+using SharedLivingCostCalculator.ViewModels;
+using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 
 
@@ -18,7 +21,7 @@ namespace SharedLivingCostCalculator.Models
         public int ID {  get; set; } = 0;
 
 
-        public int BillingID { get; set; } = -1;
+        public Billing? GetBilling { get; set; }
 
 
         public DateTime StartDate { get; set; } = DateTime.Now;
@@ -47,6 +50,16 @@ namespace SharedLivingCostCalculator.Models
         public double AnnualExtraCosts => ExtraCostsTotal * 12;
 
 
+        public bool HasOtherCosts { get; set; } = false;
+
+
+        public bool HasDataLock { get; set; } = false;
+
+
+        // storing the actual rent cost shares of each room
+        public ObservableCollection<RoomCosts> RoomCostShares { get; set; } = new ObservableCollection<RoomCosts>();
+
+
         public Rent()
         {
 
@@ -54,17 +67,27 @@ namespace SharedLivingCostCalculator.Models
 
 
         public Rent(
-            int id,
-            DateTime startDate,
-            double coldRent,
-            double extraCostsShared,
-            double extraCostsHeating)
+                    FlatViewModel model, 
+                    int id,
+                    DateTime startDate,
+                    double coldRent,
+                    double extraCostsShared,
+                    double extraCostsHeating
+                    )
         {
             ID = id;
             StartDate = startDate;
             ColdRent = coldRent;
             ExtraCostsShared = extraCostsShared;
             ExtraCostsHeating = extraCostsHeating;
+
+            foreach (RoomViewModel room in model.Rooms)
+            {
+                RoomCostShares.Add(
+                    new RoomCosts(room)
+                    );
+            }
+
         }
 
 

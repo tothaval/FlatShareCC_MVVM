@@ -8,11 +8,13 @@
  *  
  *  is encapsulated within a BillingManagementViewModel
  */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
 
 
 namespace SharedLivingCostCalculator.ViewModels
@@ -39,6 +41,81 @@ namespace SharedLivingCostCalculator.ViewModels
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
 
 
+        private int _SelectedIndex;
+        public int SelectedIndex
+        {
+            get { return _SelectedIndex; }
+            set
+            {
+                _SelectedIndex = value;
+
+                OnSelectionChange();
+
+                OnPropertyChanged(nameof(SelectedIndex));
+            }
+        }
+
+
+        public bool SetPaymentVisibility => HasPayments;
+        public bool HasPayments
+        {
+            get { return BillingViewModel.HasPayments; }
+            set
+            {
+                BillingViewModel.HasPayments = value;
+
+                if (HasPayments)
+                {
+                    if (SelectedIndex != 1)
+                    {
+                        SelectedIndex = 1;
+                    }
+                }
+                else
+                {
+                    if (SelectedIndex == 1)
+                    {
+                        SelectedIndex = 0;
+                    }
+                }
+
+                OnPropertyChanged(nameof(HasPayments));
+                OnPropertyChanged(nameof(SetPaymentVisibility));
+            }
+        }
+
+
+        public bool SetCreditVisibility => HasCredit;
+        public bool HasCredit
+        {
+            get { return BillingViewModel.HasCredit; }
+            set
+            {
+                BillingViewModel.HasCredit = value;
+
+                if (HasCredit)
+                {
+                    if (SelectedIndex != 2)
+                    {
+                        SelectedIndex = 2;
+                    }
+                }
+                else
+                {
+                    if (SelectedIndex == 2)
+                    {
+                        SelectedIndex = 0;
+                    }
+                }
+
+
+
+                OnPropertyChanged(nameof(HasCredit));
+                OnPropertyChanged(nameof(SetCreditVisibility));
+            }
+        }
+
+
         private bool _DataLockCheckbox;
         public bool DataLockCheckbox
         {
@@ -46,6 +123,7 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _DataLockCheckbox = value;
+                _billingViewModel.HasDataLock = _DataLockCheckbox;
                 OnPropertyChanged(nameof(DataLockCheckbox));
                 OnPropertyChanged(nameof(DataLock));
             }
@@ -187,102 +265,33 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(TotalFixedCostsPerPeriod));
             }
         }
+             
+
+        public PaymentManagementViewModel? PaymentManagementViewModel { get; set; }
 
 
-        // heating units used in billing period
-        // values for Rooms must be determined in order to
-        // calculate new rent shares based on consumption
-        public double TotalHeatingUnitsConsumption
-        {
-            get
-            {
-                return _billingViewModel.TotalHeatingUnitsConsumption;
-            }
-            set
-            {
-                _helper.ClearError(nameof(TotalHeatingUnitsConsumption));
-                _helper.ClearError(nameof(TotalHeatingUnitsRoom));
-
-                if (Double.IsNaN(value))
-                {
-                    _helper.AddError("value must be a number", nameof(TotalHeatingUnitsConsumption));
-                }
-
-                if (value < 0)
-                {
-                    _helper.AddError("value must be greater than 0", nameof(TotalHeatingUnitsConsumption));
-                }
-
-
-                if (value < TotalHeatingUnitsRoom)
-                {
-                    _helper.AddError("value can not be lesser than combined rooms value", nameof(TotalHeatingUnitsConsumption));
-                }
-
-                _billingViewModel.TotalHeatingUnitsConsumption = value;
-                OnPropertyChanged(nameof(TotalHeatingUnitsConsumption));
-            }
-        }
-
-
-        public double TotalHeatingUnitsRoom
-        {
-            get
-            {
-                return _billingViewModel.TotalHeatingUnitsRoom;
-            }
-            set
-            {
-                _helper.ClearError(nameof(TotalHeatingUnitsRoom));
-                _helper.ClearError(nameof(TotalHeatingUnitsConsumption));
-
-                if (Double.IsNaN(value))
-                {
-                    _helper.AddError("value must be a number", nameof(TotalHeatingUnitsRoom));
-                }
-
-                if (value < 0)
-                {
-                    _helper.AddError("value must be greater than 0", nameof(TotalHeatingUnitsRoom));
-                }
-
-                if (value > TotalHeatingUnitsConsumption)
-                {
-                    _helper.AddError("value can not be greater than total value", nameof(TotalHeatingUnitsRoom));
-                }
-
-                _billingViewModel.TotalHeatingUnitsRoom = value;
-                OnPropertyChanged(nameof(TotalHeatingUnitsRoom));
-            }
-        }
+        public ConsumptionViewModel? ConsumptionViewModel { get; set; }
 
 
         public ObservableCollection<RoomCostsViewModel> RoomCosts => _billingViewModel.RoomCosts;
 
-
-        public void CalculateRoomsConsumption()
-        {
-            if (RoomCosts != null)
-            {
-                TotalHeatingUnitsRoom = 0.0;
-
-                foreach (RoomCostsViewModel roomConsumption in RoomCosts)
-                {
-                    TotalHeatingUnitsRoom += roomConsumption.HeatingUnitsConsumption;
-                }
-
-                OnPropertyChanged(nameof(TotalHeatingUnitsRoom));
-            }
-        }
+                
+        public ICommand NewCreditCommand { get; }
 
 
         public BillingPeriodViewModel(FlatViewModel flatViewModel, BillingViewModel billingViewModel)
         {
+            NewCreditCommand = new RelayCommand(p => AddCredit(), (s) => true);
+
+
             _billingViewModel = billingViewModel;
 
             if (_billingViewModel == null)
             {
-                _billingViewModel = new BillingViewModel(flatViewModel, new Billing());
+                Billing billing = new Billing(flatViewModel);
+
+
+                _billingViewModel = new BillingViewModel(flatViewModel, billing);
             }
 
 
@@ -292,19 +301,47 @@ namespace SharedLivingCostCalculator.ViewModels
                 this.ErrorsChanged?.Invoke(this, e);
             };
 
-            if (_billingViewModel != null)
+
+            if (BillingViewModel.HasPayments)
             {
-                foreach (RoomCostsViewModel rhu in RoomCosts)
-                {
-                    rhu.HeatingUnitsChange += HeatingUnitsChange;
-                }
+                HasPayments = true;
             }
+
+
+            if (BillingViewModel.HasCredit)
+            {
+                HasCredit = true;
+            }
+
+
+            if (BillingViewModel.HasDataLock)
+            {
+                DataLockCheckbox = true;
+            }
+
+
+            SelectedIndex = 0;
+
+            PaymentManagementViewModel = new PaymentManagementViewModel(_billingViewModel);
+            ConsumptionViewModel = new ConsumptionViewModel(_billingViewModel);
         }
 
 
-        private void HeatingUnitsChange(object? sender, EventArgs e)
+        private void AddCredit()
         {
-            CalculateRoomsConsumption();
+            //throw new NotImplementedException();
+        }
+
+
+        private void OnSelectionChange()
+        {
+            switch (SelectedIndex)
+            {
+                case 0:
+
+                default:
+                    break;
+            }
         }
 
 

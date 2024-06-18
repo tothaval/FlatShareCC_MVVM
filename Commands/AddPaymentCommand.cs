@@ -30,17 +30,17 @@ namespace SharedLivingCostCalculator.Commands
 
                 for (int i = 0; i < quantity; i++)
                 {
-                    _paymentsSetupViewModel.RoomViewModel.Payments?.Add(
+                    _paymentsSetupViewModel.RoomPaymentsViewModel.RoomPayments.Payments?.Add(
 
-                        new PaymentViewModel(new Payment()
+                        new Payment()
                         {
                             StartDate = DateTime.Now,
                             EndDate = DateTime.Now,
                             Sum = 0.0,
                             PaymentQuantity = 1
-                        }));
+                        });
 
-                    _paymentsSetupViewModel.RoomViewModel.RegisterPaymentEvents();
+                    //_paymentsSetupViewModel.RoomViewModel.RegisterPaymentEvents();
                 }
             }            
         }

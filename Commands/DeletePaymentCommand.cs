@@ -38,7 +38,8 @@ namespace SharedLivingCostCalculator.Commands
 
                     foreach (var item in selected)
                     {
-                        _paymentsSetupViewModel.RoomViewModel.Payments.Remove(item);
+                        _paymentsSetupViewModel.RoomPaymentsViewModel.RoomPayments.Payments.Remove(item.GetPayment);
+
                     }
                 }
             }

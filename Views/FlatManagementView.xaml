@@ -216,19 +216,23 @@
 
                     <DataGridTextColumn Header="{DynamicResource IDF_RentShare}" CanUserSort="True"
                                         IsReadOnly="True"
-                                        Binding="{Binding RentShare, StringFormat=C2, ConverterCulture=de-DE}"/>
+                                        Binding="{Binding RentShare, StringFormat=C2, ConverterCulture=de-DE,
+                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
 
                     <DataGridTextColumn Header="{DynamicResource IDF_AdvanceTotal}" CanUserSort="True"
                                         IsReadOnly="True"
-                                        Binding="{Binding ExtraCostsShare, StringFormat=C2, ConverterCulture=de-DE}"/>
+                                        Binding="{Binding ExtraCostsShare, StringFormat=C2, ConverterCulture=de-DE,
+                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
 
                     <DataGridTextColumn Header="{DynamicResource IDF_PriceTotal}" CanUserSort="True"
                                         IsReadOnly="True"
-                                        Binding="{Binding TotalCosts, StringFormat=C2, ConverterCulture=de-DE}"/>
+                                        Binding="{Binding TotalCosts, StringFormat=C2, ConverterCulture=de-DE,
+                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
 
                     <DataGridTextColumn Header="{DynamicResource IDF_Percentage}" CanUserSort="True" MinWidth="75"
                                         IsReadOnly="True" TextBlock.TextAlignment="Right"
-                                        Binding="{Binding CostsPercentage, StringFormat=N2}"/>
+                                        Binding="{Binding CostsPercentage, StringFormat=N2,
+                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
                 </DataGrid.Columns>
             </DataGrid>
 

@@ -15,25 +15,13 @@
 
     </UserControl.Resources>
 
-    <StackPanel Orientation="Vertical" Margin="20">
+    <StackPanel Orientation="Vertical" Margin="0 20">
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.8*"/>
-                <ColumnDefinition Width="0.2*"/>
-            </Grid.ColumnDefinitions>
-            
-            <Button Content="{DynamicResource IDF_NewRent}" Grid.Column="0"
-                    Command="{Binding AddRentUpdateCommand}"/>
-
-            <Button Command="{Binding DeleteCommand}"
-                    Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"
-                    Grid.Column="1" Content="{DynamicResource IDF_DeleteRent}"/>
-        </Grid>
+        <TextBlock Text="{DynamicResource IDF_RentChange}" Style="{StaticResource Header}"/>
 
         <TextBlock Text="{DynamicResource RentManagementInstructionText}"
                    Visibility="{Binding HasRentUpdate, Converter={StaticResource InverseVisibilityConverter}}"
-                   Margin="20" HorizontalAlignment="Center" TextAlignment="Left"/>
+                   HorizontalAlignment="Center" TextAlignment="Left"/>
 
         <DataGrid ItemsSource="{Binding RentUpdates}"
                   SelectedValue="{Binding Path=SelectedValue}"
@@ -78,10 +66,25 @@
                                     Header="{DynamicResource IDF_TotalPricePerYear}"/>
             </DataGrid.Columns>
         </DataGrid>
-                
-        <Grid Visibility="{Binding RentUpdateSelected, Converter={StaticResource RentUpdateVisibilityConverter}}">
-            <local:RentUpdateView DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}" />
+        
+        <Grid Margin="0 0 0 20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="0.2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="{DynamicResource IDF_NewRentChange}" Grid.Column="0"
+                    Command="{Binding AddRentUpdateCommand}"/>
+
+            <Button Command="{Binding DeleteCommand}"
+                    Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"
+                    Grid.Column="1" Content="{DynamicResource IDF_DeleteRentChange}"/>
         </Grid>
+        
+        <local:RentUpdateView DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}"
+                              Margin="0 20"
+                              Visibility="{Binding RentUpdateSelected, Converter={StaticResource RentUpdateVisibilityConverter}}" />
+
         
         <Button Content="{DynamicResource IDF_ShowCosts}" Command="{Binding ShowCostsCommand}" IsEnabled="{Binding RentUpdateSelected}"
                      Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"/>

@@ -24,7 +24,8 @@ namespace SharedLivingCostCalculator.Utility
 
                 using (var writer = new StreamWriter($"{i}.xml"))
                 {
-                    xmlSerializer.Serialize(writer, new PersistanceDataSet(flats[i]));
+                    PersistanceDataSet persistanceDataSet = new PersistanceDataSet(flats[i]);
+                    xmlSerializer.Serialize(writer, persistanceDataSet);
                 }
             }
         }

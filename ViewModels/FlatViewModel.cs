@@ -54,17 +54,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public ObservableCollection<BillingViewModel> BillingPeriods
-        {
-            get { return _flat.BillingPeriods; }
-            set
-            {
-                _flat.BillingPeriods = value;
-                OnPropertyChanged(nameof(BillingPeriods));
-            }
-        }
-
-
         public ObservableCollection<RentViewModel> RentUpdates
         {
             get { return _flat.RentUpdates; }
@@ -100,79 +89,19 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public BillingViewModel AddBilling(RentViewModel rentViewModel)
-        {
-            BillingViewModel billingViewModel = new BillingViewModel(this, new Billing());
-            billingViewModel.StartDate = rentViewModel.StartDate - TimeSpan.FromDays(365);
-            billingViewModel.EndDate = rentViewModel.StartDate;
-            billingViewModel.RentViewModel = rentViewModel;
-            billingViewModel.GenerateRoomCosts();
-
-            BillingPeriods.Add(billingViewModel);
-            OnPropertyChanged(nameof(BillingPeriods));
-
-            return billingViewModel;
-        }
-
-
-        public async Task Calculate()
-        {
-            foreach (RentViewModel rentViewModel in RentUpdates)
-            {
-                rentViewModel.GenerateRoomCosts();
-                rentViewModel.SetBilling();
-            }
-        }
-
-
         public void SetMostRecentCosts()
         {
             RentViewModel? rent = GetMostRecentRent();
 
-            if (rent != null)
+            if (rent != null && rent.RoomCosts != null)
             {
-                if (rent.RoomCosts.Count == 0)
-                {
-                    foreach (RoomViewModel room in Rooms)
-                    {
-                        rent.RoomCosts.Add(new RoomCostsViewModel(room, rent));
-                    }
-                }
-
                 CurrentRoomCosts = rent.RoomCosts;
             }
 
             OnPropertyChanged(nameof(CurrentRoomCosts));
         }
 
-
-        private BillingViewModel? GetMostRecentBillingPeriod()
-        {
-            BillingViewModel? billingViewModel = null;
-            if (BillingPeriods.Count > 0)
-            {
-                foreach (BillingViewModel billing in BillingPeriods)
-                {
-                    if (billingViewModel == null)
-                    {
-                        if (billing.StartDate <= DateTime.Now)
-                        {
-                            billingViewModel = billing;
-                        }
-
-                        continue;
-                    }
-
-                    if (billing.StartDate > billingViewModel.StartDate)
-                    {
-                        billingViewModel = billing;
-                    }
-                }
-            }
-            return billingViewModel;
-        }
-
-
+            
         public RentViewModel? GetMostRecentRent()
         {
             RentViewModel? rentViewModel = null;
@@ -184,62 +113,6 @@ namespace SharedLivingCostCalculator.ViewModels
                     {
                         rentViewModel = rent;
 
-                        continue;
-                    }
-
-                    if (rent.StartDate > rentViewModel.StartDate)
-                    {
-                        rentViewModel = rent;
-                    }
-                }
-            }
-
-            return rentViewModel;
-        }
-
-
-        public double GetPaymentsPerPeriod(BillingViewModel billingViewModel)
-        {
-            double paymentsPerPeriod = 0;
-
-            foreach (RoomViewModel room in Rooms)
-            {
-                foreach (PaymentViewModel payment in room.Payments)
-                {
-                    if (
-                        payment.StartDate >= billingViewModel.StartDate && payment.StartDate <= billingViewModel.EndDate
-                        && payment.EndDate >= billingViewModel.StartDate && payment.EndDate <= billingViewModel.EndDate
-                        )
-                    {
-                        paymentsPerPeriod += payment.PaymentTotal;
-                    }
-                }
-            }
-
-            return paymentsPerPeriod;
-        }
-
-
-        public RentViewModel? GetRentForPeriod(BillingViewModel billingViewModel)
-        {
-            RentViewModel? rentViewModel = null;
-
-            if (RentUpdates.Count > 0)
-            {
-                foreach (RentViewModel rent in RentUpdates)
-                {
-                    if (rentViewModel == null)
-                    {
-                        if (rent.StartDate <= billingViewModel.StartDate && rent.StartDate < billingViewModel.EndDate)
-                        {
-                            rentViewModel = rent;
-                        }
-
-                        continue;
-                    }
-
-                    if (rent.StartDate >= billingViewModel.EndDate || rent.StartDate >= billingViewModel.StartDate)
-                    {
                         continue;
                     }
 

@@ -18,13 +18,16 @@
             <StackPanel Orientation="Vertical"
                         Grid.Row="0">
                 <TextBlock Text="{DynamicResource IDF_perMonth}"/>
-                <components:CurrencyInputView Label="{DynamicResource IDF_Rent}" Value="{Binding TotalRentCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                <components:CurrencyInputView Label="{DynamicResource IDF_Rent}" Value="{Binding TotalRentCosts,  
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
                                         LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
                                               ValueAlignment="Right"/>
-                <components:CurrencyInputView Label="{DynamicResource IDF_Advance}" Value="{Binding TotalExtraCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                <components:CurrencyInputView Label="{DynamicResource IDF_Advance}" Value="{Binding TotalExtraCosts,  
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
                                         LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
                                               ValueAlignment="Right"/>
-                <components:CurrencyInputView Label="{DynamicResource IDF_Price}" Value="{Binding TotalCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                <components:CurrencyInputView Label="{DynamicResource IDF_Price}" Value="{Binding TotalCosts,  
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
                                         LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
                                               ValueAlignment="Right"/>
             </StackPanel>
@@ -32,13 +35,16 @@
             <StackPanel Orientation="Vertical"
                         Grid.Row="0">
                 <TextBlock Text="{DynamicResource IDF_perYear}"/>
-                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualRent}" Value="{Binding AnnualRentCosts, NotifyOnSourceUpdated=True}"
+                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualRent}" Value="{Binding AnnualRentCosts,
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                 LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
                                               ValueAlignment="Right"/>
-                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualExtra}" Value="{Binding AnnualExtraCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualExtra}" Value="{Binding AnnualExtraCosts, 
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
                                 LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
                                               ValueAlignment="Right"/>
-                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualPrice}" Value="{Binding AnnualCosts, NotifyOnSourceUpdated=True, StringFormat=C2, ConverterCulture=de-DE}"
+                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualPrice}" Value="{Binding AnnualCosts,  
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
                                 LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
                                               ValueAlignment="Right"/>
             </StackPanel>
@@ -53,23 +59,17 @@
                   Grid.Row="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{DynamicResource IDF_RoomName}" Binding="{Binding Room.RoomName,
-                    NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
                 <DataGridTextColumn Header="{DynamicResource IDF_RoomArea}" Binding="{Binding Room.RoomArea,StringFormat=N2,
-                    NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
                 <DataGridTextColumn Header="{DynamicResource IDF_RentShare}" Binding="{Binding RentShare,StringFormat=C2, ConverterCulture=de-DE,
-                    NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
+                   UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
                 <DataGridTextColumn Header="{DynamicResource IDF_AdvanceFixed}" Binding="{Binding FixedShare,StringFormat=C2, ConverterCulture=de-DE,
-                    NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
                 <DataGridTextColumn Header="{DynamicResource IDF_AdvanceHeating}" Binding="{Binding HeatingShare,StringFormat=C2, ConverterCulture=de-DE,
-                    NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
                 <DataGridTextColumn Header="{DynamicResource IDF_PriceTotal}" Binding="{Binding TotalCosts,StringFormat=C2, ConverterCulture=de-DE,
-                    NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -89,16 +89,16 @@
                     NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=true, Delay=500}"/>
                 <DataGridTextColumn Header="{DynamicResource IDF_AnnualRent}" Binding="{Binding AnnualRentShare,StringFormat=C2, ConverterCulture=de-DE,
-                    NotifyOnSourceUpdated=True,
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
                         ValidatesOnDataErrors=true, Delay=500}"/>
                 <DataGridTextColumn Header="{DynamicResource IDF_AnnualFixed}" Binding="{Binding AnnualFixedShare,StringFormat=C2, ConverterCulture=de-DE,
-                    NotifyOnSourceUpdated=True,
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
                         ValidatesOnDataErrors=true, Delay=500}"/>
                 <DataGridTextColumn Header="{DynamicResource IDF_AnnualHeating}" Binding="{Binding AnnualHeatingShare,StringFormat=C2, ConverterCulture=de-DE,
-                    NotifyOnSourceUpdated=True,
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
                         ValidatesOnDataErrors=true, Delay=500}"/>
                 <DataGridTextColumn Header="{DynamicResource IDF_AnnualPrice}" Binding="{Binding AnnualCosts,StringFormat=C2, ConverterCulture=de-DE,
-                    NotifyOnSourceUpdated=True,
+                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
                         ValidatesOnDataErrors=true, Delay=500}"/>
             </DataGrid.Columns>
         </DataGrid>

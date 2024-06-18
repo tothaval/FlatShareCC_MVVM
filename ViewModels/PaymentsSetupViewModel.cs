@@ -11,6 +11,7 @@
  *  selected RoomViewModel instance
  */
 using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -36,11 +37,25 @@ namespace SharedLivingCostCalculator.ViewModels
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
 
 
-        private readonly RoomViewModel _roomViewModel;
-        public RoomViewModel RoomViewModel => _roomViewModel;
+
+        private RoomPaymentsViewModel _RoomPaymentsViewModel;
+        public RoomPaymentsViewModel RoomPaymentsViewModel
+        {
+            get { return _RoomPaymentsViewModel; }
+            set
+            {
+                _RoomPaymentsViewModel = value;
+                OnPropertyChanged(nameof(RoomPaymentsViewModel));
+            }
+        }
 
 
-        public ObservableCollection<PaymentViewModel> Payments => _roomViewModel.Payments;
+        public RoomViewModel RoomViewModel => RoomPaymentsViewModel.RoomViewModel;
+
+
+        public ObservableCollection<PaymentViewModel> Payments => GetPaymentViewModels();
+
+
 
 
         private int _quantity;
@@ -72,13 +87,35 @@ namespace SharedLivingCostCalculator.ViewModels
         public ICommand DeletePaymentCommand { get; }
 
 
-        public PaymentsSetupViewModel(RoomViewModel roomViewModel)
+        public PaymentsSetupViewModel(RoomPaymentsViewModel roomPaymentsViewModel)
         {
-            _roomViewModel = roomViewModel;
+            _RoomPaymentsViewModel = roomPaymentsViewModel;
             _quantity = 1;
 
             AddPaymentCommand = new AddPaymentCommand(this);
             DeletePaymentCommand = new DeletePaymentCommand(this);
+
+            _RoomPaymentsViewModel.RoomPayments.Payments.CollectionChanged += Payments_CollectionChanged;
+        }
+
+
+        private void Payments_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Payments));
+            OnPropertyChanged(nameof(RoomPaymentsViewModel));
+        }
+
+
+        private ObservableCollection<PaymentViewModel> GetPaymentViewModels()
+        {
+            ObservableCollection<PaymentViewModel> paymentViewModels = new ObservableCollection<PaymentViewModel>();
+
+            foreach (Payment payment in _RoomPaymentsViewModel.RoomPayments.Payments)
+            {
+                paymentViewModels.Add(new PaymentViewModel(payment));
+            }
+
+            return paymentViewModels;
         }
 
 

@@ -53,43 +53,22 @@ namespace SharedLivingCostCalculator.Utility
         [XmlArray("Rents")]
         public ObservableCollection<Rent> Rents { get; set; }
 
-        
-        private ObservableCollection<BillingData> GetBillings()
-        {
-            ObservableCollection<BillingData> billings = new ObservableCollection<BillingData>();
-
-            foreach (BillingViewModel bvm in _flatViewModel.BillingPeriods)
-            {
-                BillingData billingData = new BillingData();
-                billingData.StartDate = bvm.StartDate;
-                billingData.EndDate = bvm.EndDate;
-                billingData.TotalCostsPerPeriod = bvm.TotalCostsPerPeriod;
-                billingData.TotalFixedCostsPerPeriod = bvm.TotalFixedCostsPerPeriod;
-                billingData.TotalHeatingCostsPerPeriod = bvm.TotalHeatingCostsPerPeriod;
-                billingData.TotalHeatingUnitsConsumption = bvm.TotalHeatingUnitsConsumption;
-                billingData.TotalHeatingUnitsRoom = bvm.TotalHeatingUnitsRoom;
-                billingData.basedOnRent_ID = bvm.RentId;
-
-                foreach (RoomCostsViewModel rhuvm in bvm.RoomCosts)
-                {
-                    billingData.RoomConsumptionValues.Add(rhuvm.GetRoomCosts);
-                }
-
-                billings.Add(billingData);
-            }
-
-            return billings;
-        }
-
 
         private ObservableCollection<Rent> GetRents()
         {
             ObservableCollection<Rent> rents = new ObservableCollection<Rent>();
 
-            foreach (RentViewModel rent in _flatViewModel.RentUpdates)
+            foreach (RentViewModel rentViewModel in _flatViewModel.RentUpdates)
             {
+                Rent rent = rentViewModel.Rent;
 
-                rents.Add(rent.GetRent);
+                if (rentViewModel.BillingViewModel != null)
+                {
+                    rent.GetBilling = rentViewModel.BillingViewModel.GetBilling;
+                }
+
+
+                rents.Add(rent);
             }
 
             return rents;
@@ -107,62 +86,13 @@ namespace SharedLivingCostCalculator.Utility
                 roomData.RoomName = room.RoomName;
                 roomData.RoomArea = room.RoomArea;
 
-                foreach (PaymentViewModel pvm in room.Payments)
-                {
-                    roomData.Payments.Add(pvm.GetPayment);
-                }
-
                 rooms.Add(roomData);
             }
 
             return rooms;
         }
 
-
-        public async Task<ObservableCollection<BillingViewModel>> GetBillingViewModels(FlatViewModel flatViewModel)
-        {
-            ObservableCollection<BillingViewModel> billingViewModels = new ObservableCollection<BillingViewModel>();
-
-            foreach (BillingData billingData in BillingPeriods)
-            {
-                BillingViewModel billingViewModel = new BillingViewModel(flatViewModel, new Billing()
-                { 
-                    StartDate = billingData.StartDate,
-                    EndDate = billingData.EndDate,
-                    TotalCostsPerPeriod = billingData.TotalCostsPerPeriod,
-                    TotalFixedCostsPerPeriod = billingData.TotalFixedCostsPerPeriod,
-                    TotalHeatingCostsPerPeriod = billingData.TotalHeatingCostsPerPeriod,
-                    TotalHeatingUnitsConsumption = billingData.TotalHeatingUnitsConsumption,
-                    TotalHeatingUnitsRoom = 0,
-                    RentID = billingData.basedOnRent_ID
-                });
-
-                foreach (RoomCosts roomCosts in billingData.RoomConsumptionValues)
-                {
-                    foreach (RoomViewModel room in flatViewModel.Rooms)
-                    {
-                        if (room.ID == roomCosts.RoomID)
-                        {
-                            RoomCostsViewModel roomCostsViewModel = new RoomCostsViewModel(room, billingViewModel);
-
-                            roomCostsViewModel.HeatingUnitsConsumption = roomCosts.HeatingUnitsConsumption;
-
-                            billingViewModel.TotalHeatingUnitsRoom += roomCostsViewModel.HeatingUnitsConsumption;
-
-                            billingViewModel.RoomCosts.Add(roomCostsViewModel);
-                        }                        
-                    }                    
-                }
-
-                billingViewModel.registerEvents();
-
-                billingViewModels.Add(billingViewModel);
-            }
-
-            return billingViewModels;
-        }
-
-
+    
         public async Task<ObservableCollection<RentViewModel>> GetRentViewModels(FlatViewModel flatViewModel)
         {
             ObservableCollection<RentViewModel> rentViewModels = new ObservableCollection<RentViewModel>();
@@ -185,11 +115,7 @@ namespace SharedLivingCostCalculator.Utility
             foreach (RoomData room in Rooms)
             {
                 RoomViewModel roomViewModel = new RoomViewModel(new Room(room.ID, room.RoomName, room.RoomArea));
-
-                foreach (Payment payment in room.Payments)
-                {
-                    roomViewModel.Payments.Add(new PaymentViewModel(payment));
-                };                
+            
 
                 roomViewModels.Add(roomViewModel);
             }
@@ -216,11 +142,6 @@ namespace SharedLivingCostCalculator.Utility
             Task<ObservableCollection<RentViewModel>> GetRents = GetRentViewModels(flatViewModel);
             flatViewModel.RentUpdates = await GetRents;
 
-            Task<ObservableCollection<BillingViewModel>> GetBillings = GetBillingViewModels(flatViewModel);
-            flatViewModel.BillingPeriods = await GetBillings;
-
-            await flatViewModel.Calculate();
-
             return flatViewModel;
         }
 
@@ -246,7 +167,6 @@ namespace SharedLivingCostCalculator.Utility
             Details = flatViewModel.Details;
             FlatNotes = flatViewModel.FlatNotes;
 
-            BillingPeriods = GetBillings();
             Rents = GetRents();
             Rooms = GetRooms();
         }

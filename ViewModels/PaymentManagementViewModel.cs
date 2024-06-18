@@ -12,6 +12,7 @@ using SharedLivingCostCalculator.Utility;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Data;
 
 
 namespace SharedLivingCostCalculator.ViewModels
@@ -35,9 +36,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         private readonly FlatViewModel _flatViewModel;
-
-
-        public ObservableCollection<RoomViewModel> Rooms => _flatViewModel.Rooms;
+        private readonly BillingViewModel _billingViewModel;
 
 
         private PaymentsSetupViewModel _updateViewModel;
@@ -52,8 +51,11 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private RoomViewModel _selectedValue; // private Billing _selectedBillingPeriod
-        public RoomViewModel SelectedValue
+        public ObservableCollection<RoomPaymentsViewModel> Rooms => _billingViewModel.RoomPayments;
+
+
+        private RoomPaymentsViewModel _selectedValue; // private Billing _selectedBillingPeriod
+        public RoomPaymentsViewModel SelectedValue
         {
             get { return _selectedValue; }
             set
@@ -64,27 +66,29 @@ namespace SharedLivingCostCalculator.ViewModels
                 UpdateViewModel = new PaymentsSetupViewModel(SelectedValue);
 
                 OnPropertyChanged(nameof(SelectedValue));
-
-                foreach (RoomViewModel room in Rooms)
-                {
-                    room.RegisterPaymentEvents();
-                    room.DetermineValues();
-                }
             }
         }
 
 
-        public PaymentManagementViewModel(FlatViewModel flatViewModel)
+        public ICollectionView RoomPayments { get; set; }
+
+        public PaymentManagementViewModel(BillingViewModel billingViewModel)
         {
-            _flatViewModel = flatViewModel;
+            _flatViewModel = billingViewModel.GetFlatViewModel();
+            _billingViewModel = billingViewModel;
 
-            foreach (RoomViewModel room in Rooms)
-            {
-                room.DetermineValues();
-            }
+            RoomPayments = CollectionViewSource.GetDefaultView(_billingViewModel.RoomPayments);
+            RoomPayments.SortDescriptions.Add(new SortDescription("RoomViewModel.ID", ListSortDirection.Ascending));
+
+            _billingViewModel.RoomPayments.CollectionChanged += RoomPayments_CollectionChanged;
         }
 
-
+        private void RoomPayments_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(RoomPayments));
+            OnPropertyChanged(nameof(UpdateViewModel));
+            OnPropertyChanged(nameof(SelectedValue));
+        }
     }
 }
 // EOF

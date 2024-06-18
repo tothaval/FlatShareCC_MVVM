@@ -11,8 +11,10 @@
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
+using SharedLivingCostCalculator.Views;
 using System.Collections;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -29,58 +31,44 @@ namespace SharedLivingCostCalculator.ViewModels
         public RentViewModel RentViewModel => _rentViewModel;
 
 
-        public bool SetBillingVisibility => HasBilling;
-        public bool SetOtherCostsVisibility => HasOtherCosts;
-        public bool SetCreditVisibility => HasCredit;
-
-        private bool _DataLockCheckbox;
-        public bool DataLockCheckbox {
-            get { return _DataLockCheckbox; }
-            set {
-                _DataLockCheckbox = value;
-                OnPropertyChanged(nameof(DataLockCheckbox));
-                OnPropertyChanged(nameof(DataLock));
-            }
-        }
-
-        public bool DataLock => !DataLockCheckbox;
-
-        public bool HasBilling
+        private bool _SetBillingVisibility;
+        public bool SetBillingVisibility
         {
-            get { return RentViewModel.HasBilling; }
-            set { RentViewModel.HasBilling = value;
+            get { return _SetBillingVisibility; }
+            set
+            {
+                _SetBillingVisibility = value;
 
-                if (!HasBilling)
+                if (!_SetBillingVisibility)
                 {
-                    SelectedBillingViewModel = null;
+                    RentViewModel.RemoveBilling();
                 }
 
-                OnPropertyChanged(nameof(HasBilling));
                 OnPropertyChanged(nameof(SetBillingVisibility));
 
                 RentConfigurationChange?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        
-        public bool HasCredit
+
+        public bool SetOtherCostsVisibility => HasOtherCosts;
+
+
+        private bool _DataLockCheckbox;
+        public bool DataLockCheckbox
         {
-            get { return RentViewModel.HasCredit; }
+            get { return _DataLockCheckbox; }
             set
             {
-                RentViewModel.HasCredit = value;
-
-                if (!HasCredit)
-                {
-                    //SelectedCreditViewModel = null;
-                }
-
-                OnPropertyChanged(nameof(HasCredit));
-                OnPropertyChanged(nameof(SetCreditVisibility));
-
-                RentConfigurationChange?.Invoke(this, EventArgs.Empty);
+                _DataLockCheckbox = value;
+                _rentViewModel.HasDataLock = _DataLockCheckbox;
+                OnPropertyChanged(nameof(DataLockCheckbox));
+                OnPropertyChanged(nameof(HasDataLock));
             }
         }
+
+
+        public bool HasDataLock => !DataLockCheckbox;
 
 
         public bool HasOtherCosts
@@ -101,7 +89,6 @@ namespace SharedLivingCostCalculator.ViewModels
                 RentConfigurationChange?.Invoke(this, EventArgs.Empty);
             }
         }
-
 
 
         private ValidationHelper _helper = new ValidationHelper();
@@ -146,57 +133,7 @@ namespace SharedLivingCostCalculator.ViewModels
         public double? BillingConsumedUnits => GetBillingConsumedUnits();
 
 
-        public ICommand NewBillingCommand { get; }
-        public ICommand NewCreditCommand { get; }
-        public ICommand NewOtherCostsCommand { get; }
-                
-
-        public ICollectionView BillingViewModels { get; set; }
-
-
-        private BillingViewModel _SelectedBillingViewModel;
-        public BillingViewModel SelectedBillingViewModel
-        {
-            get { return _SelectedBillingViewModel; }
-            set
-            {
-                _SelectedBillingViewModel = value;
-
-                RentViewModel.BillingViewModel = SelectedBillingViewModel;
-
-                OnPropertyChanged(nameof(SelectedBillingViewModel));
-            }
-        }
-
-
-        private DateTime? GetBillingStartDate()
-        {
-            if (RentViewModel.BillingViewModel != null)
-            {
-                return RentViewModel.BillingViewModel.StartDate;
-            }
-            return null;
-        }
-
-
-        private DateTime? GetBillingEndDate()
-        {
-            if (RentViewModel.BillingViewModel != null)
-            {
-                return RentViewModel.BillingViewModel.EndDate;
-            }
-            return null;
-        }
-
-
-        private double? GetBillingConsumedUnits()
-        {
-            if (RentViewModel.BillingViewModel != null)
-            {
-                return RentViewModel.BillingViewModel.TotalHeatingUnitsConsumption;
-            }
-            return null;
-        }
+        public ICommand ShowBillingCommand { get; }
 
 
         public DateTime StartDate
@@ -291,7 +228,6 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             _rentViewModel = rentViewModel;
 
-
             if (_rentViewModel == null)
             {
                 _rentViewModel = new RentViewModel(flatViewModel, new Rent());
@@ -299,54 +235,77 @@ namespace SharedLivingCostCalculator.ViewModels
 
             _helper.ErrorsChanged += (_, e) => ErrorsChanged?.Invoke(this, e);
 
-            BillingViewModels = CollectionViewSource.GetDefaultView(RentViewModel.GetFlatViewModel().BillingPeriods);
-            BillingViewModels.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
 
-            NewBillingCommand = new RelayCommand(p => AddBilling(), (s) => true);
-            NewCreditCommand = new RelayCommand(p => AddCredit(), (s) => true);
-            NewOtherCostsCommand = new RelayCommand(p => AddOtherCosts(), (s) => true);
+            ShowBillingCommand = new RelayCommand(p => ShowBillingView(), (s) => true);
 
-            if (RentViewModel.HasBilling)
+
+            if (_rentViewModel.HasBilling)
             {
-                SelectedBillingViewModel = RentViewModel.BillingViewModel;
-                HasBilling = true;
-                OnPropertyChanged(nameof(SelectedBillingViewModel));
+                SetBillingVisibility = true;
             }
-            if (RentViewModel.HasCredit)
+            if (_rentViewModel.HasOtherCosts)
             {
-                //SelectedCreditViewModel = RentViewModel.CreditViewModel;
-                HasCredit = true;
-                //OnPropertyChanged(nameof(SelectedCreditViewModel));
-            }
-            if (RentViewModel.HasOtherCosts)
-            {
-                //SelectedOtherCostsViewModel = RentViewModel.OtherCosstsViewModel;
                 HasOtherCosts = true;
-                //OnPropertyChanged(nameof(SelectedOtherCostsViewModel));
+            }
+            if (_rentViewModel.HasDataLock)
+            {
+                DataLockCheckbox = true;
             }
 
-            //DataLockCheckbox = false;
+            OnPropertyChanged(nameof(HasDataLock));
         }
 
 
-        private void AddBilling()
+        private DateTime? GetBillingStartDate()
         {
-            RentViewModel.BillingViewModel = RentViewModel.GetFlatViewModel().AddBilling(RentViewModel);
-            SelectedBillingViewModel = RentViewModel.BillingViewModel;
+            if (RentViewModel.BillingViewModel != null)
+            {
+                return RentViewModel.BillingViewModel.StartDate;
+            }
+            return null;
         }
 
 
-        private void AddCredit()
+        private DateTime? GetBillingEndDate()
         {
-            //throw new NotImplementedException();
+            if (RentViewModel.BillingViewModel != null)
+            {
+                return RentViewModel.BillingViewModel.EndDate;
+            }
+            return null;
         }
 
 
-        private void AddOtherCosts()
+        private double? GetBillingConsumedUnits()
         {
-            //throw new NotImplementedException();
+            if (RentViewModel.BillingViewModel != null)
+            {
+                return RentViewModel.BillingViewModel.TotalHeatingUnitsConsumption;
+            }
+            return null;
         }
 
+
+        private void ShowBillingView()
+        {
+            var mainWindow = Application.Current.MainWindow;
+
+            BillingWindow billingWindow = new BillingWindow();
+
+            if (RentViewModel.BillingViewModel == null)
+            {
+                Billing billing = new Billing(RentViewModel.GetFlatViewModel());
+
+                RentViewModel.BillingViewModel = new BillingViewModel(RentViewModel.GetFlatViewModel(), billing);
+            }
+
+            billingWindow.DataContext = new BillingPeriodViewModel(RentViewModel.GetFlatViewModel(), RentViewModel.BillingViewModel);
+
+            billingWindow.Owner = mainWindow;
+            billingWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+
+            billingWindow.Show();
+        }
 
     }
 }

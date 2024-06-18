@@ -18,12 +18,20 @@ namespace SharedLivingCostCalculator.ViewModels
         private readonly FlatViewModel _flatViewModel;
 
 
-        private readonly Rent _rent;
-        public Rent GetRent => _rent;
+        private Rent _Rent;
+        public Rent Rent
+        {
+            get { return _Rent; }
+            set
+            {
+                _Rent = value;
+                OnPropertyChanged(nameof(Rent));
+            }
+        }
 
 
-        private BillingViewModel _BillingViewModel;
-        public BillingViewModel BillingViewModel
+        private BillingViewModel? _BillingViewModel;
+        public BillingViewModel? BillingViewModel
         {
             get { return _BillingViewModel; }
             set
@@ -32,49 +40,24 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 if (_BillingViewModel != null)
                 {
-                    GetRent.BillingID = _flatViewModel.BillingPeriods.IndexOf(_BillingViewModel);
+                    Rent.GetBilling = _BillingViewModel.GetBilling;
                 }
 
                 OnPropertyChanged(nameof(BillingViewModel));
-            }
-        }
-
-
-        private bool _HasBilling;
-        public bool HasBilling
-        {
-            get { return _HasBilling; }
-            set
-            {
-                _HasBilling = value;
-
-                if (!HasBilling) { RemoveBilling(); }
-
                 OnPropertyChanged(nameof(HasBilling));
             }
         }
 
-        private bool _HasCredit;
-        public bool HasCredit
-        {
-            get { return _HasCredit; }
-            set
-            {
-                _HasCredit = value;
 
-                if (!HasCredit) { RemoveCredit(); }
+        public bool HasBilling => _BillingViewModel != null;
 
-                OnPropertyChanged(nameof(HasCredit));
-            }
-        }
-
-        private bool _HasOtherCosts;
+        
         public bool HasOtherCosts
         {
-            get { return _HasOtherCosts; }
+            get { return Rent.HasOtherCosts; }
             set
             {
-                _HasOtherCosts = value;
+                Rent.HasOtherCosts = value;
 
                 if (!HasOtherCosts) { RemoveOtherCosts(); }
 
@@ -82,16 +65,25 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        public int ID
+
+        public bool HasDataLock
         {
-            get { return _rent.ID; }
+            get { return Rent.HasDataLock; }
+            set
+            {
+                Rent.HasDataLock = value;
+
+                OnPropertyChanged(nameof(HasDataLock));
+            }
         }
+
 
 
         public DateTime StartDate
         {
-            get { return _rent.StartDate; }
-            set { _rent.StartDate = value; OnPropertyChanged(nameof(StartDate));
+            get { return Rent.StartDate; }
+            set {
+                Rent.StartDate = value; OnPropertyChanged(nameof(StartDate));
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
             }
         }
@@ -100,8 +92,9 @@ namespace SharedLivingCostCalculator.ViewModels
         // monthly costs
         public double ColdRent
         {
-            get { return _rent.ColdRent; }
-            set { _rent.ColdRent = value; 
+            get { return Rent.ColdRent; }
+            set {
+                Rent.ColdRent = value; 
                 OnPropertyChanged(nameof(ColdRent));
                 OnPropertyChanged(nameof(CostsTotal));
                 OnPropertyChanged(nameof(AnnualRent));
@@ -114,8 +107,9 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public double FixedCostsAdvance
         {
-            get { return _rent.ExtraCostsShared; }
-            set { _rent.ExtraCostsShared = value;
+            get { return Rent.ExtraCostsShared; }
+            set {
+                Rent.ExtraCostsShared = value;
                 OnPropertyChanged(nameof(FixedCostsAdvance));
                 OnPropertyChanged(nameof(ExtraCostsTotal));
                 OnPropertyChanged(nameof(CostsTotal));
@@ -128,8 +122,9 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public double HeatingCostsAdvance
         {
-            get { return _rent.ExtraCostsHeating; }
-            set { _rent.ExtraCostsHeating = value; 
+            get { return Rent.ExtraCostsHeating; }
+            set {
+                Rent.ExtraCostsHeating = value; 
                 OnPropertyChanged(nameof(HeatingCostsAdvance));
                 OnPropertyChanged(nameof(ExtraCostsTotal));
                 OnPropertyChanged(nameof(CostsTotal));
@@ -176,33 +171,31 @@ namespace SharedLivingCostCalculator.ViewModels
         public double AnnualCostsTotal => AnnualRent + AnnualExtraCosts;
 
 
-        public RentViewModel(FlatViewModel flatViewModel, Rent rent, BillingViewModel? billingViewModel = null)
+        public RentViewModel(FlatViewModel flatViewModel, Rent rent)
         {
+            RoomCosts = new ObservableCollection<RoomCostsViewModel>();
+
             _flatViewModel = flatViewModel;
-            _rent = rent;         
+            Rent = rent;
 
-            BillingViewModel = billingViewModel;
-
-            SetBilling();
+            if (Rent.GetBilling != null)
+            {
+                BillingViewModel = new BillingViewModel(_flatViewModel, Rent.GetBilling);
+            }
 
             OnPropertyChanged(nameof(HasBilling));
+
+            GenerateRoomCosts();
         }
 
 
         public void GenerateRoomCosts()
         {
-            RoomCosts = new ObservableCollection<RoomCostsViewModel>();
+            foreach (RoomCosts roomCosts in Rent.RoomCostShares)
+            {
+                RoomCostsViewModel roomCostsViewModel = new RoomCostsViewModel(roomCosts, this);
 
-            if (BillingViewModel != null)
-            {
-                RoomCosts = BillingViewModel.RoomCosts;
-            }
-            else
-            {
-                foreach (RoomViewModel room in _flatViewModel.Rooms)
-                {
-                    RoomCosts.Add(new RoomCostsViewModel(room, this));
-                }
+                RoomCosts.Add(roomCostsViewModel);
             }
         }
 
@@ -215,39 +208,19 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public void RemoveBilling()
         {
-            BillingViewModel = null;
-        }
+            if (BillingViewModel != null || HasBilling)
+            {
+                BillingViewModel = null;
+                Rent.GetBilling = null;
 
-
-        public void RemoveCredit()
-        {
-            //CreditViewModel = null;
+                OnPropertyChanged(nameof(HasBilling));
+            }
         }
 
 
         public void RemoveOtherCosts()
         {
             //OtherCostsViewModel = null;
-        }
-
-
-        public void SetBilling()
-        {
-            if (GetRent.BillingID != -1 && GetFlatViewModel().BillingPeriods.Count > GetRent.BillingID)
-            {
-                BillingViewModel = GetFlatViewModel().BillingPeriods[GetRent.BillingID];
-                HasBilling = true;
-            }
-        }
-
-
-        public void SetCredit()
-        {
-            //if (GetRent.BillingID != -1 && GetFlatViewModel().BillingPeriods.Count > GetRent.BillingID)
-            //{
-            //    BillingViewModel = GetFlatViewModel().BillingPeriods[GetRent.BillingID];
-            //    HasBilling = true;
-            //}
         }
 
 
@@ -259,6 +232,7 @@ namespace SharedLivingCostCalculator.ViewModels
             //    HasBilling = true;
             //}
         }
+
 
     }
 }
