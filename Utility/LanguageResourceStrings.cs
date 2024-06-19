@@ -13,6 +13,7 @@
  */
 using System.Text;
 using System.Xml.Serialization;
+using SharedLivingCostCalculator.Enums;
 
 namespace SharedLivingCostCalculator.Utility
 {
@@ -71,7 +72,12 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_AdvanceTotal { get; set; } = "advance total";
         public string IDF_PriceTotal { get; set; } = "price total";
         public string IDF_BaseRentOnBilling { get; set; } = "base calculation on billing";
-        public string IDF_OtherCosts { get; set; } = "other costs";
+        public string IDF_OtherCosts { get; set; } = "Other Costs";
+
+        public string IDF_AnnualOther { get; set; } = "Annual Other Costs";
+        public string IDF_AnnualComplete { get; set; } = "Annual Complete Costs";
+        public string IDF_CompleteCosts { get; set; } = "Complete Costs";
+
 
         public string IDF_Credit { get; set; } = "credit(s)";
 

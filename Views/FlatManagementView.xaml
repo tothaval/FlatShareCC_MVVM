@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
+             xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
              xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility"
              x:Name="FMV"
              mc:Ignorable="d" 
@@ -13,8 +14,8 @@
              >
     <UserControl.Resources>
 
-        <utils:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
-        <utils:VisibilityConverter x:Key="VisibilityConverter"/>
+        <conv:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
+        <conv:VisibilityConverter x:Key="VisibilityConverter"/>
 
     </UserControl.Resources>
 

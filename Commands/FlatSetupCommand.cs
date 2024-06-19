@@ -7,6 +7,7 @@
  */
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using SharedLivingCostCalculator.Views;
 using System.Collections.ObjectModel;
 
@@ -60,6 +61,7 @@ namespace SharedLivingCostCalculator.Commands
             _flatCollection.Add(flatViewModel);
 
             _flatSetupView.Close();
+
         }
 
 

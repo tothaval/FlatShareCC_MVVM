@@ -11,6 +11,7 @@
  */
 using System.ComponentModel;
 using System.Windows.Data;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 
 namespace SharedLivingCostCalculator.ViewModels

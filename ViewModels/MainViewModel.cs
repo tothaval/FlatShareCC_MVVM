@@ -5,6 +5,7 @@
  *  viewmodel for MainWindow
  */
 using SharedLivingCostCalculator.Navigation;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 
 namespace SharedLivingCostCalculator.ViewModels

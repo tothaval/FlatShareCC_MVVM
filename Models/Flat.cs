@@ -6,7 +6,7 @@
  *  for FlatViewModel
  */
 
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 

@@ -5,8 +5,9 @@
  *  data model class for BillingViewModel
  */
 
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Models
 {
@@ -60,10 +61,12 @@ namespace SharedLivingCostCalculator.Models
 
         // storing the payments of each room
         // per billing period
+        [XmlArray("Payments")]
         public ObservableCollection<RoomPayments> RoomPayments { get; set; } = new ObservableCollection<RoomPayments>();
 
         // storing the costs of each room
         // per billing period and the consumption of heating units per billing period
+        [XmlArray("HeatingUnits")]
         public ObservableCollection<RoomCosts> RoomCostsConsumptionValues { get; set; } = new ObservableCollection<RoomCosts>();
         
 

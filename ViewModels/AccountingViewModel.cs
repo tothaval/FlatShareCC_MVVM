@@ -12,7 +12,8 @@
  *  PaymentManagementViewModel
  */
 using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Services;
+using SharedLivingCostCalculator.Interfaces;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Windows.Input;
 
 

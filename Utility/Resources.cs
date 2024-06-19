@@ -9,6 +9,7 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
+using SharedLivingCostCalculator.Enums;
 
 
 namespace SharedLivingCostCalculator.Utility

@@ -5,14 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility"
+             xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
              xmlns:viewmodels="clr-namespace:SharedLivingCostCalculator.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:RentUpdateViewModel}"
              x:Name="rentUpdateView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <utils:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
-        <utils:VisibilityConverter x:Key="VisibilityConverter"/>
+        <conv:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
+        <conv:VisibilityConverter x:Key="VisibilityConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -83,7 +84,8 @@
                         Padding="2"/>
 
             <CheckBox Content="{DynamicResource IDF_HasOtherCosts}" IsChecked="{Binding HasOtherCosts}"  IsEnabled="{Binding HasDataLock}"/>
-            <Button Content="{DynamicResource IDF_NewOtherCosts}" Command="{Binding NewOtherCostsCommand}"
+            
+            <Button Content="{DynamicResource IDF_OtherCosts}" Command="{Binding ShowOtherCostsCommand}"
                     Visibility="{Binding SetOtherCostsVisibility,  Converter={StaticResource VisibilityConverter}}"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"

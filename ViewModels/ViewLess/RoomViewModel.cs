@@ -8,7 +8,7 @@ using SharedLivingCostCalculator.Models;
 using System.Collections.ObjectModel;
 
 
-namespace SharedLivingCostCalculator.ViewModels
+namespace SharedLivingCostCalculator.ViewModels.ViewLess
 {
     public class RoomViewModel : BaseViewModel
     {
@@ -35,7 +35,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _room.RoomName = value;
                 OnPropertyChanged(nameof(RoomName));
-                
+
             }
         }
 
@@ -62,8 +62,8 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        
-        private DateTime _StartDate;   
+
+        private DateTime _StartDate;
         public DateTime StartDate
         {
             get { return _StartDate; }

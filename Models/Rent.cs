@@ -6,7 +6,7 @@
  *  for RentViewModel
  */
 using SharedLivingCostCalculator.Utility;
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 
@@ -54,6 +54,11 @@ namespace SharedLivingCostCalculator.Models
 
 
         public bool HasDataLock { get; set; } = false;
+
+
+        // storing OtherCostItems in case of other costs being factored in into rent calculation
+        [XmlArray("OtherCostItemCollection")]
+        public ObservableCollection<OtherCostItem> OtherCosts { get; set; } = new ObservableCollection<OtherCostItem>();
 
 
         // storing the actual rent cost shares of each room

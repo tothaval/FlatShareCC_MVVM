@@ -7,7 +7,7 @@
  *  change CurrentViewModel binding of MainWindow.xaml
  */
 
-using SharedLivingCostCalculator.Services;
+using SharedLivingCostCalculator.Interfaces;
 
 namespace SharedLivingCostCalculator.Commands
 {

@@ -13,6 +13,7 @@
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -50,12 +51,7 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public RoomViewModel RoomViewModel => RoomPaymentsViewModel.RoomViewModel;
-
-
-        public ObservableCollection<PaymentViewModel> Payments => GetPaymentViewModels();
-
-
+        public ObservableCollection<PaymentViewModel> Payments => RoomPaymentsViewModel.PaymentViewModels;
 
 
         private int _quantity;
@@ -92,7 +88,7 @@ namespace SharedLivingCostCalculator.ViewModels
             _RoomPaymentsViewModel = roomPaymentsViewModel;
             _quantity = 1;
 
-            AddPaymentCommand = new AddPaymentCommand(this);
+            AddPaymentCommand = new AddPaymentCommand(_RoomPaymentsViewModel);
             DeletePaymentCommand = new DeletePaymentCommand(this);
 
             _RoomPaymentsViewModel.RoomPayments.Payments.CollectionChanged += Payments_CollectionChanged;
@@ -103,19 +99,6 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             OnPropertyChanged(nameof(Payments));
             OnPropertyChanged(nameof(RoomPaymentsViewModel));
-        }
-
-
-        private ObservableCollection<PaymentViewModel> GetPaymentViewModels()
-        {
-            ObservableCollection<PaymentViewModel> paymentViewModels = new ObservableCollection<PaymentViewModel>();
-
-            foreach (Payment payment in _RoomPaymentsViewModel.RoomPayments.Payments)
-            {
-                paymentViewModels.Add(new PaymentViewModel(payment));
-            }
-
-            return paymentViewModels;
         }
 
 

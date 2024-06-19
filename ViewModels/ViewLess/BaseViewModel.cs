@@ -7,7 +7,7 @@
 using System.ComponentModel;
 
 
-namespace SharedLivingCostCalculator.ViewModels
+namespace SharedLivingCostCalculator.ViewModels.ViewLess
 {
     public class BaseViewModel : INotifyPropertyChanged
     {

@@ -9,8 +9,10 @@
  *  is encapsulated within a RentManagementViewModel
  */
 using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using SharedLivingCostCalculator.Views;
 using System.Collections;
 using System.ComponentModel;
@@ -21,7 +23,7 @@ using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    class RentUpdateViewModel : BaseViewModel
+    class RentUpdateViewModel : BaseViewModel, IWindowOwner
     {
 
         public event EventHandler RentConfigurationChange;
@@ -134,6 +136,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         public ICommand ShowBillingCommand { get; }
+        public ICommand ShowOtherCostsCommand { get; }
 
 
         public DateTime StartDate
@@ -237,6 +240,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
             ShowBillingCommand = new RelayCommand(p => ShowBillingView(), (s) => true);
+            ShowOtherCostsCommand = new RelayCommand(p => ShowOtherCostsView(), (s) => true);
 
 
             if (_rentViewModel.HasBilling)
@@ -304,9 +308,34 @@ namespace SharedLivingCostCalculator.ViewModels
             billingWindow.Owner = mainWindow;
             billingWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
 
+            billingWindow.Closed += OwnedWindow_Closed;
+
             billingWindow.Show();
         }
 
+
+        private void ShowOtherCostsView()
+        {
+            var mainWindow = Application.Current.MainWindow;
+
+            OtherCostsView otherCostsView = new OtherCostsView();
+
+            otherCostsView.DataContext = new OtherCostsViewModel(RentViewModel);
+
+            otherCostsView.Owner = mainWindow;
+            otherCostsView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+
+            otherCostsView.Closed += OwnedWindow_Closed;
+
+            otherCostsView.Show();
+        }
+
+
+        public void OwnedWindow_Closed(object? sender, EventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow;
+            mainWindow.Focus();
+        }
     }
 }
 // EOF

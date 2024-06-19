@@ -1,4 +1,4 @@
-﻿using SharedLivingCostCalculator.ViewModels;
+﻿using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,20 +13,27 @@ namespace SharedLivingCostCalculator.Models
     public class RoomPayments
     {
         [XmlIgnore]
-        public readonly RoomViewModel RoomViewModel;
+        public RoomViewModel RoomViewModel { get; set; }
+
 
         public int RoomID { get; set; }
-            
+
+
+        [XmlArray("PaymentCollection")]
         public ObservableCollection<Payment> Payments { get; set; } = new ObservableCollection<Payment>();
+
 
         public RoomPayments() 
         {
         }
+
 
         public RoomPayments(RoomViewModel roomViewModel)
         {
             RoomViewModel = roomViewModel;
             RoomID = roomViewModel.ID;
         }
+
+
     }
 }

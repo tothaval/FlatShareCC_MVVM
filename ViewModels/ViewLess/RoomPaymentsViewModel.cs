@@ -3,12 +3,14 @@ using SharedLivingCostCalculator.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
-namespace SharedLivingCostCalculator.ViewModels
+namespace SharedLivingCostCalculator.ViewModels.ViewLess
 {
     public class RoomPaymentsViewModel : BaseViewModel, INotifyDataErrorInfo
     {
@@ -31,17 +33,9 @@ namespace SharedLivingCostCalculator.ViewModels
         public double CombinedPayments => CalculateTotalPayments();
 
 
-        private RoomViewModel _RoomViewModel;
-        public RoomViewModel RoomViewModel
-        {
-            get { return _RoomViewModel; }
-            set
-            {
-                _RoomViewModel = value;
-                OnPropertyChanged(nameof(RoomViewModel));
-            }
-        }
-
+        public int ID => RoomPayments.RoomID;
+        public string RoomName => RoomPayments.RoomViewModel.RoomName;
+        public double RoomArea => RoomPayments.RoomViewModel.RoomArea;
 
 
         private RoomPayments _RoomPayments;
@@ -51,16 +45,25 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _RoomPayments = value;
+
                 OnPropertyChanged(nameof(RoomPayments));
             }
         }
+
+        //private ObservableCollection<PaymentViewModel> _PaymentViewModels;
+        public ObservableCollection<PaymentViewModel> PaymentViewModels => GetPaymentViewModels();
+        //{
+        //    get { return _PaymentViewModels; }
+        //    set {
+        //        _PaymentViewModels = value;
+        //        OnPropertyChanged(nameof(PaymentViewModels));
+        //    }
+        //}
 
 
         public RoomPaymentsViewModel(RoomPayments roomPayments)
         {
             RoomPayments = roomPayments;
-
-            RoomViewModel = roomPayments.RoomViewModel;
         }
 
 
@@ -78,6 +81,43 @@ namespace SharedLivingCostCalculator.ViewModels
 
             return total;
         }
+
+
+        private ObservableCollection<PaymentViewModel> GetPaymentViewModels()
+        {
+            ObservableCollection<PaymentViewModel> paymentViewModels = new ObservableCollection<PaymentViewModel>();
+
+            foreach (Payment payment in RoomPayments.Payments)
+            {
+                PaymentViewModel paymentViewModel = new PaymentViewModel(payment);
+
+                paymentViewModel.PaymentChange += PaymentViewModel_PaymentChange;
+
+                paymentViewModels.Add(paymentViewModel);
+            }
+
+            return paymentViewModels;
+        }
+
+        private void PaymentViewModel_PaymentChange(object? sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(CombinedPayments));
+        }
+
+        //private void SetPaymentViewModels()
+        //{
+        //    if (PaymentViewModels != null)
+        //    {
+        //        RoomPayments.Payments.Clear();
+
+
+        //        foreach (PaymentViewModel paymentViewModel in PaymentViewModels)
+        //        {
+        //            RoomPayments.Payments.Add(paymentViewModel.GetPayment);
+        //        }
+        //    }
+
+        //}
 
         //public DateTime FindNewestPayment()
         //{

@@ -14,7 +14,8 @@
  */
 
 using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Services;
+using SharedLivingCostCalculator.Interfaces;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using SharedLivingCostCalculator.Views;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -22,7 +23,7 @@ using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class FlatManagementViewModel : BaseViewModel
+    internal class FlatManagementViewModel : BaseViewModel, IWindowOwner
     {
 
         private INavigationService _navigationService;
@@ -156,7 +157,16 @@ namespace SharedLivingCostCalculator.ViewModels
             flatSetupView.Owner = mainWindow;
             flatSetupView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
 
+            flatSetupView.Closed += OwnedWindow_Closed;
+
             flatSetupView.Show();
+        }
+
+
+        public void OwnedWindow_Closed(object? sender, EventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow;
+            mainWindow.Focus();
         }
 
 
@@ -170,6 +180,8 @@ namespace SharedLivingCostCalculator.ViewModels
                       
             flatSetupView.Owner = mainWindow;
             flatSetupView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+
+            flatSetupView.Closed += OwnedWindow_Closed;
 
             flatSetupView.Show();
         }
@@ -187,6 +199,8 @@ namespace SharedLivingCostCalculator.ViewModels
 
             settingsView.Owner = mainWindow;
             settingsView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+
+            settingsView.Closed += OwnedWindow_Closed;
 
             settingsView.Show();
         }

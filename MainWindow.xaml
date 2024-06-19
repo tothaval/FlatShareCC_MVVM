@@ -65,6 +65,10 @@
                 <views:ConsumptionView/>
             </DataTemplate>
             
+            <DataTemplate DataType="{x:Type vms:OtherCostsViewModel}">
+                <views:OtherCostsView/>
+            </DataTemplate>
+
         </Grid.Resources>
 
         <Grid.RowDefinitions>

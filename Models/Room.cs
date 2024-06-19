@@ -5,12 +5,12 @@
  *  data model class
  *  for RoomViewModel
  */
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 
 namespace SharedLivingCostCalculator.Models
 {
-    //[Serializable]
+    [Serializable]
     public class Room
     {
 
@@ -23,20 +23,18 @@ namespace SharedLivingCostCalculator.Models
         public double RoomArea { get; set; } = 0.0;
 
 
-        public ObservableCollection<PaymentViewModel> Payments {  get; set; }
-
-
         public string Signature => $"{RoomName}\n{RoomArea}m²";
 
 
         public Room()
         {
-            Payments = new ObservableCollection<PaymentViewModel>();
+
         }
 
 
-        public Room(int id) { ID = id;
-            Payments = new ObservableCollection<PaymentViewModel>();
+        public Room(int id)
+        {
+            ID = id;
         }
 
 
@@ -45,8 +43,6 @@ namespace SharedLivingCostCalculator.Models
             ID = iD;
             RoomName = roomName;
             RoomArea = roomArea;
-
-            Payments = new ObservableCollection<PaymentViewModel>();
         }
 
 

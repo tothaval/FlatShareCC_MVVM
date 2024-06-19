@@ -10,7 +10,7 @@ using SharedLivingCostCalculator.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace SharedLivingCostCalculator.ViewModels
+namespace SharedLivingCostCalculator.ViewModels.ViewLess
 {
     public class FlatViewModel : BaseViewModel
     {
@@ -101,7 +101,7 @@ namespace SharedLivingCostCalculator.ViewModels
             OnPropertyChanged(nameof(CurrentRoomCosts));
         }
 
-            
+
         public RentViewModel? GetMostRecentRent()
         {
             RentViewModel? rentViewModel = null;
@@ -213,7 +213,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private double CurrentExtraCosts()
         {
-            RentViewModel currentRent = new RentViewModel(this, new Models.Rent());
+            RentViewModel currentRent = new RentViewModel(this, new Rent());
             currentRent.StartDate = new DateTime(1, 1, 1);
 
             foreach (RentViewModel rent in RentUpdates)
@@ -230,7 +230,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private double CurrentRent()
         {
-            RentViewModel currentRent = new RentViewModel(this, new Models.Rent());
+            RentViewModel currentRent = new RentViewModel(this, new Rent());
             currentRent.StartDate = new DateTime();
 
             foreach (RentViewModel rent in RentUpdates)

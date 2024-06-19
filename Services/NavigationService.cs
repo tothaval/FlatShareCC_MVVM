@@ -7,8 +7,9 @@
  *  and NavigationService to change 
  *  MainWindow.xaml CurrentViewModel
  */
+using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Navigation;
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 
 namespace SharedLivingCostCalculator.Services

@@ -13,6 +13,7 @@
  */
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using SharedLivingCostCalculator.Views;
 using System.ComponentModel;
 using System.Windows;
@@ -142,9 +143,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private void ShowCosts()
         {
-            // if objects are chained together (f.e. a rent object and a billing object)
-            // they should be selected together in every relevant tab
-
 
             if (SelectedValue != null)
             {
@@ -154,12 +152,19 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 costs.DataContext = new CostsViewModel(SelectedValue, _flatViewModel);
 
+                costs.Closed += Costs_Closed;
 
                 costs.Show();
             }
         }
 
 
+        private void Costs_Closed(object? sender, EventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow;
+
+            mainWindow.Focus();
+        }
     }
 }
 // EOF

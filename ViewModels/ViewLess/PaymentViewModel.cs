@@ -10,10 +10,12 @@ using System.Collections;
 using System.ComponentModel;
 
 
-namespace SharedLivingCostCalculator.ViewModels
+namespace SharedLivingCostCalculator.ViewModels.ViewLess
 {
     public class PaymentViewModel : BaseViewModel, INotifyDataErrorInfo
     {
+
+        public event EventHandler? PaymentChange;
 
         private ValidationHelper _helper = new ValidationHelper();
 
@@ -79,7 +81,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _helper.ClearError(nameof(PaymentQuantity));
 
-                if (Double.IsNaN(value))
+                if (double.IsNaN(value))
                 {
                     _helper.AddError("value must be a number", nameof(PaymentQuantity));
                 }
@@ -99,6 +101,8 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(PaymentQuantity));
                 OnPropertyChanged(nameof(PaymentTotal));
                 OnPropertyChanged(nameof(EndDateVisible));
+
+                PaymentChange.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -110,7 +114,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _helper.ClearError(nameof(Sum));
 
-                if (Double.IsNaN(value))
+                if (double.IsNaN(value))
                 {
                     _helper.AddError("value must be a number", nameof(Sum));
                 }
@@ -123,6 +127,8 @@ namespace SharedLivingCostCalculator.ViewModels
                 _payment.Sum = value;
                 OnPropertyChanged(nameof(Sum));
                 OnPropertyChanged(nameof(PaymentTotal));
+
+                PaymentChange.Invoke(this, EventArgs.Empty);
             }
         }
 
