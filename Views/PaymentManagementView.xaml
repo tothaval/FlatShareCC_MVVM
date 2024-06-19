@@ -15,13 +15,15 @@
                       CanUserSortColumns="True"
                       IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding RoomViewModel.RoomName}"
+                    <DataGridTextColumn Binding="{Binding ID}"
+                   Header="{DynamicResource IDF_ID}" SortMemberPath="RoomName" SortDirection="Ascending"/>
+                    <DataGridTextColumn Binding="{Binding RoomName}"
                    Header="{DynamicResource IDF_RoomName}" SortMemberPath="RoomName" SortDirection="Ascending"/>
 
-                    <DataGridTextColumn Binding="{Binding RoomViewModel.RoomArea, StringFormat=N2}"
+                    <DataGridTextColumn Binding="{Binding RoomArea, StringFormat=N2}"
                    Header="{DynamicResource IDF_RoomArea}" SortMemberPath="RoomArea" SortDirection="Ascending"/>
 
-                    <DataGridTextColumn Binding="{Binding RoomPayments.CombinedPayments, NotifyOnSourceUpdated=True,
+                    <DataGridTextColumn Binding="{Binding CombinedPayments, NotifyOnSourceUpdated=True,
                     Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
                    Header="{DynamicResource IDF_Payments}" SortMemberPath="CombinedPayments" SortDirection="Ascending"/>
 

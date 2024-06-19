@@ -34,7 +34,10 @@
   <IDF_AdvanceTotal>advance total</IDF_AdvanceTotal>
   <IDF_PriceTotal>price total</IDF_PriceTotal>
   <IDF_BaseRentOnBilling>base calculation on billing</IDF_BaseRentOnBilling>
-  <IDF_OtherCosts>other costs</IDF_OtherCosts>
+  <IDF_OtherCosts>Other Costs</IDF_OtherCosts>
+  <IDF_AnnualOther>Annual Other Costs</IDF_AnnualOther>
+  <IDF_AnnualComplete>Annual Complete Costs</IDF_AnnualComplete>
+  <IDF_CompleteCosts>Complete Costs</IDF_CompleteCosts>
   <IDF_Credit>credit(s)</IDF_Credit>
   <IDF_HasOtherCosts>factor in other costs</IDF_HasOtherCosts>
   <IDF_NewOtherCosts>setup other costs</IDF_NewOtherCosts>

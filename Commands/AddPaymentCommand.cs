@@ -7,30 +7,31 @@
  */
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 namespace SharedLivingCostCalculator.Commands
 {
     internal class AddPaymentCommand : BaseCommand
     {
 
-        private readonly PaymentsSetupViewModel _paymentsSetupViewModel;
+        private readonly RoomPaymentsViewModel _roomPaymentsViewModel;
 
 
-        public AddPaymentCommand(PaymentsSetupViewModel paymentsViewModel)
+        public AddPaymentCommand(RoomPaymentsViewModel roomPaymentsViewModel)
         {
-            _paymentsSetupViewModel = paymentsViewModel;
+            _roomPaymentsViewModel = roomPaymentsViewModel;
         }
 
 
         public override void Execute(object? parameter)
         {
-            if (parameter.GetType() == typeof(int) && _paymentsSetupViewModel != null)
+            if (parameter.GetType() == typeof(int))
             {
                 int quantity = (int)parameter;
 
                 for (int i = 0; i < quantity; i++)
                 {
-                    _paymentsSetupViewModel.RoomPaymentsViewModel.RoomPayments.Payments?.Add(
+                    _roomPaymentsViewModel.RoomPayments.Payments?.Add(
 
                         new Payment()
                         {

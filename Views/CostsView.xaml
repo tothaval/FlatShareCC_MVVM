@@ -17,6 +17,8 @@
             <views:BillingCostsView/>
         </DataTemplate>
 
+
+        <BooleanToVisibilityConverter x:Key="booltovis"/>
     </Window.Resources>
     
     <Grid>
@@ -40,6 +42,7 @@
                          IsChecked="{Binding BillingSelected}"
                          GroupName="CostViewSelectionGroup"
                          IsEnabled="{Binding HasBilling}"
+                         Visibility="{Binding HasBilling, Converter={StaticResource booltovis}}"
                          Grid.Column="1"/>
         </Grid>
         

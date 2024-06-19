@@ -9,10 +9,13 @@
  *  it instanciates ObservableCollection<FlatViewModel>
  *  for the entire application
  */
+using SharedLivingCostCalculator.Enums;
+using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Navigation;
 using SharedLivingCostCalculator.Services;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;

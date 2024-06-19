@@ -6,10 +6,10 @@
  *  of RoomCostsViewModel
  */
 
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.ComponentModel;
 
-namespace SharedLivingCostCalculator.Calculations
+namespace SharedLivingCostCalculator.Interfaces
 {
     public interface IRoomCostsCarrier
     {

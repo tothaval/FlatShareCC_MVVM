@@ -12,7 +12,7 @@
  *  will show that data.
  */
 
-namespace SharedLivingCostCalculator.Utility
+namespace SharedLivingCostCalculator.Enums
 {
     public enum SupportedLanguages
     {

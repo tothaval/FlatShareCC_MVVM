@@ -10,7 +10,8 @@
         xmlns:toolkit="http://propertytools.org/wpf"
         mc:Ignorable="d"
         Name="SettingsViewWindow"
-        Title="{DynamicResource IDF_SettingsTitleText}" Height="400" Width="400"  Background="{DynamicResource SCB_Background}">
+        Title="{DynamicResource IDF_SettingsTitleText}" Height="400" Width="400"
+        Background="{DynamicResource SCB_Background}">
     <Window.Resources>
         <Style TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal"/>

@@ -6,7 +6,7 @@
  *  for RoomCostsViewModel
  */
 
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Models

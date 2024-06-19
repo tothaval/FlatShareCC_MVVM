@@ -8,6 +8,8 @@
  *  RentCostsViewModel or BillingCostsViewModel
  *  depending on constructor
  */
+using SharedLivingCostCalculator.ViewModels.ViewLess;
+
 namespace SharedLivingCostCalculator.ViewModels
 {
     internal class CostsViewModel : BaseViewModel

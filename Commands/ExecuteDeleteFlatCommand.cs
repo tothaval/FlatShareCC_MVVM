@@ -6,7 +6,7 @@
  *  instance from the _flatCollection   
  *  ObservableCollection<FlatViewModel>
  */
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Windows;
 

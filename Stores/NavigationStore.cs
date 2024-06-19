@@ -7,7 +7,7 @@
  *  NavigationStore and NavigationCommand to
  *  change CurrentViewModel binding of MainWindow.xaml
  */
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 
 namespace SharedLivingCostCalculator.Navigation

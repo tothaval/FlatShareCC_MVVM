@@ -6,17 +6,17 @@
  *  
  *  implements IRoomCostCarrier
  */
-using SharedLivingCostCalculator.Calculations;
+using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 
-namespace SharedLivingCostCalculator.ViewModels
+namespace SharedLivingCostCalculator.ViewModels.ViewLess
 {
     public class BillingViewModel : BaseViewModel, IRoomCostsCarrier
-    {       
+    {
 
         public event PropertyChangedEventHandler DataChange;
 
@@ -78,8 +78,9 @@ namespace SharedLivingCostCalculator.ViewModels
         public DateTime StartDate
         {
             get { return GetBilling.StartDate; }
-            set {
-                GetBilling.StartDate = value; OnPropertyChanged(nameof(StartDate)); 
+            set
+            {
+                GetBilling.StartDate = value; OnPropertyChanged(nameof(StartDate));
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
 
 
@@ -90,7 +91,9 @@ namespace SharedLivingCostCalculator.ViewModels
         public DateTime EndDate
         {
             get { return GetBilling.EndDate; }
-            set { GetBilling.EndDate = value; OnPropertyChanged(nameof(EndDate));
+            set
+            {
+                GetBilling.EndDate = value; OnPropertyChanged(nameof(EndDate));
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(EndDate)));
             }
         }
@@ -172,7 +175,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         private ObservableCollection<RoomCostsViewModel> _RoomCosts;
-        public ObservableCollection<RoomCostsViewModel> RoomCosts 
+        public ObservableCollection<RoomCostsViewModel> RoomCosts
         {
             get { return _RoomCosts; }
             set
@@ -205,7 +208,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 foreach (Payment payment in roomPaymentsViewModel.RoomPayments.Payments)
                 {
-                    if (payment.StartDate >= StartDate 
+                    if (payment.StartDate >= StartDate
                         && payment.StartDate <= EndDate
                         && payment.EndDate >= StartDate
                         && payment.EndDate <= EndDate
@@ -242,8 +245,6 @@ namespace SharedLivingCostCalculator.ViewModels
                 {
                     RoomPaymentsViewModel roomPaymentsViewModel = new RoomPaymentsViewModel(new RoomPayments(room));
 
-                    roomPaymentsViewModel.PropertyChanged += RoomPaymentsViewModel_PropertyChanged;
-
                     RoomPayments.Add(roomPaymentsViewModel);
                 }
             }
@@ -252,8 +253,6 @@ namespace SharedLivingCostCalculator.ViewModels
                 foreach (RoomPayments roomPayments in GetBilling.RoomPayments)
                 {
                     RoomPaymentsViewModel roomPaymentsViewModel = new RoomPaymentsViewModel(roomPayments);
-
-                    roomPaymentsViewModel.PropertyChanged += RoomPaymentsViewModel_PropertyChanged;
 
                     RoomPayments.Add(roomPaymentsViewModel);
                 }
@@ -264,14 +263,6 @@ namespace SharedLivingCostCalculator.ViewModels
         public FlatViewModel GetFlatViewModel()
         {
             return _flatViewModel;
-        }
-
-
-        private void RoomPaymentsViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-
-            OnPropertyChanged(nameof(RoomPayments));
-            DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomPayments)));
         }
 
 

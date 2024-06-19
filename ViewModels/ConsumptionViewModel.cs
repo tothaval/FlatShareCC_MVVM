@@ -1,4 +1,5 @@
 ﻿using SharedLivingCostCalculator.Utility;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System;
 using System.Collections;
 using System.Collections.Generic;

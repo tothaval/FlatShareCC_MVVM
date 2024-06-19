@@ -9,6 +9,7 @@
  *  instance of RoomViewModel
  */
 using SharedLivingCostCalculator.Utility;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -51,9 +52,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public ObservableCollection<RoomPaymentsViewModel> Rooms => _billingViewModel.RoomPayments;
-
-
         private RoomPaymentsViewModel _selectedValue; // private Billing _selectedBillingPeriod
         public RoomPaymentsViewModel SelectedValue
         {
@@ -81,6 +79,7 @@ namespace SharedLivingCostCalculator.ViewModels
             RoomPayments.SortDescriptions.Add(new SortDescription("RoomViewModel.ID", ListSortDirection.Ascending));
 
             _billingViewModel.RoomPayments.CollectionChanged += RoomPayments_CollectionChanged;
+            
         }
 
         private void RoomPayments_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

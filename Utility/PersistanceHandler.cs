@@ -4,7 +4,8 @@
  * 
  *  helper class for serializing data
  */
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.Enums;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;

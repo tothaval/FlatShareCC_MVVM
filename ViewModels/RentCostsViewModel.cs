@@ -11,6 +11,7 @@
  */
 using System.ComponentModel;
 using System.Windows.Data;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 
 namespace SharedLivingCostCalculator.ViewModels
@@ -24,6 +25,12 @@ namespace SharedLivingCostCalculator.ViewModels
         private readonly FlatViewModel _flatViewModel;
 
 
+        public bool HasOtherCosts => _rentViewModel.HasOtherCosts;
+
+
+        public double TotalOtherCosts => _rentViewModel.TotalOtherCosts;
+
+
         public double TotalRentCosts => _rentViewModel.ColdRent;
 
 
@@ -33,13 +40,22 @@ namespace SharedLivingCostCalculator.ViewModels
         public double TotalCosts => _rentViewModel.CostsTotal;
 
 
+        public double CompleteCosts => TotalCosts + TotalOtherCosts;
+
+
         public double AnnualRentCosts => _rentViewModel.AnnualRent;
 
 
         public double AnnualExtraCosts => _rentViewModel.AnnualExtraCosts;
 
 
+        public double AnnualOtherCosts => _rentViewModel.AnnualOtherCosts;
+
+
         public double AnnualCosts => _rentViewModel.AnnualCostsTotal;
+
+
+        public double AnnualCompleteCosts => AnnualCosts + AnnualOtherCosts;
 
 
         public ICollectionView RoomCosts { get; set; }

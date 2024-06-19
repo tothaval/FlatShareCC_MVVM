@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Data;
 
 
-namespace SharedLivingCostCalculator.Utility
+namespace SharedLivingCostCalculator.Converters
 {
     internal class VisibilityConverter : IValueConverter
     {

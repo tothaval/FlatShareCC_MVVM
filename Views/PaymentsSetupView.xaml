@@ -41,7 +41,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                                   MaxHeight="420">
 
-            <DataGrid ItemsSource="{Binding Payments}"
+            <DataGrid ItemsSource="{Binding Payments, NotifyOnSourceUpdated=True}"
                       SelectionMode="Extended"
                       x:Name="_payments">
                 <DataGrid.Columns>

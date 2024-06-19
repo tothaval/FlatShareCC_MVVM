@@ -7,10 +7,10 @@
  *  the AccountingViewModel
  */
 using SharedLivingCostCalculator.Navigation;
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 
-namespace SharedLivingCostCalculator.Services
+namespace SharedLivingCostCalculator.Interfaces
 {
     internal interface INavigationService
     {
@@ -26,7 +26,7 @@ namespace SharedLivingCostCalculator.Services
 
         NavigationStore GetNavigationStore();
 
-    
+
     }
 }
 // EOF

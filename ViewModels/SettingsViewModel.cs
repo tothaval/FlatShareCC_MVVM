@@ -8,7 +8,9 @@
  *  user to edit some application properties.
  */
 using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Utility;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using SharedLivingCostCalculator.Views;
 using System.Windows;
 using System.Windows.Input;

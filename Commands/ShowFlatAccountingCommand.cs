@@ -7,8 +7,9 @@
  *  the AccountingViewModel
  */
 
-using SharedLivingCostCalculator.Services;
+using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 namespace SharedLivingCostCalculator.Commands
 {

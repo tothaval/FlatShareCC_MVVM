@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              xmlns:viewmodels="clr-namespace:SharedLivingCostCalculator.ViewModels"
-             xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility"
+             xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
              d:DataContext="{d:DesignInstance Type=viewmodels:AccountingViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <utils:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
-        <utils:VisibilityConverter x:Key="VisibilityConverter"/>
+        <conv:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
+        <conv:VisibilityConverter x:Key="VisibilityConverter"/>
     </UserControl.Resources>
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
 

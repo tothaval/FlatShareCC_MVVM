@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Xml.Serialization;
+using SharedLivingCostCalculator.Enums;
 
 namespace SharedLivingCostCalculator.Utility
 {
@@ -132,8 +133,13 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_BaseRentOnBilling"] = languageResource.IDF_BaseRentOnBilling;
 
             Application.Current.Resources["IDF_HasOtherCosts"] = languageResource.IDF_HasOtherCosts;
-            Application.Current.Resources["IDF_NewOtherCosts"] = languageResource.IDF_NewOtherCosts;
-            
+            Application.Current.Resources["IDF_NewOtherCosts"] = languageResource.IDF_NewOtherCosts; 
+            Application.Current.Resources["IDF_OtherCosts"] = languageResource.IDF_OtherCosts;
+
+            Application.Current.Resources["IDF_AnnualOther"] = languageResource.IDF_AnnualOther;
+            Application.Current.Resources["IDF_AnnualComplete"] = languageResource.IDF_AnnualComplete;
+            Application.Current.Resources["IDF_CompleteCosts"] = languageResource.IDF_CompleteCosts;
+
             Application.Current.Resources["IDF_Credit"] = languageResource.IDF_Credit;
             Application.Current.Resources["IDF_FactorInCredit"] = languageResource.IDF_FactorInCredit; 
             Application.Current.Resources["IDF_FactorInPayments"] = languageResource.IDF_FactorInPayments;

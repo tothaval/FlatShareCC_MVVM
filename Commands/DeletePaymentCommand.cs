@@ -6,6 +6,7 @@
  *  instance from a roomviewmodel instance
  */
 using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
 using System.Windows;
 

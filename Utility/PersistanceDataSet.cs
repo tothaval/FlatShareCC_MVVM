@@ -6,8 +6,9 @@
  *  store and retrieve FlatViewModel
  *  data to or from hard drive storage  
  */
+using Microsoft.VisualBasic;
 using SharedLivingCostCalculator.Models;
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 
@@ -43,11 +44,7 @@ namespace SharedLivingCostCalculator.Utility
 
 
         [XmlArray("Rooms")]
-        public ObservableCollection<RoomData> Rooms { get; set; }
-
-
-        [XmlArray("Billings")]
-        public ObservableCollection<BillingData> BillingPeriods { get; set; }
+        public ObservableCollection<Room> Rooms { get; set; }
 
 
         [XmlArray("Rents")]
@@ -67,6 +64,15 @@ namespace SharedLivingCostCalculator.Utility
                     rent.GetBilling = rentViewModel.BillingViewModel.GetBilling;
                 }
 
+                //if (rent.HasOtherCosts)
+                //{
+                //    rent.OtherCosts.Clear();
+                //    foreach (OtherCostItemViewModel otherCostItemViewModel in rentViewModel.OtherCosts)
+                //    {
+                //        rent.OtherCosts.Add(otherCostItemViewModel.OtherCostItem);
+                //    }
+                //}
+
 
                 rents.Add(rent);
             }
@@ -75,18 +81,13 @@ namespace SharedLivingCostCalculator.Utility
         }
 
 
-        private ObservableCollection<RoomData> GetRooms()
+        private ObservableCollection<Room> GetRooms()
         {
-            ObservableCollection<RoomData> rooms = new ObservableCollection<RoomData>();
+            ObservableCollection<Room> rooms = new ObservableCollection<Room>();
 
-            foreach (RoomViewModel room in _flatViewModel.Rooms)
+            foreach (RoomViewModel roomViewModel in _flatViewModel.Rooms)
             {
-                RoomData roomData = new RoomData();
-                roomData.ID = room.ID;
-                roomData.RoomName = room.RoomName;
-                roomData.RoomArea = room.RoomArea;
-
-                rooms.Add(roomData);
+                rooms.Add(roomViewModel.GetRoom);
             }
 
             return rooms;
@@ -101,6 +102,27 @@ namespace SharedLivingCostCalculator.Utility
             {
                 RentViewModel rentViewModel = new RentViewModel(flatViewModel, rent);
 
+
+                if (rentViewModel.HasBilling && rentViewModel.BillingViewModel != null)
+                {
+                    if (rentViewModel.BillingViewModel.HasPayments)
+                    {
+                        foreach (RoomPayments roomPayments in rentViewModel.BillingViewModel.GetBilling.RoomPayments)
+                        {
+                            foreach (RoomViewModel roomViewModel in rentViewModel.GetFlatViewModel().Rooms)
+                            {
+                                if (roomPayments.RoomID == roomViewModel.ID)
+                                {
+                                    roomPayments.RoomViewModel = roomViewModel;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+
+
                 rentViewModels.Add(rentViewModel);
             }
 
@@ -112,11 +134,10 @@ namespace SharedLivingCostCalculator.Utility
         {
             ObservableCollection<RoomViewModel> roomViewModels = new ObservableCollection<RoomViewModel>();
 
-            foreach (RoomData room in Rooms)
+            foreach (Room room in Rooms)
             {
-                RoomViewModel roomViewModel = new RoomViewModel(new Room(room.ID, room.RoomName, room.RoomArea));
+                RoomViewModel roomViewModel = new RoomViewModel(room);
             
-
                 roomViewModels.Add(roomViewModel);
             }
 
@@ -150,9 +171,8 @@ namespace SharedLivingCostCalculator.Utility
         {
             _flatViewModel = new FlatViewModel(new Flat());
 
-            BillingPeriods = new ObservableCollection<BillingData>();
             Rents = new ObservableCollection<Rent>();
-            Rooms = new ObservableCollection<RoomData>();
+            Rooms = new ObservableCollection<Room>();
         }
 
 

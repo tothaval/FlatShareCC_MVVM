@@ -8,13 +8,14 @@
  *      -> calculate costs for a room instance
  *          within IRoomCostCarrier classes BillingViewModel or RentViewModel 
  */
-using SharedLivingCostCalculator.Calculations;
+using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace SharedLivingCostCalculator.ViewModels
+namespace SharedLivingCostCalculator.ViewModels.ViewLess
 {
     public class RoomCostsViewModel : BaseViewModel, INotifyDataErrorInfo
     {
@@ -99,7 +100,9 @@ namespace SharedLivingCostCalculator.ViewModels
         public double RentShare
         {
             get { return _roomCosts.RentShare; }
-            set { _roomCosts.RentShare = value; OnPropertyChanged(nameof(RentShare));
+            set
+            {
+                _roomCosts.RentShare = value; OnPropertyChanged(nameof(RentShare));
                 OnPropertyChanged(nameof(AnnualRentShare));
             }
         }
@@ -108,7 +111,9 @@ namespace SharedLivingCostCalculator.ViewModels
         public double FixedShare
         {
             get { return _roomCosts.FixedShare; }
-            set { _roomCosts.FixedShare = value; OnPropertyChanged(nameof(FixedShare));
+            set
+            {
+                _roomCosts.FixedShare = value; OnPropertyChanged(nameof(FixedShare));
                 OnPropertyChanged(nameof(AnnualFixedShare));
             }
         }
@@ -117,8 +122,11 @@ namespace SharedLivingCostCalculator.ViewModels
         public double HeatingShare
         {
             get { return _roomCosts.HeatingShare; }
-            set { _roomCosts.HeatingShare = value; OnPropertyChanged(nameof(HeatingShare));
-                OnPropertyChanged(nameof(AnnualHeatingShare)); }
+            set
+            {
+                _roomCosts.HeatingShare = value; OnPropertyChanged(nameof(HeatingShare));
+                OnPropertyChanged(nameof(AnnualHeatingShare));
+            }
         }
 
 
@@ -164,6 +172,9 @@ namespace SharedLivingCostCalculator.ViewModels
         public double Balance => CalculateBalance();
 
 
+        public ObservableCollection<OtherCostItemViewModel> OtherCosts { get; set; } = new ObservableCollection<OtherCostItemViewModel>();
+
+
         public RoomCostsViewModel(RoomCosts roomCosts, IRoomCostsCarrier roomCostsCarrier)
         {
             _roomCosts = roomCosts;
@@ -180,7 +191,6 @@ namespace SharedLivingCostCalculator.ViewModels
                     break;
                 }
             }
-            
 
             if (_roomCostsCarrier.GetType() == typeof(RentViewModel))
             {
@@ -192,6 +202,7 @@ namespace SharedLivingCostCalculator.ViewModels
         private void _roomCostsCarrier_DataChange(object? sender, PropertyChangedEventArgs e)
         {
             CalculateMonthlyCosts();
+
         }
 
 
@@ -199,7 +210,9 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             RentShare = CalculateRentShare();
             FixedShare = CalculateFixedShare();
-            HeatingShare = CalculateHeatingShare();            
+            HeatingShare = CalculateHeatingShare();
+
+            OtherCosts = ((RentViewModel)_roomCostsCarrier).OtherCosts;
         }
 
 
@@ -250,7 +263,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 double consumptionRatio = CalculateConsumptionRatio();
 
-                heatingCosts = billingViewModel.TotalHeatingCostsPerPeriod * consumptionRatio;      
+                heatingCosts = billingViewModel.TotalHeatingCostsPerPeriod * consumptionRatio;
             }
 
             return heatingCosts;
@@ -282,7 +295,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 foreach (RoomPaymentsViewModel roomPaymentsViewModel in billingViewModel.RoomPayments)
                 {
-                    if (roomPaymentsViewModel.RoomViewModel != null && roomPaymentsViewModel.RoomViewModel.ID == this.Room.ID)
+                    if (roomPaymentsViewModel.RoomPayments.RoomViewModel != null && roomPaymentsViewModel.RoomPayments.RoomViewModel.ID == Room.ID)
                     {
                         payments = roomPaymentsViewModel.CombinedPayments;
                     }
@@ -348,7 +361,7 @@ namespace SharedLivingCostCalculator.ViewModels
                     BillingViewModel billingViewModel = ((RentViewModel)_roomCostsCarrier).BillingViewModel;
                     consumptionRatio = CalculateConsumption() / billingViewModel.TotalHeatingUnitsConsumption;
                 }
-                
+
             }
 
             return consumptionRatio;
@@ -389,7 +402,7 @@ namespace SharedLivingCostCalculator.ViewModels
             //if (_roomCostsCarrier.GetType() == typeof(BillingViewModel))
             //{
             //    BillingViewModel billingViewModel = (BillingViewModel)_roomCostsCarrier;
-               
+
             //    if (billingViewModel.RentViewModel != null)
             //    {
             //        heatingShare = consumptionRatio * billingViewModel.RentViewModel.HeatingCostsAdvance;
@@ -407,10 +420,10 @@ namespace SharedLivingCostCalculator.ViewModels
                 }
                 else
                 {
-                    heatingShare = AreaRatio() * ((RentViewModel)_roomCostsCarrier).HeatingCostsAdvance;                
+                    heatingShare = AreaRatio() * ((RentViewModel)_roomCostsCarrier).HeatingCostsAdvance;
                 }
 
-                
+
             }
 
             HeatingShare = heatingShare;
@@ -429,7 +442,12 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private double AreaRatio()
         {
-            return RentedArea() / _roomCostsCarrier.GetFlatViewModel().Area;
+            if (_room != null)
+            {
+                return RentedArea() / _roomCostsCarrier.GetFlatViewModel().Area;
+            }
+
+            return 0.0;
         }
 
 
