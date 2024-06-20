@@ -15,6 +15,11 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         private readonly OtherCostItem _OtherCostItem;
         public OtherCostItem OtherCostItem => _OtherCostItem;
 
+        //private RoomViewModel _RoomViewModel;
+
+        //public string RoomName => _RoomViewModel.RoomName;
+        //public double RoomArea => _RoomViewModel.RoomArea;
+
 
         public CostShareTypes CostShareTypes
         {
@@ -55,9 +60,10 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
 
 
-        public OtherCostItemViewModel(OtherCostItem otherCostItem)
+        public OtherCostItemViewModel(OtherCostItem otherCostItem) //, RoomViewModel roomViewModel)
         {
             _OtherCostItem = otherCostItem;                
+            //_RoomViewModel = roomViewModel;
         }
     }
 }

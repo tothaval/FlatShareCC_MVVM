@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SharedLivingCostCalculator.Views" 
         xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels" 
-        xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility" 
+        xmlns:enum="clr-namespace:SharedLivingCostCalculator.Enums" 
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:toolkit="http://propertytools.org/wpf"
         mc:Ignorable="d"
@@ -20,7 +20,7 @@
         <ObjectDataProvider x:Key="enumValues"
    MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="utils:SupportedLanguages"/>
+                <x:Type TypeName="enum:SupportedLanguages"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>

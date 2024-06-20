@@ -59,6 +59,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         public ICollectionView RoomCosts { get; set; }
+        public ICollectionView OtherCosts { get; set; }
 
 
         public RentCostsViewModel(RentViewModel rentViewModel, FlatViewModel flatViewModel)
@@ -68,6 +69,9 @@ namespace SharedLivingCostCalculator.ViewModels
 
             RoomCosts = CollectionViewSource.GetDefaultView(_rentViewModel.RoomCosts);
             RoomCosts.SortDescriptions.Add(new SortDescription("Room.ID", ListSortDirection.Ascending));
+
+            OtherCosts = CollectionViewSource.GetDefaultView(_rentViewModel.OtherCosts);
+            OtherCosts.SortDescriptions.Add(new SortDescription("Cost", ListSortDirection.Descending));
         }
 
 

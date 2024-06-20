@@ -9,22 +9,38 @@
     <FontFamily x:Key="FF">Verdana</FontFamily>
     <sys:Double x:Key="FS">11</sys:Double>
 
-    <Style x:Key="Header" TargetType="TextBlock">
+    <Style x:Key="Header" TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="{DynamicResource R_Header}"/>
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontFamily" Value="Verdana"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+    </Style>
+    
+    <Style TargetType="ListViewItem">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    </Style>
+    
+    <Style x:Key="DoubleValueTextBlock" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="TextAlignment" Value="Right"/>
     </Style>
 
+    <Style x:Key="StringValueTextBlock" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+    </Style>
+        
     <Style TargetType="Grid">
         <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
     </Style>
-      
-    <Style TargetType="DataGrid">
+
+    <Style TargetType="{x:Type DataGrid}">
         <Setter Property="SelectionMode" Value="Single"/>
         <Setter Property="AutoGenerateColumns" Value="False"/>
     </Style>
-    
-    <Style TargetType="c_views:CurrencyInputView">
+
+    <Style TargetType="{x:Type c_views:CurrencyInputView}">
         <Setter Property="Padding" Value="2"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>

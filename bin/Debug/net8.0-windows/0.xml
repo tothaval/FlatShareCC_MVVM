@@ -74,8 +74,8 @@
         <TotalHeatingUnitsConsumption>800</TotalHeatingUnitsConsumption>
         <TotalHeatingUnitsRoom>670</TotalHeatingUnitsRoom>
         <HasPayments>true</HasPayments>
-        <HasCredit>false</HasCredit>
-        <HasDataLock>false</HasDataLock>
+        <HasCredit>true</HasCredit>
+        <HasDataLock>true</HasDataLock>
         <Payments>
           <RoomPayments>
             <RoomID>0</RoomID>
@@ -139,27 +139,27 @@
       <ExtraCostsShared>110</ExtraCostsShared>
       <ExtraCostsHeating>220</ExtraCostsHeating>
       <HasOtherCosts>true</HasOtherCosts>
-      <HasDataLock>false</HasDataLock>
+      <HasDataLock>true</HasDataLock>
       <OtherCostItemCollection>
         <OtherCostItem>
           <CostShareTypes>Equal</CostShareTypes>
           <Item>Internet</Item>
-          <Cost>34.99</Cost>
+          <Cost>38</Cost>
         </OtherCostItem>
         <OtherCostItem>
           <CostShareTypes>Area</CostShareTypes>
           <Item>Haftpflicht</Item>
-          <Cost>7.52</Cost>
+          <Cost>6.2</Cost>
         </OtherCostItem>
         <OtherCostItem>
           <CostShareTypes>Equal</CostShareTypes>
           <Item>Power</Item>
-          <Cost>87</Cost>
+          <Cost>83</Cost>
         </OtherCostItem>
         <OtherCostItem>
           <CostShareTypes>Equal</CostShareTypes>
           <Item>Tischtennis</Item>
-          <Cost>15</Cost>
+          <Cost>12</Cost>
         </OtherCostItem>
       </OtherCostItemCollection>
       <RoomCostShares>
