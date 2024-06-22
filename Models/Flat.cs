@@ -50,7 +50,7 @@ namespace SharedLivingCostCalculator.Models
             Address = string.Empty;
             Details = string.Empty;
             Area = 0.0;
-            RoomCount = 0;
+            RoomCount = 1;
             Rooms = new ObservableCollection<RoomViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();
         }

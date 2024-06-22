@@ -13,6 +13,8 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
     public class RoomViewModel : BaseViewModel
     {
 
+        public event EventHandler RoomAreaChanged;
+
         private Room _room;
         public Room GetRoom => _room;
 
@@ -47,6 +49,8 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             {
                 _room.RoomArea = value;
                 OnPropertyChanged(nameof(RoomArea));
+
+                RoomAreaChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -85,6 +89,7 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
                 OnPropertyChanged(nameof(EndDate));
             }
         }
+
 
         public RoomViewModel(Room room)
         {

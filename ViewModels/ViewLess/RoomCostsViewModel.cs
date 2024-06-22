@@ -8,12 +8,14 @@
  *      -> calculate costs for a room instance
  *          within IRoomCostCarrier classes BillingViewModel or RentViewModel 
  */
+using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SharedLivingCostCalculator.ViewModels.ViewLess
 {
@@ -157,6 +159,12 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         public double AnnualCosts => TotalCosts * 12;
 
 
+        public double AnnualOtherCosts => CombinedOtherCosts * 12;
+
+
+        public double AnnualCombinedCosts => AnnualCosts + AnnualOtherCosts;
+
+
         public double CostsPercentage => CalculateCostsPercentage();
 
 
@@ -170,6 +178,12 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
 
         public double Balance => CalculateBalance();
+
+
+        public double CombinedOtherCosts => CalculateCombinedOtherCosts();
+
+
+        public double CompleteCosts => TotalCosts + CombinedOtherCosts;
 
 
         public ObservableCollection<OtherCostItemViewModel> OtherCosts { get; set; } = new ObservableCollection<OtherCostItemViewModel>();
@@ -212,7 +226,51 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             FixedShare = CalculateFixedShare();
             HeatingShare = CalculateHeatingShare();
 
-            OtherCosts = ((RentViewModel)_roomCostsCarrier).OtherCosts;
+            CalculateOtherCosts();
+        }
+
+        private double CalculateCombinedOtherCosts()
+        {
+            double combinedOtherCosts = 0.0;
+
+            foreach (OtherCostItemViewModel item in OtherCosts)
+            {
+                combinedOtherCosts += item.Cost;
+            }
+
+            return combinedOtherCosts;
+        }
+
+        private void CalculateOtherCosts()
+        {
+            OtherCosts.Clear();
+
+            double area_share = 0.0;
+            double equal_share = 0.0;
+
+            foreach (OtherCostItemViewModel item in ((RentViewModel)_roomCostsCarrier).OtherCosts)
+            {
+                OtherCostItem otherCostItem = new OtherCostItem();
+
+                otherCostItem.CostShareTypes = item.CostShareTypes;
+                otherCostItem.Item = item.Item;
+
+                if (item.CostShareTypes == CostShareTypes.Equal)
+                {
+                    equal_share = item.Cost / _roomCostsCarrier.GetFlatViewModel().RoomCount;
+
+                    otherCostItem.Cost = equal_share;
+                }
+
+                if (item.CostShareTypes == CostShareTypes.Area)
+                {
+                    area_share = item.Cost * AreaRatio();
+
+                    otherCostItem.Cost = area_share;
+                }
+
+                OtherCosts.Add(new OtherCostItemViewModel(otherCostItem));
+            }
         }
 
 

@@ -22,71 +22,132 @@
 
             <StackPanel Grid.Column="0" Orientation="Horizontal">
 
-                <TextBlock Text="{DynamicResource IDF_Quantity}" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource IDF_Quantity}"
+                           Style="{StaticResource StringValueTextBlock}"
+                           VerticalAlignment="Center" />
                 <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
-                    MinWidth="50"
+                         MinWidth="50" 
+                         Style="{StaticResource DoubleValueTextBox}"
                     />
-                <Button Content ="{DynamicResource IDF_AddPayment}" Command="{Binding AddPaymentCommand}"
-                   CommandParameter="{Binding Quantity}"
-                   Padding="3" Margin="5 0"/>
+                
+                <Button Content ="{DynamicResource IDF_AddPayment}"
+                        Command="{Binding AddPaymentCommand}"
+                        CommandParameter="{Binding Quantity}"
+                        Style="{StaticResource buttonStyle}"
+                        />
             </StackPanel>
 
-            <Button Content="{DynamicResource IDF_DeletePayment}" Command="{Binding DeletePaymentCommand}" Grid.Column="1"
-               CommandParameter="{Binding ElementName=_payments, Path=SelectedItems}"
-                   Margin="5 0" Padding="3"
-               HorizontalAlignment="Right"/>
+            <Button Content="{DynamicResource IDF_DeletePayment}"
+                    Command="{Binding DeletePaymentCommand}"
+                    Grid.Column="1"
+                    CommandParameter="{Binding ElementName=_payments, Path=SelectedItems}"
+                    Style="{StaticResource buttonStyle}"/>
         </Grid>
 
 
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                                   MaxHeight="420">
 
-            <DataGrid ItemsSource="{Binding Payments, NotifyOnSourceUpdated=True}"
+            <ListView ItemsSource="{Binding Payments, NotifyOnSourceUpdated=True}"
                       SelectionMode="Extended"
                       x:Name="_payments">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="{DynamicResource IDF_PaymentStartDate}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <DatePicker SelectedDate="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
-                                                    UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True,
-                                                    ValidatesOnDataErrors=true}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="{DynamicResource IDF_PaymentEndDate}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <DatePicker SelectedDate="{Binding EndDate,StringFormat=d, ConverterCulture=de-DE,
-                                                    UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True,
-                                                    ValidatesOnDataErrors=true}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                <ListView.View>
                     
-                    <DataGridTextColumn Header="{DynamicResource IDF_Payment}"
-                                        Binding="{Binding Sum, NotifyOnSourceUpdated=True,
-                                                    UpdateSourceTrigger=PropertyChanged,                                                    
-                                                    ValidatesOnDataErrors=true,
-                                                    StringFormat=C2, ConverterCulture=de-DE,
-                                                    Delay=500}"/>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+                        
+                        <GridView.Columns>
+                            
+                            <GridViewColumn Header="{DynamicResource IDF_PaymentStartDate}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding StartDate,
+                                            StringFormat=d,
+                                            ConverterCulture=de-DE,
+                                            UpdateSourceTrigger=PropertyChanged}"
+                                                    MinWidth="100"
+                                                    IsEnabled="{Binding HasDataLock}"
+                                                    HorizontalAlignment="Stretch"
+                                                    FontFamily="{DynamicResource FF}"
+                                                    FontSize="{DynamicResource FS}"
+                                                    Foreground="{DynamicResource SCB_Text}"
+                                                    Background="{DynamicResource SCB_Background}"/>
 
-                    <DataGridTextColumn Header="{DynamicResource IDF_PaymentQuantity}"
-                                        Binding="{Binding PaymentQuantity, NotifyOnSourceUpdated=True,
-                                                    UpdateSourceTrigger=PropertyChanged,                                                    
-                                                    ValidatesOnDataErrors=true, 
-                                                    Delay=500}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
-                    <DataGridTextColumn Header="{DynamicResource IDF_PaymentTotal}"
-                                        Binding="{Binding PaymentTotal, NotifyOnSourceUpdated=True,
-                                                    UpdateSourceTrigger=PropertyChanged,                                                    
-                                                    ValidatesOnDataErrors=true, 
-                                                    StringFormat=C2, ConverterCulture=de-DE,
-                                                    Delay=500}"/>
-                </DataGrid.Columns>
+                            <GridViewColumn Header="{DynamicResource IDF_PaymentEndDate}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding EndDate,
+                                            StringFormat=d,
+                                            ConverterCulture=de-DE,
+                                            UpdateSourceTrigger=PropertyChanged}"
+                                                    MinWidth="100"
+                                                    IsEnabled="{Binding HasDataLock}"
+                                                    HorizontalAlignment="Stretch"
+                                                    FontFamily="{DynamicResource FF}"
+                                                    FontSize="{DynamicResource FS}"
+                                                    Foreground="{DynamicResource SCB_Text}"
+                                                    Background="{DynamicResource SCB_Background}"/>
 
-            </DataGrid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="{DynamicResource IDF_Payment}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Sum,
+                                            StringFormat=C2,
+                                            ConverterCulture=de-DE,
+                                            NotifyOnSourceUpdated=True,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=true}"
+                                                 Style="{StaticResource DoubleValueTextBox}"/>
+                                        
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="{DynamicResource IDF_PaymentQuantity}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding PaymentQuantity,
+                                            NotifyOnSourceUpdated=True,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=true}"
+                                                 Style="{StaticResource DoubleValueTextBox}"/>
+
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="{DynamicResource IDF_PaymentTotal}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding PaymentTotal,
+                                            StringFormat=C2,
+                                            ConverterCulture=de-DE,
+                                            NotifyOnSourceUpdated=True,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=true,
+                                            Mode=OneWay}"
+                                                 Style="{StaticResource DoubleValueTextBox}"/>
+
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            
+                        </GridView.Columns>
+
+                    </GridView>
+
+                </ListView.View>
+
+            </ListView>
+
         </ScrollViewer>
         
     </StackPanel>

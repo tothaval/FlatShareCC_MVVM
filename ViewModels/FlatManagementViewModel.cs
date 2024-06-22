@@ -15,26 +15,31 @@
 
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Interfaces;
+using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using SharedLivingCostCalculator.Views;
+using SharedLivingCostCalculator.Views.Windows;
 using System.Collections.ObjectModel;
+using System.Runtime;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class FlatManagementViewModel : BaseViewModel, IWindowOwner
-    {
+    internal class FlatManagementViewModel : BaseViewModel
+    {        
+        public AccountingViewModel Accounting { get; }
 
-        private INavigationService _navigationService;
+        public CostsViewModel Cost { get; }
+
+        public FlatSetupViewModel FlatSetup { get; set; }
 
 
-        private string headerText;
-        public string HeaderText
-        {
-            get { return headerText; }
-            set { headerText = value; OnPropertyChanged(nameof(HeaderText)); }
-        }
+        public RoomSetupViewModel RoomSetup { get; set; }
+
+
+        public event EventHandler FlatViewModelChange;
 
 
         private ObservableCollection<FlatViewModel> _flatCollection;
@@ -46,7 +51,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (_flatCollection == value) return;
                 _flatCollection = value;
 
-                OnPropertyChanged(nameof(FlatCollection));
+                OnPropertyChanged(nameof(FlatCollection));                
             }
         }
 
@@ -60,12 +65,16 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (_SelectedItem == value) return;
                 _SelectedItem = value;
 
+                OnPropertyChanged(nameof(SelectedItem));
+
                 if (_flatCollection.Count > 0 && _SelectedItem != null)
                 {
+                    _SelectedItem.ConnectRooms();
                     _SelectedItem.SetMostRecentCosts();
+
+                    FlatViewModelChange?.Invoke(this, EventArgs.Empty);
                 }
 
-                OnPropertyChanged(nameof(SelectedItem));
             }
         }
 
@@ -82,7 +91,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 _FlatCollectionFilled = value;
                 OnPropertyChanged(nameof(FlatCollectionFilled));
             }
-        }      
+        }
 
 
         public ICommand NewFlatCommand { get; }
@@ -100,30 +109,192 @@ namespace SharedLivingCostCalculator.ViewModels
         public ICommand DeleteFlatCommand { get; }
 
 
-        public FlatManagementViewModel(ObservableCollection<FlatViewModel> flatCollection,
-            INavigationService newFlatManagementNavigationService)
+        public ICommand TriggerVisibilityCommand { get; }
+
+
+        private bool _ShowAccounting;
+        public bool ShowAccounting
         {
-            _navigationService = newFlatManagementNavigationService;
+            get { return _ShowAccounting; }
+            set
+            {
+                _ShowAccounting = value;
+                OnPropertyChanged(nameof(ShowAccounting));
+            }
+        }
 
-            NewFlatCommand = new RelayCommand(NewFlatSetupWindow, CanShowWindow);
 
-            SettingsCommand = new RelayCommand(ShowSettingsWindow, CanShowWindow);
+        private bool _ShowCosts;
+        public bool ShowCosts
+        {
+            get { return _ShowCosts; }
+            set
+            {
+                _ShowCosts = value;
+                OnPropertyChanged(nameof(ShowCosts));
+            }
+        }
 
-            AccountingCommand = new ShowFlatAccountingCommand(newFlatManagementNavigationService);
 
-            EditFlatCommand = new RelayCommand(ShowFlatSetupWindow, CanShowWindow);
+        private bool _ShowFlatManagement;
+        public bool ShowFlatManagement
+        {
+            get { return _ShowFlatManagement; }
+            set
+            {
+                _ShowFlatManagement = value;
+                OnPropertyChanged(nameof(ShowFlatManagement));
+            }
+        }
+
+
+        private bool _ShowFlatSetup;
+        public bool ShowFlatSetup
+        {
+            get { return _ShowFlatSetup; }
+            set
+            {
+                _ShowFlatSetup = value;
+                OnPropertyChanged(nameof(ShowFlatSetup));
+            }
+        }
+
+
+        private bool _ShowManual;
+        public bool ShowManual
+        {
+            get { return _ShowManual; }
+            set
+            {
+                _ShowManual = value;
+                OnPropertyChanged(nameof(ShowManual));
+            }
+        }
+
+
+        private bool _ShowRoomSetup;
+        public bool ShowRoomSetup
+        {
+            get { return _ShowRoomSetup; }
+            set
+            {
+                _ShowRoomSetup = value;
+                OnPropertyChanged(nameof(ShowRoomSetup));
+            }
+        }
+
+
+        private bool _ShowSettings;
+        public bool ShowSettings
+        {
+            get { return _ShowSettings; }
+            set
+            {
+                _ShowSettings = value;
+                OnPropertyChanged(nameof(ShowSettings));
+            }
+        }
+
+
+        public FlatManagementViewModel(ObservableCollection<FlatViewModel> flatCollection)
+        {
+            Accounting = new AccountingViewModel(this);
+            Cost = new CostsViewModel(Accounting);
+            FlatSetup = new FlatSetupViewModel(this);
+            RoomSetup = new RoomSetupViewModel(this);
+
+            NewFlatCommand = new RelayCommand((s) => CreateFlat(), (s) => true);
 
             DeleteFlatCommand = new ExecuteDeleteFlatCommand(flatCollection);
 
+            TriggerVisibilityCommand = new RelayCommand((s) => TriggerVisibility(s), (s) => true);
+
             _flatCollection = flatCollection;
 
+            _flatCollection.CollectionChanged += _flatCollection_CollectionChanged;
+
+            ShowFlatManagement = true;
+
+            SelectFirstFlatCollectionItem();
+
+        }
+
+        private void CreateFlat()
+        {
+            FlatViewModel flatViewModel = new FlatViewModel(new Flat());
+
+            flatViewModel.RentUpdates.Add(new RentViewModel(flatViewModel, new Rent()));
+
+            SelectedItem = flatViewModel;
+
+            _flatCollection.Add(flatViewModel);
+
+            ShowFlatSetup = true;
+            
+            SelectedItem = _flatCollection?.Last();
+
+            FlatCollectionFilled = true;
+
+            OnPropertyChanged(nameof(FlatSetup));
+        }
+
+
+        private void SelectFirstFlatCollectionItem()
+        {
             if (_flatCollection.Count > 0)
             {
                 SelectedItem = _flatCollection?.First();
                 FlatCollectionFilled = true;
             }
+        }
 
-            _flatCollection.CollectionChanged += _flatCollection_CollectionChanged;
+
+        private void TriggerVisibility(object s)
+        {
+            if (s.GetType() == typeof(string))
+            {
+                switch (s)
+                {
+                    case "Accounting":
+                        ShowAccounting = !ShowAccounting;
+                        break;
+
+                    case "FlatManagement":
+                        ShowFlatManagement = !ShowFlatManagement;
+                        ShowSettings = false;
+                        ShowManual = false;
+                        break;
+
+                    case "FlatSetup":
+                        ShowFlatSetup = !ShowFlatSetup;
+                        ShowRoomSetup = false;
+                        break;
+
+                    case "Manual":
+                        ShowManual = !ShowManual;
+                        ShowFlatManagement = false;
+                        ShowSettings = false;
+                        break;
+
+                    case "RoomSetup":
+                        ShowRoomSetup = !ShowRoomSetup;
+                        ShowFlatSetup = false;
+                        break;
+
+                    case "Settings":
+                        ShowSettings = !ShowSettings;
+                        ShowFlatManagement = false;
+                        ShowManual = false;
+                        break;
+
+                    case "ShowCosts":
+                        ShowCosts = !ShowCosts;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
 
 
@@ -131,78 +302,9 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             FlatCollectionFilled = FlatCollection.Count > 0;
 
-            if (_flatCollection.Count > 0)
-            {
-                SelectedItem = _flatCollection?.First();
-                FlatCollectionFilled = true;
-            }
+            SelectFirstFlatCollectionItem();
+
             OnPropertyChanged(nameof(HasFlat));
-        }
-
-
-        private bool CanShowWindow(object obj)
-        {
-            return true;
-        }
-
-
-        private void NewFlatSetupWindow(object obj)
-        {
-            var mainWindow = Application.Current.MainWindow;
-
-            FlatSetupView flatSetupView = new FlatSetupView();
-
-            flatSetupView.DataContext = new FlatSetupViewModel(_flatCollection, flatSetupView);
-
-            flatSetupView.Owner = mainWindow;
-            flatSetupView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
-
-            flatSetupView.Closed += OwnedWindow_Closed;
-
-            flatSetupView.Show();
-        }
-
-
-        public void OwnedWindow_Closed(object? sender, EventArgs e)
-        {
-            var mainWindow = Application.Current.MainWindow;
-            mainWindow.Focus();
-        }
-
-
-        private void ShowFlatSetupWindow(object obj)
-        {
-            var mainWindow = Application.Current.MainWindow;
-
-            FlatSetupView flatSetupView = new FlatSetupView();
-            
-            flatSetupView.DataContext = new FlatSetupViewModel(_flatCollection, flatSetupView, SelectedItem);
-                      
-            flatSetupView.Owner = mainWindow;
-            flatSetupView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
-
-            flatSetupView.Closed += OwnedWindow_Closed;
-
-            flatSetupView.Show();
-        }
-
-
-        private void ShowSettingsWindow(object obj)
-        {
-            var mainWindow = Application.Current.MainWindow;
-
-            SettingsView settingsView = new SettingsView();
-
-            SettingsViewModel settingsViewModel = new SettingsViewModel();
-
-            settingsView.DataContext = new SettingsViewModel();
-
-            settingsView.Owner = mainWindow;
-            settingsView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
-
-            settingsView.Closed += OwnedWindow_Closed;
-
-            settingsView.Show();
         }
 
 

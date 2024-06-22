@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility"
+             xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
              xmlns:viewmodels="clr-namespace:SharedLivingCostCalculator.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:RentUpdateViewModel}"
              x:Name="rentUpdateView"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" >
     <UserControl.Resources>
         <conv:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
         <conv:VisibilityConverter x:Key="VisibilityConverter"/>
@@ -22,76 +22,129 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <StackPanel Grid.Column="0" HorizontalAlignment="Left">
-            <TextBlock Text="{DynamicResource IDF_RentUpdateData}" Margin="5 10"
-                       TextAlignment="Center" FontSize="14"/>
+        <StackPanel Grid.Column="0" HorizontalAlignment="Stretch" Margin="0 0 10 0">
+            <TextBlock Text="{DynamicResource IDF_RentUpdateData}"
+                       Style="{StaticResource Header}"/>
 
-            <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="{DynamicResource IDF_StartDate}" Width="150" VerticalAlignment="Bottom" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{DynamicResource IDF_StartDate}"
+                           MinWidth="100"
+                           HorizontalAlignment="Stretch"
+                           Style="{StaticResource StringValueTextBlock}"
+                           Grid.Column="0"/>
                 <DatePicker SelectedDate="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
                         UpdateSourceTrigger=PropertyChanged}"
-                                 Width="100" IsEnabled="{Binding HasDataLock}"/>
-            </StackPanel>
+                            MinWidth="100"
+                            IsEnabled="{Binding HasDataLock}"
+                            HorizontalAlignment="Stretch"
+                            FontFamily="{DynamicResource FF}"
+                            FontSize="{DynamicResource FS}"
+                            Foreground="{DynamicResource SCB_Text}"
+                            Background="{DynamicResource SCB_Background}"
+                            Grid.Column="1"/>
+            </Grid>
 
-            <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="{DynamicResource IDF_Rent}" Width="150" VerticalAlignment="Center" />
-                <TextBox Text="{Binding ColdRent,
-                        UpdateSourceTrigger=PropertyChanged,
-                        ValidatesOnDataErrors=True,
-                        StringFormat=C2, ConverterCulture=de-DE, Delay=500}" IsEnabled="{Binding HasDataLock}"/>
-            </StackPanel>
+            <comps:CurrencyInputView Label="{DynamicResource IDF_Rent}"
+                                     Value="{Binding ColdRent, UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=True}"
+                                     LabelMinWidth="100"
+                                     ValueMinWidth="100"
+                                     ValueAlignment="Right"
+                            IsEnabled="{Binding HasDataLock}"/>
 
-            <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="{DynamicResource IDF_AdvanceFixed}" Width="150" VerticalAlignment="Center" />
-                <TextBox Text="{Binding ExtraCostsShared,
-                        UpdateSourceTrigger=PropertyChanged,
-                        ValidatesOnDataErrors=True,
-                        StringFormat=C2, ConverterCulture=de-DE, Delay=500}" IsEnabled="{Binding HasDataLock}"/>
-            </StackPanel>
+            <comps:CurrencyInputView Label="{DynamicResource IDF_AdvanceFixed}"
+                                     Value="{Binding ExtraCostsShared, UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=True}"
+                                     LabelMinWidth="100"
+                                     ValueMinWidth="100"
+                                     ValueAlignment="Right"
+                            IsEnabled="{Binding HasDataLock}"/>
 
-            <StackPanel Margin="5 5" Orientation="Horizontal">
-                <TextBlock Text="{DynamicResource IDF_AdvanceHeating}" Width="150" VerticalAlignment="Center" />
-                <TextBox Text="{Binding ExtraCostsHeating,
-                        UpdateSourceTrigger=PropertyChanged,
-                        ValidatesOnDataErrors=True,
-                        StringFormat=C2, ConverterCulture=de-DE, Delay=500}" IsEnabled="{Binding HasDataLock}"/>
-            </StackPanel>
+            <comps:CurrencyInputView Label="{DynamicResource IDF_AdvanceHeating}"
+                                     Value="{Binding ExtraCostsHeating, UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=True}"
+                                     LabelMinWidth="100"
+                                     ValueMinWidth="100"
+                                     ValueAlignment="Right"
+                            IsEnabled="{Binding HasDataLock}"/>
 
-            <StackPanel Margin="5 5" Orientation="Horizontal" Background="LightGray">
-                <TextBlock Text="{DynamicResource IDF_AdvanceTotal}" Width="150" VerticalAlignment="Center" />
-                <TextBox IsReadOnly="True" Text="{Binding ExtraCostsTotal,
-                        Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                             Background="LightGray"/>
-            </StackPanel>
+            <comps:CurrencyInputView Label="{DynamicResource IDF_AdvanceTotal}"
+                                     Value="{Binding ExtraCostsTotal, UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=True}"
+                                     IsReadOnly="True"
+                                     LabelMinWidth="100"
+                                     ValueMinWidth="100"
+                                     ValueAlignment="Right"
+                            IsEnabled="{Binding HasDataLock}"/>
 
-            <StackPanel Margin="5 5" Orientation="Horizontal" Background="LightGray">
-                <TextBlock Text="{DynamicResource IDF_PriceTotal}" Width="150" VerticalAlignment="Center" />
-                <TextBox IsReadOnly="True" Text="{Binding CostsTotal,
-                        Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                             Background="LightGray"/>
-            </StackPanel>
+            <comps:CurrencyInputView Label="{DynamicResource IDF_PriceTotal}"
+                                     Value="{Binding CostsTotal, UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=True}"
+                                     IsReadOnly="True"
+                                     LabelMinWidth="100"
+                                     ValueMinWidth="100"
+                                     ValueAlignment="Right"
+                            IsEnabled="{Binding HasDataLock}"/>
+
+            <comps:CurrencyInputView Label="{DynamicResource IDF_AdvanceHeating}"
+                                     Value="{Binding ExtraCostsHeating, UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=True}"
+                                     IsReadOnly="True"
+                                     LabelMinWidth="100"
+                                     ValueMinWidth="100"
+                                     ValueAlignment="Right"
+                            IsEnabled="{Binding HasDataLock}"/>
+
+            <comps:CurrencyInputView Label="{DynamicResource IDF_AdvanceHeating}"
+                                     Value="{Binding ExtraCostsHeating, UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnDataErrors=True}"
+                                     IsReadOnly="True"
+                                     LabelMinWidth="100"
+                                     ValueMinWidth="100"
+                                     ValueAlignment="Right"
+                            IsEnabled="{Binding HasDataLock}"/>
+
 
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="20">
-            <CheckBox Content="{DynamicResource IDF_BaseRentOnBilling}" IsChecked="{Binding SetBillingVisibility}"  IsEnabled="{Binding HasDataLock}"/>
+        <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch"
+                     Margin="10 0 0 0">
+            <TextBlock Text="{DynamicResource IDF_RentOptions}"
+                       Style="{StaticResource Header}"/>
+            
+            <CheckBox Content="{DynamicResource IDF_BaseRentOnBilling}"
+                      IsChecked="{Binding SetBillingVisibility}"
+                      IsEnabled="{Binding HasDataLock}"
+                      Style="{StaticResource OptionCheckBox}"/>
 
-            <Button Content="{DynamicResource IDF_Billing}"
+            <Button Content="{DynamicResource IDF_AnnualBilling}"
                         Command="{Binding ShowBillingCommand}"
-                        Visibility="{Binding SetBillingVisibility,  Converter={StaticResource VisibilityConverter}}"
+                        Visibility="{Binding SetBillingVisibility,
+                Converter={StaticResource VisibilityConverter}}"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Center"
-                        Padding="2"/>
+                    Style="{StaticResource buttonStyle}"/>
 
-            <CheckBox Content="{DynamicResource IDF_HasOtherCosts}" IsChecked="{Binding HasOtherCosts}"  IsEnabled="{Binding HasDataLock}"/>
+            <CheckBox Content="{DynamicResource IDF_HasOtherCosts}"
+                      IsChecked="{Binding HasOtherCosts}"
+                      IsEnabled="{Binding HasDataLock}"
+                      Style="{StaticResource OptionCheckBox}"/>
             
-            <Button Content="{DynamicResource IDF_OtherCosts}" Command="{Binding ShowOtherCostsCommand}"
-                    Visibility="{Binding SetOtherCostsVisibility,  Converter={StaticResource VisibilityConverter}}"
+            <Button Content="{DynamicResource IDF_OtherCosts}"
+                    Command="{Binding ShowOtherCostsCommand}"
+                    Visibility="{Binding SetOtherCostsVisibility,
+                Converter={StaticResource VisibilityConverter}}"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
-                    Padding="2"/>
+                    Style="{StaticResource buttonStyle}"/>
             
-            <CheckBox Content="{DynamicResource IDF_LockData}" IsChecked="{Binding DataLockCheckbox}" />
+            <CheckBox Content="{DynamicResource IDF_LockData}"
+                      IsChecked="{Binding DataLockCheckbox}" 
+                      Style="{StaticResource OptionCheckBox}"/>
 
         </StackPanel>
         

@@ -9,25 +9,21 @@
              d:DesignHeight="450" d:DesignWidth="800" Margin="0">
     <Grid HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="{Binding Path=Label, ElementName=SIV}"
                    Grid.Column="0"
-                   Background="Transparent"
-                 MinWidth="{Binding Path=LabelMinWidth, ElementName=SIV}"
-                   TextAlignment="Left"
-                   Foreground="{Binding Path=Foreground, ElementName=SIV}"
+                   Style="{StaticResource StringValueTextBlock}"
                    />
         <TextBox Text="{Binding Path=Value, ElementName=SIV, UpdateSourceTrigger=PropertyChanged, StringFormat=C2, ConverterCulture=de-DE}"
                  IsReadOnly="{Binding Path=IsReadOnly, ElementName=SIV}"                 
                  x:Name="TB_Value"
                      Grid.Column="1"
-                     Background="Transparent"
                  TextAlignment="{Binding Path=ValueAlignment, ElementName=SIV}"                
                  MinWidth="{Binding Path=ValueMinWidth, ElementName=SIV}"
-                     Foreground="{Binding Path=Foreground, ElementName=SIV}"
+                 Style="{StaticResource DoubleValueTextBox}"
                      />
     </Grid>
 </UserControl>

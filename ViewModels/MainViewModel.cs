@@ -4,17 +4,15 @@
  * 
  *  viewmodel for MainWindow
  */
-using SharedLivingCostCalculator.Navigation;
+using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
+using System.Collections.ObjectModel;
 
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     internal class MainViewModel : BaseViewModel
     {
-
-        private readonly NavigationStore _navigationStore;
-
 
         private string mainWindowTitle;
 
@@ -26,20 +24,12 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public BaseViewModel CurrentViewModel => _navigationStore.CurrentViewModel;
+        public BaseViewModel CurrentViewModel { get; set; }
 
 
-        public MainViewModel(NavigationStore navigationStore)
+        public MainViewModel(ObservableCollection<FlatViewModel> flatViewModels)
         {
-            _navigationStore = navigationStore;
-
-            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
-        }
-
-
-        private void OnCurrentViewModelChanged()
-        {
-            OnPropertyChanged(nameof(CurrentViewModel));
+            CurrentViewModel = new FlatManagementViewModel(flatViewModels);
         }
 
 

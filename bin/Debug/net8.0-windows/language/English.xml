@@ -14,7 +14,8 @@
   <IDF_Details>Details</IDF_Details>
   <IDF_Rooms>Rooms</IDF_Rooms>
   <IDF_RoomTenant>Tenant</IDF_RoomTenant>
-  <IDF_SharedFlatArea>shared flat area</IDF_SharedFlatArea>
+  <IDF_SharedFlatArea>Shared Area</IDF_SharedFlatArea>
+  <IDF_CombinedRoomArea>All Rooms Area</IDF_CombinedRoomArea>
   <AccountingHeaderText>Accounting</AccountingHeaderText>
   <FlatManagementHeaderText>Flat Management</FlatManagementHeaderText>
   <IDF_SettingsTitleText>SLCC Settings</IDF_SettingsTitleText>
@@ -27,17 +28,29 @@
   <SettingsHeaderText>Settings</SettingsHeaderText>
   <IDF_Rent>Rent</IDF_Rent>
   <IDF_RentChange>Rent Change(s)</IDF_RentChange>
-  <IDF_RentUpdateData>Rent Update Data</IDF_RentUpdateData>
-  <IDF_RentShare>rent share</IDF_RentShare>
-  <IDF_AdvanceFixed>advance fixed</IDF_AdvanceFixed>
-  <IDF_AdvanceHeating>advance heating</IDF_AdvanceHeating>
-  <IDF_AdvanceTotal>advance total</IDF_AdvanceTotal>
-  <IDF_PriceTotal>price total</IDF_PriceTotal>
-  <IDF_BaseRentOnBilling>base calculation on billing</IDF_BaseRentOnBilling>
-  <IDF_OtherCosts>Other Costs</IDF_OtherCosts>
-  <IDF_AnnualOther>Annual Other Costs</IDF_AnnualOther>
-  <IDF_AnnualComplete>Annual Complete Costs</IDF_AnnualComplete>
-  <IDF_CompleteCosts>Complete Costs</IDF_CompleteCosts>
+  <IDF_RentUpdateData>Rent Data</IDF_RentUpdateData>
+  <IDF_RentOptions>Rent Options</IDF_RentOptions>
+  <IDF_RentShare>Rent Share
+Month</IDF_RentShare>
+  <IDF_AdvanceFixed>Fixed Costs
+Advance</IDF_AdvanceFixed>
+  <IDF_AdvanceHeating>Heating Costs
+Advance</IDF_AdvanceHeating>
+  <IDF_AdvanceTotal>Total Costs
+Advance</IDF_AdvanceTotal>
+  <IDF_PriceTotal>Total Price
+Month</IDF_PriceTotal>
+  <IDF_BaseRentOnBilling>factor in billing</IDF_BaseRentOnBilling>
+  <IDF_AnnualBilling>Annual
+Billing</IDF_AnnualBilling>
+  <IDF_OtherCosts>Other Costs
+Month</IDF_OtherCosts>
+  <IDF_AnnualOther>Other Costs
+Annual</IDF_AnnualOther>
+  <IDF_AnnualComplete>Complete Costs
+Annual</IDF_AnnualComplete>
+  <IDF_CompleteCosts>Complete Costs
+Month</IDF_CompleteCosts>
   <IDF_Credit>credit(s)</IDF_Credit>
   <IDF_HasOtherCosts>factor in other costs</IDF_HasOtherCosts>
   <IDF_NewOtherCosts>setup other costs</IDF_NewOtherCosts>
@@ -73,7 +86,8 @@ year</IDF_TotalPricePerYear>
   <IDF_perYear>per year</IDF_perYear>
   <IDF_perMonth>per month</IDF_perMonth>
   <IDF_Billing>Billing</IDF_Billing>
-  <IDF_BillingPeriodData>Billing Period Data</IDF_BillingPeriodData>
+  <IDF_BillingPeriodData>Billing Data</IDF_BillingPeriodData>
+  <IDF_BillingPeriodOptions>Billing Options</IDF_BillingPeriodOptions>
   <IDF_Consumption>Consumption</IDF_Consumption>
   <IDF_ExtraCosts>Extra
 Costs</IDF_ExtraCosts>
@@ -111,5 +125,8 @@ quantity</IDF_PaymentQuantity>
   <IDF_NewFlat>New Flat</IDF_NewFlat>
   <IDF_EditFlat>Edit Flat</IDF_EditFlat>
   <IDF_DeleteFlat>Delete Flat</IDF_DeleteFlat>
+  <IDF_FlatSetup>Flat Setup</IDF_FlatSetup>
+  <IDF_RoomSetup>Room Setup</IDF_RoomSetup>
+  <IDF_Manual>Manual</IDF_Manual>
   <IDF_Settings>Settings</IDF_Settings>
 </Language>

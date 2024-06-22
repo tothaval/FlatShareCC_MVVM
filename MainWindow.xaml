@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:SharedLivingCostCalculator"
         xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels"
         xmlns:views="clr-namespace:SharedLivingCostCalculator.Views"
+        xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
         x:Name="ExampleMainWindowName"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="Manual"
-        Title="{DynamicResource IDF_MainWindowTitle}" Height="450" Width="800">
-    <Grid MinHeight="200">
+        Title="{DynamicResource IDF_MainWindowTitle}">
+    <Grid MinHeight="200" MinWidth="200" Margin="3">
         <Grid.Resources>
             <DataTemplate DataType="{x:Type vms:FlatManagementViewModel}">
                 <views:FlatManagementView/>
@@ -20,13 +21,17 @@
             <DataTemplate DataType="{x:Type vms:FlatSetupViewModel}">
                 <views:FlatSetupView/>
             </DataTemplate>
-
+            
+            <DataTemplate DataType="{x:Type vms:RoomSetupViewModel}">
+                <views:RoomSetupView/>
+            </DataTemplate>
+            
             <DataTemplate DataType="{x:Type vms:AccountingViewModel}">
                 <views:AccountingView/>
             </DataTemplate>
             
             <DataTemplate DataType="{x:Type vms:BillingPeriodViewModel}">
-                <views:BillingWindow/>
+                <windows:BillingWindow/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type vms:PaymentManagementViewModel}">
@@ -46,13 +51,13 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type vms:CostsViewModel}">
-                <views:CostsView/>
+                <views:CostView/>
             </DataTemplate>
-
+            
             <DataTemplate DataType="{x:Type vms:SettingsViewModel}">
                 <views:SettingsView/>
             </DataTemplate>
-
+            
             <DataTemplate DataType="{x:Type vms:RentCostsViewModel}">
                 <views:RentCostsView/>
             </DataTemplate>

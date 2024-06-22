@@ -10,25 +10,56 @@
     <StackPanel Orientation="Vertical" Margin="20">
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <DataGrid ItemsSource="{Binding RoomPayments}"
-                      SelectedValue="{Binding Path=SelectedValue}"
-                      CanUserSortColumns="True"
-                      IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding ID}"
-                   Header="{DynamicResource IDF_ID}" SortMemberPath="RoomName" SortDirection="Ascending"/>
-                    <DataGridTextColumn Binding="{Binding RoomName}"
-                   Header="{DynamicResource IDF_RoomName}" SortMemberPath="RoomName" SortDirection="Ascending"/>
 
-                    <DataGridTextColumn Binding="{Binding RoomArea, StringFormat=N2}"
-                   Header="{DynamicResource IDF_RoomArea}" SortMemberPath="RoomArea" SortDirection="Ascending"/>
+            <ListView ItemsSource="{Binding RoomPayments}"
+                      SelectedItem="{Binding Path=SelectedValue}">
 
-                    <DataGridTextColumn Binding="{Binding CombinedPayments, NotifyOnSourceUpdated=True,
-                    Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
-                   Header="{DynamicResource IDF_Payments}" SortMemberPath="CombinedPayments" SortDirection="Ascending"/>
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+                        <GridView.Columns>
+                            <GridViewColumn Header="{DynamicResource IDF_RoomName}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding RoomName, NotifyOnSourceUpdated=True,
+                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                               Style="{StaticResource StringValueTextBlock}"/>
 
-                </DataGrid.Columns>
-            </DataGrid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="{DynamicResource IDF_RoomArea}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding RoomArea, NotifyOnSourceUpdated=True,
+                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
+                                            StringFormat=N2}"
+                                                               Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="{DynamicResource IDF_Payments}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CombinedPayments, NotifyOnSourceUpdated=True,
+                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
+                                            StringFormat=C2, ConverterCulture=de-DE}"
+                                                               Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView.Columns>
+                        
+                    </GridView>                  
+                    
+                </ListView.View>              
+                
+            </ListView>            
+
         </ScrollViewer>
 
         <Grid>

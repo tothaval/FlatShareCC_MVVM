@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="SharedLivingCostCalculator.Views.CostView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels"
+             xmlns:views="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vms:RentCostsViewModel}">
+            <views:RentCostsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vms:BillingCostsViewModel}">
+            <views:BillingCostsView/>
+        </DataTemplate>
+
+
+        <BooleanToVisibilityConverter x:Key="booltovis"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            
+            <RadioButton Content="{DynamicResource IDF_Rent}"
+                         IsChecked="{Binding RentSelected}"
+                         GroupName="CostViewSelectionGroup"
+                         Style="{StaticResource RadioButtonStyle}"
+                         Grid.Column="0"/>
+
+            <RadioButton Content="{DynamicResource IDF_Billing}"
+                         IsChecked="{Binding BillingSelected}"
+                         GroupName="CostViewSelectionGroup"
+                         IsEnabled="{Binding HasBilling}"
+                         Visibility="{Binding HasBilling,
+                Converter={StaticResource booltovis}}"
+                         Style="{StaticResource RadioButtonStyle}"
+                         Grid.Column="1"/>
+            
+        </StackPanel>
+
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding ActiveViewModel,
+            NotifyOnSourceUpdated=True}"/>
+    </Grid>
+</UserControl>

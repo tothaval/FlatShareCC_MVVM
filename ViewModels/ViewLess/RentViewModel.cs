@@ -253,7 +253,15 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
                 {
                     OtherCostItemViewModel otherCostItemViewModel = new OtherCostItemViewModel(otherCostItem);
 
+                    //foreach (RoomViewModel roomViewModel in GetFlatViewModel().Rooms)
+                    //{
+                    //    OtherCostItemViewModel otherCostItemViewModel = new OtherCostItemViewModel(otherCostItem, roomViewModel);
+
+                    //    OtherCosts.Add(otherCostItemViewModel);
+                    //}
+
                     OtherCosts.Add(otherCostItemViewModel);
+
                 }
             }
 

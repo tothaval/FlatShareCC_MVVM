@@ -9,21 +9,92 @@
     <FontFamily x:Key="FF">Verdana</FontFamily>
     <sys:Double x:Key="FS">11</sys:Double>
 
-    <Style x:Key="Header" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource R_Header}"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontFamily" Value="Verdana"/>
+    <Style x:Key="RadioButtonStyle" TargetType="RadioButton">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Margin" Value="0 5"/>
+        <Setter Property="Width" Value="Auto"/>
     </Style>
 
+    <Style x:Key="OptionCheckBox" TargetType="CheckBox">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Margin" Value="0 5"/>
+        <Setter Property="Width" Value="Auto"/>
+    </Style>
+
+    <Style x:Key="MenuCheckBox" TargetType="CheckBox">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Width" Value="Auto"/>
+    </Style>
+
+    <Style x:Key="Header" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource R_Header}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+    </Style>
+
+    <Style TargetType="{x:Type GridViewColumnHeader}" x:Key="GVCH">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>        
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
+        <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="Width" Value="Auto"/>
+
+    </Style>
+
+    <Style TargetType="ListViewItem">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Width" Value="Auto"/>
+    </Style>
+    
+    <Style x:Key="DoubleValueTextBlock" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Width" Value="Auto"/>
+    </Style>
+
+    <Style x:Key="StringValueTextBlock" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Width" Value="Auto"/>
+    </Style>
+        
     <Style TargetType="Grid">
         <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
     </Style>
-      
-    <Style TargetType="DataGrid">
+
+    <Style TargetType="{x:Type DataGrid}">
         <Setter Property="SelectionMode" Value="Single"/>
         <Setter Property="AutoGenerateColumns" Value="False"/>
     </Style>
-    
+
     <Style TargetType="c_views:CurrencyInputView">
         <Setter Property="Padding" Value="2"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -47,7 +118,7 @@
         <Setter Property="Background"  Value="Transparent"/>
     </Style>
 
-    <Style TargetType="TextBlock">
+    <!--<Style TargetType="TextBlock">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Padding" Value="5 2"/>
@@ -56,28 +127,92 @@
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
         <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
         <Setter Property="FontSize" Value="{DynamicResource FS}"/>
-    </Style>
-
-    <Style TargetType="TextBox">
+    </Style>-->
+    <Style x:Key="DoubleValueTextBox" TargetType="TextBox">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="5 2"/>
-        <Setter Property="Margin" Value="2 2"/>
-        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
         <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
         <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Style.Triggers>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
+                <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+            </Trigger>
+
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
+                <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
-
-    <Style TargetType="Button">
-        <Setter Property="Padding" Value="2 2"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="TextBlock.Background" Value="Transparent"/>
+    <Style x:Key="StringValueTextBox" TargetType="TextBox">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
         <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
         <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Style.Triggers>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
+                <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
+                <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
-    
+
+    <Style TargetType="Button" x:Key="buttonStyle">
+
+        <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                                BorderThickness="2"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="9"
+                                Padding="5">
+                        <Grid Background="Transparent">
+                            <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"
+                                                  Margin="0"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  />
+                        </Grid>
+                    </Border>
+
+
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Text_Header}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

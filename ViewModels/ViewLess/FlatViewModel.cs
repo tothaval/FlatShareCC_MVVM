@@ -25,16 +25,16 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         public int ID => _flat.ID;
 
 
-        public string Address { get { return _flat.Address; } set { _flat.Address = value; } }
+        public string Address { get { return _flat.Address; } set { _flat.Address = value; OnPropertyChanged(nameof(Address)); } }
 
 
-        public string Details { get { return _flat.Details; } set { _flat.Details = value; } }
+        public string Details { get { return _flat.Details; } set { _flat.Details = value; OnPropertyChanged(nameof(Details)); } }
 
 
-        public double Area { get { return _flat.Area; } set { _flat.Area = value; } }
+        public double Area { get { return _flat.Area; } set { _flat.Area = value; OnPropertyChanged(nameof(Area)); OnPropertyChanged(nameof(SharedArea)); } }
 
 
-        public int RoomCount { get { return _flat.RoomCount; } set { _flat.RoomCount = value; CreateRooms(); } }
+        public int RoomCount { get { return _flat.RoomCount; } set { _flat.RoomCount = value;  CreateRooms(); } }
 
 
         public string FlatNotes { get { return _flat.FlatNotes; } set { _flat.FlatNotes = value; OnPropertyChanged(nameof(FlatNotes)); } }
@@ -80,6 +80,9 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         public double SharedArea => CalculateSharedArea();
 
 
+        public double CombinedRoomArea => CalculateCombinedRoomArea();
+
+
         public FlatViewModel(Flat flat)
         {
             _flat = flat;
@@ -88,90 +91,17 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             ConnectRooms();
         }
 
-
-        public void SetMostRecentCosts()
+        
+        private double CalculateCombinedRoomArea()
         {
-            RentViewModel? rent = GetMostRecentRent();
+            double combinedRoomArea = 0.0;
 
-            if (rent != null && rent.RoomCosts != null)
+            foreach (RoomViewModel room in Rooms)
             {
-                CurrentRoomCosts = rent.RoomCosts;
+                combinedRoomArea += room.RoomArea;
             }
 
-            OnPropertyChanged(nameof(CurrentRoomCosts));
-        }
-
-
-        public RentViewModel? GetMostRecentRent()
-        {
-            RentViewModel? rentViewModel = null;
-            if (RentUpdates.Count > 0)
-            {
-                foreach (RentViewModel rent in RentUpdates)
-                {
-                    if (rentViewModel == null)
-                    {
-                        rentViewModel = rent;
-
-                        continue;
-                    }
-
-                    if (rent.StartDate > rentViewModel.StartDate)
-                    {
-                        rentViewModel = rent;
-                    }
-                }
-            }
-
-            return rentViewModel;
-        }
-
-
-        private void ConnectRooms()
-        {
-            if (Rooms != null && Rooms.Count > 0)
-            {
-                foreach (RoomViewModel room in Rooms)
-                {
-                    room.PropertyChanged += Room_PropertyChanged;
-                }
-            }
-        }
-
-
-        private void CreateRooms()
-        {
-            Rooms.Clear();
-
-            for (int i = 0; i < RoomCount; i++)
-            {
-                RoomViewModel room = new RoomViewModel(new Room(i, $"room{i + 1}", 0));
-
-                room.PropertyChanged += Room_PropertyChanged;
-                Rooms.Add(room);
-            }
-        }
-
-
-        private void Room_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            RoomViewModel? room = sender as RoomViewModel;
-
-            if (room != null)
-            {
-                double area = _flat.Area;
-
-                foreach (RoomViewModel item in _flat.Rooms)
-                {
-                    area -= item.RoomArea;
-                }
-
-                if (area < 0)
-                {
-                    room.RoomArea = 0;
-                    MessageBox.Show("combined area of Rooms is larger than flat area");
-                }
-            }
+            return combinedRoomArea;
         }
 
 
@@ -210,6 +140,44 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
         }
 
+        public void ConnectRooms()
+        {
+            if (Rooms != null && Rooms.Count > 0)
+            {
+                foreach (RoomViewModel room in Rooms)
+                {
+                    room.RoomAreaChanged += Room_RoomAreaChanged;
+
+                    //room.PropertyChanged += Room_PropertyChanged;
+                }
+            }
+        }
+
+        private void Room_RoomAreaChanged(object? sender, EventArgs e)
+        {    
+            if (CombinedRoomArea > Area)
+                {
+                    MessageBox.Show("combined area of Rooms is larger than flat area");
+                }
+
+                OnPropertyChanged(nameof(CombinedRoomArea));
+                OnPropertyChanged(nameof(SharedArea));
+            
+        }
+
+        private void CreateRooms()
+        {
+            Rooms.Clear();
+
+            for (int i = 0; i < RoomCount; i++)
+            {
+                RoomViewModel room = new RoomViewModel(new Room(i, $"room{i + 1}", 0));
+
+                room.PropertyChanged += Room_PropertyChanged;
+                Rooms.Add(room);
+            }
+        }
+
 
         private double CurrentExtraCosts()
         {
@@ -243,6 +211,61 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
             return currentRent.ColdRent;
         }
+
+
+        public RentViewModel? GetMostRecentRent()
+        {
+            RentViewModel? rentViewModel = null;
+            if (RentUpdates.Count > 0)
+            {
+                foreach (RentViewModel rent in RentUpdates)
+                {
+                    if (rentViewModel == null)
+                    {
+                        rentViewModel = rent;
+
+                        continue;
+                    }
+
+                    if (rent.StartDate > rentViewModel.StartDate)
+                    {
+                        rentViewModel = rent;
+                    }
+                }
+            }
+
+            return rentViewModel;
+        }
+
+
+        public void SetMostRecentCosts()
+        {
+            RentViewModel? rent = GetMostRecentRent();
+
+            if (rent != null && rent.RoomCosts != null)
+            {
+                CurrentRoomCosts = rent.RoomCosts;
+            }
+
+            OnPropertyChanged(nameof(CurrentRoomCosts));
+        }
+
+
+        private void Room_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            RoomViewModel? room = sender as RoomViewModel;
+
+            if (room != null)
+            {
+                if (CombinedRoomArea > Area)
+                {
+                    MessageBox.Show("combined area of Rooms is larger than flat area");
+                }
+
+                OnPropertyChanged(nameof(CombinedRoomArea));
+                OnPropertyChanged(nameof(SharedArea));
+            }
+        }    
 
 
     }

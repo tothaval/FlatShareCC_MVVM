@@ -14,21 +14,29 @@
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using SharedLivingCostCalculator.Views;
+using SharedLivingCostCalculator.Views.Windows;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     internal class RentManagementViewModel : BaseViewModel
     {
+        private AccountingViewModel _accountingViewModel;
+
 
         private FlatViewModel _flatViewModel;
+        public FlatViewModel FlatViewModel => _flatViewModel;
 
-        
-        public ICollectionView RentUpdates { get; set; }
+
+        public ICollectionView RentUpdates { get; }
 
 
         public bool RentUpdateSelected { get; set; }
@@ -59,7 +67,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (_selectedValue == value) return;
                 _selectedValue = value;
 
-                UpdateViewModel = new RentUpdateViewModel(_flatViewModel, SelectedValue);
+                UpdateViewModel = new RentUpdateViewModel(_flatViewModel, _selectedValue);
 
                 RentUpdateSelected = true;
                 OnPropertyChanged(nameof(RentUpdateSelected));
@@ -74,29 +82,46 @@ namespace SharedLivingCostCalculator.ViewModels
         public ICommand DeleteCommand { get; }
 
 
-        public ICommand ShowCostsCommand { get; }
+        //private ObservableCollection<RentViewModel> _RentUpdates;
+        //public ObservableCollection<RentViewModel> RentUpdates
+        //{
+        //    get { return _RentUpdates; }
+        //    set
+        //    {
+        //        _RentUpdates = value;
+        //        OnPropertyChanged(nameof(RentUpdates));
+        //    }
+        //}
 
 
+        public ICollectionView Rents { get; set; }
 
-        public RentManagementViewModel(FlatViewModel flatViewModel)
-        {
-            _flatViewModel = flatViewModel;
+
+        public RentManagementViewModel(AccountingViewModel accountingViewModel)
+        {   
+            _accountingViewModel = accountingViewModel;
+
+            _flatViewModel = accountingViewModel.FlatViewModel;
+
 
             AddRentUpdateCommand = new RelayCommand(p => AddRentUpdate(), (s) => true);
             DeleteCommand = new RelayCommand(p => DeleteRentUpdate(), (s) => true);
 
-            ShowCostsCommand = new RelayCommand(p => ShowCosts(), (s) => true);
-
-            RentUpdates = CollectionViewSource.GetDefaultView(this._flatViewModel.RentUpdates);
-            RentUpdates.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
-
-            if (_flatViewModel.RentUpdates.Count > 0)
+            if (_flatViewModel != null)
             {
-                SelectedValue = _flatViewModel.GetMostRecentRent();                    
+                if (_flatViewModel.RentUpdates.Count > 0)
+                {
+                    RentUpdates = CollectionViewSource.GetDefaultView(_flatViewModel.RentUpdates);
+                    //RentUpdates.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
+
+                    SelectedValue = _flatViewModel.GetMostRecentRent();
+
+                    //OnPropertyChanged(nameof(RentUpdates));
+                }
             }
         }
 
-
+    
         private void AddRentUpdate()
         {
             RentViewModel rentViewModel = new RentViewModel(
@@ -141,30 +166,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private void ShowCosts()
-        {
-
-            if (SelectedValue != null)
-            {
-                CostsView costs = new CostsView();
-                costs.Owner = Application.Current.MainWindow;
-                costs.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-                costs.DataContext = new CostsViewModel(SelectedValue, _flatViewModel);
-
-                costs.Closed += Costs_Closed;
-
-                costs.Show();
-            }
-        }
-
-
-        private void Costs_Closed(object? sender, EventArgs e)
-        {
-            var mainWindow = Application.Current.MainWindow;
-
-            mainWindow.Focus();
-        }
     }
 }
 // EOF

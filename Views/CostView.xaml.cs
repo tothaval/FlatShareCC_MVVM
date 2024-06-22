@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SharedLivingCostCalculator.Views
 {
     /// <summary>
-    /// Interaktionslogik für SettingsView.xaml
+    /// Interaktionslogik für CostView.xaml
     /// </summary>
-    public partial class SettingsView : UserControl
+    public partial class CostView : UserControl
     {
-        public SettingsView()
+        public CostView()
         {
             InitializeComponent();
         }
