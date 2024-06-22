@@ -22,22 +22,28 @@
     <Compile Update="Views\BillingCostsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\BillingPeriodView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\BillingWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\ConsumptionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\CostsView.xaml.cs">
+    <Compile Update="Views\CostView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\FlatSetupView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RoomSetupView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\SettingsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Windows\BillingWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\FlatManagementView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\FlatSetupView.xaml.cs">
+    <Compile Update="Views\Windows\FlatSetupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\OtherCostsView.xaml.cs">
@@ -56,9 +62,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\RentUpdateView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -84,22 +87,28 @@
     <Page Update="Views\BillingCostsView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\BillingPeriodView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\BillingWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Views\ConsumptionView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\CostsView.xaml">
+    <Page Update="Views\CostView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\FlatSetupView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RoomSetupView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Windows\BillingWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\FlatManagementView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\FlatSetupView.xaml">
+    <Page Update="Views\Windows\FlatSetupView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\OtherCostsView.xaml">
@@ -118,9 +127,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\RentUpdateView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

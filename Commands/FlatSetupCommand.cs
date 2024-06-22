@@ -8,7 +8,7 @@
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using SharedLivingCostCalculator.Views;
+using SharedLivingCostCalculator.Views.Windows;
 using System.Collections.ObjectModel;
 
 namespace SharedLivingCostCalculator.Commands

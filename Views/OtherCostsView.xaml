@@ -29,18 +29,23 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button Content="add cost item" Command="{Binding AddOtherCostItemCommand}" Grid.Column="0"/>
+                <Button Content="add cost item"
+                        Command="{Binding AddOtherCostItemCommand}"
+                        Grid.Column="0"
+                        Style="{StaticResource buttonStyle}"/>
                 <Button Content="remove cost item" Command="{Binding RemoveOtherCostItemCommand}" 
                         CommandParameter="{Binding ElementName=_othercosts, Path=SelectedItems}"
-                        Grid.Column="1"/>
+                        Grid.Column="1"
+                        Style="{StaticResource buttonStyle}"/>
             </Grid>
 
             <ListView ItemsSource="{Binding OtherCostItems, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
                       SelectionMode="Extended"
-                      x:Name="_othercosts">
+                      x:Name="_othercosts"
+                      >
                 
                 <ListView.View>
-                    <GridView>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
                         <GridView.Columns>
                             
                             <GridViewColumn Header="Split Procedure">
@@ -58,6 +63,9 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <comps:ObjectInputView Value="{Binding Item, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                               ValueMinWidth="100"
+                                                               LabelMinWidth="0"
+                                                               ValueAlignment="Left"
                                                                HorizontalAlignment="Stretch"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -67,6 +75,9 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <comps:CurrencyInputView Value="{Binding Cost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                                 ValueMinWidth="100"
+                                                                 LabelMinWidth="0"
+                                                                 ValueAlignment="Right"
                                                                  HorizontalAlignment="Stretch"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

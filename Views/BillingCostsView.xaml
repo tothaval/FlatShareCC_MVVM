@@ -21,27 +21,32 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <comps:CurrencyInputView Grid.Column="0" Label="{DynamicResource IDF_Rent}" Value="{Binding TotalRentCosts, NotifyOnSourceUpdated=True}"
+            <comps:CurrencyInputView Grid.Column="0" Label="{DynamicResource IDF_Rent}"
+                                     Value="{Binding TotalRentCosts, NotifyOnSourceUpdated=True}"
                                      ValueAlignment="Right"
                                      LabelMinWidth="50"
                                      ValueMinWidth="90"
                                      IsReadOnly="True"/>
-            <comps:CurrencyInputView Grid.Column="1" Label="{DynamicResource IDF_ExtraCosts}" Value="{Binding TotalExtraCosts, NotifyOnSourceUpdated=True}"
+            <comps:CurrencyInputView Grid.Column="1" Label="{DynamicResource IDF_ExtraCosts}"
+                                     Value="{Binding TotalExtraCosts, NotifyOnSourceUpdated=True}"
                                      ValueAlignment="Right"
                                      LabelMinWidth="50"
                                      ValueMinWidth="90"
                                      IsReadOnly="True"/>
-            <comps:CurrencyInputView Grid.Column="2" Label="{DynamicResource IDF_TotalCosts}" Value="{Binding TotalCosts, NotifyOnSourceUpdated=True}"
+            <comps:CurrencyInputView Grid.Column="2" Label="{DynamicResource IDF_TotalCosts}"
+                                     Value="{Binding TotalCosts, NotifyOnSourceUpdated=True}"
                                      ValueAlignment="Right"
                                      LabelMinWidth="50"
                                      ValueMinWidth="90"
                                      IsReadOnly="True"/>
-            <comps:CurrencyInputView Grid.Column="3" Label="{DynamicResource IDF_Payments}" Value="{Binding TotalPayments, NotifyOnSourceUpdated=True}"
+            <comps:CurrencyInputView Grid.Column="3" Label="{DynamicResource IDF_Payments}"
+                                     Value="{Binding TotalPayments, NotifyOnSourceUpdated=True}"
                                      ValueAlignment="Right"
                                      LabelMinWidth="50"
                                      ValueMinWidth="90"
                                      IsReadOnly="True"/>
-            <comps:CurrencyInputView Grid.Column="4" Label="{DynamicResource IDF_Balance}" Value="{Binding Balance, NotifyOnSourceUpdated=True}"
+            <comps:CurrencyInputView Grid.Column="4" Label="{DynamicResource IDF_Balance}"
+                                     Value="{Binding Balance, NotifyOnSourceUpdated=True}"
                                      ValueAlignment="Right"
                                      LabelMinWidth="50"
                                      ValueMinWidth="90"

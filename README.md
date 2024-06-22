@@ -6,7 +6,14 @@
 					
 					me learning and practicing MVVM
 
-current features:
+current features: 
+
+	!!! this readme file is not up to date !!!
+		the program now features a single Window
+		with expandable areas, as well as two 
+		windows, one for billing data, and one 
+		for other costs.
+
 
 -> create, edit, delete flat
 	-> add new Flat Button -> enter FlatSetup View

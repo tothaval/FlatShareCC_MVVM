@@ -3,24 +3,24 @@
   <ID>0</ID>
   <Address>best flat</Address>
   <Details>nux</Details>
-  <Area>72</Area>
+  <Area>70</Area>
   <RoomCount>3</RoomCount>
   <FlatNotes>best next notes</FlatNotes>
   <Rooms>
     <Room>
       <ID>0</ID>
       <RoomName>room1</RoomName>
-      <RoomArea>0</RoomArea>
+      <RoomArea>22</RoomArea>
     </Room>
     <Room>
       <ID>1</ID>
       <RoomName>room2</RoomName>
-      <RoomArea>0</RoomArea>
+      <RoomArea>23</RoomArea>
     </Room>
     <Room>
       <ID>2</ID>
       <RoomName>room3</RoomName>
-      <RoomArea>0</RoomArea>
+      <RoomArea>20</RoomArea>
     </Room>
   </Rooms>
   <Rents>
@@ -43,23 +43,23 @@
         <RoomCosts>
           <RoomID>0</RoomID>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
-          <RentShare>150</RentShare>
-          <FixedShare>33.33333333333333</FixedShare>
-          <HeatingShare>66.66666666666666</HeatingShare>
+          <RentShare>152.14285714285714</RentShare>
+          <FixedShare>33.80952380952381</FixedShare>
+          <HeatingShare>67.61904761904762</HeatingShare>
         </RoomCosts>
         <RoomCosts>
           <RoomID>1</RoomID>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
-          <RentShare>150</RentShare>
-          <FixedShare>33.33333333333333</FixedShare>
-          <HeatingShare>66.66666666666666</HeatingShare>
+          <RentShare>158.57142857142858</RentShare>
+          <FixedShare>35.23809523809524</FixedShare>
+          <HeatingShare>70.47619047619048</HeatingShare>
         </RoomCosts>
         <RoomCosts>
           <RoomID>2</RoomID>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
-          <RentShare>150</RentShare>
-          <FixedShare>33.33333333333333</FixedShare>
-          <HeatingShare>66.66666666666666</HeatingShare>
+          <RentShare>139.28571428571428</RentShare>
+          <FixedShare>30.952380952380953</FixedShare>
+          <HeatingShare>61.904761904761905</HeatingShare>
         </RoomCosts>
       </RoomCostShares>
     </Rent>
@@ -107,14 +107,7 @@
           </RoomPayments>
           <RoomPayments>
             <RoomID>2</RoomID>
-            <PaymentCollection>
-              <Payment>
-                <StartDate>2024-06-22T19:07:10.4754678+02:00</StartDate>
-                <EndDate>2024-06-22T19:07:10.4754695+02:00</EndDate>
-                <PaymentQuantity>4</PaymentQuantity>
-                <Sum>110</Sum>
-              </Payment>
-            </PaymentCollection>
+            <PaymentCollection />
           </RoomPayments>
         </Payments>
         <HeatingUnits>
@@ -173,22 +166,22 @@
         <RoomCosts>
           <RoomID>0</RoomID>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
-          <RentShare>150</RentShare>
-          <FixedShare>36.666666666666664</FixedShare>
+          <RentShare>152.14285714285714</RentShare>
+          <FixedShare>37.19047619047619</FixedShare>
           <HeatingShare>72.41666666666667</HeatingShare>
         </RoomCosts>
         <RoomCosts>
           <RoomID>1</RoomID>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
-          <RentShare>150</RentShare>
-          <FixedShare>36.666666666666664</FixedShare>
+          <RentShare>158.57142857142858</RentShare>
+          <FixedShare>38.761904761904766</FixedShare>
           <HeatingShare>72.41666666666667</HeatingShare>
         </RoomCosts>
         <RoomCosts>
           <RoomID>2</RoomID>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
-          <RentShare>150</RentShare>
-          <FixedShare>36.666666666666664</FixedShare>
+          <RentShare>139.28571428571428</RentShare>
+          <FixedShare>34.04761904761905</FixedShare>
           <HeatingShare>75.16666666666666</HeatingShare>
         </RoomCosts>
       </RoomCostShares>

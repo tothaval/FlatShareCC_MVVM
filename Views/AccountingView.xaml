@@ -13,57 +13,56 @@
         <conv:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
         <conv:VisibilityConverter x:Key="VisibilityConverter"/>
     </UserControl.Resources>
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center"
+          Margin="5 0">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Text="{DynamicResource AccountingHeaderText}"
-                       Grid.Row="0"
-                   Style="{StaticResource Header}"
-                       VerticalAlignment="Bottom"
+
+            <TextBlock Text="{Binding Address, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                       Style="{StaticResource Header}"
                        HorizontalAlignment="Left"
-                       FontSize="{Binding FontSize}"/>
+                       VerticalAlignment="Bottom"
+                       Grid.Row="0"
+                       Grid.Column="0"/>
 
-                <TextBlock Text="{Binding Address, Mode=OneWay}"
-                       FontSize="{DynamicResource FS}" FontWeight="Bold"
-                       HorizontalAlignment="Left" TextAlignment="Left"
-                           VerticalAlignment="Bottom"
-                           Grid.Row="1"/>
-            
-                <TextBlock Grid.Row="2"
-                           VerticalAlignment="Bottom">
-                <Run Text="{Binding Area, Mode=OneWay}"
-                     FontSize="{DynamicResource FS}"/>
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Style="{StaticResource StringValueTextBlock}"
+                       VerticalAlignment="Bottom">
+                <Run Text="{Binding Area, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
                 <Run Text="m², "/>
-                <Run Text="{Binding RoomCount, Mode=OneWay}"
-                     FontSize="{DynamicResource FS}"/>
+                <Run Text="{Binding RoomCount, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
                 <Run Text=" rooms"/>
-                </TextBlock>
+            </TextBlock>
 
-                <TextBlock HorizontalAlignment="Left" TextAlignment="Left"
-                           Text="{Binding Details, Mode=OneWay}"
-                           FontSize="{DynamicResource FS}"
-                           Grid.Row="3"/>
- 
+            <TextBlock HorizontalAlignment="Left" TextAlignment="Left"
+                       Text="{Binding Details, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                       Style="{StaticResource StringValueTextBlock}"
+                       Grid.Row="2"
+                       Grid.Column="0"/>
+
+            <TextBlock Text="{Binding FlatNotes}"
+                       Style="{StaticResource StringValueTextBlock}"
+                       Grid.Column="1"
+                       Grid.Row="0"
+                       Grid.RowSpan="2"/>
         </Grid>
 
-        <local:RentManagementView DataContext="{Binding Rents}"
-                                  Grid.Row="1"
-                                  Margin="0 20"/>
-        
-        <Button Grid.Row="2" Content="{DynamicResource IDF_Back}" Command="{Binding LeaveCommand}"
-                Margin="10 5">            
-        </Button>
+        <local:RentManagementView DataContext="{Binding Rents, NotifyOnSourceUpdated=True}"
+                                  Grid.Row="1"/>
     </Grid>
 </UserControl>

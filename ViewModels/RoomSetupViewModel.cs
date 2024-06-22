@@ -1,23 +1,14 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
- *   
- *  FlatSetupViewModel  : BaseViewModel
- * 
- *  viewmodel for FlatSetupView
- *  
- *  displays a seperate window for creating
- *  or editing of FlatViewModel instances
- */
+﻿using SharedLivingCostCalculator.ViewModels.ViewLess;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Models;
-using SharedLivingCostCalculator.ViewModels.ViewLess;
-using SharedLivingCostCalculator.Views.Windows;
-
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class FlatSetupViewModel : BaseViewModel
+    class RoomSetupViewModel : BaseViewModel
     {
 
         private FlatViewModel _flatsetup;
@@ -26,12 +17,12 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private FlatManagementViewModel _FlatManagementViewModel;
 
-        
+
         /// <summary>
-        ///
+        /// 
         /// </summary>
         /// <param name="flatManagementViewModel"></param>
-        public FlatSetupViewModel(FlatManagementViewModel flatManagementViewModel)
+        public RoomSetupViewModel(FlatManagementViewModel flatManagementViewModel)
         {
             _FlatManagementViewModel = flatManagementViewModel;
 
@@ -58,11 +49,9 @@ namespace SharedLivingCostCalculator.ViewModels
         private void _flatsetup_RoomCreation()
         {
             FlatSetup.ConnectRooms();
-            
+
             OnPropertyChanged(nameof(FlatSetup));
         }
 
-
     }
 }
-// EOF

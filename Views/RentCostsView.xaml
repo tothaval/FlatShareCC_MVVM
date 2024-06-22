@@ -22,40 +22,46 @@
                   HorizontalAlignment="Left"
                         Grid.Row="0">
             <StackPanel Orientation="Vertical">
+                
                 <TextBlock Text="{DynamicResource IDF_perMonth}"/>
+                
                 <components:CurrencyInputView Label="{DynamicResource IDF_Rent}"
                                               Value="{Binding TotalRentCosts,  
                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120" ValueMinWidth="120"
+                                              LabelMinWidth="120"
+                                              ValueMinWidth="120"
                                               IsReadOnly="True"
                                               ValueAlignment="Right"/>
+                
                 <components:CurrencyInputView Label="{DynamicResource IDF_Advance}"
                                               Value="{Binding TotalExtraCosts,  
                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120" ValueMinWidth="120"
+                                              LabelMinWidth="120"
+                                              ValueMinWidth="120"
                                               IsReadOnly="True"
                                               ValueAlignment="Right"/>
 
                 <components:CurrencyInputView Label="{DynamicResource IDF_Price}"
                                               Value="{Binding TotalCosts,  
                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120" ValueMinWidth="120"
+                                              LabelMinWidth="120"
+                                              ValueMinWidth="120"
                                               IsReadOnly="True"
                                               ValueAlignment="Right"/>
-
 
                 <components:CurrencyInputView Label="{DynamicResource IDF_OtherCosts}"
                                               Value="{Binding TotalOtherCosts,  
                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120" ValueMinWidth="120"
+                                              LabelMinWidth="120"
+                                              ValueMinWidth="120"
                                               IsReadOnly="True"
                                               ValueAlignment="Right"/>
-
 
                 <components:CurrencyInputView Label="{DynamicResource IDF_CompleteCosts}"
                                               Value="{Binding CompleteCosts,  
                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120" ValueMinWidth="120"
+                                              LabelMinWidth="120"
+                                              ValueMinWidth="120"
                                               IsReadOnly="True"
                                               ValueAlignment="Right"/>
 
@@ -65,28 +71,37 @@
                 <TextBlock Text="{DynamicResource IDF_perYear}"/>
                 <components:CurrencyInputView Label="{DynamicResource IDF_AnnualRent}" Value="{Binding AnnualRentCosts,
                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
+                                              LabelMinWidth="120"
+                                              ValueMinWidth="120"
+                                              IsReadOnly="True"
                                               ValueAlignment="Right"/>
                 <components:CurrencyInputView Label="{DynamicResource IDF_AnnualExtra}" Value="{Binding AnnualExtraCosts, 
                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
-                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
+                                              LabelMinWidth="120"
+                                              ValueMinWidth="120"
+                                              IsReadOnly="True"
                                               ValueAlignment="Right"/>
 
                 <components:CurrencyInputView Label="{DynamicResource IDF_AnnualPrice}" Value="{Binding AnnualCosts,  
                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
+                                              LabelMinWidth="120"
+                                              ValueMinWidth="120"
+                                              IsReadOnly="True"
                                               ValueAlignment="Right"/>
 
                 <components:CurrencyInputView Label="{DynamicResource IDF_AnnualOther}"
                                               Value="{Binding AnnualOtherCosts, 
                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
-                                LabelMinWidth="120" ValueMinWidth="120" IsReadOnly="True"
+                                              LabelMinWidth="120"
+                                              ValueMinWidth="120"
+                                              IsReadOnly="True"
                                               ValueAlignment="Right"/>
 
                 <components:CurrencyInputView Label="{DynamicResource IDF_AnnualComplete}"
                                               Value="{Binding AnnualCompleteCosts,  
                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120" ValueMinWidth="120"
+                                              LabelMinWidth="120"
+                                              ValueMinWidth="120"
                                               IsReadOnly="True"
                                               ValueAlignment="Right"/>
             </StackPanel>

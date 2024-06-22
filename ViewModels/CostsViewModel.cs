@@ -2,10 +2,9 @@
  *  
  *  CostsViewModel  : BaseViewModel
  * 
- *  viewmodel for CostsView
+ *  viewmodel for CostView
  *  
- *  a separate window which shows either a
- *  RentCostsViewModel or BillingCostsViewModel
+ *  shows either a RentCostsViewModel or BillingCostsViewModel
  *  depending on constructor
  */
 using SharedLivingCostCalculator.ViewModels.ViewLess;
@@ -14,19 +13,19 @@ namespace SharedLivingCostCalculator.ViewModels
 {
     internal class CostsViewModel : BaseViewModel
     {
-        // if objects are chained together (f.e. a rent object and a billing object)
-        // they should be selected together in every relevant tab
 
-        // combobox to select billing on rentupdateview
-
-
-        private readonly BillingViewModel? _billingViewModel;
+        private readonly AccountingViewModel _AccountingViewModel;
+        public AccountingViewModel Accounting => _AccountingViewModel;
 
 
-        private readonly RentViewModel? _rentViewModel;
+        private FlatViewModel _flatViewModel;
+        public FlatViewModel FlatViewModel => _flatViewModel;
 
 
-        private readonly FlatViewModel _flatViewModel;
+        private BillingViewModel? _billingViewModel;
+
+
+        private RentViewModel? _rentViewModel;
 
 
         private BaseViewModel _ActiveViewModel;
@@ -50,7 +49,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _BillingSelected = value;
 
-                if (_BillingSelected)
+                if (_BillingSelected && _billingViewModel != null && _flatViewModel != null)
                 {
                     ActiveViewModel = new BillingCostsViewModel(_billingViewModel, _flatViewModel);
                 }
@@ -63,7 +62,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         private bool _RentSelected;
-
         public bool RentSelected
         {
             get { return _RentSelected; }
@@ -71,7 +69,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _RentSelected = value;
 
-                if (_RentSelected)
+                if (_RentSelected && _rentViewModel != null && _flatViewModel != null)
                 {
                     ActiveViewModel = new RentCostsViewModel(_rentViewModel, _flatViewModel);
                 }
@@ -80,34 +78,46 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-
-        private string _WindowTitle;
-		public string WindowTitle
-		{
-			get { return _WindowTitle; }
-			set
-			{
-				_WindowTitle = value;
-				OnPropertyChanged(nameof(WindowTitle));
-			}
-		}
-
-
-        public CostsViewModel(RentViewModel rentViewModel, FlatViewModel flatViewModel)
+        public CostsViewModel(AccountingViewModel accountingViewModel)
         {
-            WindowTitle = "Shared Living Cost Calculator - Costs - Rent";
+            _AccountingViewModel = accountingViewModel;
 
-            _rentViewModel = rentViewModel;
-            _flatViewModel = flatViewModel;
+            Update();
 
-            if (_rentViewModel.BillingViewModel != null)
+            RentSelected = true;
+
+            _AccountingViewModel.AccountingChanged += _AccountingViewModel_AccountingChanged;
+
+            OnPropertyChanged(nameof(HasBilling));
+        }
+
+
+        private void Update()
+        {
+            if (_AccountingViewModel.FlatViewModel != null)
+            {
+                _flatViewModel = _AccountingViewModel.FlatViewModel;
+            }
+
+            if (_AccountingViewModel.Rents.SelectedValue != null)
+            {
+                _rentViewModel = _AccountingViewModel.Rents.SelectedValue;
+            }
+
+            if (_rentViewModel != null && _rentViewModel.BillingViewModel != null)
             {
                 _billingViewModel = _rentViewModel.BillingViewModel;
             }
 
-            RentSelected = true;
-
+            OnPropertyChanged(nameof(FlatViewModel));
+            OnPropertyChanged(nameof(ActiveViewModel));
             OnPropertyChanged(nameof(HasBilling));
+        }
+
+
+        private void _AccountingViewModel_AccountingChanged(object? sender, EventArgs e)
+        {
+            Update();
         }
 
 

@@ -42,7 +42,8 @@ namespace SharedLivingCostCalculator.Utility
 
         public string IDF_RoomTenant { get; set; } = "Tenant";
 
-        public string IDF_SharedFlatArea { get; set; } = "shared flat area";
+        public string IDF_SharedFlatArea { get; set; } = "Shared Area"; 
+        public string IDF_CombinedRoomArea { get; set; } = "All Rooms Area";
 
         public string AccountingHeaderText { get; set; } = "Accounting";
 
@@ -64,19 +65,22 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_Rent { get; set; } = "Rent";
         public string IDF_RentChange { get; set; } = "Rent Change(s)";
 
-        public string IDF_RentUpdateData { get; set; } = "Rent Update Data";
+        public string IDF_RentUpdateData { get; set; } = "Rent Data"; 
+        public string IDF_RentOptions { get; set; } = "Rent Options";
 
-        public string IDF_RentShare { get; set; } = "rent share";
-        public string IDF_AdvanceFixed { get; set; } = "advance fixed";
-        public string IDF_AdvanceHeating { get; set; } = "advance heating";
-        public string IDF_AdvanceTotal { get; set; } = "advance total";
-        public string IDF_PriceTotal { get; set; } = "price total";
-        public string IDF_BaseRentOnBilling { get; set; } = "base calculation on billing";
-        public string IDF_OtherCosts { get; set; } = "Other Costs";
+        public string IDF_RentShare { get; set; } = "Rent Share\nMonth";
+        public string IDF_AdvanceFixed { get; set; } = "Fixed Costs\nAdvance";
+        public string IDF_AdvanceHeating { get; set; } = "Heating Costs\nAdvance";
+        public string IDF_AdvanceTotal { get; set; } = "Total Costs\nAdvance";
+        public string IDF_PriceTotal { get; set; } = "Total Price\nMonth";
+        public string IDF_BaseRentOnBilling { get; set; } = "factor in billing";
+        public string IDF_AnnualBilling { get; set; } = "Annual\nBilling";
+        
+        public string IDF_OtherCosts { get; set; } = "Other Costs\nMonth";
 
-        public string IDF_AnnualOther { get; set; } = "Annual Other Costs";
-        public string IDF_AnnualComplete { get; set; } = "Annual Complete Costs";
-        public string IDF_CompleteCosts { get; set; } = "Complete Costs";
+        public string IDF_AnnualOther { get; set; } = "Other Costs\nAnnual";
+        public string IDF_AnnualComplete { get; set; } = "Complete Costs\nAnnual";
+        public string IDF_CompleteCosts { get; set; } = "Complete Costs\nMonth";
 
 
         public string IDF_Credit { get; set; } = "credit(s)";
@@ -124,7 +128,8 @@ namespace SharedLivingCostCalculator.Utility
         
         // billing views
         public string IDF_Billing { get; set; } = "Billing";
-        public string IDF_BillingPeriodData { get; set; } = "Billing Period Data";
+        public string IDF_BillingPeriodData { get; set; } = "Billing Data"; 
+        public string IDF_BillingPeriodOptions { get; set; } = "Billing Options";
         public string IDF_Consumption { get; set; } = "Consumption";
 
         public string IDF_ExtraCosts { get; set; } = "Extra\nCosts";
@@ -168,8 +173,10 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_NewFlat { get; set; } = "New Flat";
         public string IDF_EditFlat { get; set; } = "Edit Flat";
         public string IDF_DeleteFlat { get; set; } = "Delete Flat";
-        public string IDF_Settings { get; set; } = "Settings";
-
+        public string IDF_FlatSetup { get; set; } = "Flat Setup";
+        public string IDF_RoomSetup { get; set; } = "Room Setup";
+        public string IDF_Manual { get; set; } = "Manual";
+        public string IDF_Settings { get; set; } = "Settings"; 
 
 
 

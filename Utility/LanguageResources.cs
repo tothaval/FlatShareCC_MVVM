@@ -97,9 +97,13 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_Details"] = languageResource.IDF_Details;
             Application.Current.Resources["IDF_Rooms"] = languageResource.IDF_Rooms;
 
+
+            
+
             Application.Current.Resources["IDF_RoomTenant"] = languageResource.IDF_RoomTenant;
 
             Application.Current.Resources["IDF_SharedFlatArea"] = languageResource.IDF_SharedFlatArea;
+            Application.Current.Resources["IDF_CombinedRoomArea"] = languageResource.IDF_CombinedRoomArea;
 
             Application.Current.Resources["AccountingHeaderText"] = languageResource.AccountingHeaderText;
 
@@ -123,14 +127,16 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_Rent"] = languageResource.IDF_Rent;
             Application.Current.Resources["IDF_RentChange"] = languageResource.IDF_RentChange;
 
-            Application.Current.Resources["IDF_RentUpdateData"] = languageResource.IDF_RentUpdateData;
+            Application.Current.Resources["IDF_RentUpdateData"] = languageResource.IDF_RentUpdateData; 
+            Application.Current.Resources["IDF_RentOptions"] = languageResource.IDF_RentOptions;
 
             Application.Current.Resources["IDF_RentShare"] = languageResource.IDF_RentShare;
             Application.Current.Resources["IDF_AdvanceFixed"] = languageResource.IDF_AdvanceFixed;
             Application.Current.Resources["IDF_AdvanceHeating"] = languageResource.IDF_AdvanceHeating;
             Application.Current.Resources["IDF_AdvanceTotal"] = languageResource.IDF_AdvanceTotal;
-            Application.Current.Resources["IDF_PriceTotal"] = languageResource.IDF_PriceTotal;
+            Application.Current.Resources["IDF_PriceTotal"] = languageResource.IDF_PriceTotal; 
             Application.Current.Resources["IDF_BaseRentOnBilling"] = languageResource.IDF_BaseRentOnBilling;
+            Application.Current.Resources["IDF_AnnualBilling"] = languageResource.IDF_AnnualBilling;
 
             Application.Current.Resources["IDF_HasOtherCosts"] = languageResource.IDF_HasOtherCosts;
             Application.Current.Resources["IDF_NewOtherCosts"] = languageResource.IDF_NewOtherCosts; 
@@ -178,6 +184,7 @@ namespace SharedLivingCostCalculator.Utility
             // billing views
             Application.Current.Resources["IDF_Billing"] = languageResource.IDF_Billing;
             Application.Current.Resources["IDF_BillingPeriodData"] = languageResource.IDF_BillingPeriodData;
+            Application.Current.Resources["IDF_BillingPeriodOptions"] = languageResource.IDF_BillingPeriodOptions;
             Application.Current.Resources["IDF_Consumption"] = languageResource.IDF_Consumption;
 
             Application.Current.Resources["IDF_ExtraCosts"] = languageResource.IDF_ExtraCosts;
@@ -219,6 +226,9 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_EditFlat"] = languageResource.IDF_EditFlat;
             Application.Current.Resources["IDF_DeleteFlat"] = languageResource.IDF_DeleteFlat;
             Application.Current.Resources["IDF_Settings"] = languageResource.IDF_Settings;
+            Application.Current.Resources["IDF_Manual"] = languageResource.IDF_Manual;
+            Application.Current.Resources["IDF_FlatSetup"] = languageResource.IDF_FlatSetup; 
+            Application.Current.Resources["IDF_RoomSetup"] = languageResource.IDF_RoomSetup;
 
 
         }

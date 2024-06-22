@@ -136,16 +136,8 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public ICommand LeaveCommand { get; }
-
-
-        private readonly SettingsView _settingsView;
-
-
         public SettingsViewModel()
         {
-            LeaveCommand = new RelayCommand(CloseWindow, CanExecute);
-
             FontSize = (double)Application.Current.Resources["FS"];
             FontFamily = (FontFamily)Application.Current.Resources["FF"];
 
@@ -153,22 +145,6 @@ namespace SharedLivingCostCalculator.ViewModels
             ForegroundColor = ((SolidColorBrush)Application.Current.Resources["SCB_Text"]).Color;
 
             SelectedItem = (SupportedLanguages)System.Enum.Parse(typeof(SupportedLanguages), Application.Current.Resources["Language"].ToString());
-        }
-
-
-        // relay command pre execution validation
-        private bool CanExecute(object obj)
-        {
-            return true;
-        }
-
-
-        // relay command effect
-        private void CloseWindow(object obj)
-        {
-            SettingsView? settingsView = (SettingsView)obj;
-
-            settingsView?.Close();
         }
 
 

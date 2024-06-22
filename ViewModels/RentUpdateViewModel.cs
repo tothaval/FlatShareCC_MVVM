@@ -14,6 +14,7 @@ using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using SharedLivingCostCalculator.Views;
+using SharedLivingCostCalculator.Views.Windows;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows;

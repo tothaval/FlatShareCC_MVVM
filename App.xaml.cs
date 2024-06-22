@@ -49,11 +49,10 @@ namespace SharedLivingCostCalculator
         public App()
         {
             _navigationStore = new NavigationStore();
-            _mainViewModel = new MainViewModel(_navigationStore);
             _flatCollection = new ObservableCollection<FlatViewModel>();
             _resourceDictionary = new ResourceDictionary();
 
-            _NavigateToFlatManagementViewModel = new NavigationService<FlatManagementViewModel>(_navigationStore, () => new FlatManagementViewModel(_flatCollection, _NavigateToFlatManagementViewModel));
+            _mainViewModel = new MainViewModel(_flatCollection);
         }
 
 
@@ -171,7 +170,6 @@ namespace SharedLivingCostCalculator
 
             LoadData();
 
-            _NavigateToFlatManagementViewModel.ChangeView();
 
             MainWindow mainWindow = new MainWindow()
             {

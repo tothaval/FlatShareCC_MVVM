@@ -3,37 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <StackPanel Orientation="Vertical">
-        <TextBlock Text="{DynamicResource IDF_Consumption}" Margin="5 10"
-                   TextAlignment="Center" FontSize="14"/>
+        <TextBlock Text="{DynamicResource IDF_Consumption}"
+                   Style="{StaticResource Header}"/>
 
-        <StackPanel Margin="5 5" Orientation="Horizontal">
-            <TextBlock Text="{DynamicResource IDF_TotalConsumption}" Width="150" VerticalAlignment="Center" />
-            <TextBox Text="{Binding TotalHeatingUnitsConsumption,
+        <comps:DoubleInputView Label="{DynamicResource IDF_TotalConsumption}"
+                               Value="{Binding TotalHeatingUnitsConsumption,
                     UpdateSourceTrigger=PropertyChanged,
+            StringFormat=N4,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
-                    ValidatesOnDataErrors=True,
-                    StringFormat=N4, Delay=500}" IsEnabled="{Binding DataLock}"
-                         Padding="2"/>
-        </StackPanel>
+                    ValidatesOnDataErrors=True}"
+                               LabelMinWidth="100"
+                               ValueMinWidth="100"
+                               ValueAlignment="Right"
+                               IsEnabled="{Binding DataLock}"/>
 
-        <StackPanel Margin="5 5" Orientation="Horizontal">
-            <TextBlock Text="{DynamicResource IDF_TotalRooms}" Width="150" VerticalAlignment="Center" />
-            <TextBox Text="{Binding TotalHeatingUnitsRoom,
-                UpdateSourceTrigger=PropertyChanged,
+        <comps:DoubleInputView Label="{DynamicResource IDF_TotalRooms}"
+                               Value="{Binding TotalHeatingUnitsRoom,
+                    UpdateSourceTrigger=PropertyChanged,
+            StringFormat=N4,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
-                ValidatesOnDataErrors=True,
-                StringFormat=N4}"
-                     IsReadOnly="True" IsReadOnlyCaretVisible="False"
-                         Padding="2"/>
-        </StackPanel>
-
+                    ValidatesOnDataErrors=True}"
+                               LabelMinWidth="100"
+                               ValueMinWidth="100"
+                               ValueAlignment="Right"
+                               IsReadOnly="True"
+                               IsEnabled="{Binding DataLock}"/>
 
         <ListView ItemsSource="{Binding RoomCosts, NotifyOnSourceUpdated=True}"
                   SelectionMode="Single"
@@ -43,19 +46,10 @@
                   HorizontalContentAlignment="Left"
                   BorderThickness="0">
 
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-
             <ListView.View>
-                <GridView>
+                <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
 
-                    <GridViewColumn>
-                        <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="{DynamicResource IDF_RoomName}" HorizontalContentAlignment="Left" Width="Auto"/>
-                        </GridViewColumn.Header>
+                    <GridViewColumn Header="{DynamicResource IDF_RoomName}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
@@ -64,10 +58,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn>
-                        <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="{DynamicResource IDF_RoomArea}" HorizontalContentAlignment="Left" Width="Auto"/>
-                        </GridViewColumn.Header>
+                    <GridViewColumn Header="{DynamicResource IDF_RoomArea}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
@@ -76,10 +67,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn>
-                        <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="{DynamicResource IDF_RoomHeatingUnits}" HorizontalContentAlignment="Left" Width="Auto"/>
-                        </GridViewColumn.Header>
+                    <GridViewColumn Header="{DynamicResource IDF_RoomHeatingUnits}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding HeatingUnitsConsumption,
@@ -87,26 +75,24 @@
                                         NotifyOnTargetUpdated=True,
                                         NotifyOnSourceUpdated=True,
                                         ValidatesOnDataErrors=true,
-                                        StringFormat=N4, Delay=500}" IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:BillingPeriodView}}"
-                                              Padding="2" VerticalAlignment="Center" 
-                                           TextAlignment="Right" HorizontalAlignment="Right"/>
+                                        StringFormat=N4, Delay=500}"
+                                         IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                                         VerticalAlignment="Center" 
+                                         Style="{StaticResource DoubleValueTextBox}"
+                                         />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn>
-                        <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="{DynamicResource IDF_Percentage}" HorizontalContentAlignment="Left" Width="Auto"/>
-                        </GridViewColumn.Header>
+                    <GridViewColumn Header="{DynamicResource IDF_Percentage}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Percentage, Mode=OneWay,
                                     UpdateSourceTrigger=PropertyChanged,
                                     NotifyOnSourceUpdated=True,StringFormat=N2}"
-                                             IsReadOnly="True"  Background="LightGray"
-                                            IsReadOnlyCaretVisible="False"
-                                              Padding="2" VerticalAlignment="Center" 
-                                           TextAlignment="Left"/>
+                                         IsReadOnly="True"
+                                         IsReadOnlyCaretVisible="True"
+                                         Style="{StaticResource DoubleValueTextBox}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
