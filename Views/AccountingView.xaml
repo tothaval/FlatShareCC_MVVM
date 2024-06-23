@@ -55,7 +55,7 @@
                        Grid.Row="2"
                        Grid.Column="0"/>
 
-            <TextBlock Text="{Binding FlatNotes}"
+            <TextBlock Text="{Binding FlatNotes, NotifyOnSourceUpdated=True}"
                        Style="{StaticResource StringValueTextBlock}"
                        Grid.Column="1"
                        Grid.Row="0"

@@ -4,54 +4,98 @@
   <Address>saafasdf</Address>
   <Details>asdfasdfa</Details>
   <Area>47</Area>
-  <RoomCount>4</RoomCount>
+  <RoomCount>3</RoomCount>
   <FlatNotes>notes</FlatNotes>
   <Rooms>
     <Room>
       <ID>0</ID>
       <RoomName>room1</RoomName>
-      <RoomArea>0</RoomArea>
+      <RoomArea>13.17</RoomArea>
     </Room>
     <Room>
       <ID>1</ID>
       <RoomName>room2</RoomName>
-      <RoomArea>0</RoomArea>
+      <RoomArea>12.11</RoomArea>
     </Room>
     <Room>
       <ID>2</ID>
       <RoomName>room3</RoomName>
-      <RoomArea>0</RoomArea>
-    </Room>
-    <Room>
-      <ID>3</ID>
-      <RoomName>room4</RoomName>
-      <RoomArea>0</RoomArea>
+      <RoomArea>14.82</RoomArea>
     </Room>
   </Rooms>
   <Rents>
     <Rent>
       <ID>0</ID>
+      <GetBilling>
+        <StartDate>2023-06-24T12:36:01.3045164+02:00</StartDate>
+        <EndDate>2024-06-23T12:36:01.3045228+02:00</EndDate>
+        <TotalCostsPerPeriod>1752.83</TotalCostsPerPeriod>
+        <TotalFixedCostsPerPeriod>668.14</TotalFixedCostsPerPeriod>
+        <TotalHeatingCostsPerPeriod>1084.69</TotalHeatingCostsPerPeriod>
+        <TotalHeatingUnitsConsumption>2600</TotalHeatingUnitsConsumption>
+        <TotalHeatingUnitsRoom>2423</TotalHeatingUnitsRoom>
+        <HasPayments>false</HasPayments>
+        <HasCredit>false</HasCredit>
+        <HasDataLock>true</HasDataLock>
+        <Payments>
+          <RoomPayments>
+            <RoomID>0</RoomID>
+            <PaymentCollection />
+          </RoomPayments>
+          <RoomPayments>
+            <RoomID>1</RoomID>
+            <PaymentCollection />
+          </RoomPayments>
+          <RoomPayments>
+            <RoomID>2</RoomID>
+            <PaymentCollection />
+          </RoomPayments>
+        </Payments>
+        <HeatingUnits>
+          <RoomCosts>
+            <RoomID>0</RoomID>
+            <HeatingUnitsConsumption>800</HeatingUnitsConsumption>
+            <RentShare>0</RentShare>
+            <FixedShare>0</FixedShare>
+            <HeatingShare>0</HeatingShare>
+          </RoomCosts>
+          <RoomCosts>
+            <RoomID>1</RoomID>
+            <HeatingUnitsConsumption>700</HeatingUnitsConsumption>
+            <RentShare>0</RentShare>
+            <FixedShare>0</FixedShare>
+            <HeatingShare>0</HeatingShare>
+          </RoomCosts>
+          <RoomCosts>
+            <RoomID>2</RoomID>
+            <HeatingUnitsConsumption>923</HeatingUnitsConsumption>
+            <RentShare>0</RentShare>
+            <FixedShare>0</FixedShare>
+            <HeatingShare>0</HeatingShare>
+          </RoomCosts>
+        </HeatingUnits>
+      </GetBilling>
       <StartDate>2024-06-22T00:00:00</StartDate>
-      <ColdRent>0</ColdRent>
-      <ExtraCostsShared>0</ExtraCostsShared>
-      <ExtraCostsHeating>0</ExtraCostsHeating>
+      <ColdRent>220.87</ColdRent>
+      <ExtraCostsShared>55.19</ExtraCostsShared>
+      <ExtraCostsHeating>75.57</ExtraCostsHeating>
       <HasOtherCosts>false</HasOtherCosts>
-      <HasDataLock>false</HasDataLock>
+      <HasDataLock>true</HasDataLock>
       <OtherCostItemCollection />
       <RoomCostShares>
         <RoomCosts>
           <RoomID>0</RoomID>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
-          <RentShare>0</RentShare>
-          <FixedShare>0</FixedShare>
-          <HeatingShare>0</HeatingShare>
+          <RentShare>72.69912553191489</RentShare>
+          <FixedShare>18.16572978723404</FixedShare>
+          <HeatingShare>24.96716538461538</HeatingShare>
         </RoomCosts>
         <RoomCosts>
           <RoomID>1</RoomID>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
-          <RentShare>0</RentShare>
-          <FixedShare>0</FixedShare>
-          <HeatingShare>0</HeatingShare>
+          <RentShare>67.71780212765957</RentShare>
+          <FixedShare>16.921019148936168</FixedShare>
+          <HeatingShare>22.06062692307692</HeatingShare>
         </RoomCosts>
       </RoomCostShares>
     </Rent>

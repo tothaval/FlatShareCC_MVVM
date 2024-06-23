@@ -4,170 +4,754 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:components="clr-namespace:SharedLivingCostCalculator.Components"
+             xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="viscon"/>
+
+        <conv:InverseVisibilityConverter x:Key="InvisCon"/>
+        <conv:VisibilityConverter x:Key="visCon"/>
+
     </UserControl.Resources>
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal"
-                  HorizontalAlignment="Left"
-                        Grid.Row="0">
-            <StackPanel Orientation="Vertical">
-                
-                <TextBlock Text="{DynamicResource IDF_perMonth}"/>
-                
-                <components:CurrencyInputView Label="{DynamicResource IDF_Rent}"
-                                              Value="{Binding TotalRentCosts,  
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120"
-                                              ValueMinWidth="120"
-                                              IsReadOnly="True"
-                                              ValueAlignment="Right"/>
-                
-                <components:CurrencyInputView Label="{DynamicResource IDF_Advance}"
-                                              Value="{Binding TotalExtraCosts,  
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120"
-                                              ValueMinWidth="120"
-                                              IsReadOnly="True"
-                                              ValueAlignment="Right"/>
+    <StackPanel Margin="20">
 
-                <components:CurrencyInputView Label="{DynamicResource IDF_Price}"
-                                              Value="{Binding TotalCosts,  
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120"
-                                              ValueMinWidth="120"
-                                              IsReadOnly="True"
-                                              ValueAlignment="Right"/>
+        <ToggleButton Content="{DynamicResource IDF_FlatCosts}"
+                              IsChecked="{Binding ShowFlatCosts}"
+                              Style="{StaticResource toggleButtonStyle}"
+                              Grid.Column="1"/>
 
-                <components:CurrencyInputView Label="{DynamicResource IDF_OtherCosts}"
-                                              Value="{Binding TotalOtherCosts,  
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120"
-                                              ValueMinWidth="120"
-                                              IsReadOnly="True"
-                                              ValueAlignment="Right"/>
+        <Border Style="{StaticResource VisibilityFieldBorder}"
+                    Visibility="{Binding ShowFlatCosts, Converter={StaticResource visCon}}"
+                    DockPanel.Dock="Top" 
+                    Margin="0 5 0 0">
 
-                <components:CurrencyInputView Label="{DynamicResource IDF_CompleteCosts}"
-                                              Value="{Binding CompleteCosts,  
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120"
-                                              ValueMinWidth="120"
-                                              IsReadOnly="True"
-                                              ValueAlignment="Right"/>
+            <StackPanel>
+                <!-- Flat Costs per Month -->
+                <StackPanel>
+
+                    <TextBlock Text="{DynamicResource IDF_perMonth}"/>
+
+                    <ListView ItemsSource="{Binding RentListView}"
+                              Visibility="{Binding HasOtherCosts, Converter={StaticResource visCon}}">
+                        <ListView.View>
+
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+
+                                <GridView.Columns>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_Rent}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TotalRentCosts,
+                                        StringFormat=C2, ConverterCulture=de-DE,
+                                        NotifyOnSourceUpdated=True}"
+                                               Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_Advance}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TotalExtraCosts,
+                                        StringFormat=C2, ConverterCulture=de-DE,
+                                        NotifyOnSourceUpdated=True}"
+                                               Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_Price}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TotalCosts,
+                                            StringFormat=C2, ConverterCulture=de-DE,
+                                            NotifyOnSourceUpdated=True}"
+                                                   Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_OtherCosts}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TotalOtherCosts,
+                                            StringFormat=C2, ConverterCulture=de-DE,
+                                            NotifyOnSourceUpdated=True}"
+                                                   Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_CompleteCosts}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding CompleteCosts,
+                                        StringFormat=C2, ConverterCulture=de-DE,
+                                        NotifyOnSourceUpdated=True}"
+                                               Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+
+                                </GridView.Columns>
+
+                            </GridView>
+
+                        </ListView.View>
+
+                    </ListView>
+
+                    <!-- in case RentViewModel has no other costs -->
+                    <ListView ItemsSource="{Binding RentListView}"
+                              Visibility="{Binding HasOtherCosts, Converter={StaticResource InvisCon}}">
+                        <ListView.View>
+
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+
+                                <GridView.Columns>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_Rent}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TotalRentCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_Advance}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TotalExtraCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_Price}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TotalCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                </GridView.Columns>
+
+                            </GridView>
+
+                        </ListView.View>
+
+                    </ListView>
+                    
+                </StackPanel>
+
+                <!-- Flat Costs per Year -->
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource IDF_perYear}"/>
+
+                    <ListView ItemsSource="{Binding RentListView}"
+                              Visibility="{Binding HasOtherCosts, Converter={StaticResource visCon}}">
+                        <ListView.View>
+
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+
+                                <GridView.Columns>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualRent}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualRentCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualExtra}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualExtraCosts,
+                                                StringFormat=C2, ConverterCulture=de-DE,
+                                                NotifyOnSourceUpdated=True}"
+                                                       Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualPrice}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualCosts,
+                                                StringFormat=C2, ConverterCulture=de-DE,
+                                                NotifyOnSourceUpdated=True}"
+                                                       Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualOther}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualOtherCosts,
+                                                StringFormat=C2, ConverterCulture=de-DE,
+                                                NotifyOnSourceUpdated=True}"
+                                                       Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualComplete}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualCompleteCosts,
+                                                StringFormat=C2, ConverterCulture=de-DE,
+                                                NotifyOnSourceUpdated=True}"
+                                                       Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+
+                                </GridView.Columns>
+
+                            </GridView>
+
+                        </ListView.View>
+
+                    </ListView>
+
+                    <!-- in case RentViewModel has no other costs -->
+                    <ListView ItemsSource="{Binding RentListView}"
+                              Visibility="{Binding HasOtherCosts, Converter={StaticResource InvisCon}}">
+                        <ListView.View>
+
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+
+                                <GridView.Columns>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualRent}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualRentCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualExtra}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualExtraCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualPrice}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                </GridView.Columns>
+
+                            </GridView>
+
+                        </ListView.View>
+
+                    </ListView>
+                </StackPanel>
 
             </StackPanel>
+            
+        </Border>
 
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{DynamicResource IDF_perYear}"/>
-                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualRent}" Value="{Binding AnnualRentCosts,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                              LabelMinWidth="120"
-                                              ValueMinWidth="120"
-                                              IsReadOnly="True"
-                                              ValueAlignment="Right"/>
-                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualExtra}" Value="{Binding AnnualExtraCosts, 
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120"
-                                              ValueMinWidth="120"
-                                              IsReadOnly="True"
-                                              ValueAlignment="Right"/>
+        <ToggleButton Content="{DynamicResource IDF_RoomCosts}"
+                      IsChecked="{Binding ShowRoomCosts}"
+                      Style="{StaticResource toggleButtonStyle}"
+                      Margin="0 10 0 0"
+                      />
 
-                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualPrice}" Value="{Binding AnnualCosts,  
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120"
-                                              ValueMinWidth="120"
-                                              IsReadOnly="True"
-                                              ValueAlignment="Right"/>
+        <Border Style="{StaticResource VisibilityFieldBorder}"
+                    Visibility="{Binding ShowRoomCosts, Converter={StaticResource visCon}}"
+                    DockPanel.Dock="Top" 
+                    Margin="0 5 0 0">
 
-                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualOther}"
-                                              Value="{Binding AnnualOtherCosts, 
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120"
-                                              ValueMinWidth="120"
-                                              IsReadOnly="True"
-                                              ValueAlignment="Right"/>
+            <StackPanel>
+                <!-- Room Costs per Month -->
+                <StackPanel>
 
-                <components:CurrencyInputView Label="{DynamicResource IDF_AnnualComplete}"
-                                              Value="{Binding AnnualCompleteCosts,  
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,  StringFormat=C2, ConverterCulture=de-DE}"
-                                              LabelMinWidth="120"
-                                              ValueMinWidth="120"
-                                              IsReadOnly="True"
-                                              ValueAlignment="Right"/>
+                    <TextBlock Text="{DynamicResource IDF_perMonth}"/>
+
+                    <ListView ItemsSource="{Binding RoomCosts}"
+                              Visibility="{Binding HasOtherCosts, Converter={StaticResource visCon}}">
+                        <ListView.View>
+
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+
+                                <GridView.Columns>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_RoomName}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Room.RoomName,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource StringValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_RoomArea}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Room.RoomArea,
+                                                    StringFormat=N2,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_RentShare}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding RentShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AdvanceFixed}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding FixedShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AdvanceHeating}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding HeatingShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_PriceTotal}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TotalCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_OtherCosts}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding CombinedOtherCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_CompleteCosts}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding CompleteCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                </GridView.Columns>
+
+                            </GridView>
+
+                        </ListView.View>
+
+                    </ListView>
+
+                    <!-- in case RentViewModel has no other costs -->
+                    <ListView ItemsSource="{Binding RoomCosts}"
+                              Visibility="{Binding HasOtherCosts, Converter={StaticResource InvisCon}}">
+                        <ListView.View>
+
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+
+                                <GridView.Columns>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_RoomName}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Room.RoomName,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource StringValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_RoomArea}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Room.RoomArea,
+                                                    StringFormat=N2,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_RentShare}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding RentShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AdvanceFixed}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding FixedShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AdvanceHeating}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding HeatingShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_PriceTotal}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TotalCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                </GridView.Columns>
+
+                            </GridView>
+
+                        </ListView.View>
+
+                    </ListView>
+                </StackPanel>
+
+                <!-- Room Costs per Year -->
+                <StackPanel>
+
+                    <TextBlock Text="{DynamicResource IDF_perYear}"/>
+
+                    <ListView ItemsSource="{Binding RoomCosts}"
+                              Visibility="{Binding HasOtherCosts, Converter={StaticResource visCon}}">
+                        <ListView.View>
+
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+
+                                <GridView.Columns>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_RoomName}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Room.RoomName,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource StringValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_RoomArea}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Room.RoomArea,
+                                                    StringFormat=N2,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualRent}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualRentShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualFixed}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualFixedShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualHeating}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualHeatingShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualPrice}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualOther}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualOtherCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualComplete}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualCombinedCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                </GridView.Columns>
+
+                            </GridView>
+
+                        </ListView.View>
+
+                    </ListView>
+
+                    <!-- in case RentViewModel has no other costs -->
+                    <ListView ItemsSource="{Binding RoomCosts}"
+                              Visibility="{Binding HasOtherCosts, Converter={StaticResource InvisCon}}">
+                        <ListView.View>
+
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+
+                                <GridView.Columns>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_RoomName}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Room.RoomName,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource StringValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_RoomArea}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Room.RoomArea,
+                                                    StringFormat=N2,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualRent}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualRentShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualFixed}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualFixedShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualHeating}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualHeatingShare,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_AnnualPrice}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding AnnualCosts,
+                                                    StringFormat=C2, ConverterCulture=de-DE,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                </GridView.Columns>
+
+                            </GridView>
+
+                        </ListView.View>
+
+                    </ListView>
+                </StackPanel>
+                
             </StackPanel>
-        </StackPanel>
 
-        <DataGrid ItemsSource="{Binding RoomCosts}"
-                  HorizontalAlignment="Left" 
-                  SelectionMode="Single"
-                  AutoGenerateColumns="False"
-                  HorizontalContentAlignment="Right"
-                  TextBlock.TextAlignment="Right"
-                  Grid.Row="1"
-                  Margin="10 20">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="{DynamicResource IDF_RoomName}"
-                                    Binding="{Binding Room.RoomName,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_RoomArea}"
-                                    Binding="{Binding Room.RoomArea,StringFormat=N2,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_RentShare}"
-                                    Binding="{Binding RentShare,StringFormat=C2, ConverterCulture=de-DE,
-                   UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_AdvanceFixed}"
-                                    Binding="{Binding FixedShare,StringFormat=C2, ConverterCulture=de-DE,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_AdvanceHeating}"
-                                    Binding="{Binding HeatingShare,StringFormat=C2, ConverterCulture=de-DE,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_PriceTotal}"
-                                    Binding="{Binding TotalCosts,StringFormat=C2, ConverterCulture=de-DE,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_OtherCosts}"
-                                    Binding="{Binding CombinedOtherCosts,StringFormat=C2, ConverterCulture=de-DE,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_CompleteCosts}"
-                                    Binding="{Binding CompleteCosts,StringFormat=C2, ConverterCulture=de-DE,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        </Border>
 
-        <ListView ItemsSource="{Binding RoomCosts}"
-                  HorizontalAlignment="Left"
-                  SelectionMode="Single"
-                  Grid.Row="2"
-                  
-                  Visibility="{Binding HasOtherCosts, Converter={StaticResource viscon}}"                  
-                  Margin="10 20">
+
+        <ToggleButton Content="{DynamicResource IDF_OtherCosts}"
+                      IsChecked="{Binding ShowOtherCosts}"
+                      Style="{StaticResource toggleButtonStyle}"
+                      Margin="0 10 0 0"/>
+        <Border Style="{StaticResource VisibilityFieldBorder}"
+                    Visibility="{Binding ShowOtherCosts, Converter={StaticResource visCon}}"
+                    DockPanel.Dock="Top" 
+                    Margin="0 5 0 0">
+
+            <!-- Other Costs per Room ? or Other Costs Flat & Room -->
+            <ListView ItemsSource="{Binding RoomCosts}"
+                      HorizontalAlignment="Left"
+                      SelectionMode="Single"
+                      Grid.Row="2"
+                      
+                      Visibility="{Binding HasOtherCosts, Converter={StaticResource visCon}}"
+                      Margin="10 20"
+                      >
 
             <ListView.View>
-                <GridView>
-                    
-                    <GridView.ColumnHeaderContainerStyle>
-                        <Style TargetType="{x:Type GridViewColumnHeader}">
-
-                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                            <Setter Property="FontSize" Value="{DynamicResource FS}"/>
-                            <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
-                            <Setter Property="FontWeight" Value="Bold"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
-                            <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
-
-                        </Style>
-                        
-                    </GridView.ColumnHeaderContainerStyle>
-                    
+                <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
                     
                     <GridView.Columns>
                         <GridViewColumn Header="{DynamicResource IDF_RoomName}">
@@ -186,17 +770,20 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                         <TextBlock Text="{Binding Room.RoomArea,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=N2, ConverterCulture=de-DE}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>                              
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=OneWay, StringFormat=N2,
+                                            ConverterCulture=de-DE}"
+                                                   Style="{StaticResource DoubleValueTextBlock}"/>                              
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Header="{DynamicResource IDF_OtherCosts}">
-                            <GridViewColumn.CellTemplate>
+                            <GridViewColumn Header="{DynamicResource IDF_OtherCosts}"
+                                            Width="{Binding OtherCostItemCountBasedWidth}">
+                                <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                         <ListView ItemsSource="{Binding OtherCosts}"
-                                                  BorderBrush="Transparent"
+                                                  BorderBrush="Transparent"                                                       
                                                   BorderThickness="0">
 
                                         <ListView.ItemsPanel>
@@ -255,53 +842,8 @@
             
         </ListView>
 
+        </Border>
 
 
-        <DataGrid ItemsSource="{Binding RoomCosts}"
-                  HorizontalAlignment="Left"               
-                  SelectionMode="Single"
-                  AutoGenerateColumns="False"
-                  HorizontalContentAlignment="Right"
-                  TextBlock.TextAlignment="Right"
-                  Grid.Row="3"
-                  Margin="10 20"
-                  >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="{DynamicResource IDF_RoomName}"
-                                    Binding="{Binding Room.RoomName,
-                    NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_RoomArea}"
-                                    Binding="{Binding Room.RoomArea,StringFormat=N2,
-                    NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_AnnualRent}"
-                                    Binding="{Binding AnnualRentShare,StringFormat=C2, ConverterCulture=de-DE,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_AnnualFixed}"
-                                    Binding="{Binding AnnualFixedShare,StringFormat=C2, ConverterCulture=de-DE,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_AnnualHeating}"
-                                    Binding="{Binding AnnualHeatingShare,StringFormat=C2, ConverterCulture=de-DE,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_AnnualPrice}"
-                                    Binding="{Binding AnnualCosts,StringFormat=C2, ConverterCulture=de-DE,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_AnnualOther}"
-                                    Binding="{Binding AnnualOtherCosts,StringFormat=C2, ConverterCulture=de-DE,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
-                <DataGridTextColumn Header="{DynamicResource IDF_AnnualComplete}"
-                                    Binding="{Binding AnnualCombinedCosts,StringFormat=C2, ConverterCulture=de-DE,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
-                        ValidatesOnDataErrors=true, Delay=500}"/>
-
-            </DataGrid.Columns>
-        </DataGrid>
-
-    </Grid>
+    </StackPanel>
 </UserControl>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Flat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ID>-1</ID>
-  <Address>iuuittituizu gzut 14</Address>
+  <Address>iuuittituizu gzut 14, 12345 ZIP</Address>
   <Details>hghgjgh jkl</Details>
   <Area>52</Area>
   <RoomCount>2</RoomCount>
@@ -9,12 +9,12 @@
   <Rooms>
     <Room>
       <ID>0</ID>
-      <RoomName>room1</RoomName>
+      <RoomName>Schlafzimmer</RoomName>
       <RoomArea>22</RoomArea>
     </Room>
     <Room>
       <ID>1</ID>
-      <RoomName>room2</RoomName>
+      <RoomName>Wohnzimmer</RoomName>
       <RoomArea>23</RoomArea>
     </Room>
   </Rooms>

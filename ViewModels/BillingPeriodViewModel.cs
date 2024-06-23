@@ -27,6 +27,10 @@ namespace SharedLivingCostCalculator.ViewModels
         public BillingViewModel BillingViewModel => _billingViewModel;
 
 
+        private readonly FlatViewModel _FlatViewModel;
+        public FlatViewModel FlatViewModel => _FlatViewModel;
+
+
         private ValidationHelper _helper = new ValidationHelper();
 
 
@@ -294,6 +298,8 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 _billingViewModel = new BillingViewModel(flatViewModel, billing);
             }
+
+            _FlatViewModel = flatViewModel;
 
 
             _helper.ErrorsChanged += (_, e) =>

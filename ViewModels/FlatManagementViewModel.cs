@@ -135,7 +135,6 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-
         private bool _ShowFlatManagement;
         public bool ShowFlatManagement
         {
@@ -143,6 +142,13 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _ShowFlatManagement = value;
+
+                if (_ShowFlatManagement)
+                {
+                    ShowManual = false;
+                    ShowSettings = false;
+                }
+
                 OnPropertyChanged(nameof(ShowFlatManagement));
             }
         }
@@ -155,6 +161,12 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _ShowFlatSetup = value;
+                
+                if (_ShowFlatSetup)
+                {
+                    ShowRoomSetup = false;
+                }
+
                 OnPropertyChanged(nameof(ShowFlatSetup));
             }
         }
@@ -167,6 +179,13 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _ShowManual = value;
+
+                if (_ShowManual)
+                {
+                    ShowFlatManagement = false;
+                    ShowSettings = false;
+                }
+
                 OnPropertyChanged(nameof(ShowManual));
             }
         }
@@ -179,6 +198,12 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _ShowRoomSetup = value;
+
+                if (_ShowRoomSetup)
+                {
+                    ShowFlatSetup = false;
+                }
+
                 OnPropertyChanged(nameof(ShowRoomSetup));
             }
         }
@@ -191,6 +216,13 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _ShowSettings = value;
+
+                if (_ShowSettings)
+                {
+                    ShowManual = false;
+                    ShowFlatManagement = false;
+                }
+
                 OnPropertyChanged(nameof(ShowSettings));
             }
         }

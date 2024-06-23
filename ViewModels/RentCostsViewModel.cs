@@ -9,8 +9,10 @@
  *  instance of FlatViewModel and the
  *  selected RentViewModel instance
  */
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
+using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 
@@ -58,8 +60,51 @@ namespace SharedLivingCostCalculator.ViewModels
         public double AnnualCompleteCosts => AnnualCosts + AnnualOtherCosts;
 
 
+        private bool _ShowFlatCosts;
+        public bool ShowFlatCosts
+        {
+            get { return _ShowFlatCosts; }
+            set
+            {
+                _ShowFlatCosts = value;
+                OnPropertyChanged(nameof(ShowFlatCosts));
+            }
+        }
+
+
+        private bool _ShowRoomCosts;
+        public bool ShowRoomCosts
+        {
+            get { return _ShowRoomCosts; }
+            set
+            {
+                _ShowRoomCosts = value;
+                OnPropertyChanged(nameof(ShowRoomCosts));
+            }
+        }
+
+
+        private bool _ShowOtherCosts;
+        public bool ShowOtherCosts
+        {
+            get { return _ShowOtherCosts; }
+            set
+            {
+                _ShowOtherCosts = value;
+                OnPropertyChanged(nameof(ShowOtherCosts));
+            }
+        }
+
+
+        public double OtherCostItemCountBasedWidth => _rentViewModel.OtherCosts.Count * 105;
+
+
+        public ObservableCollection<RentCostsViewModel> Rent { get; }
+
         public ICollectionView RoomCosts { get; set; }
         public ICollectionView OtherCosts { get; set; }
+        public ICollectionView RentListView { get; set; }
+
 
 
         public RentCostsViewModel(RentViewModel rentViewModel, FlatViewModel flatViewModel)
@@ -67,11 +112,15 @@ namespace SharedLivingCostCalculator.ViewModels
             _rentViewModel = rentViewModel;
             _flatViewModel = flatViewModel;
 
+            Rent = new ObservableCollection<RentCostsViewModel>() { this };
+
             RoomCosts = CollectionViewSource.GetDefaultView(_rentViewModel.RoomCosts);
             RoomCosts.SortDescriptions.Add(new SortDescription("Room.ID", ListSortDirection.Ascending));
 
             OtherCosts = CollectionViewSource.GetDefaultView(_rentViewModel.OtherCosts);
-            OtherCosts.SortDescriptions.Add(new SortDescription("Cost", ListSortDirection.Descending));
+            OtherCosts.SortDescriptions.Add(new SortDescription("Cost", ListSortDirection.Descending)); 
+            
+            RentListView = CollectionViewSource.GetDefaultView(Rent);
         }
 
 
