@@ -8,6 +8,7 @@
  *  depending on constructor
  */
 using SharedLivingCostCalculator.ViewModels.ViewLess;
+using System.Security;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
@@ -82,13 +83,11 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             _AccountingViewModel = accountingViewModel;
 
-            Update();
+            _AccountingViewModel.AccountingChanged += _AccountingViewModel_AccountingChanged;
 
             RentSelected = true;
 
-            _AccountingViewModel.AccountingChanged += _AccountingViewModel_AccountingChanged;
-
-            OnPropertyChanged(nameof(HasBilling));
+            Update();
         }
 
 
@@ -102,6 +101,7 @@ namespace SharedLivingCostCalculator.ViewModels
             if (_AccountingViewModel.Rents.SelectedValue != null)
             {
                 _rentViewModel = _AccountingViewModel.Rents.SelectedValue;
+                ActiveViewModel = new RentCostsViewModel(_rentViewModel, _flatViewModel);
             }
 
             if (_rentViewModel != null && _rentViewModel.BillingViewModel != null)

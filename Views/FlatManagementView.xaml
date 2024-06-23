@@ -30,47 +30,47 @@
                     <ColumnDefinition Width="0.25*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Content="{DynamicResource FlatManagementHeaderText}"
-                            Command="{Binding TriggerVisibilityCommand}"
-                            CommandParameter="FlatManagement"
-                            Style="{StaticResource buttonStyle}"
-                            Grid.Column="0"/>
+                <ToggleButton Content="{DynamicResource FlatManagementHeaderText}"
+                              IsChecked="{Binding ShowFlatManagement}"
+                              Style="{StaticResource toggleButtonStyle}"
+                              Grid.Column="0"/>
 
-                <Button Content="{DynamicResource IDF_Manual}"
-                            Command="{Binding TriggerVisibilityCommand}"
-                            CommandParameter="Manual"
-                            Style="{StaticResource buttonStyle}"
-                            Grid.Column="1"/>
 
-                <Button Content="{DynamicResource IDF_Settings}"
-                            Command="{Binding TriggerVisibilityCommand}"
-                            CommandParameter="Settings"
-                            Style="{StaticResource buttonStyle}"
-                            Grid.Column="2"/>
+                <ToggleButton Content="{DynamicResource IDF_Manual}"
+                              IsChecked="{Binding ShowManual}"
+                              Style="{StaticResource toggleButtonStyle}"
+                              Grid.Column="1"/>
+
+                <ToggleButton Content="{DynamicResource IDF_Settings}"
+                              IsChecked="{Binding ShowSettings}"
+                              Style="{StaticResource toggleButtonStyle}"
+                              Grid.Column="2"/>
             </Grid>
 
-            <Grid Visibility="{Binding ShowFlatManagement, Converter={StaticResource VisibilityConverter}}"
-                   DockPanel.Dock="Top" 
-                  Margin="0 5 0 0"
-            MinWidth="600">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.25*"/>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="0.25*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
+            <Border Style="{StaticResource VisibilityFieldBorder}"
+                    Visibility="{Binding ShowFlatManagement, Converter={StaticResource VisibilityConverter}}"
+                    DockPanel.Dock="Top" 
+                    Margin="0 5 0 0">
+                
+                <Grid MinWidth="600">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.25*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
 
-                <Button Content="{DynamicResource IDF_NewFlat}"
+                    <Button Content="{DynamicResource IDF_NewFlat}"
                         Command="{Binding NewFlatCommand}"
                         Style="{StaticResource buttonStyle}"
                         Grid.Column="0" Grid.Row="0"/>
 
-                <Button Content="{DynamicResource IDF_DeleteFlat}"
+                    <Button Content="{DynamicResource IDF_DeleteFlat}"
                             Command="{Binding DeleteFlatCommand}"
                             CommandParameter="{Binding ElementName=DG_FlatCollection, Path=SelectedItem}"
                             IsEnabled="{Binding FlatCollectionFilled, NotifyOnSourceUpdated=True}"
@@ -78,7 +78,7 @@
                             Style="{StaticResource buttonStyle}"
                             Grid.Column="2" Grid.Row="0"/>
 
-                <ListView ItemsSource="{Binding FlatCollection}"
+                    <ListView ItemsSource="{Binding FlatCollection}"
                           HorizontalAlignment="Stretch"
                           SelectionMode="Single"
                           SelectedItem="{Binding SelectedItem}"
@@ -87,168 +87,174 @@
                           Grid.Column="0"
                           Grid.ColumnSpan="3" Grid.Row="1">
 
-                    <ListView.View>
-                        <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+                        <ListView.View>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
 
-                            <GridView.Columns>
-                                
-                                <GridViewColumn Header="{DynamicResource IDF_Address}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Address, NotifyOnSourceUpdated=True,
+                                <GridView.Columns>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_Address}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Address, NotifyOnSourceUpdated=True,
                                                         UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                                                Style="{StaticResource StringValueTextBlock}"/>
 
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                                <GridViewColumn Header="{DynamicResource IDF_Details}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Details, NotifyOnSourceUpdated=True,
+                                    <GridViewColumn Header="{DynamicResource IDF_Details}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Details, NotifyOnSourceUpdated=True,
                                                         UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                         Style="{StaticResource StringValueTextBlock}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                                <GridViewColumn Header="{DynamicResource IDF_FlatArea}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Area, NotifyOnSourceUpdated=True,
+                                    <GridViewColumn Header="{DynamicResource IDF_FlatArea}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Area, NotifyOnSourceUpdated=True,
                                                         UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                         Style="{StaticResource DoubleValueTextBlock}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                                <GridViewColumn Header="{DynamicResource IDF_Rooms}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding RoomCount, NotifyOnSourceUpdated=True,
+                                    <GridViewColumn Header="{DynamicResource IDF_Rooms}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding RoomCount, NotifyOnSourceUpdated=True,
                                                         UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                         Style="{StaticResource DoubleValueTextBlock}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                                <GridViewColumn Header="{DynamicResource IDF_SharedFlatArea}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding SharedArea, NotifyOnSourceUpdated=True,
+                                    <GridViewColumn Header="{DynamicResource IDF_SharedFlatArea}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding SharedArea, NotifyOnSourceUpdated=True,
                                                      UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
                                                         StringFormat=N2}"
                                      Style="{StaticResource DoubleValueTextBlock}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                                <GridViewColumn Header="{DynamicResource IDF_CombinedRoomArea}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding CombinedRoomArea, NotifyOnSourceUpdated=True,
+                                    <GridViewColumn Header="{DynamicResource IDF_CombinedRoomArea}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding CombinedRoomArea, NotifyOnSourceUpdated=True,
                                                      UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
                                                         StringFormat=N2}"
                                      Style="{StaticResource DoubleValueTextBlock}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                            </GridView.Columns>
+                                </GridView.Columns>
 
-                        </GridView>
-
-
-                    </ListView.View>
+                            </GridView>
 
 
-                </ListView>
+                        </ListView.View>
 
-                <Button Content="{DynamicResource IDF_FlatSetup}"
-                            Command="{Binding TriggerVisibilityCommand}"
-                            CommandParameter="FlatSetup"
-                            Style="{StaticResource buttonStyle}"
-                            Grid.Column="0" Grid.Row="2"/>
 
-                <Button Content="{DynamicResource IDF_RoomSetup}"
-                            Command="{Binding TriggerVisibilityCommand}"
-                            CommandParameter="RoomSetup"
-                            Style="{StaticResource buttonStyle}"
-                            Grid.Column="2" Grid.Row="2"/>
+                    </ListView>
 
-                <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
-                    <Grid>
-                        <Border Visibility="{Binding ShowFlatSetup, Converter={StaticResource VisibilityConverter}}">
-                            <ContentPresenter Content="{Binding FlatSetup}"/>
-                        </Border>
-                        <Border Visibility="{Binding ShowRoomSetup, Converter={StaticResource VisibilityConverter}}">
-                            <ContentPresenter Content="{Binding RoomSetup}"/>
-                        </Border>
-                    </Grid>
-                </Border>
+                    <ToggleButton Content="{DynamicResource IDF_FlatSetup}"
+                              IsChecked="{Binding ShowFlatSetup}"
+                              Style="{StaticResource toggleButtonStyle}"
+                            Grid.Column="0" Grid.Row="2" Margin="0 5 0 0"/>
 
-            </Grid>
+                    <ToggleButton Content="{DynamicResource IDF_RoomSetup}"
+                              IsChecked="{Binding ShowRoomSetup}"
+                              Style="{StaticResource toggleButtonStyle}"
+                            Grid.Column="2" Grid.Row="2" Margin="0 5 0 0"/>
 
-            <Grid Visibility="{Binding ShowManual, Converter={StaticResource VisibilityConverter}}"
-                   DockPanel.Dock="Top">
+                    <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+                        <Grid>
+                            <Border Visibility="{Binding ShowFlatSetup, Converter={StaticResource VisibilityConverter}}">
+                                <ContentPresenter Content="{Binding FlatSetup}"/>
+                            </Border>
+                            <Border Visibility="{Binding ShowRoomSetup, Converter={StaticResource VisibilityConverter}}">
+                                <ContentPresenter Content="{Binding RoomSetup}"/>
+                            </Border>
+                        </Grid>
+                    </Border>
 
-                <!--<local:ManualView>
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource VisibilityFieldBorder}"
+                    Visibility="{Binding ShowManual, Converter={StaticResource VisibilityConverter}}"
+                    DockPanel.Dock="Top">
+                <Grid>
+
+                    <!--<local:ManualView>
                             <local:ManualView.DataContext>
                                 <vms:ManualViewModel/>
                             </local:ManualView.DataContext>
 
                         </local:ManualView>-->
-            </Grid>
-
-            <Grid Visibility="{Binding ShowSettings, Converter={StaticResource VisibilityConverter}}"
-                   DockPanel.Dock="Top">
+                </Grid>
+            </Border>
 
 
-                <local:SettingsView>
-                    <local:SettingsView.DataContext>
-                        <vms:SettingsViewModel/>
-                    </local:SettingsView.DataContext>
-
-                </local:SettingsView>
-            </Grid>
+            <Border Style="{StaticResource VisibilityFieldBorder}"
+                    Visibility="{Binding ShowSettings, Converter={StaticResource VisibilityConverter}}"
+                    DockPanel.Dock="Top">
+                <Grid>
 
 
+                    <local:SettingsView>
+                        <local:SettingsView.DataContext>
+                            <vms:SettingsViewModel/>
+                        </local:SettingsView.DataContext>
 
-            <Button Content="{DynamicResource AccountingHeaderText}"
-                    Command="{Binding TriggerVisibilityCommand}"
-                    CommandParameter="Accounting"
-                    Style="{StaticResource buttonStyle}"
+                    </local:SettingsView>
+                </Grid>
+            </Border>
+
+
+            <ToggleButton Content="{DynamicResource AccountingHeaderText}"
+                          IsChecked="{Binding ShowAccounting}"
+                          Style="{StaticResource toggleButtonStyle}"
+                          DockPanel.Dock="Top"
+                          Margin="0 10 0 0"/>
+
+            <Border Style="{StaticResource VisibilityFieldBorder}"
+                    Visibility="{Binding ShowAccounting, Converter={StaticResource VisibilityConverter}}"
                     DockPanel.Dock="Top"
-                    Margin="0 10 0 0"/>
+                    Margin="0 5 0 0">
+                <Grid >
 
-            <Grid Visibility="{Binding ShowAccounting, Converter={StaticResource VisibilityConverter}}"
-                  DockPanel.Dock="Top"
-                  Margin="0 5 0 0">
+                    <Border>
+                        <local:AccountingView DataContext="{Binding Accounting}"/>
+                    </Border>
+                </Grid>
+            </Border>
 
+            <ToggleButton Content="{DynamicResource IDF_ShowCosts}"
+                          IsChecked="{Binding ShowCosts}"
+                          Style="{StaticResource toggleButtonStyle}"
+                          DockPanel.Dock="Top"
+                          Margin="0 10 0 0"/>
 
-                <Border>
-                    <local:AccountingView DataContext="{Binding Accounting}"/>
-                </Border>
+            <Border Style="{StaticResource VisibilityFieldBorder}"
+                    Visibility="{Binding ShowCosts, Converter={StaticResource VisibilityConverter}}"
+                    DockPanel.Dock="Top">
+                <Grid>
 
+                    <Border>
+                        <local:CostView DataContext="{Binding Cost}"/>
+                    </Border>
 
-            </Grid>
-
-            <Button Content="{DynamicResource IDF_ShowCosts}"
-                    Command="{Binding TriggerVisibilityCommand}"
-                    CommandParameter="ShowCosts"
-                    Style="{StaticResource buttonStyle}"
-                    DockPanel.Dock="Top"
-                    Margin="0 10 0 0"/>
-
-            <Grid Visibility="{Binding ShowCosts, Converter={StaticResource VisibilityConverter}}"
-                   DockPanel.Dock="Top">
-
-                <Border>
-                    <local:CostView DataContext="{Binding Cost}"/>
-                </Border>
-
-            </Grid>
+                </Grid>
+            </Border>
 
 
         </DockPanel>

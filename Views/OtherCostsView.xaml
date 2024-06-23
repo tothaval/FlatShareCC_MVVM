@@ -62,7 +62,9 @@
                             <GridViewColumn Header="Item">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <comps:ObjectInputView Value="{Binding Item, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                        <comps:ObjectInputView Value="{Binding Item,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=TwoWay}"
                                                                ValueMinWidth="100"
                                                                LabelMinWidth="0"
                                                                ValueAlignment="Left"
@@ -74,7 +76,9 @@
                             <GridViewColumn Header="Cost">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <comps:CurrencyInputView Value="{Binding Cost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                        <comps:CurrencyInputView Value="{Binding Cost,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=TwoWay}"
                                                                  ValueMinWidth="100"
                                                                  LabelMinWidth="0"
                                                                  ValueAlignment="Right"

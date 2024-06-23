@@ -30,59 +30,47 @@
   <IDF_RentChange>Rent Change(s)</IDF_RentChange>
   <IDF_RentUpdateData>Rent Data</IDF_RentUpdateData>
   <IDF_RentOptions>Rent Options</IDF_RentOptions>
-  <IDF_RentShare>Rent Share
-Month</IDF_RentShare>
-  <IDF_AdvanceFixed>Fixed Costs
-Advance</IDF_AdvanceFixed>
-  <IDF_AdvanceHeating>Heating Costs
-Advance</IDF_AdvanceHeating>
-  <IDF_AdvanceTotal>Total Costs
-Advance</IDF_AdvanceTotal>
-  <IDF_PriceTotal>Total Price
-Month</IDF_PriceTotal>
+  <IDF_RentShare>Rent Share</IDF_RentShare>
+  <IDF_AdvanceFixed>Fixed Costs</IDF_AdvanceFixed>
+  <IDF_AdvanceHeating>Heating Costs</IDF_AdvanceHeating>
+  <IDF_AdvanceTotal>Total Costs</IDF_AdvanceTotal>
+  <IDF_PriceTotal>Total Price</IDF_PriceTotal>
   <IDF_BaseRentOnBilling>factor in billing</IDF_BaseRentOnBilling>
-  <IDF_AnnualBilling>Annual
-Billing</IDF_AnnualBilling>
-  <IDF_OtherCosts>Other Costs
-Month</IDF_OtherCosts>
-  <IDF_AnnualOther>Other Costs
-Annual</IDF_AnnualOther>
-  <IDF_AnnualComplete>Complete Costs
-Annual</IDF_AnnualComplete>
-  <IDF_CompleteCosts>Complete Costs
-Month</IDF_CompleteCosts>
-  <IDF_Credit>credit(s)</IDF_Credit>
+  <IDF_AnnualBilling>Annual Billing</IDF_AnnualBilling>
+  <IDF_OtherCosts>Other Costs</IDF_OtherCosts>
+  <IDF_AnnualOther>Other Costs</IDF_AnnualOther>
+  <IDF_AnnualComplete>Complete Costs</IDF_AnnualComplete>
+  <IDF_CompleteCosts>Complete Costs</IDF_CompleteCosts>
+  <IDF_Credit>Credit(s)</IDF_Credit>
   <IDF_HasOtherCosts>factor in other costs</IDF_HasOtherCosts>
   <IDF_NewOtherCosts>setup other costs</IDF_NewOtherCosts>
-  <IDF_FactorInCredit>factor in a credit</IDF_FactorInCredit>
+  <IDF_FactorInCredit>factor in credits</IDF_FactorInCredit>
   <IDF_FactorInPayments>factor in payments</IDF_FactorInPayments>
-  <IDF_NewCredit>setup credit</IDF_NewCredit>
-  <IDF_LockData>lock data</IDF_LockData>
-  <IDF_RentStartDate>begin
-
-</IDF_RentStartDate>
-  <IDF_RentPerMonth>rent
-month</IDF_RentPerMonth>
-  <IDF_ExtraCostsPerMonth>extra costs
-month</IDF_ExtraCostsPerMonth>
-  <IDF_TotalPricePerMonth>total price
-month</IDF_TotalPricePerMonth>
-  <IDF_RentPerYear>rent
-year</IDF_RentPerYear>
-  <IDF_ExtraCostsPerYear>extra costs
-year</IDF_ExtraCostsPerYear>
-  <IDF_TotalPricePerYear>total price
-year</IDF_TotalPricePerYear>
-  <IDF_SharedRent>shared rent</IDF_SharedRent>
-  <IDF_Advance>advance</IDF_Advance>
-  <IDF_SharedAdvance>shared advance</IDF_SharedAdvance>
-  <IDF_Price>price</IDF_Price>
-  <IDF_Accounting>accounting</IDF_Accounting>
-  <IDF_AnnualRent>annual rent</IDF_AnnualRent>
-  <IDF_AnnualExtra>annual extra</IDF_AnnualExtra>
-  <IDF_AnnualFixed>annual fixed</IDF_AnnualFixed>
-  <IDF_AnnualHeating>annual heating</IDF_AnnualHeating>
-  <IDF_AnnualPrice>annual price</IDF_AnnualPrice>
+  <IDF_NewCredit>Setup Credit</IDF_NewCredit>
+  <IDF_LockData>Lock Data</IDF_LockData>
+  <IDF_RentStartDate>Begin</IDF_RentStartDate>
+  <IDF_RentPerMonth>Rent
+Month</IDF_RentPerMonth>
+  <IDF_ExtraCostsPerMonth>Extra Costs
+Month</IDF_ExtraCostsPerMonth>
+  <IDF_TotalPricePerMonth>Total Price
+Month</IDF_TotalPricePerMonth>
+  <IDF_RentPerYear>Rent
+Year</IDF_RentPerYear>
+  <IDF_ExtraCostsPerYear>Extra Costs
+Year</IDF_ExtraCostsPerYear>
+  <IDF_TotalPricePerYear>Total Price
+Year</IDF_TotalPricePerYear>
+  <IDF_SharedRent>Shared Rent</IDF_SharedRent>
+  <IDF_Advance>Advance</IDF_Advance>
+  <IDF_SharedAdvance>Shared Advance</IDF_SharedAdvance>
+  <IDF_Price>Price</IDF_Price>
+  <IDF_Accounting>Accounting</IDF_Accounting>
+  <IDF_AnnualRent>Rent</IDF_AnnualRent>
+  <IDF_AnnualExtra>Extra</IDF_AnnualExtra>
+  <IDF_AnnualFixed>Fixed</IDF_AnnualFixed>
+  <IDF_AnnualHeating>Heating</IDF_AnnualHeating>
+  <IDF_AnnualPrice>Price</IDF_AnnualPrice>
   <IDF_perYear>per year</IDF_perYear>
   <IDF_perMonth>per month</IDF_perMonth>
   <IDF_Billing>Billing</IDF_Billing>
@@ -99,21 +87,20 @@ Costs</IDF_HeatingCosts>
 Costs</IDF_TotalCosts>
   <IDF_Balance>Balance</IDF_Balance>
   <IDF_RoomHeatingUnits>Heating Units</IDF_RoomHeatingUnits>
-  <IDF_CombinedRoomHeatingUnits>all rooms
-heating units</IDF_CombinedRoomHeatingUnits>
+  <IDF_CombinedRoomHeatingUnits>All Rooms
+Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_Percentage>%</IDF_Percentage>
-  <IDF_TotalConsumption>total consumption</IDF_TotalConsumption>
-  <IDF_TotalRooms>rooms consumption</IDF_TotalRooms>
+  <IDF_TotalConsumption>Total Consumption</IDF_TotalConsumption>
+  <IDF_TotalRooms>Rooms Consumption</IDF_TotalRooms>
   <IDF_Payments>Payments</IDF_Payments>
   <IDF_Quantity>Quantity</IDF_Quantity>
   <IDF_AddPayment>Add Payment(s)</IDF_AddPayment>
   <IDF_DeletePayment>Delete Payment</IDF_DeletePayment>
-  <IDF_PaymentStartDate>start</IDF_PaymentStartDate>
-  <IDF_PaymentEndDate>end</IDF_PaymentEndDate>
-  <IDF_Payment>payment</IDF_Payment>
-  <IDF_PaymentQuantity>payment
-quantity</IDF_PaymentQuantity>
-  <IDF_PaymentTotal>total</IDF_PaymentTotal>
+  <IDF_PaymentStartDate>Start</IDF_PaymentStartDate>
+  <IDF_PaymentEndDate>End</IDF_PaymentEndDate>
+  <IDF_Payment>Payment</IDF_Payment>
+  <IDF_PaymentQuantity>Quantity</IDF_PaymentQuantity>
+  <IDF_PaymentTotal>Total</IDF_PaymentTotal>
   <IDF_Back>Back</IDF_Back>
   <IDF_NewBilling>New Billing</IDF_NewBilling>
   <IDF_DeleteBilling>Delete</IDF_DeleteBilling>
@@ -129,4 +116,6 @@ quantity</IDF_PaymentQuantity>
   <IDF_RoomSetup>Room Setup</IDF_RoomSetup>
   <IDF_Manual>Manual</IDF_Manual>
   <IDF_Settings>Settings</IDF_Settings>
+  <IDF_FlatCosts>Flat Costs</IDF_FlatCosts>
+  <IDF_RoomCosts>Room Costs</IDF_RoomCosts>
 </Language>

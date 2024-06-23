@@ -60,13 +60,17 @@
         </StackPanel>-->
 
             <comps:DoubleInputView Label="{DynamicResource IDF_FontSize}"
-                                   Value="{Binding FontSize}"
+                                   Value="{Binding FontSize,
+                UpdateSourceTrigger=PropertyChanged, Delay=350,
+                Mode=TwoWay}"
                                    LabelMinWidth="100"
                                    ValueMinWidth="100"
                                    Margin="0 5"/>
 
             <comps:ObjectInputView Label="{DynamicResource IDF_FontFamily}"
-                                   Value="{DynamicResource FontFamily}"
+                                   Value="{Binding FontFamily,
+                UpdateSourceTrigger=PropertyChanged, Delay=350,
+                Mode=TwoWay}"
                                    LabelMinWidth="100"
                                    ValueMinWidth="100"
                                    Margin="0 5"/>

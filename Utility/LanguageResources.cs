@@ -229,8 +229,11 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_Manual"] = languageResource.IDF_Manual;
             Application.Current.Resources["IDF_FlatSetup"] = languageResource.IDF_FlatSetup; 
             Application.Current.Resources["IDF_RoomSetup"] = languageResource.IDF_RoomSetup;
+            Application.Current.Resources["IDF_FlatCosts"] = languageResource.IDF_FlatCosts;
+            Application.Current.Resources["IDF_RoomCosts"] = languageResource.IDF_RoomCosts;
 
-
+            
+            
         }
     }
 }

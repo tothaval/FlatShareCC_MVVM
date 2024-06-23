@@ -16,7 +16,7 @@
         <comps:DoubleInputView Label="{DynamicResource IDF_TotalConsumption}"
                                Value="{Binding TotalHeatingUnitsConsumption,
                     UpdateSourceTrigger=PropertyChanged,
-            StringFormat=N4,
+            StringFormat=N4, Mode=TwoWay,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
                     ValidatesOnDataErrors=True}"
@@ -28,7 +28,7 @@
         <comps:DoubleInputView Label="{DynamicResource IDF_TotalRooms}"
                                Value="{Binding TotalHeatingUnitsRoom,
                     UpdateSourceTrigger=PropertyChanged,
-            StringFormat=N4,
+            StringFormat=N4,Mode=TwoWay,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
                     ValidatesOnDataErrors=True}"
@@ -72,6 +72,7 @@
                             <DataTemplate>
                                 <TextBox Text="{Binding HeatingUnitsConsumption,
                                         UpdateSourceTrigger=PropertyChanged,
+                                        Mode=TwoWay,
                                         NotifyOnTargetUpdated=True,
                                         NotifyOnSourceUpdated=True,
                                         ValidatesOnDataErrors=true,
@@ -87,12 +88,10 @@
                     <GridViewColumn Header="{DynamicResource IDF_Percentage}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Percentage, Mode=OneWay,
+                                <TextBlock Text="{Binding Percentage, Mode=OneWay,
                                     UpdateSourceTrigger=PropertyChanged,
                                     NotifyOnSourceUpdated=True,StringFormat=N2}"
-                                         IsReadOnly="True"
-                                         IsReadOnlyCaretVisible="True"
-                                         Style="{StaticResource DoubleValueTextBox}"/>
+                                         Style="{StaticResource DoubleValueTextBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
