@@ -34,8 +34,29 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
 
         public int ID => RoomPayments.RoomID;
-        public string RoomName => RoomPayments.RoomViewModel.RoomName;
-        public double RoomArea => RoomPayments.RoomViewModel.RoomArea;
+        public string RoomName => GetRoomName();
+        public double RoomArea => GetRoomArea();
+
+        public double GetRoomArea()
+        {
+            if (RoomPayments != null && RoomPayments.RoomViewModel != null)
+            {
+                return RoomPayments.RoomViewModel.RoomArea;
+            }
+
+            return 0.0;
+        }
+
+        public string GetRoomName()
+        {
+            if (RoomPayments != null && RoomPayments.RoomViewModel != null)
+            {
+                return RoomPayments.RoomViewModel.RoomName;
+            }
+
+            return "unknown";
+        }
+
 
 
         private RoomPayments _RoomPayments;

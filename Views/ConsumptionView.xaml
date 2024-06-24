@@ -38,6 +38,34 @@
                                IsReadOnly="True"
                                IsEnabled="{Binding DataLock}"/>
 
+
+        <comps:DoubleInputView Label="{DynamicResource IDF_SharedConsumption}"
+                               Value="{Binding SharedConsumption,
+                    UpdateSourceTrigger=PropertyChanged,
+            StringFormat=N4,Mode=OneWay,
+                NotifyOnSourceUpdated=True,
+                NotifyOnValidationError=True,
+                    ValidatesOnDataErrors=True}"
+                               LabelMinWidth="100"
+                               ValueMinWidth="100"
+                               ValueAlignment="Right"
+                               IsReadOnly="True"
+                               IsEnabled="{Binding DataLock}"/>
+
+
+        <comps:DoubleInputView Label="{DynamicResource IDF_Percentage}"
+                               Value="{Binding SharedConsumptionPercentage,
+                    UpdateSourceTrigger=PropertyChanged,
+            StringFormat=N2,Mode=OneWay,
+                NotifyOnSourceUpdated=True,
+                NotifyOnValidationError=True,
+                    ValidatesOnDataErrors=True}"
+                               LabelMinWidth="100"
+                               ValueMinWidth="100"
+                               ValueAlignment="Right"
+                               IsReadOnly="True"
+                               IsEnabled="{Binding DataLock}"/>
+
         <ListView ItemsSource="{Binding RoomCosts, NotifyOnSourceUpdated=True}"
                   SelectionMode="Single"
                   TextBlock.TextAlignment="Right"       
@@ -88,7 +116,7 @@
                     <GridViewColumn Header="{DynamicResource IDF_Percentage}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Percentage, Mode=OneWay,
+                                <TextBlock Text="{Binding RoomConsumptionPercentage, Mode=OneWay,
                                     UpdateSourceTrigger=PropertyChanged,
                                     NotifyOnSourceUpdated=True,StringFormat=N2}"
                                          Style="{StaticResource DoubleValueTextBlock}"/>

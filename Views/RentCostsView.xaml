@@ -352,6 +352,18 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
+                                    <GridViewColumn Header="{DynamicResource IDF_SharedFlatArea}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding SharedAreaShare,
+                                                    StringFormat=N2,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
                                     <GridViewColumn Header="{DynamicResource IDF_RentShare}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -464,6 +476,18 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
+                                    <GridViewColumn Header="{DynamicResource IDF_SharedFlatArea}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding SharedAreaShare,
+                                                    StringFormat=N2,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    
                                     <GridViewColumn Header="{DynamicResource IDF_RentShare}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -552,6 +576,18 @@
                                                     StringFormat=N2,
                                                     NotifyOnSourceUpdated=True}"
                                                            Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_SharedFlatArea}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding SharedAreaShare,
+                                                   StringFormat=N2,
+                                                   NotifyOnSourceUpdated=True}"
+                                                          Style="{StaticResource DoubleValueTextBlock}"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -664,6 +700,18 @@
                                                     StringFormat=N2,
                                                     NotifyOnSourceUpdated=True}"
                                                            Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="{DynamicResource IDF_SharedFlatArea}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding SharedAreaShare,
+                                                   StringFormat=N2,
+                                                   NotifyOnSourceUpdated=True}"
+                                                          Style="{StaticResource DoubleValueTextBlock}"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>

@@ -40,11 +40,20 @@ namespace SharedLivingCostCalculator.ViewModels
             get { return _SetBillingVisibility; }
             set
             {
-                _SetBillingVisibility = value;
-
-                if (!_SetBillingVisibility)
+                if (value == false)                    
                 {
-                    RentViewModel.RemoveBilling();
+                    MessageBoxResult result = MessageBox.Show(
+                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
+                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        RentViewModel.RemoveBilling();
+                        _SetBillingVisibility = value;
+                    }
+                }
+                else
+                {
+                    _SetBillingVisibility = value;
                 }
 
                 OnPropertyChanged(nameof(SetBillingVisibility));
@@ -79,11 +88,20 @@ namespace SharedLivingCostCalculator.ViewModels
             get { return RentViewModel.HasOtherCosts; }
             set
             {
-                RentViewModel.HasOtherCosts = value;
-
-                if (!HasOtherCosts)
+                if (value == false)
                 {
-                    //SelectedOtherCostsViewModel = null;
+                    MessageBoxResult result = MessageBox.Show(
+                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
+                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        //RentViewModel.RemoveBilling();
+                        RentViewModel.HasOtherCosts = value;
+                    }
+                }
+                else
+                {
+                    RentViewModel.HasOtherCosts = value;
                 }
 
                 OnPropertyChanged(nameof(HasOtherCosts));

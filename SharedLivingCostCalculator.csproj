@@ -23,9 +23,5 @@
     <PackageReference Include="PropertyTools.Wpf" Version="3.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Calculations\" />
-  </ItemGroup>
-
 	
 </Project>

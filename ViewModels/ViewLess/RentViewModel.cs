@@ -16,80 +16,26 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
     public class RentViewModel : BaseViewModel, IRoomCostsCarrier
     {
 
-        private readonly FlatViewModel _flatViewModel;
+        // properties
+        #region properties        
+
+        // annual interval costs
+        #region annual interval costs
+        public double AnnualCostsTotal => AnnualRent + AnnualExtraCosts;
 
 
-        private Rent _Rent;
-        public Rent Rent
-        {
-            get { return _Rent; }
-            set
-            {
-                _Rent = value;
-                OnPropertyChanged(nameof(Rent));
-            }
-        }
+        public double AnnualExtraCosts => ExtraCostsTotal * 12;
 
 
-        private BillingViewModel? _BillingViewModel;
-        public BillingViewModel? BillingViewModel
-        {
-            get { return _BillingViewModel; }
-            set
-            {
-                _BillingViewModel = value;
-
-                if (_BillingViewModel != null)
-                {
-                    Rent.GetBilling = _BillingViewModel.GetBilling;
-                }
-
-                OnPropertyChanged(nameof(BillingViewModel));
-                OnPropertyChanged(nameof(HasBilling));
-            }
-        }
+        public double AnnualOtherCosts => TotalOtherCosts * 12;
 
 
-        public bool HasBilling => _BillingViewModel != null;
-
-
-        public bool HasOtherCosts
-        {
-            get { return Rent.HasOtherCosts; }
-            set
-            {
-                Rent.HasOtherCosts = value;
-
-                OnPropertyChanged(nameof(HasOtherCosts));
-            }
-        }
-
-
-        public bool HasDataLock
-        {
-            get { return Rent.HasDataLock; }
-            set
-            {
-                Rent.HasDataLock = value;
-
-                OnPropertyChanged(nameof(HasDataLock));
-            }
-        }
-
-
-
-        public DateTime StartDate
-        {
-            get { return Rent.StartDate; }
-            set
-            {
-                Rent.StartDate = value; OnPropertyChanged(nameof(StartDate));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
-            }
-        }
+        public double AnnualRent => ColdRent * 12;
+        #endregion annual interval costs
 
 
         // monthly costs
+        #region monthly costs
         public double ColdRent
         {
             get { return Rent.ColdRent; }
@@ -104,6 +50,12 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             }
 
         }
+
+
+        public double CostsTotal => ColdRent + ExtraCostsTotal;
+
+
+        public double ExtraCostsTotal => FixedCostsAdvance + HeatingCostsAdvance;
 
 
         public double FixedCostsAdvance
@@ -137,25 +89,88 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             }
         }
 
+
         public double TotalOtherCosts => CalculateTotalOtherCosts();
+        #endregion monthly costs
 
 
-        public event PropertyChangedEventHandler DataChange;
-
-
-        private ObservableCollection<RoomCostsViewModel> _RoomCosts;
-        public ObservableCollection<RoomCostsViewModel> RoomCosts
+        // other properties
+        #region other properties
+        private BillingViewModel? _BillingViewModel;
+        public BillingViewModel? BillingViewModel
         {
-            get { return _RoomCosts; }
+            get { return _BillingViewModel; }
             set
             {
-                _RoomCosts = value;
-                OnPropertyChanged(nameof(RoomCosts));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
+                _BillingViewModel = value;
+
+                if (_BillingViewModel != null)
+                {
+                    Rent.GetBilling = _BillingViewModel.GetBilling;
+                }
+
+                OnPropertyChanged(nameof(BillingViewModel));
+                OnPropertyChanged(nameof(HasBilling));
             }
         }
 
 
+        private readonly FlatViewModel _flatViewModel;
+
+
+        public bool HasBilling => _BillingViewModel != null;
+
+
+        public bool HasDataLock
+        {
+            get { return Rent.HasDataLock; }
+            set
+            {
+                Rent.HasDataLock = value;
+
+                OnPropertyChanged(nameof(HasDataLock));
+            }
+        }
+
+
+        public bool HasOtherCosts
+        {
+            get { return Rent.HasOtherCosts; }
+            set
+            {
+                Rent.HasOtherCosts = value;
+
+                OnPropertyChanged(nameof(HasOtherCosts));
+            }
+        }
+
+
+        private Rent _Rent;
+        public Rent Rent
+        {
+            get { return _Rent; }
+            set
+            {
+                _Rent = value;
+                OnPropertyChanged(nameof(Rent));
+            }
+        }
+
+
+        public DateTime StartDate
+        {
+            get { return Rent.StartDate; }
+            set
+            {
+                Rent.StartDate = value; OnPropertyChanged(nameof(StartDate));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
+            }
+        }
+        #endregion other properties
+
+
+        // collections
+        #region collections
         private ObservableCollection<OtherCostItemViewModel> _OtherCosts;
         public ObservableCollection<OtherCostItemViewModel> OtherCosts
         {
@@ -171,25 +186,25 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
 
 
-        // monthly costs sums
-        public double ExtraCostsTotal => FixedCostsAdvance + HeatingCostsAdvance;
+        private ObservableCollection<RoomCostsViewModel> _RoomCosts;
+        public ObservableCollection<RoomCostsViewModel> RoomCosts
+        {
+            get { return _RoomCosts; }
+            set
+            {
+                _RoomCosts = value;
+                OnPropertyChanged(nameof(RoomCosts));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
+            }
+        }
+        #endregion collections
+        #endregion properties
 
 
-        public double CostsTotal => ColdRent + ExtraCostsTotal;
-
-
-        // annual interval sums
-        public double AnnualRent => ColdRent * 12;
-
-
-        public double AnnualExtraCosts => ExtraCostsTotal * 12;
-
-
-        public double AnnualOtherCosts => TotalOtherCosts * 12;
-
-
-        // annual costs sum
-        public double AnnualCostsTotal => AnnualRent + AnnualExtraCosts;
+        // event properties
+        #region event properties
+        public event PropertyChangedEventHandler DataChange;
+        #endregion event properties
 
 
         public RentViewModel(FlatViewModel flatViewModel, Rent rent)
@@ -219,13 +234,8 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
 
 
-        private void OtherCosts_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(OtherCosts));
-            DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(OtherCosts)));
-        }
-
-
+        // methods
+        #region methods
         private double CalculateTotalOtherCosts()
         {
             double OtherCostsSum = 0.0;
@@ -297,6 +307,17 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
                 OnPropertyChanged(nameof(HasBilling));
             }
         }
+        #endregion methods
+
+
+        // event methods
+        #region event methods
+        private void OtherCosts_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(OtherCosts));
+            DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(OtherCosts)));
+        }
+        #endregion event methods
 
 
     }

@@ -31,6 +31,8 @@ namespace SharedLivingCostCalculator.ViewModels
     {
         private AccountingViewModel _accountingViewModel;
 
+        public event EventHandler SelectedItemChange;
+
 
         private FlatViewModel _flatViewModel;
         public FlatViewModel FlatViewModel => _flatViewModel;
@@ -69,6 +71,8 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 UpdateViewModel = new RentUpdateViewModel(_flatViewModel, _selectedValue);
 
+                SelectedItemChange?.Invoke(this, new EventArgs());
+
                 RentUpdateSelected = true;
                 OnPropertyChanged(nameof(RentUpdateSelected));
                 OnPropertyChanged(nameof(SelectedValue));
@@ -80,18 +84,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         public ICommand DeleteCommand { get; }
-
-
-        //private ObservableCollection<RentViewModel> _RentUpdates;
-        //public ObservableCollection<RentViewModel> RentUpdates
-        //{
-        //    get { return _RentUpdates; }
-        //    set
-        //    {
-        //        _RentUpdates = value;
-        //        OnPropertyChanged(nameof(RentUpdates));
-        //    }
-        //}
 
 
         public ICollectionView Rents { get; set; }

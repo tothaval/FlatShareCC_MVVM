@@ -135,56 +135,14 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             double advance = 0.0;
 
-
-            // ich muss zunächst die menge n RentViewModels ermitteln, die
-            // in die BillingPeriod hineinwirken oder drin sind 
-            //TimeSpan timeSpan = _billingViewModel.EndDate - rentViewModel.StartDate;
-
-
-            // nicht so kompliziert. wir suchen die Miete direkt vor der Billing 
-            // mittels des most recent algorithmus, dann suchen wir, ob es eine oder mehrere gibt,
-            // die danach liegen aber innerhalb der period beginnen 
-            // die Miete direkt vor der Billing wird ab Billingbeginn bis zur nächsten Miete
-            // für die Wertberechnung genommen, dann die Werte der darauf folgenden Miete bis
-            // entweder zur nächsten Miete oder bis zum Ende der Billingperiod.
-
-            //int months = (int)timeSpan.TotalDays / 30;
+            // use these items:
+            // _billingViewModel.FindRelevantRentViewModels()
+            // CalculateRentCosts() (RoomCostsViewModel <= change ColdRent to AdvanceType
 
             //advance += months * rentViewModel.ExtraCostsTotal;
 
             ObservableCollection<RentViewModel> rentViewModels = new ObservableCollection<RentViewModel>();
 
-
-            foreach (RentViewModel rentViewModel in _flatViewModel.RentUpdates)
-            {
-                if (rentViewModel.StartDate > _billingViewModel.EndDate)
-                {
-                    continue;
-                }
-
-                if (rentViewModel.StartDate < _billingViewModel.StartDate && rentViewModel.StartDate < _billingViewModel.EndDate)
-                {
-                    foreach (RentViewModel item in rentViewModels)
-                    {
-                        if (item.StartDate < rentViewModel.StartDate)
-                        {
-                            rentViewModels.Remove(item);
-                            rentViewModels.Add(rentViewModel);                            
-                        }
-                    }
-                }
-
-                if (rentViewModel.StartDate > _billingViewModel.StartDate && rentViewModel.StartDate < _billingViewModel.EndDate)
-                {
-                    rentViewModels.Add(rentViewModel);
-                }                 
-            }
-
-
-            foreach (RentViewModel item in rentViewModels)
-            {
-
-            }
 
             return 0;
         }

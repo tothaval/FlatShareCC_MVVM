@@ -77,6 +77,8 @@ Year</IDF_TotalPricePerYear>
   <IDF_BillingPeriodData>Billing Data</IDF_BillingPeriodData>
   <IDF_BillingPeriodOptions>Billing Options</IDF_BillingPeriodOptions>
   <IDF_Consumption>Consumption</IDF_Consumption>
+  <IDF_ConsumptionShare>Heating Share</IDF_ConsumptionShare>
+  <IDF_CombinedConsumption>Heating Combined</IDF_CombinedConsumption>
   <IDF_ExtraCosts>Extra
 Costs</IDF_ExtraCosts>
   <IDF_FixedCosts>Fixed
@@ -86,11 +88,12 @@ Costs</IDF_HeatingCosts>
   <IDF_TotalCosts>Total
 Costs</IDF_TotalCosts>
   <IDF_Balance>Balance</IDF_Balance>
-  <IDF_RoomHeatingUnits>Heating Units</IDF_RoomHeatingUnits>
+  <IDF_RoomHeatingUnits>Heating Room</IDF_RoomHeatingUnits>
   <IDF_CombinedRoomHeatingUnits>All Rooms
 Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_Percentage>%</IDF_Percentage>
   <IDF_TotalConsumption>Total Consumption</IDF_TotalConsumption>
+  <IDF_SharedConsumption>Shared Consumption</IDF_SharedConsumption>
   <IDF_TotalRooms>Rooms Consumption</IDF_TotalRooms>
   <IDF_Payments>Payments</IDF_Payments>
   <IDF_Quantity>Quantity</IDF_Quantity>

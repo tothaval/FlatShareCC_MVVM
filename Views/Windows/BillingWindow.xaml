@@ -193,20 +193,34 @@
             <TabControl Grid.Column="1" SelectedIndex="{Binding SelectedIndex}"  Margin="0 5">
                                
                 <TabItem Header="{DynamicResource IDF_Consumption}">
-                    <local:ConsumptionView DataContext="{Binding ConsumptionViewModel,
-                    NotifyOnSourceUpdated=True}"/>
+                    
+                    <local:ConsumptionView 
+                        DataContext="{Binding ConsumptionViewModel,
+                    NotifyOnSourceUpdated=True}"
+                        Margin="5"/>
+                    
                 </TabItem>
 
                 <TabItem Header="{DynamicResource IDF_Payments}"
-                     Visibility="{Binding HasPayments, Converter={StaticResource VisConv},
-                NotifyOnSourceUpdated=True}">
-                    <local:PaymentManagementView DataContext="{Binding PaymentManagementViewModel,
-                    NotifyOnSourceUpdated=True}"/>
+                         Visibility="{Binding HasPayments, Converter={StaticResource VisConv},
+                    NotifyOnSourceUpdated=True}"
+                         >
+                    
+                    <local:PaymentManagementView 
+                        DataContext="{Binding PaymentManagementViewModel,
+                        NotifyOnSourceUpdated=True}"
+                        Margin="5"/>
                 </TabItem>
 
                 <TabItem Header="{DynamicResource IDF_Credit}"
-                     Content="{Binding CreditViewModel}"
-                     Visibility="{Binding HasCredit, Converter={StaticResource VisConv}}"/>
+                     Visibility="{Binding HasCredit, Converter={StaticResource VisConv}}">
+
+
+                    <!--Content="{Binding CreditViewModel}"-->
+
+                    <TextBlock Text="CreditView do not forget the margin"  Margin="5"/>
+
+                </TabItem>
                 
             </TabControl>
             
