@@ -100,8 +100,11 @@ namespace SharedLivingCostCalculator.Utility
 
             foreach (Rent rent in Rents)
             {
-                RentViewModel rentViewModel = new RentViewModel(flatViewModel, rent);
 
+                rent.GenerateRoomCosts(flatViewModel);
+
+
+                RentViewModel rentViewModel = new RentViewModel(flatViewModel, rent);
 
                 if (rentViewModel.HasBilling && rentViewModel.BillingViewModel != null)
                 {

@@ -239,8 +239,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
             DeleteFlatCommand = new ExecuteDeleteFlatCommand(flatCollection);
 
-            TriggerVisibilityCommand = new RelayCommand((s) => TriggerVisibility(s), (s) => true);
-
             _flatCollection = flatCollection;
 
             _flatCollection.CollectionChanged += _flatCollection_CollectionChanged;
@@ -277,55 +275,6 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 SelectedItem = _flatCollection?.First();
                 FlatCollectionFilled = true;
-            }
-        }
-
-
-        private void TriggerVisibility(object s)
-        {
-            if (s.GetType() == typeof(string))
-            {
-                switch (s)
-                {
-                    case "Accounting":
-                        ShowAccounting = !ShowAccounting;
-                        break;
-
-                    case "FlatManagement":
-                        ShowFlatManagement = !ShowFlatManagement;
-                        ShowSettings = false;
-                        ShowManual = false;
-                        break;
-
-                    case "FlatSetup":
-                        ShowFlatSetup = !ShowFlatSetup;
-                        ShowRoomSetup = false;
-                        break;
-
-                    case "Manual":
-                        ShowManual = !ShowManual;
-                        ShowFlatManagement = false;
-                        ShowSettings = false;
-                        break;
-
-                    case "RoomSetup":
-                        ShowRoomSetup = !ShowRoomSetup;
-                        ShowFlatSetup = false;
-                        break;
-
-                    case "Settings":
-                        ShowSettings = !ShowSettings;
-                        ShowFlatManagement = false;
-                        ShowManual = false;
-                        break;
-
-                    case "ShowCosts":
-                        ShowCosts = !ShowCosts;
-                        break;
-
-                    default:
-                        break;
-                }
             }
         }
 

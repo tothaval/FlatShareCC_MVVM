@@ -15,6 +15,7 @@ using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 
@@ -67,22 +68,33 @@ namespace SharedLivingCostCalculator.ViewModels
             get { return BillingViewModel.HasPayments; }
             set
             {
-                BillingViewModel.HasPayments = value;
-
-                if (HasPayments)
+                if (value == false)
                 {
+                    MessageBoxResult result = MessageBox.Show(
+                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
+                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        //RentViewModel.RemoveBilling();
+                        BillingViewModel.HasPayments = value;
+
+                        if (SelectedIndex == 1)
+                        {
+                            SelectedIndex = 0;
+                        }
+                    }
+                }
+
+                if (!HasPayments && value == true)
+                {
+                    BillingViewModel.HasPayments = value;
+
                     if (SelectedIndex != 1)
                     {
                         SelectedIndex = 1;
                     }
                 }
-                else
-                {
-                    if (SelectedIndex == 1)
-                    {
-                        SelectedIndex = 0;
-                    }
-                }
+
 
                 OnPropertyChanged(nameof(HasPayments));
                 OnPropertyChanged(nameof(SetPaymentVisibility));
@@ -96,24 +108,33 @@ namespace SharedLivingCostCalculator.ViewModels
             get { return BillingViewModel.HasCredit; }
             set
             {
-                BillingViewModel.HasCredit = value;
 
-                if (HasCredit)
+                if (value == false)
                 {
+                    MessageBoxResult result = MessageBox.Show(
+                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
+                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        //RentViewModel.RemoveBilling();
+                        BillingViewModel.HasCredit = value;
+
+                        if (SelectedIndex == 2)
+                        {
+                            SelectedIndex = 0;
+                        }
+                    }
+                }
+
+                if (!HasCredit && value == true)
+                {
+                    BillingViewModel.HasCredit = value;
+
                     if (SelectedIndex != 2)
                     {
                         SelectedIndex = 2;
                     }
                 }
-                else
-                {
-                    if (SelectedIndex == 2)
-                    {
-                        SelectedIndex = 0;
-                    }
-                }
-
-
 
                 OnPropertyChanged(nameof(HasCredit));
                 OnPropertyChanged(nameof(SetCreditVisibility));

@@ -269,7 +269,32 @@
                                 <GridViewColumn Header="{DynamicResource IDF_RoomHeatingUnits}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Consumption,
+                                            <TextBlock Text="{Binding HeatingUnitsConsumption,
+                                            StringFormat=N4,
+                                            NotifyOnSourceUpdated=True}"
+                                                   Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+
+                                <GridViewColumn Header="{DynamicResource IDF_ConsumptionShare}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding SharedConsumption,
+                                            StringFormat=N4,
+                                            NotifyOnSourceUpdated=True}"
+                                                   Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="{DynamicResource IDF_CombinedConsumption}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding CombinedConsumption,
                                             StringFormat=N4,
                                             NotifyOnSourceUpdated=True}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>
@@ -281,7 +306,7 @@
                                 <GridViewColumn Header="{DynamicResource IDF_Percentage}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Percentage,
+                                            <TextBlock Text="{Binding CombinedConsumptionPercentage,
                                             StringFormat=N2,
                                             NotifyOnSourceUpdated=True}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>
@@ -430,7 +455,32 @@
                                 <GridViewColumn Header="{DynamicResource IDF_RoomHeatingUnits}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Consumption,
+                                            <TextBlock Text="{Binding HeatingUnitsConsumption,
+                                            StringFormat=N4,
+                                            NotifyOnSourceUpdated=True}"
+                                                   Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+
+                                <GridViewColumn Header="{DynamicResource IDF_ConsumptionShare}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding SharedConsumption,
+                                            StringFormat=N4,
+                                            NotifyOnSourceUpdated=True}"
+                                                   Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="{DynamicResource IDF_CombinedConsumption}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding CombinedConsumption,
                                             StringFormat=N4,
                                             NotifyOnSourceUpdated=True}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>
@@ -442,7 +492,7 @@
                                 <GridViewColumn Header="{DynamicResource IDF_Percentage}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Percentage,
+                                            <TextBlock Text="{Binding CombinedConsumptionPercentage,
                                             StringFormat=N2,
                                             NotifyOnSourceUpdated=True}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>

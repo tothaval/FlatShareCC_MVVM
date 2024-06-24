@@ -128,7 +128,9 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_Billing { get; set; } = "Billing";
         public string IDF_BillingPeriodData { get; set; } = "Billing Data"; 
         public string IDF_BillingPeriodOptions { get; set; } = "Billing Options";
-        public string IDF_Consumption { get; set; } = "Consumption";
+        public string IDF_Consumption { get; set; } = "Consumption";  
+        public string IDF_ConsumptionShare { get; set; } = "Heating Share";
+        public string IDF_CombinedConsumption { get; set; } = "Heating Combined";
 
         public string IDF_ExtraCosts { get; set; } = "Extra\nCosts";
         public string IDF_FixedCosts { get; set; } = "Fixed\nCosts";
@@ -136,10 +138,11 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_TotalCosts { get; set; } = "Total\nCosts";
         public string IDF_Balance { get; set; } = "Balance";
 
-        public string IDF_RoomHeatingUnits { get; set; } = "Heating Units";
+        public string IDF_RoomHeatingUnits { get; set; } = "Heating Room";
         public string IDF_CombinedRoomHeatingUnits { get; set; } = "All Rooms\nHeating Units";
         public string IDF_Percentage { get; set; } = "%";
-        public string IDF_TotalConsumption { get; set; } = "Total Consumption";
+        public string IDF_TotalConsumption { get; set; } = "Total Consumption"; 
+        public string IDF_SharedConsumption { get; set; } = "Shared Consumption";
         public string IDF_TotalRooms { get; set; } = "Rooms Consumption";
 
         public string BillingManagementInstructionText { get; set; }

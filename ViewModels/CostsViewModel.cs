@@ -83,10 +83,16 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             _AccountingViewModel = accountingViewModel;
 
-            _AccountingViewModel.AccountingChanged += _AccountingViewModel_AccountingChanged;
+            _AccountingViewModel.AccountingChanged += _AccountingViewModel_AccountingChanged;            
 
             RentSelected = true;
 
+            Update();
+        }
+
+
+        private void Rents_SelectedItemChange(object? sender, EventArgs e)
+        {
             Update();
         }
 
@@ -96,27 +102,55 @@ namespace SharedLivingCostCalculator.ViewModels
             if (_AccountingViewModel.FlatViewModel != null)
             {
                 _flatViewModel = _AccountingViewModel.FlatViewModel;
+
+                BillingSelected = false;
             }
 
             if (_AccountingViewModel.Rents.SelectedValue != null)
             {
                 _rentViewModel = _AccountingViewModel.Rents.SelectedValue;
                 ActiveViewModel = new RentCostsViewModel(_rentViewModel, _flatViewModel);
+
+                _AccountingViewModel.Rents.UpdateViewModel.RentConfigurationChange += UpdateViewModel_RentConfigurationChange;
             }
 
             if (_rentViewModel != null && _rentViewModel.BillingViewModel != null)
             {
                 _billingViewModel = _rentViewModel.BillingViewModel;
             }
+            else
+            {
+                _billingViewModel = null;
+            }
 
             OnPropertyChanged(nameof(FlatViewModel));
             OnPropertyChanged(nameof(ActiveViewModel));
             OnPropertyChanged(nameof(HasBilling));
+
+
+            RentSelected = true;
+
+            if (!HasBilling)
+            {
+                BillingSelected = false;
+
+                RentSelected = true;
+            }
         }
 
+        private void UpdateViewModel_RentConfigurationChange(object? sender, EventArgs e)
+        {
+            Update();
+        }
 
         private void _AccountingViewModel_AccountingChanged(object? sender, EventArgs e)
         {
+            _AccountingViewModel.Rents.SelectedItemChange -= Rents_SelectedItemChange;
+
+
+
+            _AccountingViewModel.Rents.SelectedItemChange += Rents_SelectedItemChange;
+
             Update();
         }
 

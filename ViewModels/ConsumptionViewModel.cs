@@ -24,7 +24,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-
+        
         public bool HasErrors => _helper.HasErrors;
 
 
@@ -94,6 +94,17 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
+        public double SharedConsumption =>_billingViewModel.SharedHeatingUnitsConsumption;
+        public double SharedConsumptionPercentage => _billingViewModel.SharedHeatingUnitsConsumptionPercentage;
+
+
+        public bool DataLock
+        {
+            get { return !_billingViewModel.HasDataLock; }    
+        }
+
+
         public ObservableCollection<RoomCostsViewModel> RoomCosts => _billingViewModel.RoomCosts;
 
 
@@ -108,6 +119,13 @@ namespace SharedLivingCostCalculator.ViewModels
                     rhu.HeatingUnitsChange += HeatingUnitsChange;
                 }
             }
+
+            _billingViewModel.PropertyChanged += _billingViewModel_PropertyChanged;
+        }
+
+        private void _billingViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(DataLock));         
         }
 
         public void CalculateRoomsConsumption()

@@ -8,6 +8,7 @@
  */
 using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -30,6 +31,11 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             set
             {
                 GetBilling.HasPayments = value;
+
+                if (HasPayments)
+                {
+                    GenerateRoomPayments();
+                }
 
                 OnPropertyChanged(nameof(HasPayments));
             }
@@ -136,6 +142,8 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
 
 
+        // Heating
+        #region Heating
         public double TotalHeatingUnitsConsumption
         {
             get { return GetBilling.TotalHeatingUnitsConsumption; }
@@ -143,9 +151,17 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             {
                 GetBilling.TotalHeatingUnitsConsumption = value;
                 OnPropertyChanged(nameof(TotalHeatingUnitsConsumption));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumption));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumptionPercentage));
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsConsumption)));
             }
         }
+
+
+        public double SharedHeatingUnitsConsumption => TotalHeatingUnitsConsumption - TotalHeatingUnitsRoom;
+
+
+        public double SharedHeatingUnitsConsumptionPercentage => SharedHeatingUnitsConsumption / TotalHeatingUnitsConsumption * 100;
 
 
         public double TotalHeatingUnitsRoom
@@ -155,9 +171,12 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             {
                 GetBilling.TotalHeatingUnitsRoom = value;
                 OnPropertyChanged(nameof(TotalHeatingUnitsRoom));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumption));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumptionPercentage));
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsRoom)));
             }
         }
+        #endregion Heating
 
 
         private ObservableCollection<RoomPaymentsViewModel> _RoomPayments;
@@ -172,8 +191,7 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             }
         }
 
-
-
+        
         private ObservableCollection<RoomCostsViewModel> _RoomCosts;
         public ObservableCollection<RoomCostsViewModel> RoomCosts
         {
@@ -225,6 +243,78 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
 
 
+        public ObservableCollection<RentViewModel> FindRelevantRentViewModels()
+        {
+            ObservableCollection<RentViewModel> preSortList = new ObservableCollection<RentViewModel>();
+            ObservableCollection<RentViewModel> RentList = new ObservableCollection<RentViewModel>();
+
+            if (GetFlatViewModel().RentUpdates.Count > 0)
+            {
+                // filling the collection with potential matches
+                foreach (RentViewModel rent in GetFlatViewModel().RentUpdates)
+                {
+                    // rent begins after Billing period ends
+                    if (rent.StartDate > EndDate)
+                    {
+                        continue;
+                    }
+
+                    // rent begins before Billing period starts
+                    if (rent.StartDate < StartDate)
+                    {
+                        preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
+                        continue;
+                    }
+
+                    // rent begins before Billing period end
+                    if (rent.StartDate < EndDate)
+                    {
+                        preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
+
+                        continue;
+                    }
+
+                    // rent begins after Billing period start but before Billing period end
+                    if (rent.StartDate > StartDate || rent.StartDate < EndDate)
+                    {
+                        preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
+                    }
+                }
+
+                RentViewModel? comparer = new RentViewModel(_flatViewModel, new Rent() { StartDate = StartDate });
+                bool firstRun = true;
+
+                // building a collection of relevant rent items
+                foreach (RentViewModel item in preSortList)
+                {
+                    if (item.StartDate >= StartDate)
+                    {
+                        RentList.Add(item);
+                        continue;
+                    }
+
+                    if (item.StartDate < StartDate && firstRun)
+                    {
+                        firstRun = false;
+                        comparer = item;
+                        continue;
+                    }
+
+                    if (item.StartDate < StartDate && item.StartDate > comparer.StartDate)
+                    {
+                        comparer = item;
+                    }                    
+                }
+                RentList.Add(comparer);
+            }
+
+            // sort List by StartDate, ascending
+            RentList = new ObservableCollection<RentViewModel>(RentList.OrderBy(i => i.StartDate));
+
+            return RentList;
+        }
+
+
         public void GenerateRoomCosts()
         {
             foreach (RoomCosts roomCosts in GetBilling.RoomCostsConsumptionValues)
@@ -239,6 +329,8 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
         public void GenerateRoomPayments()
         {
+            RoomPayments = new ObservableCollection<RoomPaymentsViewModel>();
+
             if (GetBilling.RoomPayments.Count < 1)
             {
                 foreach (RoomViewModel room in _flatViewModel.Rooms)

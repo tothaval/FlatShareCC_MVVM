@@ -86,14 +86,26 @@ namespace SharedLivingCostCalculator.Models
             ExtraCostsShared = extraCostsShared;
             ExtraCostsHeating = extraCostsHeating;
 
-            foreach (RoomViewModel room in model.Rooms)
-            {
-                RoomCostShares.Add(
-                    new RoomCosts(room)
-                    );
-            }
-
+            GenerateRoomCosts(model);
         }
+
+
+        public void GenerateRoomCosts(FlatViewModel flatViewModel)
+        {
+            RoomCostShares.Clear();
+
+            if (flatViewModel != null)
+            {
+                foreach (RoomViewModel room in flatViewModel.Rooms)
+                {
+                    RoomCostShares.Add(
+                        new RoomCosts(room)
+                        );
+                }
+            }
+        }
+
+
 
 
     }

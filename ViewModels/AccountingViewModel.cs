@@ -87,24 +87,13 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             _flatViewModel = _FlatManagementViewModel.SelectedItem;
 
-
             Rents = new RentManagementViewModel(this);
-
-            //AccountingChanged?.Invoke(this, EventArgs.Empty);
-
-            //if (_flatViewModel != null)
-            //{
-            //    _rents = new RentManagementViewModel(this);
-            //}
 
             OnPropertyChanged(nameof(Address));
             OnPropertyChanged(nameof(Details));
             OnPropertyChanged(nameof(Area));
             OnPropertyChanged(nameof(RoomCount));
 
-            //OnPropertyChanged(nameof(FlatViewModel));
-
-            //OnPropertyChanged(nameof(Rents));
         }
 
 
