@@ -12,7 +12,18 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
     public class BaseViewModel : INotifyPropertyChanged
     {
 
+        // event properties & fields
+        #region event properties & fields
+
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        #endregion event properties & fields
+
+
+        // methods
+        #region methods
+
+        protected virtual void Dispose() { }
 
 
         protected void OnPropertyChanged(string propertyName)
@@ -20,8 +31,7 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-        protected virtual void Dispose() { }
+        #endregion methods
 
 
     }

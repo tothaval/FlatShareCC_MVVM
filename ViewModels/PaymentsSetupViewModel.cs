@@ -11,7 +11,6 @@
  *  selected RoomViewModel instance
  */
 using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
@@ -24,34 +23,16 @@ namespace SharedLivingCostCalculator.ViewModels
     internal class PaymentsSetupViewModel : BaseViewModel, INotifyDataErrorInfo
     {
 
-        private ValidationHelper _helper = new ValidationHelper();
-
-
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-
-        public bool HasErrors => _helper.HasErrors;
+        // properties & fields
+        #region properties
 
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
 
 
-
-        private RoomPaymentsViewModel _RoomPaymentsViewModel;
-        public RoomPaymentsViewModel RoomPaymentsViewModel
-        {
-            get { return _RoomPaymentsViewModel; }
-            set
-            {
-                _RoomPaymentsViewModel = value;
-                OnPropertyChanged(nameof(RoomPaymentsViewModel));
-            }
-        }
+        private ValidationHelper _helper = new ValidationHelper();
 
 
-        public ObservableCollection<PaymentViewModel> Payments => RoomPaymentsViewModel.PaymentViewModels;
+        public bool HasErrors => _helper.HasErrors;
 
 
         private int _quantity;
@@ -77,11 +58,52 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private RoomPaymentsViewModel _RoomPaymentsViewModel;
+        public RoomPaymentsViewModel RoomPaymentsViewModel
+        {
+            get { return _RoomPaymentsViewModel; }
+            set
+            {
+                _RoomPaymentsViewModel = value;
+                OnPropertyChanged(nameof(RoomPaymentsViewModel));
+            }
+        }
+
+        #endregion properties
+
+
+        // event properties & fields
+        #region event properties
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        #endregion event properties
+
+
+        // collections
+        #region collections
+
+        public ObservableCollection<PaymentViewModel> Payments => RoomPaymentsViewModel.PaymentViewModels;
+        
+        #endregion collections
+
+
+        // commands
+        #region commands
+
         public ICommand AddPaymentCommand { get; }
 
 
         public ICommand DeletePaymentCommand { get; }
 
+        #endregion commands
+
+
+        // constructors
+        #region constructors
 
         public PaymentsSetupViewModel(RoomPaymentsViewModel roomPaymentsViewModel)
         {
@@ -93,13 +115,19 @@ namespace SharedLivingCostCalculator.ViewModels
 
             _RoomPaymentsViewModel.RoomPayments.Payments.CollectionChanged += Payments_CollectionChanged;
         }
+        #endregion constructors
 
+
+        // events
+        #region events
 
         private void Payments_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(Payments));
             OnPropertyChanged(nameof(RoomPaymentsViewModel));
         }
+
+        #endregion events
 
 
     }

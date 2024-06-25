@@ -19,11 +19,16 @@ namespace SharedLivingCostCalculator.Components
     public partial class CurrencyInputView : UserControl
     {
 
-        public CurrencyInputView()
+        // dependency properties
+        #region dependency properties
+
+        public bool IsReadOnly
         {
-            InitializeComponent();
-            this.TB_Value.DataContext = this;
+            get { return (bool)GetValue(IsReadOnlyProperty); }
+            set { SetValue(IsReadOnlyProperty, value); }
         }
+        public static readonly DependencyProperty IsReadOnlyProperty =
+            DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(CurrencyInputView), new PropertyMetadata(false));
 
 
         public string Label
@@ -35,6 +40,15 @@ namespace SharedLivingCostCalculator.Components
             DependencyProperty.Register("Label", typeof(string), typeof(CurrencyInputView), new PropertyMetadata(""));
 
 
+        public double LabelMinWidth
+        {
+            get { return (double)GetValue(LabelMinWidthProperty); }
+            set { SetValue(LabelMinWidthProperty, value); }
+        }
+        public static readonly DependencyProperty LabelMinWidthProperty =
+            DependencyProperty.Register("LabelMinWidth", typeof(double), typeof(CurrencyInputView), new PropertyMetadata(100.0));
+
+
         public double Value
         {
             get { return (double)GetValue(ValueProperty); }
@@ -44,13 +58,13 @@ namespace SharedLivingCostCalculator.Components
             DependencyProperty.Register("Value", typeof(double), typeof(CurrencyInputView), new PropertyMetadata(0.0));
 
 
-        public double LabelMinWidth
+        public TextAlignment ValueAlignment
         {
-            get { return (double)GetValue(LabelMinWidthProperty); }
-            set { SetValue(LabelMinWidthProperty, value); }
+            get { return (TextAlignment)GetValue(ValueAlignmentProperty); }
+            set { SetValue(ValueAlignmentProperty, value); }
         }
-        public static readonly DependencyProperty LabelMinWidthProperty =
-            DependencyProperty.Register("LabelMinWidth", typeof(double), typeof(CurrencyInputView), new PropertyMetadata(100.0));
+        public static readonly DependencyProperty ValueAlignmentProperty =
+            DependencyProperty.Register("ValueAlignment", typeof(TextAlignment), typeof(CurrencyInputView), new PropertyMetadata(null));
 
 
         public double ValueMinWidth
@@ -61,23 +75,19 @@ namespace SharedLivingCostCalculator.Components
         public static readonly DependencyProperty ValueMinWidthProperty =
             DependencyProperty.Register("ValueMinWidth", typeof(double), typeof(CurrencyInputView), new PropertyMetadata(250.0));
 
+        #endregion dependency properties
 
-        public bool IsReadOnly
+
+        // constructors
+        #region constructors
+
+        public CurrencyInputView()
         {
-            get { return (bool)GetValue(IsReadOnlyProperty); }
-            set { SetValue(IsReadOnlyProperty, value); }
+            InitializeComponent();
+            this.TB_Value.DataContext = this;
         }
-        public static readonly DependencyProperty IsReadOnlyProperty =
-            DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(CurrencyInputView), new PropertyMetadata(false));
 
-
-        public TextAlignment ValueAlignment
-        {
-            get { return (TextAlignment)GetValue(ValueAlignmentProperty); }
-            set { SetValue(ValueAlignmentProperty, value); }
-        }
-        public static readonly DependencyProperty ValueAlignmentProperty =
-            DependencyProperty.Register("ValueAlignment", typeof(TextAlignment), typeof(CurrencyInputView), new PropertyMetadata(null));
+        #endregion constructors
 
 
     }

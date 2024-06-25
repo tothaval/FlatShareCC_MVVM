@@ -13,22 +13,33 @@ namespace SharedLivingCostCalculator.ViewModels
 {
     public class ConsumptionViewModel : BaseViewModel, INotifyDataErrorInfo
     {
+
+        // properties & fields
+        #region properties & fields
+
         private BillingViewModel _billingViewModel;
+
+
+        public bool DataLock
+        {
+            get { return !_billingViewModel.HasDataLock; }
+        }
+
+
+        public bool HasErrors => _helper.HasErrors;
 
 
         private ValidationHelper _helper = new ValidationHelper();
 
 
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        
-        public bool HasErrors => _helper.HasErrors;
-
-
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
+
+
+        public double SharedConsumption => _billingViewModel.SharedHeatingUnitsConsumption;
+
+
+        public double SharedConsumptionPercentage => _billingViewModel.SharedHeatingUnitsConsumptionPercentage;
+
 
         public double TotalHeatingUnitsConsumption
         {
@@ -94,19 +105,30 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-
-        public double SharedConsumption =>_billingViewModel.SharedHeatingUnitsConsumption;
-        public double SharedConsumptionPercentage => _billingViewModel.SharedHeatingUnitsConsumptionPercentage;
+        #endregion properties & fields
 
 
-        public bool DataLock
-        {
-            get { return !_billingViewModel.HasDataLock; }    
-        }
+        // event properties & fields
+        #region event properties & fields
 
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        #endregion event properties & fields
+
+
+        // collections
+        # region collections
 
         public ObservableCollection<RoomCostsViewModel> RoomCosts => _billingViewModel.RoomCosts;
 
+        #endregion collections
+
+
+        // constructors
+        #region constructors
 
         public ConsumptionViewModel(BillingViewModel billingViewModel)
         {
@@ -123,10 +145,11 @@ namespace SharedLivingCostCalculator.ViewModels
             _billingViewModel.PropertyChanged += _billingViewModel_PropertyChanged;
         }
 
-        private void _billingViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(DataLock));         
-        }
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         public void CalculateRoomsConsumption()
         {
@@ -148,6 +171,20 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             CalculateRoomsConsumption();
         }
+
+        #endregion methods
+
+
+        // events
+        #region events
+
+        private void _billingViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(DataLock));
+        }
+
+        #endregion events
+
 
     }
 }

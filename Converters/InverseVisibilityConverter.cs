@@ -10,12 +10,14 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-
 namespace SharedLivingCostCalculator.Converters
 {
     internal class InverseVisibilityConverter : IValueConverter
     {
 
+        // methods
+        #region methods
+        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value is bool boolValue && boolValue ? Visibility.Collapsed : Visibility.Visible;
@@ -26,6 +28,8 @@ namespace SharedLivingCostCalculator.Converters
         {
             throw new NotImplementedException();
         }
+
+        #endregion methods
 
 
     }

@@ -14,50 +14,36 @@
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using SharedLivingCostCalculator.Views.Windows;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     internal class RentManagementViewModel : BaseViewModel
     {
-        private AccountingViewModel _accountingViewModel;
 
-        public event EventHandler SelectedItemChange;
+        // properties & fields
+        #region properties
+
+        private AccountingViewModel _accountingViewModel;
 
 
         private FlatViewModel _flatViewModel;
         public FlatViewModel FlatViewModel => _flatViewModel;
 
 
+        public bool HasRentUpdate => _flatViewModel.RentUpdates.Count > 0;
+
+
+        public ICollectionView Rents { get; set; }
+
+
         public ICollectionView RentUpdates { get; }
 
 
         public bool RentUpdateSelected { get; set; }
-
-
-        public bool HasRentUpdate => _flatViewModel.RentUpdates.Count > 0;
-
-
-        private RentUpdateViewModel _updateViewModel;
-        public RentUpdateViewModel UpdateViewModel
-        {
-            get { return _updateViewModel; }
-            set
-            {
-                _updateViewModel = value;
-
-                OnPropertyChanged(nameof(UpdateViewModel));
-            }
-        }
 
 
         private RentViewModel _selectedValue;
@@ -80,14 +66,42 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private RentUpdateViewModel _updateViewModel;
+        public RentUpdateViewModel UpdateViewModel
+        {
+            get { return _updateViewModel; }
+            set
+            {
+                _updateViewModel = value;
+
+                OnPropertyChanged(nameof(UpdateViewModel));
+            }
+        }
+
+        #endregion properties
+
+
+        // event properties & fields
+        #region event properties
+
+        public event EventHandler SelectedItemChange;
+
+        #endregion event properties
+
+
+        // commands
+        #region commands
+
         public ICommand AddRentUpdateCommand { get; }
 
 
         public ICommand DeleteCommand { get; }
 
+        #endregion commands
 
-        public ICollectionView Rents { get; set; }
 
+        // constructors
+        #region constructors
 
         public RentManagementViewModel(AccountingViewModel accountingViewModel)
         {   
@@ -113,7 +127,12 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-    
+        #endregion constructors
+
+
+        // methods
+        #region methods
+
         private void AddRentUpdate()
         {
             RentViewModel rentViewModel = new RentViewModel(
@@ -154,8 +173,9 @@ namespace SharedLivingCostCalculator.ViewModels
                     SelectedValue = _flatViewModel.RentUpdates[0];
                 }
             }
-
         }
+
+        #endregion methods
 
 
     }

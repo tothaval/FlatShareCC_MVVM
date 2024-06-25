@@ -18,31 +18,44 @@ namespace SharedLivingCostCalculator.Models
     public class Flat
     {
 
-        public int ID { get; set; }
-
+        // properties & fields
+        #region properties
 
         public string Address { get; set; }
-
-
-        public string Details { get; set; }
 
 
         public double Area { get; set; }
 
 
-        public int RoomCount { get; set; }
+        public string Details { get; set; }
 
 
         public string FlatNotes { get; set; } = "notes";
 
 
-        [XmlIgnore]
-        public ObservableCollection<RoomViewModel> Rooms { get; set; }
+        public int ID { get; set; }
 
+
+        public int RoomCount { get; set; }
+
+        #endregion properties
+
+
+        // collections
+        #region collections
 
         [XmlIgnore]
         public ObservableCollection<RentViewModel> RentUpdates { get; set; }
 
+
+        [XmlIgnore]
+        public ObservableCollection<RoomViewModel> Rooms { get; set; }
+
+        #endregion collections
+
+
+        // constructors
+        #region constructors
 
         public Flat()
         {
@@ -83,6 +96,8 @@ namespace SharedLivingCostCalculator.Models
 
             RentUpdates = new ObservableCollection<RentViewModel>();
         }
+
+        #endregion constructors
 
 
     }

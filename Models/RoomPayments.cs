@@ -1,10 +1,12 @@
-﻿using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System;
-using System.Collections.Generic;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RoomPayments 
+ * 
+ *  serializable data model class
+ *  for RoomPaymentsViewModel
+ */
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Models
@@ -12,16 +14,30 @@ namespace SharedLivingCostCalculator.Models
     [Serializable]
     public class RoomPayments
     {
-        [XmlIgnore]
-        public RoomViewModel RoomViewModel { get; set; }
 
+        // properties & fields
+        #region properties
 
         public int RoomID { get; set; }
 
 
+        [XmlIgnore]
+        public RoomViewModel RoomViewModel { get; set; }
+
+        #endregion properties
+
+
+        // collections
+        #region collections
+
         [XmlArray("PaymentCollection")]
         public ObservableCollection<Payment> Payments { get; set; } = new ObservableCollection<Payment>();
 
+        #endregion collections
+
+
+        // constructors
+        #region constructors
 
         public RoomPayments() 
         {
@@ -33,7 +49,10 @@ namespace SharedLivingCostCalculator.Models
             RoomViewModel = roomViewModel;
             RoomID = roomViewModel.ID;
         }
+        
+        #endregion constructors
 
 
     }
 }
+// EOF

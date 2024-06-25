@@ -14,12 +14,25 @@ namespace SharedLivingCostCalculator.Models
     [Serializable]
     public class Billing
     {
-        // begin of billing period
-        public DateTime StartDate { get; set; } = DateTime.Now - TimeSpan.FromDays(365);
 
+        // properties & fields
+        #region properties
 
         // end of billing period
         public DateTime EndDate { get; set; } = DateTime.Now;
+
+
+        public bool HasCredit { get; set; } = false;
+
+
+        public bool HasDataLock { get; set; } = false;
+
+
+        public bool HasPayments { get; set; } = false;
+
+
+        // begin of billing period
+        public DateTime StartDate { get; set; } = DateTime.Now - TimeSpan.FromDays(365);
 
 
         // combined costs of fixed costs and heating costs
@@ -49,14 +62,16 @@ namespace SharedLivingCostCalculator.Models
         // combined sum of room heating units consumption
         public double TotalHeatingUnitsRoom {  get; set; } = 0.0;
 
-
-        public bool HasPayments { get; set; } = false;
-
-                
-        public bool HasCredit {  get; set; } = false;
+        #endregion properties
 
 
-        public bool HasDataLock { get; set; } = false;
+        // collections
+        #region collections
+
+        // storing the costs of each room
+        // per billing period and the consumption of heating units per billing period
+        [XmlArray("HeatingUnits")]
+        public ObservableCollection<RoomCosts> RoomCostsConsumptionValues { get; set; } = new ObservableCollection<RoomCosts>();
 
 
         // storing the payments of each room
@@ -64,12 +79,11 @@ namespace SharedLivingCostCalculator.Models
         [XmlArray("Payments")]
         public ObservableCollection<RoomPayments> RoomPayments { get; set; } = new ObservableCollection<RoomPayments>();
 
-        // storing the costs of each room
-        // per billing period and the consumption of heating units per billing period
-        [XmlArray("HeatingUnits")]
-        public ObservableCollection<RoomCosts> RoomCostsConsumptionValues { get; set; } = new ObservableCollection<RoomCosts>();
-        
+        #endregion collections
 
+
+        // constructors
+        #region constructors
 
         public Billing()
         {
@@ -114,6 +128,8 @@ namespace SharedLivingCostCalculator.Models
                 RoomPayments.Add(new RoomPayments(room));
             }
         }
+        
+        #endregion constructors
 
 
     }

@@ -6,7 +6,6 @@
  */
 using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Models;
-using SharedLivingCostCalculator.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -16,8 +15,8 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
     public class RentViewModel : BaseViewModel, IRoomCostsCarrier
     {
 
-        // properties
-        #region properties        
+        // properties & fields
+        #region properties & fields 
 
         // annual interval costs
         #region annual interval costs
@@ -109,6 +108,8 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
                     Rent.GetBilling = _BillingViewModel.GetBilling;
                 }
 
+                RentViewModelConfigurationChange?.Invoke(this, new EventArgs());
+
                 OnPropertyChanged(nameof(BillingViewModel));
                 OnPropertyChanged(nameof(HasBilling));
             }
@@ -140,6 +141,8 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             {
                 Rent.HasOtherCosts = value;
 
+                RentViewModelConfigurationChange?.Invoke(this, new EventArgs());
+
                 OnPropertyChanged(nameof(HasOtherCosts));
             }
         }
@@ -168,9 +171,23 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
         #endregion other properties
 
+        #endregion properties & fields
+
+
+        // event properties & fields
+        #region event properties & fields
+
+        public event PropertyChangedEventHandler DataChange;
+
+
+        public event EventHandler RentViewModelConfigurationChange;
+
+        #endregion event properties & fields
+
 
         // collections
         #region collections
+
         private ObservableCollection<OtherCostItemViewModel> _OtherCosts;
         public ObservableCollection<OtherCostItemViewModel> OtherCosts
         {
@@ -197,15 +214,12 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
             }
         }
+
         #endregion collections
-        #endregion properties
 
 
-        // event properties
-        #region event properties
-        public event PropertyChangedEventHandler DataChange;
-        #endregion event properties
-
+        // constructors
+        #region constructors
 
         public RentViewModel(FlatViewModel flatViewModel, Rent rent)
         {
@@ -233,9 +247,12 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             GenerateRoomCosts();
         }
 
+        #endregion constructors
+
 
         // methods
         #region methods
+
         private double CalculateTotalOtherCosts()
         {
             double OtherCostsSum = 0.0;
@@ -307,6 +324,7 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
                 OnPropertyChanged(nameof(HasBilling));
             }
         }
+
         #endregion methods
 
 

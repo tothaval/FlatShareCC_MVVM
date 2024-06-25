@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Language>English</Language>
+  <IDF_Billing>Billing</IDF_Billing>
+  <IDF_BillingPeriodData>Billing Data</IDF_BillingPeriodData>
+  <IDF_BillingPeriodOptions>Billing Options</IDF_BillingPeriodOptions>
+  <IDF_Consumption>Consumption</IDF_Consumption>
+  <IDF_ConsumptionShare>Heating Share</IDF_ConsumptionShare>
+  <IDF_CombinedConsumption>Heating Combined</IDF_CombinedConsumption>
+  <IDF_ExtraCosts>Extra
+Costs</IDF_ExtraCosts>
+  <IDF_FixedCosts>Fixed
+Costs</IDF_FixedCosts>
+  <IDF_HeatingCosts>Heating
+Costs</IDF_HeatingCosts>
+  <IDF_TotalCosts>Total
+Costs</IDF_TotalCosts>
+  <IDF_Balance>Balance</IDF_Balance>
+  <IDF_RoomHeatingUnits>Heating Room</IDF_RoomHeatingUnits>
+  <IDF_CombinedRoomHeatingUnits>All Rooms
+Heating Units</IDF_CombinedRoomHeatingUnits>
+  <IDF_Percentage>%</IDF_Percentage>
+  <IDF_TotalConsumption>Total Consumption</IDF_TotalConsumption>
+  <IDF_SharedConsumption>Shared Consumption</IDF_SharedConsumption>
+  <IDF_TotalRooms>Rooms Consumption</IDF_TotalRooms>
+  <IDF_Back>Back</IDF_Back>
+  <IDF_NewBilling>New Billing</IDF_NewBilling>
+  <IDF_DeleteBilling>Delete</IDF_DeleteBilling>
+  <IDF_ShowCosts>Show Costs</IDF_ShowCosts>
+  <IDF_NewRent>New Rent</IDF_NewRent>
+  <IDF_NewRentChange>New Rent Change</IDF_NewRentChange>
+  <IDF_DeleteRent>Delete Rent</IDF_DeleteRent>
+  <IDF_DeleteRentChange>Delete Rent Change(s)</IDF_DeleteRentChange>
+  <IDF_NewFlat>New Flat</IDF_NewFlat>
+  <IDF_EditFlat>Edit Flat</IDF_EditFlat>
+  <IDF_DeleteFlat>Delete Flat</IDF_DeleteFlat>
+  <IDF_FlatSetup>Flat Setup</IDF_FlatSetup>
+  <IDF_RoomSetup>Room Setup</IDF_RoomSetup>
+  <IDF_Manual>Manual</IDF_Manual>
+  <IDF_Settings>Settings</IDF_Settings>
+  <IDF_FlatCosts>Flat Costs</IDF_FlatCosts>
+  <IDF_RoomCosts>Room Costs</IDF_RoomCosts>
   <IDF_StartDate>Begin</IDF_StartDate>
   <IDF_EndDate>End</IDF_EndDate>
   <IDF_ID>ID</IDF_ID>
@@ -18,14 +57,15 @@
   <IDF_CombinedRoomArea>All Rooms Area</IDF_CombinedRoomArea>
   <AccountingHeaderText>Accounting</AccountingHeaderText>
   <FlatManagementHeaderText>Flat Management</FlatManagementHeaderText>
-  <IDF_SettingsTitleText>SLCC Settings</IDF_SettingsTitleText>
-  <IDF_Language>Language</IDF_Language>
-  <IDF_Country>Country</IDF_Country>
-  <IDF_FontSize>Font Size</IDF_FontSize>
-  <IDF_FontFamily>Font Family</IDF_FontFamily>
-  <IDF_Foreground>Foreground</IDF_Foreground>
-  <IDF_Background>Background</IDF_Background>
-  <SettingsHeaderText>Settings</SettingsHeaderText>
+  <IDF_Payments>Payments</IDF_Payments>
+  <IDF_Quantity>Quantity</IDF_Quantity>
+  <IDF_AddPayment>Add Payment(s)</IDF_AddPayment>
+  <IDF_DeletePayment>Delete Payment</IDF_DeletePayment>
+  <IDF_PaymentStartDate>Start</IDF_PaymentStartDate>
+  <IDF_PaymentEndDate>End</IDF_PaymentEndDate>
+  <IDF_Payment>Payment</IDF_Payment>
+  <IDF_PaymentQuantity>Quantity</IDF_PaymentQuantity>
+  <IDF_PaymentTotal>Total</IDF_PaymentTotal>
   <IDF_Rent>Rent</IDF_Rent>
   <IDF_RentChange>Rent Change(s)</IDF_RentChange>
   <IDF_RentUpdateData>Rent Data</IDF_RentUpdateData>
@@ -73,52 +113,12 @@ Year</IDF_TotalPricePerYear>
   <IDF_AnnualPrice>Price</IDF_AnnualPrice>
   <IDF_perYear>per year</IDF_perYear>
   <IDF_perMonth>per month</IDF_perMonth>
-  <IDF_Billing>Billing</IDF_Billing>
-  <IDF_BillingPeriodData>Billing Data</IDF_BillingPeriodData>
-  <IDF_BillingPeriodOptions>Billing Options</IDF_BillingPeriodOptions>
-  <IDF_Consumption>Consumption</IDF_Consumption>
-  <IDF_ConsumptionShare>Heating Share</IDF_ConsumptionShare>
-  <IDF_CombinedConsumption>Heating Combined</IDF_CombinedConsumption>
-  <IDF_ExtraCosts>Extra
-Costs</IDF_ExtraCosts>
-  <IDF_FixedCosts>Fixed
-Costs</IDF_FixedCosts>
-  <IDF_HeatingCosts>Heating
-Costs</IDF_HeatingCosts>
-  <IDF_TotalCosts>Total
-Costs</IDF_TotalCosts>
-  <IDF_Balance>Balance</IDF_Balance>
-  <IDF_RoomHeatingUnits>Heating Room</IDF_RoomHeatingUnits>
-  <IDF_CombinedRoomHeatingUnits>All Rooms
-Heating Units</IDF_CombinedRoomHeatingUnits>
-  <IDF_Percentage>%</IDF_Percentage>
-  <IDF_TotalConsumption>Total Consumption</IDF_TotalConsumption>
-  <IDF_SharedConsumption>Shared Consumption</IDF_SharedConsumption>
-  <IDF_TotalRooms>Rooms Consumption</IDF_TotalRooms>
-  <IDF_Payments>Payments</IDF_Payments>
-  <IDF_Quantity>Quantity</IDF_Quantity>
-  <IDF_AddPayment>Add Payment(s)</IDF_AddPayment>
-  <IDF_DeletePayment>Delete Payment</IDF_DeletePayment>
-  <IDF_PaymentStartDate>Start</IDF_PaymentStartDate>
-  <IDF_PaymentEndDate>End</IDF_PaymentEndDate>
-  <IDF_Payment>Payment</IDF_Payment>
-  <IDF_PaymentQuantity>Quantity</IDF_PaymentQuantity>
-  <IDF_PaymentTotal>Total</IDF_PaymentTotal>
-  <IDF_Back>Back</IDF_Back>
-  <IDF_NewBilling>New Billing</IDF_NewBilling>
-  <IDF_DeleteBilling>Delete</IDF_DeleteBilling>
-  <IDF_ShowCosts>Show Costs</IDF_ShowCosts>
-  <IDF_NewRent>New Rent</IDF_NewRent>
-  <IDF_NewRentChange>New Rent Change</IDF_NewRentChange>
-  <IDF_DeleteRent>Delete Rent</IDF_DeleteRent>
-  <IDF_DeleteRentChange>Delete Rent Change(s)</IDF_DeleteRentChange>
-  <IDF_NewFlat>New Flat</IDF_NewFlat>
-  <IDF_EditFlat>Edit Flat</IDF_EditFlat>
-  <IDF_DeleteFlat>Delete Flat</IDF_DeleteFlat>
-  <IDF_FlatSetup>Flat Setup</IDF_FlatSetup>
-  <IDF_RoomSetup>Room Setup</IDF_RoomSetup>
-  <IDF_Manual>Manual</IDF_Manual>
-  <IDF_Settings>Settings</IDF_Settings>
-  <IDF_FlatCosts>Flat Costs</IDF_FlatCosts>
-  <IDF_RoomCosts>Room Costs</IDF_RoomCosts>
+  <IDF_SettingsTitleText>SLCC Settings</IDF_SettingsTitleText>
+  <IDF_Language>Language</IDF_Language>
+  <IDF_Country>Country</IDF_Country>
+  <IDF_FontSize>Font Size</IDF_FontSize>
+  <IDF_FontFamily>Font Family</IDF_FontFamily>
+  <IDF_Foreground>Foreground</IDF_Foreground>
+  <IDF_Background>Background</IDF_Background>
+  <SettingsHeaderText>Settings</SettingsHeaderText>
 </Language>

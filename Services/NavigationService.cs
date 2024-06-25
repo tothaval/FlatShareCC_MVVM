@@ -18,11 +18,19 @@ namespace SharedLivingCostCalculator.Services
         where TViewModel : BaseViewModel
     {
 
-        private readonly NavigationStore _navigationStore;
-
+        // properties & fields
+        #region properties
 
         private readonly Func<TViewModel> _createViewModel;
 
+
+        private readonly NavigationStore _navigationStore;
+
+        #endregion properties
+
+
+        // constructors
+        #region constructors
 
         public NavigationService(NavigationStore navigationStore, Func<TViewModel> createViewModel)
         {
@@ -30,6 +38,11 @@ namespace SharedLivingCostCalculator.Services
             _createViewModel = createViewModel;
         }
 
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         public void ChangeView(BaseViewModel viewModel) { 
             _navigationStore.CurrentViewModel = viewModel;
@@ -52,6 +65,7 @@ namespace SharedLivingCostCalculator.Services
         {
             return _navigationStore.CurrentViewModel;
         }
+        #endregion methods
 
 
     }

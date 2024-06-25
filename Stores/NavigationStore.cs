@@ -15,8 +15,8 @@ namespace SharedLivingCostCalculator.Navigation
     class NavigationStore
     {
 
-        public event Action CurrentViewModelChanged;
-
+        // properties & fields
+        #region properties
 
         private BaseViewModel _currentViewModel;
         public BaseViewModel CurrentViewModel
@@ -29,11 +29,26 @@ namespace SharedLivingCostCalculator.Navigation
             }
         }
 
+        #endregion properties
+
+
+        // event properties
+        #region event properties
+
+        public event Action CurrentViewModelChanged;
+
+        #endregion event properties
+
+
+        // methods
+        #region methods
 
         private void OnCurrentViewModelChanged()
         {
             CurrentViewModelChanged?.Invoke();
         }
+
+        #endregion methods
 
 
     }

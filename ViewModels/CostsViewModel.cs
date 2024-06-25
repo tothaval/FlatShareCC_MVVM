@@ -15,20 +15,13 @@ namespace SharedLivingCostCalculator.ViewModels
     internal class CostsViewModel : BaseViewModel
     {
 
+        // properties & fields
+        #region properties & fields
+
         private readonly AccountingViewModel _AccountingViewModel;
         public AccountingViewModel Accounting => _AccountingViewModel;
 
-
-        private FlatViewModel _flatViewModel;
-        public FlatViewModel FlatViewModel => _flatViewModel;
-
-
-        private BillingViewModel? _billingViewModel;
-
-
-        private RentViewModel? _rentViewModel;
-
-
+        
         private BaseViewModel _ActiveViewModel;
         public BaseViewModel ActiveViewModel
         {
@@ -59,6 +52,13 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private BillingViewModel? _billingViewModel;
+
+
+        private FlatViewModel _flatViewModel;
+        public FlatViewModel FlatViewModel => _flatViewModel;
+        
+
         public bool HasBilling => _billingViewModel != null;
 
 
@@ -79,6 +79,14 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private RentViewModel? _rentViewModel;
+
+        #endregion properties & fields
+
+
+        // constructors
+        #region constructors
+
         public CostsViewModel(AccountingViewModel accountingViewModel)
         {
             _AccountingViewModel = accountingViewModel;
@@ -90,13 +98,12 @@ namespace SharedLivingCostCalculator.ViewModels
             Update();
         }
 
-
-        private void Rents_SelectedItemChange(object? sender, EventArgs e)
-        {
-            Update();
-        }
+        #endregion constructors
 
 
+        // methods
+        #region methods
+        
         private void Update()
         {
             if (_AccountingViewModel.FlatViewModel != null)
@@ -138,21 +145,32 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        private void UpdateViewModel_RentConfigurationChange(object? sender, EventArgs e)
-        {
-            Update();
-        }
+        #endregion methods
+
+
+        // events
+        #region events
 
         private void _AccountingViewModel_AccountingChanged(object? sender, EventArgs e)
         {
             _AccountingViewModel.Rents.SelectedItemChange -= Rents_SelectedItemChange;
 
-
-
             _AccountingViewModel.Rents.SelectedItemChange += Rents_SelectedItemChange;
 
             Update();
         }
+
+        private void Rents_SelectedItemChange(object? sender, EventArgs e)
+        {
+            Update();
+        }
+
+        private void UpdateViewModel_RentConfigurationChange(object? sender, EventArgs e)
+        {
+            Update();
+        }
+
+        #endregion events
 
 
     }

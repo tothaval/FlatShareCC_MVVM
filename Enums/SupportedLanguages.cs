@@ -18,6 +18,8 @@ namespace SharedLivingCostCalculator.Enums
     {
         English,
         Deutsch
+
+
     }
 }
 // EOF

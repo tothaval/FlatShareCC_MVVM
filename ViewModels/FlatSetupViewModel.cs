@@ -7,26 +7,28 @@
  *  displays a seperate window for creating
  *  or editing of FlatViewModel instances
  */
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using SharedLivingCostCalculator.Views.Windows;
-
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     internal class FlatSetupViewModel : BaseViewModel
     {
 
-        private FlatViewModel _flatsetup;
-        public FlatViewModel FlatSetup => _flatsetup;
-
+        // properties & fields
+        #region properties & fields
 
         private FlatManagementViewModel _FlatManagementViewModel;
 
-        
+
+        private FlatViewModel _flatsetup;
+        public FlatViewModel FlatSetup => _flatsetup;
+
+        #endregion properties & fields
+
+
+        // constructors
+        #region constructors
+
         /// <summary>
         ///
         /// </summary>
@@ -40,6 +42,24 @@ namespace SharedLivingCostCalculator.ViewModels
             _FlatManagementViewModel.FlatViewModelChange += _FlatManagementViewModel_FlatViewModelChange;
         }
 
+        #endregion constructors
+
+
+        // methods
+        #region methods
+
+        private void _flatsetup_RoomCreation()
+        {
+            FlatSetup.ConnectRooms();
+
+            OnPropertyChanged(nameof(FlatSetup));
+        }
+
+        #endregion methods
+
+
+        // events
+        #region events
 
         private void _FlatManagementViewModel_FlatViewModelChange(object? sender, EventArgs e)
         {
@@ -53,14 +73,7 @@ namespace SharedLivingCostCalculator.ViewModels
             OnPropertyChanged(nameof(FlatSetup));
         }
 
-
-
-        private void _flatsetup_RoomCreation()
-        {
-            FlatSetup.ConnectRooms();
-            
-            OnPropertyChanged(nameof(FlatSetup));
-        }
+        #endregion events
 
 
     }

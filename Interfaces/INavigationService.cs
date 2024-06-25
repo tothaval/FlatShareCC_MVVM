@@ -20,11 +20,11 @@ namespace SharedLivingCostCalculator.Interfaces
 
         void ChangeView(BaseViewModel baseViewModel);
 
+        
+        NavigationStore GetNavigationStore();
+
 
         BaseViewModel GetViewModel();
-
-
-        NavigationStore GetNavigationStore();
 
 
     }

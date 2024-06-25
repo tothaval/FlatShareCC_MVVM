@@ -18,91 +18,60 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
-
 namespace SharedLivingCostCalculator.ViewModels
 {
     class BillingPeriodViewModel : BaseViewModel, INotifyDataErrorInfo
     {
 
+        // properties & fields
+        #region properties & fields
         private readonly BillingViewModel _billingViewModel;
         public BillingViewModel BillingViewModel => _billingViewModel;
+
+        public ConsumptionViewModel? ConsumptionViewModel { get; set; }
+
+
+        private bool _DataLockCheckbox;
+        public bool DataLockCheckbox
+        {
+            get { return _DataLockCheckbox; }
+            set
+            {
+                _DataLockCheckbox = value;
+                _billingViewModel.HasDataLock = _DataLockCheckbox;
+                OnPropertyChanged(nameof(DataLockCheckbox));
+                OnPropertyChanged(nameof(DataLock));
+            }
+        }
+
+
+        public bool DataLock => !DataLockCheckbox;
+        public DateTime EndDate
+        {
+            get { return _billingViewModel.EndDate; ; }
+            set
+            {
+                _billingViewModel.EndDate = value;
+                OnPropertyChanged(nameof(EndDate));
+
+                _helper.ClearError(nameof(StartDate));
+                _helper.ClearError(nameof(EndDate));
+
+                if (StartDate == EndDate || EndDate < StartDate)
+                {
+                    _helper.AddError("start date must be before enddate", nameof(EndDate));
+                }
+            }
+        }
 
 
         private readonly FlatViewModel _FlatViewModel;
         public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
-        private ValidationHelper _helper = new ValidationHelper();
-
-
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-
-        public bool HasErrors => _helper.HasErrors;
-
-
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
 
 
-        private int _SelectedIndex;
-        public int SelectedIndex
-        {
-            get { return _SelectedIndex; }
-            set
-            {
-                _SelectedIndex = value;
-
-                OnSelectionChange();
-
-                OnPropertyChanged(nameof(SelectedIndex));
-            }
-        }
-
-
-        public bool SetPaymentVisibility => HasPayments;
-        public bool HasPayments
-        {
-            get { return BillingViewModel.HasPayments; }
-            set
-            {
-                if (value == false)
-                {
-                    MessageBoxResult result = MessageBox.Show(
-                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
-                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        //RentViewModel.RemoveBilling();
-                        BillingViewModel.HasPayments = value;
-
-                        if (SelectedIndex == 1)
-                        {
-                            SelectedIndex = 0;
-                        }
-                    }
-                }
-
-                if (!HasPayments && value == true)
-                {
-                    BillingViewModel.HasPayments = value;
-
-                    if (SelectedIndex != 1)
-                    {
-                        SelectedIndex = 1;
-                    }
-                }
-
-
-                OnPropertyChanged(nameof(HasPayments));
-                OnPropertyChanged(nameof(SetPaymentVisibility));
-            }
-        }
-
-
-        public bool SetCreditVisibility => HasCredit;
         public bool HasCredit
         {
             get { return BillingViewModel.HasCredit; }
@@ -142,21 +111,71 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private bool _DataLockCheckbox;
-        public bool DataLockCheckbox
+        public bool HasErrors => _helper.HasErrors;
+
+
+        public bool HasPayments
         {
-            get { return _DataLockCheckbox; }
+            get { return BillingViewModel.HasPayments; }
             set
             {
-                _DataLockCheckbox = value;
-                _billingViewModel.HasDataLock = _DataLockCheckbox;
-                OnPropertyChanged(nameof(DataLockCheckbox));
-                OnPropertyChanged(nameof(DataLock));
+                if (value == false)
+                {
+                    MessageBoxResult result = MessageBox.Show(
+                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
+                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        //RentViewModel.RemoveBilling();
+                        BillingViewModel.HasPayments = value;
+
+                        if (SelectedIndex == 1)
+                        {
+                            SelectedIndex = 0;
+                        }
+                    }
+                }
+
+                if (!HasPayments && value == true)
+                {
+                    BillingViewModel.HasPayments = value;
+
+                    if (SelectedIndex != 1)
+                    {
+                        SelectedIndex = 1;
+                    }
+                }
+
+
+                OnPropertyChanged(nameof(HasPayments));
+                OnPropertyChanged(nameof(SetPaymentVisibility));
+            }
+        }
+        private ValidationHelper _helper = new ValidationHelper();
+
+
+        public PaymentManagementViewModel? PaymentManagementViewModel { get; set; }
+
+
+        private int _SelectedIndex;
+        public int SelectedIndex
+        {
+            get { return _SelectedIndex; }
+            set
+            {
+                _SelectedIndex = value;
+
+                OnSelectionChange();
+
+                OnPropertyChanged(nameof(SelectedIndex));
             }
         }
 
 
-        public bool DataLock => !DataLockCheckbox;
+        public bool SetCreditVisibility => HasCredit;
+    
+
+        public bool SetPaymentVisibility => HasPayments;
 
 
         public DateTime StartDate
@@ -169,29 +188,10 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 _helper.ClearError(nameof(StartDate));
                 _helper.ClearError(nameof(EndDate));
-                                    
+
                 if (_billingViewModel.StartDate > _billingViewModel.EndDate)
                 {
                     _helper.AddError("start date must be before enddate", nameof(StartDate));
-                }
-            }
-        }
-
-
-        public DateTime EndDate
-        {
-            get { return _billingViewModel.EndDate; ; }
-            set
-            {
-                _billingViewModel.EndDate = value;
-                OnPropertyChanged(nameof(EndDate));
-
-                _helper.ClearError(nameof(StartDate));
-                _helper.ClearError(nameof(EndDate));
-
-                if (StartDate == EndDate || EndDate < StartDate)
-                {
-                    _helper.AddError("start date must be before enddate", nameof(EndDate));
                 }
             }
         }
@@ -248,7 +248,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 {
                     _helper.AddError("value must be greater than 0", nameof(TotalFixedCostsPerPeriod));
                 }
-                        
+
 
                 _billingViewModel.TotalFixedCostsPerPeriod = value;
 
@@ -291,19 +291,39 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(TotalFixedCostsPerPeriod));
             }
         }
-             
 
-        public PaymentManagementViewModel? PaymentManagementViewModel { get; set; }
+        #endregion properties & fields
 
 
-        public ConsumptionViewModel? ConsumptionViewModel { get; set; }
+        // event properties & fields
+        #region event properties & fields
 
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        #endregion event properties & fields
+
+
+        // collections
+        #region collections
 
         public ObservableCollection<RoomCostsViewModel> RoomCosts => _billingViewModel.RoomCosts;
 
-                
+        #endregion collections
+
+
+        // commands
+        #region commands
+
         public ICommand NewCreditCommand { get; }
 
+        #endregion commands
+
+
+        // constructors
+        #region constructors
 
         public BillingPeriodViewModel(FlatViewModel flatViewModel, BillingViewModel billingViewModel)
         {
@@ -354,6 +374,11 @@ namespace SharedLivingCostCalculator.ViewModels
             ConsumptionViewModel = new ConsumptionViewModel(_billingViewModel);
         }
 
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         private void AddCredit()
         {
@@ -371,6 +396,8 @@ namespace SharedLivingCostCalculator.ViewModels
                     break;
             }
         }
+
+        #endregion methods
 
 
     }

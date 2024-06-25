@@ -12,48 +12,50 @@
  *      
  *      -> application main view
  */
-
 using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Interfaces;
+using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using SharedLivingCostCalculator.Views.Windows;
 using System.Collections.ObjectModel;
-using System.Runtime;
-using System.Windows;
-using System.Windows.Controls;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Input;
-using System.Windows.Threading;
+using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     internal class FlatManagementViewModel : BaseViewModel
-    {        
+    {
+
+        // properties & fields
+        #region properties & fields
+
         public AccountingViewModel Accounting { get; }
 
+
         public CostsViewModel Cost { get; }
+
+
+        private bool _FlatCollectionFilled;
+        public bool FlatCollectionFilled
+        {
+            get { return _FlatCollectionFilled; }
+            set
+            {
+                _FlatCollectionFilled = value;
+                OnPropertyChanged(nameof(FlatCollectionFilled));
+            }
+        }
+
 
         public FlatSetupViewModel FlatSetup { get; set; }
 
 
+        public bool HasFlat => _flatCollection.Count > 0;
+
+
         public RoomSetupViewModel RoomSetup { get; set; }
-
-
-        public event EventHandler FlatViewModelChange;
-
-
-        private ObservableCollection<FlatViewModel> _flatCollection;
-        public ObservableCollection<FlatViewModel> FlatCollection
-        {
-            get { return _flatCollection; }
-            set
-            {
-                if (_flatCollection == value) return;
-                _flatCollection = value;
-
-                OnPropertyChanged(nameof(FlatCollection));                
-            }
-        }
 
 
         private FlatViewModel _SelectedItem;
@@ -79,39 +81,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public bool HasFlat => _flatCollection.Count > 0;
-
-
-        private bool _FlatCollectionFilled;
-        public bool FlatCollectionFilled
-        {
-            get { return _FlatCollectionFilled; }
-            set
-            {
-                _FlatCollectionFilled = value;
-                OnPropertyChanged(nameof(FlatCollectionFilled));
-            }
-        }
-
-
-        public ICommand NewFlatCommand { get; }
-
-
-        public ICommand SettingsCommand { get; }
-
-
-        public ICommand AccountingCommand { get; }
-
-
-        public ICommand EditFlatCommand { get; }
-
-
-        public ICommand DeleteFlatCommand { get; }
-
-
-        public ICommand TriggerVisibilityCommand { get; }
-
-
         private bool _ShowAccounting;
         public bool ShowAccounting
         {
@@ -119,6 +88,11 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _ShowAccounting = value;
+
+                if (_ShowAccounting)
+                {
+                    ShowCosts = false;
+                }
                 OnPropertyChanged(nameof(ShowAccounting));
             }
         }
@@ -131,9 +105,15 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _ShowCosts = value;
+
+                if (_ShowCosts)
+                {
+                    ShowAccounting = false;
+                }
                 OnPropertyChanged(nameof(ShowCosts));
             }
         }
+
 
         private bool _ShowFlatManagement;
         public bool ShowFlatManagement
@@ -161,7 +141,7 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _ShowFlatSetup = value;
-                
+
                 if (_ShowFlatSetup)
                 {
                     ShowRoomSetup = false;
@@ -227,6 +207,48 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+        #endregion properties & fields
+
+
+        // event properties & fields
+        #region event properties & fields
+
+        public event EventHandler FlatViewModelChange;
+        
+        #endregion event properties & fields
+
+
+        // collections
+        #region collections
+
+        private ObservableCollection<FlatViewModel> _flatCollection;
+        public ObservableCollection<FlatViewModel> FlatCollection
+        {
+            get { return _flatCollection; }
+            set
+            {
+                if (_flatCollection == value) return;
+                _flatCollection = value;
+
+                OnPropertyChanged(nameof(FlatCollection));                
+            }
+        }
+
+        #endregion collections
+
+
+        // commands
+        #region commands
+
+        public ICommand DeleteFlatCommand { get; }
+
+        public ICommand NewFlatCommand { get; }
+
+        #endregion commands
+
+
+        // constructors
+        #region constructors
 
         public FlatManagementViewModel(ObservableCollection<FlatViewModel> flatCollection)
         {
@@ -247,7 +269,81 @@ namespace SharedLivingCostCalculator.ViewModels
 
             SelectFirstFlatCollectionItem();
 
+            LoadData();
         }
+
+        #endregion constructors
+
+
+        // async methods
+        #region async methods
+
+        private async Task<ApplicationData?> GetApplicationData()
+        {
+            ApplicationData? data = null;
+
+            string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\appdata\\";
+            string filter = "*.xml";
+
+            List<string> files = Directory.GetFiles(folder, filter, SearchOption.TopDirectoryOnly).ToList();
+
+            foreach (string file in files)
+            {
+                string pathlessFile = Path.GetFileName(file);
+
+                if (pathlessFile.Equals("appdata.xml"))
+                {
+                    var xmlSerializer = new XmlSerializer(typeof(ApplicationData));
+
+                    using (var writer = new StreamReader(file))
+                    {
+                        try
+                        {
+                            data = (ApplicationData)xmlSerializer.Deserialize(writer);
+
+                            break;
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                }
+            }
+
+            return data;
+        }
+
+
+        private async void LoadData()
+        {
+            Task<ApplicationData?> GetStateData = GetApplicationData();
+
+            ApplicationData? applicationData = await GetStateData;
+
+            if (applicationData != null)
+            {
+                ShowAccounting = applicationData.Accounting_Shown;
+
+                ShowCosts = applicationData.ShowCosts_Shown;
+
+                ShowFlatManagement = applicationData.FlatManagement_Shown;
+
+                ShowFlatSetup = applicationData.FlatSetup_Shown;
+
+                ShowManual = applicationData.Manual_Shown;
+                ShowRoomSetup = applicationData.RoomSetup_Shown;
+                ShowSettings = applicationData.Settings_Shown;
+
+                _flatCollection.CollectionChanged += LoadUp;
+            }
+        }
+
+        #endregion async methods
+
+
+        // methods
+        #region methods
 
         private void CreateFlat()
         {
@@ -278,6 +374,11 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+        #endregion methods
+
+  
+        // events
+        #region events
 
         private void _flatCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -287,6 +388,23 @@ namespace SharedLivingCostCalculator.ViewModels
 
             OnPropertyChanged(nameof(HasFlat));
         }
+
+
+        private async void LoadUp(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Task<ApplicationData?> GetStateData = GetApplicationData();
+
+            ApplicationData? applicationData = await GetStateData;
+
+            if (applicationData.FlatViewModelSelectedIndex >= 0
+                && FlatCollection.Count > 0 && applicationData.FlatViewModelSelectedIndex < FlatCollection.Count)
+            {
+                SelectedItem = FlatCollection[applicationData.FlatViewModelSelectedIndex];
+                _flatCollection.CollectionChanged -= LoadUp;
+            }
+        }
+
+        #endregion events
 
 
     }

@@ -14,29 +14,39 @@ namespace SharedLivingCostCalculator.Models
     public class Payment
     {
 
-        public DateTime StartDate { get; set; } = new DateTime();
-                
+        // properties & fields
+        #region properties                
 
         public DateTime EndDate { get; set; } = new DateTime();
-
-
-        public int PaymentQuantity { get; set; } = 1;
-
-
-        public double Sum { get; set; } = 0.0;
-
-
-        [XmlIgnore]
-        public double PaymentTotal => Sum * PaymentQuantity;
 
 
         [XmlIgnore]
         public bool EndDateVisible => PaymentQuantity > 1;
 
 
+        public int PaymentQuantity { get; set; } = 1;
+
+
+        [XmlIgnore]
+        public double PaymentTotal => Sum * PaymentQuantity;
+
+
+        public DateTime StartDate { get; set; } = new DateTime();
+
+
+        public double Sum { get; set; } = 0.0;
+
+        #endregion properties
+
+
+        // constructors
+        #region constructors
+
         public Payment()
         {              
         }
+
+        #endregion constructors
 
 
     }

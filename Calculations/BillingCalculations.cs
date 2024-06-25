@@ -1,16 +1,30 @@
-﻿using SharedLivingCostCalculator.Models;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *    
+ *  BillingCalculations 
+ * 
+ *  provides methods for recurring calculations related to the BillingViewModel
+ *  and its associated logic
+ */
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.Calculations
 {
-    public static class BillingCalculations
+    public class BillingCalculations
     {
 
+        // constructos
+        #region constructors
+        
+        public BillingCalculations()
+        {
+                
+        }
+
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         /// <summary>
         ///  heating units consumed by the room and an equal share of BillingViewModel SharedHeatingUnitsConsumption property
@@ -19,7 +33,7 @@ namespace SharedLivingCostCalculator.Calculations
         /// <param name="billingViewModel"></param>
         /// <param name="roomConsumption"></param>
         /// <returns>a positive double value on success, -100.0 on error</returns>
-        public static double CombinedRoomConsumption(BillingViewModel billingViewModel, double roomConsumption)
+        public double CombinedRoomConsumption(BillingViewModel billingViewModel, double roomConsumption)
         {
             if (SharedRoomConsumption(billingViewModel) == -100.0)
             {
@@ -37,7 +51,7 @@ namespace SharedLivingCostCalculator.Calculations
         /// <param name="billingViewModel"></param>
         /// <param name="roomConsumption"></param>
         /// <returns>a positive double value on success, -100.0 on error</returns>
-        public static double CombinedRoomConsumptionRatio(BillingViewModel billingViewModel, double roomConsumption)
+        public double CombinedRoomConsumptionRatio(BillingViewModel billingViewModel, double roomConsumption)
         {
             if (CombinedRoomConsumption(billingViewModel, roomConsumption) == -100.0)
             {
@@ -55,7 +69,7 @@ namespace SharedLivingCostCalculator.Calculations
         /// <param name="billingViewModel"></param>
         /// <param name="roomConsumption"></param>
         /// <returns>returns roomConsumption / TotalHeatingUnitsConsumption (BillingViewModel)</returns>
-        public static double ConsumptionRatio(BillingViewModel billingViewModel, double roomConsumption)
+        public double ConsumptionRatio(BillingViewModel billingViewModel, double roomConsumption)
         {
             return roomConsumption / billingViewModel.TotalHeatingUnitsConsumption;
         }
@@ -67,7 +81,7 @@ namespace SharedLivingCostCalculator.Calculations
         /// </summary>
         /// <param name="billingViewModel"></param>
         /// <returns>a positive double value on success, -100.0 on error</returns>
-        public static double SharedRoomConsumption(BillingViewModel billingViewModel)
+        public double SharedRoomConsumption(BillingViewModel billingViewModel)
         {
             if (billingViewModel.GetFlatViewModel().RoomCount != 0)
             {
@@ -76,5 +90,10 @@ namespace SharedLivingCostCalculator.Calculations
 
             return -100.0;
         }
+
+        #endregion methods
+
+
     }
 }
+// EOF

@@ -14,14 +14,27 @@ namespace SharedLivingCostCalculator.Commands
     internal class AddPaymentCommand : BaseCommand
     {
 
+        // properties & fields
+        #region properties
+
         private readonly RoomPaymentsViewModel _roomPaymentsViewModel;
 
+        #endregion properties
+
+
+        // constructors
+        #region constructors
 
         public AddPaymentCommand(RoomPaymentsViewModel roomPaymentsViewModel)
         {
             _roomPaymentsViewModel = roomPaymentsViewModel;
         }
 
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         public override void Execute(object? parameter)
         {
@@ -43,8 +56,10 @@ namespace SharedLivingCostCalculator.Commands
 
                     //_paymentsSetupViewModel.RoomViewModel.RegisterPaymentEvents();
                 }
-            }            
+            }
         }
+
+        #endregion methods
 
 
     }

@@ -15,9 +15,12 @@ namespace SharedLivingCostCalculator.Interfaces
     {
         void GenerateRoomCosts();
 
+
         FlatViewModel GetFlatViewModel();
 
+
         event PropertyChangedEventHandler DataChange;
+
     }
 }
 // EOF
