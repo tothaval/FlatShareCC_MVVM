@@ -15,14 +15,27 @@ namespace SharedLivingCostCalculator.Commands
     internal class DeletePaymentCommand : BaseCommand
     {
 
+        // properties & fields
+        #region properties
+
         private readonly PaymentsSetupViewModel _paymentsSetupViewModel;
 
+        #endregion properties
+
+
+        // constructors
+        #region constructors
 
         public DeletePaymentCommand(PaymentsSetupViewModel paymentsSetupViewModel)
         {
             _paymentsSetupViewModel = paymentsSetupViewModel;
         }
 
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         public override void Execute(object? parameter)
         {
@@ -45,6 +58,8 @@ namespace SharedLivingCostCalculator.Commands
                 }
             }
         }
+
+        #endregion methods
 
 
     }

@@ -12,7 +12,6 @@
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Navigation;
-using SharedLivingCostCalculator.Services;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
@@ -31,20 +30,28 @@ namespace SharedLivingCostCalculator
     public partial class App : Application
     {
 
-        private NavigationStore _navigationStore;
+        // properties
+        #region properties
+
+        private ObservableCollection<FlatViewModel> _flatCollection;
 
 
         private MainViewModel _mainViewModel;
 
 
-        private ObservableCollection<FlatViewModel> _flatCollection;
+        private readonly INavigationService _NavigateToFlatManagementViewModel;
+
+
+        private NavigationStore _navigationStore;
 
 
         private ResourceDictionary _resourceDictionary;
 
+        #endregion properties
 
-        private readonly INavigationService _NavigateToFlatManagementViewModel;
 
+        // constructors
+        #region constructors
 
         public App()
         {
@@ -55,12 +62,11 @@ namespace SharedLivingCostCalculator
             _mainViewModel = new MainViewModel(_flatCollection);
         }
 
+        #endregion constructors
 
-        private void AddResources()
-        {
-            new Resources();
-        }
 
+        // async methods
+        #region async methods
 
         private async void CleanFolder()
         {
@@ -129,7 +135,7 @@ namespace SharedLivingCostCalculator
                             var member = (Resources)xmlSerializer.Deserialize(writer);
 
                             member.SetResources();
-                                                       
+
                         }
                         catch (Exception)
                         {
@@ -137,6 +143,17 @@ namespace SharedLivingCostCalculator
                     }
                 }
             }
+        }
+
+        #endregion async methods
+
+
+        // methods
+        #region methods
+
+        private void AddResources()
+        {
+            new Resources();
         }
 
 
@@ -149,6 +166,8 @@ namespace SharedLivingCostCalculator
             persistanceHandler.SerializeFlatData(_flatCollection);
             persistanceHandler.SerializeResources();
 
+            persistanceHandler.SerializeApplicationState(_mainViewModel.CurrentViewModel);
+
             //only needed to get a language resource string xml template
             persistanceHandler.SerializeLanguage(SupportedLanguages.English); 
 
@@ -158,11 +177,18 @@ namespace SharedLivingCostCalculator
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\language\\";
+            string appdata_folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\appdata\\";
+            string language_folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\language\\";
 
-            if (!Directory.Exists(folder))
+            if (!Directory.Exists(appdata_folder))
             {
-                Directory.CreateDirectory(folder);
+                Directory.CreateDirectory(appdata_folder);
+            }
+
+
+            if (!Directory.Exists(language_folder))
+            {
+                Directory.CreateDirectory(language_folder);
 
                 new PersistanceHandler().SerializeLanguage(SupportedLanguages.English);
 
@@ -180,6 +206,8 @@ namespace SharedLivingCostCalculator
 
             base.OnStartup(e);
         }
+
+        #endregion methods
 
 
     }

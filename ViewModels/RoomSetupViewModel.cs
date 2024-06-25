@@ -1,22 +1,32 @@
-﻿using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RoomSetupViewModel  : BaseViewModel
+ * 
+ *  viewmodel for RoomSetupView
+ *  
+ *  allows editing of RoomViewModel
+ */
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     class RoomSetupViewModel : BaseViewModel
     {
 
-        private FlatViewModel _flatsetup;
-        public FlatViewModel FlatSetup => _flatsetup;
-
+        // properties & fields
+        #region properties
 
         private FlatManagementViewModel _FlatManagementViewModel;
 
+
+        private FlatViewModel _flatsetup;
+        public FlatViewModel FlatSetup => _flatsetup;
+
+        #endregion properties
+
+
+        // constructors
+        #region constructors
 
         /// <summary>
         /// 
@@ -31,6 +41,24 @@ namespace SharedLivingCostCalculator.ViewModels
             _FlatManagementViewModel.FlatViewModelChange += _FlatManagementViewModel_FlatViewModelChange;
         }
 
+        #endregion constructors
+
+
+        // methods
+        #region methods
+
+        private void _flatsetup_RoomCreation()
+        {
+            FlatSetup.ConnectRooms();
+
+            OnPropertyChanged(nameof(FlatSetup));
+        }
+
+        #endregion methods
+
+
+        // events
+        #region events
 
         private void _FlatManagementViewModel_FlatViewModelChange(object? sender, EventArgs e)
         {
@@ -43,15 +71,10 @@ namespace SharedLivingCostCalculator.ViewModels
 
             OnPropertyChanged(nameof(FlatSetup));
         }
+        
+        #endregion events
 
-
-
-        private void _flatsetup_RoomCreation()
-        {
-            FlatSetup.ConnectRooms();
-
-            OnPropertyChanged(nameof(FlatSetup));
-        }
 
     }
 }
+// EOF

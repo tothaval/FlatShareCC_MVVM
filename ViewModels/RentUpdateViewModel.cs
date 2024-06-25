@@ -13,12 +13,10 @@ using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using SharedLivingCostCalculator.Views;
 using SharedLivingCostCalculator.Views.Windows;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 
 
@@ -27,7 +25,218 @@ namespace SharedLivingCostCalculator.ViewModels
     class RentUpdateViewModel : BaseViewModel, IWindowOwner
     {
 
-        public event EventHandler RentConfigurationChange;
+        // properties & fields
+        #region properties
+
+        private bool _AnnualBillingWindowActive;
+        public bool AnnualBillingWindowActive
+        {
+            get { return _AnnualBillingWindowActive; }
+            set
+            {
+                _AnnualBillingWindowActive = value;
+                               
+
+                if (Application.Current.MainWindow != null)
+                {
+                    var ownedWindows = Application.Current.MainWindow.OwnedWindows;
+
+                    if (_AnnualBillingWindowActive == false && ownedWindows != null)
+                    {
+                        foreach (Window wdw in Application.Current.MainWindow.OwnedWindows)
+                        {
+                            if (wdw.GetType() == typeof(BillingWindow))
+                            {
+                                wdw.Close();
+                            }
+                        }
+                    }
+                }
+                
+
+                OnPropertyChanged(nameof(AnnualBillingWindowActive));
+            }
+        }
+
+
+        public double AnnualCostsTotal => _rentViewModel.AnnualCostsTotal;
+
+
+        public double AnnualExtraCosts => _rentViewModel.AnnualExtraCosts;
+
+
+        public double AnnualRent => _rentViewModel.AnnualRent;
+
+
+        public double? BillingConsumedUnits => GetBillingConsumedUnits();
+
+
+        public DateTime? BillingEndDate => GetBillingEndDate();
+
+
+        public DateTime? BillingStartDate => GetBillingStartDate();
+
+
+        public double ColdRent
+        {
+            get { return _rentViewModel.ColdRent; }
+            set
+            {
+                _helper.ClearError();
+
+                if (Double.IsNaN(value))
+                {
+                    _helper.AddError("value must be a number", nameof(ColdRent));
+                }
+
+                if (value < 0)
+                {
+                    _helper.AddError("value must be greater than 0", nameof(ColdRent));
+                }
+
+                _rentViewModel.ColdRent = value;
+                OnPropertyChanged(nameof(ColdRent));
+                OnPropertyChanged(nameof(AnnualRent));
+                OnPropertyChanged(nameof(CostsTotal));
+            }
+        }
+
+
+        public double CostsTotal => ColdRent + ExtraCostsTotal;
+
+
+        private bool _DataLockCheckbox;
+        public bool DataLockCheckbox
+        {
+            get { return _DataLockCheckbox; }
+            set
+            {
+                _DataLockCheckbox = value;
+                _rentViewModel.HasDataLock = _DataLockCheckbox;
+                OnPropertyChanged(nameof(DataLockCheckbox));
+                OnPropertyChanged(nameof(HasDataLock));
+            }
+        }
+
+  
+        public double ExtraCostsHeating
+        {
+            get { return _rentViewModel.HeatingCostsAdvance; }
+            set
+            {
+                _helper.ClearError();
+
+                if (Double.IsNaN(value))
+                {
+                    _helper.AddError("value must be a number", nameof(ExtraCostsHeating));
+                }
+
+                if (value < 0)
+                {
+                    _helper.AddError("value must be greater than 0", nameof(ExtraCostsHeating));
+                }
+
+                _rentViewModel.HeatingCostsAdvance = value;
+                OnPropertyChanged(nameof(ExtraCostsHeating));
+                OnPropertyChanged(nameof(ExtraCostsTotal));
+                OnPropertyChanged(nameof(AnnualExtraCosts));
+                OnPropertyChanged(nameof(CostsTotal));
+            }
+        }
+
+
+        public double ExtraCostsShared
+        {
+            get { return _rentViewModel.FixedCostsAdvance; }
+            set
+            {
+                _helper.ClearError();
+
+                if (Double.IsNaN(value))
+                {
+                    _helper.AddError("value must be a number", nameof(ExtraCostsShared));
+                }
+
+                if (value < 0)
+                {
+                    _helper.AddError("value must be greater than 0", nameof(ExtraCostsShared));
+                }
+
+                _rentViewModel.FixedCostsAdvance = value;
+                OnPropertyChanged(nameof(ExtraCostsShared));
+                OnPropertyChanged(nameof(ExtraCostsTotal));
+                OnPropertyChanged(nameof(AnnualExtraCosts));
+                OnPropertyChanged(nameof(CostsTotal));
+            }
+        }
+
+
+        public double ExtraCostsTotal => ExtraCostsShared + ExtraCostsHeating;
+
+
+        public bool HasDataLock => !DataLockCheckbox;
+
+
+        public bool HasErrors => ((INotifyDataErrorInfo)_helper).HasErrors;
+        public bool HasOtherCosts
+        {
+            get { return RentViewModel.HasOtherCosts; }
+            set
+            {
+                if (value == false)
+                {
+                    MessageBoxResult result = MessageBox.Show(
+                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
+                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        //RentViewModel.RemoveBilling();
+                        RentViewModel.HasOtherCosts = value;
+                    }
+                }
+                else
+                {
+                    RentViewModel.HasOtherCosts = value;
+                }
+
+                OnPropertyChanged(nameof(HasOtherCosts));
+                OnPropertyChanged(nameof(SetOtherCostsVisibility));
+
+                RentConfigurationChange?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+
+        private ValidationHelper _helper = new ValidationHelper();
+
+
+        private bool _OtherCostsWindowActive;
+        public bool OtherCostsWindowActive
+        {
+            get { return _OtherCostsWindowActive; }
+            set
+            {
+                _OtherCostsWindowActive = value;
+
+                if (Application.Current.MainWindow != null)
+                {
+                    var ownedWindows = Application.Current.MainWindow.OwnedWindows;
+
+                    if (_OtherCostsWindowActive == false && ownedWindows != null)
+                    {
+                        foreach (Window wdw in Application.Current.MainWindow.OwnedWindows)
+                        {
+                            if (wdw.GetType() == typeof(OtherCostsView))
+                            {
+                                wdw.Close();
+                            }
+                        }
+                    }
+                }
+                
+                OnPropertyChanged(nameof(OtherCostsWindowActive));
+            }
+        }
 
 
         private readonly RentViewModel _rentViewModel;
@@ -66,98 +275,6 @@ namespace SharedLivingCostCalculator.ViewModels
         public bool SetOtherCostsVisibility => HasOtherCosts;
 
 
-        private bool _DataLockCheckbox;
-        public bool DataLockCheckbox
-        {
-            get { return _DataLockCheckbox; }
-            set
-            {
-                _DataLockCheckbox = value;
-                _rentViewModel.HasDataLock = _DataLockCheckbox;
-                OnPropertyChanged(nameof(DataLockCheckbox));
-                OnPropertyChanged(nameof(HasDataLock));
-            }
-        }
-
-
-        public bool HasDataLock => !DataLockCheckbox;
-
-
-        public bool HasOtherCosts
-        {
-            get { return RentViewModel.HasOtherCosts; }
-            set
-            {
-                if (value == false)
-                {
-                    MessageBoxResult result = MessageBox.Show(
-                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
-                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        //RentViewModel.RemoveBilling();
-                        RentViewModel.HasOtherCosts = value;
-                    }
-                }
-                else
-                {
-                    RentViewModel.HasOtherCosts = value;
-                }
-
-                OnPropertyChanged(nameof(HasOtherCosts));
-                OnPropertyChanged(nameof(SetOtherCostsVisibility));
-
-                RentConfigurationChange?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-
-        private ValidationHelper _helper = new ValidationHelper();
-
-
-        public bool HasErrors => ((INotifyDataErrorInfo)_helper).HasErrors;
-
-
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-
-        public IEnumerable GetErrors(string? propertyName)
-        {
-            return ((INotifyDataErrorInfo)_helper).GetErrors(propertyName);
-        }
-
-
-        public double AnnualRent => _rentViewModel.AnnualRent;
-
-
-        public double AnnualExtraCosts => _rentViewModel.AnnualExtraCosts;
-
-
-        public double AnnualCostsTotal => _rentViewModel.AnnualCostsTotal;
-
-
-        public double ExtraCostsTotal => ExtraCostsShared + ExtraCostsHeating;
-
-
-        public double CostsTotal => ColdRent + ExtraCostsTotal;
-
-
-        public DateTime? BillingStartDate => GetBillingStartDate();
-
-
-        public DateTime? BillingEndDate => GetBillingEndDate();
-
-
-        public double? BillingConsumedUnits => GetBillingConsumedUnits();
-
-
-        public ICommand ShowBillingCommand { get; }
-        public ICommand ShowOtherCostsCommand { get; }
-
-
         public DateTime StartDate
         {
             get { return _rentViewModel.StartDate; }
@@ -167,85 +284,27 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(StartDate));
             }
         }
+        #endregion properties
 
 
-        public double ColdRent
-        {
-            get { return _rentViewModel.ColdRent; }
-            set
-            {
-                _helper.ClearError();
+        // event properties & fields
+        #region event handlers
+        public event EventHandler RentConfigurationChange;
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
-                if (Double.IsNaN(value))
-                {
-                    _helper.AddError("value must be a number", nameof(ColdRent));
-                }
-
-                if (value < 0)
-                {
-                    _helper.AddError("value must be greater than 0", nameof(ColdRent));
-                }
-
-                _rentViewModel.ColdRent = value;
-                OnPropertyChanged(nameof(ColdRent));
-                OnPropertyChanged(nameof(AnnualRent));
-                OnPropertyChanged(nameof(CostsTotal));
-            }
-        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        #endregion event handlers
 
 
-        public double ExtraCostsShared
-        {
-            get { return _rentViewModel.FixedCostsAdvance; }
-            set
-            {
-                _helper.ClearError();
-
-                if (Double.IsNaN(value))
-                {
-                    _helper.AddError("value must be a number", nameof(ExtraCostsShared));
-                }
-
-                if (value < 0)
-                {
-                    _helper.AddError("value must be greater than 0", nameof(ExtraCostsShared));
-                }
-
-                _rentViewModel.FixedCostsAdvance = value;
-                OnPropertyChanged(nameof(ExtraCostsShared));
-                OnPropertyChanged(nameof(ExtraCostsTotal));
-                OnPropertyChanged(nameof(AnnualExtraCosts));
-                OnPropertyChanged(nameof(CostsTotal));
-            }
-        }
+        // commands
+        #region commands
+        public ICommand ShowBillingCommand { get; }
+        public ICommand ShowOtherCostsCommand { get; }
+        #endregion commands
 
 
-        public double ExtraCostsHeating
-        {
-            get { return _rentViewModel.HeatingCostsAdvance; }
-            set
-            {
-                _helper.ClearError();
-
-                if (Double.IsNaN(value))
-                {
-                    _helper.AddError("value must be a number", nameof(ExtraCostsHeating));
-                }
-
-                if (value < 0)
-                {
-                    _helper.AddError("value must be greater than 0", nameof(ExtraCostsHeating));
-                }
-
-                _rentViewModel.HeatingCostsAdvance = value;
-                OnPropertyChanged(nameof(ExtraCostsHeating));
-                OnPropertyChanged(nameof(ExtraCostsTotal));
-                OnPropertyChanged(nameof(AnnualExtraCosts));
-                OnPropertyChanged(nameof(CostsTotal));
-            }
-        }
-
-
+        // constructors
+        #region constructors
         public RentUpdateViewModel(FlatViewModel flatViewModel, RentViewModel rentViewModel)
         {
             _rentViewModel = rentViewModel;
@@ -275,15 +334,22 @@ namespace SharedLivingCostCalculator.ViewModels
                 DataLockCheckbox = true;
             }
 
+            AnnualBillingWindowActive = false;
+            OtherCostsWindowActive = false;
+
             OnPropertyChanged(nameof(HasDataLock));
         }
+        #endregion constructors
 
 
-        private DateTime? GetBillingStartDate()
+        // methods
+        #region methods
+
+        private double? GetBillingConsumedUnits()
         {
             if (RentViewModel.BillingViewModel != null)
             {
-                return RentViewModel.BillingViewModel.StartDate;
+                return RentViewModel.BillingViewModel.TotalHeatingUnitsConsumption;
             }
             return null;
         }
@@ -299,62 +365,90 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private double? GetBillingConsumedUnits()
+        private DateTime? GetBillingStartDate()
         {
             if (RentViewModel.BillingViewModel != null)
             {
-                return RentViewModel.BillingViewModel.TotalHeatingUnitsConsumption;
+                return RentViewModel.BillingViewModel.StartDate;
             }
             return null;
         }
 
 
+        public IEnumerable GetErrors(string? propertyName)
+        {
+            return ((INotifyDataErrorInfo)_helper).GetErrors(propertyName);
+        }
+
+
         private void ShowBillingView()
         {
-            var mainWindow = Application.Current.MainWindow;
-
-            BillingWindow billingWindow = new BillingWindow();
-
-            if (RentViewModel.BillingViewModel == null)
+            if (AnnualBillingWindowActive)
             {
-                Billing billing = new Billing(RentViewModel.GetFlatViewModel());
+                var mainWindow = Application.Current.MainWindow;
 
-                RentViewModel.BillingViewModel = new BillingViewModel(RentViewModel.GetFlatViewModel(), billing);
-            }
+                BillingWindow billingWindow = new BillingWindow();
 
-            billingWindow.DataContext = new BillingPeriodViewModel(RentViewModel.GetFlatViewModel(), RentViewModel.BillingViewModel);
+                if (RentViewModel.BillingViewModel == null)
+                {
+                    Billing billing = new Billing(RentViewModel.GetFlatViewModel());
 
-            billingWindow.Owner = mainWindow;
-            billingWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+                    RentViewModel.BillingViewModel = new BillingViewModel(RentViewModel.GetFlatViewModel(), billing);
+                }
 
-            billingWindow.Closed += OwnedWindow_Closed;
+                billingWindow.DataContext = new BillingPeriodViewModel(RentViewModel.GetFlatViewModel(), RentViewModel.BillingViewModel);
 
-            billingWindow.Show();
+                billingWindow.Owner = mainWindow;
+                billingWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+
+                billingWindow.Closed += OwnedWindow_Closed;
+
+                billingWindow.Show();
+            }        
         }
 
 
         private void ShowOtherCostsView()
         {
-            var mainWindow = Application.Current.MainWindow;
+            if (OtherCostsWindowActive)
+            {
+                var mainWindow = Application.Current.MainWindow;
 
-            OtherCostsView otherCostsView = new OtherCostsView();
+                OtherCostsView otherCostsView = new OtherCostsView();
 
-            otherCostsView.DataContext = new OtherCostsViewModel(RentViewModel);
+                otherCostsView.DataContext = new OtherCostsViewModel(RentViewModel);
 
-            otherCostsView.Owner = mainWindow;
-            otherCostsView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+                otherCostsView.Owner = mainWindow;
+                otherCostsView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
 
-            otherCostsView.Closed += OwnedWindow_Closed;
+                otherCostsView.Closed += OwnedWindow_Closed;
 
-            otherCostsView.Show();
+                otherCostsView.Show();
+            }
         }
+        #endregion methods
 
 
+        // events
+        #region events
         public void OwnedWindow_Closed(object? sender, EventArgs e)
         {
+            if (sender.GetType() == typeof(BillingWindow))
+            {
+                AnnualBillingWindowActive = false;
+            }
+
+            if (sender.GetType() == typeof(OtherCostsView))
+            {
+                OtherCostsWindowActive = false;
+            }
+            
             var mainWindow = Application.Current.MainWindow;
             mainWindow.Focus();
         }
+        #endregion events
+
+
     }
 }
 // EOF

@@ -12,40 +12,20 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     internal class RentCostsViewModel : BaseViewModel
     {
 
-        private readonly RentViewModel _rentViewModel;
+        // properties & fields
+        #region properties
+
+        public double AnnualCompleteCosts => AnnualCosts + AnnualOtherCosts;
 
 
-        private readonly FlatViewModel _flatViewModel;
-
-
-        public bool HasOtherCosts => _rentViewModel.HasOtherCosts;
-
-
-        public double TotalOtherCosts => _rentViewModel.TotalOtherCosts;
-
-
-        public double TotalRentCosts => _rentViewModel.ColdRent;
-
-
-        public double TotalExtraCosts => _rentViewModel.ExtraCostsTotal;
-
-
-        public double TotalCosts => _rentViewModel.CostsTotal;
-
-
-        public double CompleteCosts => TotalCosts + TotalOtherCosts;
-
-
-        public double AnnualRentCosts => _rentViewModel.AnnualRent;
+        public double AnnualCosts => _rentViewModel.AnnualCostsTotal;
 
 
         public double AnnualExtraCosts => _rentViewModel.AnnualExtraCosts;
@@ -54,10 +34,31 @@ namespace SharedLivingCostCalculator.ViewModels
         public double AnnualOtherCosts => _rentViewModel.AnnualOtherCosts;
 
 
-        public double AnnualCosts => _rentViewModel.AnnualCostsTotal;
+        public double AnnualRentCosts => _rentViewModel.AnnualRent;
 
 
-        public double AnnualCompleteCosts => AnnualCosts + AnnualOtherCosts;
+        public double CompleteCosts => TotalCosts + TotalOtherCosts;
+
+
+        private readonly FlatViewModel _flatViewModel;
+
+
+        public bool HasOtherCosts => _rentViewModel.HasOtherCosts;
+
+
+        private readonly RentViewModel _rentViewModel;
+
+
+        public double OtherCostItemCountBasedWidth => _rentViewModel.OtherCosts.Count * 105;
+
+
+        public ICollectionView OtherCosts { get; set; }
+
+
+        public ICollectionView RentListView { get; set; }
+
+
+        public ICollectionView RoomCosts { get; set; }
 
 
         private bool _ShowFlatCosts;
@@ -68,18 +69,6 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _ShowFlatCosts = value;
                 OnPropertyChanged(nameof(ShowFlatCosts));
-            }
-        }
-
-
-        private bool _ShowRoomCosts;
-        public bool ShowRoomCosts
-        {
-            get { return _ShowRoomCosts; }
-            set
-            {
-                _ShowRoomCosts = value;
-                OnPropertyChanged(nameof(ShowRoomCosts));
             }
         }
 
@@ -96,17 +85,42 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public double OtherCostItemCountBasedWidth => _rentViewModel.OtherCosts.Count * 105;
+        private bool _ShowRoomCosts;
+        public bool ShowRoomCosts
+        {
+            get { return _ShowRoomCosts; }
+            set
+            {
+                _ShowRoomCosts = value;
+                OnPropertyChanged(nameof(ShowRoomCosts));
+            }
+        }
 
+
+        public double TotalCosts => _rentViewModel.CostsTotal;
+
+
+        public double TotalExtraCosts => _rentViewModel.ExtraCostsTotal;
+
+
+        public double TotalOtherCosts => _rentViewModel.TotalOtherCosts;
+
+
+        public double TotalRentCosts => _rentViewModel.ColdRent;
+
+        #endregion properties
+
+
+        // collections
+        #region collections
 
         public ObservableCollection<RentCostsViewModel> Rent { get; }
 
-        public ICollectionView RoomCosts { get; set; }
-        public ICollectionView OtherCosts { get; set; }
-        public ICollectionView RentListView { get; set; }
+        #endregion collections
 
 
-
+        // constructors
+        #region constructors
         public RentCostsViewModel(RentViewModel rentViewModel, FlatViewModel flatViewModel)
         {
             _rentViewModel = rentViewModel;
@@ -121,7 +135,9 @@ namespace SharedLivingCostCalculator.ViewModels
             OtherCosts.SortDescriptions.Add(new SortDescription("Cost", ListSortDirection.Descending)); 
             
             RentListView = CollectionViewSource.GetDefaultView(Rent);
+                        
         }
+        #endregion constructors
 
 
     }

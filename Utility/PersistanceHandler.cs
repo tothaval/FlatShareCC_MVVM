@@ -5,6 +5,7 @@
  *  helper class for serializing data
  */
 using SharedLivingCostCalculator.Enums;
+using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -16,6 +17,36 @@ namespace SharedLivingCostCalculator.Utility
 {
     internal class PersistanceHandler
     {
+
+        // constructors
+        #region constructors
+
+        public PersistanceHandler()
+        {
+            
+        }
+
+        #endregion constructors
+
+
+        // methods
+        #region methods
+
+        internal void SerializeApplicationState(BaseViewModel currentViewModel)
+        {
+
+            var xmlSerializer = new XmlSerializer(typeof(ApplicationData));
+
+            ApplicationData applicationData = new ApplicationData(currentViewModel);
+
+            string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\appdata\\";
+
+            using (var writer = new StreamWriter($"{folder}\\appdata.xml"))
+            {
+                xmlSerializer.Serialize(writer, applicationData);
+            }
+        }
+
 
         public void SerializeFlatData(ObservableCollection<FlatViewModel> flats)
         {
@@ -59,11 +90,7 @@ namespace SharedLivingCostCalculator.Utility
             }
         }
 
-
-        public PersistanceHandler()
-        {
-            
-        }
+        #endregion methods
 
 
     }

@@ -1,15 +1,29 @@
-﻿using SharedLivingCostCalculator.Interfaces;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *    
+ *  BasicCalculations 
+ * 
+ *  provides methods for recurring calculations
+ */
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.Calculations
 {
-    public static class BasicCalculations
+    public class BasicCalculations
     {
+
+        // constructors
+        #region constructors
+        
+        public BasicCalculations()
+        {
+                
+        }
+
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         public static double CalculatePercentage(double ratio)
         {
@@ -36,7 +50,6 @@ namespace SharedLivingCostCalculator.Calculations
         }
 
 
-
         /// <summary>
         /// Calculates the shared area of a flat divided by roomcount
         /// </summary>
@@ -53,5 +66,11 @@ namespace SharedLivingCostCalculator.Calculations
 
             return flatViewModel.SharedArea / flatViewModel.RoomCount;
         }
+
+        #endregion methods
+
+
     }
 }
+
+// EOF

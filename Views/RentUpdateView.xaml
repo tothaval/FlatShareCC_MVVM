@@ -129,26 +129,28 @@
                       IsEnabled="{Binding HasDataLock}"
                       Style="{StaticResource OptionCheckBox}"/>
 
-            <Button Content="{DynamicResource IDF_AnnualBilling}"
-                        Command="{Binding ShowBillingCommand}"
-                        Visibility="{Binding SetBillingVisibility,
+            <ToggleButton Content="{DynamicResource IDF_AnnualBilling}"
+                          Command="{Binding ShowBillingCommand}"
+                          IsChecked="{Binding AnnualBillingWindowActive}"
+                          Visibility="{Binding SetBillingVisibility,
                 Converter={StaticResource VisibilityConverter}}"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Center"
-                    Style="{StaticResource buttonStyle}"/>
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Center"
+                          Style="{StaticResource toggleButtonStyle}"/>
 
             <CheckBox Content="{DynamicResource IDF_HasOtherCosts}"
                       IsChecked="{Binding HasOtherCosts}"
                       IsEnabled="{Binding HasDataLock}"
                       Style="{StaticResource OptionCheckBox}"/>
             
-            <Button Content="{DynamicResource IDF_OtherCosts}"
-                    Command="{Binding ShowOtherCostsCommand}"
-                    Visibility="{Binding SetOtherCostsVisibility,
+            <ToggleButton Content="{DynamicResource IDF_OtherCosts}"
+                          Command="{Binding ShowOtherCostsCommand}"
+                          IsChecked="{Binding OtherCostsWindowActive}"
+                          Visibility="{Binding SetOtherCostsVisibility,
                 Converter={StaticResource VisibilityConverter}}"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    Style="{StaticResource buttonStyle}"/>
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Center"
+                          Style="{StaticResource toggleButtonStyle}"/>
             
             <CheckBox Content="{DynamicResource IDF_LockData}"
                       IsChecked="{Binding DataLockCheckbox}" 

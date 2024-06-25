@@ -11,23 +11,31 @@
  *  BillingManagementViewModel,
  *  PaymentManagementViewModel
  */
-using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System.Windows.Input;
-
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     class AccountingViewModel : BaseViewModel
     {
 
+        // properties & fields
+        #region properties & fields
+
+        public string Address => _flatViewModel.Address;
+
+
+        public double Area => _flatViewModel.Area;
+
+
+        public string Details => _flatViewModel.Details;
+
+
         private readonly FlatManagementViewModel _FlatManagementViewModel;
         public FlatManagementViewModel FlatManagement => _FlatManagementViewModel;
 
 
-        public event EventHandler AccountingChanged;
+        public string FlatNotes => _flatViewModel.FlatNotes;
 
 
         private FlatViewModel _flatViewModel;
@@ -48,21 +56,21 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-
-        public string Address => _flatViewModel.Address;
-
-
-        public string Details => _flatViewModel.Details;
-
-
-        public double Area  => _flatViewModel.Area;
-
-
         public int RoomCount => _flatViewModel.RoomCount;
 
+        #endregion properties & fields
 
-        public string FlatNotes => _flatViewModel.FlatNotes;
 
+        // event properties & fields
+        #region event properties & fields
+
+        public event EventHandler AccountingChanged;
+
+        #endregion event properties & fields
+
+
+        // constructors
+        #region constructors
 
         public AccountingViewModel(FlatManagementViewModel flatManagementViewModel)
         {
@@ -70,7 +78,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (_FlatManagementViewModel.SelectedItem == null)
             {
-                _flatViewModel = new FlatViewModel(new Flat());                
+                _flatViewModel = new FlatViewModel(new Flat());
             }
             else
             {
@@ -82,6 +90,11 @@ namespace SharedLivingCostCalculator.ViewModels
             Rents = new RentManagementViewModel(this);
         }
 
+        #endregion constructors
+
+
+        // events
+        #region events
 
         private void _FlatManagementViewModel_FlatViewModelChange(object? sender, EventArgs e)
         {
@@ -95,6 +108,8 @@ namespace SharedLivingCostCalculator.ViewModels
             OnPropertyChanged(nameof(RoomCount));
 
         }
+
+        #endregion events
 
 
     }

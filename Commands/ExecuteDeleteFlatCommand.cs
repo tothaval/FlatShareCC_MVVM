@@ -15,14 +15,27 @@ namespace SharedLivingCostCalculator.Commands
     class ExecuteDeleteFlatCommand : BaseCommand
     {
 
+        // collections
+        #region collections
+
         private readonly ObservableCollection<FlatViewModel> _flatCollection;
 
+        #endregion collections
+
+
+        // constructors
+        #region constructors
 
         public ExecuteDeleteFlatCommand(ObservableCollection<FlatViewModel> flatCollection)
         {
-                _flatCollection = flatCollection;
+            _flatCollection = flatCollection;
         }
 
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         public override void Execute(object? parameter)
         {
@@ -38,12 +51,14 @@ namespace SharedLivingCostCalculator.Commands
                         $"{viewModel.Area}m²; {viewModel.RoomCount} room(s)?",
                         "Remove Flat", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
-                    {                        
+                    {
                         _flatCollection.Remove(viewModel);
                     }
                 }
             }
         }
+
+        #endregion methods
 
 
     }

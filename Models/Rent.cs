@@ -5,7 +5,6 @@
  *  serializable data model class
  *  for RentViewModel
  */
-using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
@@ -18,6 +17,38 @@ namespace SharedLivingCostCalculator.Models
     public class Rent
     {
 
+        // properties & fields
+        #region properties
+
+        [XmlIgnore]
+        public double AnnualExtraCosts => ExtraCostsTotal * 12;
+
+
+        [XmlIgnore]
+        public double AnnualRent => ColdRent * 12;
+
+
+        public double ColdRent { get; set; } = 0.0;
+
+
+        public double CostsTotal => ColdRent + ExtraCostsTotal;
+
+
+        public double ExtraCostsHeating { get; set; } = 0.0;
+
+
+        public double ExtraCostsShared { get; set; } = 0.0;
+
+
+        public double ExtraCostsTotal => ExtraCostsShared + ExtraCostsHeating;
+
+
+        public bool HasDataLock { get; set; } = false;
+
+
+        public bool HasOtherCosts { get; set; } = false;
+
+
         public int ID {  get; set; } = 0;
 
 
@@ -26,35 +57,11 @@ namespace SharedLivingCostCalculator.Models
 
         public DateTime StartDate { get; set; } = DateTime.Now;
 
-
-        public double ColdRent { get; set; } = 0.0;
-
-
-        [XmlIgnore]
-        public double AnnualRent => ColdRent * 12;
+        #endregion properties
 
 
-        public double ExtraCostsShared { get; set; } = 0.0;
-
-
-        public double ExtraCostsHeating { get; set; } = 0.0;
-
-
-        public double ExtraCostsTotal => ExtraCostsShared + ExtraCostsHeating;
-
-
-        public double CostsTotal => ColdRent + ExtraCostsTotal;
-
-
-        [XmlIgnore]
-        public double AnnualExtraCosts => ExtraCostsTotal * 12;
-
-
-        public bool HasOtherCosts { get; set; } = false;
-
-
-        public bool HasDataLock { get; set; } = false;
-
+        // collections
+        #region collections
 
         // storing OtherCostItems in case of other costs being factored in into rent calculation
         [XmlArray("OtherCostItemCollection")]
@@ -64,6 +71,11 @@ namespace SharedLivingCostCalculator.Models
         // storing the actual rent cost shares of each room
         public ObservableCollection<RoomCosts> RoomCostShares { get; set; } = new ObservableCollection<RoomCosts>();
 
+        #endregion collections
+
+
+        // constructors
+        #region constructors
 
         public Rent()
         {
@@ -89,6 +101,11 @@ namespace SharedLivingCostCalculator.Models
             GenerateRoomCosts(model);
         }
 
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         public void GenerateRoomCosts(FlatViewModel flatViewModel)
         {
@@ -105,7 +122,7 @@ namespace SharedLivingCostCalculator.Models
             }
         }
 
-
+        #endregion methods
 
 
     }

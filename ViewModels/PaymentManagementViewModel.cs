@@ -21,35 +21,25 @@ namespace SharedLivingCostCalculator.ViewModels
     internal class PaymentManagementViewModel : BaseViewModel, INotifyDataErrorInfo
     {
 
-        private ValidationHelper _helper = new ValidationHelper();
+        // properties & fields
+        #region properties
+
+        private readonly BillingViewModel _billingViewModel;
 
 
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-
-        public bool HasErrors => _helper.HasErrors;
+        private readonly FlatViewModel _flatViewModel;
 
 
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
 
 
-        private readonly FlatViewModel _flatViewModel;
-        private readonly BillingViewModel _billingViewModel;
+        public bool HasErrors => _helper.HasErrors;
 
 
-        private PaymentsSetupViewModel _updateViewModel;
-        public PaymentsSetupViewModel UpdateViewModel
-        {
-            get { return _updateViewModel; }
-            set
-            {
-                _updateViewModel = value;
-                OnPropertyChanged(nameof(UpdateViewModel));
-            }
-        }
+        private ValidationHelper _helper = new ValidationHelper();
+
+
+        public ICollectionView RoomPayments { get; set; }
 
 
         private RoomPaymentsViewModel _selectedValue; // private Billing _selectedBillingPeriod
@@ -68,7 +58,33 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public ICollectionView RoomPayments { get; set; }
+        private PaymentsSetupViewModel _updateViewModel;
+        public PaymentsSetupViewModel UpdateViewModel
+        {
+            get { return _updateViewModel; }
+            set
+            {
+                _updateViewModel = value;
+                OnPropertyChanged(nameof(UpdateViewModel));
+            }
+        }
+
+        #endregion properties
+
+
+        // event properties & fields
+        #region event properties
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        #endregion event properties
+
+
+        // constructors
+        #region constructors
 
         public PaymentManagementViewModel(BillingViewModel billingViewModel)
         {
@@ -79,8 +95,14 @@ namespace SharedLivingCostCalculator.ViewModels
             RoomPayments.SortDescriptions.Add(new SortDescription("RoomViewModel.ID", ListSortDirection.Ascending));
 
             _billingViewModel.RoomPayments.CollectionChanged += RoomPayments_CollectionChanged;
-            
+
         }
+
+        #endregion constructors
+
+
+        // events
+        #region events
 
         private void RoomPayments_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -88,6 +110,10 @@ namespace SharedLivingCostCalculator.ViewModels
             OnPropertyChanged(nameof(UpdateViewModel));
             OnPropertyChanged(nameof(SelectedValue));
         }
+
+        #endregion events
+
+
     }
 }
 // EOF

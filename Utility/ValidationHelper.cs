@@ -14,9 +14,8 @@ namespace SharedLivingCostCalculator.Utility
     public class ValidationHelper : INotifyDataErrorInfo
     {
 
-
-        private IDictionary<string, List<string>> errorList = new Dictionary<string, List<string>>();
-
+        // properties & fields
+        #region properties
 
         public string this[string propertyName]
         {
@@ -30,6 +29,41 @@ namespace SharedLivingCostCalculator.Utility
             }
         }
 
+
+        public bool HasErrors => errorList.Count > 0;
+
+        #endregion properties
+
+
+        // event properties
+        #region event properties
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+        #endregion event properties
+
+
+        // collections
+        #region collections
+
+        private IDictionary<string, List<string>> errorList = new Dictionary<string, List<string>>();
+
+        #endregion collections
+
+
+        // constructors
+        #region constructors
+
+        public ValidationHelper()
+        {
+
+        }
+
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         public void AddError(string message, [CallerMemberName] string property = "")
         {
@@ -53,16 +87,6 @@ namespace SharedLivingCostCalculator.Utility
         }
 
 
-        // INotifyDataErrorInfo interface implementation
-        #region INotifyDataErrorInfo
-
-
-        public bool HasErrors => errorList.Count > 0;
-
-
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-
         public IEnumerable GetErrors(string? propertyName)
         {
             if (errorList.ContainsKey(propertyName))
@@ -72,8 +96,7 @@ namespace SharedLivingCostCalculator.Utility
             return Array.Empty<string>();
         }
 
-
-        #endregion INotifyDataErrorInfo
+        #endregion methods
 
 
     }

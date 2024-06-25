@@ -15,46 +15,8 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
     public class PaymentViewModel : BaseViewModel, INotifyDataErrorInfo
     {
 
-        public event EventHandler? PaymentChange;
-
-        private ValidationHelper _helper = new ValidationHelper();
-
-
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-
-        public bool HasErrors => _helper.HasErrors;
-
-
-        public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
-
-
-        private readonly Payment _payment;
-
-
-        public Payment GetPayment => _payment;
-
-
-        public DateTime StartDate
-        {
-            get { return _payment.StartDate; }
-            set
-            {
-                _helper.ClearError(nameof(StartDate));
-                _helper.ClearError(nameof(EndDate));
-
-                if (StartDate == EndDate || EndDate < StartDate)
-                {
-                    _helper.AddError("start date must be before enddate", nameof(StartDate));
-                }
-                _payment.StartDate = value;
-                OnPropertyChanged(nameof(StartDate));
-            }
-        }
-
+        // properties & fields
+        #region properties & fields
 
         public DateTime EndDate
         {
@@ -72,6 +34,22 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
                 OnPropertyChanged(nameof(EndDate));
             }
         }
+
+
+        public bool EndDateVisible => PaymentQuantity > 1;
+
+
+        public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
+
+
+        public bool HasErrors => _helper.HasErrors;
+
+
+        private ValidationHelper _helper = new ValidationHelper();
+
+
+        private readonly Payment _payment;
+        public Payment GetPayment => _payment;
 
 
         public int PaymentQuantity
@@ -106,6 +84,25 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             }
         }
 
+        public double PaymentTotal => Sum * PaymentQuantity;
+
+
+        public DateTime StartDate
+        {
+            get { return _payment.StartDate; }
+            set
+            {
+                _helper.ClearError(nameof(StartDate));
+                _helper.ClearError(nameof(EndDate));
+
+                if (StartDate == EndDate || EndDate < StartDate)
+                {
+                    _helper.AddError("start date must be before enddate", nameof(StartDate));
+                }
+                _payment.StartDate = value;
+                OnPropertyChanged(nameof(StartDate));
+            }
+        }
 
         public double Sum
         {
@@ -132,17 +129,32 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             }
         }
 
+        #endregion properties & fields
 
-        public double PaymentTotal => Sum * PaymentQuantity;
+
+        // event properties & fields
+        #region event properties & fields
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
 
-        public bool EndDateVisible => PaymentQuantity > 1;
+        public event EventHandler? PaymentChange;
 
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        #endregion event properties & fields
+
+
+        // constructors
+        #region constructors
 
         public PaymentViewModel(Payment payment)
         {
             _payment = payment;
         }
+
+        #endregion constructors
 
 
     }

@@ -19,93 +19,49 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
     public class BillingViewModel : BaseViewModel, IRoomCostsCarrier
     {
 
-        public event PropertyChangedEventHandler DataChange;
+        // properties & fields
+        #region properties
+
+        // Heating
+        #region Heating
+
+        public double SharedHeatingUnitsConsumption => TotalHeatingUnitsConsumption - TotalHeatingUnitsRoom;
 
 
-        private readonly FlatViewModel _flatViewModel;
+        public double SharedHeatingUnitsConsumptionPercentage => SharedHeatingUnitsConsumption / TotalHeatingUnitsConsumption * 100;
 
 
-        public bool HasPayments
+        public double TotalHeatingUnitsConsumption
         {
-            get { return GetBilling.HasPayments; }
+            get { return GetBilling.TotalHeatingUnitsConsumption; }
             set
             {
-                GetBilling.HasPayments = value;
-
-                if (HasPayments)
-                {
-                    GenerateRoomPayments();
-                }
-
-                OnPropertyChanged(nameof(HasPayments));
+                GetBilling.TotalHeatingUnitsConsumption = value;
+                OnPropertyChanged(nameof(TotalHeatingUnitsConsumption));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumption));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumptionPercentage));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsConsumption)));
             }
         }
 
 
-        public bool HasCredit
+        public double TotalHeatingUnitsRoom
         {
-            get { return GetBilling.HasCredit; }
+            get { return GetBilling.TotalHeatingUnitsRoom; }
             set
             {
-                GetBilling.HasCredit = value;
-
-                OnPropertyChanged(nameof(HasCredit));
+                GetBilling.TotalHeatingUnitsRoom = value;
+                OnPropertyChanged(nameof(TotalHeatingUnitsRoom));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumption));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumptionPercentage));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsRoom)));
             }
         }
-
-
-        public bool HasDataLock
-        {
-            get { return GetBilling.HasDataLock; }
-            set
-            {
-                GetBilling.HasDataLock = value;
-
-                OnPropertyChanged(nameof(HasDataLock));
-            }
-        }
-
-
-        public string Signature => $"{StartDate:d} - {EndDate:d}\n{TotalHeatingUnitsConsumption} units";
-
-
-        private Billing _Billing;
-        public Billing GetBilling
-        {
-            get { return _Billing; }
-            set
-            {
-                _Billing = value;
-                OnPropertyChanged(nameof(GetBilling));
-            }
-        }
-
-
-        public DateTime StartDate
-        {
-            get { return GetBilling.StartDate; }
-            set
-            {
-                GetBilling.StartDate = value; OnPropertyChanged(nameof(StartDate));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
-
-
-            }
-        }
-
-
-        public DateTime EndDate
-        {
-            get { return GetBilling.EndDate; }
-            set
-            {
-                GetBilling.EndDate = value; OnPropertyChanged(nameof(EndDate));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(EndDate)));
-            }
-        }
+        #endregion Heating
 
 
         // monthly costs
+        #region monthly costs
         public double TotalCostsPerPeriod
         {
             get { return GetBilling.TotalCostsPerPeriod; }
@@ -140,58 +96,103 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingCostsPerPeriod)));
             }
         }
+        #endregion monthly costs
 
 
-        // Heating
-        #region Heating
-        public double TotalHeatingUnitsConsumption
+        // other properties
+        #region other properties
+        private Billing _Billing;
+        public Billing GetBilling
         {
-            get { return GetBilling.TotalHeatingUnitsConsumption; }
+            get { return _Billing; }
             set
             {
-                GetBilling.TotalHeatingUnitsConsumption = value;
-                OnPropertyChanged(nameof(TotalHeatingUnitsConsumption));
-                OnPropertyChanged(nameof(SharedHeatingUnitsConsumption));
-                OnPropertyChanged(nameof(SharedHeatingUnitsConsumptionPercentage));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsConsumption)));
+                _Billing = value;
+                OnPropertyChanged(nameof(GetBilling));
             }
         }
 
 
-        public double SharedHeatingUnitsConsumption => TotalHeatingUnitsConsumption - TotalHeatingUnitsRoom;
-
-
-        public double SharedHeatingUnitsConsumptionPercentage => SharedHeatingUnitsConsumption / TotalHeatingUnitsConsumption * 100;
-
-
-        public double TotalHeatingUnitsRoom
+        public DateTime EndDate
         {
-            get { return GetBilling.TotalHeatingUnitsRoom; }
+            get { return GetBilling.EndDate; }
             set
             {
-                GetBilling.TotalHeatingUnitsRoom = value;
-                OnPropertyChanged(nameof(TotalHeatingUnitsRoom));
-                OnPropertyChanged(nameof(SharedHeatingUnitsConsumption));
-                OnPropertyChanged(nameof(SharedHeatingUnitsConsumptionPercentage));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsRoom)));
-            }
-        }
-        #endregion Heating
-
-
-        private ObservableCollection<RoomPaymentsViewModel> _RoomPayments;
-        public ObservableCollection<RoomPaymentsViewModel> RoomPayments
-        {
-            get { return _RoomPayments; }
-            set
-            {
-                _RoomPayments = value;
-                OnPropertyChanged(nameof(RoomPayments));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomPayments)));
+                GetBilling.EndDate = value; OnPropertyChanged(nameof(EndDate));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(EndDate)));
             }
         }
 
-        
+
+        private readonly FlatViewModel _flatViewModel;
+
+
+        public bool HasCredit
+        {
+            get { return GetBilling.HasCredit; }
+            set
+            {
+                GetBilling.HasCredit = value;
+
+                BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
+
+                OnPropertyChanged(nameof(HasCredit));
+            }
+        }
+
+
+        public bool HasDataLock
+        {
+            get { return GetBilling.HasDataLock; }
+            set
+            {
+                GetBilling.HasDataLock = value;
+
+                OnPropertyChanged(nameof(HasDataLock));
+            }
+        }
+
+
+        public bool HasPayments
+        {
+            get { return GetBilling.HasPayments; }
+            set
+            {
+                GetBilling.HasPayments = value;
+
+                if (HasPayments)
+                {
+                    GenerateRoomPayments();
+                }
+
+                BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
+
+                OnPropertyChanged(nameof(HasPayments));
+            }
+        }
+
+
+        public string Signature => $"{StartDate:d} - {EndDate:d}\n{TotalHeatingUnitsConsumption} units";
+
+
+        public DateTime StartDate
+        {
+            get { return GetBilling.StartDate; }
+            set
+            {
+                GetBilling.StartDate = value; OnPropertyChanged(nameof(StartDate));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
+
+
+            }
+        }
+
+        #endregion other properties
+
+
+        // collections
+        #region collections
+
         private ObservableCollection<RoomCostsViewModel> _RoomCosts;
         public ObservableCollection<RoomCostsViewModel> RoomCosts
         {
@@ -205,6 +206,35 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
 
 
+        private ObservableCollection<RoomPaymentsViewModel> _RoomPayments;
+        public ObservableCollection<RoomPaymentsViewModel> RoomPayments
+        {
+            get { return _RoomPayments; }
+            set
+            {
+                _RoomPayments = value;
+                OnPropertyChanged(nameof(RoomPayments));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomPayments)));
+            }
+        }
+        #endregion collections
+
+        #endregion properties
+
+
+        // event properties & fields
+        #region event handlers
+
+        public event PropertyChangedEventHandler DataChange;
+
+        public event EventHandler BillingViewModelConfigurationChange;
+
+        #endregion event handlers
+
+
+        // constructors
+        #region constructors
+
         public BillingViewModel(FlatViewModel flatViewModel, Billing billing)
         {
             RoomCosts = new ObservableCollection<RoomCostsViewModel>();
@@ -217,6 +247,11 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             GenerateRoomPayments();
         }
 
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         public double CalculatePaymentsPerPeriod()
         {
@@ -373,6 +408,11 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             //}
         }
 
+        #endregion methods
+
+
+        // events
+        #region events
 
         private void RoomCosts_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -386,6 +426,8 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             OnPropertyChanged(nameof(RoomCosts));
             DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
         }
+
+        #endregion events
 
 
     }

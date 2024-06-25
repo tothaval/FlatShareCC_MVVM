@@ -5,8 +5,6 @@
  *  data model class
  *  for RoomViewModel
  */
-using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System.Collections.ObjectModel;
 
 namespace SharedLivingCostCalculator.Models
 {
@@ -14,17 +12,25 @@ namespace SharedLivingCostCalculator.Models
     public class Room
     {
 
-        public int ID { get; set; } = -1;  
+        // propperties & fields
+        #region propperties
+
+        public int ID { get; set; } = -1;
+
+        
+        public double RoomArea { get; set; } = 0.0;
 
 
         public string RoomName { get; set; } = string.Empty;
 
-
-        public double RoomArea { get; set; } = 0.0;
-
-
+        
         public string Signature => $"{RoomName}\n{RoomArea}m²";
 
+        #endregion propperties
+
+
+        // constructors
+        #region constructors
 
         public Room()
         {
@@ -44,6 +50,8 @@ namespace SharedLivingCostCalculator.Models
             RoomName = roomName;
             RoomArea = roomArea;
         }
+
+        #endregion constructors
 
 
     }

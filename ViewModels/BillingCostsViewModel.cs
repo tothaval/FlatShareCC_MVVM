@@ -12,7 +12,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 
@@ -21,59 +20,31 @@ namespace SharedLivingCostCalculator.ViewModels
     internal class BillingCostsViewModel : BaseViewModel
     {
 
-        private readonly BillingViewModel _billingViewModel;
-
-
-        private readonly FlatViewModel _flatViewModel;
+        // properties & fields
+        #region properties
 
         public double Area => _billingViewModel.GetFlatViewModel().Area;
-
-        public double TotalFixedCosts => _billingViewModel.TotalFixedCostsPerPeriod;
-        public double TotalHeatingCosts => _billingViewModel.TotalHeatingCostsPerPeriod;
-        public double TotalExtraCosts => _billingViewModel.TotalCostsPerPeriod;
-
-        public double TotalAdvancePerPeriod => 1500.24;
-        //public double TotalAdvancePerPeriod => DetermineTotalAdvancePerPeriod();
-
-        public double TotalCosts => TotalRentCosts + TotalExtraCosts;
-
-
-        // rent costs must be subtracted based on most recent rent before billing
-        public double TotalPayments => _billingViewModel.CalculatePaymentsPerPeriod();
 
 
         public double Balance => DetermineBalance();
 
 
-        public ObservableCollection<BillingCostsViewModel> Billing { get; }
+        public ICollectionView BillingListView { get; set; }
 
 
-        public ICollectionView RoomCosts { get; set; }
+        private readonly BillingViewModel _billingViewModel;
+
+
+        private readonly FlatViewModel _flatViewModel;
+
+
+        public bool HasPayments => _billingViewModel.HasPayments;
 
 
         public ICollectionView HeatingUnits { get; set; }
 
-        public ICollectionView BillingListView { get; set; }
 
-        public double TotalRentCosts
-        {
-            get { return -1.0; }
-            //get {
-            //    if (_billingViewModel.RentViewModel == null)
-            //    {
-            //        return -1.0;
-            //    }
-
-            //    
-            // DetermineAnnualRent via calculation and date checks of rent updates in flatviewmodel
-            //
-            //
-            //    return _billingViewModel.RentViewModel.AnnualRent;
-
-
-
-            //}
-        }
+        public ICollectionView RoomCosts { get; set; }
 
 
         private bool _ShowFlatCosts;
@@ -100,9 +71,56 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        public bool HasPayments => _billingViewModel.HasPayments;
+        public double TotalAdvancePerPeriod => 1500.24;
+        //public double TotalAdvancePerPeriod => DetermineTotalAdvancePerPeriod();
 
 
+        public double TotalCosts => TotalRentCosts + TotalExtraCosts;
+
+
+        public double TotalExtraCosts => _billingViewModel.TotalCostsPerPeriod;
+
+
+        public double TotalFixedCosts => _billingViewModel.TotalFixedCostsPerPeriod;
+
+
+        public double TotalHeatingCosts => _billingViewModel.TotalHeatingCostsPerPeriod;
+
+
+        // rent costs must be subtracted based on most recent rent before billing
+        public double TotalPayments => _billingViewModel.CalculatePaymentsPerPeriod();
+
+
+        public double TotalRentCosts
+        {
+            get { return -1.0; }
+            //get {
+            //    if (_billingViewModel.RentViewModel == null)
+            //    {
+            //        return -1.0;
+            //    }
+
+            //    
+            // DetermineAnnualRent via calculation and date checks of rent updates in flatviewmodel
+            //
+            //
+            //    return _billingViewModel.RentViewModel.AnnualRent;
+
+            //}
+        }
+        #endregion properties
+
+
+        // collections
+        #region collections
+
+        public ObservableCollection<BillingCostsViewModel> Billing { get; }
+
+        #endregion collections
+
+
+        // constructors
+        #region constructors
         public BillingCostsViewModel(BillingViewModel billingViewModel, FlatViewModel flatViewModel)
         {
             _billingViewModel = billingViewModel;
@@ -116,9 +134,14 @@ namespace SharedLivingCostCalculator.ViewModels
             HeatingUnits = CollectionViewSource.GetDefaultView(_billingViewModel.RoomCosts);
 
             BillingListView = CollectionViewSource.GetDefaultView(Billing);
+
+            _billingViewModel.BillingViewModelConfigurationChange += _billingViewModel_BillingViewModelConfigurationChange;
         }
+        #endregion constructors
 
 
+        // methods
+        #region methods
         private double DetermineBalance()
         {
             double balance = 0.0;
@@ -144,8 +167,19 @@ namespace SharedLivingCostCalculator.ViewModels
             ObservableCollection<RentViewModel> rentViewModels = new ObservableCollection<RentViewModel>();
 
 
-            return 0;
+            return advance;
         }
+        #endregion methods
+
+
+        // events
+        #region events
+        private void _billingViewModel_BillingViewModelConfigurationChange(object? sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(HasPayments));
+        }
+        #endregion events
+
 
     }
 }

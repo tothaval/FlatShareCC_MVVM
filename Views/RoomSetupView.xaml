@@ -79,7 +79,7 @@
                                                    ValueMinWidth="120"/>
                             <c_views:ObjectInputView Label="{DynamicResource IDF_RoomArea}"
                                Value="{Binding RoomArea, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,  NotifyOnTargetUpdated=True,
-                              StringFormat=\{0:n\}, Delay=500}"
+                              StringFormat=\{0:n\}, Delay=250}"
                                IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"
                                Foreground="DarkSlateGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                                                    ValueAlignment="Right"
@@ -87,7 +87,7 @@
                                                    Grid.Row="1"/>
                             <c_views:ObjectInputView Label="{DynamicResource IDF_RoomTenant}"
                                                    Value="{Binding Tenant, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                              StringFormat=\{0:n\}, Delay=500}" 
+                              StringFormat=\{0:n\}, Delay=250}" 
                                                    Foreground="DarkSlateGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                                                    ValueMinWidth="120"
                                                    Grid.Row="2"/>

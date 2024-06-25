@@ -45,7 +45,7 @@
         <c_views:DoubleInputView Label="{DynamicResource IDF_FlatArea}"
                                  LabelMinWidth="100"
                                Value="{Binding FlatSetup.Area, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True, Mode=TwoWay,
-                              StringFormat=\{0:n\}, Delay=500}"                                 
+                              StringFormat=\{0:n\}, Delay=250}"                                 
                                IsEnabled="{Binding IsNewFlatWindow}"
                                Foreground="DarkSlateGray"
                                  ValueAlignment="Right"

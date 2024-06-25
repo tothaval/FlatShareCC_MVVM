@@ -21,9 +21,70 @@ namespace SharedLivingCostCalculator.Utility
     [XmlRoot("Language")]
     public class LanguageResourceStrings
     {
+
+        // properties & fields
+        #region properties
+
         public string Language { get; set; } = "";
 
+
+        // billing views
+        #region billing views
+
+        public string IDF_Billing { get; set; } = "Billing";
+        public string IDF_BillingPeriodData { get; set; } = "Billing Data";
+        public string IDF_BillingPeriodOptions { get; set; } = "Billing Options";
+        public string IDF_Consumption { get; set; } = "Consumption";
+        public string IDF_ConsumptionShare { get; set; } = "Heating Share";
+        public string IDF_CombinedConsumption { get; set; } = "Heating Combined";
+
+        public string IDF_ExtraCosts { get; set; } = "Extra\nCosts";
+        public string IDF_FixedCosts { get; set; } = "Fixed\nCosts";
+        public string IDF_HeatingCosts { get; set; } = "Heating\nCosts";
+        public string IDF_TotalCosts { get; set; } = "Total\nCosts";
+        public string IDF_Balance { get; set; } = "Balance";
+
+        public string IDF_RoomHeatingUnits { get; set; } = "Heating Room";
+        public string IDF_CombinedRoomHeatingUnits { get; set; } = "All Rooms\nHeating Units";
+        public string IDF_Percentage { get; set; } = "%";
+        public string IDF_TotalConsumption { get; set; } = "Total Consumption";
+        public string IDF_SharedConsumption { get; set; } = "Shared Consumption";
+        public string IDF_TotalRooms { get; set; } = "Rooms Consumption";
+
+        public string BillingManagementInstructionText { get; set; }
+
+        #endregion billing views
+
+
+        // buttons and commands
+        #region buttons and commands
+
+        public string IDF_Back { get; set; } = "Back";
+        public string IDF_NewBilling { get; set; } = "New Billing";
+        public string IDF_DeleteBilling { get; set; } = "Delete";
+        public string IDF_ShowCosts { get; set; } = "Show Costs";
+        public string IDF_NewRent { get; set; } = "New Rent";
+        public string IDF_NewRentChange { get; set; } = "New Rent Change";
+        public string IDF_DeleteRent { get; set; } = "Delete Rent";
+        public string IDF_DeleteRentChange { get; set; } = "Delete Rent Change(s)";
+
+
+        public string IDF_NewFlat { get; set; } = "New Flat";
+        public string IDF_EditFlat { get; set; } = "Edit Flat";
+        public string IDF_DeleteFlat { get; set; } = "Delete Flat";
+        public string IDF_FlatSetup { get; set; } = "Flat Setup";
+        public string IDF_RoomSetup { get; set; } = "Room Setup";
+        public string IDF_Manual { get; set; } = "Manual";
+        public string IDF_Settings { get; set; } = "Settings";
+        public string IDF_FlatCosts { get; set; } = "Flat Costs";
+        public string IDF_RoomCosts { get; set; } = "Room Costs";
+
+        #endregion buttons and commands
+
+
         // flat and room views, general stuff
+        #region flat and room views, general stuff
+
         public string IDF_StartDate { get; set; } = "Begin";
         public string IDF_EndDate { get; set; } = "End";
 
@@ -50,18 +111,26 @@ namespace SharedLivingCostCalculator.Utility
         public string FlatManagementHeaderText { get; set; } = "Flat Management";
         public string FlatManagementInstructionText { get; set; }
 
-        // settings view
-        public string IDF_SettingsTitleText { get; set; } = "SLCC Settings";
-        public string IDF_Language { get; set; } = "Language";
-        public string IDF_Country { get; set; } = "Country";
-        public string IDF_FontSize { get; set; } = "Font Size";
-        public string IDF_FontFamily { get; set; } = "Font Family";
-        public string IDF_Foreground { get; set; } = "Foreground";
-        public string IDF_Background { get; set; } = "Background";
+        #endregion flat and room views, general stuff
 
-        public string SettingsHeaderText { get; set; } = "Settings";
-                   
+
+        // payment views
+        #region payment views
+        public string IDF_Payments { get; set; } = "Payments";
+        public string IDF_Quantity { get; set; } = "Quantity";
+        public string IDF_AddPayment { get; set; } = "Add Payment(s)";
+        public string IDF_DeletePayment { get; set; } = "Delete Payment";
+        public string IDF_PaymentStartDate { get; set; } = "Start";
+        public string IDF_PaymentEndDate { get; set; } = "End";
+        public string IDF_Payment { get; set; } = "Payment";
+        public string IDF_PaymentQuantity { get; set; } = "Quantity";
+        public string IDF_PaymentTotal { get; set; } = "Total";
+        #endregion payment views
+
+
         // rent views
+        #region rent views
+
         public string IDF_Rent { get; set; } = "Rent";
         public string IDF_RentChange { get; set; } = "Rent Change(s)";
 
@@ -123,69 +192,29 @@ namespace SharedLivingCostCalculator.Utility
 
         public string RentManagementInstructionText { get; set; }
 
-        
-        // billing views
-        public string IDF_Billing { get; set; } = "Billing";
-        public string IDF_BillingPeriodData { get; set; } = "Billing Data"; 
-        public string IDF_BillingPeriodOptions { get; set; } = "Billing Options";
-        public string IDF_Consumption { get; set; } = "Consumption";  
-        public string IDF_ConsumptionShare { get; set; } = "Heating Share";
-        public string IDF_CombinedConsumption { get; set; } = "Heating Combined";
-
-        public string IDF_ExtraCosts { get; set; } = "Extra\nCosts";
-        public string IDF_FixedCosts { get; set; } = "Fixed\nCosts";
-        public string IDF_HeatingCosts { get; set; }  = "Heating\nCosts";
-        public string IDF_TotalCosts { get; set; } = "Total\nCosts";
-        public string IDF_Balance { get; set; } = "Balance";
-
-        public string IDF_RoomHeatingUnits { get; set; } = "Heating Room";
-        public string IDF_CombinedRoomHeatingUnits { get; set; } = "All Rooms\nHeating Units";
-        public string IDF_Percentage { get; set; } = "%";
-        public string IDF_TotalConsumption { get; set; } = "Total Consumption"; 
-        public string IDF_SharedConsumption { get; set; } = "Shared Consumption";
-        public string IDF_TotalRooms { get; set; } = "Rooms Consumption";
-
-        public string BillingManagementInstructionText { get; set; }
+        #endregion rent views
 
 
-        // payment views
-        public string IDF_Payments { get; set; } = "Payments";
-        public string IDF_Quantity { get; set; } = "Quantity";
-        public string IDF_AddPayment { get; set; } = "Add Payment(s)";
-        public string IDF_DeletePayment { get; set; } = "Delete Payment";
-        public string IDF_PaymentStartDate { get; set; } = "Start";
-        public string IDF_PaymentEndDate { get; set; } = "End";
-        public string IDF_Payment { get; set; } = "Payment";
-        public string IDF_PaymentQuantity { get; set; } = "Quantity";
-        public string IDF_PaymentTotal { get; set; } = "Total";
+        // settings view
+        #region settings view
+
+        public string IDF_SettingsTitleText { get; set; } = "SLCC Settings";
+        public string IDF_Language { get; set; } = "Language";
+        public string IDF_Country { get; set; } = "Country";
+        public string IDF_FontSize { get; set; } = "Font Size";
+        public string IDF_FontFamily { get; set; } = "Font Family";
+        public string IDF_Foreground { get; set; } = "Foreground";
+        public string IDF_Background { get; set; } = "Background";
+
+        public string SettingsHeaderText { get; set; } = "Settings";
+
+        #endregion settings view
+
+        #endregion properties
 
 
-        // buttons and commands
-        public string IDF_Back { get; set; } = "Back";
-        public string IDF_NewBilling { get; set; } = "New Billing";
-        public string IDF_DeleteBilling { get; set; } = "Delete";
-        public string IDF_ShowCosts { get; set; } = "Show Costs";
-        public string IDF_NewRent { get; set; } = "New Rent";
-        public string IDF_NewRentChange { get; set; } = "New Rent Change";
-        public string IDF_DeleteRent { get; set; } = "Delete Rent";
-        public string IDF_DeleteRentChange { get; set; } = "Delete Rent Change(s)";
-
-
-        public string IDF_NewFlat { get; set; } = "New Flat";
-        public string IDF_EditFlat { get; set; } = "Edit Flat";
-        public string IDF_DeleteFlat { get; set; } = "Delete Flat";
-        public string IDF_FlatSetup { get; set; } = "Flat Setup";
-        public string IDF_RoomSetup { get; set; } = "Room Setup";
-        public string IDF_Manual { get; set; } = "Manual";
-        public string IDF_Settings { get; set; } = "Settings";
-        public string IDF_FlatCosts { get; set; } = "Flat Costs";
-        public string IDF_RoomCosts { get; set; } = "Room Costs";
-
-        
-
-        
-
-
+        // constructors
+        #region constructors
 
         public LanguageResourceStrings()
         {
@@ -202,6 +231,12 @@ namespace SharedLivingCostCalculator.Utility
             _FlatManagementInstructionText();
             _RentManagementInstructionText();
         }
+
+        #endregion constructors
+
+
+        //methods
+        #region methods
 
         private string _BillingManagementInstructionText()
         {
@@ -256,6 +291,10 @@ namespace SharedLivingCostCalculator.Utility
 
             return stringBuilder.ToString();
         }
+
+        #endregion methods
+
+
     }
 }
 // EOF

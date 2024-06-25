@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  CostShareTypes 
+ * 
+ *  enum holds all supported cost split procedures
+ *  for OtherCostItem logic
+ */
+
 
 namespace SharedLivingCostCalculator.Enums
 {
@@ -10,5 +13,8 @@ namespace SharedLivingCostCalculator.Enums
     {
         Equal,
         Area        
+
+
     }
 }
+// EOF

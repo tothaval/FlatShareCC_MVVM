@@ -1,41 +1,32 @@
-﻿using SharedLivingCostCalculator.Models;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RoomPaymentsViewModel  : BaseViewModel
+ * 
+ *  viewmodel for RoomPayments model
+ *  
+ *  purpose:
+ *      -> calculate payments for a room instance
+ *          within IRoomCostCarrier class BillingViewModel
+ */
+using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Utility;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace SharedLivingCostCalculator.ViewModels.ViewLess
 {
     public class RoomPaymentsViewModel : BaseViewModel, INotifyDataErrorInfo
     {
 
-        private ValidationHelper _helper = new ValidationHelper();
-
-
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-
-        public bool HasErrors => _helper.HasErrors;
-
-
-        public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
-
+        // properties & fields
+        #region properties & fields
 
         public double CombinedPayments => CalculateTotalPayments();
 
 
-        public int ID => RoomPayments.RoomID;
-        public string RoomName => GetRoomName();
-        public double RoomArea => GetRoomArea();
+        public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
+
 
         public double GetRoomArea()
         {
@@ -47,6 +38,7 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             return 0.0;
         }
 
+
         public string GetRoomName()
         {
             if (RoomPayments != null && RoomPayments.RoomViewModel != null)
@@ -56,6 +48,21 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
             return "unknown";
         }
+
+
+        public bool HasErrors => _helper.HasErrors;
+
+
+        private ValidationHelper _helper = new ValidationHelper();
+
+
+        public int ID => RoomPayments.RoomID;
+
+
+        public double RoomArea => GetRoomArea();
+
+
+        public string RoomName => GetRoomName();
 
 
 
@@ -71,22 +78,41 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             }
         }
 
-        //private ObservableCollection<PaymentViewModel> _PaymentViewModels;
-        public ObservableCollection<PaymentViewModel> PaymentViewModels => GetPaymentViewModels();
-        //{
-        //    get { return _PaymentViewModels; }
-        //    set {
-        //        _PaymentViewModels = value;
-        //        OnPropertyChanged(nameof(PaymentViewModels));
-        //    }
-        //}
+        #endregion properties & fields
 
+
+        // event properties & fields
+        #region event properties & fields
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        #endregion event properties & fields
+
+
+        // collections
+        #region collections
+
+        public ObservableCollection<PaymentViewModel> PaymentViewModels => GetPaymentViewModels();
+
+        #endregion collections
+
+
+        // constructors
+        #region constructors   
 
         public RoomPaymentsViewModel(RoomPayments roomPayments)
         {
             RoomPayments = roomPayments;
         }
+        
+        #endregion constructors
 
+
+        // methods
+        #region methods
 
         public double CalculateTotalPayments()
         {
@@ -120,72 +146,18 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             return paymentViewModels;
         }
 
+        #endregion methods
+
+
+        // events
+        #region events
+
         private void PaymentViewModel_PaymentChange(object? sender, EventArgs e)
         {
             OnPropertyChanged(nameof(CombinedPayments));
         }
 
-        //private void SetPaymentViewModels()
-        //{
-        //    if (PaymentViewModels != null)
-        //    {
-        //        RoomPayments.Payments.Clear();
-
-
-        //        foreach (PaymentViewModel paymentViewModel in PaymentViewModels)
-        //        {
-        //            RoomPayments.Payments.Add(paymentViewModel.GetPayment);
-        //        }
-        //    }
-
-        //}
-
-        //public DateTime FindNewestPayment()
-        //{
-        //    DateTime end = new DateTime();
-
-        //    if (Payments != null)
-        //    {
-        //        foreach (PaymentViewModel item in Payments)
-        //        {
-        //            if (item.PaymentQuantity > 1)
-        //            {
-        //                if (item.EndDate > end)
-        //                {
-        //                    end = item.EndDate;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                if (item.StartDate > end)
-        //                {
-        //                    end = item.StartDate;
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    return end;
-        //}
-
-
-        //public DateTime FindOldestPayment()
-        //{
-        //    DateTime start = DateTime.Now;
-
-        //    if (Payments != null)
-        //    {
-        //        foreach (PaymentViewModel item in Payments)
-        //        {
-        //            if (item.StartDate < start)
-        //            {
-        //                start = item.StartDate;
-        //            }
-        //        }
-        //    }
-
-        //    return start;
-        //}
+        #endregion events
 
 
     }

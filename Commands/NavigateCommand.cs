@@ -14,19 +14,34 @@ namespace SharedLivingCostCalculator.Commands
     internal class NavigateCommand : BaseCommand
     {
 
+        // properties & fields
+        #region properties
+
         private readonly INavigationService _navigationService;
 
+        #endregion properties
+
+
+        // constructors
+        #region constructors
 
         public NavigateCommand(INavigationService navigationService)
         {
             _navigationService = navigationService;
         }
 
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         public override void Execute(object? parameter)
         {
             _navigationService.ChangeView();
         }
+
+        #endregion methods
 
 
     }

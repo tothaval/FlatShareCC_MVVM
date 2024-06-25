@@ -20,25 +20,13 @@ namespace SharedLivingCostCalculator.Utility
     public class Resources
     {
 
-        public string Language { get; set; } = SupportedLanguages.English.ToString();
-
-
-        [XmlIgnore]
-        public SolidColorBrush SCB_Background { get; set; } = new SolidColorBrush(Colors.White);
-
+        // properties & fields
+        #region properties
 
         public Color C_Background { get; set; }
 
 
-        [XmlIgnore]
-        public SolidColorBrush SCB_Text { get; set; } = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444"));
-
-
         public Color C_Text { get; set; }
-
-
-        [XmlIgnore]
-        public SolidColorBrush SCB_Text_Header { get; set; } = new SolidColorBrush(Colors.Black);
 
 
         public Color C_Text_Header { get; set; }
@@ -53,6 +41,26 @@ namespace SharedLivingCostCalculator.Utility
 
         public double FS { get; set; } = 11.0;
 
+
+        public string Language { get; set; } = SupportedLanguages.English.ToString();
+
+
+        [XmlIgnore]
+        public SolidColorBrush SCB_Background { get; set; } = new SolidColorBrush(Colors.White);
+
+
+        [XmlIgnore]
+        public SolidColorBrush SCB_Text { get; set; } = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444"));
+
+
+        [XmlIgnore]
+        public SolidColorBrush SCB_Text_Header { get; set; } = new SolidColorBrush(Colors.Black);
+
+        #endregion properties
+
+
+        // methods
+        #region methods
 
         public Resources GetResources()
         {
@@ -106,6 +114,8 @@ namespace SharedLivingCostCalculator.Utility
             // ??? how to apply global to app?
 
         }
+
+        #endregion methods
 
 
     }

@@ -1,32 +1,54 @@
-﻿using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Enums;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *   
+ *  OtherCostsViewModel  : BaseViewModel
+ * 
+ *  viewmodel for OtherCostsView
+ *  
+ *  displays a seperate window for creating
+ *  or editing of OtherCostItemViewModel instances
+ */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
     public class OtherCostsViewModel : BaseViewModel
     {
+
+        // properties & fields
+        #region properties
+
         private readonly RentViewModel _RentViewModel;
 
+        #endregion properties
 
-        public ICommand AddOtherCostItemCommand { get; }
-        public ICommand RemoveOtherCostItemCommand { get; }
+
+        // collections
+        #region collections
 
         public ObservableCollection<OtherCostItemViewModel> OtherCostItems => _RentViewModel.OtherCosts;
 
+        #endregion collections
+
+
+        // commands
+        #region commands
+
+        public ICommand AddOtherCostItemCommand { get; }
+
+
+        public ICommand RemoveOtherCostItemCommand { get; }
+
+        #endregion commands
+
+
+        // constructors
+        #region constructors
 
         public OtherCostsViewModel(RentViewModel rentViewModel)
         {
@@ -38,6 +60,11 @@ namespace SharedLivingCostCalculator.ViewModels
 
         }
 
+        #endregion constructors
+
+
+        // methods
+        #region methods
 
         private void AddOtherCostItem(object s)
         {
@@ -71,6 +98,10 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+        #endregion methods
+
 
     }
 }
+
+// EOF

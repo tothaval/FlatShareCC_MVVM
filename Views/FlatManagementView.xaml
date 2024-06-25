@@ -220,11 +220,24 @@
             </Border>
 
 
-            <ToggleButton Content="{DynamicResource AccountingHeaderText}"
-                          IsChecked="{Binding ShowAccounting}"
-                          Style="{StaticResource toggleButtonStyle}"
-                          DockPanel.Dock="Top"
-                          Margin="0 10 0 0"/>
+            <Grid DockPanel.Dock="Top" 
+                  Margin="0 10 0 0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <ToggleButton Content="{DynamicResource AccountingHeaderText}"
+                              IsChecked="{Binding ShowAccounting}"
+                              Style="{StaticResource toggleButtonStyle}"
+                              Grid.Column="0"/>
+
+                <ToggleButton Content="{DynamicResource IDF_ShowCosts}"
+                              IsChecked="{Binding ShowCosts}"
+                              Style="{StaticResource toggleButtonStyle}"                              
+                              Grid.Column="1"/>
+            </Grid>
+            
 
             <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowAccounting, Converter={StaticResource VisibilityConverter}}"
@@ -238,11 +251,6 @@
                 </Grid>
             </Border>
 
-            <ToggleButton Content="{DynamicResource IDF_ShowCosts}"
-                          IsChecked="{Binding ShowCosts}"
-                          Style="{StaticResource toggleButtonStyle}"
-                          DockPanel.Dock="Top"
-                          Margin="0 10 0 0"/>
 
             <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowCosts, Converter={StaticResource VisibilityConverter}}"

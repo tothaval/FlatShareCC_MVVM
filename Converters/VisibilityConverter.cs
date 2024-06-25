@@ -9,11 +9,13 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-
 namespace SharedLivingCostCalculator.Converters
 {
     internal class VisibilityConverter : IValueConverter
     {
+
+        // methods
+        #region methods
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -25,6 +27,8 @@ namespace SharedLivingCostCalculator.Converters
         {
             throw new NotImplementedException();
         }
+        
+        #endregion methods
 
 
     }
