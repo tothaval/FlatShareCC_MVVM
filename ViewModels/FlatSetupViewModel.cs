@@ -11,7 +11,7 @@ using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class FlatSetupViewModel : BaseViewModel
+    public class FlatSetupViewModel : BaseViewModel
     {
 
         // properties & fields

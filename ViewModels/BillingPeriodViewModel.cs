@@ -46,6 +46,8 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         public bool DataLock => !DataLockCheckbox;
+
+
         public DateTime EndDate
         {
             get { return _billingViewModel.EndDate; ; }

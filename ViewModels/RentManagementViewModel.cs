@@ -21,7 +21,7 @@ using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class RentManagementViewModel : BaseViewModel
+    public class RentManagementViewModel : BaseViewModel
     {
 
         // properties & fields
@@ -155,7 +155,7 @@ namespace SharedLivingCostCalculator.ViewModels
         private void DeleteRentUpdate()
         {
             MessageBoxResult result = MessageBox.Show(
-                $"Do you wan't to delete this rent data:\n\n" +
+                $"Do you want to delete this rent data:\n\n" +
                 $"\t{SelectedValue.GetFlatViewModel().Address}\n" +
                 $"{SelectedValue.StartDate:d};\n{SelectedValue.ColdRent:C2};\n" +
                 $"{SelectedValue.FixedCostsAdvance:C2};\n{SelectedValue.HeatingCostsAdvance:C2};\n",

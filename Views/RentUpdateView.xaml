@@ -36,7 +36,6 @@
                            Style="{StaticResource StringValueTextBlock}"
                            Grid.Column="0"/>
                 <DatePicker SelectedDate="{Binding StartDate,StringFormat=d,
-                    ConverterCulture=de-DE,
                         UpdateSourceTrigger=PropertyChanged}"
                             MinWidth="100"
                             IsEnabled="{Binding HasDataLock}"

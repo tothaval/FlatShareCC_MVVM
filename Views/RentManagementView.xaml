@@ -27,11 +27,11 @@
 
         <Grid Grid.IsSharedSizeScope="True">
             <ListView ItemsSource="{Binding RentUpdates}"
-                  SelectedValue="{Binding Path=SelectedValue}"
+                      SelectedValue="{Binding Path=SelectedValue}"
+                      ItemContainerStyle="{StaticResource ItemContainerStyle}"
                   
-                  HorizontalAlignment="Left"
-                   VirtualizingStackPanel.IsVirtualizing="False"
-                  SelectionMode="Extended">
+                      VirtualizingStackPanel.IsVirtualizing="False"
+                      SelectionMode="Extended">
                 <ListView.View>
 
                     <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
@@ -40,8 +40,9 @@
                             <GridViewColumn Header="{DynamicResource IDF_RentStartDate}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding StartDate,StringFormat=d, ConverterCulture=de-DE,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                        <TextBlock Text="{Binding StartDate,StringFormat=d,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=OneWay}"
                                                Style="{StaticResource StringValueTextBlock}"/>
 
                                     </DataTemplate>
@@ -51,8 +52,9 @@
                             <GridViewColumn Header="{DynamicResource IDF_RentPerMonth}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ColdRent,StringFormat=C2, ConverterCulture=de-DE,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                        <TextBlock Text="{Binding ColdRent,StringFormat=C2,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
                                     </DataTemplate>
@@ -62,8 +64,9 @@
                             <GridViewColumn Header="{DynamicResource IDF_ExtraCostsPerMonth}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ExtraCostsTotal,StringFormat=C2, ConverterCulture=de-DE,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                        <TextBlock Text="{Binding ExtraCostsTotal,StringFormat=C2,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
                                     </DataTemplate>
@@ -73,8 +76,9 @@
                             <GridViewColumn Header="{DynamicResource IDF_TotalPricePerMonth}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding CostsTotal,StringFormat=C2, ConverterCulture=de-DE,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                        <TextBlock Text="{Binding CostsTotal,StringFormat=C2,
+                                            UpdateSourceTrigger=PropertyChanged, 
+                                            Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
                                     </DataTemplate>
@@ -84,8 +88,9 @@
                             <GridViewColumn Header="{DynamicResource IDF_RentPerYear}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding AnnualRent,StringFormat=C2, ConverterCulture=de-DE,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                        <TextBlock Text="{Binding AnnualRent,StringFormat=C2,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
                                     </DataTemplate>
@@ -95,8 +100,9 @@
                             <GridViewColumn Header="{DynamicResource IDF_ExtraCostsPerYear}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding AnnualExtraCosts,StringFormat=C2, ConverterCulture=de-DE,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                        <TextBlock Text="{Binding AnnualExtraCosts,StringFormat=C2,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
                                     </DataTemplate>
@@ -106,8 +112,9 @@
                             <GridViewColumn Header="{DynamicResource IDF_TotalPricePerYear}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding AnnualCostsTotal,StringFormat=C2, ConverterCulture=de-DE,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                        <TextBlock Text="{Binding AnnualCostsTotal,StringFormat=C2,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
                                     </DataTemplate>
@@ -139,7 +146,8 @@
         
         <local:RentUpdateView DataContext="{Binding UpdateViewModel, NotifyOnSourceUpdated=True}"
                               Margin="0 20"
-                              Visibility="{Binding RentUpdateSelected, Converter={StaticResource RentUpdateVisibilityConverter}}" />
+                              Visibility="{Binding RentUpdateSelected,
+            Converter={StaticResource RentUpdateVisibilityConverter}}" />
     </StackPanel>
     
 </UserControl>

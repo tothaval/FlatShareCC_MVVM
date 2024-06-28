@@ -10,7 +10,7 @@ using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    class RoomSetupViewModel : BaseViewModel
+    public class RoomSetupViewModel : BaseViewModel
     {
 
         // properties & fields

@@ -25,66 +25,184 @@
         </ObjectDataProvider>
     </UserControl.Resources>
 
-    <UniformGrid Margin="20" Columns="2" Rows="6">
+    <UniformGrid Margin="20" Columns="3">
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource IDF_Language}"
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{DynamicResource IDF_Language}"
                            MinWidth="100"
                            Style="{StaticResource StringValueTextBlock}"
+                       
+                       VerticalAlignment="Center"
                            Grid.Column="0"/>
-                <ComboBox ItemsSource="{Binding Source={StaticResource enumValues}}"
-                          SelectedItem="{Binding SelectedItem}"
+            <ComboBox ItemsSource="{Binding Source={StaticResource enumValues}}"
+                          SelectedItem="{Binding SelectedLanguageItem}"
                           HorizontalAlignment="Stretch"
+                       VerticalAlignment="Center"
+                      VerticalContentAlignment="Center"
                           MinWidth="100"
                            Grid.Column="1"/>
-            </Grid>
+        </Grid>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource IDF_Country}"
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{DynamicResource IDF_Culture}"
                            Style="{StaticResource StringValueTextBlock}"
                            MinWidth="100"
-                           Grid.Column="0"/>
-            </Grid>
+                           Grid.Column="0"
+                       VerticalAlignment="Center"/>
 
-            <!--<StackPanel Grid.Row="0">
-            <TextBlock Text="Currency"/>
-            <ComboBox ItemsSource="{Binding Currency}" Width="200" Padding="5" Margin="5" />
-        </StackPanel>-->
+            <ComboBox ItemsSource="{Binding Currency}"
+                          SelectedItem="{Binding SelectedCulture}"
+                          MinWidth="100" 
+                          Grid.Column="1"
+                       VerticalAlignment="Center"
+                      VerticalContentAlignment="Center">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock Text="{Binding DisplayName}"
+                                       VerticalAlignment="Center"
+                                       Style="{StaticResource StringValueTextBlock}"
+                                       />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
-            <comps:DoubleInputView Label="{DynamicResource IDF_FontSize}"
-                                   Value="{Binding FontSize,
-                UpdateSourceTrigger=PropertyChanged, Delay=350,
-                Mode=TwoWay}"
-                                   LabelMinWidth="100"
-                                   ValueMinWidth="100"
-                                   Margin="0 5"/>
+        </Grid>
 
-            <comps:ObjectInputView Label="{DynamicResource IDF_FontFamily}"
-                                   Value="{Binding FontFamily,
-                UpdateSourceTrigger=PropertyChanged, Delay=350,
-                Mode=TwoWay}"
-                                   LabelMinWidth="100"
-                                   ValueMinWidth="100"
-                                   Margin="0 5"/>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource IDF_Foreground}"
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{DynamicResource IDF_ButtonCornerRadius}"
+                       Style="{StaticResource StringValueTextBlock}"
+                       MinWidth="100"
+                       VerticalAlignment="Center"
+                       Grid.Column="0"/>
+
+
+            <Slider Interval="1"
+                    Grid.Column="1"
+                    Value="{Binding ButtonCornerRadius}"
+                    LargeChange="5"
+                    SmallChange="1"
+                    IsSnapToTickEnabled="True"
+                    Minimum="0"
+                    Maximum="60"
+                    MinWidth="100">
+            </Slider>
+        </Grid>
+
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{DynamicResource IDF_VisibilityFieldCornerRadius}"
+                     Style="{StaticResource StringValueTextBlock}"
+                     MinWidth="100"
+                     VerticalAlignment="Center"
+                     Grid.Column="0"/>
+
+
+            <Slider Interval="1"
+                  Grid.Column="1"
+                  Value="{Binding VisibilityFieldCornerRadius}"
+                  LargeChange="5"
+                  SmallChange="1"
+                  IsSnapToTickEnabled="True"
+                  Minimum="0"
+                  Maximum="60"
+                  MinWidth="100">
+            </Slider>
+        </Grid>
+
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{DynamicResource IDF_FontFamily}"
                            Style="{StaticResource StringValueTextBlock}"
                            MinWidth="100"
+                           Grid.Column="0"
+                       VerticalAlignment="Center"/>
+
+            <ComboBox ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}"
+                          SelectedItem="{Binding FontFamily}"
+                          MinWidth="100" 
+                          Grid.Column="1"
+                       VerticalAlignment="Center"
+                      VerticalContentAlignment="Center">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock Text="{Binding Source}"
+                                       FontFamily="{Binding Source}"
+                                       VerticalAlignment="Center"
+                                       Style="{StaticResource StringValueTextBlock}"
+                                       />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+
+
+
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{DynamicResource IDF_FontSize}"
+                           Style="{StaticResource StringValueTextBlock}"
+                           MinWidth="100"
+                       VerticalAlignment="Center"
                            Grid.Column="0"/>
-                <toolkit:ColorPicker HorizontalAlignment="Stretch"
+
+            <Slider Interval="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Value="{Binding FontSize,
+                UpdateSourceTrigger=PropertyChanged, Delay=350,
+                Mode=TwoWay}"
+                    LargeChange="4"
+                    SmallChange="1"
+                    IsSnapToTickEnabled="True"
+                    Minimum="8"
+                    Maximum="48"   
+                    MinWidth="100">
+            </Slider>
+        </Grid>
+
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{DynamicResource IDF_Foreground}"
+                           Style="{StaticResource StringValueTextBlock}"
+                           MinWidth="100"
+                       VerticalAlignment="Center"
+                           Grid.Column="0"/>
+            <toolkit:ColorPicker HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 VerticalContentAlignment="Center"
                                      SelectedColor="{Binding ForegroundColor}"
                                      MinWidth="100"
                             FontFamily="{DynamicResource FF}"
@@ -92,18 +210,18 @@
                             Foreground="{DynamicResource SCB_Text}"
                             Background="{DynamicResource SCB_Background}"
                            Grid.Column="1"/>
-            </Grid>
+        </Grid>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource IDF_Background}"
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{DynamicResource IDF_Background}"
                            Style="{StaticResource StringValueTextBlock}"
                            MinWidth="100"
                            Grid.Column="0"/>
-                <toolkit:ColorPicker HorizontalAlignment="Stretch"
+            <toolkit:ColorPicker HorizontalAlignment="Stretch"
                              SelectedColor="{Binding BackgroundColor}"
                            MinWidth="100"
                             FontFamily="{DynamicResource FF}"
@@ -111,6 +229,48 @@
                             Foreground="{DynamicResource SCB_Text}"
                             Background="{DynamicResource SCB_Background}"
                            Grid.Column="1"/>
-            </Grid>
-        </UniformGrid>
+        </Grid>
+
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{DynamicResource IDF_HeaderTextColor}"
+                           Style="{StaticResource StringValueTextBlock}"
+                           MinWidth="100"
+                           Grid.Column="0"/>
+            <toolkit:ColorPicker HorizontalAlignment="Stretch"
+                             SelectedColor="{Binding HeaderTextColor}"
+                           MinWidth="100"
+                            FontFamily="{DynamicResource FF}"
+                            FontSize="{DynamicResource FS}"
+                            Foreground="{DynamicResource SCB_Text}"
+                            Background="{DynamicResource SCB_Background}"
+                           Grid.Column="1"/>
+        </Grid>
+
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{DynamicResource IDF_SelectionColor}"
+                           Style="{StaticResource StringValueTextBlock}"
+                           MinWidth="100"
+                           Grid.Column="0"/>
+            <toolkit:ColorPicker HorizontalAlignment="Stretch"
+                             SelectedColor="{Binding SelectionColor}"
+                           MinWidth="100"
+                            FontFamily="{DynamicResource FF}"
+                            FontSize="{DynamicResource FS}"
+                            Foreground="{DynamicResource SCB_Text}"
+                            Background="{DynamicResource SCB_Background}"
+                           Grid.Column="1"/>
+        </Grid>
+
+
+
+
+    </UniformGrid>
 </UserControl>

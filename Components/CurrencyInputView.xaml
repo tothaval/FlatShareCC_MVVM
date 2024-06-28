@@ -17,7 +17,7 @@
                    Grid.Column="0"
                    Style="{StaticResource StringValueTextBlock}"
                    />
-        <TextBox Text="{Binding Path=Value, ElementName=SIV, UpdateSourceTrigger=PropertyChanged, StringFormat=C2, ConverterCulture=de-DE}"
+        <TextBox Text="{Binding Path=Value, ElementName=SIV, UpdateSourceTrigger=PropertyChanged, StringFormat=C2}"
                  IsReadOnly="{Binding Path=IsReadOnly, ElementName=SIV}"                 
                  x:Name="TB_Value"
                      Grid.Column="1"

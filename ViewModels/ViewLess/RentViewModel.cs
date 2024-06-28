@@ -160,6 +160,21 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
 
 
+        public bool OtherCostsHasDataLock
+        {
+            get { return Rent.OtherCostsHasDataLock; }
+            set
+            {
+                Rent.OtherCostsHasDataLock = value;
+
+                RentViewModelConfigurationChange?.Invoke(this, new EventArgs());
+
+                OnPropertyChanged(nameof(OtherCostsHasDataLock));
+            }
+        }
+
+
+
         public DateTime StartDate
         {
             get { return Rent.StartDate; }

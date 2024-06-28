@@ -22,7 +22,7 @@ using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    class RentUpdateViewModel : BaseViewModel, IWindowOwner
+    public class RentUpdateViewModel : BaseViewModel, IWindowOwner
     {
 
         // properties & fields

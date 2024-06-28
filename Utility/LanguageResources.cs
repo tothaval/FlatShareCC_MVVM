@@ -264,18 +264,25 @@ namespace SharedLivingCostCalculator.Utility
 
             Application.Current.Resources["IDF_SettingsTitleText"] = languageResource.IDF_SettingsTitleText;
             Application.Current.Resources["IDF_Language"] = languageResource.IDF_Language;
-            Application.Current.Resources["IDF_Country"] = languageResource.IDF_Country;
+            Application.Current.Resources["IDF_Culture"] = languageResource.IDF_Culture;
             Application.Current.Resources["IDF_FontSize"] = languageResource.IDF_FontSize;
             Application.Current.Resources["IDF_FontFamily"] = languageResource.IDF_FontFamily;
             Application.Current.Resources["IDF_Foreground"] = languageResource.IDF_Foreground;
             Application.Current.Resources["IDF_Background"] = languageResource.IDF_Background;
 
+
+            Application.Current.Resources["IDF_HeaderTextColor"] = languageResource.IDF_HeaderTextColor;
+            Application.Current.Resources["IDF_SelectionColor"] = languageResource.IDF_SelectionColor;
+            Application.Current.Resources["IDF_ButtonCornerRadius"] = languageResource.IDF_ButtonCornerRadius;
+            Application.Current.Resources["IDF_VisibilityFieldCornerRadius"] = languageResource.IDF_VisibilityFieldCornerRadius;
+
+
             Application.Current.Resources["SettingsHeaderText"] = languageResource.SettingsHeaderText;
 
-            #endregion setting views
+        #endregion setting views
 
 
-        }
+    }
         #endregion methods
 
 

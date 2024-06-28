@@ -30,7 +30,8 @@
             <Grid>
 
                 <ListView ItemsSource="{Binding BillingListView}"
-              Visibility="{Binding HasPayments, Converter={StaticResource visCon}}">
+                          Visibility="{Binding HasPayments, Converter={StaticResource visCon}}"
+                          ItemContainerStyle="{StaticResource ItemContainerStyle}">
                     <ListView.View>
 
                         <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
@@ -53,7 +54,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalRentCosts,
-                                        StringFormat=C2, ConverterCulture=de-DE,
+                                        StringFormat=C2,
                                         NotifyOnSourceUpdated=True}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -65,7 +66,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalFixedCosts,
-                                            StringFormat=C2, ConverterCulture=de-DE,
+                                            StringFormat=C2,
                                             NotifyOnSourceUpdated=True}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -77,7 +78,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalHeatingCosts,
-                                            StringFormat=C2, ConverterCulture=de-DE,
+                                            StringFormat=C2, 
                                             NotifyOnSourceUpdated=True}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -89,7 +90,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalCosts,
-                                        StringFormat=C2, ConverterCulture=de-DE,
+                                        StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -101,7 +102,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalPayments,
-                                        StringFormat=C2, ConverterCulture=de-DE,
+                                        StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -113,7 +114,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Balance,
-                                        StringFormat=C2, ConverterCulture=de-DE,
+                                        StringFormat=C2,
                                         NotifyOnSourceUpdated=True}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -132,7 +133,8 @@
 
 
                 <ListView ItemsSource="{Binding BillingListView}"
-                  Visibility="{Binding HasPayments, Converter={StaticResource InvisCon}}">
+                          Visibility="{Binding HasPayments, Converter={StaticResource InvisCon}}"
+                          ItemContainerStyle="{StaticResource ItemContainerStyle}">
                     <ListView.View>
 
                         <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
@@ -155,7 +157,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalFixedCosts,
-                                            StringFormat=C2, ConverterCulture=de-DE,
+                                            StringFormat=C2,
                                             NotifyOnSourceUpdated=True}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -167,7 +169,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalHeatingCosts,
-                                            StringFormat=C2, ConverterCulture=de-DE,
+                                            StringFormat=C2, 
                                             NotifyOnSourceUpdated=True}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -179,7 +181,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalExtraCosts,
-                                        StringFormat=C2, ConverterCulture=de-DE,
+                                        StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -191,7 +193,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalAdvancePerPeriod,
-                                            StringFormat=C2, ConverterCulture=de-DE,
+                                            StringFormat=C2,
                                             NotifyOnSourceUpdated=True}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -203,7 +205,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Balance,
-                                            StringFormat=C2, ConverterCulture=de-DE,
+                                            StringFormat=C2, 
                                             NotifyOnSourceUpdated=True}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -235,8 +237,9 @@
 
             <UniformGrid Rows="2">
                 <ListView ItemsSource="{Binding RoomCosts}" Grid.Row="1"
-                  Visibility="{Binding HasPayments, Converter={StaticResource visCon}}"
-                  >
+                          Visibility="{Binding HasPayments, Converter={StaticResource visCon}}"
+                          ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                          >
                     <ListView.View>
 
                         <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
@@ -321,8 +324,9 @@
                 </ListView>
 
                 <ListView ItemsSource="{Binding RoomCosts}" Grid.Row="1"
-              Visibility="{Binding HasPayments, Converter={StaticResource visCon}}"
-              >
+                          Visibility="{Binding HasPayments, Converter={StaticResource visCon}}"
+                          ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                          >
                     <ListView.View>
 
                         <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
@@ -344,7 +348,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding RentCosts,
-                                      StringFormat=C2,ConverterCulture=de-DE,
+                                      StringFormat=C2,
                                       NotifyOnSourceUpdated=True}"
                                              Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -356,7 +360,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding FixedCosts,
-                                      StringFormat=C2,ConverterCulture=de-DE,
+                                      StringFormat=C2,
                                       NotifyOnSourceUpdated=True}"
                                              Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -368,7 +372,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding HeatingCosts,
-                                      StringFormat=C2,ConverterCulture=de-DE,
+                                      StringFormat=C2,
                                       NotifyOnSourceUpdated=True}"
                                              Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -380,7 +384,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding BillingCosts,
-                                      StringFormat=C2,ConverterCulture=de-DE,
+                                      StringFormat=C2,
                                       NotifyOnSourceUpdated=True}"
                                              Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -392,7 +396,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalPayments,
-                                      StringFormat=C2,ConverterCulture=de-DE,
+                                      StringFormat=C2,
                                       NotifyOnSourceUpdated=True}"
                                              Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -404,7 +408,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Balance,
-                                      StringFormat=C2,ConverterCulture=de-DE,
+                                      StringFormat=C2,
                                       NotifyOnSourceUpdated=True}"
                                              Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -421,8 +425,9 @@
 
 
                 <ListView ItemsSource="{Binding RoomCosts}"
-              Visibility="{Binding HasPayments, Converter={StaticResource InvisCon}}"
-                  >
+                          Visibility="{Binding HasPayments, Converter={StaticResource InvisCon}}"
+                          ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                          >
                     <ListView.View>
 
                         <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
@@ -507,8 +512,9 @@
                 </ListView>
 
                 <ListView ItemsSource="{Binding RoomCosts}" 
-              Visibility="{Binding HasPayments, Converter={StaticResource InvisCon}}"
-                  >
+                          Visibility="{Binding HasPayments, Converter={StaticResource InvisCon}}"
+                          ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                          >
                     <ListView.View>
 
                         <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
@@ -530,7 +536,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding FixedCosts,
-                                          StringFormat=C2,ConverterCulture=de-DE,
+                                          StringFormat=C2,
                                           NotifyOnSourceUpdated=True}"
                                                  Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -542,7 +548,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding HeatingCosts,
-                                          StringFormat=C2,ConverterCulture=de-DE,
+                                          StringFormat=C2,
                                           NotifyOnSourceUpdated=True}"
                                                  Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -554,7 +560,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding BillingCosts,
-                                          StringFormat=C2,ConverterCulture=de-DE,
+                                          StringFormat=C2,
                                           NotifyOnSourceUpdated=True}"
                                                  Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -566,7 +572,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalAdvancePerPeriod,
-                                            StringFormat=C2, ConverterCulture=de-DE,
+                                            StringFormat=C2, 
                                             NotifyOnSourceUpdated=True}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -578,7 +584,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Balance,
-                                          StringFormat=C2,ConverterCulture=de-DE,
+                                          StringFormat=C2,
                                           NotifyOnSourceUpdated=True}"
                                                  Style="{StaticResource DoubleValueTextBlock}"/>
 

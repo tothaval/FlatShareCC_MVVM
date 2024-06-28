@@ -25,7 +25,7 @@ using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class FlatManagementViewModel : BaseViewModel
+    public class FlatManagementViewModel : BaseViewModel
     {
 
         // properties & fields
