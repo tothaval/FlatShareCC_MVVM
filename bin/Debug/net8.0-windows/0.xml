@@ -55,11 +55,11 @@
       <HasOtherCosts>true</HasOtherCosts>
       <ID>1</ID>
       <GetBilling>
-        <EndDate>2024-06-19T14:58:19.0157664+02:00</EndDate>
+        <EndDate>2024-06-19T00:00:00</EndDate>
         <HasCredit>false</HasCredit>
         <HasDataLock>true</HasDataLock>
         <HasPayments>true</HasPayments>
-        <StartDate>2023-06-20T14:58:19.0157303+02:00</StartDate>
+        <StartDate>2023-06-20T00:00:00</StartDate>
         <TotalCostsPerPeriod>3200</TotalCostsPerPeriod>
         <TotalFixedCostsPerPeriod>1500</TotalFixedCostsPerPeriod>
         <TotalHeatingCostsPerPeriod>1700</TotalHeatingCostsPerPeriod>

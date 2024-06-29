@@ -29,7 +29,7 @@
             <ListView ItemsSource="{Binding RentUpdates}"
                       SelectedValue="{Binding Path=SelectedValue}"
                       ItemContainerStyle="{StaticResource ItemContainerStyle}"
-                  
+                                        
                       VirtualizingStackPanel.IsVirtualizing="False"
                       SelectionMode="Extended">
                 <ListView.View>
@@ -40,10 +40,10 @@
                             <GridViewColumn Header="{DynamicResource IDF_RentStartDate}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding StartDate,StringFormat=d,
+                                            <TextBlock Text="{Binding StartDate,StringFormat=d,
                                             UpdateSourceTrigger=PropertyChanged,
                                             Mode=OneWay}"
-                                               Style="{StaticResource StringValueTextBlock}"/>
+                                               Style="{StaticResource StringValueTextBlock}" HorizontalAlignment="Center"/>
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -56,7 +56,6 @@
                                             UpdateSourceTrigger=PropertyChanged,
                                             Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
-
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -79,7 +78,8 @@
                                         <TextBlock Text="{Binding CostsTotal,StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged, 
                                             Mode=OneWay}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
+                                               Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -115,7 +115,8 @@
                                         <TextBlock Text="{Binding AnnualCostsTotal,StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
                                             Mode=OneWay}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
+                                               Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

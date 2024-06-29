@@ -4,7 +4,7 @@
  * 
  *  manages application startup and exit behaviour
  *  
- *  it loads an saves data
+ *  it loads and saves data
  *  
  *  it instanciates ObservableCollection<FlatViewModel>
  *  for the entire application

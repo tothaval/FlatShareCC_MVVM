@@ -21,7 +21,7 @@
     </UserControl.Resources>
 
 
-    <Border Margin="20" MinHeight="600"
+    <Border  MinHeight="600"
             BorderBrush="Transparent"
             Background="Transparent"
             Padding="15">

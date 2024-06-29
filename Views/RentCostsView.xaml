@@ -97,7 +97,8 @@
                                                 <TextBlock Text="{Binding CompleteCosts,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
+                                               Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -152,7 +153,8 @@
                                                 <TextBlock Text="{Binding TotalCosts,
                                                     StringFormat=C2,
                                                     NotifyOnSourceUpdated=True}"
-                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+                                                           Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -236,7 +238,8 @@
                                                 <TextBlock Text="{Binding AnnualCompleteCosts,
                                                 StringFormat=C2, 
                                                 NotifyOnSourceUpdated=True}"
-                                                       Style="{StaticResource DoubleValueTextBlock}"/>
+                                                       Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -291,7 +294,8 @@
                                                 <TextBlock Text="{Binding AnnualCosts,
                                                     StringFormat=C2, 
                                                     NotifyOnSourceUpdated=True}"
-                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+                                                           Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -438,7 +442,8 @@
                                                 <TextBlock Text="{Binding CompleteCosts,
                                                     StringFormat=C2,
                                                     NotifyOnSourceUpdated=True}"
-                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+                                                           Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -539,7 +544,8 @@
                                                 <TextBlock Text="{Binding TotalCosts,
                                                     StringFormat=C2, 
                                                     NotifyOnSourceUpdated=True}"
-                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+                                                           Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -670,7 +676,8 @@
                                                 <TextBlock Text="{Binding AnnualCombinedCosts,
                                                     StringFormat=C2,
                                                     NotifyOnSourceUpdated=True}"
-                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+                                                           Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -771,7 +778,8 @@
                                                 <TextBlock Text="{Binding AnnualCosts,
                                                     StringFormat=C2, 
                                                     NotifyOnSourceUpdated=True}"
-                                                           Style="{StaticResource DoubleValueTextBlock}"/>
+                                                           Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>

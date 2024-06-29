@@ -8,50 +8,85 @@
         xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
         xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
         xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components"
-        SizeToContent="WidthAndHeight"
         mc:Ignorable="d"
 
-        Language="{DynamicResource Culture}"
-        Title="BillingWindow"
-        >
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="Manual"
+        
+        Name="BillingSetupWindow"
+        
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"        
+
+        Language="{DynamicResource Culture}">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="1"  
+            CornerRadius ="{DynamicResource Radius}"
+            ResizeBorderThickness="15"         
+            GlassFrameThickness="0"            
+            >
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+
+    <Window.InputBindings>
+        <MouseBinding MouseAction="RightClick"
+                      Command="{Binding CloseCommand}"
+                      CommandParameter="{Binding ElementName=BillingSetupWindow}"/>
+        <MouseBinding MouseAction="LeftClick"
+                      Command="{Binding LeftPressCommand}"
+                      CommandParameter="{Binding ElementName=BillingSetupWindow}"/>
+
+    </Window.InputBindings>
+    
     <Window.Resources>
         <conv:VisibilityConverter x:Key="VisConv"/>
 
     </Window.Resources>
 
-    <Grid Margin="20" 
-          MinWidth="650">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+    <Border x:Name="border"
+            BorderBrush="{DynamicResource SCB_Text}"
+            BorderThickness="4"
+            CornerRadius="{DynamicResource VisibilityField_CornerRadius}"            
+            Background="{DynamicResource SCB_Background}"
+            Padding="{DynamicResource VisibilityFieldBorderPadding}">
 
-        <comps:FlatInfo/> 
-        
-        <StackPanel Orientation="Vertical"
+        <Grid Margin="20" 
+          MinWidth="650">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <comps:FlatInfo/>
+
+            <StackPanel Orientation="Vertical"
                     Grid.Column="0"
                     Grid.Row="1"
                     Margin="0 0 10 0"
                     HorizontalAlignment="Stretch">
 
-            <TextBlock Text="{DynamicResource IDF_BillingPeriodData}"
+                <TextBlock Text="{DynamicResource IDF_BillingPeriodData}"
                        Style="{StaticResource Header}"/>
 
-             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource IDF_StartDate}"
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource IDF_StartDate}"
                            MinWidth="100"
                            HorizontalAlignment="Stretch"
                            Style="{StaticResource StringValueTextBlock}"
                            Grid.Column="0"/>
-                <DatePicker SelectedDate="{Binding StartDate,StringFormat=d,
+                    <DatePicker SelectedDate="{Binding StartDate,StringFormat=d,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
                     ValidatesOnDataErrors=true, 
@@ -63,19 +98,19 @@
                             Foreground="{DynamicResource SCB_Text}"
                             Background="{DynamicResource SCB_Background}"
                             Grid.Column="1"/>
-            </Grid>
-            
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource IDF_EndDate}"
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource IDF_EndDate}"
                            MinWidth="100"
                            HorizontalAlignment="Stretch"
                            Style="{StaticResource StringValueTextBlock}"
                            Grid.Column="0"/>
-                <DatePicker SelectedDate="{Binding EndDate,StringFormat=d,
+                    <DatePicker SelectedDate="{Binding EndDate,StringFormat=d,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
                     ValidatesOnDataErrors=true, UpdateSourceTrigger=PropertyChanged}"
@@ -87,9 +122,9 @@
                             Background="{DynamicResource SCB_Background}"
                             ToolTip="{Binding Helper[EndDate]}"
                             Grid.Column="1"/>
-            </Grid>
+                </Grid>
 
-            <comps:CurrencyInputView Label="{DynamicResource IDF_TotalCosts}"
+                <comps:CurrencyInputView Label="{DynamicResource IDF_TotalCosts}"
                                      Value="{Binding TotalCostsPerPeriod,
                 Mode=TwoWay,
                 NotifyOnSourceUpdated=True,
@@ -100,7 +135,7 @@
                                      ValueAlignment="Right"
                                      IsEnabled="{Binding DataLock}"/>
 
-            <comps:CurrencyInputView Label="{DynamicResource IDF_FixedCosts}"
+                <comps:CurrencyInputView Label="{DynamicResource IDF_FixedCosts}"
                                      Value="{Binding TotalFixedCostsPerPeriod,
                 Mode=TwoWay,
                 NotifyOnSourceUpdated=True,
@@ -111,7 +146,7 @@
                                      ValueAlignment="Right"
                                      IsEnabled="{Binding DataLock}"/>
 
-            <comps:CurrencyInputView Label="{DynamicResource IDF_HeatingCosts}"
+                <comps:CurrencyInputView Label="{DynamicResource IDF_HeatingCosts}"
                                      Value="{Binding TotalHeatingCostsPerPeriod,
                 Mode=TwoWay,
                 NotifyOnSourceUpdated=True,
@@ -122,70 +157,71 @@
                                      ValueAlignment="Right"
                                      IsEnabled="{Binding DataLock}"/>
 
-        </StackPanel>
+            </StackPanel>
 
-        <StackPanel Grid.Column="1"
+            <StackPanel Grid.Column="1"
                     Grid.Row="1"
                     Margin="10 0 0 0"
                     HorizontalAlignment="Stretch">
-            
-            <TextBlock Text="{DynamicResource IDF_BillingPeriodOptions}" 
+
+                <TextBlock Text="{DynamicResource IDF_BillingPeriodOptions}" 
                        Style="{StaticResource Header}"/>
-            
-            <StackPanel Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource IDF_LockData}"
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="{DynamicResource IDF_LockData}"
                           IsChecked="{Binding DataLockCheckbox}"
                           Grid.Column="1"
                           Style="{StaticResource OptionCheckBox}"/>
 
-                <CheckBox Content="{DynamicResource IDF_FactorInPayments}"
+                    <CheckBox Content="{DynamicResource IDF_FactorInPayments}"
                           IsChecked="{Binding HasPayments}"
                           IsEnabled="{Binding DataLock}"
                           Style="{StaticResource OptionCheckBox}"/>
 
-                <CheckBox Content="{DynamicResource IDF_FactorInCredit}"
+                    <CheckBox Content="{DynamicResource IDF_FactorInCredit}"
                           IsChecked="{Binding HasCredit}"
                           IsEnabled="{Binding DataLock}"
                           Style="{StaticResource OptionCheckBox}"/>
-                
-            </StackPanel>
 
-            <TabControl Grid.Column="1" SelectedIndex="{Binding SelectedIndex}"  Margin="0 5">
-                               
-                <TabItem Header="{DynamicResource IDF_Consumption}">
-                    
-                    <local:ConsumptionView 
+                </StackPanel>
+
+                <TabControl Grid.Column="1" SelectedIndex="{Binding SelectedIndex}"  Margin="0 5">
+
+                    <TabItem Header="{DynamicResource IDF_Consumption}">
+
+                        <local:ConsumptionView 
                         DataContext="{Binding ConsumptionViewModel,
                     NotifyOnSourceUpdated=True}"
                         Margin="5"/>
-                    
-                </TabItem>
 
-                <TabItem Header="{DynamicResource IDF_Payments}"
+                    </TabItem>
+
+                    <TabItem Header="{DynamicResource IDF_Payments}"
                          Visibility="{Binding HasPayments, Converter={StaticResource VisConv},
                     NotifyOnSourceUpdated=True}"
                          >
-                    
-                    <local:PaymentManagementView 
+
+                        <local:PaymentManagementView 
                         DataContext="{Binding PaymentManagementViewModel,
                         NotifyOnSourceUpdated=True}"
                         Margin="5"/>
-                </TabItem>
+                    </TabItem>
 
-                <TabItem Header="{DynamicResource IDF_Credit}"
+                    <TabItem Header="{DynamicResource IDF_Credit}"
                      Visibility="{Binding HasCredit, Converter={StaticResource VisConv}}">
 
 
-                    <!--Content="{Binding CreditViewModel}"-->
+                        <!--Content="{Binding CreditViewModel}"-->
 
-                    <TextBlock Text="CreditView do not forget the margin"  Margin="5"/>
+                        <TextBlock Text="CreditView do not forget the margin"  Margin="5"/>
 
-                </TabItem>
-                
-            </TabControl>
-            
-        </StackPanel>
+                    </TabItem>
 
-    </Grid>
-    
+                </TabControl>
+
+            </StackPanel>
+
+        </Grid>
+    </Border>
+
 </Window>

@@ -10,9 +10,36 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
 
-        Language="{DynamicResource Culture}"
         SizeToContent="WidthAndHeight"
-        Title="OtherCostsView" Height="450" Width="800">
+        WindowStartupLocation="Manual"
+        
+        Name="OtherCostsWindow"
+        
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"        
+
+        Language="{DynamicResource Culture}">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+         CaptionHeight="1"  
+         CornerRadius ="{DynamicResource Radius}"
+         ResizeBorderThickness="15"         
+         GlassFrameThickness="0"            
+         >
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+
+    <Window.InputBindings>
+        <MouseBinding MouseAction="RightClick"
+                      Command="{Binding CloseCommand}"
+                      CommandParameter="{Binding ElementName=OtherCostsWindow}"/>
+        <MouseBinding MouseAction="LeftClick" Command="{Binding LeftPressCommand}"
+                   CommandParameter="{Binding ElementName=OtherCostsWindow}"/>
+
+    </Window.InputBindings>
+    
     <Window.Resources>
         <ObjectDataProvider x:Key="enumValues"
    MethodName="GetValues" ObjectType="{x:Type System:Enum}">
@@ -23,60 +50,68 @@
 
     </Window.Resources>
     
-    <Grid>
-        <StackPanel Grid.Row="1" Margin="20">
+    <Border x:Name="border"
+            BorderBrush="{DynamicResource SCB_Text}"
+            BorderThickness="4"
+            CornerRadius="{DynamicResource VisibilityField_CornerRadius}"            
+            Background="{DynamicResource SCB_Background}"
+            Padding="{DynamicResource VisibilityFieldBorderPadding}">
 
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+        <Grid>
 
-                <Button Content="add cost item"
+            <StackPanel Grid.Row="1" Margin="20">
+
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Content="add cost item"
                         Command="{Binding AddOtherCostItemCommand}"
                         Grid.Column="0"
                         Style="{StaticResource buttonStyle}"
                         IsEnabled="{Binding DataLock}"/>
-                <Button Content="remove cost item" Command="{Binding RemoveOtherCostItemCommand}" 
+                    <Button Content="remove cost item" Command="{Binding RemoveOtherCostItemCommand}" 
                         CommandParameter="{Binding ElementName=_othercosts, Path=SelectedItems}"
                         Grid.Column="1"
                         Style="{StaticResource buttonStyle}"
                         IsEnabled="{Binding DataLock}"/>
-            </Grid>
+                </Grid>
 
-            <comps:FlatInfo/>
+                <comps:FlatInfo/>
 
-            <CheckBox Content="{DynamicResource IDF_LockData}"
+                <CheckBox Content="{DynamicResource IDF_LockData}"
                           IsChecked="{Binding DataLockCheckbox}"
                           Grid.Column="1"
                           Style="{StaticResource OptionCheckBox}"/>
 
-            <ListView ItemsSource="{Binding OtherCostItems, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
+                <ListView ItemsSource="{Binding OtherCostItems, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
                       SelectionMode="Extended"
                       x:Name="_othercosts"
                       ItemContainerStyle="{StaticResource ItemContainerStyle}"
                       >
-                
-                <ListView.View>
-                    <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
-                        <GridView.Columns>
-                            
-                            <GridViewColumn Header="Split Procedure">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ComboBox ItemsSource="{Binding Source={StaticResource enumValues}, UpdateSourceTrigger=PropertyChanged}"
+
+                    <ListView.View>
+                        <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+                            <GridView.Columns>
+
+                                <GridViewColumn Header="Split Procedure">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ComboBox ItemsSource="{Binding Source={StaticResource enumValues}, UpdateSourceTrigger=PropertyChanged}"
                                                   SelectedItem="{Binding CostShareTypes}"                                                  
                                                   HorizontalAlignment="Stretch"          
                                                   IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:OtherCostsView}}"/>
 
-                                    </DataTemplate>                                    
-                                </GridViewColumn.CellTemplate>      
-                            </GridViewColumn>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
 
-                            <GridViewColumn Header="Item">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <comps:ObjectInputView Value="{Binding Item,
+                                <GridViewColumn Header="Item">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <comps:ObjectInputView Value="{Binding Item,
                                             UpdateSourceTrigger=PropertyChanged,
                                             Mode=TwoWay}"
                                                                ValueMinWidth="100"
@@ -84,14 +119,14 @@
                                                                ValueAlignment="Left"
                                                                HorizontalAlignment="Stretch"         
                                                                IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:OtherCostsView}}"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
 
-                            <GridViewColumn Header="Cost">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <comps:CurrencyInputView Value="{Binding Cost,
+                                <GridViewColumn Header="Cost">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <comps:CurrencyInputView Value="{Binding Cost,
                                             UpdateSourceTrigger=PropertyChanged,
                                             Mode=TwoWay}"
                                                                  ValueMinWidth="100"
@@ -99,19 +134,21 @@
                                                                  ValueAlignment="Right"
                                                                  HorizontalAlignment="Stretch"
                                                                  IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:OtherCostsView}}"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
 
-                        </GridView.Columns>
-                        
-                    </GridView>
-                    
-                </ListView.View>
-                
-            </ListView>
-            
-        </StackPanel>
+                            </GridView.Columns>
 
-    </Grid>
+                        </GridView>
+
+                    </ListView.View>
+
+                </ListView>
+
+            </StackPanel>
+
+        </Grid>
+    </Border>
+
 </Window>
