@@ -8,7 +8,8 @@
     <SolidColorBrush x:Key="SCB_Text_Header" Color="DimGray"/>
     <SolidColorBrush x:Key="SCB_Selection" Color="#AEF"/>
 
-
+    <Thickness x:Key="VisibilityFieldBorderPadding">5</Thickness>
+    
     <CornerRadius x:Key="VisibilityField_CornerRadius">5</CornerRadius>
     <CornerRadius x:Key="Button_CornerRadius">15</CornerRadius>
 
@@ -98,19 +99,48 @@
         <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Padding" Value="10 5"/>
+
         <Setter Property="MinWidth" Value="100"/>
         <Setter Property="Width" Value="Auto"/>
+        
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+       
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                    <Border BorderThickness="1,0,1,3" BorderBrush="{DynamicResource SCB_Text_Header}" Background="Transparent" Margin="0">
+                        <TextBlock x:Name="ContentHeader" Text="{TemplateBinding Content}" Padding="5,2,5,2" Width="{TemplateBinding Width}" TextAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+
+            </Setter.Value>           
+        </Setter>
 
     </Style>
 
     <Style TargetType="ListView">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-
-
+           
         <Setter Property="Foreground" Value="Transparent"/>
+
+        <!-- trying to deactivate focus rectangle arround the entire listview
+            which appears on mouse over and selection, no effect, giving up for now. -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="ItemsControl.FocusVisualStyle" Value="{x:Null}"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseDirectlyOver" Value="True">
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Background" Value="Transparent"/>
+            </Trigger>
+            
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Background" Value="Transparent"/>
+            </Trigger>
+
+        </Style.Triggers>
     </Style>
     
     
@@ -120,8 +150,7 @@
         <Setter Property="Height" Value="Auto"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-
+                    
         <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -129,63 +158,43 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"   
                                 BorderBrush="{TemplateBinding BorderBrush}"   
                                 Background="{TemplateBinding Background}">
+                                
                                 <Border Name="InnerBorder" CornerRadius="1" BorderThickness="1">
                                     <Grid>
+                                        
                                         <Grid.RowDefinitions>
                                             <RowDefinition MaxHeight="11" />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-
-                                        <!--<Rectangle Name="UpperHighlight" Visibility="Collapsed"
-                                                   Fill="#75FFFFFF" />-->
                                         
                                         <GridViewRowPresenter Grid.RowSpan="2"   
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"  
                                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        
                                     </Grid>
                                 </Border>
                             </Border>
+                            
                             <ControlTemplate.Triggers>
+                                
                                 <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource SCB_Selection}" />
                             <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
-                            <!--<Setter Property="BorderBrush" Value="#FFCCF0FF" />-->
-                                    <!--<Setter TargetName="UpperHighlight" Property="Visibility" Value="Visible" />-->
-                                </Trigger>
+                        </Trigger>
                                 
                                 <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{DynamicResource SCB_Selection}" />
                             <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
                                 <Setter Property="BorderBrush" Value="Transparent" />
-                                <!--<Setter TargetName="InnerBorder" Property="BorderBrush" Value="#80FFFFFF" />-->
-                                <!--<Setter TargetName="UpperHighlight" Property="Visibility" Value="Visible" />-->
-                                <!--<Setter TargetName="UpperHighlight" Property="Fill" Value="#40FFFFFF" />-->
+                                    
                             </Trigger>
-                                <!--<MultiTrigger> 
-                <MultiTrigger.Conditions> 
-                    <Condition Property="IsSelected" Value="True" /> 
-                    <Condition Property="Selector.IsSelectionActive" Value="False" /> 
-                </MultiTrigger.Conditions> 
-                <Setter Property="Background" Value="{StaticResource ListItemSelectedInactiveFill}" /> 
-                <Setter Property="BorderBrush" Value="#FFCFCFCF" /> 
-            </MultiTrigger>-->
-                                <!--<MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsSelected" Value="True" />
-                                    <Condition Property="IsMouseOver" Value="True" />
-                                </MultiTrigger.Conditions>
-                                <Setter Property="Background" Value="{StaticResource ListItemSelectedHoverFill}" />
-                                <Setter Property="BorderBrush" Value="#FF98DDFB" />
-                            </MultiTrigger>-->
-                                
-                                
-                                <!--<Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                                </Trigger>-->
+
                             </ControlTemplate.Triggers>
+                            
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+        
     </Style>
       
     
@@ -341,7 +350,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="{DynamicResource VisibilityField_CornerRadius}"/>
-        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Padding" Value="{DynamicResource VisibilityFieldBorderPadding}"/>
         <Setter Property="Margin" Value="0 5 0 0"/>
     </Style>
     

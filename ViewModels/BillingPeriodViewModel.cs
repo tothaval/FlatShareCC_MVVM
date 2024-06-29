@@ -319,6 +319,12 @@ namespace SharedLivingCostCalculator.ViewModels
         // commands
         #region commands
 
+        public ICommand CloseCommand { get; }
+
+
+        public ICommand LeftPressCommand { get; }
+
+
         public ICommand NewCreditCommand { get; }
 
         #endregion commands
@@ -374,6 +380,9 @@ namespace SharedLivingCostCalculator.ViewModels
 
             PaymentManagementViewModel = new PaymentManagementViewModel(_billingViewModel);
             ConsumptionViewModel = new ConsumptionViewModel(_billingViewModel);
+
+            CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
+            LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
         }
 
         #endregion constructors
@@ -385,6 +394,28 @@ namespace SharedLivingCostCalculator.ViewModels
         private void AddCredit()
         {
             //throw new NotImplementedException();
+        }
+
+
+        private void Close(object s)
+        {
+            Window window = (Window)s;
+
+            MessageBoxResult result = MessageBox.Show(window,
+                $"Close Other Costs window?\n\n",
+                "Close Window", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                window.Close();
+            }
+        }
+
+
+        private void Drag(object s)
+        {
+            Window window = (Window)s;
+
+            window.DragMove();
         }
 
 

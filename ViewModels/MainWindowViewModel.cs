@@ -1,8 +1,10 @@
 ﻿using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
+using System.Security.Principal;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
@@ -31,9 +33,12 @@ namespace SharedLivingCostCalculator.ViewModels
         public ICommand CloseCommand { get; }
 
 
+        public ICommand LeftDoubleClickCommand { get; }
+
+
         public ICommand LeftPressCommand { get; }
 
-        #endregion properties
+        #endregion commands
 
 
         public MainWindowViewModel(ObservableCollection<FlatViewModel> flatViewModels, FlatManagementViewModel flatManagementViewModel)
@@ -42,8 +47,10 @@ namespace SharedLivingCostCalculator.ViewModels
             _FlatManagementViewModel = flatManagementViewModel;
 
             CloseCommand = new RelayCommand((s) => Close(), (s) => true);
+            LeftDoubleClickCommand = new RelayCommand((s)=> Maximize(s), (s) => true);
             LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
         }
+
 
         private void Close()
         {
@@ -63,5 +70,23 @@ namespace SharedLivingCostCalculator.ViewModels
 
             mainWindow.DragMove();
         }
+
+
+        private void Maximize(object s)
+        {
+            MainWindow mainWindow = (MainWindow)s;
+
+            if (mainWindow.WindowState == WindowState.Normal)
+            {
+                mainWindow.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                mainWindow.WindowState = WindowState.Normal;
+            }
+        }
+
+
     }
 }
+// EOF

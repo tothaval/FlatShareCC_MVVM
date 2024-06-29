@@ -22,69 +22,71 @@
         Title="{DynamicResource IDF_MainWindowTitle}">
 
     <Window.Resources>
-        <DataTemplate DataType="{x:Type vms:FlatManagementViewModel}">
-            <views:FlatManagementView/>
-        </DataTemplate>
+        
+            <DataTemplate DataType="{x:Type vms:FlatManagementViewModel}">
+                <views:FlatManagementView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:FlatSetupViewModel}">
-            <views:FlatSetupView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:FlatSetupViewModel}">
+                <views:FlatSetupView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:RoomSetupViewModel}">
-            <views:RoomSetupView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:RoomSetupViewModel}">
+                <views:RoomSetupView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:AccountingViewModel}">
-            <views:AccountingView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:AccountingViewModel}">
+                <views:AccountingView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:BillingPeriodViewModel}">
-            <windows:BillingWindow/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:BillingPeriodViewModel}">
+                <windows:BillingWindow/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:PaymentManagementViewModel}">
-            <views:PaymentManagementView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:PaymentManagementViewModel}">
+                <views:PaymentManagementView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:PaymentsSetupViewModel}">
-            <views:PaymentsSetupView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:PaymentsSetupViewModel}">
+                <views:PaymentsSetupView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:RentManagementViewModel}">
-            <views:RentManagementView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:RentManagementViewModel}">
+                <views:RentManagementView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:RentUpdateViewModel}">
-            <views:RentUpdateView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:RentUpdateViewModel}">
+                <views:RentUpdateView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:CostsViewModel}">
-            <views:CostView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:CostsViewModel}">
+                <views:CostView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:SettingsViewModel}">
-            <views:SettingsView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:SettingsViewModel}">
+                <views:SettingsView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:RentCostsViewModel}">
-            <views:RentCostsView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:RentCostsViewModel}">
+                <views:RentCostsView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:BillingCostsViewModel}">
-            <views:BillingCostsView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:BillingCostsViewModel}">
+                <views:BillingCostsView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:ConsumptionViewModel}">
-            <views:ConsumptionView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:ConsumptionViewModel}">
+                <views:ConsumptionView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:OtherCostsViewModel}">
-            <windows:OtherCostsView/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:OtherCostsViewModel}">
+                <windows:OtherCostsView/>
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type mVMs:MainPageViewModel}">
-            <mPs:MainPage/>
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type mVMs:MainPageViewModel}">
+                <mPs:MainPage/>
+            </DataTemplate>
+
     </Window.Resources>
 
 
@@ -100,16 +102,20 @@
 
     <Window.InputBindings>
         <MouseBinding MouseAction="RightClick" Command="{Binding CloseCommand}"/>
+        
         <MouseBinding MouseAction="LeftClick" Command="{Binding LeftPressCommand}"
                       CommandParameter="{Binding ElementName=mainWindow}"/>
-
+        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding LeftDoubleClickCommand}"
+              CommandParameter="{Binding ElementName=mainWindow}"/>
     </Window.InputBindings>
 
     <Border x:Name="border"
             BorderBrush="{DynamicResource SCB_Text}"
             BorderThickness="4"
             CornerRadius="{DynamicResource VisibilityField_CornerRadius}"            
-            Background="{DynamicResource SCB_Background}">
+            Background="{DynamicResource SCB_Background}"
+            Padding="{DynamicResource VisibilityFieldBorderPadding}">
+
 
         <ContentControl Content="{Binding _FlatManagementViewModel}"
                             HorizontalAlignment="Center"

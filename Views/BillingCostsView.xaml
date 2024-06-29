@@ -116,7 +116,8 @@
                                             <TextBlock Text="{Binding Balance,
                                         StringFormat=C2,
                                         NotifyOnSourceUpdated=True}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
+                                               Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -207,7 +208,8 @@
                                             <TextBlock Text="{Binding Balance,
                                             StringFormat=C2, 
                                             NotifyOnSourceUpdated=True}"
-                                                   Style="{StaticResource DoubleValueTextBlock}"/>
+                                                   Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -410,7 +412,8 @@
                                             <TextBlock Text="{Binding Balance,
                                       StringFormat=C2,
                                       NotifyOnSourceUpdated=True}"
-                                             Style="{StaticResource DoubleValueTextBlock}"/>
+                                             Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -586,7 +589,8 @@
                                             <TextBlock Text="{Binding Balance,
                                           StringFormat=C2,
                                           NotifyOnSourceUpdated=True}"
-                                                 Style="{StaticResource DoubleValueTextBlock}"/>
+                                                 Style="{StaticResource DoubleValueTextBlock}"
+                                                   FontWeight="Bold"/>
 
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>

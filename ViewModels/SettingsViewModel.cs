@@ -7,12 +7,14 @@
  *  shows a separate window which enables the
  *  user to edit some application properties.
  */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 
@@ -65,19 +67,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private double _VisibilityFieldCornerRadius;
-        public double VisibilityFieldCornerRadius
-        {
-            get { return _VisibilityFieldCornerRadius; }
-            set
-            {
-                _VisibilityFieldCornerRadius = value;
-                Application.Current.Resources["VisibilityField_CornerRadius"] = new CornerRadius(_VisibilityFieldCornerRadius);
-                OnPropertyChanged(nameof(VisibilityFieldCornerRadius));
-            }
-        }
-
-
         private FontFamily _fontFamiliy;
         public FontFamily FontFamily
         {
@@ -100,8 +89,6 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _fontSize = value;
 
-                Application.Current.Resources["FS"] = FontSize;
-                Application.Current.Resources["HFS"] = FontSize * 1.25;
                 OnPropertyChanged(nameof(FontSize));
             }
         }
@@ -163,6 +150,20 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private SupportedLanguages _Language;
+        public SupportedLanguages Language
+        {
+            get { return _Language; }
+            set
+            {
+                _Language = value;
+
+                Application.Current.Resources["Language"] = Language.ToString();
+                new LanguageResources(Language.ToString());
+
+                OnPropertyChanged(nameof(Language));
+            }
+        }
         private Brush _selection;
         public Brush Selection
         {
@@ -191,25 +192,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private SupportedLanguages _Language;
-        public SupportedLanguages Language
-        {
-            get { return _Language; }
-            set
-            {
-                _Language = value;
-
-                Application.Current.Resources["Language"] = Language.ToString();
-                new LanguageResources(Language.ToString());
-
-                OnPropertyChanged(nameof(Language));
-            }
-        }
-
-
-
-
-
         private CultureInfo _SelectedCulture;
         public CultureInfo SelectedCulture
         {
@@ -225,8 +207,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-
-
         private SupportedLanguages _SelectedLanguageItem;
         public SupportedLanguages SelectedLanguageItem
         {
@@ -236,6 +216,29 @@ namespace SharedLivingCostCalculator.ViewModels
                 _SelectedLanguageItem = value;
                 Language = value;
                 OnPropertyChanged(nameof(SelectedLanguageItem));
+            }
+        }
+
+
+        private double _VisibilityFieldCornerRadius;
+        public double VisibilityFieldCornerRadius
+        {
+            get { return _VisibilityFieldCornerRadius; }
+            set
+            {
+                _VisibilityFieldCornerRadius = value;
+                Application.Current.Resources["VisibilityField_CornerRadius"] = new CornerRadius(_VisibilityFieldCornerRadius);
+
+                if (_VisibilityFieldCornerRadius < 40)
+                {
+                    Application.Current.Resources["VisibilityFieldBorderPadding"] = new Thickness(10);
+                }
+                else 
+                {
+                    Application.Current.Resources["VisibilityFieldBorderPadding"] = new Thickness(_VisibilityFieldCornerRadius / 4);
+                }
+                              
+                OnPropertyChanged(nameof(VisibilityFieldCornerRadius));
             }
         }
 
@@ -258,22 +261,13 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-
-        //private ObservableCollection<FontFamily> _FontFamilies;
-        //public ObservableCollection<FontFamily> FontFamilies
-        //{
-        //    get { return _FontFamilies; }
-        //    set
-        //    {
-        //        _FontFamilies = value;
-
-        //        OnPropertyChanged(nameof(FontFamilies));
-        //    }
-        //}
-
         #endregion collections
 
 
+        // commands
+        #region commands
+        public ICommand ApplyFontSizeCommand {  get; }
+        #endregion commands
 
 
         // constructors
@@ -305,10 +299,23 @@ namespace SharedLivingCostCalculator.ViewModels
             
             Currency = new ObservableCollection<CultureInfo>(CultureInfo.GetCultures(CultureTypes.SpecificCultures).ToList());
 
+            ApplyFontSizeCommand = new RelayCommand((s) => ApplyFontSize(s), (s) => true);
+
         }
 
         #endregion constructors
 
+
+        // methods
+        #region methods
+
+        private void ApplyFontSize(object s)
+        {
+            Application.Current.Resources["FS"] = FontSize;
+            Application.Current.Resources["HFS"] = FontSize * 1.25;
+        }
+
+        #endregion methods
 
     }
 }
