@@ -16,7 +16,7 @@ using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    class AccountingViewModel : BaseViewModel
+    public class AccountingViewModel : BaseViewModel
     {
 
         // properties & fields

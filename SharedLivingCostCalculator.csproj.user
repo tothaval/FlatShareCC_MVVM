@@ -13,7 +13,19 @@
     <Compile Update="Components\DoubleInputView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Components\FlatInfo.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Components\ObjectInputView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Manual\ManualPages\FlatManagementPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Manual\ManualPages\MainPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Manual\ManualPages\SettingsPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\AccountingView.xaml.cs">
@@ -69,13 +81,28 @@
     <Page Update="Components\DoubleInputView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Components\FlatInfo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Components\ObjectInputView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Manual\ManualPages\FlatManagementPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Manual\ManualPages\MainPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Manual\ManualPages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Themes\Default.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\Generic.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AccountingView.xaml">

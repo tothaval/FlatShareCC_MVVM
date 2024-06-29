@@ -10,7 +10,8 @@
              xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility"
              x:Name="FMV"
              mc:Ignorable="d"
-             Background="{DynamicResource SCB_Background}"
+            BorderBrush="Transparent"
+            Background="Transparent"
              >
     <UserControl.Resources>
 
@@ -20,10 +21,14 @@
     </UserControl.Resources>
 
 
-    <Border Margin="20 10" HorizontalAlignment="Stretch" VerticalAlignment="Top" MinHeight="600">
-        <DockPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Grid Name="topgrid" DockPanel.Dock="Top" 
-            MinWidth="650">
+    <Border Margin="20" MinHeight="600"
+            BorderBrush="Transparent"
+            Background="Transparent"
+            Padding="15">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                      >
+        <DockPanel>
+            <Grid Name="topgrid" DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"/>
                     <ColumnDefinition Width="0.25*"/>
@@ -49,7 +54,7 @@
 
             <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowFlatManagement, Converter={StaticResource VisibilityConverter}}"
-                    DockPanel.Dock="Top" 
+                    DockPanel.Dock="Top"
                     Margin="0 5 0 0">
                 
                 <Grid MinWidth="600">
@@ -78,14 +83,14 @@
                             Style="{StaticResource buttonStyle}"
                             Grid.Column="2" Grid.Row="0"/>
 
-                    <ListView ItemsSource="{Binding FlatCollection}"
-                          HorizontalAlignment="Stretch"
-                          SelectionMode="Single"
-                          SelectedItem="{Binding SelectedItem}"
-                          Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
-                          x:Name="DG_FlatCollection"     
-                          Grid.Column="0"
-                          Grid.ColumnSpan="3" Grid.Row="1">
+                    <ListView ItemsSource="{Binding FlatCollection}"                              
+                              SelectionMode="Single"
+                              SelectedItem="{Binding SelectedItem}"
+                              Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
+                              ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                              x:Name="DG_FlatCollection"     
+                              Grid.Column="0"
+                              Grid.ColumnSpan="3" Grid.Row="1">
 
                         <ListView.View>
                             <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
@@ -177,10 +182,12 @@
 
                     <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
                         <Grid>
-                            <Border Visibility="{Binding ShowFlatSetup, Converter={StaticResource VisibilityConverter}}">
+                            <Border Visibility="{Binding ShowFlatSetup, Converter={StaticResource VisibilityConverter}}"
+                                   >
                                 <ContentPresenter Content="{Binding FlatSetup}"/>
                             </Border>
-                            <Border Visibility="{Binding ShowRoomSetup, Converter={StaticResource VisibilityConverter}}">
+                            <Border Visibility="{Binding ShowRoomSetup, Converter={StaticResource VisibilityConverter}}"
+                             >
                                 <ContentPresenter Content="{Binding RoomSetup}"/>
                             </Border>
                         </Grid>
@@ -191,26 +198,17 @@
 
             <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowManual, Converter={StaticResource VisibilityConverter}}"
-                    DockPanel.Dock="Top">
-                <Grid>
-
-                    <!--<local:ManualView>
-                            <local:ManualView.DataContext>
-                                <vms:ManualViewModel/>
-                            </local:ManualView.DataContext>
-
-                        </local:ManualView>-->
-                </Grid>
+                    DockPanel.Dock="Top" >
+                <Frame Source="/Manual/ManualPages/MainPage.xaml"/>
             </Border>
 
 
             <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowSettings, Converter={StaticResource VisibilityConverter}}"
-                    DockPanel.Dock="Top">
+                    DockPanel.Dock="Top" >
                 <Grid>
 
-
-                    <local:SettingsView>
+                    <local:SettingsView HorizontalAlignment="Left" HorizontalContentAlignment="Left">
                         <local:SettingsView.DataContext>
                             <vms:SettingsViewModel/>
                         </local:SettingsView.DataContext>
@@ -244,29 +242,23 @@
                     DockPanel.Dock="Top"
                     Margin="0 5 0 0">
                 <Grid >
-
-                    <Border>
-                        <local:AccountingView DataContext="{Binding Accounting}"/>
-                    </Border>
+                    <local:AccountingView DataContext="{Binding Accounting}"/>
+  
                 </Grid>
             </Border>
 
 
             <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowCosts, Converter={StaticResource VisibilityConverter}}"
-                    DockPanel.Dock="Top">
+                    DockPanel.Dock="Top" >
                 <Grid>
-
-                    <Border>
-                        <local:CostView DataContext="{Binding Cost}"/>
-                    </Border>
-
+                    <local:CostView DataContext="{Binding Cost}"/>
                 </Grid>
             </Border>
 
 
         </DockPanel>
-
+        </ScrollViewer>
     </Border>
 
 </UserControl>

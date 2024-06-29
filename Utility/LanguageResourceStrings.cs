@@ -200,11 +200,16 @@ namespace SharedLivingCostCalculator.Utility
 
         public string IDF_SettingsTitleText { get; set; } = "SLCC Settings";
         public string IDF_Language { get; set; } = "Language";
-        public string IDF_Country { get; set; } = "Country";
+        public string IDF_Culture { get; set; } = "Culture";
         public string IDF_FontSize { get; set; } = "Font Size";
         public string IDF_FontFamily { get; set; } = "Font Family";
-        public string IDF_Foreground { get; set; } = "Foreground";
+        public string IDF_Foreground { get; set; } = "Text Color";
         public string IDF_Background { get; set; } = "Background";
+
+        public string IDF_HeaderTextColor { get; set; } = "Header Color";
+        public string IDF_SelectionColor { get; set; } = "Selection Color";
+        public string IDF_ButtonCornerRadius { get; set; } = "Button Rounding";
+        public string IDF_VisibilityFieldCornerRadius { get; set; } = "Field Rounding";
 
         public string SettingsHeaderText { get; set; } = "Settings";
 

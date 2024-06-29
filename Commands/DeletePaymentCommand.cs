@@ -44,7 +44,7 @@ namespace SharedLivingCostCalculator.Commands
             if (selection != null)
             {
                 MessageBoxResult result = MessageBox.Show(
-                    $"Do you wan't to delete selected payments?",
+                    $"Do you want to delete selected payments?",
                     "Remove Payment(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {

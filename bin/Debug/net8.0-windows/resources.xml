@@ -1,36 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <C_Background>
-    <A>255</A>
-    <R>255</R>
-    <G>255</G>
-    <B>255</B>
-    <ScA>1</ScA>
-    <ScR>1</ScR>
-    <ScG>1</ScG>
-    <ScB>1</ScB>
+    <A>178</A>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
+    <ScA>0.69803923</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
   </C_Background>
+  <C_Selection>
+    <A>102</A>
+    <R>173</R>
+    <G>216</G>
+    <B>230</B>
+    <ScA>0.4</ScA>
+    <ScR>0.4178851</ScR>
+    <ScG>0.6866853</ScG>
+    <ScB>0.791298</ScB>
+  </C_Selection>
   <C_Text>
     <A>255</A>
-    <R>128</R>
-    <G>100</G>
-    <B>162</B>
+    <R>247</R>
+    <G>150</G>
+    <B>70</B>
     <ScA>1</ScA>
-    <ScR>0.21586053</ScR>
-    <ScG>0.12743768</ScG>
-    <ScB>0.36130682</ScB>
+    <ScR>0.9301109</ScR>
+    <ScG>0.30498734</ScG>
+    <ScB>0.06124606</ScB>
   </C_Text>
   <C_Text_Header>
     <A>255</A>
-    <R>128</R>
-    <G>100</G>
-    <B>162</B>
+    <R>79</R>
+    <G>129</G>
+    <B>189</B>
     <ScA>1</ScA>
-    <ScR>0.21586053</ScR>
-    <ScG>0.12743768</ScG>
-    <ScB>0.36130682</ScB>
+    <ScR>0.07818743</ScR>
+    <ScG>0.21952623</ScG>
+    <ScB>0.50888133</ScB>
   </C_Text_Header>
+  <ButtonCornerRadius>
+    <TopLeft>7</TopLeft>
+    <TopRight>7</TopRight>
+    <BottomRight>7</BottomRight>
+    <BottomLeft>7</BottomLeft>
+  </ButtonCornerRadius>
+  <VisibilityFieldCornerRadius>
+    <TopLeft>13</TopLeft>
+    <TopRight>13</TopRight>
+    <BottomRight>13</BottomRight>
+    <BottomLeft>13</BottomLeft>
+  </VisibilityFieldCornerRadius>
   <FontFamily>Verdana</FontFamily>
-  <FS>12</FS>
+  <FS>13</FS>
+  <HFS>19.5</HFS>
   <Language>English</Language>
 </Resources>

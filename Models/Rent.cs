@@ -53,6 +53,9 @@ namespace SharedLivingCostCalculator.Models
 
 
         public Billing? GetBilling { get; set; }
+        
+
+        public bool OtherCostsHasDataLock { get; set; } = false;
 
 
         public DateTime StartDate { get; set; } = DateTime.Now;

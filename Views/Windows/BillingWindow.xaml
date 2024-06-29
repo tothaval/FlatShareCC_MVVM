@@ -10,6 +10,8 @@
         xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components"
         SizeToContent="WidthAndHeight"
         mc:Ignorable="d"
+
+        Language="{DynamicResource Culture}"
         Title="BillingWindow"
         >
     <Window.Resources>
@@ -28,48 +30,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-
-        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Text="{Binding FlatViewModel.Address, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                       Style="{StaticResource Header}"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Bottom"
-                       Grid.Row="0"
-                       Grid.Column="0"/>
-
-            <TextBlock Grid.Row="1"
-                       Grid.Column="0"
-                       Style="{StaticResource StringValueTextBlock}"
-                       VerticalAlignment="Bottom">
-                <Run Text="{Binding FlatViewModel.Area, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
-                <Run Text="m², "/>
-                <Run Text="{Binding FlatViewModel.RoomCount, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
-                <Run Text=" rooms"/>
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Left" TextAlignment="Left"
-                       Text="{Binding FlatViewModel.Details, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                       Style="{StaticResource StringValueTextBlock}"
-                       Grid.Row="2"
-                       Grid.Column="0"/>
-
-            <TextBlock Text="{Binding FlatViewModel.FlatNotes, NotifyOnSourceUpdated=True}"
-                       Style="{StaticResource StringValueTextBlock}"
-                       Grid.Column="1"
-                       Grid.Row="1"
-                       Grid.RowSpan="2"/>
-        </Grid>
-
+        <comps:FlatInfo/> 
+        
         <StackPanel Orientation="Vertical"
                     Grid.Column="0"
                     Grid.Row="1"
@@ -90,7 +52,6 @@
                            Style="{StaticResource StringValueTextBlock}"
                            Grid.Column="0"/>
                 <DatePicker SelectedDate="{Binding StartDate,StringFormat=d,
-                    ConverterCulture=de-DE,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
                     ValidatesOnDataErrors=true, 
@@ -115,7 +76,6 @@
                            Style="{StaticResource StringValueTextBlock}"
                            Grid.Column="0"/>
                 <DatePicker SelectedDate="{Binding EndDate,StringFormat=d,
-                    ConverterCulture=de-DE,     
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
                     ValidatesOnDataErrors=true, UpdateSourceTrigger=PropertyChanged}"

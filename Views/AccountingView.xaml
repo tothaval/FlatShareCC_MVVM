@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              xmlns:viewmodels="clr-namespace:SharedLivingCostCalculator.ViewModels"
              xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
@@ -13,7 +14,7 @@
         <conv:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
         <conv:VisibilityConverter x:Key="VisibilityConverter"/>
     </UserControl.Resources>
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center"
+    <Grid 
           Margin="5 0">
 
         <Grid.RowDefinitions>
@@ -21,48 +22,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Text="{Binding Address, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                       Style="{StaticResource Header}"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Bottom"
-                       Grid.Row="0"
-                       Grid.Column="0"/>
-
-            <TextBlock Grid.Row="1"
-                       Grid.Column="0"
-                       Style="{StaticResource StringValueTextBlock}"
-                       VerticalAlignment="Bottom">
-                <Run Text="{Binding Area, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
-                <Run Text="m², "/>
-                <Run Text="{Binding RoomCount, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
-                <Run Text=" rooms"/>
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Left" TextAlignment="Left"
-                       Text="{Binding Details, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                       Style="{StaticResource StringValueTextBlock}"
-                       Grid.Row="2"
-                       Grid.Column="0"/>
-
-            <TextBlock Text="{Binding FlatNotes, NotifyOnSourceUpdated=True}"
-                       Style="{StaticResource StringValueTextBlock}"
-                       Grid.Column="1"
-                       Grid.Row="0"
-                       Grid.RowSpan="2"/>
-        </Grid>
+        <comps:FlatInfo HorizontalContentAlignment="Left"/>
 
         <local:RentManagementView DataContext="{Binding Rents, NotifyOnSourceUpdated=True}"
-                                  Grid.Row="1"/>
+                                  HorizontalContentAlignment="Left"
+                                  Grid.Row="1" />
     </Grid>
 </UserControl>

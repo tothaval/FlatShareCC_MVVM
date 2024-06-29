@@ -55,16 +55,16 @@
 
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid/>
+                    <WrapPanel/>
                 </ItemsPanelTemplate>
                 
             </ListView.ItemsPanel>
             
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border Background="FloralWhite" HorizontalAlignment="Stretch" BorderBrush="Black"
-                          BorderThickness="2">
-                        <Grid HorizontalAlignment="Stretch">
+                    <Border>
+                        <Grid HorizontalAlignment="Stretch"
+                              VerticalAlignment="Top">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
@@ -73,24 +73,24 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <c_views:ObjectInputView Label="{DynamicResource IDF_RoomName}" Grid.Row="0"
-                               Value="{Binding RoomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                               Foreground="DarkSlateGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                                                   ValueMinWidth="120"/>
-                            <c_views:ObjectInputView Label="{DynamicResource IDF_RoomArea}"
-                               Value="{Binding RoomArea, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,  NotifyOnTargetUpdated=True,
-                              StringFormat=\{0:n\}, Delay=250}"
-                               IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"
-                               Foreground="DarkSlateGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                                                   ValueAlignment="Right"
+                            
+                            <c_views:ObjectInputView Label="{DynamicResource IDF_RoomName}"
+                                                     Grid.Row="0"
+                                                     Value="{Binding RoomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                     ValueMinWidth="120"/>
+
+                            <c_views:DoubleInputView Label="{DynamicResource IDF_RoomArea}"
+                                                     Value="{Binding RoomArea, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,  NotifyOnTargetUpdated=True,Delay=250}"
+                                                     IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"                                                     
+                                                     ValueAlignment="Right"
+                                                     ValueMinWidth="120"
+                                                     Grid.Row="1"/>
+                            
+                            <!--<c_views:ObjectInputView Label="{DynamicResource IDF_RoomTenant}"
+                                                     Value="{Binding Tenant, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                StringFormat=\{0:n\}, Delay=250}"                                                      
                                                    ValueMinWidth="120"
-                                                   Grid.Row="1"/>
-                            <c_views:ObjectInputView Label="{DynamicResource IDF_RoomTenant}"
-                                                   Value="{Binding Tenant, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                              StringFormat=\{0:n\}, Delay=250}" 
-                                                   Foreground="DarkSlateGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                                                   ValueMinWidth="120"
-                                                   Grid.Row="2"/>
+                                                   Grid.Row="2"/>-->
                         </Grid>
                     </Border>
                 </DataTemplate>

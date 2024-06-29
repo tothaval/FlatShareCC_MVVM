@@ -6,7 +6,9 @@
  *  store and retrieve application settings
  *  data to or from hard drive storage
  */
+using System.Globalization;
 using System.Windows;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using SharedLivingCostCalculator.Enums;
@@ -26,10 +28,19 @@ namespace SharedLivingCostCalculator.Utility
         public Color C_Background { get; set; }
 
 
+        public Color C_Selection{ get; set; }
+
+
         public Color C_Text { get; set; }
 
 
         public Color C_Text_Header { get; set; }
+
+
+        public CornerRadius ButtonCornerRadius { get; set; } 
+
+        public CornerRadius VisibilityFieldCornerRadius { get; set; }
+
 
 
         [XmlIgnore]
@@ -39,14 +50,31 @@ namespace SharedLivingCostCalculator.Utility
         public string FontFamily { get; set; }
 
 
+        /// <summary>
+        /// FontSize
+        /// </summary>
         public double FS { get; set; } = 11.0;
+
+
+        /// <summary>
+        /// HeaderFontsize
+        /// </summary>
+        public double HFS { get; set; } = 11.0;
 
 
         public string Language { get; set; } = SupportedLanguages.English.ToString();
 
 
         [XmlIgnore]
+        public CultureInfo CurrentCulture { get; set; } = CultureInfo.CurrentCulture;
+
+
+        [XmlIgnore]
         public SolidColorBrush SCB_Background { get; set; } = new SolidColorBrush(Colors.White);
+
+
+        [XmlIgnore]
+        public SolidColorBrush SCB_Selection{ get; set; } = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#AEF"));
 
 
         [XmlIgnore]
@@ -75,6 +103,11 @@ namespace SharedLivingCostCalculator.Utility
             C_Background = SCB_Background.Color;
 
 
+            SCB_Selection = (SolidColorBrush)Application.Current.Resources["SCB_Selection"];
+
+            C_Selection = SCB_Selection.Color;
+
+
             SCB_Text = (SolidColorBrush)Application.Current.Resources["SCB_Text"];
 
             C_Text = SCB_Text.Color;
@@ -85,12 +118,20 @@ namespace SharedLivingCostCalculator.Utility
             C_Text_Header = SCB_Text_Header.Color;
 
 
+
             FF = (FontFamily)Application.Current.Resources["FF"];
 
             FontFamily = FF.Source;
 
 
             FS = (double)Application.Current.Resources["FS"];
+
+
+            HFS = (double)Application.Current.Resources["FS"] * 1.5;
+
+
+            ButtonCornerRadius = (CornerRadius)Application.Current.Resources["Button_CornerRadius"];
+            VisibilityFieldCornerRadius = (CornerRadius)Application.Current.Resources["VisibilityField_CornerRadius"];
 
 
             return this;
@@ -104,14 +145,21 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["FS"] = FS;
             Application.Current.Resources["FF"] = new FontFamily(FontFamily);
 
+            Application.Current.Resources["HFS"] = FS * 1.25;
+
+            Application.Current.Resources["Button_CornerRadius"] = ButtonCornerRadius;
+
+            Application.Current.Resources["VisibilityField_CornerRadius"] = VisibilityFieldCornerRadius;
+
+
             Application.Current.Resources["SCB_Background"] = new SolidColorBrush(C_Background);
             Application.Current.Resources["SCB_Text"] = new SolidColorBrush(C_Text);
             Application.Current.Resources["SCB_Text_Header"] = new SolidColorBrush(C_Text_Header);
-        
-            new LanguageResources(Language);
+            Application.Current.Resources["SCB_Selection"] = new SolidColorBrush(C_Selection);
 
-            // country => specify ConverterCulture   
-            // ??? how to apply global to app?
+            Application.Current.Resources["Culture"] = XmlLanguage.GetLanguage(CurrentCulture.IetfLanguageTag);
+
+            new LanguageResources(Language);
 
         }
 

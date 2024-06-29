@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
              xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels"
              xmlns:components="clr-namespace:SharedLivingCostCalculator.Components"
              mc:Ignorable="d" 
@@ -28,12 +29,16 @@
                 <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                          MinWidth="50" 
                          Style="{StaticResource DoubleValueTextBox}"
+                         IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                                                    
                     />
                 
                 <Button Content ="{DynamicResource IDF_AddPayment}"
                         Command="{Binding AddPaymentCommand}"
                         CommandParameter="{Binding Quantity}"
                         Style="{StaticResource buttonStyle}"
+                        IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                                                    
                         />
             </StackPanel>
 
@@ -41,7 +46,9 @@
                     Command="{Binding DeletePaymentCommand}"
                     Grid.Column="1"
                     CommandParameter="{Binding ElementName=_payments, Path=SelectedItems}"
-                    Style="{StaticResource buttonStyle}"/>
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                    />
         </Grid>
 
 
@@ -50,7 +57,8 @@
 
             <ListView ItemsSource="{Binding Payments, NotifyOnSourceUpdated=True}"
                       SelectionMode="Extended"
-                      x:Name="_payments">
+                      x:Name="_payments"
+                      ItemContainerStyle="{StaticResource ItemContainerStyle}">
 
                 <ListView.View>
                     
@@ -63,10 +71,9 @@
                                     <DataTemplate>
                                         <DatePicker SelectedDate="{Binding StartDate,
                                             StringFormat=d,
-                                            ConverterCulture=de-DE,
                                             UpdateSourceTrigger=PropertyChanged}"
                                                     MinWidth="100"
-                                                    IsEnabled="{Binding HasDataLock}"
+                                                    IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
                                                     HorizontalAlignment="Stretch"
                                                     FontFamily="{DynamicResource FF}"
                                                     FontSize="{DynamicResource FS}"
@@ -82,10 +89,9 @@
                                     <DataTemplate>
                                         <DatePicker SelectedDate="{Binding EndDate,
                                             StringFormat=d,
-                                            ConverterCulture=de-DE,
                                             UpdateSourceTrigger=PropertyChanged}"
                                                     MinWidth="100"
-                                                    IsEnabled="{Binding HasDataLock}"
+                                                    IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
                                                     HorizontalAlignment="Stretch"
                                                     FontFamily="{DynamicResource FF}"
                                                     FontSize="{DynamicResource FS}"
@@ -101,12 +107,13 @@
                                     <DataTemplate>
                                         <TextBox Text="{Binding Sum,
                                             StringFormat=C2,
-                                            ConverterCulture=de-DE,
                                             NotifyOnSourceUpdated=True,
                                             UpdateSourceTrigger=PropertyChanged,
                                             ValidatesOnDataErrors=true}"
-                                                 Style="{StaticResource DoubleValueTextBox}"/>
-                                        
+                                                 Style="{StaticResource DoubleValueTextBox}"                                                 
+                                                 IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                                                 />
+
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -118,7 +125,9 @@
                                             NotifyOnSourceUpdated=True,
                                             UpdateSourceTrigger=PropertyChanged,
                                             ValidatesOnDataErrors=true}"
-                                                 Style="{StaticResource DoubleValueTextBox}"/>
+                                                 Style="{StaticResource DoubleValueTextBox}"
+                                                 IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"                                                 
+                                                 />
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -129,12 +138,13 @@
                                     <DataTemplate>
                                         <TextBox Text="{Binding PaymentTotal,
                                             StringFormat=C2,
-                                            ConverterCulture=de-DE,
                                             NotifyOnSourceUpdated=True,
                                             UpdateSourceTrigger=PropertyChanged,
                                             ValidatesOnDataErrors=true,
                                             Mode=OneWay}"
-                                                 Style="{StaticResource DoubleValueTextBox}"/>
+                                                 Style="{StaticResource DoubleValueTextBox}"
+                                                 IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"                                                    
+                                                 />
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

@@ -23,5 +23,9 @@
     <PackageReference Include="PropertyTools.Wpf" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Manual\ManualResourceStrings\" />
+  </ItemGroup>
+
 	
 </Project>

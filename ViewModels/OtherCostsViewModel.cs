@@ -23,6 +23,27 @@ namespace SharedLivingCostCalculator.ViewModels
         // properties & fields
         #region properties
 
+        private bool _DataLockCheckbox;
+        public bool DataLockCheckbox
+        {
+            get { return _DataLockCheckbox; }
+            set
+            {
+                _DataLockCheckbox = value;
+                _RentViewModel.OtherCostsHasDataLock = value;
+                OnPropertyChanged(nameof(DataLockCheckbox));
+                OnPropertyChanged(nameof(DataLock));
+            }
+        }
+
+
+        public bool DataLock => !DataLockCheckbox;
+
+
+        private readonly FlatViewModel _FlatViewModel;
+        public FlatViewModel FlatViewModel => _FlatViewModel;
+
+
         private readonly RentViewModel _RentViewModel;
 
         #endregion properties
@@ -58,6 +79,15 @@ namespace SharedLivingCostCalculator.ViewModels
 
             _RentViewModel = rentViewModel;
 
+            _FlatViewModel = rentViewModel.GetFlatViewModel();
+
+
+            if (_RentViewModel.OtherCostsHasDataLock)
+            {
+                DataLockCheckbox = true;
+            }
+
+
         }
 
         #endregion constructors
@@ -83,7 +113,7 @@ namespace SharedLivingCostCalculator.ViewModels
             if (selection != null)
             {
                 MessageBoxResult result = MessageBox.Show(
-                    $"Do you wan't to delete selected other costs?",
+                    $"Do you want to delete selected other costs?",
                     "Remove Other Cost(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {

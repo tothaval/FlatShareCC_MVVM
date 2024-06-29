@@ -4,90 +4,118 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SharedLivingCostCalculator"
+        xmlns:mPs="clr-namespace:SharedLivingCostCalculator.Manual.ManualPages"
+        xmlns:mVMs="clr-namespace:SharedLivingCostCalculator.Manual.ManualViewModels"
         xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels"
         xmlns:views="clr-namespace:SharedLivingCostCalculator.Views"
         xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
-        x:Name="ExampleMainWindowName"
+        Name="mainWindow"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="Manual"
+        
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"        
+
+        Language="{DynamicResource Culture}"
         Title="{DynamicResource IDF_MainWindowTitle}">
-    <Grid MinHeight="200" MinWidth="200" Margin="3">
-        <Grid.Resources>
-            <DataTemplate DataType="{x:Type vms:FlatManagementViewModel}">
-                <views:FlatManagementView/>
-            </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:FlatSetupViewModel}">
-                <views:FlatSetupView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type vms:RoomSetupViewModel}">
-                <views:RoomSetupView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type vms:AccountingViewModel}">
-                <views:AccountingView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type vms:BillingPeriodViewModel}">
-                <windows:BillingWindow/>
-            </DataTemplate>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vms:FlatManagementViewModel}">
+            <views:FlatManagementView/>
+        </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:PaymentManagementViewModel}">
-                <views:PaymentManagementView/>
-            </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:FlatSetupViewModel}">
+            <views:FlatSetupView/>
+        </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:PaymentsSetupViewModel}">
-                <views:PaymentsSetupView/>
-            </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:RoomSetupViewModel}">
+            <views:RoomSetupView/>
+        </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:RentManagementViewModel}">
-                <views:RentManagementView/>
-            </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:AccountingViewModel}">
+            <views:AccountingView/>
+        </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:RentUpdateViewModel}">
-                <views:RentUpdateView/>
-            </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:BillingPeriodViewModel}">
+            <windows:BillingWindow/>
+        </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:CostsViewModel}">
-                <views:CostView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type vms:SettingsViewModel}">
-                <views:SettingsView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type vms:RentCostsViewModel}">
-                <views:RentCostsView/>
-            </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:PaymentManagementViewModel}">
+            <views:PaymentManagementView/>
+        </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:BillingCostsViewModel}">
-                <views:BillingCostsView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type vms:ConsumptionViewModel}">
-                <views:ConsumptionView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type vms:OtherCostsViewModel}">
-                <windows:OtherCostsView/>
-            </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:PaymentsSetupViewModel}">
+            <views:PaymentsSetupView/>
+        </DataTemplate>
 
-        </Grid.Resources>
+        <DataTemplate DataType="{x:Type vms:RentManagementViewModel}">
+            <views:RentManagementView/>
+        </DataTemplate>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="7"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="7"/>
-        </Grid.RowDefinitions>
+        <DataTemplate DataType="{x:Type vms:RentUpdateViewModel}">
+            <views:RentUpdateView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vms:CostsViewModel}">
+            <views:CostView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vms:SettingsViewModel}">
+            <views:SettingsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vms:RentCostsViewModel}">
+            <views:RentCostsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vms:BillingCostsViewModel}">
+            <views:BillingCostsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vms:ConsumptionViewModel}">
+            <views:ConsumptionView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vms:OtherCostsViewModel}">
+            <windows:OtherCostsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type mVMs:MainPageViewModel}">
+            <mPs:MainPage/>
+        </DataTemplate>
+    </Window.Resources>
 
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Auto"
-                      CanContentScroll="True"
-                      Grid.Row="1">
-            <ContentControl Content="{Binding CurrentViewModel}"/>
-        </ScrollViewer>
-    </Grid>
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="1"  
+            CornerRadius ="{DynamicResource Radius}"
+            ResizeBorderThickness="15"         
+            GlassFrameThickness="0"            
+            >
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+
+    <Window.InputBindings>
+        <MouseBinding MouseAction="RightClick" Command="{Binding CloseCommand}"/>
+        <MouseBinding MouseAction="LeftClick" Command="{Binding LeftPressCommand}"
+                      CommandParameter="{Binding ElementName=mainWindow}"/>
+
+    </Window.InputBindings>
+
+    <Border x:Name="border"
+            BorderBrush="{DynamicResource SCB_Text}"
+            BorderThickness="4"
+            CornerRadius="{DynamicResource VisibilityField_CornerRadius}"            
+            Background="{DynamicResource SCB_Background}">
+
+        <ContentControl Content="{Binding _FlatManagementViewModel}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="Transparent"/>
+        
+    </Border>
+    
 </Window>

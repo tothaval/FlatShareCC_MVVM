@@ -115,10 +115,14 @@ Year</IDF_TotalPricePerYear>
   <IDF_perMonth>per month</IDF_perMonth>
   <IDF_SettingsTitleText>SLCC Settings</IDF_SettingsTitleText>
   <IDF_Language>Language</IDF_Language>
-  <IDF_Country>Country</IDF_Country>
+  <IDF_Culture>Culture</IDF_Culture>
   <IDF_FontSize>Font Size</IDF_FontSize>
   <IDF_FontFamily>Font Family</IDF_FontFamily>
-  <IDF_Foreground>Foreground</IDF_Foreground>
+  <IDF_Foreground>Text Color</IDF_Foreground>
   <IDF_Background>Background</IDF_Background>
+  <IDF_HeaderTextColor>Header Color</IDF_HeaderTextColor>
+  <IDF_SelectionColor>Selection Color</IDF_SelectionColor>
+  <IDF_ButtonCornerRadius>Button Rounding</IDF_ButtonCornerRadius>
+  <IDF_VisibilityFieldCornerRadius>Field Rounding</IDF_VisibilityFieldCornerRadius>
   <SettingsHeaderText>Settings</SettingsHeaderText>
 </Language>

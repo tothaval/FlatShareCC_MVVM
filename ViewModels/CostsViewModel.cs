@@ -12,7 +12,7 @@ using System.Security;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
-    internal class CostsViewModel : BaseViewModel
+    public class CostsViewModel : BaseViewModel
     {
 
         // properties & fields

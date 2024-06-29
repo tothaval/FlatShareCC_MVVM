@@ -12,7 +12,8 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
 
             <ListView ItemsSource="{Binding RoomPayments}"
-                      SelectedItem="{Binding Path=SelectedValue}">
+                      SelectedItem="{Binding Path=SelectedValue}"
+                      ItemContainerStyle="{StaticResource ItemContainerStyle}">
 
                 <ListView.View>
                     <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
@@ -45,7 +46,7 @@
                                     <DataTemplate>
                                         <TextBlock Text="{Binding CombinedPayments, NotifyOnSourceUpdated=True,
                                                         UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
-                                            StringFormat=C2, ConverterCulture=de-DE}"
+                                            StringFormat=C2}"
                                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
                                     </DataTemplate>

@@ -11,9 +11,10 @@
       <ColdRent>220.87</ColdRent>
       <ExtraCostsHeating>75.57</ExtraCostsHeating>
       <ExtraCostsShared>55.19</ExtraCostsShared>
-      <HasDataLock>false</HasDataLock>
+      <HasDataLock>true</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <ID>0</ID>
+      <OtherCostsHasDataLock>false</OtherCostsHasDataLock>
       <StartDate>2024-06-22T00:00:00</StartDate>
       <OtherCostItemCollection />
       <RoomCostShares>

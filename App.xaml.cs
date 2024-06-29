@@ -10,8 +10,6 @@
  *  for the entire application
  */
 using SharedLivingCostCalculator.Enums;
-using SharedLivingCostCalculator.Interfaces;
-using SharedLivingCostCalculator.Navigation;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
@@ -36,13 +34,7 @@ namespace SharedLivingCostCalculator
         private ObservableCollection<FlatViewModel> _flatCollection;
 
 
-        private MainViewModel _mainViewModel;
-
-
-        private readonly INavigationService _NavigateToFlatManagementViewModel;
-
-
-        private NavigationStore _navigationStore;
+        private FlatManagementViewModel _managementViewModel;
 
 
         private ResourceDictionary _resourceDictionary;
@@ -55,11 +47,9 @@ namespace SharedLivingCostCalculator
 
         public App()
         {
-            _navigationStore = new NavigationStore();
             _flatCollection = new ObservableCollection<FlatViewModel>();
             _resourceDictionary = new ResourceDictionary();
-
-            _mainViewModel = new MainViewModel(_flatCollection);
+            _managementViewModel = new FlatManagementViewModel(_flatCollection);
         }
 
         #endregion constructors
@@ -166,7 +156,7 @@ namespace SharedLivingCostCalculator
             persistanceHandler.SerializeFlatData(_flatCollection);
             persistanceHandler.SerializeResources();
 
-            persistanceHandler.SerializeApplicationState(_mainViewModel.CurrentViewModel);
+            persistanceHandler.SerializeApplicationState(_managementViewModel);
 
             //only needed to get a language resource string xml template
             persistanceHandler.SerializeLanguage(SupportedLanguages.English); 
@@ -199,7 +189,7 @@ namespace SharedLivingCostCalculator
 
             MainWindow mainWindow = new MainWindow()
             {
-                DataContext = _mainViewModel
+                DataContext = new MainWindowViewModel(_flatCollection, _managementViewModel)
             };
 
             mainWindow.Show();

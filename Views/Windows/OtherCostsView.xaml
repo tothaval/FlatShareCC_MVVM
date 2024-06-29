@@ -9,6 +9,8 @@
         xmlns:enums="clr-namespace:SharedLivingCostCalculator.Enums"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
+
+        Language="{DynamicResource Culture}"
         SizeToContent="WidthAndHeight"
         Title="OtherCostsView" Height="450" Width="800">
     <Window.Resources>
@@ -33,16 +35,26 @@
                 <Button Content="add cost item"
                         Command="{Binding AddOtherCostItemCommand}"
                         Grid.Column="0"
-                        Style="{StaticResource buttonStyle}"/>
+                        Style="{StaticResource buttonStyle}"
+                        IsEnabled="{Binding DataLock}"/>
                 <Button Content="remove cost item" Command="{Binding RemoveOtherCostItemCommand}" 
                         CommandParameter="{Binding ElementName=_othercosts, Path=SelectedItems}"
                         Grid.Column="1"
-                        Style="{StaticResource buttonStyle}"/>
+                        Style="{StaticResource buttonStyle}"
+                        IsEnabled="{Binding DataLock}"/>
             </Grid>
+
+            <comps:FlatInfo/>
+
+            <CheckBox Content="{DynamicResource IDF_LockData}"
+                          IsChecked="{Binding DataLockCheckbox}"
+                          Grid.Column="1"
+                          Style="{StaticResource OptionCheckBox}"/>
 
             <ListView ItemsSource="{Binding OtherCostItems, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
                       SelectionMode="Extended"
                       x:Name="_othercosts"
+                      ItemContainerStyle="{StaticResource ItemContainerStyle}"
                       >
                 
                 <ListView.View>
@@ -53,9 +65,10 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox ItemsSource="{Binding Source={StaticResource enumValues}, UpdateSourceTrigger=PropertyChanged}"
-                                                  SelectedItem="{Binding CostShareTypes}"
-                                                  HorizontalAlignment="Stretch">
-                                        </ComboBox>
+                                                  SelectedItem="{Binding CostShareTypes}"                                                  
+                                                  HorizontalAlignment="Stretch"          
+                                                  IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:OtherCostsView}}"/>
+
                                     </DataTemplate>                                    
                                 </GridViewColumn.CellTemplate>      
                             </GridViewColumn>
@@ -69,7 +82,8 @@
                                                                ValueMinWidth="100"
                                                                LabelMinWidth="0"
                                                                ValueAlignment="Left"
-                                                               HorizontalAlignment="Stretch"/>
+                                                               HorizontalAlignment="Stretch"         
+                                                               IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:OtherCostsView}}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -83,7 +97,8 @@
                                                                  ValueMinWidth="100"
                                                                  LabelMinWidth="0"
                                                                  ValueAlignment="Right"
-                                                                 HorizontalAlignment="Stretch"/>
+                                                                 HorizontalAlignment="Stretch"
+                                                                 IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:OtherCostsView}}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
