@@ -11,14 +11,14 @@
     <ScB>0.7529422</ScB>
   </C_Background>
   <C_Selection>
-    <A>102</A>
-    <R>173</R>
-    <G>216</G>
-    <B>230</B>
-    <ScA>0.4</ScA>
-    <ScR>0.4178851</ScR>
-    <ScG>0.6866853</ScG>
-    <ScB>0.791298</ScB>
+    <A>255</A>
+    <R>204</R>
+    <G>193</G>
+    <B>217</B>
+    <ScA>1</ScA>
+    <ScR>0.60382736</ScR>
+    <ScG>0.53327644</ScG>
+    <ScB>0.6938718</ScB>
   </C_Selection>
   <C_Text>
     <A>255</A>

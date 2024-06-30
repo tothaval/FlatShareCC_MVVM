@@ -7,7 +7,8 @@
              xmlns:viewmodels="clr-namespace:SharedLivingCostCalculator.ViewModels"
              xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components"        
              mc:Ignorable="d" 
-             Background="{DynamicResource SCB_Background}">
+             Background="Transparent">
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -62,7 +63,8 @@
             
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border>
+                    <Border BorderBrush="{DynamicResource SCB_Text_Header}"
+                            BorderThickness="2">
                         <Grid HorizontalAlignment="Stretch"
                               VerticalAlignment="Top">
                             <Grid.ColumnDefinitions>

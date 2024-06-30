@@ -53,6 +53,7 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_Details>Details</IDF_Details>
   <IDF_Rooms>Rooms</IDF_Rooms>
   <IDF_RoomTenant>Tenant</IDF_RoomTenant>
+  <IDF_TenantSetup>Tenant Setup</IDF_TenantSetup>
   <IDF_SharedFlatArea>Shared Area</IDF_SharedFlatArea>
   <IDF_CombinedRoomArea>All Rooms Area</IDF_CombinedRoomArea>
   <AccountingHeaderText>Accounting</AccountingHeaderText>

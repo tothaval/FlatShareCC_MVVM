@@ -7,7 +7,8 @@
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             FontWeight="Normal">
 
     <StackPanel Orientation="Vertical">
         <TextBlock Text="{DynamicResource IDF_Consumption}"
@@ -82,7 +83,8 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
-                                               Text="{Binding Room.RoomName}"/>
+                                           Text="{Binding Room.RoomName}"
+                                           Style="{StaticResource StringValueTextBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -91,7 +93,8 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
-                                           HorizontalAlignment="Right" Text="{Binding Room.RoomArea}"/>
+                                           HorizontalAlignment="Right" Text="{Binding Room.RoomArea}"
+                                           Style="{StaticResource DoubleValueTextBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

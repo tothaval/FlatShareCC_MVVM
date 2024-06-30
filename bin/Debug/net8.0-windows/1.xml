@@ -11,7 +11,8 @@
       <ColdRent>220.87</ColdRent>
       <ExtraCostsHeating>75.57</ExtraCostsHeating>
       <ExtraCostsShared>55.19</ExtraCostsShared>
-      <HasDataLock>true</HasDataLock>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <ID>0</ID>
       <OtherCostsHasDataLock>false</OtherCostsHasDataLock>

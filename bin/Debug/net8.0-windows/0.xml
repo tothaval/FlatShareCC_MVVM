@@ -11,7 +11,8 @@
       <ColdRent>450</ColdRent>
       <ExtraCostsHeating>180</ExtraCostsHeating>
       <ExtraCostsShared>90</ExtraCostsShared>
-      <HasDataLock>true</HasDataLock>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <ID>0</ID>
       <OtherCostsHasDataLock>false</OtherCostsHasDataLock>
@@ -51,12 +52,13 @@
       <ColdRent>450</ColdRent>
       <ExtraCostsHeating>220</ExtraCostsHeating>
       <ExtraCostsShared>110</ExtraCostsShared>
+      <HasCredits>true</HasCredits>
       <HasDataLock>true</HasDataLock>
       <HasOtherCosts>true</HasOtherCosts>
       <ID>1</ID>
       <GetBilling>
         <EndDate>2024-06-19T00:00:00</EndDate>
-        <HasCredit>false</HasCredit>
+        <HasCredits>true</HasCredits>
         <HasDataLock>true</HasDataLock>
         <HasPayments>true</HasPayments>
         <StartDate>2023-06-20T00:00:00</StartDate>
@@ -136,8 +138,8 @@
           </RoomPayments>
         </Payments>
       </GetBilling>
-      <OtherCostsHasDataLock>true</OtherCostsHasDataLock>
-      <StartDate>2024-06-05T00:00:00</StartDate>
+      <OtherCostsHasDataLock>false</OtherCostsHasDataLock>
+      <StartDate>2024-06-09T00:00:00</StartDate>
       <OtherCostItemCollection>
         <OtherCostItem>
           <Cost>38</Cost>
@@ -188,6 +190,7 @@
       <ColdRent>420</ColdRent>
       <ExtraCostsHeating>180</ExtraCostsHeating>
       <ExtraCostsShared>90</ExtraCostsShared>
+      <HasCredits>false</HasCredits>
       <HasDataLock>true</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <ID>2</ID>
@@ -223,7 +226,7 @@
     <Room>
       <ID>0</ID>
       <RoomArea>10.1</RoomArea>
-      <RoomName>room1</RoomName>
+      <RoomName>Schlafzimmer</RoomName>
     </Room>
     <Room>
       <ID>1</ID>
@@ -233,7 +236,7 @@
     <Room>
       <ID>2</ID>
       <RoomArea>12</RoomArea>
-      <RoomName>room3</RoomName>
+      <RoomName>Arbeitszimmer</RoomName>
     </Room>
   </Rooms>
 </Flat>

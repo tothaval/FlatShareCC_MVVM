@@ -76,7 +76,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public bool HasCredit
         {
-            get { return BillingViewModel.HasCredit; }
+            get { return BillingViewModel.HasCredits; }
             set
             {
 
@@ -88,7 +88,7 @@ namespace SharedLivingCostCalculator.ViewModels
                     if (result == MessageBoxResult.Yes)
                     {
                         //RentViewModel.RemoveBilling();
-                        BillingViewModel.HasCredit = value;
+                        BillingViewModel.HasCredits = value;
 
                         if (SelectedIndex == 2)
                         {
@@ -99,7 +99,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 if (!HasCredit && value == true)
                 {
-                    BillingViewModel.HasCredit = value;
+                    BillingViewModel.HasCredits = value;
 
                     if (SelectedIndex != 2)
                     {
@@ -364,7 +364,7 @@ namespace SharedLivingCostCalculator.ViewModels
             }
 
 
-            if (BillingViewModel.HasCredit)
+            if (BillingViewModel.HasCredits)
             {
                 HasCredit = true;
             }

@@ -122,6 +122,20 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         public bool HasBilling => _BillingViewModel != null;
 
 
+        public bool HasCredits
+        {
+            get { return Rent.HasCredits; }
+            set
+            {
+                Rent.HasCredits = value;
+
+                RentViewModelConfigurationChange?.Invoke(this, new EventArgs());
+
+                OnPropertyChanged(nameof(HasCredits));
+            }
+        }
+
+
         public bool HasDataLock
         {
             get { return Rent.HasDataLock; }

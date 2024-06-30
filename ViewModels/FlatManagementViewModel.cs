@@ -145,6 +145,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (_ShowFlatSetup)
                 {
                     ShowRoomSetup = false;
+                    ShowTenantSetup = false;
                 }
 
                 OnPropertyChanged(nameof(ShowFlatSetup));
@@ -182,12 +183,13 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (_ShowRoomSetup)
                 {
                     ShowFlatSetup = false;
+                    ShowTenantSetup = false;
                 }
 
                 OnPropertyChanged(nameof(ShowRoomSetup));
             }
         }
-
+        
 
         private bool _ShowSettings;
         public bool ShowSettings
@@ -206,6 +208,28 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(ShowSettings));
             }
         }
+
+
+        private bool _ShowTenantSetup;
+        public bool ShowTenantSetup
+        {
+            get { return _ShowTenantSetup; }
+            set
+            {
+                _ShowTenantSetup = value;
+
+                if (_ShowTenantSetup)
+                {
+                    ShowFlatSetup = false;
+                    ShowRoomSetup = false;
+                }
+
+                OnPropertyChanged(nameof(ShowTenantSetup));
+            }
+        }
+
+
+        public TenantSetupViewModel TenantSetup { get; set; }
 
         #endregion properties & fields
 
@@ -256,6 +280,7 @@ namespace SharedLivingCostCalculator.ViewModels
             Cost = new CostsViewModel(Accounting);
             FlatSetup = new FlatSetupViewModel(this);
             RoomSetup = new RoomSetupViewModel(this);
+            TenantSetup = new TenantSetupViewModel(this);
 
             NewFlatCommand = new RelayCommand((s) => CreateFlat(), (s) => true);
 

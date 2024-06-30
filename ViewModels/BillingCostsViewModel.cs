@@ -38,6 +38,9 @@ namespace SharedLivingCostCalculator.ViewModels
         private readonly FlatViewModel _flatViewModel;
 
 
+        public bool HasCredits => _billingViewModel.HasCredits;
+
+
         public bool HasPayments => _billingViewModel.HasPayments;
 
 
@@ -176,6 +179,7 @@ namespace SharedLivingCostCalculator.ViewModels
         #region events
         private void _billingViewModel_BillingViewModelConfigurationChange(object? sender, EventArgs e)
         {
+            OnPropertyChanged(nameof(HasCredits));
             OnPropertyChanged(nameof(HasPayments));
         }
         #endregion events

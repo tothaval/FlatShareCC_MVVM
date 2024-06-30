@@ -15,6 +15,9 @@
         
         Name="OtherCostsWindow"
         
+        MinWidth="500"
+        MinHeight="500"
+        
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"        
@@ -59,7 +62,7 @@
 
         <Grid>
 
-            <StackPanel Grid.Row="1" Margin="20">
+            <StackPanel Margin="20">
 
                 <Grid >
                     <Grid.ColumnDefinitions>
@@ -85,6 +88,21 @@
                           IsChecked="{Binding DataLockCheckbox}"
                           Grid.Column="1"
                           Style="{StaticResource OptionCheckBox}"/>
+
+                <UniformGrid Columns="2">
+                    <TextBlock Style="{StaticResource Header}"
+                               HorizontalAlignment="Left">
+                        <Run Text="{DynamicResource IDF_OtherCosts}"/>
+                        <Run Text="{DynamicResource IDF_perMonth}"/>
+                    </TextBlock>
+
+                    <TextBlock Style="{StaticResource Header}"
+                               Text="{Binding OtherCostsSumPerMonth, StringFormat=C2}"
+                               TextAlignment="Right"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Right"/>
+
+                </UniformGrid>
 
                 <ListView ItemsSource="{Binding OtherCostItems, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
                       SelectionMode="Extended"
