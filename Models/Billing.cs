@@ -22,7 +22,7 @@ namespace SharedLivingCostCalculator.Models
         public DateTime EndDate { get; set; } = DateTime.Now;
 
 
-        public bool HasCredit { get; set; } = false;
+        public bool HasCredits { get; set; } = false;
 
 
         public bool HasDataLock { get; set; } = false;

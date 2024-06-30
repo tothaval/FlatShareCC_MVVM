@@ -101,7 +101,9 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_Details { get; set; } = "Details";
         public string IDF_Rooms { get; set; } = "Rooms";
 
-        public string IDF_RoomTenant { get; set; } = "Tenant";
+        public string IDF_RoomTenant { get; set; } = "Tenant"; 
+        public string IDF_TenantSetup { get; set; } = "Tenant Setup";
+
 
         public string IDF_SharedFlatArea { get; set; } = "Shared Area"; 
         public string IDF_CombinedRoomArea { get; set; } = "All Rooms Area";
@@ -152,10 +154,9 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_AnnualComplete { get; set; } = "Complete Costs";
         public string IDF_CompleteCosts { get; set; } = "Complete Costs";
 
-        public string IDF_Credit { get; set; } = "Credit(s)";
+        public string IDF_Credit { get; set; } = "Credit(s)";      
 
-        public string IDF_HasOtherCosts { get; set; } = "factor in other costs";
-                
+        public string IDF_HasOtherCosts { get; set; } = "factor in other costs";                
         public string IDF_NewOtherCosts { get; set; } = "setup other costs";
                 
         public string IDF_FactorInCredit { get; set; } = "factor in credits";

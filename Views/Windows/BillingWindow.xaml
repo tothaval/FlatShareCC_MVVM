@@ -208,12 +208,11 @@
                     </TabItem>
 
                     <TabItem Header="{DynamicResource IDF_Credit}"
-                     Visibility="{Binding HasCredit, Converter={StaticResource VisConv}}">
+                     Visibility="{Binding HasCredits, Converter={StaticResource VisConv}}">
 
-
-                        <!--Content="{Binding CreditViewModel}"-->
-
-                        <TextBlock Text="CreditView do not forget the margin"  Margin="5"/>
+                        <local:CreditSetupView
+                            DataContext="{Binding CreditSetupViewModel}"
+                            Margin="5"/>
 
                     </TabItem>
 

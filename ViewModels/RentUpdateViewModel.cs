@@ -174,6 +174,36 @@ namespace SharedLivingCostCalculator.ViewModels
         public double ExtraCostsTotal => ExtraCostsShared + ExtraCostsHeating;
 
 
+        public bool HasCredits
+        {
+            get { return RentViewModel.HasCredits; }
+            set
+            {
+                if (value == false)
+                {
+                    MessageBoxResult result = MessageBox.Show(
+                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
+                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        //RentViewModel.RemoveBilling();
+                        RentViewModel.HasCredits = value;
+                    }
+                }
+                else
+                {
+                    RentViewModel.HasCredits = value;
+                }
+
+                OnPropertyChanged(nameof(HasCredits));
+                OnPropertyChanged(nameof(SetCreditVisibility));
+
+                RentConfigurationChange?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+
+
         public bool HasDataLock => !DataLockCheckbox;
 
 
@@ -270,6 +300,9 @@ namespace SharedLivingCostCalculator.ViewModels
                 RentConfigurationChange?.Invoke(this, EventArgs.Empty);
             }
         }
+        
+
+        public bool SetCreditVisibility => HasCredits;
 
 
         public bool SetOtherCostsVisibility => HasOtherCosts;
@@ -284,6 +317,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(StartDate));
             }
         }
+
         #endregion properties
 
 

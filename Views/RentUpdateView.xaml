@@ -40,11 +40,12 @@
                             MinWidth="100"
                             IsEnabled="{Binding HasDataLock}"
                             HorizontalAlignment="Stretch"
-                            FontFamily="{DynamicResource FF}"
-                            FontSize="{DynamicResource FS}"
-                            Foreground="{DynamicResource SCB_Text}"
-                            Background="{DynamicResource SCB_Background}"
-                            Grid.Column="1"/>
+                            CalendarStyle="{StaticResource CalendarStyle}"
+                            
+
+                            Grid.Column="1">
+                    
+                </DatePicker>
             </Grid>
 
             <comps:CurrencyInputView Label="{DynamicResource IDF_Rent}"
@@ -150,7 +151,21 @@
                           HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Center"
                           Style="{StaticResource toggleButtonStyle}"/>
-            
+
+            <CheckBox Content="{DynamicResource IDF_FactorInCredit}"
+                      IsChecked="{Binding HasCredits}"
+                      IsEnabled="{Binding HasDataLock}"
+                      Style="{StaticResource OptionCheckBox}"/>
+
+            <ToggleButton Content="{DynamicResource IDF_Credit}"
+                          Command="{Binding ShowCreditCommand}"
+                          IsChecked="{Binding CreditWindowActive}"
+                          Visibility="{Binding SetCreditVisibility,
+                Converter={StaticResource VisibilityConverter}}"
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Center"
+                          Style="{StaticResource toggleButtonStyle}"/>
+
             <CheckBox Content="{DynamicResource IDF_LockData}"
                       IsChecked="{Binding DataLockCheckbox}" 
                       Style="{StaticResource OptionCheckBox}"/>

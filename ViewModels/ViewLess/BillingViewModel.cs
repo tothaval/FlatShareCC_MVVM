@@ -127,16 +127,16 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         private readonly FlatViewModel _flatViewModel;
 
 
-        public bool HasCredit
+        public bool HasCredits
         {
-            get { return GetBilling.HasCredit; }
+            get { return GetBilling.HasCredits; }
             set
             {
-                GetBilling.HasCredit = value;
+                GetBilling.HasCredits = value;
 
                 BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
 
-                OnPropertyChanged(nameof(HasCredit));
+                OnPropertyChanged(nameof(HasCredits));
             }
         }
 
@@ -188,6 +188,18 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
 
         #endregion other properties
+        
+        #endregion properties
+
+
+        // event properties & fields
+        #region event handlers
+
+        public event PropertyChangedEventHandler DataChange;
+
+        public event EventHandler BillingViewModelConfigurationChange;
+
+        #endregion event handlers
 
 
         // collections
@@ -218,18 +230,6 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             }
         }
         #endregion collections
-
-        #endregion properties
-
-
-        // event properties & fields
-        #region event handlers
-
-        public event PropertyChangedEventHandler DataChange;
-
-        public event EventHandler BillingViewModelConfigurationChange;
-
-        #endregion event handlers
 
 
         // constructors

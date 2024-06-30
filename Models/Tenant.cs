@@ -29,16 +29,13 @@ namespace SharedLivingCostCalculator.Models
         // properties & fields
         #region properties
 
-        public DateTime EndDate { get; set; }
-
-
-        public int ID { get; set; }
+        public DateTime MovingOut { get; set; }
 
 
         public string Name { get; set; }
 
 
-        public DateTime StartDate { get; set; }
+        public DateTime MovingIn { get; set; }
 
         #endregion properties
 
@@ -48,10 +45,9 @@ namespace SharedLivingCostCalculator.Models
 
         public Tenant()
         {
-            ID = -1;
             Name = string.Empty;
-            StartDate = DateTime.Now;
-            StartDate = DateTime.Now.AddMonths(1);
+            MovingIn = DateTime.Now;
+            MovingOut = DateTime.Now.AddMonths(1);
         }        
         
         #endregion constructors

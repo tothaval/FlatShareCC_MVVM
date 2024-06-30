@@ -1,10 +1,14 @@
-﻿using SharedLivingCostCalculator.Commands;
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  MainWindowViewModel  : BaseViewModel
+ * 
+ *  viewmodel for MainWindow
+ */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
-using System.Security.Principal;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
@@ -38,6 +42,9 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public ICommand LeftPressCommand { get; }
 
+
+        public ICommand MinimizeCommand { get; }
+
         #endregion commands
 
 
@@ -46,13 +53,14 @@ namespace SharedLivingCostCalculator.ViewModels
 
             _FlatManagementViewModel = flatManagementViewModel;
 
-            CloseCommand = new RelayCommand((s) => Close(), (s) => true);
+            CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
             LeftDoubleClickCommand = new RelayCommand((s)=> Maximize(s), (s) => true);
             LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
+            MinimizeCommand = new RelayCommand((s) => Minimize(s), (s) => true);
         }
 
 
-        private void Close()
+        private void Close(object s)
         {
             MessageBoxResult result = MessageBox.Show(
                 $"Do you want to close Shared Living Cost Calculator?\n\n",
@@ -72,9 +80,11 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private void Maximize(object s)
+        private async void Maximize(object s)
         {
             MainWindow mainWindow = (MainWindow)s;
+
+            mainWindow.SizeToContent = SizeToContent.Manual;
 
             if (mainWindow.WindowState == WindowState.Normal)
             {
@@ -82,8 +92,26 @@ namespace SharedLivingCostCalculator.ViewModels
             }
             else
             {
+                mainWindow.SizeToContent = SizeToContent.WidthAndHeight;
+
+                await Task.Delay(100);
+
                 mainWindow.WindowState = WindowState.Normal;
+
+                mainWindow.BorderThickness = new Thickness(0);
+
+                mainWindow.BorderThickness = new Thickness(4);
             }
+
+        }
+
+
+        private void Minimize(object s)
+        {
+            // i don't get it, why is s null and not null on Maximize?
+            Window window = (Window)s;
+
+            window.WindowState = WindowState.Minimized;
         }
 
 

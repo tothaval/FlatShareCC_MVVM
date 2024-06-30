@@ -11,6 +11,7 @@
       <ColdRent>387</ColdRent>
       <ExtraCostsHeating>92</ExtraCostsHeating>
       <ExtraCostsShared>82</ExtraCostsShared>
+      <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <ID>0</ID>
@@ -52,6 +53,7 @@
       <ColdRent>379</ColdRent>
       <ExtraCostsHeating>92</ExtraCostsHeating>
       <ExtraCostsShared>82</ExtraCostsShared>
+      <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <ID>1</ID>
@@ -93,6 +95,7 @@
       <ColdRent>382</ColdRent>
       <ExtraCostsHeating>92</ExtraCostsHeating>
       <ExtraCostsShared>82</ExtraCostsShared>
+      <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <ID>2</ID>
@@ -134,12 +137,13 @@
       <ColdRent>387</ColdRent>
       <ExtraCostsHeating>104</ExtraCostsHeating>
       <ExtraCostsShared>92</ExtraCostsShared>
+      <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <ID>3</ID>
       <GetBilling>
         <EndDate>2023-12-31T00:00:00</EndDate>
-        <HasCredit>false</HasCredit>
+        <HasCredits>false</HasCredits>
         <HasDataLock>false</HasDataLock>
         <HasPayments>false</HasPayments>
         <StartDate>2023-01-01T00:00:00</StartDate>
@@ -213,6 +217,7 @@
       <ColdRent>379</ColdRent>
       <ExtraCostsHeating>90</ExtraCostsHeating>
       <ExtraCostsShared>79</ExtraCostsShared>
+      <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <ID>4</ID>
@@ -254,6 +259,7 @@
       <ColdRent>372</ColdRent>
       <ExtraCostsHeating>85</ExtraCostsHeating>
       <ExtraCostsShared>74</ExtraCostsShared>
+      <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <ID>5</ID>

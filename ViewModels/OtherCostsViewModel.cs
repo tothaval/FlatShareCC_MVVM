@@ -44,6 +44,18 @@ namespace SharedLivingCostCalculator.ViewModels
         public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
+        private double _OtherCostsSumPerMonth;
+        public double OtherCostsSumPerMonth
+        {
+            get { return _OtherCostsSumPerMonth; }
+            set
+            {
+                _OtherCostsSumPerMonth = value;
+                OnPropertyChanged(nameof(OtherCostsSumPerMonth));
+            }
+        }
+
+
         private readonly RentViewModel _RentViewModel;
 
         #endregion properties
@@ -95,6 +107,12 @@ namespace SharedLivingCostCalculator.ViewModels
 
             CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
             LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
+
+            _RentViewModel.OtherCosts.CollectionChanged += OtherCosts_CollectionChanged;
+
+            CalculateSum();
+
+            RegisterOtherCostItemValueChange();
         }
 
         #endregion constructors
@@ -110,6 +128,17 @@ namespace SharedLivingCostCalculator.ViewModels
             _RentViewModel.OtherCosts.Add(otherCostItemViewModel);
 
             OnPropertyChanged(nameof(OtherCostItems));
+        }
+
+
+        private void CalculateSum()
+        {
+            OtherCostsSumPerMonth = 0.0;
+
+            foreach (OtherCostItemViewModel item in OtherCostItems)
+            {
+                OtherCostsSumPerMonth += item.Cost;
+            }
         }
 
 
@@ -137,6 +166,21 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private void RegisterOtherCostItemValueChange()
+        {
+            foreach (OtherCostItemViewModel item in OtherCostItems)
+            {
+                item.ValueChange += Item_ValueChange;
+            }
+        }
+
+
+        private void Item_ValueChange(object? sender, EventArgs e)
+        {
+            CalculateSum();
+        }
+
+
         private void RemoveOtherCostItem(object s)
         {
             IList selection = (IList)s;
@@ -160,6 +204,19 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
         #endregion methods
+
+
+        // events
+        #region events
+
+        private void OtherCosts_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            RegisterOtherCostItemValueChange();
+
+            CalculateSum();
+        }
+
+        #endregion events
 
 
     }

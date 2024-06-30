@@ -13,7 +13,7 @@
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="Manual"
-        
+                
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"        
@@ -87,8 +87,31 @@
                 <mPs:MainPage/>
             </DataTemplate>
 
-    </Window.Resources>
+        <DataTemplate DataType="{x:Type vms:CreditSetupViewModel}">
+            <views:CreditSetupView/>
+        </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vms:TenantSetupViewModel}">
+            <views:TenantSetupView/>
+        </DataTemplate>
+
+    </Window.Resources>
+    
+    <Window.ContextMenu >
+        <ContextMenu >
+            
+            <MenuItem Header="Minimize"
+                      Command="{Binding MinimizeCommand}"
+                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}},
+                                Path=PlacementTarget}"/>
+            
+            <MenuItem Header="Close" Command="{Binding CloseCommand}"/>
+            
+        </ContextMenu>
+        
+        
+    </Window.ContextMenu>
+    
 
     <WindowChrome.WindowChrome>
         <WindowChrome
@@ -100,16 +123,20 @@
         </WindowChrome>
     </WindowChrome.WindowChrome>
 
-    <Window.InputBindings>
-        <MouseBinding MouseAction="RightClick" Command="{Binding CloseCommand}"/>
-        
+    <Window.InputBindings>        
         <MouseBinding MouseAction="LeftClick" Command="{Binding LeftPressCommand}"
                       CommandParameter="{Binding ElementName=mainWindow}"/>
         <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding LeftDoubleClickCommand}"
-              CommandParameter="{Binding ElementName=mainWindow}"/>
+                      CommandParameter="{Binding ElementName=mainWindow}"/>
     </Window.InputBindings>
 
+    
+    <!-- Margin is necessary to prevent strange WindowState.Maximize to
+         WindowState.Normal behaviour, the border is not rendered on the
+         second time, a small resize of the window redraws the border,
+         which seems to be collapsed or cut by some invisible boundary. -->
     <Border x:Name="border"
+            Margin="5"
             BorderBrush="{DynamicResource SCB_Text}"
             BorderThickness="4"
             CornerRadius="{DynamicResource VisibilityField_CornerRadius}"            

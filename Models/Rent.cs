@@ -43,6 +43,9 @@ namespace SharedLivingCostCalculator.Models
         public double ExtraCostsTotal => ExtraCostsShared + ExtraCostsHeating;
 
 
+        public bool HasCredits { get; set; } = false;
+
+
         public bool HasDataLock { get; set; } = false;
 
 
