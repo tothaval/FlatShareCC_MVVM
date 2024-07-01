@@ -72,8 +72,8 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_NewFlat { get; set; } = "New Flat";
         public string IDF_EditFlat { get; set; } = "Edit Flat";
         public string IDF_DeleteFlat { get; set; } = "Delete Flat";
-        public string IDF_FlatSetup { get; set; } = "Flat Setup";
-        public string IDF_RoomSetup { get; set; } = "Room Setup";
+        public string IDF_FlatSetup { get; set; } = "Flat";
+        public string IDF_RoomSetup { get; set; } = "Rooms";
         public string IDF_Manual { get; set; } = "Manual";
         public string IDF_Settings { get; set; } = "Settings";
         public string IDF_FlatCosts { get; set; } = "Flat Costs";
@@ -93,17 +93,19 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_RoomArea { get; set; } = "Area";
 
         public string IDF_MainWindowTitle { get; set; } = "Shared Living Cost Calculator (SLCC)";
-        public string IDF_FlatSetupTitleText { get; set; } = "SLCC FlatSetup";
-        public string FlatSetupHeaderText { get; set; } = "Flat Setup";
 
         public string IDF_Address { get; set; } = "Address";
         public string IDF_FlatArea { get; set; } = "Flat Area";
         public string IDF_Details { get; set; } = "Details";
         public string IDF_Rooms { get; set; } = "Rooms";
 
-        public string IDF_RoomTenant { get; set; } = "Tenant"; 
-        public string IDF_TenantSetup { get; set; } = "Tenant Setup";
-
+        public string IDF_RoomTenant { get; set; } = "Tenant";
+        public string IDF_MovingIn { get; set; } = "Moving In";
+        public string IDF_MovingOut { get; set; } = "Moving Out";
+        public string IDF_TenantIsActive { get; set; } = "Is Active";
+        public string IDF_TenantManagement { get; set; } = "Tenants";
+        public string IDF_TenantSetup { get; set; } = "Tenants"; 
+        public string IDF_ActiveTenantCount { get; set; } = "Active Tenants";
 
         public string IDF_SharedFlatArea { get; set; } = "Shared Area"; 
         public string IDF_CombinedRoomArea { get; set; } = "All Rooms Area";

@@ -34,8 +34,8 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_NewFlat>New Flat</IDF_NewFlat>
   <IDF_EditFlat>Edit Flat</IDF_EditFlat>
   <IDF_DeleteFlat>Delete Flat</IDF_DeleteFlat>
-  <IDF_FlatSetup>Flat Setup</IDF_FlatSetup>
-  <IDF_RoomSetup>Room Setup</IDF_RoomSetup>
+  <IDF_FlatSetup>Flat</IDF_FlatSetup>
+  <IDF_RoomSetup>Rooms</IDF_RoomSetup>
   <IDF_Manual>Manual</IDF_Manual>
   <IDF_Settings>Settings</IDF_Settings>
   <IDF_FlatCosts>Flat Costs</IDF_FlatCosts>
@@ -46,14 +46,17 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_RoomName>Room</IDF_RoomName>
   <IDF_RoomArea>Area</IDF_RoomArea>
   <IDF_MainWindowTitle>Shared Living Cost Calculator (SLCC)</IDF_MainWindowTitle>
-  <IDF_FlatSetupTitleText>SLCC FlatSetup</IDF_FlatSetupTitleText>
-  <FlatSetupHeaderText>Flat Setup</FlatSetupHeaderText>
   <IDF_Address>Address</IDF_Address>
   <IDF_FlatArea>Flat Area</IDF_FlatArea>
   <IDF_Details>Details</IDF_Details>
   <IDF_Rooms>Rooms</IDF_Rooms>
   <IDF_RoomTenant>Tenant</IDF_RoomTenant>
-  <IDF_TenantSetup>Tenant Setup</IDF_TenantSetup>
+  <IDF_MovingIn>Moving In</IDF_MovingIn>
+  <IDF_MovingOut>Moving Out</IDF_MovingOut>
+  <IDF_TenantIsActive>Is Active</IDF_TenantIsActive>
+  <IDF_TenantManagement>Tenants</IDF_TenantManagement>
+  <IDF_TenantSetup>Tenants</IDF_TenantSetup>
+  <IDF_ActiveTenantCount>Active Tenants</IDF_ActiveTenantCount>
   <IDF_SharedFlatArea>Shared Area</IDF_SharedFlatArea>
   <IDF_CombinedRoomArea>All Rooms Area</IDF_CombinedRoomArea>
   <AccountingHeaderText>Accounting</AccountingHeaderText>

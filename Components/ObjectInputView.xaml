@@ -23,6 +23,8 @@
                  IsReadOnly="{Binding Path=IsReadOnly, ElementName=SIV}"                 
                  x:Name="TB_Value"
                  Grid.Column="1"
+                 TextWrapping="Wrap"
+                 AcceptsReturn="True"
                  TextAlignment="{Binding Path=ValueAlignment, ElementName=SIV}"
                  MinWidth="{Binding Path=ValueMinWidth, ElementName=SIV}"
                  Style="{StaticResource StringValueTextBox}"/>

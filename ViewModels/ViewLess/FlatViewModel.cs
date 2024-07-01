@@ -150,6 +150,28 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             }
         }
 
+
+        public ObservableCollection<TenantConfigurationViewModel> TenantConfigurations
+        {
+            get { return _flat.TenantConfigurations; }
+            set
+            {
+                _flat.TenantConfigurations = value;
+                OnPropertyChanged(nameof(TenantConfigurations));
+            }
+        }
+
+
+        public ObservableCollection<TenantViewModel> Tenants
+        {
+            get { return _flat.Tenants; }
+            set
+            {
+                _flat.Tenants = value;
+                OnPropertyChanged(nameof(Tenants));
+            }
+        }
+
         #endregion collections
 
 
@@ -162,7 +184,10 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             CurrentRoomCosts = new ObservableCollection<RoomCostsViewModel>();
 
             ConnectRooms();
+
+            TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
         }
+
 
         #endregion constructors
 

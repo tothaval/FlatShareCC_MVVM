@@ -320,4 +320,5 @@
       <RoomName>room4</RoomName>
     </Room>
   </Rooms>
+  <Tenants />
 </Flat>

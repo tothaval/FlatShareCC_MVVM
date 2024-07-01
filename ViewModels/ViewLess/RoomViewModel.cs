@@ -28,18 +28,6 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
 
 
-        private DateTime _EndDate;
-        public DateTime EndDate
-        {
-            get { return _EndDate; }
-            set
-            {
-                _EndDate = value;
-                OnPropertyChanged(nameof(EndDate));
-            }
-        }
-
-
         public int ID
         {
             get { return _room.ID; }
@@ -92,18 +80,6 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
                 _room.RoomName = value;
                 OnPropertyChanged(nameof(RoomName));
 
-            }
-        }
-
-
-        private DateTime _StartDate;
-        public DateTime StartDate
-        {
-            get { return _StartDate; }
-            set
-            {
-                _StartDate = value;
-                OnPropertyChanged(nameof(StartDate));
             }
         }
 

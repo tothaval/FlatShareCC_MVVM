@@ -60,4 +60,5 @@
       <RoomName>room3 huhu</RoomName>
     </Room>
   </Rooms>
+  <Tenants />
 </Flat>
