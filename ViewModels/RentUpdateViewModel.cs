@@ -332,8 +332,12 @@ namespace SharedLivingCostCalculator.ViewModels
 
         // commands
         #region commands
+
         public ICommand ShowBillingCommand { get; }
+
+
         public ICommand ShowOtherCostsCommand { get; }
+
         #endregion commands
 
 

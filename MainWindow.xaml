@@ -117,7 +117,7 @@
         <WindowChrome
             CaptionHeight="1"  
             CornerRadius ="{DynamicResource Radius}"
-            ResizeBorderThickness="15"         
+            ResizeBorderThickness="20"         
             GlassFrameThickness="0"            
             >
         </WindowChrome>

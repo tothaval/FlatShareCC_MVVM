@@ -43,13 +43,21 @@ namespace SharedLivingCostCalculator.Models
 
         // collections
         #region collections
-
+        
         [XmlIgnore]
         public ObservableCollection<RentViewModel> RentUpdates { get; set; }
 
 
         [XmlIgnore]
         public ObservableCollection<RoomViewModel> Rooms { get; set; }
+
+
+        [XmlIgnore]
+        public ObservableCollection<TenantConfigurationViewModel> TenantConfigurations { get; set; }
+
+
+        [XmlIgnore]
+        public ObservableCollection<TenantViewModel> Tenants { get; set; }
 
         #endregion collections
 
@@ -66,6 +74,8 @@ namespace SharedLivingCostCalculator.Models
             RoomCount = 1;
             Rooms = new ObservableCollection<RoomViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();
+            TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
+            Tenants = new ObservableCollection<TenantViewModel>();
         }
 
 
@@ -86,6 +96,8 @@ namespace SharedLivingCostCalculator.Models
             }
 
             RentUpdates = new ObservableCollection<RentViewModel>();
+            TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
+            Tenants = new ObservableCollection<TenantViewModel>();
         }
 
 
@@ -95,6 +107,8 @@ namespace SharedLivingCostCalculator.Models
             Details += details;
 
             RentUpdates = new ObservableCollection<RentViewModel>();
+            TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
+            Tenants = new ObservableCollection<TenantViewModel>();
         }
 
         #endregion constructors

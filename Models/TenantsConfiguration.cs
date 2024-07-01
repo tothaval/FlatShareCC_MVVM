@@ -5,51 +5,65 @@
  *  data model class
  *  for RoomViewModel
  */
+using Microsoft.VisualBasic;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Models
 {
+    [Serializable]
     public class TenantsConfiguration
     {
 
         // properties & fields
         #region properties & fields
-
+      
+        [XmlIgnore]
         private readonly FlatViewModel _FlatViewModel;
 
 
         public DateTime Start { get; set; } = DateTime.Now;
-
-
-        public DateTime End { get; set; } = DateTime.Now;
 
         #endregion properties & fields
 
 
         // collections
         #region collections
-        
-        public ObservableCollection<Tenant> Tenants { get; set; } = new ObservableCollection<Tenant>();
+
+        [XmlIgnore]
+        public ObservableCollection<RoomAssignementViewModel> RoomAssignements { get; set; } = new ObservableCollection<RoomAssignementViewModel>();
 
 
-        public Dictionary<RoomViewModel, Tenant> RoomOccupancy { get; set; } = new Dictionary<RoomViewModel, Tenant>();
+        [XmlIgnore]
+        public Dictionary<Room, TenantViewModel> RoomOccupancy { get; set; } = new Dictionary<Room, TenantViewModel>();
 
+
+        [XmlArray]
+        // build a function to fill this dictionary just right before saving
+        // use it on load to fill RoomOccupancy after the rest of the data is initialized and present.
+        public Dictionary<int, int> RoomOccupancyIDs => GetIDMaps();
+
+
+        [XmlIgnore]
+        public ObservableCollection<TenantViewModel> Tenants { get; set; } = new ObservableCollection<TenantViewModel>();
+           
         #endregion collections
 
 
         // constructors
         #region constructors
 
-        public TenantsConfiguration(ObservableCollection<Tenant> tenants, FlatViewModel flatViewModel)
+        public TenantsConfiguration(ObservableCollection<TenantViewModel> tenants, FlatViewModel flatViewModel)
         {
             Tenants = tenants;
-            _FlatViewModel = flatViewModel;                
+            _FlatViewModel = flatViewModel;
+
+            foreach (RoomViewModel item in _FlatViewModel.Rooms)
+            {
+                RoomAssignements.Add(new RoomAssignementViewModel(item, tenants));
+            }
+
         }
 
         #endregion constructors
@@ -57,22 +71,38 @@ namespace SharedLivingCostCalculator.Models
 
         // methods
         #region methods
-        public string AssignTenantToRoom(Tenant tenant, RoomViewModel roomViewModel)
+
+        public bool AssignTenantToRoom(TenantViewModel tenant, Room room)
         {
-            if (RoomOccupancy.Keys.Contains(roomViewModel))
+            if (RoomOccupancy.Keys.Contains(room))
             {
-                return "room already assigned";
+                return false;
             }
 
             if (RoomOccupancy.Values.Contains(tenant))
             {
-                return "tenant already assigned";
+                return false;
             }
 
-            RoomOccupancy.Add(roomViewModel, tenant);
+            RoomOccupancy.Add(room, tenant);
 
-            return "sucess";
+            return true;
 
+        }
+
+        private Dictionary<int, int> GetIDMaps()
+        {
+            Dictionary<int, int> idMaps = new Dictionary<int, int>();
+
+            if (RoomOccupancy.Count > 0)
+            {
+                foreach (KeyValuePair<Room, TenantViewModel> map in RoomOccupancy)
+                {
+                    idMaps.Add(map.Key.ID, map.Value.ID);
+                }
+            }
+
+            return idMaps;
         }
 
         #endregion methods

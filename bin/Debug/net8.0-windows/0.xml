@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Flat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Address>best flat</Address>
+  <Address>best flat
+new street 714</Address>
   <Area>74</Area>
   <Details>nux</Details>
   <FlatNotes>best next notes</FlatNotes>
@@ -239,4 +240,35 @@
       <RoomName>Arbeitszimmer</RoomName>
     </Room>
   </Rooms>
+  <Tenants>
+    <Tenant>
+      <ID>-1</ID>
+      <IsActive>false</IsActive>
+      <MovingIn>2020-02-01T00:00:00</MovingIn>
+      <Name>svesen</Name>
+      <MovingOut>2022-08-15T00:00:00</MovingOut>
+    </Tenant>
+    <Tenant>
+      <ID>-1</ID>
+      <IsActive>true</IsActive>
+      <MovingIn>2024-06-01T00:00:00</MovingIn>
+      <Name>horsten
+gmbh</Name>
+      <MovingOut>2024-08-01T11:47:15.3438494+02:00</MovingOut>
+    </Tenant>
+    <Tenant>
+      <ID>-1</ID>
+      <IsActive>true</IsActive>
+      <MovingIn>2024-06-01T00:00:00</MovingIn>
+      <Name>xtreme ltd. company</Name>
+      <MovingOut>2024-08-01T11:47:15.6230281+02:00</MovingOut>
+    </Tenant>
+    <Tenant>
+      <ID>-1</ID>
+      <IsActive>true</IsActive>
+      <MovingIn>2024-06-01T00:00:00</MovingIn>
+      <Name>element 25 shop</Name>
+      <MovingOut>2024-08-01T11:47:17.0238224+02:00</MovingOut>
+    </Tenant>
+  </Tenants>
 </Flat>

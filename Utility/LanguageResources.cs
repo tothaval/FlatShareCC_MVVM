@@ -160,16 +160,20 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_RoomArea"] = languageResource.IDF_RoomArea;
 
             Application.Current.Resources["IDF_MainWindowTitle"] = languageResource.IDF_MainWindowTitle;
-            Application.Current.Resources["IDF_FlatSetupTitleText"] = languageResource.IDF_FlatSetupTitleText;
-            Application.Current.Resources["FlatSetupHeaderText"] = languageResource.FlatSetupHeaderText;
 
             Application.Current.Resources["IDF_Address"] = languageResource.IDF_Address;
             Application.Current.Resources["IDF_FlatArea"] = languageResource.IDF_FlatArea;
             Application.Current.Resources["IDF_Details"] = languageResource.IDF_Details;
             Application.Current.Resources["IDF_Rooms"] = languageResource.IDF_Rooms;            
 
-            Application.Current.Resources["IDF_RoomTenant"] = languageResource.IDF_RoomTenant; 
-                Application.Current.Resources["IDF_TenantSetup"] = languageResource.IDF_TenantSetup;
+            Application.Current.Resources["IDF_RoomTenant"] = languageResource.IDF_RoomTenant;
+            Application.Current.Resources["IDF_TenantSetup"] = languageResource.IDF_TenantSetup;
+            Application.Current.Resources["IDF_MovingIn"] = languageResource.IDF_MovingIn;
+            Application.Current.Resources["IDF_MovingOut"] = languageResource.IDF_MovingOut;
+            Application.Current.Resources["IDF_TenantIsActive"] = languageResource.IDF_TenantIsActive;
+            Application.Current.Resources["IDF_TenantManagement"] = languageResource.IDF_TenantManagement;            
+            Application.Current.Resources["IDF_ActiveTenantCount"] = languageResource.IDF_ActiveTenantCount;           
+
 
             Application.Current.Resources["IDF_SharedFlatArea"] = languageResource.IDF_SharedFlatArea;
             Application.Current.Resources["IDF_CombinedRoomArea"] = languageResource.IDF_CombinedRoomArea;
