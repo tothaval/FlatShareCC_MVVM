@@ -2,7 +2,7 @@
  *  
  *  TenantConfigurationViewModel  : BaseViewModel
  * 
- *  viewmodel for TenantsConfiguration model
+ *  viewmodel for TenantConfiguration model
  */
 
 using SharedLivingCostCalculator.Models;
@@ -16,6 +16,30 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         // properties & fields
         #region properties & fields
 
+        private ObservableCollection<string> _ActiveTenantsNames;
+        public ObservableCollection<string> ActiveTenantsNames
+        {
+            get { return _ActiveTenantsNames; }
+            set
+            {
+                _ActiveTenantsNames = value;
+                OnPropertyChanged(nameof(ActiveTenantsNames));
+            }
+        }
+
+
+        //private int _ActiveTenants;
+        //public int ActiveTenants
+        //{
+        //    get { return _ActiveTenants; }
+        //    set
+        //    {
+        //        _ActiveTenants = value;
+        //        OnPropertyChanged(nameof(ActiveTenants));
+        //    }
+        //}
+
+
         public DateTime Start
         {
             get { return _TenantsConfiguration.Start; }
@@ -27,8 +51,8 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
 
 
-        private TenantsConfiguration _TenantsConfiguration;
-        public TenantsConfiguration GetTenantsConfiguration => _TenantsConfiguration;
+        private TenantConfiguration _TenantsConfiguration;
+        public TenantConfiguration GetTenantsConfiguration => _TenantsConfiguration;
 
         #endregion properties & fields
 
@@ -45,30 +69,13 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         #region collections
 
         public ObservableCollection<RoomAssignementViewModel> RoomAssignements {
-            get { return _TenantsConfiguration.RoomAssignements; } 
+            get { return _TenantsConfiguration.RoomAssignmentsViewModels; } 
             set
             {
-                _TenantsConfiguration.RoomAssignements = value;
+                _TenantsConfiguration.RoomAssignmentsViewModels = value;
+                GetActiveTenants();
                 OnPropertyChanged(nameof(RoomAssignements));
             }
-        }
-
-
-        public Dictionary<Room, TenantViewModel> RoomOccupancy
-        {
-            get { return _TenantsConfiguration.RoomOccupancy; }
-
-            set
-            {
-                _TenantsConfiguration.RoomOccupancy = value;
-                OnPropertyChanged(nameof(RoomOccupancy));
-            }
-        }
-
-
-        public Dictionary<int, int> RoomOccupancyIDs
-        {
-            get { return _TenantsConfiguration.RoomOccupancyIDs; }
         }
 
         #endregion collections
@@ -77,13 +84,61 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         // constructors
         #region constructors
 
-        public TenantConfigurationViewModel(TenantsConfiguration tenantsConfiguration)
+        public TenantConfigurationViewModel(TenantConfiguration tenantsConfiguration)
         {
+            ActiveTenantsNames = new ObservableCollection<string>();
             _TenantsConfiguration = tenantsConfiguration;
 
+            GetActiveTenants();
         }
 
         #endregion constructors
+
+
+        // methods
+        #region methods
+
+        public void BuildRoomAssignements()
+        {
+            _TenantsConfiguration.BuildIDMaps();
+        }
+
+
+        public void BuildRoomAssignementViewModels(FlatViewModel flatViewModel)
+        {
+            _TenantsConfiguration.BuildRoomAssignmentViewModels(flatViewModel);
+        }
+
+
+        //public void GetActiveTenants()
+        //{
+        //    if (RoomAssignements.Count > 0)
+        //    {
+        //        ActiveTenants = RoomAssignements[0].ActiveTenants.Count;
+
+        //        return;
+        //    }
+                   
+        //    ActiveTenants = 0;
+        //}
+
+        public void GetActiveTenants()
+        {
+            ActiveTenantsNames.Clear();
+
+            if (RoomAssignements.Count > 0)
+            {
+                foreach (TenantViewModel item in RoomAssignements[0].ActiveTenants)
+                {
+                    ActiveTenantsNames.Add(item.Name);
+
+                }
+            }    
+            
+            OnPropertyChanged(nameof (ActiveTenantsNames));
+        }
+
+        #endregion methods
 
 
     }

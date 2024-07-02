@@ -25,6 +25,8 @@ namespace SharedLivingCostCalculator.Interfaces
         /// 
         /// f.e. rodents, the entire flat has reduced rents for a fixed period of time
         /// 
+        /// a credit could also be a budget.
+        /// 
         /// credits could be given to the entire flat, only a room or a bunch of rooms
         /// 
         /// credits could be given over varying amounts of time

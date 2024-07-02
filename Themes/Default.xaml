@@ -28,7 +28,7 @@
 
 
     <!-- combobox style: https://stackoverflow.com/questions/16392670/custom-combobox-in-wpf-application-->
-    
+
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Grid>
             <Grid.ColumnDefinitions>

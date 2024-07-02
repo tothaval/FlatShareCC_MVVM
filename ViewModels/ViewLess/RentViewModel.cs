@@ -327,9 +327,9 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
 
         public void GenerateRoomCosts()
-        {
+        {        
             foreach (RoomCosts roomCosts in Rent.RoomCostShares)
-            {
+            {               
                 RoomCostsViewModel roomCostsViewModel = new RoomCostsViewModel(roomCosts, this);
 
                 RoomCosts.Add(roomCostsViewModel);

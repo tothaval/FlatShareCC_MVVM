@@ -15,17 +15,6 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         // properties & fields
         #region properties & fields
 
-        public int ID
-        {
-            get { return _tenant.ID; }
-            set
-            {
-                _tenant.ID = value;
-                OnPropertyChanged(nameof(ID));
-            }
-        }
-
-
         public bool IsActive
         {
             get { return _tenant.IsActive; }

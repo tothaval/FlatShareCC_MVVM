@@ -4,7 +4,6 @@
   <Area>47</Area>
   <Details>asdfasdfa</Details>
   <FlatNotes>notes</FlatNotes>
-  <ID>-1</ID>
   <RoomCount>3</RoomCount>
   <Rents>
     <Rent>
@@ -14,7 +13,6 @@
       <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
-      <ID>0</ID>
       <OtherCostsHasDataLock>false</OtherCostsHasDataLock>
       <StartDate>2024-06-22T00:00:00</StartDate>
       <OtherCostItemCollection />
@@ -24,41 +22,39 @@
           <HeatingShare>24.873785106382975</HeatingShare>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
           <RentShare>72.69912553191489</RentShare>
-          <RoomID>0</RoomID>
+          <RoomName>room1</RoomName>
         </RoomCosts>
         <RoomCosts>
           <FixedShare>16.921019148936168</FixedShare>
           <HeatingShare>23.16944042553191</HeatingShare>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
           <RentShare>67.71780212765957</RentShare>
-          <RoomID>1</RoomID>
+          <RoomName>room2</RoomName>
         </RoomCosts>
         <RoomCosts>
           <FixedShare>20.103251063829788</FixedShare>
           <HeatingShare>27.526774468085108</HeatingShare>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
           <RentShare>80.45307234042555</RentShare>
-          <RoomID>2</RoomID>
+          <RoomName>room3 huhu</RoomName>
         </RoomCosts>
       </RoomCostShares>
     </Rent>
   </Rents>
   <Rooms>
     <Room>
-      <ID>0</ID>
       <RoomArea>13.17</RoomArea>
       <RoomName>room1</RoomName>
     </Room>
     <Room>
-      <ID>1</ID>
       <RoomArea>12.11</RoomArea>
       <RoomName>room2</RoomName>
     </Room>
     <Room>
-      <ID>2</ID>
       <RoomArea>14.82</RoomArea>
       <RoomName>room3 huhu</RoomName>
     </Room>
   </Rooms>
+  <TenantConfigurations />
   <Tenants />
 </Flat>

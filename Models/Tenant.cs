@@ -15,9 +15,6 @@ namespace SharedLivingCostCalculator.Models
         // properties & fields
         #region properties
 
-        public int ID {  get; set; }
-
-
         public bool IsActive { get; set; }
 
 
@@ -38,7 +35,6 @@ namespace SharedLivingCostCalculator.Models
 
         public Tenant()
         {
-            ID = -1;
             IsActive = true;
             Name = "tenant";
             MovingIn = DateTime.Now;

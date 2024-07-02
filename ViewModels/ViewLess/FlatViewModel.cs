@@ -26,22 +26,22 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             get { return _flat.Area; }
             set
             {
-                if (_flat.Area > 0.0)
-                {
-                    MessageBoxResult result = MessageBox.Show(
-                        "Warning: If you change the value all existing\n" +
-                        "calculations will be effected.\n\n" +
-                        "Proceed?",
-                        "Change Flat Area", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        _flat.Area = value;
-                    }
-                }
-                else
-                {
+                //if (_flat.Area > 0.0)
+                //{
+                //    MessageBoxResult result = MessageBox.Show(
+                //        "Warning: If you change the value all existing\n" +
+                //        "calculations will be effected.\n\n" +
+                //        "Proceed?",
+                //        "Change Flat Area", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                //    if (result == MessageBoxResult.Yes)
+                //    {
+                //        _flat.Area = value;
+                //    }
+                //}
+                //else
+                //{
                     _flat.Area = value;
-                }
+                //}
 
 
                 OnPropertyChanged(nameof(Area));
@@ -66,9 +66,6 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         public string FlatNotes { get { return _flat.FlatNotes; } set { _flat.FlatNotes = value; OnPropertyChanged(nameof(FlatNotes)); } }
 
 
-        public int ID => _flat.ID;
-
-
         public double Rent => CurrentRent();
 
 
@@ -78,28 +75,28 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
             set
             {
-                if (_flat.RoomCount > 1)
-                {
-                    MessageBoxResult result = MessageBox.Show(
-                        "Warning: If you insert a value less than the\n" +
-                        "current value, you will loose room data.\n" +
-                        "\n" +
-                        "Warning: If you change the value all existing\n" +
-                        "calculations will be effected.\n\n" +
-                        "Proceed?",
-                        "Change Room Count", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
-                    {
+                //if (_flat.RoomCount > 1)
+                //{
+                //    MessageBoxResult result = MessageBox.Show(
+                //        "Warning: If you insert a value less than the\n" +
+                //        "current value, you will loose room data.\n" +
+                //        "\n" +
+                //        "Warning: If you change the value all existing\n" +
+                //        "calculations will be effected.\n\n" +
+                //        "Proceed?",
+                //        "Change Room Count", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                //    if (result == MessageBoxResult.Yes)
+                //    {
                         _flat.RoomCount = value;
                         CreateRooms();
-                    }
-                }
+                    //}
+                //}
 
-                if (_flat.RoomCount <= 1)
-                {
-                    _flat.RoomCount = value;
-                    CreateRooms();
-                }
+                //if (_flat.RoomCount <= 1)
+                //{
+                //    _flat.RoomCount = value;
+                //    CreateRooms();
+                //}
             }
         }
 
@@ -183,7 +180,9 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             _flat = flat;
             CurrentRoomCosts = new ObservableCollection<RoomCostsViewModel>();
 
-            ConnectRooms();
+            Rooms = new ObservableCollection<RoomViewModel>();
+
+            CreateRooms();
 
             TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
         }
@@ -194,6 +193,15 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
         // methods
         #region methods
+
+        public void ActiveTenantListConversion()
+        {
+            foreach (TenantConfigurationViewModel item in TenantConfigurations)
+            {
+                item.GetActiveTenants();
+            }
+        }
+
 
         private double CalculateCombinedRoomArea()
         {
@@ -264,11 +272,15 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
             for (int i = 0; i < RoomCount; i++)
             {
-                RoomViewModel room = new RoomViewModel(new Room(i, $"room{i + 1}", 0));
+                RoomViewModel room = new RoomViewModel(new Room($"room{i + 1}", 0));
 
+                room.RoomAreaChanged += Room_RoomAreaChanged;
                 room.PropertyChanged += Room_PropertyChanged;
                 Rooms.Add(room);
             }
+
+            OnPropertyChanged(nameof(RoomCount));
+            OnPropertyChanged(nameof(Rooms));
         }
 
 
@@ -351,10 +363,10 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
         private void Room_RoomAreaChanged(object? sender, EventArgs e)
         {
-            if (CombinedRoomArea > Area)
-            {
-                MessageBox.Show("combined area of Rooms is larger than flat area");
-            }
+            //if (CombinedRoomArea > Area)
+            //{
+            //    MessageBox.Show("combined area of Rooms is larger than flat area");
+            //}
 
             OnPropertyChanged(nameof(CombinedRoomArea));
             OnPropertyChanged(nameof(SharedArea));
@@ -368,10 +380,10 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
             if (room != null)
             {
-                if (CombinedRoomArea > Area)
-                {
-                    MessageBox.Show("combined area of Rooms is larger than flat area");
-                }
+                //if (CombinedRoomArea > Area)
+                //{
+                //    MessageBox.Show("combined area of Rooms is larger than flat area");
+                //}
 
                 OnPropertyChanged(nameof(CombinedRoomArea));
                 OnPropertyChanged(nameof(SharedArea));

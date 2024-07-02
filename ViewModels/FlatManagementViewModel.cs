@@ -37,18 +37,6 @@ namespace SharedLivingCostCalculator.ViewModels
         public CostsViewModel Cost { get; }
 
 
-        private bool _FlatCollectionFilled;
-        public bool FlatCollectionFilled
-        {
-            get { return _FlatCollectionFilled; }
-            set
-            {
-                _FlatCollectionFilled = value;
-                OnPropertyChanged(nameof(FlatCollectionFilled));
-            }
-        }
-
-
         public FlatSetupViewModel FlatSetup { get; set; }
 
 
@@ -73,6 +61,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 {
                     _SelectedItem.ConnectRooms();
                     _SelectedItem.SetMostRecentCosts();
+                    _SelectedItem.ActiveTenantListConversion();
 
                     FlatViewModelChange?.Invoke(this, EventArgs.Empty);
                 }
@@ -284,7 +273,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             NewFlatCommand = new RelayCommand((s) => CreateFlat(), (s) => true);
 
-            DeleteFlatCommand = new ExecuteDeleteFlatCommand(flatCollection);
+            DeleteFlatCommand = new ExecuteDeleteFlatCommand(flatCollection, this);
 
             _flatCollection = flatCollection;
 
@@ -384,9 +373,7 @@ namespace SharedLivingCostCalculator.ViewModels
             
             SelectedItem = _flatCollection?.Last();
 
-            FlatCollectionFilled = true;
-
-            OnPropertyChanged(nameof(FlatSetup));
+            OnPropertyChanged(nameof(HasFlat));
         }
 
 
@@ -395,7 +382,6 @@ namespace SharedLivingCostCalculator.ViewModels
             if (_flatCollection.Count > 0)
             {
                 SelectedItem = _flatCollection?.First();
-                FlatCollectionFilled = true;
             }
         }
 
@@ -407,11 +393,12 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private void _flatCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            FlatCollectionFilled = FlatCollection.Count > 0;
-
             SelectFirstFlatCollectionItem();
 
             OnPropertyChanged(nameof(HasFlat));
+            OnPropertyChanged(nameof(FlatSetup));
+            OnPropertyChanged(nameof(RoomSetup));
+            OnPropertyChanged(nameof(TenantSetup));
         }
 
 

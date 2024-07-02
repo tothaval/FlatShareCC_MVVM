@@ -14,7 +14,9 @@
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
+using System.Collections;
 using System.ComponentModel;
+using System.Reflection.Metadata;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -111,7 +113,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
             AddRentUpdateCommand = new RelayCommand(p => AddRentUpdate(), (s) => true);
-            DeleteCommand = new RelayCommand(p => DeleteRentUpdate(), (s) => true);
+            DeleteCommand = new RelayCommand(p => DeleteRentUpdate(p), (s) => true);
 
             if (_flatViewModel != null)
             {
@@ -138,7 +140,6 @@ namespace SharedLivingCostCalculator.ViewModels
             RentViewModel rentViewModel = new RentViewModel(
                 _flatViewModel,
                 new Rent(_flatViewModel,
-                    _flatViewModel.RentUpdates.Count,
                     new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
                     0.0,
                     0.0,
@@ -152,25 +153,29 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private void DeleteRentUpdate()
+        private void DeleteRentUpdate(object? parameter)
         {
-            MessageBoxResult result = MessageBox.Show(
-                $"Do you want to delete this rent data:\n\n" +
-                $"\t{SelectedValue.GetFlatViewModel().Address}\n" +
-                $"{SelectedValue.StartDate:d};\n{SelectedValue.ColdRent:C2};\n" +
-                $"{SelectedValue.FixedCostsAdvance:C2};\n{SelectedValue.HeatingCostsAdvance:C2};\n",
-                "Remove Rent", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
-            {
-                _flatViewModel.RentUpdates.Remove(SelectedValue);
-                RentUpdateSelected = false;
-                OnPropertyChanged(nameof(RentUpdateSelected));
-                OnPropertyChanged(nameof(HasRentUpdate));
-                SelectedValue = null;
+            IList selection = (IList)parameter;
 
-                if (_flatViewModel.RentUpdates.Count > 0)
+            if (selection != null)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                    $"Do you want to delete selected rent change?",
+                    "Remove Rent Change(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
                 {
-                    SelectedValue = _flatViewModel.RentUpdates[0];
+                    var selected = selection.Cast<RentViewModel>().ToArray();
+
+                    foreach (var item in selected)
+                    {
+                        _flatViewModel.RentUpdates.Remove(item);
+
+                    }
+
+                    if (_flatViewModel.RentUpdates.Count > 0)
+                    {
+                        SelectedValue = _flatViewModel.RentUpdates[0];
+                    }
                 }
             }
         }

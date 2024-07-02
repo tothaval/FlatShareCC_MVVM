@@ -10,6 +10,7 @@ using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using SharedLivingCostCalculator.Views.Windows;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -18,7 +19,7 @@ namespace SharedLivingCostCalculator.ViewModels
 {
     public class TenantSetupViewModel :  BaseViewModel
     {
-        
+
         // properties & fields
         #region properties & fields
 
@@ -28,7 +29,7 @@ namespace SharedLivingCostCalculator.ViewModels
         private FlatViewModel _flatViewModel;
         public FlatViewModel FlatViewModel => _flatViewModel;
 
-
+        
         private TenantConfigurationViewModel _SelectedTenantConfiguration;
         public TenantConfigurationViewModel SelectedTenantConfiguration
         {
@@ -36,7 +37,13 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _SelectedTenantConfiguration = value;
-                OnPropertyChanged(nameof(SelectedTenantConfiguration));
+
+                if (_SelectedTenantConfiguration != null)
+                {
+                    _SelectedTenantConfiguration.GetActiveTenants();
+
+                    OnPropertyChanged(nameof(SelectedTenantConfiguration));
+                }                                
             }
         }
 
@@ -59,8 +66,6 @@ namespace SharedLivingCostCalculator.ViewModels
         #region collections
 
         #endregion collections
-
-
 
 
         // commands
@@ -96,7 +101,6 @@ namespace SharedLivingCostCalculator.ViewModels
             DeleteTenantConfigurationCommand = new RelayCommand(p => RemoveTenantConfiguration(p), (s) => true);
 
 
-
             _FlatManagementViewModel.FlatViewModelChange += _FlatManagementViewModel_FlatViewModelChange;
 
             SelectFirstActiveTenant();
@@ -111,22 +115,21 @@ namespace SharedLivingCostCalculator.ViewModels
         private void AddTenant(object p)
         {
             _flatViewModel.Tenants.Add(
-                new TenantViewModel(new Tenant() { ID = _flatViewModel.Tenants.Count}));
+                new TenantViewModel(new Tenant() { Name = $"tenant_{new Random().Next(101)}" }));
 
             SelectedTenant = _flatViewModel.Tenants.Last();
 
-            OnPropertyChanged(nameof(SelectedTenantConfiguration));
+            OnPropertyChanged(nameof(SelectedTenant));
         }
 
 
         private void AddTenantConfiguration(object p)
         {
             _flatViewModel.TenantConfigurations.Add(new TenantConfigurationViewModel(
-                new TenantsConfiguration(_flatViewModel.Tenants, _flatViewModel)));
+                new TenantConfiguration(_flatViewModel.Tenants, _flatViewModel)));
 
             SelectedTenantConfiguration = _flatViewModel.TenantConfigurations.Last();
 
-            OnPropertyChanged(nameof(SelectedTenantConfiguration));
             OnPropertyChanged(nameof(SelectedTenantConfiguration));
         }       
 
@@ -175,6 +178,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             }
         }
+
         private void SelectFirstActiveTenant()
         {
             if (_flatViewModel != null && _flatViewModel.Tenants.Count > 0)
@@ -204,6 +208,9 @@ namespace SharedLivingCostCalculator.ViewModels
             _flatViewModel = _FlatManagementViewModel.SelectedItem;
 
             OnPropertyChanged(nameof(FlatViewModel));
+
+            OnPropertyChanged(nameof(SelectedTenantConfiguration));
+
             SelectFirstActiveTenant();
         }
 

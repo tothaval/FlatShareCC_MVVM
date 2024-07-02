@@ -6,7 +6,9 @@
  *  instance from the _flatCollection   
  *  ObservableCollection<FlatViewModel>
  */
+using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -18,6 +20,8 @@ namespace SharedLivingCostCalculator.Commands
         // collections
         #region collections
 
+        private readonly FlatManagementViewModel _FlatManagementViewModel;
+
         private readonly ObservableCollection<FlatViewModel> _flatCollection;
 
         #endregion collections
@@ -26,9 +30,10 @@ namespace SharedLivingCostCalculator.Commands
         // constructors
         #region constructors
 
-        public ExecuteDeleteFlatCommand(ObservableCollection<FlatViewModel> flatCollection)
+        public ExecuteDeleteFlatCommand(ObservableCollection<FlatViewModel> flatCollection, FlatManagementViewModel flatManagementViewModel)
         {
             _flatCollection = flatCollection;
+            _FlatManagementViewModel = flatManagementViewModel;
         }
 
         #endregion constructors
@@ -39,23 +44,26 @@ namespace SharedLivingCostCalculator.Commands
 
         public override void Execute(object? parameter)
         {
-            if (parameter != null)
-            {
-                if (parameter.GetType() == typeof(FlatViewModel))
-                {
-                    FlatViewModel viewModel = (FlatViewModel)parameter;
+            IList selection = (IList)parameter;
 
-                    MessageBoxResult result = MessageBox.Show(
-                        $"Do you wan't to delete flat id: {viewModel.ID}\n" +
-                        $"{viewModel.Address}; {viewModel.Details};\n" +
-                        $"{viewModel.Area}m²; {viewModel.RoomCount} room(s)?",
-                        "Remove Flat", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
+            if (selection != null)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                    $"Do you want to delete selected flat(s)?",
+                    "Remove Flat(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    var selected = selection.Cast<FlatViewModel>().ToArray();
+
+                    foreach (var item in selected)
                     {
-                        _flatCollection.Remove(viewModel);
+                        _flatCollection.Remove(item);
+                       
+                        //_FlatManagementViewModel.
                     }
+
                 }
-            }
+            }            
         }
 
         #endregion methods

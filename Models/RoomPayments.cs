@@ -18,7 +18,7 @@ namespace SharedLivingCostCalculator.Models
         // properties & fields
         #region properties
 
-        public int RoomID { get; set; }
+        public string RoomName { get; set; }
 
 
         [XmlIgnore]
@@ -47,7 +47,7 @@ namespace SharedLivingCostCalculator.Models
         public RoomPayments(RoomViewModel roomViewModel)
         {
             RoomViewModel = roomViewModel;
-            RoomID = roomViewModel.ID;
+            RoomName = roomViewModel.RoomName;
         }
         
         #endregion constructors

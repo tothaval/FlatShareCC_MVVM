@@ -14,10 +14,7 @@ namespace SharedLivingCostCalculator.Models
 
         // propperties & fields
         #region propperties
-
-        public int ID { get; set; } = -1;
-
-        
+                
         public double RoomArea { get; set; } = 0.0;
 
 
@@ -38,15 +35,14 @@ namespace SharedLivingCostCalculator.Models
         }
 
 
-        public Room(int id)
+        public Room(string name)
         {
-            ID = id;
+           RoomName = name;
         }
 
 
-        public Room(int iD, string roomName, double roomArea)
+        public Room(string roomName, double roomArea)
         {
-            ID = iD;
             RoomName = roomName;
             RoomArea = roomArea;
         }

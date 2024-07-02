@@ -99,17 +99,16 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Style="{StaticResource StringValueTextBlock}"
                            MinWidth="100"
                            VerticalAlignment="Center"
-                           Grid.Column="0">
-                    <Run Text="{DynamicResource IDF_ButtonCornerRadius}"/>
-                    <Run Text="{Binding ButtonCornerRadius}"/>
-                </TextBlock>
+                           Grid.Column="0"
+                           Text="{DynamicResource IDF_ButtonCornerRadius}"/>
 
                 <Slider Interval="1"
                     Grid.Column="1"
@@ -121,6 +120,12 @@
                     Maximum="100"
                     MinWidth="100">
                 </Slider>
+                
+                <TextBlock Style="{StaticResource DoubleValueTextBlock}"
+                           VerticalAlignment="Center"
+                           MinWidth="50"
+                           Grid.Column="2" Text="{Binding ButtonCornerRadius}"/>
+
             </Grid>
         </Border>
 
@@ -128,17 +133,16 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Style="{StaticResource StringValueTextBlock}"
                            MinWidth="100"
                            VerticalAlignment="Center"
-                           Grid.Column="0">
-                    <Run Text="{DynamicResource IDF_VisibilityFieldCornerRadius}"/>
-                    <Run Text="{Binding VisibilityFieldCornerRadius}"/>
-                </TextBlock>
+                           Grid.Column="0"
+                           Text="{DynamicResource IDF_VisibilityFieldCornerRadius}"/>
 
                 <Slider Interval="1"
                   Grid.Column="1"
@@ -150,6 +154,12 @@
                   Maximum="100"
                   MinWidth="100">
                 </Slider>
+
+                <TextBlock Style="{StaticResource DoubleValueTextBlock}"
+                           VerticalAlignment="Center"
+                           MinWidth="50"
+                           Grid.Column="2" Text="{Binding VisibilityFieldCornerRadius}"/>
+
             </Grid>
         </Border>
 
@@ -191,18 +201,17 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock FontSize="{Binding FontSize}"
-                           Style="{StaticResource StringValueTextBlock}"
+                <TextBlock Style="{StaticResource StringValueTextBlock}"
                            MinWidth="100"
                        VerticalAlignment="Center"
                            Grid.Column="0">
                     <Run Text="{DynamicResource IDF_FontSize}"/>
-                    <Run Text="{Binding FontSize}" />
+                    <Run Text="{Binding FontSize}" FontSize="{Binding FontSize}" />
                 </TextBlock>
 
                 <Slider Interval="1"
