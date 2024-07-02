@@ -14,6 +14,7 @@
     <UserControl.Resources>
 
         <conv:InverseVisibilityConverter x:Key="inviscon"/>
+        <conv:ListToStringConverter x:Key="listToString"/>
 
     </UserControl.Resources>
 
@@ -46,6 +47,7 @@
 
                 <ListView ItemsSource="{Binding FlatViewModel.Tenants}"
                           SelectedItem="{Binding SelectedTenant}"
+                          ItemContainerStyle="{StaticResource ItemContainerStyle}"
                           >
 
                     <ListView.View>
@@ -193,7 +195,8 @@
                 </UniformGrid>
 
                 <ListView ItemsSource="{Binding FlatViewModel.TenantConfigurations}"
-                          SelectedItem="{Binding SelectedTenantConfiguration}">
+                          SelectedItem="{Binding SelectedTenantConfiguration}"
+                          ItemContainerStyle="{StaticResource ItemContainerStyle}">
 
                     <ListView.View>
 
@@ -218,9 +221,9 @@
                                 Width="Auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ActiveTenants,
-                                                NotifyOnSourceUpdated=True,
-                                                StringFormat=d}"
+                                            <TextBlock Text="{Binding ActiveTenantsNames,
+                                                Converter={StaticResource listToString},
+                                                NotifyOnSourceUpdated=True}"
                                                        Style="{StaticResource DoubleValueTextBlock}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -244,6 +247,7 @@
                 
                 <!-- define an item source and selected item for this list, RoomAssignement class ? -->
                 <ListView ItemsSource="{Binding SelectedTenantConfiguration.RoomAssignements}"
+                          ItemContainerStyle="{StaticResource ItemContainerStyle}"
                           >
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">

@@ -91,10 +91,24 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             _AccountingViewModel = accountingViewModel;
 
-            _AccountingViewModel.AccountingChanged += _AccountingViewModel_AccountingChanged;            
+            _AccountingViewModel.AccountingChanged += _AccountingViewModel_AccountingChanged;
+
+            //_AccountingViewModel.FlatManagement.FlatViewModelChange += FlatManagement_FlatViewModelChange;
 
             RentSelected = true;
 
+            Update();
+        }
+
+        private void FlatManagement_FlatViewModelChange(object? sender, EventArgs e)
+        {
+            _AccountingViewModel.FlatManagement.SelectedItem.PropertyChanged += SelectedItem_PropertyChanged;
+
+            Update();
+        }
+
+        private void SelectedItem_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
             Update();
         }
 
@@ -103,7 +117,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
         // methods
         #region methods
-        
+
         private void Update()
         {
             if (_AccountingViewModel.FlatViewModel != null)
@@ -116,6 +130,7 @@ namespace SharedLivingCostCalculator.ViewModels
             if (_AccountingViewModel.Rents.SelectedValue != null)
             {
                 _rentViewModel = _AccountingViewModel.Rents.SelectedValue;
+
                 ActiveViewModel = new RentCostsViewModel(_rentViewModel, _flatViewModel);
 
                 _AccountingViewModel.Rents.UpdateViewModel.RentConfigurationChange += UpdateViewModel_RentConfigurationChange;

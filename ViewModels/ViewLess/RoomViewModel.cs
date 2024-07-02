@@ -28,17 +28,6 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         }
 
 
-        public int ID
-        {
-            get { return _room.ID; }
-            set
-            {
-                _room.ID = value;
-                OnPropertyChanged(nameof(ID));
-            }
-        }
-
-
         private Room _room;
         public Room GetRoom => _room;
 
@@ -48,22 +37,22 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             get { return _room.RoomArea; }
             set
             {
-                if (_room.RoomArea > 0.0)
-                {
-                    MessageBoxResult result = MessageBox.Show(
-                        "Warning: If you change the value all existing\n" +
-                        "calculations will be effected.\n\n" +
-                        "Proceed?",
-                        "Change Room Area", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        _room.RoomArea = value;
-                    }
-                }
-                else
-                {
+                //if (_room.RoomArea > 0.0)
+                //{
+                //    MessageBoxResult result = MessageBox.Show(
+                //        "Warning: If you change the value all existing\n" +
+                //        "calculations will be effected.\n\n" +
+                //        "Proceed?",
+                //        "Change Room Area", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                //    if (result == MessageBoxResult.Yes)
+                //    {
+                //        _room.RoomArea = value;
+                //    }
+                //}
+                //else
+                //{
                     _room.RoomArea = value;
-                }
+                //}
 
                 OnPropertyChanged(nameof(RoomArea));
 

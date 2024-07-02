@@ -136,7 +136,7 @@
          second time, a small resize of the window redraws the border,
          which seems to be collapsed or cut by some invisible boundary. -->
     <Border x:Name="border"
-            Margin="5"
+            Margin="3"
             BorderBrush="{DynamicResource SCB_Text}"
             BorderThickness="4"
             CornerRadius="{DynamicResource VisibilityField_CornerRadius}"            
@@ -145,8 +145,8 @@
 
 
         <ContentControl Content="{Binding _FlatManagementViewModel}"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
                             Background="Transparent"/>
         
     </Border>

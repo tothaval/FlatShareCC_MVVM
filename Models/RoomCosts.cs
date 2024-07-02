@@ -34,7 +34,7 @@ namespace SharedLivingCostCalculator.Models
         public double RentShare { get; set; }
 
 
-        public int RoomID { get; set; }
+        public string RoomName { get; set; }
 
         #endregion properties
 
@@ -53,7 +53,7 @@ namespace SharedLivingCostCalculator.Models
 
             if (room != null)
             {
-                RoomID = room.ID;
+                RoomName = room.RoomName;
             }
 
         }

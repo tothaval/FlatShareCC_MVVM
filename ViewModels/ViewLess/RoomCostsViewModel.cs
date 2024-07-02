@@ -236,7 +236,7 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
             foreach (RoomViewModel room in _roomCostsCarrier.GetFlatViewModel().Rooms)
             {
-                if (room.ID == _roomCosts.RoomID)
+                if (room.RoomName.Equals(_roomCosts.RoomName))
                 {
                     _room = room;
                     break;
@@ -281,7 +281,7 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
                     foreach (RoomCostsViewModel roomCosts in billingViewModel.RoomCosts)
                     {
-                        if (roomCosts.Room.ID == Room.ID)
+                        if (roomCosts.Room.RoomName.Equals(Room.RoomName))
                         {
                             combinedConsumption = new BillingCalculations().CombinedRoomConsumption(billingViewModel, _roomCosts.HeatingUnitsConsumption);
 
@@ -348,9 +348,12 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
                     foreach (RoomCostsViewModel roomCosts in billingViewModel.RoomCosts)
                     {
-                        if (roomCosts.Room.ID == _roomCosts.RoomID)
+                        if (roomCosts.Room != null)
                         {
-                            consumptionRatio = new BillingCalculations().ConsumptionRatio(billingViewModel, roomCosts.HeatingUnitsConsumption);
+                            if (roomCosts.Room.RoomName.Equals(_roomCosts.RoomName))
+                            {
+                                consumptionRatio = new BillingCalculations().ConsumptionRatio(billingViewModel, roomCosts.HeatingUnitsConsumption);
+                            } 
                         }
                     }
 
@@ -696,7 +699,7 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             {
                 foreach (RoomPaymentsViewModel roomPaymentsViewModel in billingViewModel.RoomPayments)
                 {
-                    if (roomPaymentsViewModel.RoomPayments.RoomViewModel != null && roomPaymentsViewModel.RoomPayments.RoomViewModel.ID == Room.ID)
+                    if (roomPaymentsViewModel.RoomPayments.RoomViewModel != null && roomPaymentsViewModel.RoomPayments.RoomViewModel.RoomName.Equals(Room.RoomName))
                     {
                         payments = roomPaymentsViewModel.CombinedPayments;
                     }

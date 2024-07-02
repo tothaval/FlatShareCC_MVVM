@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedLivingCostCalculator.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,10 +18,6 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         public RoomViewModel RoomViewModel { get; }
 
 
-        public TenantViewModel TenantViewModel { get; set; }
-
-
-
         private TenantViewModel _AssignedTenant;
         public TenantViewModel AssignedTenant
         {
@@ -28,7 +25,6 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
             set
             {
                 _AssignedTenant = value;
-                TenantViewModel = value;
                 OnPropertyChanged(nameof(AssignedTenant));
 
                 AssignementChange?.Invoke(this, new EventArgs());
@@ -48,8 +44,9 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
 
         // collections
         #region collections
-        [XmlIgnore]
+
         public ObservableCollection<TenantViewModel> ActiveTenants { get; } = new ObservableCollection<TenantViewModel>();
+
         #endregion collections
 
 

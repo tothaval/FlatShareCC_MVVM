@@ -56,9 +56,6 @@ namespace SharedLivingCostCalculator.ViewModels.ViewLess
         private ValidationHelper _helper = new ValidationHelper();
 
 
-        public int ID => RoomPayments.RoomID;
-
-
         public double RoomArea => GetRoomArea();
 
 

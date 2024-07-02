@@ -38,9 +38,6 @@ namespace SharedLivingCostCalculator.Utility
         private readonly FlatViewModel _flatViewModel;
 
 
-        public int ID { get; set; }
-
-
         public int RoomCount { get; set; }
 
         #endregion properties
@@ -57,10 +54,46 @@ namespace SharedLivingCostCalculator.Utility
         public ObservableCollection<Room> Rooms { get; set; }
 
 
+        [XmlArray("TenantConfigurations")]
+        public ObservableCollection<TenantConfiguration> TenantConfigurations { get; set; }
+
+
         [XmlArray("Tenants")]
         public ObservableCollection<Tenant> Tenants { get; set; }
 
         #endregion collections
+
+
+        // constructors
+        #region constructors
+
+        public PersistanceDataSet()
+        {
+            _flatViewModel = new FlatViewModel(new Flat());
+
+            Rents = new ObservableCollection<Rent>();
+            Rooms = new ObservableCollection<Room>();
+            TenantConfigurations = new ObservableCollection<TenantConfiguration>();
+            Tenants = new ObservableCollection<Tenant>();
+        }
+
+        public PersistanceDataSet(FlatViewModel flatViewModel)
+        {
+            _flatViewModel = flatViewModel;
+
+            Address = flatViewModel.Address;
+            Area = flatViewModel.Area;
+            RoomCount = flatViewModel.RoomCount;
+            Details = flatViewModel.Details;
+            FlatNotes = flatViewModel.FlatNotes;
+
+            Rents = GetRents();
+            Rooms = GetRooms();
+            TenantConfigurations = GetTenantConfigurations();
+            Tenants = GetTenants();
+        }
+
+        #endregion constructors
 
 
         // async methods
@@ -70,7 +103,6 @@ namespace SharedLivingCostCalculator.Utility
         {
             FlatViewModel flatViewModel = new FlatViewModel(new Flat()
             {
-                ID = ID,
                 Area = Area,
                 Address = Address,
                 Details = Details,
@@ -86,6 +118,9 @@ namespace SharedLivingCostCalculator.Utility
 
             Task<ObservableCollection<TenantViewModel>> GetTenants = GetTenantViewModels(flatViewModel);
             flatViewModel.Tenants = await GetTenants;
+
+            Task<ObservableCollection<TenantConfigurationViewModel>> GetTenantConfigurations = GetTenantConfigurationViewModels(flatViewModel);
+            flatViewModel.TenantConfigurations = await GetTenantConfigurations;
 
             return flatViewModel;
         }
@@ -109,9 +144,12 @@ namespace SharedLivingCostCalculator.Utility
                         {
                             foreach (RoomViewModel roomViewModel in rentViewModel.GetFlatViewModel().Rooms)
                             {
-                                if (roomPayments.RoomID == roomViewModel.ID)
+                                if (roomPayments.RoomName != null)
                                 {
-                                    roomPayments.RoomViewModel = roomViewModel;
+                                    if (roomPayments.RoomName.Equals(roomViewModel.RoomName))
+                                    {
+                                        roomPayments.RoomViewModel = roomViewModel;
+                                    } 
                                 }
                             }
                         }
@@ -138,6 +176,23 @@ namespace SharedLivingCostCalculator.Utility
             }
 
             return roomViewModels;
+        }
+
+
+        public async Task<ObservableCollection<TenantConfigurationViewModel>> GetTenantConfigurationViewModels(FlatViewModel flatViewModel)
+        {
+            ObservableCollection<TenantConfigurationViewModel> tenantConfigurationViewModels = new ObservableCollection<TenantConfigurationViewModel>();
+
+            foreach (TenantConfiguration tenantConfiguration in TenantConfigurations)
+            {
+                TenantConfigurationViewModel tenantConfigurationViewModel = new TenantConfigurationViewModel(tenantConfiguration);
+
+                tenantConfigurationViewModel.BuildRoomAssignementViewModels(flatViewModel);
+
+                tenantConfigurationViewModels.Add(tenantConfigurationViewModel);
+            }
+
+            return tenantConfigurationViewModels;
         }
 
 
@@ -204,6 +259,21 @@ namespace SharedLivingCostCalculator.Utility
         }
 
 
+        private ObservableCollection<TenantConfiguration> GetTenantConfigurations()
+        {
+            ObservableCollection<TenantConfiguration> tenantConfigurations = new ObservableCollection<TenantConfiguration>();
+
+            foreach (TenantConfigurationViewModel tenantConfigurationViewModel in _flatViewModel.TenantConfigurations)
+            {
+                tenantConfigurationViewModel.BuildRoomAssignements();
+
+                tenantConfigurations.Add(tenantConfigurationViewModel.GetTenantsConfiguration);                
+            }
+
+            return tenantConfigurations;
+        }
+
+
         private ObservableCollection<Tenant> GetTenants()
         {
             ObservableCollection<Tenant> tenants = new ObservableCollection<Tenant>();
@@ -217,37 +287,6 @@ namespace SharedLivingCostCalculator.Utility
         }
 
         #endregion methods
-
-
-        // constructors
-        #region constructors
-
-        public PersistanceDataSet()
-        {
-            _flatViewModel = new FlatViewModel(new Flat());
-
-            Rents = new ObservableCollection<Rent>();
-            Rooms = new ObservableCollection<Room>();
-            Tenants = new ObservableCollection<Tenant>();
-        }
-
-        public PersistanceDataSet(FlatViewModel flatViewModel)
-        {
-            _flatViewModel = flatViewModel;
-
-            ID = flatViewModel.ID;
-            Address = flatViewModel.Address;
-            Area = flatViewModel.Area;
-            RoomCount = flatViewModel.RoomCount;
-            Details = flatViewModel.Details;
-            FlatNotes = flatViewModel.FlatNotes;
-
-            Rents = GetRents();
-            Rooms = GetRooms();
-            Tenants = GetTenants();
-        }
-
-        #endregion constructors
 
 
     }

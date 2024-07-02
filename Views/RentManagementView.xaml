@@ -29,6 +29,7 @@
             <ListView ItemsSource="{Binding RentUpdates}"
                       SelectedValue="{Binding Path=SelectedValue}"
                       ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                      Name="rentupdates"
                                         
                       VirtualizingStackPanel.IsVirtualizing="False"
                       SelectionMode="Extended">
@@ -140,6 +141,7 @@
                     Style="{StaticResource buttonStyle}"/>
 
             <Button Command="{Binding DeleteCommand}"
+                    CommandParameter="{Binding ElementName=rentupdates, Path=SelectedItems}"
                     Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"
                     Grid.Column="1" Content="{DynamicResource IDF_DeleteRentChange}"
                     Style="{StaticResource buttonStyle}"/>

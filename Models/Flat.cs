@@ -33,9 +33,6 @@ namespace SharedLivingCostCalculator.Models
         public string FlatNotes { get; set; } = "notes";
 
 
-        public int ID { get; set; }
-
-
         public int RoomCount { get; set; }
 
         #endregion properties
@@ -67,7 +64,6 @@ namespace SharedLivingCostCalculator.Models
 
         public Flat()
         {
-            ID = -1;
             Address = string.Empty;
             Details = string.Empty;
             Area = 0.0;
@@ -79,9 +75,8 @@ namespace SharedLivingCostCalculator.Models
         }
 
 
-        public Flat(int id, string address, double area, int roomCount, string details = "")
+        public Flat(string address, double area, int roomCount, string details = "")
         {
-            ID = id;
             Address = address;
             Area = area;
             RoomCount = roomCount;
@@ -92,7 +87,7 @@ namespace SharedLivingCostCalculator.Models
 
             for (int i = 0; i < roomCount; i++)
             {
-                Rooms.Add(new RoomViewModel(new Room(i)));
+                Rooms.Add(new RoomViewModel(new Room($"room {i}")));
             }
 
             RentUpdates = new ObservableCollection<RentViewModel>();
@@ -101,7 +96,7 @@ namespace SharedLivingCostCalculator.Models
         }
 
 
-        public Flat(int iD, string address, double area, int roomCount, ObservableCollection<RoomViewModel> rooms, string details = "") : this(iD, address, area, roomCount)
+        public Flat(string address, double area, int roomCount, ObservableCollection<RoomViewModel> rooms, string details = "") : this(address, area, roomCount)
         {
             Rooms = rooms;
             Details += details;

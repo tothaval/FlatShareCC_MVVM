@@ -52,9 +52,6 @@ namespace SharedLivingCostCalculator.Models
         public bool HasOtherCosts { get; set; } = false;
 
 
-        public int ID {  get; set; } = 0;
-
-
         public Billing? GetBilling { get; set; }
         
 
@@ -90,15 +87,13 @@ namespace SharedLivingCostCalculator.Models
 
 
         public Rent(
-                    FlatViewModel model, 
-                    int id,
+                    FlatViewModel model,
                     DateTime startDate,
                     double coldRent,
                     double extraCostsShared,
                     double extraCostsHeating
                     )
         {
-            ID = id;
             StartDate = startDate;
             ColdRent = coldRent;
             ExtraCostsShared = extraCostsShared;
