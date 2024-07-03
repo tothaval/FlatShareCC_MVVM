@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Flat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Address>super street 2</Address>
+  <Area>63</Area>
+  <Details>best</Details>
+  <FlatNotes>notes</FlatNotes>
+  <RoomCount>4</RoomCount>
+  <Rents>
+    <Rent>
+      <ColdRent>
+        <Cost>0</Cost>
+        <CostShareTypes>Equal</CostShareTypes>
+        <Item>other cost item</Item>
+      </ColdRent>
+      <ExtraCostsHeating>
+        <Cost>0</Cost>
+        <CostShareTypes>Equal</CostShareTypes>
+        <Item>other cost item</Item>
+      </ExtraCostsHeating>
+      <ExtraCostsShared>
+        <Cost>0</Cost>
+        <CostShareTypes>Equal</CostShareTypes>
+        <Item>other cost item</Item>
+      </ExtraCostsShared>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <StartDate>2024-07-03T18:49:08.8805749+02:00</StartDate>
+      <OtherCostItemCollection />
+      <RoomCostShares>
+        <RoomCosts>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>0</HeatingShare>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <RoomName>room1</RoomName>
+        </RoomCosts>
+        <RoomCosts>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>0</HeatingShare>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <RoomName>room2</RoomName>
+        </RoomCosts>
+        <RoomCosts>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>0</HeatingShare>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <RoomName>room3</RoomName>
+        </RoomCosts>
+        <RoomCosts>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>0</HeatingShare>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <RoomName>room4</RoomName>
+        </RoomCosts>
+      </RoomCostShares>
+    </Rent>
+    <Rent>
+      <ColdRent>
+        <Cost>0</Cost>
+        <CostShareTypes>Area</CostShareTypes>
+        <Item>Rent</Item>
+      </ColdRent>
+      <ExtraCostsHeating>
+        <Cost>0</Cost>
+        <CostShareTypes>Consumption</CostShareTypes>
+        <Item>Heating
+Costs</Item>
+      </ExtraCostsHeating>
+      <ExtraCostsShared>
+        <Cost>0</Cost>
+        <CostShareTypes>Area</CostShareTypes>
+        <Item>Fixed
+Costs</Item>
+      </ExtraCostsShared>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <StartDate>2024-07-03T00:00:00</StartDate>
+      <OtherCostItemCollection>
+        <CostItem>
+          <Cost>0</Cost>
+          <CostShareTypes>Area</CostShareTypes>
+          <Item>Rent</Item>
+        </CostItem>
+        <CostItem>
+          <Cost>0</Cost>
+          <CostShareTypes>Area</CostShareTypes>
+          <Item>Fixed
+Costs</Item>
+        </CostItem>
+        <CostItem>
+          <Cost>0</Cost>
+          <CostShareTypes>Consumption</CostShareTypes>
+          <Item>Heating
+Costs</Item>
+        </CostItem>
+      </OtherCostItemCollection>
+      <RoomCostShares>
+        <RoomCosts>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>0</HeatingShare>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <RoomName>room1</RoomName>
+        </RoomCosts>
+        <RoomCosts>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>0</HeatingShare>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <RoomName>room2</RoomName>
+        </RoomCosts>
+        <RoomCosts>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>0</HeatingShare>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <RoomName>room3</RoomName>
+        </RoomCosts>
+        <RoomCosts>
+          <FixedShare>0</FixedShare>
+          <HeatingShare>0</HeatingShare>
+          <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
+          <RentShare>0</RentShare>
+          <RoomName>room4</RoomName>
+        </RoomCosts>
+      </RoomCostShares>
+    </Rent>
+  </Rents>
+  <Rooms>
+    <Room>
+      <RoomArea>11</RoomArea>
+      <RoomName>room1</RoomName>
+    </Room>
+    <Room>
+      <RoomArea>10</RoomArea>
+      <RoomName>room2</RoomName>
+    </Room>
+    <Room>
+      <RoomArea>20</RoomArea>
+      <RoomName>room3</RoomName>
+    </Room>
+    <Room>
+      <RoomArea>10</RoomArea>
+      <RoomName>room4</RoomName>
+    </Room>
+  </Rooms>
+  <TenantConfigurations />
+  <Tenants />
+</Flat>

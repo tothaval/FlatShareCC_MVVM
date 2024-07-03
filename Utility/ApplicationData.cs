@@ -5,7 +5,7 @@
  *  serializable data model class 
  *  for storing ui state on exit
  */
-using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.Contract;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Xml.Serialization;
 

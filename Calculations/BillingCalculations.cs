@@ -5,7 +5,7 @@
  *  provides methods for recurring calculations related to the BillingViewModel
  *  and its associated logic
  */
-using SharedLivingCostCalculator.ViewModels.ViewLess;
+using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 
 namespace SharedLivingCostCalculator.Calculations
 {

@@ -64,7 +64,7 @@
     <Compile Update="Views\FlatManagementView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Windows\OtherCostsView.xaml.cs">
+    <Compile Update="Views\Windows\CostsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\PaymentManagementView.xaml.cs">
@@ -150,7 +150,7 @@
     <Page Update="Views\FlatManagementView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Windows\OtherCostsView.xaml">
+    <Page Update="Views\Windows\CostsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PaymentManagementView.xaml">

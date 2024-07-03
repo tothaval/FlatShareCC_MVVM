@@ -7,6 +7,8 @@
         xmlns:mPs="clr-namespace:SharedLivingCostCalculator.Manual.ManualPages"
         xmlns:mVMs="clr-namespace:SharedLivingCostCalculator.Manual.ManualViewModels"
         xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels"
+        xmlns:vmsfin="clr-namespace:SharedLivingCostCalculator.ViewModels.Financial"
+        xmlns:vmscon="clr-namespace:SharedLivingCostCalculator.ViewModels.Contract"
         xmlns:views="clr-namespace:SharedLivingCostCalculator.Views"
         xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
         Name="mainWindow"
@@ -22,77 +24,86 @@
         Title="{DynamicResource IDF_MainWindowTitle}">
 
     <Window.Resources>
-        
-            <DataTemplate DataType="{x:Type vms:FlatManagementViewModel}">
+
+        <!-- contract -->
+        <!--#region vmscon -->
+        <DataTemplate DataType="{x:Type vmscon:ConsumptionViewModel}">
+            <views:ConsumptionView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vmscon:FlatManagementViewModel}">
                 <views:FlatManagementView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:FlatSetupViewModel}">
+        <DataTemplate DataType="{x:Type vmscon:FlatSetupViewModel}">
                 <views:FlatSetupView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:RoomSetupViewModel}">
+        <DataTemplate DataType="{x:Type vmscon:RoomSetupViewModel}">
                 <views:RoomSetupView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:AccountingViewModel}">
+        <DataTemplate DataType="{x:Type vmscon:TenantSetupViewModel}">
+            <views:TenantSetupView/>
+        </DataTemplate>
+        <!--#endregion vmscon-->
+
+
+        <!-- financial -->
+        <!--#region vmsfin -->
+        <DataTemplate DataType="{x:Type vmsfin:AccountingViewModel}">
                 <views:AccountingView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:BillingPeriodViewModel}">
+        <DataTemplate DataType="{x:Type vmsfin:BillingPeriodViewModel}">
                 <windows:BillingWindow/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:PaymentManagementViewModel}">
+        <DataTemplate DataType="{x:Type vmsfin:PaymentManagementViewModel}">
                 <views:PaymentManagementView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:PaymentsSetupViewModel}">
+        <DataTemplate DataType="{x:Type vmsfin:PaymentsSetupViewModel}">
                 <views:PaymentsSetupView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:RentManagementViewModel}">
+        <DataTemplate DataType="{x:Type vmsfin:RentManagementViewModel}">
                 <views:RentManagementView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:RentUpdateViewModel}">
+        <DataTemplate DataType="{x:Type vmsfin:RentUpdateViewModel}">
                 <views:RentUpdateView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:CostsViewModel}">
+        <DataTemplate DataType="{x:Type vmsfin:CostDisplayViewModel}">
                 <views:CostView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:SettingsViewModel}">
-                <views:SettingsView/>
-            </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:RentCostsViewModel}">
+        <DataTemplate DataType="{x:Type vmsfin:RentCostsViewModel}">
                 <views:RentCostsView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:BillingCostsViewModel}">
+        <DataTemplate DataType="{x:Type vmsfin:BillingCostsViewModel}">
                 <views:BillingCostsView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:ConsumptionViewModel}">
-                <views:ConsumptionView/>
+        <DataTemplate DataType="{x:Type vmsfin:CostsViewModel}">
+                <windows:CostsView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:OtherCostsViewModel}">
-                <windows:OtherCostsView/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type mVMs:MainPageViewModel}">
-                <mPs:MainPage/>
-            </DataTemplate>
-
-        <DataTemplate DataType="{x:Type vms:CreditSetupViewModel}">
+        <DataTemplate DataType="{x:Type vmsfin:CreditSetupViewModel}">
             <views:CreditSetupView/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vms:TenantSetupViewModel}">
-            <views:TenantSetupView/>
+        <!--#endregion vmsfin-->
+        
+        <DataTemplate DataType="{x:Type mVMs:MainPageViewModel}">
+            <mPs:MainPage/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vms:SettingsViewModel}">
+            <views:SettingsView/>
         </DataTemplate>
 
     </Window.Resources>

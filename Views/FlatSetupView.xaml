@@ -29,7 +29,10 @@
 
         <c_views:ObjectInputView Label="{DynamicResource IDF_Address}"
                                  LabelMinWidth="100"
-                               Value="{Binding FlatSetup.Address, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                               Value="{Binding FlatSetup.Address,
+            UpdateSourceTrigger=PropertyChanged,
+            NotifyOnSourceUpdated=True,
+            Mode=TwoWay}"
                                IsEnabled="{Binding IsNewFlatWindow}"
                                Foreground="DarkSlateGray"
                                ValueMinWidth="100"
@@ -37,14 +40,21 @@
 
         <c_views:ObjectInputView Label="{DynamicResource IDF_Details}"
                                  LabelMinWidth="100"
-                               Value="{Binding FlatSetup.Details, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                               Value="{Binding FlatSetup.Details,
+            UpdateSourceTrigger=PropertyChanged,
+            NotifyOnSourceUpdated=True,
+            Mode=TwoWay}"
                                Foreground="DarkSlateGray"
                                ValueMinWidth="100"
                                Grid.Row="1" />
 
         <c_views:DoubleInputView Label="{DynamicResource IDF_FlatArea}"
                                  LabelMinWidth="100"
-                               Value="{Binding FlatSetup.Area, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True, Mode=TwoWay,
+                               Value="{Binding FlatSetup.Area,
+            NotifyOnSourceUpdated=True,
+            UpdateSourceTrigger=PropertyChanged,
+            NotifyOnTargetUpdated=True,
+            Mode=TwoWay,
                               StringFormat=\{0:n\}, Delay=250}"                                 
                                IsEnabled="{Binding IsNewFlatWindow}"
                                Foreground="DarkSlateGray"
@@ -54,7 +64,9 @@
 
         <c_views:ObjectInputView Label="{DynamicResource IDF_Rooms}"
                                  LabelMinWidth="100"
-                               Value="{Binding FlatSetup.RoomCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                               Value="{Binding FlatSetup.RoomCount,
+            NotifyOnSourceUpdated=True,
+            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                IsEnabled="{Binding IsNewFlatWindow}"
                                  ValueAlignment="Right"
                                Foreground="DarkSlateGray"
@@ -62,7 +74,10 @@
                                Grid.Row="3" />
 
         <TextBox Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
-                 Text="{Binding FlatSetup.FlatNotes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 Text="{Binding FlatSetup.FlatNotes, 
+            NotifyOnSourceUpdated=True,
+            UpdateSourceTrigger=PropertyChanged,
+            Mode=TwoWay}"
                  Style="{DynamicResource StringValueTextBox}"
                  AcceptsReturn="True"
                  TextWrapping="Wrap"

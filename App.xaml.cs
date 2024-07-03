@@ -12,7 +12,8 @@
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels;
-using SharedLivingCostCalculator.ViewModels.ViewLess;
+using SharedLivingCostCalculator.ViewModels.Contract;
+using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;

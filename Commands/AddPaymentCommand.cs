@@ -6,8 +6,9 @@
  *  instance to a roomviewmodel instance
  */
 using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels;
-using SharedLivingCostCalculator.ViewModels.ViewLess;
+using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 
 namespace SharedLivingCostCalculator.Commands
 {

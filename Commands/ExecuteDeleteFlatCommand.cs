@@ -6,8 +6,8 @@
  *  instance from the _flatCollection   
  *  ObservableCollection<FlatViewModel>
  */
-using SharedLivingCostCalculator.ViewModels;
-using SharedLivingCostCalculator.ViewModels.ViewLess;
+using SharedLivingCostCalculator.ViewModels.Contract;
+using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -57,11 +57,8 @@ namespace SharedLivingCostCalculator.Commands
 
                     foreach (var item in selected)
                     {
-                        _flatCollection.Remove(item);
-                       
-                        //_FlatManagementViewModel.
+                        _flatCollection.Remove(item);       
                     }
-
                 }
             }            
         }

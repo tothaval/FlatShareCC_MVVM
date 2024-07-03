@@ -1,0 +1,439 @@
+﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  BillingViewModel  : BaseViewModel
+ * 
+ *  viewmodel for Billing model
+ *  
+ *  implements IRoomCostCarrier
+ */
+using SharedLivingCostCalculator.Interfaces;
+using SharedLivingCostCalculator.Interfaces.Financial;
+using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.Models.Financial;
+using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+
+namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
+{
+    public class BillingViewModel : BaseViewModel, IRoomCostsCarrier
+    {
+
+        // properties & fields
+        #region properties
+
+        // Heating
+        #region Heating
+
+        public double SharedHeatingUnitsConsumption => TotalHeatingUnitsConsumption - TotalHeatingUnitsRoom;
+
+
+        public double SharedHeatingUnitsConsumptionPercentage => SharedHeatingUnitsConsumption / TotalHeatingUnitsConsumption * 100;
+
+
+        public double TotalHeatingUnitsConsumption
+        {
+            get { return GetBilling.TotalHeatingUnitsConsumption; }
+            set
+            {
+                GetBilling.TotalHeatingUnitsConsumption = value;
+                OnPropertyChanged(nameof(TotalHeatingUnitsConsumption));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumption));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumptionPercentage));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsConsumption)));
+            }
+        }
+
+
+        public double TotalHeatingUnitsRoom
+        {
+            get { return GetBilling.TotalHeatingUnitsRoom; }
+            set
+            {
+                GetBilling.TotalHeatingUnitsRoom = value;
+                OnPropertyChanged(nameof(TotalHeatingUnitsRoom));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumption));
+                OnPropertyChanged(nameof(SharedHeatingUnitsConsumptionPercentage));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsRoom)));
+            }
+        }
+        #endregion Heating
+
+
+        // monthly costs
+        #region monthly costs
+        public double TotalCostsPerPeriod
+        {
+            get { return GetBilling.TotalCostsPerPeriod; }
+            set
+            {
+                GetBilling.TotalCostsPerPeriod = value;
+                OnPropertyChanged(nameof(TotalCostsPerPeriod));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalCostsPerPeriod)));
+            }
+        }
+
+
+        public double TotalFixedCostsPerPeriod
+        {
+            get { return GetBilling.TotalFixedCostsPerPeriod; }
+            set
+            {
+                GetBilling.TotalFixedCostsPerPeriod = value;
+                OnPropertyChanged(nameof(TotalFixedCostsPerPeriod));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalFixedCostsPerPeriod)));
+            }
+        }
+
+
+        public double TotalHeatingCostsPerPeriod
+        {
+            get { return GetBilling.TotalHeatingCostsPerPeriod; }
+            set
+            {
+                GetBilling.TotalHeatingCostsPerPeriod = value;
+                OnPropertyChanged(nameof(TotalHeatingCostsPerPeriod));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingCostsPerPeriod)));
+            }
+        }
+        #endregion monthly costs
+
+
+        // other properties
+        #region other properties
+        private Billing _Billing;
+        public Billing GetBilling
+        {
+            get { return _Billing; }
+            set
+            {
+                _Billing = value;
+                OnPropertyChanged(nameof(GetBilling));
+            }
+        }
+
+
+        public DateTime EndDate
+        {
+            get { return GetBilling.EndDate; }
+            set
+            {
+                GetBilling.EndDate = value; OnPropertyChanged(nameof(EndDate));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(EndDate)));
+            }
+        }
+
+
+        private readonly FlatViewModel _flatViewModel;
+
+
+        public bool HasCredits
+        {
+            get { return GetBilling.HasCredits; }
+            set
+            {
+                GetBilling.HasCredits = value;
+
+                BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
+
+                OnPropertyChanged(nameof(HasCredits));
+            }
+        }
+
+
+        public bool HasDataLock
+        {
+            get { return GetBilling.HasDataLock; }
+            set
+            {
+                GetBilling.HasDataLock = value;
+
+                OnPropertyChanged(nameof(HasDataLock));
+            }
+        }
+
+
+        public bool HasPayments
+        {
+            get { return GetBilling.HasPayments; }
+            set
+            {
+                GetBilling.HasPayments = value;
+
+                if (HasPayments)
+                {
+                    GenerateRoomPayments();
+                }
+
+                BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
+
+                OnPropertyChanged(nameof(HasPayments));
+            }
+        }
+
+
+        public string Signature => $"{StartDate:d} - {EndDate:d}\n{TotalHeatingUnitsConsumption} units";
+
+
+        public DateTime StartDate
+        {
+            get { return GetBilling.StartDate; }
+            set
+            {
+                GetBilling.StartDate = value; OnPropertyChanged(nameof(StartDate));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
+
+
+            }
+        }
+
+        #endregion other properties
+
+        #endregion properties
+
+
+        // event properties & fields
+        #region event handlers
+
+        public event PropertyChangedEventHandler DataChange;
+
+        public event EventHandler BillingViewModelConfigurationChange;
+
+        #endregion event handlers
+
+
+        // collections
+        #region collections
+
+        private ObservableCollection<RoomCostsViewModel> _RoomCosts;
+        public ObservableCollection<RoomCostsViewModel> RoomCosts
+        {
+            get { return _RoomCosts; }
+            set
+            {
+                _RoomCosts = value;
+                OnPropertyChanged(nameof(RoomCosts));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
+            }
+        }
+
+
+        private ObservableCollection<RoomPaymentsViewModel> _RoomPayments;
+        public ObservableCollection<RoomPaymentsViewModel> RoomPayments
+        {
+            get { return _RoomPayments; }
+            set
+            {
+                _RoomPayments = value;
+                OnPropertyChanged(nameof(RoomPayments));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomPayments)));
+            }
+        }
+        #endregion collections
+
+
+        // constructors
+        #region constructors
+
+        public BillingViewModel(FlatViewModel flatViewModel, Billing billing)
+        {
+            RoomCosts = new ObservableCollection<RoomCostsViewModel>();
+            RoomPayments = new ObservableCollection<RoomPaymentsViewModel>();
+
+            _flatViewModel = flatViewModel;
+            GetBilling = billing;
+
+            GenerateRoomCosts();
+            GenerateRoomPayments();
+        }
+
+        #endregion constructors
+
+
+        // methods
+        #region methods
+
+        public double CalculatePaymentsPerPeriod()
+        {
+            double paymentsPerPeriod = 0.0;
+
+            foreach (RoomPaymentsViewModel roomPaymentsViewModel in RoomPayments)
+            {
+                foreach (Payment payment in roomPaymentsViewModel.RoomPayments.Payments)
+                {
+                    if (payment.StartDate >= StartDate
+                        && payment.StartDate <= EndDate
+                        && payment.EndDate >= StartDate
+                        && payment.EndDate <= EndDate
+                        )
+                    {
+                        paymentsPerPeriod += payment.PaymentTotal;
+                    }
+                }
+
+
+            }
+
+            return paymentsPerPeriod;
+        }
+
+
+        public ObservableCollection<RentViewModel> FindRelevantRentViewModels()
+        {
+            ObservableCollection<RentViewModel> preSortList = new ObservableCollection<RentViewModel>();
+            ObservableCollection<RentViewModel> RentList = new ObservableCollection<RentViewModel>();
+
+            if (GetFlatViewModel().RentUpdates.Count > 0)
+            {
+                // filling the collection with potential matches
+                foreach (RentViewModel rent in GetFlatViewModel().RentUpdates)
+                {
+                    // rent begins after Billing period ends
+                    if (rent.StartDate > EndDate)
+                    {
+                        continue;
+                    }
+
+                    // rent begins before Billing period starts
+                    if (rent.StartDate < StartDate)
+                    {
+                        preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
+                        continue;
+                    }
+
+                    // rent begins before Billing period end
+                    if (rent.StartDate < EndDate)
+                    {
+                        preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
+
+                        continue;
+                    }
+
+                    // rent begins after Billing period start but before Billing period end
+                    if (rent.StartDate > StartDate || rent.StartDate < EndDate)
+                    {
+                        preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
+                    }
+                }
+
+                RentViewModel? comparer = new RentViewModel(_flatViewModel, new Rent() { StartDate = StartDate });
+                bool firstRun = true;
+
+                // building a collection of relevant rent items
+                foreach (RentViewModel item in preSortList)
+                {
+                    if (item.StartDate >= StartDate)
+                    {
+                        RentList.Add(item);
+                        continue;
+                    }
+
+                    if (item.StartDate < StartDate && firstRun)
+                    {
+                        firstRun = false;
+                        comparer = item;
+                        continue;
+                    }
+
+                    if (item.StartDate < StartDate && item.StartDate > comparer.StartDate)
+                    {
+                        comparer = item;
+                    }
+                }
+                RentList.Add(comparer);
+            }
+
+            // sort List by StartDate, ascending
+            RentList = new ObservableCollection<RentViewModel>(RentList.OrderBy(i => i.StartDate));
+
+            return RentList;
+        }
+
+
+        public void GenerateRoomCosts()
+        {
+            foreach (RoomCosts roomCosts in GetBilling.RoomCostsConsumptionValues)
+            {
+                RoomCostsViewModel roomCostsViewModel = new RoomCostsViewModel(roomCosts, this);
+                roomCostsViewModel.HeatingUnitsChange += RoomCostsViewModel_HeatingUnitsChange;
+
+                RoomCosts.Add(roomCostsViewModel);
+            }
+        }
+
+
+        public void GenerateRoomPayments()
+        {
+            RoomPayments = new ObservableCollection<RoomPaymentsViewModel>();
+
+            if (GetBilling.RoomPayments.Count < 1)
+            {
+                foreach (RoomViewModel room in _flatViewModel.Rooms)
+                {
+                    RoomPaymentsViewModel roomPaymentsViewModel = new RoomPaymentsViewModel(new RoomPayments(room));
+
+                    RoomPayments.Add(roomPaymentsViewModel);
+                }
+            }
+            else
+            {
+                foreach (RoomPayments roomPayments in GetBilling.RoomPayments)
+                {
+                    RoomPaymentsViewModel roomPaymentsViewModel = new RoomPaymentsViewModel(roomPayments);
+
+                    RoomPayments.Add(roomPaymentsViewModel);
+                }
+            }
+        }
+
+
+        public FlatViewModel GetFlatViewModel()
+        {
+            return _flatViewModel;
+        }
+
+
+        public void RemoveCredit()
+        {
+            //CreditViewModel = null;
+        }
+
+
+        public void SetCredit()
+        {
+            //if (GetRent.BillingID != -1 && GetFlatViewModel().BillingPeriods.Count > GetRent.BillingID)
+            //{
+            //    BillingViewModel = GetFlatViewModel().BillingPeriods[GetRent.BillingID];
+            //    HasBilling = true;
+            //}
+        }
+
+        #endregion methods
+
+
+        // events
+        #region events
+
+        private void RoomCosts_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(RoomCosts));
+            DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
+        }
+
+
+        private void RoomCostsViewModel_HeatingUnitsChange(object? sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(RoomCosts));
+            DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
+        }
+
+        #endregion events
+
+
+    }
+}
+// EOF

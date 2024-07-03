@@ -6,6 +6,7 @@
  */
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
