@@ -12,6 +12,9 @@
  me learning and practicing MVVM
 
 
+!!! currently rebuilding cost and payments data infrastructure,
+!!! it is to be expected that nothing works as intended.
+
 current features: 
 
 WIP	

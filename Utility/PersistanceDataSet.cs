@@ -6,8 +6,10 @@
  *  store and retrieve FlatViewModel
  *  data to or from hard drive storage  
  */
-using SharedLivingCostCalculator.Models;
-using SharedLivingCostCalculator.ViewModels.ViewLess;
+using SharedLivingCostCalculator.Models.Contract;
+using SharedLivingCostCalculator.Models.Financial;
+using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
+using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 
@@ -231,10 +233,10 @@ namespace SharedLivingCostCalculator.Utility
 
                 //if (rent.HasOtherCosts)
                 //{
-                //    rent.OtherCosts.Clear();
-                //    foreach (OtherCostItemViewModel otherCostItemViewModel in rentViewModel.OtherCosts)
+                //    rent.Costs.Clear();
+                //    foreach (CostItemViewModel otherCostItemViewModel in rentViewModel.Costs)
                 //    {
-                //        rent.OtherCosts.Add(otherCostItemViewModel.OtherCostItem);
+                //        rent.Costs.Add(otherCostItemViewModel.CostItem);
                 //    }
                 //}
 

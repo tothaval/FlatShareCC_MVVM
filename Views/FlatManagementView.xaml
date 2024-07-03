@@ -72,9 +72,17 @@
                         </Grid.RowDefinitions>
 
                         <Button Content="{DynamicResource IDF_NewFlat}"
-                        Command="{Binding NewFlatCommand}"
-                        Style="{StaticResource buttonStyle}"
-                        Grid.Column="0" Grid.Row="0"/>
+                                Command="{Binding NewFlatCommand}"
+                                Style="{StaticResource buttonStyle}"
+                                Grid.Column="0" Grid.Row="0"/>
+
+
+                        <Button Content="duplicate ###"
+                                Command="{Binding DuplicateFlatCommand}"         
+                                IsEnabled="{Binding HasFlat, NotifyOnSourceUpdated=True}"
+                                Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
+                                Style="{StaticResource buttonStyle}"
+                                Grid.Column="1" Grid.Row="0"/>
 
                         <Button Content="{DynamicResource IDF_DeleteFlat}"
                             Command="{Binding DeleteFlatCommand}"
@@ -271,14 +279,18 @@
                 </Border>
 
 
-                <Border Style="{StaticResource VisibilityFieldBorder}"
-                    Visibility="{Binding ShowCosts, Converter={StaticResource VisibilityConverter}}"
+                <Border Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
+                    Converter={StaticResource VisibilityConverter}}"
                     DockPanel.Dock="Top" >
-                    <Grid>
+
+                    <Border Visibility="{Binding ShowCosts, Converter={StaticResource VisibilityConverter}}"
+                            Style="{StaticResource VisibilityFieldBorder}">
+                        <Grid >
                         <local:CostView DataContext="{Binding Cost}"
                                         Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
                             Converter={StaticResource VisibilityConverter}}"/>
                     </Grid>
+                    </Border>
                 </Border>
 
 

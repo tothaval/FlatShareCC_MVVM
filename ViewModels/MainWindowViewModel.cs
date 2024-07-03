@@ -5,6 +5,8 @@
  *  viewmodel for MainWindow
  */
 using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.ViewModels.Contract;
+using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Windows;

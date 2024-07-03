@@ -5,8 +5,8 @@
  *  command for removing a paymentviewmodel
  *  instance from a roomviewmodel instance
  */
-using SharedLivingCostCalculator.ViewModels;
-using SharedLivingCostCalculator.ViewModels.ViewLess;
+using SharedLivingCostCalculator.ViewModels.Financial;
+using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using System.Collections;
 using System.Windows;
 

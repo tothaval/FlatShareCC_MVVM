@@ -4,7 +4,7 @@
  * 
  *  provides methods for recurring calculations
  */
-using SharedLivingCostCalculator.ViewModels.ViewLess;
+using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 
 namespace SharedLivingCostCalculator.Calculations
 {

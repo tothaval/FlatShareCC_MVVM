@@ -76,47 +76,12 @@
                                      ValueAlignment="Right"
                             IsEnabled="{Binding HasDataLock}"/>
 
-            <comps:CurrencyInputView Label="{DynamicResource IDF_AdvanceTotal}"
-                                     Value="{Binding ExtraCostsTotal,
-                NotifyOnSourceUpdated=True,
-                                            ValidatesOnDataErrors=True}"
-                                     IsReadOnly="True"
-                                     LabelMinWidth="100"
-                                     ValueMinWidth="100"
-                                     ValueAlignment="Right"
-                            IsEnabled="{Binding HasDataLock}"/>
-
-            <comps:CurrencyInputView Label="{DynamicResource IDF_PriceTotal}"
-                                     Value="{Binding CostsTotal,
-                NotifyOnSourceUpdated=True,
-                                            ValidatesOnDataErrors=True}"
-                                     IsReadOnly="True"
-                                     LabelMinWidth="100"
-                                     ValueMinWidth="100"
-                                     ValueAlignment="Right"
-                            IsEnabled="{Binding HasDataLock}"/>
-
-            <comps:CurrencyInputView Label="{DynamicResource IDF_AdvanceHeating}"
-                                     Value="{Binding ExtraCostsHeating, 
-                NotifyOnSourceUpdated=True,
-                                            ValidatesOnDataErrors=True}"
-                                     IsReadOnly="True"
-                                     LabelMinWidth="100"
-                                     ValueMinWidth="100"
-                                     ValueAlignment="Right"
-                            IsEnabled="{Binding HasDataLock}"/>
-
-            <comps:CurrencyInputView Label="{DynamicResource IDF_AdvanceHeating}"
-                                     Value="{Binding ExtraCostsHeating, 
-                NotifyOnSourceUpdated=True,
-                                            ValidatesOnDataErrors=True}"
-                                     IsReadOnly="True"
-                                     LabelMinWidth="100"
-                                     ValueMinWidth="100"
-                                     ValueAlignment="Right"
-                            IsEnabled="{Binding HasDataLock}"/>
-
-
+            <ToggleButton Content="{DynamicResource IDF_OtherCosts}"
+                          Command="{Binding ShowCostsCommand}"
+                          IsChecked="{Binding CostsWindowActive}"
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Center"
+                          Style="{StaticResource toggleButtonStyle}"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Stretch"
@@ -133,20 +98,6 @@
                           Command="{Binding ShowBillingCommand}"
                           IsChecked="{Binding AnnualBillingWindowActive}"
                           Visibility="{Binding SetBillingVisibility,
-                Converter={StaticResource VisibilityConverter}}"
-                          HorizontalAlignment="Stretch"
-                          HorizontalContentAlignment="Center"
-                          Style="{StaticResource toggleButtonStyle}"/>
-
-            <CheckBox Content="{DynamicResource IDF_HasOtherCosts}"
-                      IsChecked="{Binding HasOtherCosts}"
-                      IsEnabled="{Binding HasDataLock}"
-                      Style="{StaticResource OptionCheckBox}"/>
-            
-            <ToggleButton Content="{DynamicResource IDF_OtherCosts}"
-                          Command="{Binding ShowOtherCostsCommand}"
-                          IsChecked="{Binding OtherCostsWindowActive}"
-                          Visibility="{Binding SetOtherCostsVisibility,
                 Converter={StaticResource VisibilityConverter}}"
                           HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Center"

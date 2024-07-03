@@ -3,7 +3,7 @@
  *  CostShareTypes 
  * 
  *  enum holds all supported cost split procedures
- *  for OtherCostItem logic
+ *  for CostItem logic
  */
 
 
@@ -12,7 +12,9 @@ namespace SharedLivingCostCalculator.Enums
     public enum CostShareTypes
     {
         Equal,
-        Area        
+        Area,
+        Consumption,
+        Workplaces
 
 
     }

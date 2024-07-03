@@ -53,7 +53,7 @@
                             <GridViewColumn Header="{DynamicResource IDF_RentPerMonth}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ColdRent,StringFormat=C2,
+                                        <TextBlock Text="{Binding ColdRent.Cost,StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
                                             Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
