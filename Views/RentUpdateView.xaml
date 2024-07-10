@@ -35,8 +35,9 @@
                            HorizontalAlignment="Stretch"
                            Style="{StaticResource StringValueTextBlock}"
                            Grid.Column="0"/>
-                <DatePicker SelectedDate="{Binding StartDate,StringFormat=d,
-                        UpdateSourceTrigger=PropertyChanged}"
+                <DatePicker SelectedDate="{Binding RentViewModel.StartDate,
+                    StringFormat=d,
+                    UpdateSourceTrigger=PropertyChanged}"
                             MinWidth="100"
                             IsEnabled="{Binding HasDataLock}"
                             HorizontalAlignment="Stretch"
@@ -49,34 +50,42 @@
             </Grid>
 
             <comps:CurrencyInputView Label="{DynamicResource IDF_Rent}"
-                                     Value="{Binding ColdRent,
-                UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True,
-                                            ValidatesOnDataErrors=True}"
+                                     Value="{Binding RentViewModel.ColdRent,
+                UpdateSourceTrigger=PropertyChanged,
+                Mode=TwoWay,
+                NotifyOnSourceUpdated=True,
+                NotifyOnTargetUpdated=True,
+                ValidatesOnDataErrors=True}"
                                      LabelMinWidth="100"
                                      ValueMinWidth="100"
                                      ValueAlignment="Right"
                             IsEnabled="{Binding HasDataLock}"/>
 
             <comps:CurrencyInputView Label="{DynamicResource IDF_AdvanceFixed}"
-                                     Value="{Binding ExtraCostsShared, 
-                UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,
-                                            ValidatesOnDataErrors=True}"
+                                     Value="{Binding RentViewModel.FixedCostsAdvance, 
+                UpdateSourceTrigger=PropertyChanged,
+                Mode=TwoWay,
+                NotifyOnSourceUpdated=True,
+                NotifyOnTargetUpdated=True,
+                ValidatesOnDataErrors=True}"
                                      LabelMinWidth="100"
                                      ValueMinWidth="100"
                                      ValueAlignment="Right"
                             IsEnabled="{Binding HasDataLock}"/>
 
             <comps:CurrencyInputView Label="{DynamicResource IDF_AdvanceHeating}"
-                                     Value="{Binding ExtraCostsHeating, 
-                UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                                            ValidatesOnDataErrors=True}"
+                                     Value="{Binding RentViewModel.HeatingCostsAdvance, 
+                UpdateSourceTrigger=PropertyChanged,
+                Mode=TwoWay,
+                NotifyOnSourceUpdated=True,
+                NotifyOnTargetUpdated=True,
+                ValidatesOnDataErrors=True}"
                                      LabelMinWidth="100"
                                      ValueMinWidth="100"
                                      ValueAlignment="Right"
                             IsEnabled="{Binding HasDataLock}"/>
 
-            <ToggleButton Content="{DynamicResource IDF_OtherCosts}"
+            <ToggleButton Content="{DynamicResource IDF_Costs}"
                           Command="{Binding ShowCostsCommand}"
                           IsChecked="{Binding CostsWindowActive}"
                           HorizontalAlignment="Stretch"
@@ -90,7 +99,7 @@
                        Style="{StaticResource Header}"/>
             
             <CheckBox Content="{DynamicResource IDF_BaseRentOnBilling}"
-                      IsChecked="{Binding SetBillingVisibility}"
+                      IsChecked="{Binding SetBillingVisibility, UpdateSourceTrigger=PropertyChanged}"
                       IsEnabled="{Binding HasDataLock}"
                       Style="{StaticResource OptionCheckBox}"/>
 
@@ -104,7 +113,7 @@
                           Style="{StaticResource toggleButtonStyle}"/>
 
             <CheckBox Content="{DynamicResource IDF_FactorInCredit}"
-                      IsChecked="{Binding HasCredits}"
+                      IsChecked="{Binding HasCredits, UpdateSourceTrigger=PropertyChanged}"
                       IsEnabled="{Binding HasDataLock}"
                       Style="{StaticResource OptionCheckBox}"/>
 

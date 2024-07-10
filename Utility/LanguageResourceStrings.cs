@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  LanguageResourceStrings 
  * 
@@ -92,7 +92,7 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_RoomName { get; set; } = "Room";
         public string IDF_RoomArea { get; set; } = "Area";
 
-        public string IDF_MainWindowTitle { get; set; } = "Shared Living Cost Calculator (SLCC)";
+        public string IDF_MainWindowTitle { get; set; } = "Shared Living TransactionSum Calculator (SLCC)";
 
         public string IDF_Address { get; set; } = "Address";
         public string IDF_FlatArea { get; set; } = "Flat Area";
@@ -149,7 +149,7 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_BaseRentOnBilling { get; set; } = "factor in billing";
         public string IDF_AnnualBilling { get; set; } = "Annual Billing";
         
-        public string IDF_OtherCosts { get; set; } = "Other Costs";
+        public string IDF_Costs { get; set; } = "Costs Setup";
 
         public string IDF_AnnualOther { get; set; } = "Other Costs";
 
@@ -231,9 +231,9 @@ namespace SharedLivingCostCalculator.Utility
             _RentManagementInstructionText();
         }
 
-        public LanguageResourceStrings(SupportedLanguages supportedLanguages)
+        public LanguageResourceStrings(string selectedLanguage)
         {
-            Language = supportedLanguages.ToString();
+            Language = selectedLanguage;
 
             _BillingManagementInstructionText();
             _FlatManagementInstructionText();

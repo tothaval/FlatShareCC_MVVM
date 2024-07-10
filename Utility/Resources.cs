@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  Resources 
  * 
@@ -62,7 +62,7 @@ namespace SharedLivingCostCalculator.Utility
         public double HFS { get; set; } = 11.0;
 
 
-        public string Language { get; set; } = SupportedLanguages.English.ToString();
+        public string Language { get; set; } = "English";
 
 
         [XmlIgnore]
@@ -135,6 +135,12 @@ namespace SharedLivingCostCalculator.Utility
 
 
             return this;
+        }
+
+
+        public void FindLanguages()
+        {
+
         }
 
 

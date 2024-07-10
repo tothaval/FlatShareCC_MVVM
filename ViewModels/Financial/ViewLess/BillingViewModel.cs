@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  BillingViewModel  : BaseViewModel
  * 
@@ -64,8 +64,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         #endregion Heating
 
 
-        // monthly costs
-        #region monthly costs
+        // costs
+        #region costs
         public double TotalCostsPerPeriod
         {
             get { return GetBilling.TotalCostsPerPeriod; }
@@ -100,7 +100,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingCostsPerPeriod)));
             }
         }
-        #endregion monthly costs
+        #endregion costs
 
 
         // other properties

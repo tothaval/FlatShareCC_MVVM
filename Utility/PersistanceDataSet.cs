@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  PersistanceDataSet 
  * 
@@ -236,7 +236,7 @@ namespace SharedLivingCostCalculator.Utility
                 //    rent.Costs.Clear();
                 //    foreach (CostItemViewModel otherCostItemViewModel in rentViewModel.Costs)
                 //    {
-                //        rent.Costs.Add(otherCostItemViewModel.CostItem);
+                //        rent.Costs.Add(otherCostItemViewModel.FinancialTransactionItem);
                 //    }
                 //}
 

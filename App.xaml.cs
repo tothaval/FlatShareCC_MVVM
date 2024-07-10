@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  App 
  * 
@@ -160,7 +160,7 @@ namespace SharedLivingCostCalculator
             persistanceHandler.SerializeApplicationState(_managementViewModel);
 
             //only needed to get a language resource string xml template
-            persistanceHandler.SerializeLanguage(SupportedLanguages.English); 
+            persistanceHandler.SerializeLanguage(); 
 
             base.OnExit(e);
         }
@@ -181,7 +181,7 @@ namespace SharedLivingCostCalculator
             {
                 Directory.CreateDirectory(language_folder);
 
-                new PersistanceHandler().SerializeLanguage(SupportedLanguages.English);
+                new PersistanceHandler().SerializeLanguage();
 
             }
 

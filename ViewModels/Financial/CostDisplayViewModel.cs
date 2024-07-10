@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  CostDisplayViewModel  : BaseViewModel
  * 
@@ -134,8 +134,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 _rentViewModel = _AccountingViewModel.Rents.SelectedValue;
 
                 ActiveViewModel = new RentCostsViewModel(_rentViewModel, _flatViewModel);
-
-                _AccountingViewModel.Rents.UpdateViewModel.RentConfigurationChange += UpdateViewModel_RentConfigurationChange;
             }
 
             if (_rentViewModel != null && _rentViewModel.BillingViewModel != null)

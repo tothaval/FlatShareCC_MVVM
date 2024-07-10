@@ -1,10 +1,11 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  Rent 
  * 
  *  serializable data model class
  *  for RentViewModel
  */
+using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
@@ -25,22 +26,37 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
         [XmlIgnore]
-        public double AnnualRent => ColdRent.Cost * 12;
+        public double AnnualRent => ColdRent.TransactionSum * 12;
 
 
-        public CostItem ColdRent { get; set; } = new CostItem();
+        public FinancialTransactionItem ColdRent { get; set; } = new FinancialTransactionItem() 
+        {
+            TransactionItem = "Cold Rent",
+            TransactionShareTypes=TransactionShareTypes.Area,
+            TransactionSum = 0.0
+        };
 
 
-        public double CostsTotal => ColdRent.Cost + ExtraCostsTotal;
+        public double CostsTotal => ColdRent.TransactionSum + ExtraCostsTotal;
 
 
-        public CostItem ExtraCostsHeating { get; set; } = new CostItem();
+        public FinancialTransactionItem FixedCostsAdvance { get; set; } = new FinancialTransactionItem()
+        {
+            TransactionItem = "Advance Fixed",
+            TransactionShareTypes = TransactionShareTypes.Area,
+            TransactionSum = 0.0
+        };
 
 
-        public CostItem ExtraCostsShared { get; set; } = new CostItem();
+        public FinancialTransactionItem HeatingCostsAdvance { get; set; } = new FinancialTransactionItem()
+        {
+            TransactionItem = "Advance Heating",
+            TransactionShareTypes = TransactionShareTypes.Consumption,
+            TransactionSum = 0.0
+        };
 
 
-        public double ExtraCostsTotal => ExtraCostsShared.Cost + ExtraCostsHeating.Cost;
+        public double ExtraCostsTotal => FixedCostsAdvance.TransactionSum + HeatingCostsAdvance.TransactionSum;
 
 
         public bool HasCredits { get; set; } = false;
@@ -63,9 +79,9 @@ namespace SharedLivingCostCalculator.Models.Financial
         // collections
         #region collections
 
-        // storing CostItems in case of other costs being factored in into rent calculation
+        // storing TransactionItems in case of other costs being factored in into rent calculation
         [XmlArray("OtherCostItemCollection")]
-        public ObservableCollection<CostItem> Costs { get; set; } = new ObservableCollection<CostItem>();
+        public ObservableCollection<FinancialTransactionItem> Costs { get; set; } = new ObservableCollection<FinancialTransactionItem>();
 
 
         // storing the actual rent cost shares of each room
@@ -79,24 +95,21 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public Rent()
         {
-
         }
 
 
         public Rent(
                     FlatViewModel model,
                     DateTime startDate,
-                    CostItem rent,
-                    CostItem shared,
-                    CostItem heating
+                    FinancialTransactionItem rent,
+                    FinancialTransactionItem shared,
+                    FinancialTransactionItem heating
                     )
         {
             StartDate = startDate;
             ColdRent = rent;
-            ExtraCostsShared = shared;
-            ExtraCostsHeating = heating;
-
-            GenerateCosts();
+            FixedCostsAdvance = shared;
+            HeatingCostsAdvance = heating;
 
             GenerateRoomCosts(model);
         }
@@ -107,15 +120,10 @@ namespace SharedLivingCostCalculator.Models.Financial
         // methods
         #region methods
 
-        public void GenerateCosts()
+        public void AddCostItem(FinancialTransactionItem item)
         {
-            Costs.Clear();
-
-            Costs.Add(ColdRent);
-            Costs.Add(ExtraCostsShared);
-            Costs.Add(ExtraCostsHeating);
+            Costs.Add(item);
         }
-
 
 
         public void GenerateRoomCosts(FlatViewModel flatViewModel)
@@ -131,6 +139,12 @@ namespace SharedLivingCostCalculator.Models.Financial
                         );
                 }
             }
+        }
+
+
+        public void RemoveCostItem(FinancialTransactionItem item)
+        {
+            Costs.Remove(item);
         }
 
         #endregion methods

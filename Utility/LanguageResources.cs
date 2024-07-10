@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  LanguageResources 
  * 
@@ -6,6 +6,7 @@
  *  which assignes the members of a LanguageResourceStrings instance
  *  to the application resources 
  */
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -28,17 +29,23 @@ namespace SharedLivingCostCalculator.Utility
         // properties & fields
         #region properties
 
-        private SupportedLanguages _SupportedLanguages;
+        private string _SelectedLanguage;
 
         #endregion properties
 
 
         // constructors
         #region constructors
+        
+        public LanguageResources()
+        {
+                
+        }
+
 
         public LanguageResources(string language)
         {
-            _SupportedLanguages = (SupportedLanguages)System.Enum.Parse(typeof(SupportedLanguages), language);
+            _SelectedLanguage = language;
 
             LoadLanguageResource();
 
@@ -69,7 +76,7 @@ namespace SharedLivingCostCalculator.Utility
 
                 string file_short = pathlessFile.Replace(".xml", "");
 
-                if (_SupportedLanguages.ToString().Equals(file_short) && !file_short.StartsWith("__"))
+                if (_SelectedLanguage.Equals(file_short) && !file_short.StartsWith("__"))
                 {
                     var xmlSerializer = new XmlSerializer(typeof(LanguageResourceStrings));
 
@@ -90,6 +97,30 @@ namespace SharedLivingCostCalculator.Utility
                     }
                 }
             }
+        }
+
+        public ObservableCollection<string> LoadLanguages()
+        {
+            ObservableCollection<string> languages = new ObservableCollection<string>();
+
+            string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\language\\";
+            string filter = "*.xml";
+
+            List<string> files = Directory.GetFiles(folder, filter, SearchOption.TopDirectoryOnly).ToList();
+
+            foreach (string file in files)
+            {
+                string pathlessFile = Path.GetFileName(file);
+
+                string file_short = pathlessFile.Replace(".xml", "");
+
+                if (!file_short.StartsWith("__"))
+                {
+                   languages.Add(file_short);
+                }
+            }
+
+            return languages;
         }
 
 
@@ -221,7 +252,7 @@ namespace SharedLivingCostCalculator.Utility
 
             Application.Current.Resources["IDF_HasOtherCosts"] = languageResource.IDF_HasOtherCosts;
             Application.Current.Resources["IDF_NewOtherCosts"] = languageResource.IDF_NewOtherCosts;
-            Application.Current.Resources["IDF_OtherCosts"] = languageResource.IDF_OtherCosts;
+            Application.Current.Resources["IDF_Costs"] = languageResource.IDF_Costs;
 
             Application.Current.Resources["IDF_AnnualOther"] = languageResource.IDF_AnnualOther;
             Application.Current.Resources["IDF_AnnualComplete"] = languageResource.IDF_AnnualComplete;

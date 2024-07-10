@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *   
  *  CostDisplayViewModel  : BaseViewModel
  * 
@@ -131,7 +131,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         private void AddCostItem(object s)
         {
-            CostItemViewModel otherCostItemViewModel = new CostItemViewModel(new CostItem());
+            CostItemViewModel otherCostItemViewModel = new CostItemViewModel(new FinancialTransactionItem());
 
             _RentViewModel.AddCostItem(otherCostItemViewModel);
                        
@@ -150,13 +150,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 CostItemViewModel costItemViewModel = selected.First();
 
-                CostItemViewModel otherCostItemViewModel = new CostItemViewModel(new CostItem());
+                CostItemViewModel otherCostItemViewModel = new CostItemViewModel(new FinancialTransactionItem());
 
-                otherCostItemViewModel.CostItem.Item = costItemViewModel.Item;
-                otherCostItemViewModel.CostItem.CostShareTypes = costItemViewModel.CostShareTypes;
-                otherCostItemViewModel.CostItem.Cost = costItemViewModel.Cost;
+                otherCostItemViewModel.CostItem.TransactionItem = costItemViewModel.Item;
+                otherCostItemViewModel.CostItem.TransactionShareTypes = costItemViewModel.CostShareTypes;
+                otherCostItemViewModel.CostItem.TransactionSum = costItemViewModel.Cost;
 
-                _RentViewModel.Costs.Add(otherCostItemViewModel);
+                _RentViewModel.AddCostItem(otherCostItemViewModel);
 
                 OnPropertyChanged(nameof(CostItems));
             }
@@ -209,11 +209,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-        private void Item_ValueChange(object? sender, EventArgs e)
-        {
-            CalculateSum();
-        }
-
 
         private void RemoveCostItem(object s)
         {
@@ -223,14 +218,14 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             {
                 MessageBoxResult result = MessageBox.Show(
                     $"Do you want to delete selected other costs?",
-                    "Remove Other Cost(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    "Remove Other TransactionSum(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     var selected = selection.Cast<CostItemViewModel>().ToArray();
 
                     foreach (var item in selected)
                     {
-                        _RentViewModel.Costs.Remove(item);
+                        _RentViewModel.RemoveCostItem(item);
                         OnPropertyChanged(nameof(CostItems));
                     }
                 }
@@ -247,6 +242,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         {
             RegisterCostItemValueChange();
 
+            CalculateSum();
+        }
+        
+        
+        private void Item_ValueChange(object? sender, EventArgs e)
+        {
             CalculateSum();
         }
 

@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  PersistanceHandler 
  * 
@@ -64,15 +64,14 @@ namespace SharedLivingCostCalculator.Utility
         }
 
 
-        public void SerializeLanguage(SupportedLanguages language)
+        public void SerializeLanguage(string language = "English")
         {
             var xmlSerializer = new XmlSerializer(typeof(LanguageResourceStrings));
             LanguageResourceStrings LRS = new LanguageResourceStrings(language);
 
-            string lang = language.ToString();
             string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\language\\";
 
-            using (var writer = new StreamWriter($"{folder}\\{lang}.xml"))
+            using (var writer = new StreamWriter($"{folder}\\{language}.xml"))
             {
                 xmlSerializer.Serialize(writer, LRS);
             }

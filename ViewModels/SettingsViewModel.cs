@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  SettingsViewModel  : BaseViewModel
  * 
@@ -150,16 +150,15 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private SupportedLanguages _Language;
-        public SupportedLanguages Language
+        private string _Language;
+        public string Language
         {
             get { return _Language; }
             set
             {
                 _Language = value;
 
-                Application.Current.Resources["Language"] = Language.ToString();
-                new LanguageResources(Language.ToString());
+                Application.Current.Resources["Language"] = _Language;
 
                 OnPropertyChanged(nameof(Language));
             }
@@ -207,15 +206,19 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private SupportedLanguages _SelectedLanguageItem;
-        public SupportedLanguages SelectedLanguageItem
+        private string _SelectedLanguage;
+        public string SelectedLanguage
         {
-            get { return _SelectedLanguageItem; }
+            get { return _SelectedLanguage; }
             set
             {
-                _SelectedLanguageItem = value;
+                _SelectedLanguage = value;
                 Language = value;
-                OnPropertyChanged(nameof(SelectedLanguageItem));
+
+
+                new LanguageResources(_SelectedLanguage);
+
+                OnPropertyChanged(nameof(SelectedLanguage));
             }
         }
 
@@ -261,6 +264,20 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
+
+        private ObservableCollection<string> _Languages;
+        public ObservableCollection<string> Languages
+        {
+            get { return _Languages; }
+            set
+            {
+                _Languages = value;
+                OnPropertyChanged(nameof(Languages));
+            }
+        }
+
+
+
         #endregion collections
 
 
@@ -287,13 +304,18 @@ namespace SharedLivingCostCalculator.ViewModels
 
             VisibilityFieldCornerRadius = ((CornerRadius)Application.Current.Resources["VisibilityField_CornerRadius"]).TopLeft;
 
+            Languages = new LanguageResources().LoadLanguages();
+
+            OnPropertyChanged(nameof(Languages));
+
+
             if (Application.Current.Resources["Language"] != null)
             {
-                SelectedLanguageItem = (SupportedLanguages)System.Enum.Parse(typeof(SupportedLanguages), Application.Current.Resources["Language"].ToString());
+                SelectedLanguage = Application.Current.Resources["Language"].ToString();
             }
             else
             {
-                SelectedLanguageItem = (SupportedLanguages)System.Enum.Parse(typeof(SupportedLanguages), SupportedLanguages.English.ToString());
+                SelectedLanguage = "English.xml";
             }
                         
             

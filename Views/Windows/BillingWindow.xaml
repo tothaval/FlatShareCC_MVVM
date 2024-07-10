@@ -86,7 +86,7 @@
                            HorizontalAlignment="Stretch"
                            Style="{StaticResource StringValueTextBlock}"
                            Grid.Column="0"/>
-                    <DatePicker SelectedDate="{Binding StartDate,StringFormat=d,
+                    <DatePicker SelectedDate="{Binding BillingViewModel.StartDate,StringFormat=d,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
                     ValidatesOnDataErrors=true, 
@@ -110,7 +110,7 @@
                            HorizontalAlignment="Stretch"
                            Style="{StaticResource StringValueTextBlock}"
                            Grid.Column="0"/>
-                    <DatePicker SelectedDate="{Binding EndDate,StringFormat=d,
+                    <DatePicker SelectedDate="{Binding BillingViewModel.EndDate,StringFormat=d,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
                     ValidatesOnDataErrors=true, UpdateSourceTrigger=PropertyChanged}"
@@ -125,7 +125,7 @@
                 </Grid>
 
                 <comps:CurrencyInputView Label="{DynamicResource IDF_TotalCosts}"
-                                     Value="{Binding TotalCostsPerPeriod,
+                                     Value="{Binding BillingViewModel.TotalCostsPerPeriod,
                 Mode=TwoWay,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
@@ -136,7 +136,7 @@
                                      IsEnabled="{Binding DataLock}"/>
 
                 <comps:CurrencyInputView Label="{DynamicResource IDF_FixedCosts}"
-                                     Value="{Binding TotalFixedCostsPerPeriod,
+                                     Value="{Binding BillingViewModel.TotalFixedCostsPerPeriod,
                 Mode=TwoWay,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
@@ -147,7 +147,7 @@
                                      IsEnabled="{Binding DataLock}"/>
 
                 <comps:CurrencyInputView Label="{DynamicResource IDF_HeatingCosts}"
-                                     Value="{Binding TotalHeatingCostsPerPeriod,
+                                     Value="{Binding BillingViewModel.TotalHeatingCostsPerPeriod,
                 Mode=TwoWay,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
@@ -197,7 +197,8 @@
                     </TabItem>
 
                     <TabItem Header="{DynamicResource IDF_Payments}"
-                         Visibility="{Binding HasPayments, Converter={StaticResource VisConv},
+                         Visibility="{Binding SetPaymentVisibility,
+                        Converter={StaticResource VisConv},
                     NotifyOnSourceUpdated=True}"
                          >
 
@@ -208,10 +209,13 @@
                     </TabItem>
 
                     <TabItem Header="{DynamicResource IDF_Credit}"
-                     Visibility="{Binding HasCredits, Converter={StaticResource VisConv}}">
+                     Visibility="{Binding SetCreditVisibility,
+                        Converter={StaticResource VisConv},
+                        NotifyOnSourceUpdated=True}">
 
                         <local:CreditSetupView
-                            DataContext="{Binding CreditSetupViewModel}"
+                            DataContext="{Binding CreditSetupViewModel,
+                            NotifyOnSourceUpdated=True}"
                             Margin="5"/>
 
                     </TabItem>

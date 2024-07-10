@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  FlatManagementViewModel  : BaseViewModel
  * 
@@ -397,10 +397,36 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         private void DuplicateFlat()
         {
-            FlatViewModel flatViewModel = new FlatViewModel(SelectedItem.GetFlat);
+            // the object that is to be duplicated must be cloned or value changes
+            // will affect the origin object as well. right now, duplicate duplicates
+            // all flat data and room data, tenants, tenantConfigurations or rents are
+            // not duplicated, if necessary, expand below code to clone other data as well.
 
-            //flatViewModel.RentUpdates.Add(new RentViewModel(flatViewModel, new Rent()));
-                        
+
+            Flat flat = new Flat();
+
+            double area = (double)SelectedItem.Area;
+            int roomCount = (int)SelectedItem.RoomCount;
+            string address = (string)SelectedItem.Address;
+            string details = (string)SelectedItem.Details;
+            string flatNotes = (string)SelectedItem.FlatNotes;
+
+            flat.Area = area;
+            flat.Address = address;
+            flat.Details = details;
+            flat.FlatNotes = flatNotes;
+            flat.RoomCount = roomCount;
+
+            foreach (RoomViewModel item in SelectedItem.Rooms)
+            {
+                double roomArea = item.RoomArea;
+                string roomName = item.RoomName;
+
+                flat.Rooms.Add(new RoomViewModel(new Room(roomName, roomArea)));
+            }
+
+            FlatViewModel flatViewModel = new FlatViewModel(flat, true);
+                                                
             SelectedItem = flatViewModel;
 
             _flatCollection.Add(flatViewModel);

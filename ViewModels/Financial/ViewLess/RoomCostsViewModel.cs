@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  RoomCostsViewModel  : BaseViewModel
  * 
@@ -532,7 +532,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             if (_roomCostsCarrier.GetType() == typeof(RentViewModel))
             {
-                fixedShare = AreaRatio() * ((RentViewModel)_roomCostsCarrier).FixedCostsAdvance.Cost;
+                fixedShare = AreaRatio() * ((RentViewModel)_roomCostsCarrier).FixedCostsAdvance;
             }
 
             FixedShare = fixedShare;
@@ -568,11 +568,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 if (rentViewModel.HasBilling)
                 {
-                    heatingShare = CalculateConsumptionRatio() * rentViewModel.HeatingCostsAdvance.Cost;
+                    heatingShare = CalculateConsumptionRatio() * rentViewModel.HeatingCostsAdvance;
                 }
                 else
                 {
-                    heatingShare = AreaRatio() * ((RentViewModel)_roomCostsCarrier).HeatingCostsAdvance.Cost;
+                    heatingShare = AreaRatio() * ((RentViewModel)_roomCostsCarrier).HeatingCostsAdvance;
                 }
             }
 
@@ -604,23 +604,23 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             foreach (CostItemViewModel item in ((RentViewModel)_roomCostsCarrier).Costs)
             {
-                CostItem otherCostItem = new CostItem();
+                FinancialTransactionItem otherCostItem = new FinancialTransactionItem();
 
-                otherCostItem.CostShareTypes = item.CostShareTypes;
-                otherCostItem.Item = item.Item;
+                otherCostItem.TransactionShareTypes = item.CostShareTypes;
+                otherCostItem.TransactionItem = item.Item;
 
-                if (item.CostShareTypes == CostShareTypes.Equal)
+                if (item.CostShareTypes == TransactionShareTypes.Equal)
                 {
                     equal_share = item.Cost / _roomCostsCarrier.GetFlatViewModel().RoomCount;
 
-                    otherCostItem.Cost = equal_share;
+                    otherCostItem.TransactionSum = equal_share;
                 }
 
-                if (item.CostShareTypes == CostShareTypes.Area)
+                if (item.CostShareTypes == TransactionShareTypes.Area)
                 {
                     area_share = item.Cost * AreaRatio();
 
-                    otherCostItem.Cost = area_share;
+                    otherCostItem.TransactionSum = area_share;
                 }
 
                 OtherCosts.Add(new CostItemViewModel(otherCostItem));
@@ -649,7 +649,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                         months = CalculateBillingMonths(billingViewModel, timeSpan);
 
-                        rentCosts += AreaRatio() * rentCollection[i].ColdRent.Cost * CalculateBillingMonths(billingViewModel, timeSpan);
+                        rentCosts += AreaRatio() * rentCollection[i].ColdRent * CalculateBillingMonths(billingViewModel, timeSpan);
                     }
 
                     // items in between newest and oldest
@@ -658,7 +658,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                         TimeSpan timeSpan = rentCollection[i + 1].StartDate - rentCollection[i].StartDate;
 
                         months += CalculateBillingMonths(billingViewModel, timeSpan);
-                        rentCosts += AreaRatio() * rentCollection[i].ColdRent.Cost * CalculateBillingMonths(billingViewModel, timeSpan);
+                        rentCosts += AreaRatio() * rentCollection[i].ColdRent * CalculateBillingMonths(billingViewModel, timeSpan);
                     }
 
                     // oldest item in the list, calculate span between StartDate billing and StartDate previous item
@@ -667,7 +667,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                         TimeSpan timeSpan = rentCollection[i + 1].StartDate - billingViewModel.StartDate;
 
                         months += CalculateBillingMonths(billingViewModel, timeSpan);
-                        rentCosts += AreaRatio() * rentCollection[i].ColdRent.Cost * CalculateBillingMonths(billingViewModel, timeSpan);
+                        rentCosts += AreaRatio() * rentCollection[i].ColdRent * CalculateBillingMonths(billingViewModel, timeSpan);
                     }
                 }
             }
@@ -682,7 +682,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             if (_roomCostsCarrier.GetType() == typeof(RentViewModel))
             {
-                rent = AreaRatio() * ((RentViewModel)_roomCostsCarrier).ColdRent.Cost;
+                rent = AreaRatio() * ((RentViewModel)_roomCostsCarrier).ColdRent;
             }
 
             RentShare = rent;

@@ -43,6 +43,7 @@
                                     <DataTemplate>
                                             <TextBlock Text="{Binding StartDate,StringFormat=d,
                                             UpdateSourceTrigger=PropertyChanged,
+                                            NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
                                                Style="{StaticResource StringValueTextBlock}" HorizontalAlignment="Center"/>
 
@@ -53,8 +54,10 @@
                             <GridViewColumn Header="{DynamicResource IDF_RentPerMonth}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ColdRent.Cost,StringFormat=C2,
+                                        <TextBlock Text="{Binding ColdRent,
+                                            StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
+                                            NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
                                     </DataTemplate>
@@ -64,8 +67,10 @@
                             <GridViewColumn Header="{DynamicResource IDF_ExtraCostsPerMonth}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ExtraCostsTotal,StringFormat=C2,
+                                        <TextBlock Text="{Binding ExtraCostsTotal,
+                                            StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
+                                            NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -78,6 +83,7 @@
                                     <DataTemplate>
                                         <TextBlock Text="{Binding CostsTotal,StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged, 
+                                            NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"
                                                    FontWeight="Bold"/>
@@ -91,6 +97,7 @@
                                     <DataTemplate>
                                         <TextBlock Text="{Binding AnnualRent,StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
+                                            NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -103,6 +110,7 @@
                                     <DataTemplate>
                                         <TextBlock Text="{Binding AnnualExtraCosts,StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
+                                            NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
@@ -115,6 +123,7 @@
                                     <DataTemplate>
                                         <TextBlock Text="{Binding AnnualCostsTotal,StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
+                                            NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
                                                Style="{StaticResource DoubleValueTextBlock}"
                                                    FontWeight="Bold"/>

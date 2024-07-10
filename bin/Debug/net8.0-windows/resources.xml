@@ -2,33 +2,33 @@
 <Resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <C_Background>
     <A>255</A>
-    <R>238</R>
-    <G>236</G>
-    <B>225</B>
+    <R>255</R>
+    <G>255</G>
+    <B>255</B>
     <ScA>1</ScA>
-    <ScR>0.8549926</ScR>
-    <ScG>0.838799</ScG>
-    <ScB>0.7529422</ScB>
+    <ScR>1</ScR>
+    <ScG>1</ScG>
+    <ScB>1</ScB>
   </C_Background>
   <C_Selection>
     <A>255</A>
-    <R>204</R>
-    <G>193</G>
-    <B>217</B>
+    <R>215</R>
+    <G>227</G>
+    <B>188</B>
     <ScA>1</ScA>
-    <ScR>0.60382736</ScR>
-    <ScG>0.53327644</ScG>
-    <ScB>0.6938718</ScB>
+    <ScR>0.6795425</ScR>
+    <ScG>0.76815116</ScG>
+    <ScB>0.5028865</ScB>
   </C_Selection>
   <C_Text>
     <A>255</A>
-    <R>79</R>
-    <G>129</G>
-    <B>189</B>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
     <ScA>1</ScA>
-    <ScR>0.07818743</ScR>
-    <ScG>0.21952623</ScG>
-    <ScB>0.50888133</ScB>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
   </C_Text>
   <C_Text_Header>
     <A>255</A>
@@ -41,19 +41,19 @@
     <ScB>0.06124606</ScB>
   </C_Text_Header>
   <ButtonCornerRadius>
-    <TopLeft>6</TopLeft>
-    <TopRight>6</TopRight>
-    <BottomRight>6</BottomRight>
-    <BottomLeft>6</BottomLeft>
+    <TopLeft>19</TopLeft>
+    <TopRight>19</TopRight>
+    <BottomRight>19</BottomRight>
+    <BottomLeft>19</BottomLeft>
   </ButtonCornerRadius>
   <VisibilityFieldCornerRadius>
-    <TopLeft>54</TopLeft>
-    <TopRight>54</TopRight>
-    <BottomRight>54</BottomRight>
-    <BottomLeft>54</BottomLeft>
+    <TopLeft>50</TopLeft>
+    <TopRight>50</TopRight>
+    <BottomRight>50</BottomRight>
+    <BottomLeft>50</BottomLeft>
   </VisibilityFieldCornerRadius>
   <FontFamily>Verdana</FontFamily>
-  <FS>16</FS>
-  <HFS>24</HFS>
+  <FS>17</FS>
+  <HFS>25.5</HFS>
   <Language>English</Language>
 </Resources>

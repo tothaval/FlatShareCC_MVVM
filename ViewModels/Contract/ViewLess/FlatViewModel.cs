@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  FlatViewModel  : BaseViewModel
  * 
@@ -193,6 +193,22 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
         }
 
+        public FlatViewModel(Flat flat, bool clone)
+        {
+            _flat = flat;
+                      
+            if (!clone)
+            {
+                CurrentRoomCosts = new ObservableCollection<RoomCostsViewModel>();
+
+                Rooms = new ObservableCollection<RoomViewModel>();
+
+                CreateRooms();
+
+                TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
+            }
+
+        }
 
         #endregion constructors
 
@@ -320,7 +336,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
                 }
             }
 
-            return currentRent.ColdRent.Cost;
+            return currentRent.ColdRent;
         }
 
 
