@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  RentViewModel  : BaseViewModel
  * 
@@ -32,18 +32,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         public double AnnualOtherCosts => TotalOtherCosts * 12;
 
 
-        public double AnnualRent => ColdRent.Cost * 12;
+        public double AnnualRent => ColdRent * 12;
         #endregion annual interval costs
 
 
         // monthly costs
         #region monthly costs
-        public CostItem ColdRent
+
+        public double ColdRent
         {
-            get { return Rent.ColdRent; }
+            get { return Rent.ColdRent.TransactionSum; }
             set
             {
-                Rent.ColdRent = value;
+                Rent.ColdRent.TransactionSum = value;
                 OnPropertyChanged(nameof(ColdRent));
                 OnPropertyChanged(nameof(CostsTotal));
                 OnPropertyChanged(nameof(AnnualRent));
@@ -54,18 +55,18 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public double CostsTotal => ColdRent.Cost + ExtraCostsTotal;
+        public double CostsTotal => ColdRent + ExtraCostsTotal;
 
 
-        public double ExtraCostsTotal => FixedCostsAdvance.Cost + HeatingCostsAdvance.Cost;
+        public double ExtraCostsTotal => FixedCostsAdvance + HeatingCostsAdvance;
 
 
-        public CostItem FixedCostsAdvance
+        public double FixedCostsAdvance
         {
-            get { return Rent.ExtraCostsShared; }
+            get { return Rent.FixedCostsAdvance.TransactionSum; }
             set
             {
-                Rent.ExtraCostsShared = value;
+                Rent.FixedCostsAdvance.TransactionSum = value;
                 OnPropertyChanged(nameof(FixedCostsAdvance));
                 OnPropertyChanged(nameof(ExtraCostsTotal));
                 OnPropertyChanged(nameof(CostsTotal));
@@ -76,12 +77,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public CostItem HeatingCostsAdvance
+        public double HeatingCostsAdvance
         {
-            get { return Rent.ExtraCostsHeating; }
+            get { return Rent.HeatingCostsAdvance.TransactionSum; }
             set
             {
-                Rent.ExtraCostsHeating = value;
+                Rent.HeatingCostsAdvance.TransactionSum = value;
                 OnPropertyChanged(nameof(HeatingCostsAdvance));
                 OnPropertyChanged(nameof(ExtraCostsTotal));
                 OnPropertyChanged(nameof(CostsTotal));
@@ -269,9 +270,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         public void AddCostItem(CostItemViewModel costItemViewModel)
         {
-            Costs.Add(costItemViewModel);
+            Rent.AddCostItem(costItemViewModel.CostItem);
 
-            Rent.Costs.Add(costItemViewModel.CostItem);
+            GenerateCosts();
 
             OnPropertyChanged(nameof(Costs));
         }
@@ -282,14 +283,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             double OtherCostsSum = 0.0;
 
             foreach (CostItemViewModel otherCostItemViewModel in Costs)
-            {
-                if (!otherCostItemViewModel.CostItem.Item.Equals(ColdRent.Item)
-                    && otherCostItemViewModel.CostItem.Cost != ColdRent.Cost
-                    && otherCostItemViewModel.CostItem.CostShareTypes != ColdRent.CostShareTypes)
-                {
-                    OtherCostsSum += otherCostItemViewModel.Cost;
-                }
-
+            { 
+                OtherCostsSum += otherCostItemViewModel.Cost;
             }
 
             OnPropertyChanged(nameof(AnnualOtherCosts));
@@ -300,18 +295,16 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         public void GenerateCosts()
         {
+            Costs = new ObservableCollection<CostItemViewModel>();
 
-            if (Rent.Costs.Count > 0)
+            foreach (FinancialTransactionItem item in Rent.Costs)
             {
-                foreach (CostItem costItem in Rent.Costs)
-                {
-                    CostItemViewModel costItemViewModel = new CostItemViewModel(costItem);
+                Costs.Add(new CostItemViewModel(item));
+            }
 
-                    costItemViewModel.ValueChange += CostItemViewModel_ValueChange;
-
-                    Costs.Add(costItemViewModel);
-
-                }
+            foreach (CostItemViewModel item in Costs)
+            {
+                item.ValueChange += CostItemViewModel_ValueChange;
             }
 
             OnPropertyChanged(nameof(TotalOtherCosts));
@@ -347,6 +340,16 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
         }
 
+
+        public void RemoveCostItem(CostItemViewModel costItemViewModel)
+        {
+            Rent.RemoveCostItem(costItemViewModel.CostItem);
+
+            GenerateCosts();
+
+            OnPropertyChanged(nameof(Costs));
+        }
+
         #endregion methods
 
 
@@ -361,8 +364,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         private void OtherCosts_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            OnPropertyChanged(nameof(Costs));
             DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(Costs)));
+
+            GenerateCosts();
+
+            OnPropertyChanged(nameof(Costs));
         }
 
         #endregion event methods

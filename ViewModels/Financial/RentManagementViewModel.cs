@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  RentManagementViewModel  : BaseViewModel
  * 
@@ -41,9 +41,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
 
         public bool HasRentUpdate => _flatViewModel.RentUpdates.Count > 0;
-
-
-        public ICollectionView Rents { get; set; }
 
 
         public ICollectionView RentUpdates { get; }
@@ -124,7 +121,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 if (_flatViewModel.RentUpdates.Count > 0)
                 {
                     RentUpdates = CollectionViewSource.GetDefaultView(_flatViewModel.RentUpdates);
-                    //RentUpdates.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
+                    RentUpdates.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
 
                     SelectedValue = _flatViewModel.GetMostRecentRent();
 
@@ -145,15 +142,16 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 _flatViewModel,
                 new Rent(_flatViewModel,
                     new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
-                    new CostItem() { Item = new LanguageResourceStrings().IDF_Rent, CostShareTypes = Enums.CostShareTypes.Area },
-                    new CostItem() { Item = new LanguageResourceStrings().IDF_FixedCosts, CostShareTypes = Enums.CostShareTypes.Area },
-                    new CostItem() { Item = new LanguageResourceStrings().IDF_HeatingCosts, CostShareTypes = Enums.CostShareTypes.Consumption }
+                    new FinancialTransactionItem() { TransactionItem = new LanguageResourceStrings().IDF_Rent, TransactionShareTypes = Enums.TransactionShareTypes.Area },
+                    new FinancialTransactionItem() { TransactionItem = new LanguageResourceStrings().IDF_FixedCosts, TransactionShareTypes = Enums.TransactionShareTypes.Area },
+                    new FinancialTransactionItem() { TransactionItem = new LanguageResourceStrings().IDF_HeatingCosts, TransactionShareTypes = Enums.TransactionShareTypes.Consumption }
                     )
                 );
 
             _flatViewModel.RentUpdates.Add(rentViewModel);
             SelectedValue = rentViewModel;
             OnPropertyChanged(nameof(HasRentUpdate));
+            OnPropertyChanged(nameof(RentUpdates));
         }
 
 
@@ -180,6 +178,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     {
                         SelectedValue = _flatViewModel.RentUpdates[0];
                     }
+
+                    OnPropertyChanged(nameof(HasRentUpdate));
+                    OnPropertyChanged(nameof(RentUpdates));
                 }
             }
         }

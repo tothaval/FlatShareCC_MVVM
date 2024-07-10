@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  AccountingViewModel : BaseViewModel
  * 
@@ -109,7 +109,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             OnPropertyChanged(nameof(Details));
             OnPropertyChanged(nameof(Area));
             OnPropertyChanged(nameof(RoomCount));
-
+            OnPropertyChanged(nameof(FlatViewModel));
         }
 
         #endregion events

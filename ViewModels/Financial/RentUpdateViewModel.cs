@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  RentUpdateViewModel  : BaseViewModel
  * 
@@ -61,53 +61,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             }
         }
 
-
-        public double AnnualCostsTotal => _rentViewModel.AnnualCostsTotal;
-
-
-        public double AnnualExtraCosts => _rentViewModel.AnnualExtraCosts;
-
-
-        public double AnnualRent => _rentViewModel.AnnualRent;
-
-
-        public double? BillingConsumedUnits => GetBillingConsumedUnits();
-
-
-        public DateTime? BillingEndDate => GetBillingEndDate();
-
-
-        public DateTime? BillingStartDate => GetBillingStartDate();
-
-
-        public double ColdRent
-        {
-            get { return _rentViewModel.ColdRent.Cost; }
-            set
-            {
-                _helper.ClearError();
-
-                if (double.IsNaN(value))
-                {
-                    _helper.AddError("value must be a number", nameof(ColdRent));
-                }
-
-                if (value < 0)
-                {
-                    _helper.AddError("value must be greater than 0", nameof(ColdRent));
-                }
-
-                _rentViewModel.ColdRent.Cost = value;
-                OnPropertyChanged(nameof(ColdRent));
-                OnPropertyChanged(nameof(AnnualRent));
-                OnPropertyChanged(nameof(CostsTotal));
-            }
-        }
-
-
-        public double CostsTotal => ColdRent + ExtraCostsTotal;
-
-
+        
         private bool _DataLockCheckbox;
         public bool DataLockCheckbox
         {
@@ -120,61 +74,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 OnPropertyChanged(nameof(HasDataLock));
             }
         }
-
-
-        public double ExtraCostsHeating
-        {
-            get { return _rentViewModel.HeatingCostsAdvance.Cost; }
-            set
-            {
-                _helper.ClearError();
-
-                if (double.IsNaN(value))
-                {
-                    _helper.AddError("value must be a number", nameof(ExtraCostsHeating));
-                }
-
-                if (value < 0)
-                {
-                    _helper.AddError("value must be greater than 0", nameof(ExtraCostsHeating));
-                }
-
-                _rentViewModel.HeatingCostsAdvance.Cost = value;
-                OnPropertyChanged(nameof(ExtraCostsHeating));
-                OnPropertyChanged(nameof(ExtraCostsTotal));
-                OnPropertyChanged(nameof(AnnualExtraCosts));
-                OnPropertyChanged(nameof(CostsTotal));
-            }
-        }
-
-
-        public double ExtraCostsShared
-        {
-            get { return _rentViewModel.FixedCostsAdvance.Cost; }
-            set
-            {
-                _helper.ClearError();
-
-                if (double.IsNaN(value))
-                {
-                    _helper.AddError("value must be a number", nameof(ExtraCostsShared));
-                }
-
-                if (value < 0)
-                {
-                    _helper.AddError("value must be greater than 0", nameof(ExtraCostsShared));
-                }
-
-                _rentViewModel.FixedCostsAdvance.Cost = value;
-                OnPropertyChanged(nameof(ExtraCostsShared));
-                OnPropertyChanged(nameof(ExtraCostsTotal));
-                OnPropertyChanged(nameof(AnnualExtraCosts));
-                OnPropertyChanged(nameof(CostsTotal));
-            }
-        }
-
-
-        public double ExtraCostsTotal => ExtraCostsShared + ExtraCostsHeating;
 
 
         public bool HasCredits
@@ -200,11 +99,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 OnPropertyChanged(nameof(HasCredits));
                 OnPropertyChanged(nameof(SetCreditVisibility));
-
-                RentConfigurationChange?.Invoke(this, EventArgs.Empty);
             }
         }
-
 
 
         public bool HasDataLock => !DataLockCheckbox;
@@ -272,31 +168,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 }
 
                 OnPropertyChanged(nameof(SetBillingVisibility));
-
-                RentConfigurationChange?.Invoke(this, EventArgs.Empty);
             }
         }
 
 
         public bool SetCreditVisibility => HasCredits;
 
-
-        public DateTime StartDate
-        {
-            get { return _rentViewModel.StartDate; }
-            set
-            {
-                _rentViewModel.StartDate = value;
-                OnPropertyChanged(nameof(StartDate));
-            }
-        }
-
         #endregion properties
 
 
         // event properties & fields
         #region event handlers
-        public event EventHandler RentConfigurationChange;
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -352,42 +234,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // methods
         #region methods
 
-        private double? GetBillingConsumedUnits()
-        {
-            if (RentViewModel.BillingViewModel != null)
-            {
-                return RentViewModel.BillingViewModel.TotalHeatingUnitsConsumption;
-            }
-            return null;
-        }
-
-
-        private DateTime? GetBillingEndDate()
-        {
-            if (RentViewModel.BillingViewModel != null)
-            {
-                return RentViewModel.BillingViewModel.EndDate;
-            }
-            return null;
-        }
-
-
-        private DateTime? GetBillingStartDate()
-        {
-            if (RentViewModel.BillingViewModel != null)
-            {
-                return RentViewModel.BillingViewModel.StartDate;
-            }
-            return null;
-        }
-
-
-        public IEnumerable GetErrors(string? propertyName)
-        {
-            return ((INotifyDataErrorInfo)_helper).GetErrors(propertyName);
-        }
-
-
         private void ShowBillingView()
         {
             if (AnnualBillingWindowActive)
@@ -433,11 +279,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 otherCostsView.Show();
             }
         }
+
         #endregion methods
 
 
         // events
         #region events
+
         public void OwnedWindow_Closed(object? sender, EventArgs e)
         {
             if (sender.GetType() == typeof(BillingWindow))
@@ -453,6 +301,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             var mainWindow = Application.Current.MainWindow;
             mainWindow.Focus();
         }
+
         #endregion events
 
 

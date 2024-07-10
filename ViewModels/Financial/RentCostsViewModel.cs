@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  RentCostsViewModel : BaseViewModel
  * 
@@ -105,7 +105,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public double TotalOtherCosts => _rentViewModel.TotalOtherCosts;
 
 
-        public double TotalRentCosts => _rentViewModel.ColdRent.Cost;
+        public double TotalRentCosts => _rentViewModel.ColdRent;
 
         #endregion properties
 
@@ -131,7 +131,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             RoomCosts.SortDescriptions.Add(new SortDescription("Room.ID", ListSortDirection.Ascending));
 
             OtherCosts = CollectionViewSource.GetDefaultView(_rentViewModel.Costs);
-            OtherCosts.SortDescriptions.Add(new SortDescription("Cost", ListSortDirection.Descending));
+            OtherCosts.SortDescriptions.Add(new SortDescription("TransactionSum", ListSortDirection.Descending));
 
             RentListView = CollectionViewSource.GetDefaultView(Rent);
 

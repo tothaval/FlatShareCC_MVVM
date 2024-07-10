@@ -1,15 +1,15 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
- *  CostShareTypes 
+ *  TransactionShareTypes 
  * 
  *  enum holds all supported cost split procedures
- *  for CostItem logic
+ *  for FinancialTransactionItem logic
  */
 
 
 namespace SharedLivingCostCalculator.Enums
 {
-    public enum CostShareTypes
+    public enum TransactionShareTypes
     {
         Equal,
         Area,

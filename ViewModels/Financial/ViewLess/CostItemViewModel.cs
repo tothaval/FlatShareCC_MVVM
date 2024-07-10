@@ -1,4 +1,4 @@
-﻿/*  Shared Living Cost Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  CostItemViewModel  : BaseViewModel
  * 
@@ -19,10 +19,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         public double Cost
         {
-            get { return _CostItem.Cost; }
+            get { return _CostItem.TransactionSum; }
             set
             {
-                _CostItem.Cost = value;
+                _CostItem.TransactionSum = value;
                 OnPropertyChanged(nameof(Cost));
 
                 ValueChange?.Invoke(this, EventArgs.Empty);
@@ -30,12 +30,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public CostShareTypes CostShareTypes
+        public TransactionShareTypes CostShareTypes
         {
-            get { return _CostItem.CostShareTypes; }
+            get { return _CostItem.TransactionShareTypes; }
             set
             {
-                _CostItem.CostShareTypes = value;
+                _CostItem.TransactionShareTypes = value;
                 OnPropertyChanged(nameof(CostShareTypes));
 
                 ValueChange?.Invoke(this, EventArgs.Empty);
@@ -44,10 +44,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         public string Item
         {
-            get { return _CostItem.Item; }
+            get { return _CostItem.TransactionItem; }
             set
             {
-                _CostItem.Item = value;
+                _CostItem.TransactionItem = value;
                 OnPropertyChanged(nameof(Item));
 
                 ValueChange?.Invoke(this, EventArgs.Empty);
@@ -55,8 +55,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        private readonly CostItem _CostItem;
-        public CostItem CostItem => _CostItem;
+        private readonly FinancialTransactionItem _CostItem;
+        public FinancialTransactionItem CostItem => _CostItem;
 
         #endregion properties & fields
 
@@ -72,7 +72,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         // constructors
         #region constructors
 
-        public CostItemViewModel(CostItem otherCostItem) //, RoomViewModel roomViewModel)
+        public CostItemViewModel(FinancialTransactionItem otherCostItem) //, RoomViewModel roomViewModel)
         {
             _CostItem = otherCostItem;
             //_RoomViewModel = roomViewModel;

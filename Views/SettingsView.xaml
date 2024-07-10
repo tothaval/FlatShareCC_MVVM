@@ -23,16 +23,6 @@
             <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
 
         </Style>
-
-        <ObjectDataProvider x:Key="enumValues"
-   MethodName="GetValues" ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="enum:SupportedLanguages"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        
-        
-        
         
     </UserControl.Resources>
 
@@ -51,8 +41,8 @@
                        
                        VerticalAlignment="Center"
                            Grid.Column="0"/>
-                <ComboBox ItemsSource="{Binding Source={StaticResource enumValues}}"
-                          SelectedItem="{Binding SelectedLanguageItem}"
+                <ComboBox ItemsSource="{Binding Languages}"
+                          SelectedItem="{Binding SelectedLanguage}"
                           HorizontalAlignment="Stretch"
                        VerticalAlignment="Center"
                       VerticalContentAlignment="Center"
