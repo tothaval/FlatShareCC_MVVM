@@ -12,7 +12,6 @@
  *  for editing the data of RentViewModel instances
  */
 using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
@@ -20,7 +19,6 @@ using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
 using System.ComponentModel;
-using System.Reflection.Metadata;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;

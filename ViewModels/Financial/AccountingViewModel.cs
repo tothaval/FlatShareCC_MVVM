@@ -11,7 +11,6 @@
  *  BillingManagementViewModel,
  *  PaymentManagementViewModel
  */
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;

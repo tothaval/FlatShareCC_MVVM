@@ -252,7 +252,8 @@ namespace SharedLivingCostCalculator.Utility
 
             Application.Current.Resources["IDF_HasOtherCosts"] = languageResource.IDF_HasOtherCosts;
             Application.Current.Resources["IDF_NewOtherCosts"] = languageResource.IDF_NewOtherCosts;
-            Application.Current.Resources["IDF_Costs"] = languageResource.IDF_Costs;
+            Application.Current.Resources["IDF_Costs"] = languageResource.IDF_Costs; 
+            Application.Current.Resources["IDF_OtherCosts"] = languageResource.IDF_OtherCosts;
 
             Application.Current.Resources["IDF_AnnualOther"] = languageResource.IDF_AnnualOther;
             Application.Current.Resources["IDF_AnnualComplete"] = languageResource.IDF_AnnualComplete;

@@ -9,55 +9,26 @@
  *  instance of FlatViewModel and the
  *  selected RentViewModel instance
  */
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Data;
+using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
 {
-    internal class RentCostsViewModel : BaseViewModel
+    internal class RentCostsViewModel : BaseViewModel, ICostDisplay
     {
 
         // properties & fields
         #region properties
 
-        public double AnnualCompleteCosts => AnnualCosts + AnnualOtherCosts;
-
-
-        public double AnnualCosts => _rentViewModel.AnnualCostsTotal;
-
-
-        public double AnnualExtraCosts => _rentViewModel.AnnualExtraCosts;
-
-
-        public double AnnualOtherCosts => _rentViewModel.AnnualOtherCosts;
-
-
-        public double AnnualRentCosts => _rentViewModel.AnnualRent;
-
-
-        public double CompleteCosts => TotalCosts + TotalOtherCosts;
-
-
         private readonly FlatViewModel _flatViewModel;
 
 
-        private readonly RentViewModel _rentViewModel;
+        public RentViewModel RentViewModel { get; }
 
 
-        public double OtherCostItemCountBasedWidth => _rentViewModel.Costs.Count * 105;
-
-
-        public ICollectionView OtherCosts { get; set; }
-
-
-        public ICollectionView RentListView { get; set; }
-
-
-        public ICollectionView RoomCosts { get; set; }
+        public double OtherCostItemCountBasedWidth => RentViewModel.Costs.Count * 105;
 
 
         private bool _ShowFlatCosts;
@@ -95,48 +66,34 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             }
         }
 
-
-        public double TotalCosts => _rentViewModel.CostsTotal;
-
-
-        public double TotalExtraCosts => _rentViewModel.ExtraCostsTotal;
-
-
-        public double TotalOtherCosts => _rentViewModel.TotalOtherCosts;
-
-
-        public double TotalRentCosts => _rentViewModel.ColdRent;
-
         #endregion properties
-
-
-        // collections
-        #region collections
-
-        public ObservableCollection<RentCostsViewModel> Rent { get; }
-
-        #endregion collections
 
 
         // constructors
         #region constructors
         public RentCostsViewModel(RentViewModel rentViewModel, FlatViewModel flatViewModel)
         {
-            _rentViewModel = rentViewModel;
-            _flatViewModel = flatViewModel;
-
-            Rent = new ObservableCollection<RentCostsViewModel>() { this };
-
-            RoomCosts = CollectionViewSource.GetDefaultView(_rentViewModel.RoomCosts);
-            RoomCosts.SortDescriptions.Add(new SortDescription("Room.ID", ListSortDirection.Ascending));
-
-            OtherCosts = CollectionViewSource.GetDefaultView(_rentViewModel.Costs);
-            OtherCosts.SortDescriptions.Add(new SortDescription("TransactionSum", ListSortDirection.Descending));
-
-            RentListView = CollectionViewSource.GetDefaultView(Rent);
-
+            RentViewModel = rentViewModel;
+            _flatViewModel = flatViewModel;                      
         }
+
         #endregion constructors
+
+
+        // Methods
+        #region Methods
+
+        public FlatViewModel GetFlatViewModel()
+        {
+            return _flatViewModel;
+        }
+
+        public IRoomCostsCarrier GetRoomCostsCarrier()
+        {
+            return RentViewModel;
+        } 
+
+        #endregion
 
 
     }

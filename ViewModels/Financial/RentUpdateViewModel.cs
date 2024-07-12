@@ -10,14 +10,12 @@
  */
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Interfaces;
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using SharedLivingCostCalculator.Views.Windows;
-using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;

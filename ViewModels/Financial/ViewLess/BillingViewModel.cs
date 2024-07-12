@@ -6,21 +6,19 @@
  *  
  *  implements IRoomCostCarrier
  */
-using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Interfaces.Financial;
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Models.Financial;
+using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System.Collections.Generic;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 
 namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 {
-    public class BillingViewModel : BaseViewModel, IRoomCostsCarrier
+    public class BillingViewModel : BaseViewModel, IRoomCostsCarrier, INotifyDataErrorInfo
     {
 
         // properties & fields
@@ -66,42 +64,143 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         // costs
         #region costs
+        public double TotalRentCosts
+        {
+            get { return -1.0; }
+            //get {
+            //    if (BillingViewModel.RentViewModel == null)
+            //    {
+            //        return -1.0;
+            //    }
+
+            //    
+            // DetermineAnnualRent via calculation and date checks of rent updates in flatviewmodel
+            //
+            //
+            //    return BillingViewModel.RentViewModel.AnnualRent;
+
+            //}
+        }
+
+        public double TotalAdvancePerPeriod => DetermineTotalAdvancePerPeriod();
+
+        public double Balance => DetermineBalance();
+
+
+        public double TotalPayments => CalculatePaymentsPerPeriod();
+
+        public double TotalCosts => TotalRentCosts + TotalCostsPerPeriod;
+
         public double TotalCostsPerPeriod
         {
-            get { return GetBilling.TotalCostsPerPeriod; }
+            get { return GetBilling.TotalCostsPerPeriod.TransactionSum; }
+
             set
             {
-                GetBilling.TotalCostsPerPeriod = value;
+                _helper.ClearError(nameof(TotalCostsPerPeriod));
+
+                if (double.IsNaN(value))
+                {
+                    _helper.AddError("value must be a number", nameof(TotalCostsPerPeriod));
+                }
+
+                if (value < 0)
+                {
+                    _helper.AddError("value must be greater than 0", nameof(TotalCostsPerPeriod));
+                }
+
+                if (value < TotalFixedCostsPerPeriod + TotalHeatingCostsPerPeriod)
+                {
+                    _helper.AddError("value must be greater than combined costs", nameof(TotalCostsPerPeriod));
+                }
+
+                GetBilling.TotalCostsPerPeriod.TransactionSum = value;
+
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
+
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalCostsPerPeriod)));
+
             }
         }
 
 
         public double TotalFixedCostsPerPeriod
         {
-            get { return GetBilling.TotalFixedCostsPerPeriod; }
+            get { return GetBilling.TotalFixedCostsPerPeriod.TransactionSum; }
+  
             set
             {
-                GetBilling.TotalFixedCostsPerPeriod = value;
-                OnPropertyChanged(nameof(TotalFixedCostsPerPeriod));
+                _helper.ClearError(nameof(TotalCostsPerPeriod));
+                _helper.ClearError(nameof(TotalFixedCostsPerPeriod));
+
+                if (double.IsNaN(value))
+                {
+                    _helper.AddError("value must be a number", nameof(TotalFixedCostsPerPeriod));
+                }
+
+                if (value < 0)
+                {
+                    _helper.AddError("value must be greater than 0", nameof(TotalFixedCostsPerPeriod));
+                }
+
+
+                GetBilling.TotalFixedCostsPerPeriod.TransactionSum = value;
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalFixedCostsPerPeriod)));
+
+                
+
+                if (TotalCostsPerPeriod - TotalHeatingCostsPerPeriod != GetBilling.TotalFixedCostsPerPeriod.TransactionSum)
+                {
+                    CalculateHeatingCosts();
+                }
+
+                OnPropertyChanged(nameof(TotalCostsPerPeriod));
+                OnPropertyChanged(nameof(TotalFixedCostsPerPeriod));
             }
         }
 
 
         public double TotalHeatingCostsPerPeriod
         {
-            get { return GetBilling.TotalHeatingCostsPerPeriod; }
+            get { return GetBilling.TotalHeatingCostsPerPeriod.TransactionSum; }
+
             set
             {
-                GetBilling.TotalHeatingCostsPerPeriod = value;
-                OnPropertyChanged(nameof(TotalHeatingCostsPerPeriod));
+                _helper.ClearError(nameof(TotalCostsPerPeriod));
+                _helper.ClearError(nameof(TotalHeatingCostsPerPeriod));
+
+                if (double.IsNaN(value))
+                {
+                    _helper.AddError("value must be a number", nameof(TotalHeatingCostsPerPeriod));
+                }
+
+                if (value < 0)
+                {
+                    _helper.AddError("value must be greater than 0", nameof(TotalHeatingCostsPerPeriod));
+                }
+
+                GetBilling.TotalHeatingCostsPerPeriod.TransactionSum = value;
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingCostsPerPeriod)));
+
+                if (TotalCostsPerPeriod - TotalFixedCostsPerPeriod != GetBilling.TotalHeatingCostsPerPeriod.TransactionSum)
+                {
+                    CalculateFixedCosts();
+                }
+                
+                OnPropertyChanged(nameof(TotalCostsPerPeriod));
+                OnPropertyChanged(nameof(TotalHeatingCostsPerPeriod));
             }
         }
         #endregion costs
 
+        private void CalculateFixedCosts()
+        {
+            TotalFixedCostsPerPeriod = TotalCostsPerPeriod - TotalHeatingCostsPerPeriod;
+        }
+        private void CalculateHeatingCosts()
+        {
+            TotalHeatingCostsPerPeriod = TotalCostsPerPeriod - TotalFixedCostsPerPeriod;
+        }
 
         // other properties
         #region other properties
@@ -120,15 +219,32 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         public DateTime EndDate
         {
             get { return GetBilling.EndDate; }
+   
             set
             {
-                GetBilling.EndDate = value; OnPropertyChanged(nameof(EndDate));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(EndDate)));
+                _helper.ClearError(nameof(StartDate));
+                _helper.ClearError(nameof(EndDate));
+
+                if (StartDate == EndDate || EndDate < StartDate)
+                {
+                    _helper.AddError("start date must be before enddate", nameof(EndDate));
+                }
+                else
+                {
+                    GetBilling.EndDate = value; OnPropertyChanged(nameof(EndDate));
+                    DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(EndDate)));
+
+                    OnPropertyChanged(nameof(EndDate));
+                }
             }
         }
 
 
         private readonly FlatViewModel _flatViewModel;
+        public FlatViewModel FlatViewModel => _flatViewModel;
+
+
+        public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
 
 
         public bool HasCredits
@@ -157,6 +273,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public bool HasErrors => _helper.HasErrors;
+
+
         public bool HasPayments
         {
             get { return GetBilling.HasPayments; }
@@ -176,18 +295,33 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        private ValidationHelper _helper = new ValidationHelper();
+
+
         public string Signature => $"{StartDate:d} - {EndDate:d}\n{TotalHeatingUnitsConsumption} units";
 
 
         public DateTime StartDate
         {
             get { return GetBilling.StartDate; }
+
             set
             {
-                GetBilling.StartDate = value; OnPropertyChanged(nameof(StartDate));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
 
+                _helper.ClearError(nameof(StartDate));
+                _helper.ClearError(nameof(EndDate));
 
+                if (GetBilling.StartDate > GetBilling.EndDate)
+                {
+                    _helper.AddError("start date must be before enddate", nameof(StartDate));
+                }
+                else
+                {
+                    GetBilling.StartDate = value; OnPropertyChanged(nameof(StartDate));
+                    DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
+
+                    OnPropertyChanged(nameof(StartDate));
+                }
             }
         }
 
@@ -199,9 +333,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         // event properties & fields
         #region event handlers
 
+        public event EventHandler BillingViewModelConfigurationChange;
+
+
         public event PropertyChangedEventHandler DataChange;
 
-        public event EventHandler BillingViewModelConfigurationChange;
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
         #endregion event handlers
 
@@ -241,6 +379,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         public BillingViewModel(FlatViewModel flatViewModel, Billing billing)
         {
+            _helper.ErrorsChanged += (_, e) =>
+            {
+                OnPropertyChanged(nameof(_helper));
+                ErrorsChanged?.Invoke(this, e);
+            };
+
             RoomCosts = new ObservableCollection<RoomCostsViewModel>();
             RoomPayments = new ObservableCollection<RoomPaymentsViewModel>();
 
@@ -281,6 +425,34 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             return paymentsPerPeriod;
         }
 
+        private double DetermineBalance()
+        {
+            double balance = 0.0;
+
+            if (HasPayments)
+            {
+                return TotalPayments - TotalCosts;
+            }
+
+            return TotalAdvancePerPeriod - TotalCostsPerPeriod;
+        }
+
+
+        private double DetermineTotalAdvancePerPeriod()
+        {
+            double advance = 0.0;
+
+            // use these items:
+            // BillingViewModel.FindRelevantRentViewModels()
+            // CalculateRentCosts() (RoomCostsViewModel <= change ColdRent to AdvanceType
+
+            //advance += months * rentViewModel.ExtraCostsTotal;
+
+            ObservableCollection<RentViewModel> rentViewModels = new ObservableCollection<RentViewModel>();
+
+
+            return advance;
+        }
 
         public ObservableCollection<RentViewModel> FindRelevantRentViewModels()
         {

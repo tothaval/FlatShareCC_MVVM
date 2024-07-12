@@ -82,9 +82,10 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_BaseRentOnBilling>factor in billing</IDF_BaseRentOnBilling>
   <IDF_AnnualBilling>Annual Billing</IDF_AnnualBilling>
   <IDF_Costs>Costs Setup</IDF_Costs>
-  <IDF_AnnualOther>Other Costs</IDF_AnnualOther>
-  <IDF_AnnualComplete>Complete Costs</IDF_AnnualComplete>
-  <IDF_CompleteCosts>Complete Costs</IDF_CompleteCosts>
+  <IDF_OtherCosts>Other</IDF_OtherCosts>
+  <IDF_AnnualOther>Other</IDF_AnnualOther>
+  <IDF_AnnualComplete>Complete</IDF_AnnualComplete>
+  <IDF_CompleteCosts>Complete</IDF_CompleteCosts>
   <IDF_Credit>Credit(s)</IDF_Credit>
   <IDF_HasOtherCosts>factor in other costs</IDF_HasOtherCosts>
   <IDF_NewOtherCosts>setup other costs</IDF_NewOtherCosts>

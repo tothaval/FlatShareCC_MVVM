@@ -286,7 +286,7 @@
                     <Border Visibility="{Binding ShowCosts, Converter={StaticResource VisibilityConverter}}"
                             Style="{StaticResource VisibilityFieldBorder}">
                         <Grid >
-                        <local:CostView DataContext="{Binding Cost}"
+                        <local:CostDisplayView DataContext="{Binding Cost}"
                                         Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
                             Converter={StaticResource VisibilityConverter}}"/>
                     </Grid>
