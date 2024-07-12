@@ -163,15 +163,12 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                     TotalHeatingUnitsRoom += roomConsumption.HeatingUnitsConsumption;
                 }
 
+                OnPropertyChanged(nameof(SharedConsumption));
+                OnPropertyChanged(nameof(SharedConsumptionPercentage));
                 OnPropertyChanged(nameof(TotalHeatingUnitsRoom));
             }
         }
 
-
-        private void HeatingUnitsChange(object? sender, EventArgs e)
-        {
-            CalculateRoomsConsumption();
-        }
 
         #endregion methods
 
@@ -182,6 +179,12 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         private void _billingViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(nameof(DataLock));
+        }
+
+
+        private void HeatingUnitsChange(object? sender, EventArgs e)
+        {
+            CalculateRoomsConsumption();
         }
 
         #endregion events

@@ -149,12 +149,14 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_BaseRentOnBilling { get; set; } = "factor in billing";
         public string IDF_AnnualBilling { get; set; } = "Annual Billing";
         
-        public string IDF_Costs { get; set; } = "Costs Setup";
+        public string IDF_Costs { get; set; } = "Costs Setup"; 
 
-        public string IDF_AnnualOther { get; set; } = "Other Costs";
+        public string IDF_OtherCosts { get; set; } = "Other";
 
-        public string IDF_AnnualComplete { get; set; } = "Complete Costs";
-        public string IDF_CompleteCosts { get; set; } = "Complete Costs";
+        public string IDF_AnnualOther { get; set; } = "Other";
+
+        public string IDF_AnnualComplete { get; set; } = "Complete";
+        public string IDF_CompleteCosts { get; set; } = "Complete";
 
         public string IDF_Credit { get; set; } = "Credit(s)";      
 

@@ -140,7 +140,8 @@
                 Mode=TwoWay,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
-                    ValidatesOnDataErrors=True}"
+                    ValidatesOnDataErrors=True,
+                    Delay=200}"
                                      LabelMinWidth="100"
                                      ValueMinWidth="100"
                                      ValueAlignment="Right"
@@ -151,7 +152,8 @@
                 Mode=TwoWay,
                 NotifyOnSourceUpdated=True,
                 NotifyOnValidationError=True,
-                    ValidatesOnDataErrors=True}"
+                    ValidatesOnDataErrors=True,
+                    Delay=200}"
                                      LabelMinWidth="100"
                                      ValueMinWidth="100"
                                      ValueAlignment="Right"

@@ -2,15 +2,16 @@
  *  
  *  CostDisplayViewModel  : BaseViewModel
  * 
- *  viewmodel for CostView
+ *  viewmodel for CostDisplayView
  *  
  *  shows either a RentCostsViewModel or BillingCostsViewModel
  *  depending on constructor
  */
+using SharedLivingCostCalculator.Interfaces.Financial;
+using SharedLivingCostCalculator.ViewModels.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System.Security;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
 {
@@ -24,8 +25,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public AccountingViewModel Accounting => _AccountingViewModel;
 
 
-        private BaseViewModel _ActiveViewModel;
-        public BaseViewModel ActiveViewModel
+        private ICostDisplay _ActiveViewModel;
+        public ICostDisplay ActiveViewModel
         {
             get { return _ActiveViewModel; }
             set
@@ -47,7 +48,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 if (_BillingSelected && _billingViewModel != null && _flatViewModel != null)
                 {
-                    ActiveViewModel = new BillingCostsViewModel(_billingViewModel, _flatViewModel);
+                    ActiveViewModel = (ICostDisplay)new BillingCostsViewModel(_billingViewModel, _flatViewModel);
                 }
                 OnPropertyChanged(nameof(BillingSelected));
             }
@@ -55,6 +56,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
 
         private BillingViewModel? _billingViewModel;
+
+
+        private readonly FlatManagementViewModel _FlatManagementViewModel;
+        public FlatManagementViewModel FlatManagementViewModel => _FlatManagementViewModel;
+
 
 
         private FlatViewModel _flatViewModel;
@@ -74,7 +80,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 if (_RentSelected && _rentViewModel != null && _flatViewModel != null)
                 {
-                    ActiveViewModel = new RentCostsViewModel(_rentViewModel, _flatViewModel);
+                    ActiveViewModel = (ICostDisplay)new RentCostsViewModel(_rentViewModel, _flatViewModel);
                 }
                 OnPropertyChanged(nameof(RentSelected));
             }
@@ -89,9 +95,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // constructors
         #region constructors
 
-        public CostDisplayViewModel(AccountingViewModel accountingViewModel)
+        public CostDisplayViewModel(FlatManagementViewModel flatManagementViewModel)
         {
-            _AccountingViewModel = accountingViewModel;
+            _FlatManagementViewModel = flatManagementViewModel;
+
+            _AccountingViewModel = flatManagementViewModel.Accounting;
 
             _AccountingViewModel.AccountingChanged += _AccountingViewModel_AccountingChanged;
 
@@ -101,26 +109,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             Update();
         }
-
-        private void FlatManagement_FlatViewModelChange(object? sender, EventArgs e)
-        {
-            _AccountingViewModel.FlatManagement.SelectedItem.PropertyChanged += SelectedItem_PropertyChanged;
-
-            Update();
-        }
-
-        private void SelectedItem_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            Update();
-        }
-
         #endregion constructors
 
 
         // methods
         #region methods
 
-        private void Update()
+        public void Update()
         {
             if (_AccountingViewModel.FlatViewModel != null)
             {
@@ -133,7 +128,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             {
                 _rentViewModel = _AccountingViewModel.Rents.SelectedValue;
 
-                ActiveViewModel = new RentCostsViewModel(_rentViewModel, _flatViewModel);
+                ActiveViewModel = (ICostDisplay)new RentCostsViewModel(_rentViewModel, _flatViewModel);
             }
 
             if (_rentViewModel != null && _rentViewModel.BillingViewModel != null)
@@ -175,10 +170,26 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             Update();
         }
 
+
+        private void FlatManagement_FlatViewModelChange(object? sender, EventArgs e)
+        {
+            _AccountingViewModel.FlatManagement.SelectedItem.PropertyChanged += SelectedItem_PropertyChanged;
+
+            Update();
+        }
+
+
         private void Rents_SelectedItemChange(object? sender, EventArgs e)
         {
             Update();
         }
+
+
+        private void SelectedItem_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            Update();
+        }
+
 
         private void UpdateViewModel_RentConfigurationChange(object? sender, EventArgs e)
         {

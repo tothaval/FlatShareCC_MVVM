@@ -37,7 +37,7 @@
     <Compile Update="Views\ConsumptionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\CostView.xaml.cs">
+    <Compile Update="Views\CostDisplayView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\CreditSetupView.xaml.cs">
@@ -123,7 +123,7 @@
     <Page Update="Views\ConsumptionView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\CostView.xaml">
+    <Page Update="Views\CostDisplayView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\CreditSetupView.xaml">

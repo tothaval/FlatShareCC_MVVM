@@ -60,7 +60,7 @@
             Background="{DynamicResource SCB_Background}"
             Padding="{DynamicResource VisibilityFieldBorderPadding}">
 
-        <Grid>
+        <Grid MaxHeight="640">
 
             <StackPanel Margin="20">
 
@@ -103,17 +103,21 @@
                     </TextBlock>
 
                     <TextBlock Style="{StaticResource Header}"
-                               Text="{Binding CostsSumPerMonth, StringFormat=C2}"
+                               Text="{Binding RentViewModel.CostsSumPerMonth, StringFormat=C2}"
                                TextAlignment="Right"
                                FontWeight="Bold"
                                HorizontalAlignment="Right"/>
 
                 </UniformGrid>
 
-                <ListView ItemsSource="{Binding CostItems, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
+                <ListView ItemsSource="{Binding RentViewModel.Costs, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
                       SelectionMode="Extended"
                       x:Name="_othercosts"
                       ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                          MaxHeight="480"
+                          
+                          ScrollViewer.CanContentScroll="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
                       >
 
                     <ListView.View>
@@ -152,7 +156,8 @@
                                         <DataTemplate>
                                             <comps:CurrencyInputView Value="{Binding Cost,
                                             UpdateSourceTrigger=PropertyChanged,
-                                            Mode=TwoWay}"
+                                            Mode=TwoWay,
+                                                Delay=200}"
                                                                  ValueMinWidth="100"
                                                                  LabelMinWidth="0"
                                                                  ValueAlignment="Right"

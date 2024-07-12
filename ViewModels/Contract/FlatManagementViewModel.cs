@@ -274,7 +274,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public FlatManagementViewModel(ObservableCollection<FlatViewModel> flatCollection)
         {
             Accounting = new AccountingViewModel(this);
-            Cost = new CostDisplayViewModel(Accounting);
+            Cost = new CostDisplayViewModel(this);
             FlatSetup = new FlatSetupViewModel(this);
             RoomSetup = new RoomSetupViewModel(this);
             TenantSetup = new TenantSetupViewModel(this);
@@ -366,6 +366,21 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             OnPropertyChanged(nameof(FlatSetup));
             OnPropertyChanged(nameof(RoomSetup));
             OnPropertyChanged(nameof(TenantSetup));
+        }
+
+
+        private async void LoadUp(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Task<ApplicationData?> GetStateData = GetApplicationData();
+
+            ApplicationData? applicationData = await GetStateData;
+
+            if (applicationData.FlatViewModelSelectedIndex >= 0
+                && FlatCollection.Count > 0 && applicationData.FlatViewModelSelectedIndex < FlatCollection.Count)
+            {
+                SelectedItem = FlatCollection[applicationData.FlatViewModelSelectedIndex];
+                _flatCollection.CollectionChanged -= LoadUp;
+            }
         }
 
         #endregion async methods
@@ -504,21 +519,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             OnPropertyChanged(nameof(FlatSetup));
             OnPropertyChanged(nameof(RoomSetup));
             OnPropertyChanged(nameof(TenantSetup));
-        }
-
-
-        private async void LoadUp(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            Task<ApplicationData?> GetStateData = GetApplicationData();
-
-            ApplicationData? applicationData = await GetStateData;
-
-            if (applicationData.FlatViewModelSelectedIndex >= 0
-                && FlatCollection.Count > 0 && applicationData.FlatViewModelSelectedIndex < FlatCollection.Count)
-            {
-                SelectedItem = FlatCollection[applicationData.FlatViewModelSelectedIndex];
-                _flatCollection.CollectionChanged -= LoadUp;
-            }
         }
 
         #endregion events

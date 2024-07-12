@@ -17,6 +17,127 @@
     <sys:Double x:Key="FS">11</sys:Double>
     <sys:Double x:Key="HFS">14</sys:Double>
 
+
+    <Style TargetType="Border" x:Key="VisibilityFieldBorder">
+        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource VisibilityField_CornerRadius}"/>
+        <Setter Property="Padding" Value="{DynamicResource VisibilityFieldBorderPadding}"/>
+        <Setter Property="Margin" Value="0 5 0 0"/>
+    </Style>
+
+    
+    <!-- Button styles -->
+    <!--#region Button styles -->
+    <Style TargetType="Button" x:Key="buttonStyle">
+
+        <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                                BorderThickness="2"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="{DynamicResource Button_CornerRadius}"
+                                Padding="5">
+                        <Grid Background="Transparent">
+                            <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"
+                                                  Margin="0"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  />
+                        </Grid>
+                    </Border>
+
+
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ToggleButton" x:Key="toggleButtonStyle">
+
+        <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            CornerRadius="{DynamicResource Button_CornerRadius}"
+                            Padding="20 2">
+                        <Grid Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}"                                              
+                                              Margin="0"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"
+                                              Grid.Column="1"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Text_Header}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
+                            <Setter Property="BorderThickness" Value="6"/>
+                            <Setter Property="FontStyle" Value="Italic"/>
+                            <Setter Property="FontStretch" Value="Expanded"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Text_Header}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
+
+                            <Setter Property="FontStyle" Value="Normal"/>
+                            <Setter Property="FontStretch" Value="Condensed"/>
+                            <Setter Property="FontWeight" Value="Normal"/>
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
+
+    
     <Style TargetType="Calendar" x:Key="CalendarStyle">
         
         <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
@@ -25,10 +146,71 @@
         <Setter Property="BorderThickness" Value="2"/>
 
     </Style>
+    
+    
+    <!-- CheckBox styles -->
+    <!--#region CheckBox styles -->
+    <Style x:Key="MenuCheckBox" TargetType="CheckBox">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <ContentPresenter Grid.Column="1" 
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                    Margin="{TemplateBinding Padding}" 
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                    RecognizesAccessKey="True"/>
+
+                    <!-- This uses Visibility to hide and show the CheckMark on IsChecked -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Background}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
 
 
+    </Style>
+
+    <Style x:Key="OptionCheckBox" TargetType="CheckBox">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Margin" Value="0 5"/>
+        <Setter Property="Width" Value="Auto"/>
+    </Style>
+    <!--#endregion-->
+
+    
     <!-- combobox style: https://stackoverflow.com/questions/16392670/custom-combobox-in-wpf-application-->
-
+    <!--#region ComboBox -->
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -192,8 +374,30 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--#endregion-->
 
 
+    <!-- Components styles -->
+    <!--#region Components styles -->
+    <Style TargetType="c_views:CurrencyInputView">
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style TargetType="c_views:DoubleInputView">
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style TargetType="c_views:ObjectInputView">
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <!--#endregion-->
+
+    
+    <!-- DatePicker styles -->
+    <!--#region DatePicker -->
     <Style TargetType="DatePicker">
 
         <Setter Property="Background" Value="Transparent"/>
@@ -221,7 +425,7 @@
                             <Button.Content>
                                 <TextBlock Text="?" Padding="2 0"/>
                             </Button.Content>
-                            <Button.Style>            
+                            <Button.Style>
                                 <Style TargetType="{x:Type Button}">
 
                                     <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
@@ -295,7 +499,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        
+
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
@@ -305,7 +509,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-        
+
     <Style TargetType="DatePickerTextBox">
         <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
@@ -322,12 +526,21 @@
                 <Setter Property="Opacity" Value="0.4"/>
 
             </Trigger>
-            
-            
+
+
         </Style.Triggers>
 
     </Style>
+    <!--#endregion-->
 
+    
+    <Style TargetType="Grid">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    
+    
+    <!-- ListView styles -->
+    <!--#region ListView styles -->
     <Style x:Key="GridViewColumnHeaderGripper"
    TargetType="Thumb">
         <Setter Property="Width"
@@ -338,10 +551,12 @@
                        EndPoint="0,1">
                     <LinearGradientBrush.GradientStops>
                         <GradientStopCollection>
-                            --><!--<GradientStop Color="{DynamicResource BorderLightColor}"
+                            -->
+        <!--<GradientStop Color="{DynamicResource BorderLightColor}"
                       Offset="0.0" />
                         <GradientStop Color="{DynamicResource BorderDarkColor}"
-                      Offset="1.0" />--><!--
+                      Offset="1.0" />-->
+        <!--
                             <GradientStop Color="Red"
                       Offset="0.0" />
                             <GradientStop Color="Blue"
@@ -376,82 +591,6 @@
         </Setter>
     </Style>
 
-
-    <Style x:Key="RadioButtonStyle" TargetType="RadioButton">
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
-        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
-        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="Padding" Value="10 5"/>
-        <Setter Property="Margin" Value="0 5"/>
-        <Setter Property="Width" Value="Auto"/>
-    </Style>
-
-    <Style x:Key="OptionCheckBox" TargetType="CheckBox">
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
-        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
-        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="Padding" Value="10 5"/>
-        <Setter Property="Margin" Value="0 5"/>
-        <Setter Property="Width" Value="Auto"/>
-    </Style>
-
-    <Style x:Key="MenuCheckBox" TargetType="CheckBox">
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
-        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
-        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="Padding" Value="10 5"/>
-        <Setter Property="Width" Value="Auto"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <ContentPresenter Grid.Column="1" 
-                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                    Margin="{TemplateBinding Padding}" 
-                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
-                    RecognizesAccessKey="True"/>
-
-                    <!-- This uses Visibility to hide and show the CheckMark on IsChecked -->
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="false">
-                            <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Background}"/>
-                        </Trigger>
-
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
-                        </Trigger>
-
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-
-    </Style>
-
-    <Style x:Key="Header" TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
-        <Setter Property="FontSize" Value="{DynamicResource HFS}"/>
-    </Style>
-
     <Style TargetType="{x:Type GridViewColumnHeader}" x:Key="GVCH">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -476,9 +615,9 @@
 
                         <!-- The gripper / header resizer -->
                         <Thumb x:Name="PART_HeaderGripper"
-                               HorizontalAlignment="Right"
-                               Margin="0,0,-9,0"
-                               Style="{StaticResource GridViewColumnHeaderGripper}" />
+                              HorizontalAlignment="Right"
+                              Margin="0,0,-9,0"
+                              Style="{StaticResource GridViewColumnHeaderGripper}" />
                     </Grid>
 
 
@@ -496,7 +635,7 @@
         <Setter Property="Foreground" Value="Transparent"/>
 
         <!-- trying to deactivate focus rectangle arround the entire listview
-            which appears on mouse over and selection, no effect, giving up for now. -->
+           which appears on mouse over and selection, no effect, giving up for now. -->
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="ItemsControl.FocusVisualStyle" Value="{x:Null}"/>
 
@@ -514,7 +653,6 @@
         </Style.Triggers>
     </Style>
 
-
     <Style TargetType="ListViewItem" x:Key="ItemContainerStyle">
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Width" Value="Auto"/>
@@ -526,9 +664,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
                     <Border CornerRadius="2" SnapsToDevicePixels="True"  
-                                BorderThickness="{TemplateBinding BorderThickness}"   
-                                BorderBrush="{TemplateBinding BorderBrush}"   
-                                Background="{TemplateBinding Background}">
+                               BorderThickness="{TemplateBinding BorderThickness}"   
+                               BorderBrush="{TemplateBinding BorderBrush}"   
+                               Background="{TemplateBinding Background}">
 
                         <Border Name="InnerBorder" CornerRadius="1" BorderThickness="1">
                             <Grid>
@@ -539,8 +677,8 @@
                                 </Grid.RowDefinitions>
 
                                 <GridViewRowPresenter Grid.RowSpan="2"   
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"  
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"  
+                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
                             </Grid>
                         </Border>
@@ -567,49 +705,23 @@
         </Setter>
 
     </Style>
+    <!--#endregion-->
 
-
-    <Style x:Key="DoubleValueTextBlock" TargetType="TextBlock">
+    
+    <Style x:Key="RadioButtonStyle" TargetType="RadioButton">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
         <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
         <Setter Property="FontSize" Value="{DynamicResource FS}"/>
-        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Margin" Value="0 5"/>
         <Setter Property="Width" Value="Auto"/>
     </Style>
 
-    <Style x:Key="StringValueTextBlock" TargetType="TextBlock">
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
-        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
-        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
-        <Setter Property="TextAlignment" Value="Left"/>
-        <Setter Property="Padding" Value="10 5"/>
-        <Setter Property="Width" Value="Auto"/>
-    </Style>
 
-    <Style TargetType="Grid">
-        <Setter Property="Background" Value="Transparent"/>
-    </Style>
-
-    <Style TargetType="c_views:CurrencyInputView">
-        <Setter Property="Padding" Value="2"/>
-        <Setter Property="Background" Value="Transparent"/>
-    </Style>
-
-    <Style TargetType="c_views:DoubleInputView">
-        <Setter Property="Padding" Value="2"/>
-        <Setter Property="Background" Value="Transparent"/>
-    </Style>
-
-    <Style TargetType="c_views:ObjectInputView">
-        <Setter Property="Padding" Value="2"/>
-        <Setter Property="Background" Value="Transparent"/>
-    </Style>
-
+    <!-- TabControl styles -->
+    <!--#region TabControl styles -->
     <Style TargetType="TabControl">
         <Setter Property="Background"  Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
@@ -650,7 +762,44 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--#endregion-->
 
+
+    <!-- TextBlock styles -->
+    <!--#region TextBlock styles -->
+    <Style x:Key="Header" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource HFS}"/>
+    </Style>
+
+    <Style x:Key="DoubleValueTextBlock" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Width" Value="Auto"/>
+    </Style>
+
+    <Style x:Key="StringValueTextBlock" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="Width" Value="Auto"/>
+    </Style>
+    <!--#endregion-->
+
+
+    <!-- TextBox styles -->
+    <!--#region TextBox styles -->
     <Style x:Key="DoubleValueTextBox" TargetType="TextBox">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -693,122 +842,6 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
-    <Style TargetType="Button" x:Key="buttonStyle">
-
-        <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
-        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
-        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
-        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}"
-                                BorderThickness="2"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                CornerRadius="{DynamicResource Button_CornerRadius}"
-                                Padding="5">
-                        <Grid Background="Transparent">
-                            <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"
-                                                  Margin="0"
-                                                  VerticalAlignment="Center"
-                                                  HorizontalAlignment="Left"
-                                                  />
-                        </Grid>
-                    </Border>
-
-
-                    <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
-                        </Trigger>
-
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="Border" x:Key="VisibilityFieldBorder">
-        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="{DynamicResource VisibilityField_CornerRadius}"/>
-        <Setter Property="Padding" Value="{DynamicResource VisibilityFieldBorderPadding}"/>
-        <Setter Property="Margin" Value="0 5 0 0"/>
-    </Style>
-
-
-    <Style TargetType="ToggleButton" x:Key="toggleButtonStyle">
-
-        <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
-        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
-        <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            CornerRadius="{DynamicResource Button_CornerRadius}"
-                            Padding="20 2">
-                        <Grid Background="Transparent">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}"                                              
-                                              Margin="0"
-                                              VerticalAlignment="Center"
-                                              HorizontalAlignment="Left"
-                                              Grid.Column="1"/>
-                        </Grid>
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource SCB_Text_Header}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
-                            <Setter Property="BorderThickness" Value="6"/>
-                            <Setter Property="FontStyle" Value="Italic"/>
-                            <Setter Property="FontStretch" Value="Expanded"/>
-                            <Setter Property="FontWeight" Value="Bold"/>
-                        </Trigger>
-
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource SCB_Text_Header}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
-
-                            <Setter Property="FontStyle" Value="Normal"/>
-                            <Setter Property="FontStretch" Value="Condensed"/>
-                            <Setter Property="FontWeight" Value="Normal"/>
-
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
+    <!--#endregion-->
 
 </ResourceDictionary>

@@ -5,6 +5,7 @@
  *  data model class for BillingViewModel
  */
 
+using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using System.Collections.ObjectModel;
@@ -38,21 +39,35 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         // combined costs of fixed costs and heating costs
         // costs need to take RoomPayments per room into consideration
-        public double TotalCostsPerPeriod { get; set; } = 0.0;
+        public FinancialTransactionItem TotalCostsPerPeriod { get; set; } = new FinancialTransactionItem()
+        {
+            TransactionItem = "Costs",
+            TransactionShareTypes = TransactionShareTypes.Equal,
+            TransactionSum = 0.0
+        };
 
 
         // fixed costs
         // can be calculated per room using
         // (((room area) + (shared space)/(amount of Rooms))/(total area)) * fixed costs
-        public double TotalFixedCostsPerPeriod { get; set; } = 0.0;
+        public FinancialTransactionItem TotalFixedCostsPerPeriod { get; set; } = new FinancialTransactionItem()
+        {
+            TransactionItem = "Costs Fixed",
+            TransactionShareTypes = TransactionShareTypes.Area,
+            TransactionSum = 0.0
+        };
 
 
         // heating costs 
         // shared space heating costs can be devided by the number of Rooms
         // room based heating costs must take heating units constumption into
         // account
-        public double TotalHeatingCostsPerPeriod { get; set; } = 0.0;
-
+        public FinancialTransactionItem TotalHeatingCostsPerPeriod { get; set; } = new FinancialTransactionItem()
+        {
+            TransactionItem = "Costs Heating",
+            TransactionShareTypes = TransactionShareTypes.Consumption,
+            TransactionSum = 0.0
+        };
 
         // heating units used in billing period
         // values for Rooms must be determined in order to
@@ -117,9 +132,9 @@ namespace SharedLivingCostCalculator.Models.Financial
         {
             StartDate = startDate;
             EndDate = endDate;
-            TotalCostsPerPeriod = totalCostsPerPeriod;
-            TotalFixedCostsPerPeriod = totalFixedCostsPerPeriod;
-            TotalHeatingCostsPerPeriod = totalHeatingCostsPerPeriod;
+            TotalCostsPerPeriod.TransactionSum = totalCostsPerPeriod;
+            TotalFixedCostsPerPeriod.TransactionSum = totalFixedCostsPerPeriod;
+            TotalHeatingCostsPerPeriod.TransactionSum = totalHeatingCostsPerPeriod;
             TotalHeatingUnitsConsumption = totalHeatingUnitsConsumption;
             TotalHeatingUnitsRoom = totalHeatingUnitsRoom;
 

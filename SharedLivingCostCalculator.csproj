@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <None Remove="Themes\Default.xaml~RF1756f9.TMP" />
+    <None Remove="ViewModels\Financial\ViewLess\jvckzjwe.x1o~" />
   </ItemGroup>
 
   <ItemGroup>

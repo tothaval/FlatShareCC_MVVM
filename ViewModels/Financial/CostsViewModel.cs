@@ -8,6 +8,7 @@
  *  or editing of CostItemViewModel instances
  */
 using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
@@ -15,7 +16,6 @@ using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
 using System.Collections.ObjectModel;
-using System.Reflection.Metadata;
 using System.Windows;
 using System.Windows.Input;
 
@@ -34,7 +34,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             set
             {
                 _DataLockCheckbox = value;
-                _RentViewModel.CostsHasDataLock = value;
+                RentViewModel.CostsHasDataLock = value;
                 OnPropertyChanged(nameof(DataLockCheckbox));
                 OnPropertyChanged(nameof(DataLock));
             }
@@ -48,19 +48,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
-        private double _CostsSumPerMonth;
-        public double CostsSumPerMonth
-        {
-            get { return _CostsSumPerMonth; }
-            set
-            {
-                _CostsSumPerMonth = value;
-                OnPropertyChanged(nameof(CostsSumPerMonth));
-            }
-        }
+        //private double _CostsSumPerMonth;
+        //public double CostsSumPerMonth
+        //{
+        //    get { return _CostsSumPerMonth; }
+        //    set
+        //    {
+        //        _CostsSumPerMonth = value;
+        //        OnPropertyChanged(nameof(CostsSumPerMonth));
+        //    }
+        //}
 
 
-        private readonly RentViewModel _RentViewModel;
+        public RentViewModel RentViewModel { get; }
 
         #endregion properties
 
@@ -68,7 +68,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // collections
         #region collections
 
-        public ObservableCollection<CostItemViewModel> CostItems => _RentViewModel.Costs;
+       // public ObservableCollection<CostItemViewModel> CostItems => _RentViewModel.Costs;
 
         #endregion collections
 
@@ -103,12 +103,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             DuplicateCostItemCommand = new RelayCommand((s) => DuplicateCostItem(s), (s) => true);
             RemoveCostItemCommand = new RelayCommand((s) => RemoveCostItem(s), (s) => true);
 
-            _RentViewModel = rentViewModel;
+            RentViewModel = rentViewModel;
 
             _FlatViewModel = rentViewModel.GetFlatViewModel();
 
 
-            if (_RentViewModel.CostsHasDataLock)
+            if (RentViewModel.CostsHasDataLock)
             {
                 DataLockCheckbox = true;
             }
@@ -116,11 +116,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
             LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
 
-            _RentViewModel.Costs.CollectionChanged += Costs_CollectionChanged;
+            //CostItems.CollectionChanged += Costs_CollectionChanged;
 
+
+            RegisterCostItemValueChange(); 
+            
             CalculateSum();
-
-            RegisterCostItemValueChange();
         }
 
         #endregion constructors
@@ -133,10 +134,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         {
             CostItemViewModel otherCostItemViewModel = new CostItemViewModel(new FinancialTransactionItem());
 
-            _RentViewModel.AddCostItem(otherCostItemViewModel);
-                       
+            //otherCostItemViewModel.ValueChange += Item_ValueChange;
+            
+            RentViewModel.AddCostItem(otherCostItemViewModel);
 
-            OnPropertyChanged(nameof(CostItems));
+            //OnPropertyChanged(nameof(CostItems));
+            OnPropertyChanged(nameof(RentViewModel));
         }
 
 
@@ -152,27 +155,33 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 CostItemViewModel otherCostItemViewModel = new CostItemViewModel(new FinancialTransactionItem());
 
-                otherCostItemViewModel.CostItem.TransactionItem = costItemViewModel.Item;
-                otherCostItemViewModel.CostItem.TransactionShareTypes = costItemViewModel.CostShareTypes;
-                otherCostItemViewModel.CostItem.TransactionSum = costItemViewModel.Cost;
+                string financialTransactionItem = costItemViewModel.Item;
+                TransactionShareTypes transactionShare = costItemViewModel.CostShareTypes;
+                double transactionSum = costItemViewModel.Cost;
 
-                _RentViewModel.AddCostItem(otherCostItemViewModel);
+                otherCostItemViewModel.CostItem.TransactionItem = financialTransactionItem;
+                otherCostItemViewModel.CostItem.TransactionShareTypes = transactionShare;
+                otherCostItemViewModel.CostItem.TransactionSum = transactionSum;
 
-                OnPropertyChanged(nameof(CostItems));
+                otherCostItemViewModel.ValueChange += Item_ValueChange;
+
+                RentViewModel.AddCostItem(otherCostItemViewModel);
+
+                //OnPropertyChanged(nameof(CostItems));
+                OnPropertyChanged(nameof(RentViewModel));
             }
 
                  
         }
 
-
         private void CalculateSum()
         {
-            CostsSumPerMonth = 0.0;
+            //CostsSumPerMonth = 0.0;
 
-            foreach (CostItemViewModel item in CostItems)
-            {
-                CostsSumPerMonth += item.Cost;
-            }
+            //foreach (CostItemViewModel item in CostItems)
+            //{
+            //    CostsSumPerMonth += item.Cost;
+            //}
         }
 
 
@@ -202,10 +211,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         private void RegisterCostItemValueChange()
         {
-            foreach (CostItemViewModel item in CostItems)
-            {
-                item.ValueChange += Item_ValueChange;
-            }
+            //foreach (CostItemViewModel item in CostItems)
+            //{
+            //    item.ValueChange += Item_ValueChange;
+            //}
         }
 
 
@@ -225,8 +234,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                     foreach (var item in selected)
                     {
-                        _RentViewModel.RemoveCostItem(item);
-                        OnPropertyChanged(nameof(CostItems));
+                        RentViewModel.RemoveCostItem(item);
+
+                        //OnPropertyChanged(nameof(CostItems));
+                        OnPropertyChanged(nameof(RentViewModel));
                     }
                 }
             }

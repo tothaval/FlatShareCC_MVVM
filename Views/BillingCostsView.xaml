@@ -17,6 +17,9 @@
 
     <StackPanel Margin="20">
 
+        <!--#region FlatCosts -->
+        
+        <!--#region Flat Costs -->
         <ToggleButton Content="{DynamicResource IDF_FlatCosts}"
                               IsChecked="{Binding ShowFlatCosts}"
                               Style="{StaticResource toggleButtonStyle}"
@@ -26,207 +29,331 @@
                     Visibility="{Binding ShowFlatCosts, Converter={StaticResource visCon}}"
                     DockPanel.Dock="Top" 
                     Margin="0 5 0 0">
-
             <Grid>
 
-                <ListView ItemsSource="{Binding BillingListView}"
-                          Visibility="{Binding HasPayments, Converter={StaticResource visCon}}"
-                          ItemContainerStyle="{StaticResource ItemContainerStyle}">
-                    <ListView.View>
+                <!--#region annual costs excluding payments and rents -->
 
-                        <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+                <Grid Visibility="{Binding BillingViewModel.HasPayments, Converter={StaticResource InvisCon}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                            <GridView.Columns>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
 
-                                <GridViewColumn Header="{DynamicResource IDF_FlatArea}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Area,
-                                        StringFormat=N2,
+                    <!--#region Flat costs header -->
+                    <TextBlock Text="{DynamicResource IDF_FlatArea}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="2"
+                           Grid.Row="0"/>
+                    <TextBlock Text="{DynamicResource IDF_FixedCosts}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="4"
+                           Grid.Row="0"/>
+                    <TextBlock Text="{DynamicResource IDF_HeatingCosts}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="6"
+                           Grid.Row="0"/>
+                    <TextBlock Text="{DynamicResource IDF_ExtraCosts}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="8"
+                           Grid.Row="0"/>
+                    <TextBlock Text="{DynamicResource IDF_Advance}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="10"
+                           Grid.Row="0"/>
+
+                    <TextBlock Text="{DynamicResource IDF_Balance}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="12"
+                           Grid.Row="0"/>
+                    <!--#endregion-->
+
+
+                    <!--#region tablesque display items -->
+
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="3"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
+
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="5"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
+
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="7"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
+
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="9"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
+
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="11"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
+                    <!--#endregion-->
+
+
+                    <!--#region annual costs excluding payments -->
+                    <TextBlock Text="{Binding BillingViewModel.FlatViewModel.Area,
+                                        StringFormat=N2, 
                                         NotifyOnSourceUpdated=True}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="2"
+                                   Grid.Row="1"/>
 
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Header="{DynamicResource IDF_Rent}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TotalRentCosts,
-                                        StringFormat=C2,
-                                        NotifyOnSourceUpdated=True}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Header="{DynamicResource IDF_FixedCosts}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TotalFixedCosts,
-                                            StringFormat=C2,
-                                            NotifyOnSourceUpdated=True}"
-                                                   Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Header="{DynamicResource IDF_HeatingCosts}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TotalHeatingCosts,
-                                            StringFormat=C2, 
-                                            NotifyOnSourceUpdated=True}"
-                                                   Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Header="{DynamicResource IDF_TotalCosts}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TotalCosts,
+                    <TextBlock Text="{Binding BillingViewModel.TotalFixedCostsPerPeriod,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Header="{DynamicResource IDF_Payments}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TotalPayments,
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="4"
+                                   Grid.Row="1"/>
+                    <TextBlock Text="{Binding BillingViewModel.TotalHeatingCostsPerPeriod,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   FontWeight="Bold"
+                                   Grid.Column="6"
+                                   Grid.Row="1"/>
 
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Header="{DynamicResource IDF_Balance}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Balance,
-                                        StringFormat=C2,
-                                        NotifyOnSourceUpdated=True}"
-                                               Style="{StaticResource DoubleValueTextBlock}"
-                                                   FontWeight="Bold"/>
-
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-
-                            </GridView.Columns>
-
-                        </GridView>
-
-                    </ListView.View>
-
-                </ListView>
-
-
-                <ListView ItemsSource="{Binding BillingListView}"
-                          Visibility="{Binding HasPayments, Converter={StaticResource InvisCon}}"
-                          ItemContainerStyle="{StaticResource ItemContainerStyle}">
-                    <ListView.View>
-
-                        <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
-
-                            <GridView.Columns>
-
-                                <GridViewColumn Header="{DynamicResource IDF_FlatArea}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Area,
-                                        StringFormat=N2,
-                                        NotifyOnSourceUpdated=True}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Header="{DynamicResource IDF_FixedCosts}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TotalFixedCosts,
-                                            StringFormat=C2,
-                                            NotifyOnSourceUpdated=True}"
-                                                   Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Header="{DynamicResource IDF_HeatingCosts}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TotalHeatingCosts,
-                                            StringFormat=C2, 
-                                            NotifyOnSourceUpdated=True}"
-                                                   Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-
-                                <GridViewColumn Header="{DynamicResource IDF_ExtraCosts}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TotalExtraCosts,
+                    <TextBlock Text="{Binding BillingViewModel.TotalCostsPerPeriod,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="8"
+                                   Grid.Row="1"/>
 
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                    <TextBlock Text="{Binding BillingViewModel.TotalAdvancePerPeriod,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   FontWeight="Bold"
+                                   Grid.Column="10"
+                                   Grid.Row="1"/>
+                    <TextBlock Text="{Binding BillingViewModel.Balance,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   FontWeight="Bold"
+                                   Grid.Column="12"
+                                   Grid.Row="1"/>
+                    <!--#endregion-->
 
-                                <GridViewColumn Header="{DynamicResource IDF_Advance}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TotalAdvancePerPeriod,
-                                            StringFormat=C2,
-                                            NotifyOnSourceUpdated=True}"
-                                                   Style="{StaticResource DoubleValueTextBlock}"/>
+                </Grid>
 
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                <!--#endregion-->
 
-                                <GridViewColumn Header="{DynamicResource IDF_Balance}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Balance,
-                                            StringFormat=C2, 
-                                            NotifyOnSourceUpdated=True}"
-                                                   Style="{StaticResource DoubleValueTextBlock}"
-                                                   FontWeight="Bold"/>
+                <!--#region annual costs including payments and rents -->
+                <Grid Visibility="{Binding BillingViewModel.HasPayments, Converter={StaticResource visCon}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <!--#region Flat costs header -->
+                    <TextBlock Text="{DynamicResource IDF_FlatArea}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="2"
+                           Grid.Row="0"/>
+                    <TextBlock Text="{DynamicResource IDF_Rent}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="4"
+                           Grid.Row="0"/>
+                    <TextBlock Text="{DynamicResource IDF_FixedCosts}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="6"
+                           Grid.Row="0"/>
+                    <TextBlock Text="{DynamicResource IDF_HeatingCosts}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="8"
+                           Grid.Row="0"/>
+                    <TextBlock Text="{DynamicResource IDF_ExtraCosts}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="10"
+                           Grid.Row="0"/>
+                    <TextBlock Text="{DynamicResource IDF_Payments}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="12"
+                           Grid.Row="0"/>
+
+                    <TextBlock Text="{DynamicResource IDF_Balance}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="14"
+                           Grid.Row="0"/>
+                    <!--#endregion-->
 
 
-                            </GridView.Columns>
+                    <!--#region tablesque display items -->
 
-                        </GridView>
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="3"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
 
-                    </ListView.View>
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="5"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
 
-                </ListView>
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="7"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
+
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="9"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
+
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="11"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="13"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
+                    <!--#endregion-->
+
+
+                    <!--#region annual costs including payments -->
+                    <TextBlock Text="{Binding BillingViewModel.FlatViewModel.Area,
+                                        StringFormat=N2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="2"
+                                   Grid.Row="1"/>
+
+                    <TextBlock Text="{Binding BillingViewModel.TotalRentCosts,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="4"
+                                   Grid.Row="1"/>
+                    <TextBlock Text="{Binding BillingViewModel.TotalFixedCostsPerPeriod,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="6"
+                                   Grid.Row="1"/>
+                    <TextBlock Text="{Binding BillingViewModel.TotalHeatingCostsPerPeriod,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="8"
+                                   Grid.Row="1"/>
+
+                    <TextBlock Text="{Binding BillingViewModel.TotalCostsPerPeriod,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   FontWeight="Bold"
+                                   Grid.Column="10"
+                                   Grid.Row="1"/>
+
+                    <TextBlock Text="{Binding BillingViewModel.TotalPayments,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   FontWeight="Bold"
+                                   Grid.Column="12"
+                                   Grid.Row="1"/>
+                    <TextBlock Text="{Binding BillingViewModel.Balance,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   FontWeight="Bold"
+                                   Grid.Column="14"
+                                   Grid.Row="1"/>
+                    <!--#endregion-->
+
+                </Grid>
+
+                <!--#endregion-->
+
             </Grid>
+
         </Border>
+        <!--#endregion-->
+        
+        <!--#endregion-->
 
 
+        <!--#region Room Costs -->
         <ToggleButton Content="{DynamicResource IDF_RoomCosts}"
                               IsChecked="{Binding ShowRoomCosts}"
                               Style="{StaticResource toggleButtonStyle}"
@@ -238,8 +365,8 @@
                     Margin="0 5 0 0">
 
             <UniformGrid Rows="2">
-                <ListView ItemsSource="{Binding RoomCosts}" Grid.Row="1"
-                          Visibility="{Binding HasPayments, Converter={StaticResource visCon}}"
+                <ListView ItemsSource="{Binding BillingViewModel.RoomCosts}" Grid.Row="1"
+                          Visibility="{Binding BillingViewModel.HasPayments, Converter={StaticResource visCon}}"
                           ItemContainerStyle="{StaticResource ItemContainerStyle}"
                           >
                     <ListView.View>
@@ -325,8 +452,8 @@
                     </ListView.View>
                 </ListView>
 
-                <ListView ItemsSource="{Binding RoomCosts}" Grid.Row="1"
-                          Visibility="{Binding HasPayments, Converter={StaticResource visCon}}"
+                <ListView ItemsSource="{Binding BillingViewModel.RoomCosts}" Grid.Row="1"
+                          Visibility="{Binding BillingViewModel.HasPayments, Converter={StaticResource visCon}}"
                           ItemContainerStyle="{StaticResource ItemContainerStyle}"
                           >
                     <ListView.View>
@@ -427,8 +554,8 @@
 
 
 
-                <ListView ItemsSource="{Binding RoomCosts}"
-                          Visibility="{Binding HasPayments, Converter={StaticResource InvisCon}}"
+                <ListView ItemsSource="{Binding BillingViewModel.RoomCosts}"
+                          Visibility="{Binding BillingViewModel.HasPayments, Converter={StaticResource InvisCon}}"
                           ItemContainerStyle="{StaticResource ItemContainerStyle}"
                           >
                     <ListView.View>
@@ -514,8 +641,8 @@
                     </ListView.View>
                 </ListView>
 
-                <ListView ItemsSource="{Binding RoomCosts}" 
-                          Visibility="{Binding HasPayments, Converter={StaticResource InvisCon}}"
+                <ListView ItemsSource="{Binding BillingViewModel.RoomCosts}" 
+                          Visibility="{Binding BillingViewModel.HasPayments, Converter={StaticResource InvisCon}}"
                           ItemContainerStyle="{StaticResource ItemContainerStyle}"
                           >
                     <ListView.View>
@@ -604,6 +731,7 @@
             </UniformGrid>
 
         </Border>
+        <!--#endregion-->
 
 
     </StackPanel>

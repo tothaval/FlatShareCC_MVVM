@@ -590,6 +590,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             if (_roomCostsCarrier.GetType() == typeof(RentViewModel))
             {
+                // too slow, solve the property update issue different
+                // RegisterCostItemViewModelChangeEvents();
                 CalculateOtherCosts();
             }
         }
@@ -622,6 +624,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                     otherCostItem.TransactionSum = area_share;
                 }
+
+
 
                 OtherCosts.Add(new CostItemViewModel(otherCostItem));
             }
@@ -759,7 +763,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         private void _roomCostsCarrier_DataChange(object? sender, PropertyChangedEventArgs e)
         {
             CalculateMonthlyCosts();
-
         }
 
         #endregion events
