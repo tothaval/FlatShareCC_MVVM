@@ -28,7 +28,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public RentViewModel RentViewModel { get; }
 
 
-        public double OtherCostItemCountBasedWidth => RentViewModel.Costs.Count * 105;
+        public double OtherCostItemCountBasedWidth => RentViewModel.FinancialTransactionItemViewModels.Count * 105;
 
 
         private bool _ShowFlatCosts;

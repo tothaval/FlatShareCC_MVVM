@@ -20,6 +20,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         private BillingViewModel _billingViewModel;
 
+        public BillingViewModel BillingViewModel => _billingViewModel;
+
 
         public bool DataLock
         {
@@ -36,6 +38,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
 
 
+
+
+        // _billingViewModel.SelectedConsumptionFTI.SharedConsumption
         public double SharedConsumption => _billingViewModel.SharedHeatingUnitsConsumption;
 
 

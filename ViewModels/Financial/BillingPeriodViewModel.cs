@@ -15,6 +15,7 @@ using SharedLivingCostCalculator.ViewModels.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
+using SharedLivingCostCalculator.Views.Windows;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -33,7 +34,40 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public BillingViewModel BillingViewModel => _billingViewModel;
 
 
+        // for access to owned windows
+        private Window billingWindow;
+
+
         public ConsumptionViewModel? ConsumptionViewModel { get; set; }
+
+
+        private bool _CostsWindowActive;
+        public bool CostsWindowActive
+        {
+            get { return _CostsWindowActive; }
+            set
+            {
+                _CostsWindowActive = value;
+
+                if (Application.Current.MainWindow != null)
+                {
+                    var ownedWindows = Application.Current.MainWindow.OwnedWindows;
+
+                    if (_CostsWindowActive == false && ownedWindows != null)
+                    {
+                        foreach (Window wdw in Application.Current.MainWindow.OwnedWindows)
+                        {
+                            if (wdw.GetType() == typeof(CostsView))
+                            {
+                                wdw.Close();
+                            }
+                        }
+                    }
+                }
+
+                OnPropertyChanged(nameof(CostsWindowActive));
+            }
+        }
 
 
         private bool _DataLockCheckbox;
@@ -200,6 +234,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         public ICommand NewCreditCommand { get; }
 
+
+        public ICommand ShowCostsCommand { get; }
+
         #endregion commands
 
 
@@ -209,6 +246,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public BillingPeriodViewModel(FlatViewModel flatViewModel, BillingViewModel billingViewModel)
         {
             NewCreditCommand = new RelayCommand(p => AddCredit(), (s) => true);
+            ShowCostsCommand = new RelayCommand(p => ShowCostsView(p), (s) => true);
 
 
             _billingViewModel = billingViewModel;
@@ -275,7 +313,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             Window window = (Window)s;
 
             MessageBoxResult result = MessageBox.Show(window,
-                $"Close Other Costs window?\n\n",
+                $"Close Billing Window?\n\n",
                 "Close Window", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
@@ -303,7 +341,41 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             }
         }
 
+        private void ShowCostsView(object p)
+        {
+            if (CostsWindowActive)
+            {
+                billingWindow = (Window)p;
+
+                CostsView otherCostsView = new CostsView();
+
+                otherCostsView.DataContext = new CostsViewModel(BillingViewModel);
+
+                otherCostsView.Owner = billingWindow;
+                otherCostsView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+                otherCostsView.Closed += OwnedWindow_Closed;
+
+                otherCostsView.Show();
+            }
+        }
         #endregion methods
+
+
+        // events
+        #region events
+
+        public void OwnedWindow_Closed(object? sender, EventArgs e)
+        {
+            if (sender.GetType() == typeof(CostsView))
+            {
+                CostsWindowActive = false;
+            }
+
+            billingWindow.Focus();
+        }
+
+        #endregion events
 
 
     }

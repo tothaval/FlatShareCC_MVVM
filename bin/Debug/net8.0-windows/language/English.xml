@@ -20,9 +20,9 @@ Costs</IDF_TotalCosts>
   <IDF_CombinedRoomHeatingUnits>All Rooms
 Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_Percentage>%</IDF_Percentage>
-  <IDF_TotalConsumption>Total Consumption</IDF_TotalConsumption>
-  <IDF_SharedConsumption>Shared Consumption</IDF_SharedConsumption>
-  <IDF_TotalRooms>Rooms Consumption</IDF_TotalRooms>
+  <IDF_TotalConsumption>Total</IDF_TotalConsumption>
+  <IDF_SharedConsumption>Shared</IDF_SharedConsumption>
+  <IDF_TotalRooms>Rooms</IDF_TotalRooms>
   <IDF_Back>Back</IDF_Back>
   <IDF_NewBilling>New Billing</IDF_NewBilling>
   <IDF_DeleteBilling>Delete</IDF_DeleteBilling>
@@ -38,8 +38,8 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_RoomSetup>Rooms</IDF_RoomSetup>
   <IDF_Manual>Manual</IDF_Manual>
   <IDF_Settings>Settings</IDF_Settings>
-  <IDF_FlatCosts>Flat Costs</IDF_FlatCosts>
-  <IDF_RoomCosts>Room Costs</IDF_RoomCosts>
+  <IDF_FlatCosts>Flat Costs Overview</IDF_FlatCosts>
+  <IDF_RoomCosts>Room Costs Overview</IDF_RoomCosts>
   <IDF_StartDate>Begin</IDF_StartDate>
   <IDF_EndDate>End</IDF_EndDate>
   <IDF_ID>ID</IDF_ID>
@@ -81,8 +81,8 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_PriceTotal>Total Price</IDF_PriceTotal>
   <IDF_BaseRentOnBilling>factor in billing</IDF_BaseRentOnBilling>
   <IDF_AnnualBilling>Annual Billing</IDF_AnnualBilling>
-  <IDF_Costs>Costs Setup</IDF_Costs>
-  <IDF_OtherCosts>Other</IDF_OtherCosts>
+  <IDF_Costs>Other Costs Setup</IDF_Costs>
+  <IDF_OtherCosts>Other Costs</IDF_OtherCosts>
   <IDF_AnnualOther>Other</IDF_AnnualOther>
   <IDF_AnnualComplete>Complete</IDF_AnnualComplete>
   <IDF_CompleteCosts>Complete</IDF_CompleteCosts>

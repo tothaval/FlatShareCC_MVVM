@@ -72,7 +72,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Content="add cost item"
-                        Command="{Binding AddCostItemCommand}"
+                        Command="{Binding AddFinacialTransactionItemCommand}"
                         Grid.Column="0"
                         Style="{StaticResource buttonStyle}"
                         IsEnabled="{Binding DataLock}"/>
@@ -81,7 +81,7 @@
                         Grid.Column="1"
                         Style="{StaticResource buttonStyle}"
                         IsEnabled="{Binding DataLock}"/>
-                    <Button Content="remove cost item" Command="{Binding RemoveCostItemCommand}" 
+                    <Button Content="remove cost item" Command="{Binding RemoveFinancialTransactionItemCommand}" 
                         CommandParameter="{Binding ElementName=_othercosts, Path=SelectedItems}"
                         Grid.Column="2"
                         Style="{StaticResource buttonStyle}"
@@ -103,14 +103,14 @@
                     </TextBlock>
 
                     <TextBlock Style="{StaticResource Header}"
-                               Text="{Binding RentViewModel.CostsSumPerMonth, StringFormat=C2}"
+                               Text="{Binding SumPerMonth, StringFormat=C2}"
                                TextAlignment="Right"
                                FontWeight="Bold"
                                HorizontalAlignment="Right"/>
 
                 </UniformGrid>
 
-                <ListView ItemsSource="{Binding RentViewModel.Costs, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
+                <ListView ItemsSource="{Binding ViewModel.FinancialTransactionItemViewModels, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
                       SelectionMode="Extended"
                       x:Name="_othercosts"
                       ItemContainerStyle="{StaticResource ItemContainerStyle}"
@@ -139,14 +139,14 @@
                                 <GridViewColumn Header="Item">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <comps:ObjectInputView Value="{Binding Item,
-                                            UpdateSourceTrigger=PropertyChanged,
-                                            Mode=TwoWay}"
-                                                               ValueMinWidth="100"
-                                                               LabelMinWidth="0"
-                                                               ValueAlignment="Left"
-                                                               HorizontalAlignment="Stretch"         
-                                                               IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CostsView}}"/>
+                                            <Grid>
+                                                <TextBox Text="{Binding Item,
+                                                UpdateSourceTrigger=PropertyChanged,
+                                                Mode=TwoWay}"
+                                                         HorizontalAlignment="Stretch"
+                                                         IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CostsView}}"
+                                                         Style="{StaticResource StringValueTextBox}"/>
+                                            </Grid>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -154,15 +154,16 @@
                                 <GridViewColumn Header="Cost">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <comps:CurrencyInputView Value="{Binding Cost,
-                                            UpdateSourceTrigger=PropertyChanged,
-                                            Mode=TwoWay,
-                                                Delay=200}"
-                                                                 ValueMinWidth="100"
-                                                                 LabelMinWidth="0"
-                                                                 ValueAlignment="Right"
-                                                                 HorizontalAlignment="Stretch"
-                                                                 IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CostsView}}"/>
+                                            <Grid>
+                                                <TextBox Text="{Binding Cost,
+                                                    StringFormat=C2,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    Mode=TwoWay,
+                                                    Delay=200}"
+                                                         HorizontalAlignment="Stretch"
+                                                         IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CostsView}}"
+                                                         Style="{StaticResource DoubleValueTextBox}"/>
+                                            </Grid>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

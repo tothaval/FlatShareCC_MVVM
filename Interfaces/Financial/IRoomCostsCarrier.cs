@@ -7,12 +7,17 @@
  */
 
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
+using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace SharedLivingCostCalculator.Interfaces.Financial
 {
     public interface IRoomCostsCarrier
     {
+        public ObservableCollection<FinancialTransactionItemViewModel> FinancialTransactionItemViewModels { get; set; }
+
+
         void GenerateRoomCosts();
 
 

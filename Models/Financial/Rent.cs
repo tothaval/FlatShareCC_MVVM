@@ -120,7 +120,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         // methods
         #region methods
 
-        public void AddCostItem(FinancialTransactionItem item)
+        public void AddFinacialTransactionItem(FinancialTransactionItem item)
         {
             Costs.Add(item);
         }
