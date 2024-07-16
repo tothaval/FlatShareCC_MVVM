@@ -47,9 +47,9 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_RoomHeatingUnits { get; set; } = "Heating Room";
         public string IDF_CombinedRoomHeatingUnits { get; set; } = "All Rooms\nHeating Units";
         public string IDF_Percentage { get; set; } = "%";
-        public string IDF_TotalConsumption { get; set; } = "Total Consumption";
-        public string IDF_SharedConsumption { get; set; } = "Shared Consumption";
-        public string IDF_TotalRooms { get; set; } = "Rooms Consumption";
+        public string IDF_TotalConsumption { get; set; } = "Total";
+        public string IDF_SharedConsumption { get; set; } = "Shared";
+        public string IDF_TotalRooms { get; set; } = "Rooms";
 
         public string BillingManagementInstructionText { get; set; }
 
@@ -76,8 +76,8 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_RoomSetup { get; set; } = "Rooms";
         public string IDF_Manual { get; set; } = "Manual";
         public string IDF_Settings { get; set; } = "Settings";
-        public string IDF_FlatCosts { get; set; } = "Flat Costs";
-        public string IDF_RoomCosts { get; set; } = "Room Costs";
+        public string IDF_FlatCosts { get; set; } = "Flat Costs Overview";
+        public string IDF_RoomCosts { get; set; } = "Room Costs Overview";
 
         #endregion buttons and commands
 
@@ -149,9 +149,9 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_BaseRentOnBilling { get; set; } = "factor in billing";
         public string IDF_AnnualBilling { get; set; } = "Annual Billing";
         
-        public string IDF_Costs { get; set; } = "Costs Setup"; 
+        public string IDF_Costs { get; set; } = "Other Costs Setup"; 
 
-        public string IDF_OtherCosts { get; set; } = "Other";
+        public string IDF_OtherCosts { get; set; } = "Other Costs";
 
         public string IDF_AnnualOther { get; set; } = "Other";
 
@@ -258,7 +258,7 @@ namespace SharedLivingCostCalculator.Utility
                 "-> click \"Add Billing\" to create new billing\n" +
                 "-> select billing to view its data\n" +
                 "-> click \"Delete\" to delete selected billing\n" +
-                "-> click \"Show Costs\" to display costs."
+                "-> click \"Show FinancialTransactionItems\" to display costs."
                 );
 
             return stringBuilder.ToString();
@@ -296,7 +296,7 @@ namespace SharedLivingCostCalculator.Utility
                 "-> click \"Delete\" to delete selected rent\n" +
                 "-> specify billing in combobox if calculation\n" +
                 "   should be based on consumption ratio and area ratio\n" +
-                "-> click \"Show Costs\" to display costs."
+                "-> click \"Show FinancialTransactionItems\" to display costs."
                 );
 
             return stringBuilder.ToString();

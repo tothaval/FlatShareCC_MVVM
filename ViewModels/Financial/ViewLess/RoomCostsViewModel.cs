@@ -220,7 +220,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         // collections
         #region collections
 
-        public ObservableCollection<CostItemViewModel> OtherCosts { get; set; } = new ObservableCollection<CostItemViewModel>();
+        public ObservableCollection<FinancialTransactionItemViewModel> OtherCosts { get; set; } = new ObservableCollection<FinancialTransactionItemViewModel>();
 
         #endregion collections
 
@@ -477,7 +477,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         {
             double combinedOtherCosts = 0.0;
 
-            foreach (CostItemViewModel item in OtherCosts)
+            foreach (FinancialTransactionItemViewModel item in OtherCosts)
             {
                 combinedOtherCosts += item.Cost;
             }
@@ -604,7 +604,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             double area_share = 0.0;
             double equal_share = 0.0;
 
-            foreach (CostItemViewModel item in ((RentViewModel)_roomCostsCarrier).Costs)
+            foreach (FinancialTransactionItemViewModel item in ((RentViewModel)_roomCostsCarrier).FinancialTransactionItemViewModels)
             {
                 FinancialTransactionItem otherCostItem = new FinancialTransactionItem();
 
@@ -627,7 +627,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
 
 
-                OtherCosts.Add(new CostItemViewModel(otherCostItem));
+                OtherCosts.Add(new FinancialTransactionItemViewModel(otherCostItem));
             }
         }
 

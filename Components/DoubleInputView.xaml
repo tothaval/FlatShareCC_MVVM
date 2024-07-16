@@ -10,11 +10,16 @@
     <Grid HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="{Binding Path=Label, ElementName=SIV}"
                    Grid.Column="0"
+                   TextAlignment="Left"
+                   MinWidth="{Binding Path=LabelMinWidth,
+            ElementName=SIV}"
+                   Width="{Binding Path=LabelWidth,
+            ElementName=SIV}"
                    Style="{StaticResource StringValueTextBlock}"
                    />
         <TextBox Text="{Binding Path=Value, ElementName=SIV, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"

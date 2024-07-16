@@ -233,10 +233,10 @@ namespace SharedLivingCostCalculator.Utility
 
                 //if (rent.HasOtherCosts)
                 //{
-                //    rent.Costs.Clear();
-                //    foreach (CostItemViewModel otherCostItemViewModel in rentViewModel.Costs)
+                //    rent.FinancialTransactionItems.Clear();
+                //    foreach (FinancialTransactionItemViewModel otherCostItemViewModel in rentViewModel.FinancialTransactionItems)
                 //    {
-                //        rent.Costs.Add(otherCostItemViewModel.FinancialTransactionItem);
+                //        rent.FinancialTransactionItems.Add(otherCostItemViewModel.FinancialTransactionItem);
                 //    }
                 //}
 

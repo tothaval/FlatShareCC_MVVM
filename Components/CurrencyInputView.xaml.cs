@@ -49,6 +49,15 @@ namespace SharedLivingCostCalculator.Components
             DependencyProperty.Register("LabelMinWidth", typeof(double), typeof(CurrencyInputView), new PropertyMetadata(100.0));
 
 
+        public double LabelWidth
+        {
+            get { return (double)GetValue(LabelWidthProperty); }
+            set { SetValue(LabelWidthProperty, value); }
+        }
+        public static readonly DependencyProperty LabelWidthProperty =
+            DependencyProperty.Register("LabelWidth", typeof(double), typeof(CurrencyInputView), new PropertyMetadata(100.0));
+
+
         public double Value
         {
             get { return (double)GetValue(ValueProperty); }

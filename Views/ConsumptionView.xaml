@@ -10,99 +10,160 @@
              d:DesignHeight="450" d:DesignWidth="800"
              FontWeight="Normal">
 
-    <StackPanel Orientation="Vertical">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
+            <ColumnDefinition Width="*" SharedSizeGroup="Values"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
         <TextBlock Text="{DynamicResource IDF_Consumption}"
-                   Style="{StaticResource Header}"/>
+                   Style="{StaticResource Header}"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Grid.Row="0"/>
 
-        <comps:DoubleInputView Label="{DynamicResource IDF_TotalConsumption}"
-                               Value="{Binding TotalHeatingUnitsConsumption,
-                    UpdateSourceTrigger=PropertyChanged,
-            StringFormat=N4, Mode=TwoWay,
-                NotifyOnSourceUpdated=True,
-                NotifyOnValidationError=True,
-                    ValidatesOnDataErrors=True}"
-                               LabelMinWidth="100"
-                               ValueMinWidth="100"
-                               ValueAlignment="Right"
-                               IsEnabled="{Binding DataLock}"/>
+        <TextBlock Text="Select"
+                   Style="{StaticResource StringValueTextBlock}"
+                   Grid.Column="0"
+                   Grid.Row="1"/>
 
-        <comps:DoubleInputView Label="{DynamicResource IDF_TotalRooms}"
-                               Value="{Binding TotalHeatingUnitsRoom,
-                    UpdateSourceTrigger=PropertyChanged,
-            StringFormat=N4,Mode=TwoWay,
-                NotifyOnSourceUpdated=True,
-                NotifyOnValidationError=True,
-                    ValidatesOnDataErrors=True}"
-                               LabelMinWidth="100"
-                               ValueMinWidth="100"
-                               ValueAlignment="Right"
-                               IsReadOnly="True"
-                               IsEnabled="{Binding DataLock}"/>
+        <ComboBox ItemsSource="{Binding BillingViewModel.ConsumptionItemViewModels}"
+                  SelectedItem="{Binding BillingViewModel.SelectedConsumptionItem}"
+                  Grid.Column="1"
+                  Grid.Row="1">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding ConsumptionCause}"
+                                       VerticalAlignment="Center"
+                                       Style="{StaticResource StringValueTextBlock}"
+                                       />
+                    </Grid>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
 
-
-        <comps:DoubleInputView Label="{DynamicResource IDF_SharedConsumption}"
-                               Value="{Binding SharedConsumption,
-                    UpdateSourceTrigger=PropertyChanged,
-            StringFormat=N4,Mode=OneWay,
-                NotifyOnSourceUpdated=True,
-                NotifyOnValidationError=True,
-                    ValidatesOnDataErrors=True}"
-                               LabelMinWidth="100"
-                               ValueMinWidth="100"
-                               ValueAlignment="Right"
-                               IsReadOnly="True"
-                               IsEnabled="{Binding DataLock}"/>
+        </ComboBox>
 
 
-        <comps:DoubleInputView Label="{DynamicResource IDF_Percentage}"
-                               Value="{Binding SharedConsumptionPercentage,
-                    UpdateSourceTrigger=PropertyChanged,
-            StringFormat=N2,Mode=OneWay,
-                NotifyOnSourceUpdated=True,
-                NotifyOnValidationError=True,
-                    ValidatesOnDataErrors=True}"
-                               LabelMinWidth="100"
-                               ValueMinWidth="100"
-                               ValueAlignment="Right"
-                               IsReadOnly="True"
-                               IsEnabled="{Binding DataLock}"/>
+        <TextBlock Text="{DynamicResource IDF_TotalConsumption}"
+                               Style="{StaticResource StringValueTextBlock}"
+                               Grid.Column="0"
+                               Grid.Row="2"/>
 
+        <TextBox Text="{Binding BillingViewModel.SelectedConsumptionItem.ConsumedUnits,
+                        StringFormat=N4,
+                        Mode=TwoWay,
+                        NotifyOnSourceUpdated=True,
+                        NotifyOnValidationError=True,
+                        ValidatesOnDataErrors=True}"
+                             Style="{StaticResource DoubleValueTextBox}"
+                             IsEnabled="{Binding DataLock}"
+                             Grid.Column="1"
+                             Grid.Row="2"/>
+
+
+        <TextBlock Text="{DynamicResource IDF_TotalRooms}"
+                               Style="{StaticResource StringValueTextBlock}"
+                               Grid.Column="0"
+                               Grid.Row="3"/>
+
+        <TextBox Text="{Binding BillingViewModel.SelectedConsumptionItem.TotalRoomUnits, 
+                        StringFormat=N4,
+                        Mode=OneWay,
+                        NotifyOnSourceUpdated=True,
+                        NotifyOnValidationError=True,
+                        ValidatesOnDataErrors=True}"
+                 Style="{StaticResource DoubleValueTextBox}"
+                 IsEnabled="{Binding DataLock}"
+                 IsReadOnly="True"
+                 Grid.Column="1"
+                 Grid.Row="3"/>
+
+        <TextBlock Text="{DynamicResource IDF_SharedConsumption}"
+                               Style="{StaticResource StringValueTextBlock}"
+                               Grid.Column="0"
+                               Grid.Row="4"/>
+
+        <TextBox Text="{Binding BillingViewModel.SelectedConsumptionItem.SharedConsumption,
+                        StringFormat=N4,
+                        Mode=OneWay,
+                        NotifyOnSourceUpdated=True,
+                        NotifyOnValidationError=True,
+                        ValidatesOnDataErrors=True}"
+                 Style="{StaticResource DoubleValueTextBox}"
+                 IsEnabled="{Binding DataLock}"
+                 IsReadOnly="True"
+                 Grid.Column="1"
+                 Grid.Row="4"/>
+
+        <TextBlock Text="{DynamicResource IDF_Percentage}"
+                               Style="{StaticResource StringValueTextBlock}"
+                               Grid.Column="0"
+                               Grid.Row="5"/>
+
+        <TextBox Text="{Binding BillingViewModel.SelectedConsumptionItem.SharedConsumptionPercentage,
+                        StringFormat=N4,
+                        Mode=OneWay,
+                        NotifyOnSourceUpdated=True,
+                        NotifyOnValidationError=True,
+                        ValidatesOnDataErrors=True}"
+                 Style="{StaticResource DoubleValueTextBox}"
+                 IsEnabled="{Binding DataLock}"
+                 IsReadOnly="True"
+                 Grid.Column="1"
+                 Grid.Row="5"/>
+
+ 
         <ListView ItemsSource="{Binding RoomCosts, NotifyOnSourceUpdated=True}"
                   SelectionMode="Single"
                   TextBlock.TextAlignment="Right"       
                   Margin="5 5"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   HorizontalContentAlignment="Left"
+                  HorizontalAlignment="Left"
                   BorderThickness="0"
-                  ItemContainerStyle="{StaticResource ItemContainerStyle}">
+                  ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Grid.Row="6">
 
-            <ListView.View>
-                <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
 
-                    <GridViewColumn Header="{DynamicResource IDF_RoomName}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
+                        <GridViewColumn Header="{DynamicResource IDF_RoomName}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
                                            Text="{Binding Room.RoomName}"
                                            Style="{StaticResource StringValueTextBlock}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                    <GridViewColumn Header="{DynamicResource IDF_RoomArea}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
+                        <GridViewColumn Header="{DynamicResource IDF_RoomArea}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
                                            HorizontalAlignment="Right" Text="{Binding Room.RoomArea}"
                                            Style="{StaticResource DoubleValueTextBlock}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                    <GridViewColumn Header="{DynamicResource IDF_RoomHeatingUnits}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding HeatingUnitsConsumption,
+                        <GridViewColumn Header="{DynamicResource IDF_Consumption}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding HeatingUnitsConsumption,
                                         UpdateSourceTrigger=PropertyChanged,
                                         Mode=TwoWay,
                                         NotifyOnTargetUpdated=True,
@@ -113,22 +174,25 @@
                                          VerticalAlignment="Center" 
                                          Style="{StaticResource DoubleValueTextBox}"
                                          />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                    <GridViewColumn Header="{DynamicResource IDF_Percentage}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RoomConsumptionPercentage, Mode=OneWay,
+                        <GridViewColumn Header="{DynamicResource IDF_Percentage}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding RoomConsumptionPercentage, Mode=OneWay,
                                     UpdateSourceTrigger=PropertyChanged,
                                     NotifyOnSourceUpdated=True,StringFormat=N2}"
                                          Style="{StaticResource DoubleValueTextBlock}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        
+    </Grid>
+
 </UserControl>

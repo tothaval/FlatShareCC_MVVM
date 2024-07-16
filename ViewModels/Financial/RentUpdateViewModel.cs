@@ -59,7 +59,36 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             }
         }
 
-        
+
+        private bool _CostsWindowActive;
+        public bool CostsWindowActive
+        {
+            get { return _CostsWindowActive; }
+            set
+            {
+                _CostsWindowActive = value;
+
+                if (Application.Current.MainWindow != null)
+                {
+                    var ownedWindows = Application.Current.MainWindow.OwnedWindows;
+
+                    if (_CostsWindowActive == false && ownedWindows != null)
+                    {
+                        foreach (Window wdw in Application.Current.MainWindow.OwnedWindows)
+                        {
+                            if (wdw.GetType() == typeof(CostsView))
+                            {
+                                wdw.Close();
+                            }
+                        }
+                    }
+                }
+
+                OnPropertyChanged(nameof(CostsWindowActive));
+            }
+        }
+
+
         private bool _DataLockCheckbox;
         public bool DataLockCheckbox
         {
@@ -108,35 +137,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
 
         private ValidationHelper _helper = new ValidationHelper();
-
-
-        private bool _CostsWindowActive;
-        public bool CostsWindowActive
-        {
-            get { return _CostsWindowActive; }
-            set
-            {
-                _CostsWindowActive = value;
-
-                if (Application.Current.MainWindow != null)
-                {
-                    var ownedWindows = Application.Current.MainWindow.OwnedWindows;
-
-                    if (_CostsWindowActive == false && ownedWindows != null)
-                    {
-                        foreach (Window wdw in Application.Current.MainWindow.OwnedWindows)
-                        {
-                            if (wdw.GetType() == typeof(CostsView))
-                            {
-                                wdw.Close();
-                            }
-                        }
-                    }
-                }
-
-                OnPropertyChanged(nameof(CostsWindowActive));
-            }
-        }
 
 
         private readonly RentViewModel _rentViewModel;

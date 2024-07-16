@@ -5,11 +5,13 @@
  *  viewmodel for CostsView
  *  
  *  displays a seperate window for creating
- *  or editing of CostItemViewModel instances
+ *  or editing of FinancialTransactionItemViewModel instances
  */
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Enums;
+using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models;
+using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
@@ -17,6 +19,7 @@ using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
@@ -26,6 +29,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         // properties & fields
         #region properties
+
+        public BillingViewModel BillingViewModel { get; }
+
 
         private bool _DataLockCheckbox;
         public bool DataLockCheckbox
@@ -49,34 +55,28 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
 
         //private double _CostsSumPerMonth;
-        //public double CostsSumPerMonth
+        //public double SumPerMonth
         //{
         //    get { return _CostsSumPerMonth; }
         //    set
         //    {
         //        _CostsSumPerMonth = value;
-        //        OnPropertyChanged(nameof(CostsSumPerMonth));
+        //        OnPropertyChanged(nameof(SumPerMonth));
         //    }
         //}
 
-
         public RentViewModel RentViewModel { get; }
 
+
+        public IRoomCostsCarrier ViewModel { get; }
+
         #endregion properties
-
-
-        // collections
-        #region collections
-
-       // public ObservableCollection<CostItemViewModel> CostItems => _RentViewModel.Costs;
-
-        #endregion collections
 
 
         // commands
         #region commands
 
-        public ICommand AddCostItemCommand { get; }
+        public ICommand AddFinacialTransactionItemCommand { get; }
 
 
         public ICommand CloseCommand { get; }
@@ -88,7 +88,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public ICommand LeftPressCommand { get; }
 
 
-        public ICommand RemoveCostItemCommand { get; }
+        public ICommand RemoveFinancialTransactionItemCommand { get; }
 
         #endregion commands
 
@@ -96,17 +96,48 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // constructors
         #region constructors
 
+        public CostsViewModel(BillingViewModel billingViewModel)
+        {
+
+            AddFinacialTransactionItemCommand = new RelayCommand((s) => AddFinacialTransactionItem_Billing(s), (s) => true);
+            DuplicateCostItemCommand = new RelayCommand((s) => DuplicateCostItem_Billing(s), (s) => true);
+            RemoveFinancialTransactionItemCommand = new RelayCommand((s) => RemoveFinancialTransactionItem_Billing(s), (s) => true);
+
+            BillingViewModel = billingViewModel;
+            ViewModel = BillingViewModel;
+
+            _FlatViewModel = BillingViewModel.GetFlatViewModel();
+
+            //if (BillingViewModel.CostsHasDataLock)
+            //{
+            //    DataLockCheckbox = true;
+            //}
+
+            CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
+            LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
+
+            //CostItems.CollectionChanged += Costs_CollectionChanged;
+
+
+            RegisterCostItemValueChange();
+
+            CalculateSum();
+        }
+
+
+
         public CostsViewModel(RentViewModel rentViewModel)
         {
 
-            AddCostItemCommand = new RelayCommand((s) => AddCostItem(s), (s) => true);
+            AddFinacialTransactionItemCommand = new RelayCommand((s) => AddFinacialTransactionItem(s), (s) => true);
             DuplicateCostItemCommand = new RelayCommand((s) => DuplicateCostItem(s), (s) => true);
-            RemoveCostItemCommand = new RelayCommand((s) => RemoveCostItem(s), (s) => true);
+            RemoveFinancialTransactionItemCommand = new RelayCommand((s) => RemoveFinancialTransactionItem(s), (s) => true);
 
             RentViewModel = rentViewModel;
 
             _FlatViewModel = rentViewModel.GetFlatViewModel();
 
+            ViewModel = RentViewModel;
 
             if (RentViewModel.CostsHasDataLock)
             {
@@ -130,16 +161,29 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // methods
         #region methods
 
-        private void AddCostItem(object s)
+        private void AddFinacialTransactionItem(object s)
         {
-            CostItemViewModel otherCostItemViewModel = new CostItemViewModel(new FinancialTransactionItem());
+            FinancialTransactionItemViewModel otherCostItemViewModel = new FinancialTransactionItemViewModel(new FinancialTransactionItem());
 
             //otherCostItemViewModel.ValueChange += Item_ValueChange;
             
-            RentViewModel.AddCostItem(otherCostItemViewModel);
+            RentViewModel.AddFinacialTransactionItem(otherCostItemViewModel);
 
             //OnPropertyChanged(nameof(CostItems));
             OnPropertyChanged(nameof(RentViewModel));
+        }
+
+
+        private void AddFinacialTransactionItem_Billing(object s)
+        {
+            FinancialTransactionItemViewModel otherCostItemViewModel = new FinancialTransactionItemViewModel(new FinancialTransactionItem());
+
+            //otherCostItemViewModel.ValueChange += Item_ValueChange;
+
+            BillingViewModel.AddFinacialTransactionItem(otherCostItemViewModel);
+
+            //OnPropertyChanged(nameof(CostItems));
+            OnPropertyChanged(nameof(BillingViewModel));
         }
 
 
@@ -149,38 +193,75 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             if (selection != null)
             {
-                var selected = selection.Cast<CostItemViewModel>().ToArray();
+                var selected = selection.Cast<FinancialTransactionItemViewModel>().ToArray();
 
-                CostItemViewModel costItemViewModel = selected.First();
+                if (selected != null && selected.Length > 0)
+                {
+                    FinancialTransactionItemViewModel costItemViewModel = selected.First();
 
-                CostItemViewModel otherCostItemViewModel = new CostItemViewModel(new FinancialTransactionItem());
+                    FinancialTransactionItemViewModel otherCostItemViewModel = new FinancialTransactionItemViewModel(new FinancialTransactionItem());
 
-                string financialTransactionItem = costItemViewModel.Item;
-                TransactionShareTypes transactionShare = costItemViewModel.CostShareTypes;
-                double transactionSum = costItemViewModel.Cost;
+                    string financialTransactionItem = costItemViewModel.Item;
+                    TransactionShareTypes transactionShare = costItemViewModel.CostShareTypes;
+                    double transactionSum = costItemViewModel.Cost;
 
-                otherCostItemViewModel.CostItem.TransactionItem = financialTransactionItem;
-                otherCostItemViewModel.CostItem.TransactionShareTypes = transactionShare;
-                otherCostItemViewModel.CostItem.TransactionSum = transactionSum;
+                    otherCostItemViewModel.FTI.TransactionItem = financialTransactionItem;
+                    otherCostItemViewModel.FTI.TransactionShareTypes = transactionShare;
+                    otherCostItemViewModel.FTI.TransactionSum = transactionSum;
 
-                otherCostItemViewModel.ValueChange += Item_ValueChange;
+                    otherCostItemViewModel.ValueChange += Item_ValueChange;
 
-                RentViewModel.AddCostItem(otherCostItemViewModel);
+                    RentViewModel.AddFinacialTransactionItem(otherCostItemViewModel);
 
-                //OnPropertyChanged(nameof(CostItems));
-                OnPropertyChanged(nameof(RentViewModel));
+                    //OnPropertyChanged(nameof(CostItems));
+                    OnPropertyChanged(nameof(RentViewModel)); 
+                }
             }
 
                  
         }
 
+
+        private void DuplicateCostItem_Billing(object s)
+        {
+            IList selection = (IList)s;
+
+            if (selection != null)
+            {
+                var selected = selection.Cast<FinancialTransactionItemViewModel>().ToArray();
+
+                if (selected != null && selected.Length > 0)
+                {
+                    FinancialTransactionItemViewModel costItemViewModel = selected.First();
+
+                    FinancialTransactionItemViewModel otherCostItemViewModel = new FinancialTransactionItemViewModel(new FinancialTransactionItem());
+
+                    string financialTransactionItem = costItemViewModel.Item;
+                    TransactionShareTypes transactionShare = costItemViewModel.CostShareTypes;
+                    double transactionSum = costItemViewModel.Cost;
+
+                    otherCostItemViewModel.FTI.TransactionItem = financialTransactionItem;
+                    otherCostItemViewModel.FTI.TransactionShareTypes = transactionShare;
+                    otherCostItemViewModel.FTI.TransactionSum = transactionSum;
+
+                    otherCostItemViewModel.ValueChange += Item_ValueChange;
+
+                    //BillingViewModel.AddCostItem(otherCostItemViewModel);
+
+                    //OnPropertyChanged(nameof(CostItems));
+                    OnPropertyChanged(nameof(BillingViewModel)); 
+                }
+            }
+        }
+
+
         private void CalculateSum()
         {
-            //CostsSumPerMonth = 0.0;
+            //SumPerMonth = 0.0;
 
-            //foreach (CostItemViewModel item in CostItems)
+            //foreach (FinancialTransactionItemViewModel item in CostItems)
             //{
-            //    CostsSumPerMonth += item.Cost;
+            //    SumPerMonth += item.Cost;
             //}
         }
 
@@ -190,7 +271,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             Window window = (Window)s;
 
             MessageBoxResult result = MessageBox.Show(window,
-                $"Close Other Costs window?\n\n",
+                $"Close Other FinancialTransactionItems window?\n\n",
                 "Close Window", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
@@ -211,7 +292,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         private void RegisterCostItemValueChange()
         {
-            //foreach (CostItemViewModel item in CostItems)
+            //foreach (FinancialTransactionItemViewModel item in CostItems)
             //{
             //    item.ValueChange += Item_ValueChange;
             //}
@@ -219,7 +300,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
 
 
-        private void RemoveCostItem(object s)
+        private void RemoveFinancialTransactionItem(object s)
         {
             IList selection = (IList)s;
 
@@ -230,11 +311,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     "Remove Other TransactionSum(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    var selected = selection.Cast<CostItemViewModel>().ToArray();
+                    var selected = selection.Cast<FinancialTransactionItemViewModel>().ToArray();
 
                     foreach (var item in selected)
                     {
-                        RentViewModel.RemoveCostItem(item);
+                        RentViewModel.RemoveFinancialTransactionItemViewModel(item);
 
                         //OnPropertyChanged(nameof(CostItems));
                         OnPropertyChanged(nameof(RentViewModel));
@@ -242,6 +323,32 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 }
             }
         }
+
+
+        private void RemoveFinancialTransactionItem_Billing(object s)
+        {
+            IList selection = (IList)s;
+
+            if (selection != null)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                    $"Do you want to delete selected other costs?",
+                    "Remove Other TransactionSum(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    var selected = selection.Cast<FinancialTransactionItemViewModel>().ToArray();
+
+                    foreach (var item in selected)
+                    {
+                        BillingViewModel.RemoveFinancialTransactionItemViewModel(item);
+
+                        //OnPropertyChanged(nameof(CostItems));
+                        OnPropertyChanged(nameof(BillingViewModel));
+                    }
+                }
+            }
+        }
+
 
         #endregion methods
 

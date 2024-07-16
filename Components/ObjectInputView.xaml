@@ -10,13 +10,17 @@
              d:DesignHeight="450" d:DesignWidth="800" Margin="0">
     <Grid HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
             
         <TextBlock Text="{Binding Path=Label, ElementName=SIV}"
                    Grid.Column="0"
                    TextAlignment="Left"
+                   MinWidth="{Binding Path=LabelMinWidth,
+            ElementName=SIV}"
+                   Width="{Binding Path=LabelWidth,
+            ElementName=SIV}"
                    Style="{StaticResource StringValueTextBlock}"
                    />
         <TextBox Text="{Binding Path=Value, ElementName=SIV, UpdateSourceTrigger=PropertyChanged}"
@@ -25,8 +29,10 @@
                  Grid.Column="1"
                  TextWrapping="Wrap"
                  AcceptsReturn="True"
-                 TextAlignment="{Binding Path=ValueAlignment, ElementName=SIV}"
-                 MinWidth="{Binding Path=ValueMinWidth, ElementName=SIV}"
+                 TextAlignment="{Binding Path=ValueAlignment,
+            ElementName=SIV}"
+                 MinWidth="{Binding Path=ValueMinWidth,
+            ElementName=SIV}"
                  Style="{StaticResource StringValueTextBox}"/>
     </Grid>
 </UserControl>

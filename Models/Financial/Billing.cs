@@ -7,9 +7,12 @@
 
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces.Financial;
+using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
+using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
+using static System.Net.WebRequestMethods;
 
 namespace SharedLivingCostCalculator.Models.Financial
 {
@@ -39,12 +42,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         // combined costs of fixed costs and heating costs
         // costs need to take RoomPayments per room into consideration
-        public FinancialTransactionItem TotalCostsPerPeriod { get; set; } = new FinancialTransactionItem()
-        {
-            TransactionItem = "Costs",
-            TransactionShareTypes = TransactionShareTypes.Equal,
-            TransactionSum = 0.0
-        };
+        public double TotalCostsPerPeriod { get; set; } = 0.0;
 
 
         // fixed costs
@@ -52,7 +50,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         // (((room area) + (shared space)/(amount of Rooms))/(total area)) * fixed costs
         public FinancialTransactionItem TotalFixedCostsPerPeriod { get; set; } = new FinancialTransactionItem()
         {
-            TransactionItem = "Costs Fixed",
+            TransactionItem = "Fixed",
             TransactionShareTypes = TransactionShareTypes.Area,
             TransactionSum = 0.0
         };
@@ -64,7 +62,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         // account
         public FinancialTransactionItem TotalHeatingCostsPerPeriod { get; set; } = new FinancialTransactionItem()
         {
-            TransactionItem = "Costs Heating",
+            TransactionItem = "Heating",
             TransactionShareTypes = TransactionShareTypes.Consumption,
             TransactionSum = 0.0
         };
@@ -86,6 +84,17 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         // storing the costs of each room
         // per billing period and the consumption of heating units per billing period
+        [XmlArray("Consumptions")]
+        public ObservableCollection<ConsumptionItem> ConsumptionItems { get; set; } = new ObservableCollection<ConsumptionItem>();
+        // storing TransactionItems in case of other costs being factored in into rent calculation
+
+
+        [XmlArray("OtherCostItemCollection")]
+        public ObservableCollection<FinancialTransactionItem> Costs { get; set; } = new ObservableCollection<FinancialTransactionItem>();
+
+
+        // storing the costs of each room
+        // per billing period and the consumption of heating units per billing period
         [XmlArray("HeatingUnits")]
         public ObservableCollection<RoomCosts> RoomCostsConsumptionValues { get; set; } = new ObservableCollection<RoomCosts>();
 
@@ -103,6 +112,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public Billing()
         {
+
         }
 
 
@@ -132,7 +142,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         {
             StartDate = startDate;
             EndDate = endDate;
-            TotalCostsPerPeriod.TransactionSum = totalCostsPerPeriod;
+            TotalCostsPerPeriod = totalCostsPerPeriod;
             TotalFixedCostsPerPeriod.TransactionSum = totalFixedCostsPerPeriod;
             TotalHeatingCostsPerPeriod.TransactionSum = totalHeatingCostsPerPeriod;
             TotalHeatingUnitsConsumption = totalHeatingUnitsConsumption;
@@ -146,6 +156,104 @@ namespace SharedLivingCostCalculator.Models.Financial
         }
 
         #endregion constructors
+
+
+        // Methods
+        #region Methods
+
+        public void AddConsumptionItem(ConsumptionItem consumptionItem)
+        {
+           int count = 0;
+
+            foreach (ConsumptionItem item in ConsumptionItems)
+            {
+                if (!item.ConsumptionCause.TransactionItem.Equals(consumptionItem.ConsumptionCause.TransactionItem)
+                    && !item.ConsumptionCause.TransactionItem.Equals("other cost item"))
+                {
+                    count++;
+                }
+            }
+
+            if (count > 0)
+            {
+                ConsumptionItems.Add(consumptionItem);
+            }            
+
+        }
+
+
+        public void AddFinacialTransactionItem(FinancialTransactionItem financialTransactionItem)
+        {
+            if (IsNewFTI(financialTransactionItem))
+            {
+                Costs.Add(financialTransactionItem);
+            }
+
+            if (!CollectionContainsFTI(Costs, financialTransactionItem))
+            {
+                Costs.Add(financialTransactionItem);
+            }
+        }
+
+
+        private bool CollectionContainsFTI(ICollection<FinancialTransactionItem> FTIs, FinancialTransactionItem item)
+        {
+            foreach (FinancialTransactionItem fti in FTIs)
+            {
+                if (CompareFTI(fti, item))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CompareFTI(FinancialTransactionItem fti, FinancialTransactionItem item)
+        {
+            if (item.TransactionItem == fti.TransactionItem
+                && item.TransactionSum == fti.TransactionSum
+                && item.TransactionShareTypes == fti.TransactionShareTypes)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+        private bool IsNewFTI(FinancialTransactionItem item)
+        {
+            if (item.TransactionSum == 0.0
+                && item.TransactionItem.Equals("other cost item"))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+
+
+        public void RemoveConsumptionItem(ConsumptionItem consumptionItem)
+        {
+            if (ConsumptionItems.Contains(consumptionItem))
+            {
+                ConsumptionItems.Remove(consumptionItem);
+            }
+        }
+
+
+        public void RemoveFinacialTransactionItem(FinancialTransactionItem financialTransactionItem)
+        {
+            if (CollectionContainsFTI(Costs, financialTransactionItem))
+            {
+                    Costs.Remove(financialTransactionItem);                    
+            }
+        }
+
+        #endregion
 
 
     }

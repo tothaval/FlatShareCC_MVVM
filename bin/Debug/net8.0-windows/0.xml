@@ -30,35 +30,63 @@
         <HasDataLock>false</HasDataLock>
         <HasPayments>false</HasPayments>
         <StartDate>2023-07-10T19:34:12.5424049+02:00</StartDate>
-        <TotalCostsPerPeriod>
-          <TransactionSum>1500</TransactionSum>
-          <TransactionShareTypes>Equal</TransactionShareTypes>
-          <TransactionItem>other cost item</TransactionItem>
-        </TotalCostsPerPeriod>
+        <TotalCostsPerPeriod>1500</TotalCostsPerPeriod>
         <TotalFixedCostsPerPeriod>
-          <TransactionSum>375</TransactionSum>
+          <TransactionSum>0</TransactionSum>
           <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>other cost item</TransactionItem>
         </TotalFixedCostsPerPeriod>
         <TotalHeatingCostsPerPeriod>
-          <TransactionSum>1125</TransactionSum>
-          <TransactionShareTypes>Equal</TransactionShareTypes>
-          <TransactionItem>other cost item</TransactionItem>
+          <TransactionSum>0</TransactionSum>
+          <TransactionShareTypes>Consumption</TransactionShareTypes>
+          <TransactionItem>Heating</TransactionItem>
         </TotalHeatingCostsPerPeriod>
         <TotalHeatingUnitsConsumption>1500</TotalHeatingUnitsConsumption>
-        <TotalHeatingUnitsRoom>1432</TotalHeatingUnitsRoom>
+        <TotalHeatingUnitsRoom>1390</TotalHeatingUnitsRoom>
+        <Consumptions>
+          <ConsumptionItem>
+            <ConsumptionCause>
+              <TransactionSum>0</TransactionSum>
+              <TransactionShareTypes>Consumption</TransactionShareTypes>
+              <TransactionItem>Heating</TransactionItem>
+            </ConsumptionCause>
+            <ConsumedUnits>15000</ConsumedUnits>
+            <HeatingUnits />
+          </ConsumptionItem>
+          <ConsumptionItem>
+            <ConsumptionCause>
+              <TransactionSum>0</TransactionSum>
+              <TransactionShareTypes>Consumption</TransactionShareTypes>
+              <TransactionItem>gasoline</TransactionItem>
+            </ConsumptionCause>
+            <ConsumedUnits>200</ConsumedUnits>
+            <HeatingUnits />
+          </ConsumptionItem>
+        </Consumptions>
+        <OtherCostItemCollection>
+          <FinancialTransactionItem>
+            <TransactionSum>0</TransactionSum>
+            <TransactionShareTypes>Consumption</TransactionShareTypes>
+            <TransactionItem>gasoline</TransactionItem>
+          </FinancialTransactionItem>
+          <FinancialTransactionItem>
+            <TransactionSum>0</TransactionSum>
+            <TransactionShareTypes>Equal</TransactionShareTypes>
+            <TransactionItem>other cost item</TransactionItem>
+          </FinancialTransactionItem>
+        </OtherCostItemCollection>
         <HeatingUnits>
           <RoomCosts>
             <FixedShare>0</FixedShare>
             <HeatingShare>0</HeatingShare>
-            <HeatingUnitsConsumption>222</HeatingUnitsConsumption>
+            <HeatingUnitsConsumption>150</HeatingUnitsConsumption>
             <RentShare>0</RentShare>
             <RoomName>room10</RoomName>
           </RoomCosts>
           <RoomCosts>
             <FixedShare>0</FixedShare>
             <HeatingShare>0</HeatingShare>
-            <HeatingUnitsConsumption>220</HeatingUnitsConsumption>
+            <HeatingUnitsConsumption>250</HeatingUnitsConsumption>
             <RentShare>0</RentShare>
             <RoomName>room22</RoomName>
           </RoomCosts>
@@ -122,22 +150,32 @@
           <TransactionItem>cost item</TransactionItem>
         </FinancialTransactionItem>
         <FinancialTransactionItem>
-          <TransactionSum>57</TransactionSum>
+          <TransactionSum>24</TransactionSum>
           <TransactionShareTypes>Area</TransactionShareTypes>
-          <TransactionItem>other cost</TransactionItem>
+          <TransactionItem>testitem</TransactionItem>
+        </FinancialTransactionItem>
+        <FinancialTransactionItem>
+          <TransactionSum>10</TransactionSum>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionItem>other cost item</TransactionItem>
+        </FinancialTransactionItem>
+        <FinancialTransactionItem>
+          <TransactionSum>0</TransactionSum>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionItem>other cost item</TransactionItem>
         </FinancialTransactionItem>
       </OtherCostItemCollection>
       <RoomCostShares>
         <RoomCosts>
           <FixedShare>28.91304347826087</FixedShare>
-          <HeatingShare>23.68</HeatingShare>
+          <HeatingShare>16</HeatingShare>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
           <RentShare>43.369565217391305</RentShare>
           <RoomName>room10</RoomName>
         </RoomCosts>
         <RoomCosts>
           <FixedShare>26.884057971014492</FixedShare>
-          <HeatingShare>23.46666666666667</HeatingShare>
+          <HeatingShare>26.666666666666664</HeatingShare>
           <HeatingUnitsConsumption>0</HeatingUnitsConsumption>
           <RentShare>40.326086956521735</RentShare>
           <RoomName>room22</RoomName>
@@ -184,11 +222,7 @@ Costs</TransactionItem>
         <HasDataLock>false</HasDataLock>
         <HasPayments>false</HasPayments>
         <StartDate>2023-07-10T19:22:57.9058098+02:00</StartDate>
-        <TotalCostsPerPeriod>
-          <TransactionSum>0</TransactionSum>
-          <TransactionShareTypes>Equal</TransactionShareTypes>
-          <TransactionItem>other cost item</TransactionItem>
-        </TotalCostsPerPeriod>
+        <TotalCostsPerPeriod>1400</TotalCostsPerPeriod>
         <TotalFixedCostsPerPeriod>
           <TransactionSum>0</TransactionSum>
           <TransactionShareTypes>Equal</TransactionShareTypes>
@@ -201,6 +235,18 @@ Costs</TransactionItem>
         </TotalHeatingCostsPerPeriod>
         <TotalHeatingUnitsConsumption>1250</TotalHeatingUnitsConsumption>
         <TotalHeatingUnitsRoom>1170</TotalHeatingUnitsRoom>
+        <Consumptions>
+          <ConsumptionItem>
+            <ConsumptionCause>
+              <TransactionSum>0</TransactionSum>
+              <TransactionShareTypes>Consumption</TransactionShareTypes>
+              <TransactionItem>Heating</TransactionItem>
+            </ConsumptionCause>
+            <ConsumedUnits>0</ConsumedUnits>
+            <HeatingUnits />
+          </ConsumptionItem>
+        </Consumptions>
+        <OtherCostItemCollection />
         <HeatingUnits>
           <RoomCosts>
             <FixedShare>0</FixedShare>
@@ -321,7 +367,28 @@ Costs</TransactionItem>
         </RoomAssignment>
         <RoomAssignment>
           <RoomName>room40</RoomName>
-          <TenantName>tenant_100</TenantName>
+          <TenantName>tenant_22</TenantName>
+        </RoomAssignment>
+      </RoomAssignments>
+    </TenantConfiguration>
+    <TenantConfiguration>
+      <Start>2024-07-16T19:59:00.7426549+02:00</Start>
+      <RoomAssignments>
+        <RoomAssignment>
+          <RoomName>room10</RoomName>
+          <TenantName>tenant_33</TenantName>
+        </RoomAssignment>
+        <RoomAssignment>
+          <RoomName>room22</RoomName>
+          <TenantName>tenant_47</TenantName>
+        </RoomAssignment>
+        <RoomAssignment>
+          <RoomName>room31</RoomName>
+          <TenantName>tenant_70</TenantName>
+        </RoomAssignment>
+        <RoomAssignment>
+          <RoomName>room40</RoomName>
+          <TenantName>tenant_25</TenantName>
         </RoomAssignment>
       </RoomAssignments>
     </TenantConfiguration>

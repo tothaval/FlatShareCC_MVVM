@@ -3,7 +3,7 @@
  *  Flat 
  * 
  *  serializable data model class
- *  for CostItemViewModel
+ *  for FinancialTransactionItemViewModel
  */
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces.Financial;
