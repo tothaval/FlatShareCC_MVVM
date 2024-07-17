@@ -103,7 +103,7 @@
                     </TextBlock>
 
                     <TextBlock Style="{StaticResource Header}"
-                               Text="{Binding SumPerMonth, StringFormat=C2}"
+                               Text="{Binding ViewModel.SumPerMonth, StringFormat=C2}"
                                TextAlignment="Right"
                                FontWeight="Bold"
                                HorizontalAlignment="Right"/>

@@ -182,7 +182,6 @@
                                   CommandParameter="{Binding ElementName=BillingSetupWindow}"
                                   IsChecked="{Binding CostsWindowActive}"
                                   Style="{StaticResource toggleButtonStyle}"
-                                  IsEnabled="{Binding DataLock}"
                                   Margin="0 5 0 0"
                                   Grid.Column="0"
                                   Grid.ColumnSpan="2"

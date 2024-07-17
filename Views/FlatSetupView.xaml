@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <c_views:ObjectInputView Label="{DynamicResource IDF_Address}"
-                                 LabelMinWidth="100"
+                                 LabelMinWidth="125"
                                Value="{Binding FlatSetup.Address,
             UpdateSourceTrigger=PropertyChanged,
             NotifyOnSourceUpdated=True,
@@ -39,7 +39,7 @@
                                Grid.Row="0" />
 
         <c_views:ObjectInputView Label="{DynamicResource IDF_Details}"
-                                 LabelMinWidth="100"
+                                 LabelMinWidth="125"
                                Value="{Binding FlatSetup.Details,
             UpdateSourceTrigger=PropertyChanged,
             NotifyOnSourceUpdated=True,
@@ -49,13 +49,13 @@
                                Grid.Row="1" />
 
         <c_views:DoubleInputView Label="{DynamicResource IDF_FlatArea}"
-                                 LabelMinWidth="100"
+                                 LabelMinWidth="125"
                                Value="{Binding FlatSetup.Area,
             NotifyOnSourceUpdated=True,
             UpdateSourceTrigger=PropertyChanged,
             NotifyOnTargetUpdated=True,
             Mode=TwoWay,
-                              StringFormat=\{0:n\}, Delay=250}"                                 
+                              Delay=250}"                                 
                                IsEnabled="{Binding IsNewFlatWindow}"
                                Foreground="DarkSlateGray"
                                  ValueAlignment="Right"
@@ -63,7 +63,7 @@
                                Grid.Row="2" />
 
         <c_views:ObjectInputView Label="{DynamicResource IDF_Rooms}"
-                                 LabelMinWidth="100"
+                                 LabelMinWidth="125"
                                Value="{Binding FlatSetup.RoomCount,
             NotifyOnSourceUpdated=True,
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"

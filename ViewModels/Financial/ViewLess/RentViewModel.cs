@@ -66,13 +66,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         public double CompleteCosts => CostsTotal + SumPerMonth;
 
 
-        private double _CostsSumPerMonth;
+        private double _SumPerMonth;
         public double SumPerMonth
         {
-            get { return _CostsSumPerMonth; }
+            get { return _SumPerMonth; }
             set
             {
-                _CostsSumPerMonth = value;
+                _SumPerMonth = value;
                 OnPropertyChanged(nameof(SumPerMonth));
             }
         }
@@ -303,7 +303,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        private void CalculateSum()
+        public void CalculateSumPerMonth()
         {
             SumPerMonth = 0.0;
 
@@ -334,7 +334,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 item.ValueChange += CostItemViewModel_ValueChange;
             }
 
-            CalculateSum();
+            CalculateSumPerMonth();
 
             OnPropertyChanged(nameof(AnnualOtherCosts));
             OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
@@ -387,7 +387,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         private void CostItemViewModel_ValueChange(object? sender, EventArgs e)
         {
-            CalculateSum();
+            CalculateSumPerMonth();
 
             OnPropertyChanged(nameof(AnnualOtherCosts));
             OnPropertyChanged(nameof(CompleteCosts));

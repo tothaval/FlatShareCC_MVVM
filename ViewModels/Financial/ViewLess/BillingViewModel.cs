@@ -209,6 +209,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public bool CostsHasDataLock
+        {
+            get { return GetBilling.CostsHasDataLock; }
+            set
+            {
+                GetBilling.CostsHasDataLock = value;
+
+                BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
+
+                OnPropertyChanged(nameof(CostsHasDataLock));
+            }
+        }
+
+
         public DateTime EndDate
         {
             get { return GetBilling.EndDate; }
@@ -327,6 +341,18 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                     OnPropertyChanged(nameof(StartDate));
                 }
+            }
+        }
+
+
+        private double _SumPerMonth;
+        public double SumPerMonth
+        {
+            get { return _SumPerMonth; }
+            set
+            {
+                _SumPerMonth = value;
+                OnPropertyChanged(nameof(SumPerMonth));
             }
         }
 
@@ -500,6 +526,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             return paymentsPerPeriod;
         }
 
+        public void CalculateSumPerMonth()
+        {
+            SumPerMonth = 0.0;
+
+            foreach (FinancialTransactionItemViewModel item in FinancialTransactionItemViewModels)
+            {
+                SumPerMonth += item.Cost;
+            }
+
+            OnPropertyChanged(nameof(SumPerMonth));
+        }
+
+
         private double DetermineBalance()
         {
             double balance = 0.0;
@@ -603,24 +642,28 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         private void GenerateConsumptionItemViewModels()
         {
-            ConsumptionItemViewModels = new ObservableCollection<ConsumptionItemViewModel>();
-
             if (GetBilling != null && FinancialTransactionItemViewModels != null)
-            {               
+            {
+                ConsumptionItemViewModels = new ObservableCollection<ConsumptionItemViewModel>();
 
                 foreach (FinancialTransactionItemViewModel item in FinancialTransactionItemViewModels)
                 {
                     if (item.CostShareTypes == Enums.TransactionShareTypes.Consumption)
                     {
-                        GetBilling.AddConsumptionItem(new ConsumptionItem(item.FTI, 0.0));
-                    }
+                        GetBilling.AddConsumptionItem(item.FTI);
+                    }                    
                 }
+
+
+                GetBilling.Check4HeatingCosts();
 
                 foreach (ConsumptionItem item in GetBilling.ConsumptionItems)
                 {
                     ConsumptionItemViewModels.Add(new ConsumptionItemViewModel(item, this));
                 }
             }
+
+            OnPropertyChanged(nameof(ConsumptionItemViewModels));
         }
 
 
@@ -645,6 +688,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         private void FinancialTransactionItemViewModel_ValueChange(object? sender, EventArgs e)
         {
             GenerateConsumptionItemViewModels();
+
+            CalculateSumPerMonth();
+
         }
 
         public void GenerateRoomConsumptionItems()
@@ -714,7 +760,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             GenerateFTIViewModels();
 
-            OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
+            GenerateConsumptionItemViewModels();
         }
 
 
