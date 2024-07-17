@@ -5,12 +5,14 @@
  *  data model class for BillingViewModel
  */
 
+using Microsoft.VisualBasic;
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using System.Collections.ObjectModel;
+using System.Reflection.Metadata.Ecma335;
 using System.Xml.Serialization;
 using static System.Net.WebRequestMethods;
 
@@ -22,6 +24,9 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         // properties & fields
         #region properties
+
+        public bool CostsHasDataLock { get; set; } = false;
+
 
         // end of billing period
         public DateTime EndDate { get; set; } = DateTime.Now;
@@ -112,7 +117,6 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public Billing()
         {
-
         }
 
 
@@ -120,12 +124,13 @@ namespace SharedLivingCostCalculator.Models.Financial
                 FlatViewModel model
                 )
         {
-
             foreach (RoomViewModel room in model.Rooms)
             {
                 RoomCostsConsumptionValues.Add(new RoomCosts(room));
                 RoomPayments.Add(new RoomPayments(room));
             }
+
+            Check4HeatingCosts();
         }
 
 
@@ -161,23 +166,24 @@ namespace SharedLivingCostCalculator.Models.Financial
         // Methods
         #region Methods
 
-        public void AddConsumptionItem(ConsumptionItem consumptionItem)
+        public void AddConsumptionItem(FinancialTransactionItem financialTransactionItem)
         {
-           int count = 0;
+            int count = 0;
 
             foreach (ConsumptionItem item in ConsumptionItems)
             {
-                if (!item.ConsumptionCause.TransactionItem.Equals(consumptionItem.ConsumptionCause.TransactionItem)
-                    && !item.ConsumptionCause.TransactionItem.Equals("other cost item"))
+                if (CompareFTI(item.ConsumptionCause, financialTransactionItem))
                 {
                     count++;
                 }
             }
 
-            if (count > 0)
+            if (count == 0)
             {
-                ConsumptionItems.Add(consumptionItem);
-            }            
+                ConsumptionItems.Add(new ConsumptionItem(financialTransactionItem));
+            }
+
+            Check4HeatingCosts();
 
         }
 
@@ -186,13 +192,27 @@ namespace SharedLivingCostCalculator.Models.Financial
         {
             if (IsNewFTI(financialTransactionItem))
             {
+                if (financialTransactionItem.TransactionShareTypes == TransactionShareTypes.Consumption)
+                {
+                    AddConsumptionItem(financialTransactionItem);
+                }                
+
                 Costs.Add(financialTransactionItem);
             }
 
             if (!CollectionContainsFTI(Costs, financialTransactionItem))
             {
+                AddConsumptionItem(financialTransactionItem);
+
                 Costs.Add(financialTransactionItem);
             }
+
+            //RebuildConsumptionItems();
+        }
+
+        public void BoringIsLifeAndStupidAmI()
+        {
+
         }
 
 
@@ -209,6 +229,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             return false;
         }
 
+
         private bool CompareFTI(FinancialTransactionItem fti, FinancialTransactionItem item)
         {
             if (item.TransactionItem == fti.TransactionItem
@@ -219,6 +240,51 @@ namespace SharedLivingCostCalculator.Models.Financial
             }
 
             return false;
+        }
+
+
+        public void Check4HeatingCosts()
+        {
+            TotalHeatingCostsPerPeriod.TransactionShareTypes = TransactionShareTypes.Consumption;
+            TotalHeatingCostsPerPeriod.TransactionItem = "Heating";
+
+            int heatingCostsCount = 0;
+            bool hasForeignObject = false;
+
+            foreach (ConsumptionItem item in ConsumptionItems)
+            {
+                if (item.ConsumptionCause.TransactionItem.Equals(TotalHeatingCostsPerPeriod.TransactionItem))
+                {
+                    heatingCostsCount++;
+
+                    if (heatingCostsCount > 1)
+                    {
+                        ConsumptionItems.Remove(item);
+
+                        break;
+                    }
+                }
+
+                if (item.ConsumptionCause.TransactionShareTypes != TransactionShareTypes.Consumption)
+                {
+                    ConsumptionItems.Remove(item);
+                    hasForeignObject = true;
+                    break;
+                }
+            }
+
+            if (heatingCostsCount == 0)
+            {
+                ConsumptionItems.Add(new ConsumptionItem(TotalHeatingCostsPerPeriod));
+            }
+            else if(heatingCostsCount > 1)
+            {
+                Check4HeatingCosts();
+            }
+            else if(hasForeignObject)
+            {
+                Check4HeatingCosts();
+            }
         }
 
 
@@ -234,14 +300,19 @@ namespace SharedLivingCostCalculator.Models.Financial
         }
 
 
-
-
-        public void RemoveConsumptionItem(ConsumptionItem consumptionItem)
+        private void RemoveConsumptionItem(FinancialTransactionItem financialTransactionItem)
         {
-            if (ConsumptionItems.Contains(consumptionItem))
+            foreach (ConsumptionItem item in ConsumptionItems)
             {
-                ConsumptionItems.Remove(consumptionItem);
+                if (CompareFTI(financialTransactionItem, item.ConsumptionCause))
+                {
+                    ConsumptionItems.Remove(item);
+                    break;
+                }
             }
+
+            Check4HeatingCosts();
+
         }
 
 
@@ -249,8 +320,12 @@ namespace SharedLivingCostCalculator.Models.Financial
         {
             if (CollectionContainsFTI(Costs, financialTransactionItem))
             {
-                    Costs.Remove(financialTransactionItem);                    
+                RemoveConsumptionItem(financialTransactionItem); 
+
+                Costs.Remove(financialTransactionItem);
             }
+
+            //RebuildConsumptionItems();
         }
 
         #endregion

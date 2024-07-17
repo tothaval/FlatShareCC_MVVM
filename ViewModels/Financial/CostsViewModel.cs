@@ -39,8 +39,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             get { return _DataLockCheckbox; }
             set
             {
-                _DataLockCheckbox = value;
-                RentViewModel.CostsHasDataLock = value;
+                if (BillingViewModel != null)
+                {
+
+                    _DataLockCheckbox = value;
+                    BillingViewModel.CostsHasDataLock = value;
+                }
+
+                if (RentViewModel != null)
+                {
+                    _DataLockCheckbox = value;
+                    RentViewModel.CostsHasDataLock = value;
+
+                }
+
                 OnPropertyChanged(nameof(DataLockCheckbox));
                 OnPropertyChanged(nameof(DataLock));
             }
@@ -54,13 +66,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
-        //private double _CostsSumPerMonth;
+        //private double _SumPerMonth;
         //public double SumPerMonth
         //{
-        //    get { return _CostsSumPerMonth; }
+        //    get { return _SumPerMonth; }
         //    set
         //    {
-        //        _CostsSumPerMonth = value;
+        //        _SumPerMonth = value;
         //        OnPropertyChanged(nameof(SumPerMonth));
         //    }
         //}

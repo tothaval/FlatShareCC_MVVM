@@ -16,7 +16,10 @@ namespace SharedLivingCostCalculator.Interfaces.Financial
     public interface IRoomCostsCarrier
     {
         public ObservableCollection<FinancialTransactionItemViewModel> FinancialTransactionItemViewModels { get; set; }
+        
+        public double SumPerMonth { get; set; }
 
+        public void CalculateSumPerMonth();
 
         void GenerateRoomCosts();
 
