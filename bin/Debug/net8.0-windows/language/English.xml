@@ -57,7 +57,10 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_TenantManagement>Tenants</IDF_TenantManagement>
   <IDF_TenantSetup>Tenants</IDF_TenantSetup>
   <IDF_ActiveTenantCount>Active Tenants</IDF_ActiveTenantCount>
-  <IDF_SharedFlatArea>Shared Area</IDF_SharedFlatArea>
+  <IDF_SharedFlatArea>Shared
+Area</IDF_SharedFlatArea>
+  <IDF_RentedAreaShare>Rented
+Area</IDF_RentedAreaShare>
   <IDF_CombinedRoomArea>All Rooms Area</IDF_CombinedRoomArea>
   <AccountingHeaderText>Accounting</AccountingHeaderText>
   <FlatManagementHeaderText>Flat Management</FlatManagementHeaderText>
@@ -74,18 +77,28 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_RentChange>Rent Change(s)</IDF_RentChange>
   <IDF_RentUpdateData>Rent Data</IDF_RentUpdateData>
   <IDF_RentOptions>Rent Options</IDF_RentOptions>
-  <IDF_RentShare>Rent Share</IDF_RentShare>
-  <IDF_AdvanceFixed>Fixed Costs</IDF_AdvanceFixed>
-  <IDF_AdvanceHeating>Heating Costs</IDF_AdvanceHeating>
+  <IDF_RentShare>Rent
+Share</IDF_RentShare>
+  <IDF_AdvanceFixed>Fixed
+Advance</IDF_AdvanceFixed>
+  <IDF_AdvanceHeating>Heating
+Advance</IDF_AdvanceHeating>
+  <IDF_Fixed>Fixed</IDF_Fixed>
+  <IDF_Heating>Heating</IDF_Heating>
   <IDF_AdvanceTotal>Total Costs</IDF_AdvanceTotal>
   <IDF_PriceTotal>Total Price</IDF_PriceTotal>
   <IDF_BaseRentOnBilling>factor in billing</IDF_BaseRentOnBilling>
   <IDF_AnnualBilling>Annual Billing</IDF_AnnualBilling>
   <IDF_Costs>Other Costs Setup</IDF_Costs>
-  <IDF_OtherCosts>Other Costs</IDF_OtherCosts>
+  <IDF_OtherCostsAdvance>Other
+Costs</IDF_OtherCostsAdvance>
+  <IDF_OtherCosts>other costs details</IDF_OtherCosts>
+  <IDF_OtherCostsList>Additional Cost Items</IDF_OtherCostsList>
+  <IDF_OtherCostsSum>Sum</IDF_OtherCostsSum>
   <IDF_AnnualOther>Other</IDF_AnnualOther>
   <IDF_AnnualComplete>Complete</IDF_AnnualComplete>
-  <IDF_CompleteCosts>Complete</IDF_CompleteCosts>
+  <IDF_CompleteCosts>Complete
+Costs</IDF_CompleteCosts>
   <IDF_Credit>Credit(s)</IDF_Credit>
   <IDF_HasOtherCosts>factor in other costs</IDF_HasOtherCosts>
   <IDF_NewOtherCosts>setup other costs</IDF_NewOtherCosts>

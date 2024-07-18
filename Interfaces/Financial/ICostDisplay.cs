@@ -11,6 +11,7 @@ namespace SharedLivingCostCalculator.Interfaces.Financial
 {
     public interface ICostDisplay
     {
+        public string Signature { get; }
 
         FlatViewModel GetFlatViewModel();
 

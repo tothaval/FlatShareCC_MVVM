@@ -50,9 +50,18 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             set
             {
                 _ShowOtherCosts = value;
+
+                if (_ShowOtherCosts)
+                {
+                    ShowRoomCostsPerMonth = false;
+                    ShowRoomCostsPerYear = false;
+                }
+
                 OnPropertyChanged(nameof(ShowOtherCosts));
             }
         }
+
+         
 
 
         private bool _ShowRoomCosts;
@@ -66,6 +75,51 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             }
         }
 
+
+        private bool _ShowRoomCostsPerMonth;
+        public bool ShowRoomCostsPerMonth
+        {
+            get { return _ShowRoomCostsPerMonth; }
+            set
+            {
+                _ShowRoomCostsPerMonth = value;
+
+                if (_ShowRoomCostsPerMonth)
+                {
+                    ShowOtherCosts = false;
+                    ShowRoomCostsPerYear = false;
+                }
+
+                OnPropertyChanged(nameof(ShowRoomCostsPerMonth));
+            }
+        }
+
+
+        private bool _ShowRoomCostsPerYear;
+        public bool ShowRoomCostsPerYear
+        {
+            get { return _ShowRoomCostsPerYear; }
+            set
+            {
+                _ShowRoomCostsPerYear = value;
+
+                if (_ShowRoomCostsPerYear)
+                {
+                    ShowOtherCosts = false;
+                    ShowRoomCostsPerMonth = false;                    
+                }
+
+                OnPropertyChanged(nameof(ShowRoomCostsPerYear));
+            }
+        }
+
+        public string Signature 
+        {
+            get => $"{RentViewModel.StartDate:d}\n" +
+                $"\n" +
+                $"{RentViewModel.CompleteCosts:C2}";
+        }
+
         #endregion properties
 
 
@@ -74,7 +128,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public RentCostsViewModel(RentViewModel rentViewModel, FlatViewModel flatViewModel)
         {
             RentViewModel = rentViewModel;
-            _flatViewModel = flatViewModel;                      
+            _flatViewModel = flatViewModel;
+
+            ShowRoomCostsPerMonth = true;
         }
 
         #endregion constructors

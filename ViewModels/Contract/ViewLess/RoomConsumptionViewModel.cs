@@ -10,12 +10,18 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 {
     public class RoomConsumptionViewModel : BaseViewModel
     {
+        private ConsumptionItemViewModel _ConsumptionItemViewModel;
+
+
+        public double ConsumptionPercentage => ConsumptionValue / _ConsumptionItemViewModel.ConsumedUnits * 100;
+
 
         public double ConsumptionValue
         {
             get { return _RoomConsumption.ConsumptionValue; }
             set {
                 _RoomConsumption.ConsumptionValue = value;
+                OnPropertyChanged(nameof(ConsumptionPercentage));
                 OnPropertyChanged(nameof(ConsumptionValue));
             }
         }
@@ -31,9 +37,11 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         public string RoomName => _RoomConsumption.Room.RoomName;
 
 
-        public RoomConsumptionViewModel(RoomConsumption roomConsumption)
+        public RoomConsumptionViewModel(RoomConsumption roomConsumption, ConsumptionItemViewModel consumptionItemViewModel)
         {
             _RoomConsumption = roomConsumption;
+
+            _ConsumptionItemViewModel = consumptionItemViewModel;
         }
 
     }

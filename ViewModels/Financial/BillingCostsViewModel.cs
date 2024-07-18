@@ -55,6 +55,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             }
         }
 
+        public string Signature
+        {
+            get => $"{BillingViewModel.StartDate:d}\n" +
+                   $"{BillingViewModel.EndDate:d}\n" +
+                   $"{BillingViewModel.TotalCostsPerPeriod:C2}";
+        }
+
         #endregion properties
 
 

@@ -67,13 +67,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
 
         //private double _SumPerMonth;
-        //public double SumPerMonth
+        //public double OtherFTISum
         //{
         //    get { return _SumPerMonth; }
         //    set
         //    {
         //        _SumPerMonth = value;
-        //        OnPropertyChanged(nameof(SumPerMonth));
+        //        OnPropertyChanged(nameof(OtherFTISum));
         //    }
         //}
 
@@ -269,11 +269,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         private void CalculateSum()
         {
-            //SumPerMonth = 0.0;
+            //OtherFTISum = 0.0;
 
             //foreach (FinancialTransactionItemViewModel item in CostItems)
             //{
-            //    SumPerMonth += item.Cost;
+            //    OtherFTISum += item.Cost;
             //}
         }
 

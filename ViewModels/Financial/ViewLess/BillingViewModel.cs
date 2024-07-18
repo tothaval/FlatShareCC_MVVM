@@ -6,6 +6,7 @@
  *  
  *  implements IRoomCostCarrier
  */
+using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.Models.Financial;
@@ -25,73 +26,60 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         // properties & fields
         #region properties
 
-        // Heating
-        #region Heating
-
-        public double SharedHeatingUnitsConsumption => TotalHeatingUnitsConsumption - TotalHeatingUnitsRoom;
-
-
-        public double SharedHeatingUnitsConsumptionPercentage => SharedHeatingUnitsConsumption / TotalHeatingUnitsConsumption * 100;
-
-
-        public double TotalHeatingUnitsConsumption
-        {
-            get { return GetBilling.TotalHeatingUnitsConsumption; }
-            set
-            {
-                GetBilling.TotalHeatingUnitsConsumption = value;
-                OnPropertyChanged(nameof(TotalHeatingUnitsConsumption));
-                OnPropertyChanged(nameof(SharedHeatingUnitsConsumption));
-                OnPropertyChanged(nameof(SharedHeatingUnitsConsumptionPercentage));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsConsumption)));
-            }
-        }
-
-
-        public double TotalHeatingUnitsRoom
-        {
-            get { return GetBilling.TotalHeatingUnitsRoom; }
-            set
-            {
-                GetBilling.TotalHeatingUnitsRoom = value;
-                OnPropertyChanged(nameof(TotalHeatingUnitsRoom));
-                OnPropertyChanged(nameof(SharedHeatingUnitsConsumption));
-                OnPropertyChanged(nameof(SharedHeatingUnitsConsumptionPercentage));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingUnitsRoom)));
-            }
-        }
-        #endregion Heating
-
-
         // costs
         #region costs
-        public double TotalRentCosts
-        {
-            get { return -1.0; }
-            //get {
-            //    if (BillingViewModel.RentViewModel == null)
-            //    {
-            //        return -1.0;
-            //    }
 
-            //    
-            // DetermineAnnualRent via calculation and date checks of rent updates in flatviewmodel
-            //
-            //
-            //    return BillingViewModel.RentViewModel.AnnualRent;
-
-            //}
-        }
-
-        public double TotalAdvancePerPeriod => DetermineTotalAdvancePerPeriod();
-
+        /// <summary>
+        /// depending on configuration of billing object: Balance will return
+        /// the result of all payments (and credits) per Period minus all costs per period (including Rent) or
+        /// the result of all advances (and credtis) per Period minus all costs per period (exxcluding Rent)
+        /// </summary>
         public double Balance => DetermineBalance();
 
 
+        private double _SumPerMonth;
+        /// <summary>
+        /// sum of all other costs (FTIs) in CostView, except Heating FTI
+        /// </summary>
+        public double OtherFTISum
+        {
+            get { return _SumPerMonth; }
+            set
+            {
+                _SumPerMonth = value;
+                OnPropertyChanged(nameof(OtherFTISum));
+            }
+        }
+
+
+        /// <summary>
+        /// returns the sum of all advances paid per period.
+        /// </summary>
+        public double TotalAdvancePerPeriod => DetermineTotalAdvancePerPeriod();
+
+
+        /// <summary>
+        /// returns the sum of all payments paid per period and per room,
+        /// payments option is for cases where more detail is either necessary or 
+        /// where the tenants have some sort of conflict over money and costs
+        /// and it is required to know exactly who paid how much within the periods timespan.
+        /// 
+        /// to reduce complexity for the users: in such cases Rent will be factored into
+        /// the calculation, to prevent the user from having to split the payments into the
+        /// correct payment fractions, excluding rent values.
+        /// </summary>
         public double TotalPayments => CalculatePaymentsPerPeriod();
 
+
+        /// <summary>
+        /// returns all costs per period excluding other costs, including Rent, Fixed and Heating
+        /// </summary>
         public double TotalCosts => TotalRentCosts + TotalCostsPerPeriod;
 
+
+        /// <summary>
+        /// returns all costs per period excluding Rent and other costs
+        /// </summary>
         public double TotalCostsPerPeriod
         {
             get { return GetBilling.TotalCostsPerPeriod; }
@@ -125,6 +113,14 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        /// <summary>
+        /// returns the fixed costs per period.
+        /// these are all costs besides the rent, that have no consumption value.
+        /// they are calculated per room based on area share of the room. the landlord (at least in germany)
+        /// splits the costs for the house and its maintenance, like insurance, water, floor lights, building
+        /// superintendent and so on and distributes them to each renting party. advances are paid during the
+        /// period and are calculated with the actual costs after the period is over.
+        /// </summary>
         public double TotalFixedCostsPerPeriod
         {
             get { return GetBilling.TotalFixedCostsPerPeriod.TransactionSum; }
@@ -161,6 +157,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        /// <summary>
+        /// returns the heating costs per period.
+        /// these are costs besides the rent, that have a consumption value of heating units
+        /// (which might be oil, hot water, whatever). they are calculated per each room. every 
+        /// rent object with no factored in billing object will base rent calculation for the user
+        /// on area share.
+        /// every rent object that has a billing object factored in will use the consumption
+        /// values per room to determine the heating costs advance share for the room based upon
+        /// the consumption habits.
+        /// 
+        /// advances are paid during the period and are calculated with the actual costs after
+        /// the period is over.
+        /// </summary>
         public double TotalHeatingCostsPerPeriod
         {
             get { return GetBilling.TotalHeatingCostsPerPeriod.TransactionSum; }
@@ -192,11 +201,46 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 OnPropertyChanged(nameof(TotalHeatingCostsPerPeriod));
             }
         }
+
+
+        /// <summary>
+        /// !!! Currently WIP and therefor broken!!!
+        /// 
+        /// needed in cases where payments are factored into the billing.
+        /// returns the combined rent costs for the period, based on all
+        /// rent items existing within Accounting tab, that begin before
+        /// period start or before period end. 
+        /// 
+        /// cases: 
+        /// - an existing rent is used for several periods, no raises
+        /// - one or several raises happen during a period, which will
+        ///   lead to two or more separate rent prices for intervals
+        ///   within the period
+        /// </summary>
+        public double TotalRentCosts
+        {
+            get { return -1.0; }
+            //get {
+            //    if (BillingViewModel.RentViewModel == null)
+            //    {
+            //        return -1.0;
+            //    }
+
+            //    
+            // DetermineAnnualRent via calculation and date checks of rent updates in flatviewmodel
+            //
+            //
+            //    return BillingViewModel.RentViewModel.AnnualRent;
+
+            //}
+        }
+
         #endregion costs
 
 
         // other properties
         #region other properties
+
         private Billing _Billing;
         public Billing GetBilling
         {
@@ -317,9 +361,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public string Signature => $"{StartDate:d} - {EndDate:d}\n{TotalHeatingUnitsConsumption} units";
-
-
         public DateTime StartDate
         {
             get { return GetBilling.StartDate; }
@@ -341,18 +382,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                     OnPropertyChanged(nameof(StartDate));
                 }
-            }
-        }
-
-
-        private double _SumPerMonth;
-        public double SumPerMonth
-        {
-            get { return _SumPerMonth; }
-            set
-            {
-                _SumPerMonth = value;
-                OnPropertyChanged(nameof(SumPerMonth));
             }
         }
 
@@ -407,34 +436,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        private ObservableCollection<RoomConsumptionViewModel> _RoomConsumptionViewModels;
-        public ObservableCollection<RoomConsumptionViewModel> RoomConsumptionViewModels
-        {
-            get { return _RoomConsumptionViewModels; }
-            set
-            {
-                _RoomConsumptionViewModels = value;
-                OnPropertyChanged(nameof(RoomConsumptionViewModels));
-
-
-                //DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomConsumptionViewModels)));
-            }
-        }
-
-
-        private ObservableCollection<RoomCostsViewModel> _RoomCosts;
-        public ObservableCollection<RoomCostsViewModel> RoomCosts
-        {
-            get { return _RoomCosts; }
-            set
-            {
-                _RoomCosts = value;
-                OnPropertyChanged(nameof(RoomCosts));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
-            }
-        }
-
-
         private ObservableCollection<RoomPaymentsViewModel> _RoomPayments;
         public ObservableCollection<RoomPaymentsViewModel> RoomPayments
         {
@@ -461,17 +462,16 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             };
 
             FinancialTransactionItemViewModels = new ObservableCollection<FinancialTransactionItemViewModel>();
-            RoomConsumptionViewModels = new ObservableCollection<RoomConsumptionViewModel>();
-            RoomCosts = new ObservableCollection<RoomCostsViewModel>();
+
             RoomPayments = new ObservableCollection<RoomPaymentsViewModel>();
 
             _flatViewModel = flatViewModel;
             GetBilling = billing;
 
             GenerateConsumptionItemViewModels();
+
             GenerateFTIViewModels();
-            GenerateRoomConsumptionItems();
-            GenerateRoomCosts();
+
             GenerateRoomPayments();
         }
 
@@ -488,19 +488,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             GenerateFTIViewModels();
 
             GenerateConsumptionItemViewModels();
-
-            //GenerateConsumptionItemViewModels(); // vermutlich woanders hin, zu consumption relevantem
         }
+
 
         private void CalculateFixedCosts()
         {
             TotalFixedCostsPerPeriod = TotalCostsPerPeriod - TotalHeatingCostsPerPeriod;
         }
 
+
         private void CalculateHeatingCosts()
         {
             TotalHeatingCostsPerPeriod = TotalCostsPerPeriod - TotalFixedCostsPerPeriod;
         }
+
 
         public double CalculatePaymentsPerPeriod()
         {
@@ -526,16 +527,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             return paymentsPerPeriod;
         }
 
-        public void CalculateSumPerMonth()
+
+        public void CalculateOtherFTISum()
         {
-            SumPerMonth = 0.0;
+            OtherFTISum = 0.0;
 
             foreach (FinancialTransactionItemViewModel item in FinancialTransactionItemViewModels)
             {
-                SumPerMonth += item.Cost;
+                OtherFTISum += item.Cost;
             }
 
-            OnPropertyChanged(nameof(SumPerMonth));
+            OnPropertyChanged(nameof(OtherFTISum));
         }
 
 
@@ -567,6 +569,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             return advance;
         }
+
 
         public ObservableCollection<RentViewModel> FindRelevantRentViewModels()
         {
@@ -685,37 +688,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
         }
 
-        private void FinancialTransactionItemViewModel_ValueChange(object? sender, EventArgs e)
-        {
-            GenerateConsumptionItemViewModels();
-
-            CalculateSumPerMonth();
-
-        }
-
-        public void GenerateRoomConsumptionItems()
-        {
-            foreach (RoomViewModel roomViewModel in _flatViewModel.Rooms)
-            {
-                RoomConsumption roomConsumption = new RoomConsumption();
-                roomConsumption.Room = roomViewModel.GetRoom;
-
-                RoomConsumptionViewModels.Add(new RoomConsumptionViewModel(roomConsumption));
-            }
-        }
-
-
-        public void GenerateRoomCosts()
-        {
-            foreach (RoomCosts roomCosts in GetBilling.RoomCostsConsumptionValues)
-            {
-                RoomCostsViewModel roomCostsViewModel = new RoomCostsViewModel(roomCosts, this);
-                roomCostsViewModel.HeatingUnitsChange += RoomCostsViewModel_HeatingUnitsChange;
-
-                RoomCosts.Add(roomCostsViewModel);
-            }
-        }
-
 
         public void GenerateRoomPayments()
         {
@@ -748,6 +720,38 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        internal double GetRoomConsumptionPercentage(Room room, FinancialTransactionItem transactionItem)
+        {
+            // search consumption items
+            foreach (ConsumptionItemViewModel item in ConsumptionItemViewModels)
+            {
+                // search for matching consumption item
+                if (item.ConsumptionCause.Equals(transactionItem.TransactionItem))
+                {
+                    // search room consumptions of consumption item
+                    foreach (RoomConsumptionViewModel roomConsumptionItem in item.RoomConsumptionViewModels)
+                    {
+                        // find room matching the room argument
+                        if (roomConsumptionItem.RoomConsumption.Room.RoomArea == room.RoomArea
+                            && roomConsumptionItem.RoomConsumption.Room.RoomName.Equals(room.RoomName))
+                        {
+                            // calculate consumption share
+                            // room consumption + shared consumption / room count
+                            double consumptionShare =
+                                roomConsumptionItem.ConsumptionValue + item.SharedConsumption / FlatViewModel.RoomCount;
+
+                            // return consumption share / total consumed units 
+                            return consumptionShare / item.ConsumedUnits;
+                        }
+                    }
+                }
+            }
+
+            return 0.0;
+        }
+
+
+
         public void RemoveCredit()
         {
             //CreditViewModel = null;
@@ -773,23 +777,28 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             //}
         }
 
+
+        public void UpdateRoomConsumptionItemViewModels()
+        {
+            foreach (ConsumptionItemViewModel item in ConsumptionItemViewModels)
+            {
+                item.ConsumptionItem.UpdateRoomConsumptionItems(item.RoomConsumptionViewModels);
+
+            }
+        }
+
         #endregion methods
 
 
         // events
         #region events
 
-        private void RoomCosts_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void FinancialTransactionItemViewModel_ValueChange(object? sender, EventArgs e)
         {
-            OnPropertyChanged(nameof(RoomCosts));
-            DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
-        }
+            GenerateConsumptionItemViewModels();
 
+            CalculateOtherFTISum();
 
-        private void RoomCostsViewModel_HeatingUnitsChange(object? sender, EventArgs e)
-        {
-            OnPropertyChanged(nameof(RoomCosts));
-            DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomCosts)));
         }
 
         #endregion events

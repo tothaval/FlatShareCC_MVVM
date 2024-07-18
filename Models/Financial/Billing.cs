@@ -4,17 +4,12 @@
  * 
  *  data model class for BillingViewModel
  */
-
-using Microsoft.VisualBasic;
 using SharedLivingCostCalculator.Enums;
-using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
-using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using System.Collections.ObjectModel;
-using System.Reflection.Metadata.Ecma335;
 using System.Xml.Serialization;
-using static System.Net.WebRequestMethods;
+
 
 namespace SharedLivingCostCalculator.Models.Financial
 {
@@ -72,15 +67,6 @@ namespace SharedLivingCostCalculator.Models.Financial
             TransactionSum = 0.0
         };
 
-        // heating units used in billing period
-        // values for Rooms must be determined in order to
-        // calculate new rent shares based on consumption
-        public double TotalHeatingUnitsConsumption { get; set; } = 0.0;
-
-
-        // combined sum of room heating units consumption
-        public double TotalHeatingUnitsRoom { get; set; } = 0.0;
-
         #endregion properties
 
 
@@ -94,14 +80,8 @@ namespace SharedLivingCostCalculator.Models.Financial
         // storing TransactionItems in case of other costs being factored in into rent calculation
 
 
-        [XmlArray("OtherCostItemCollection")]
+        [XmlArray("Costs")]
         public ObservableCollection<FinancialTransactionItem> Costs { get; set; } = new ObservableCollection<FinancialTransactionItem>();
-
-
-        // storing the costs of each room
-        // per billing period and the consumption of heating units per billing period
-        [XmlArray("HeatingUnits")]
-        public ObservableCollection<RoomCosts> RoomCostsConsumptionValues { get; set; } = new ObservableCollection<RoomCosts>();
 
 
         // storing the payments of each room
@@ -126,7 +106,6 @@ namespace SharedLivingCostCalculator.Models.Financial
         {
             foreach (RoomViewModel room in model.Rooms)
             {
-                RoomCostsConsumptionValues.Add(new RoomCosts(room));
                 RoomPayments.Add(new RoomPayments(room));
             }
 
@@ -140,9 +119,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                         DateTime endDate,
                         double totalCostsPerPeriod,
                         double totalFixedCostsPerPeriod,
-                        double totalHeatingCostsPerPeriod,
-                        double totalHeatingUnitsConsumption,
-                        double totalHeatingUnitsRoom
+                        double totalHeatingCostsPerPeriod
                         )
         {
             StartDate = startDate;
@@ -150,12 +127,10 @@ namespace SharedLivingCostCalculator.Models.Financial
             TotalCostsPerPeriod = totalCostsPerPeriod;
             TotalFixedCostsPerPeriod.TransactionSum = totalFixedCostsPerPeriod;
             TotalHeatingCostsPerPeriod.TransactionSum = totalHeatingCostsPerPeriod;
-            TotalHeatingUnitsConsumption = totalHeatingUnitsConsumption;
-            TotalHeatingUnitsRoom = totalHeatingUnitsRoom;
+
 
             foreach (RoomViewModel room in model.Rooms)
             {
-                RoomCostsConsumptionValues.Add(new RoomCosts(room));
                 RoomPayments.Add(new RoomPayments(room));
             }
         }
@@ -206,13 +181,6 @@ namespace SharedLivingCostCalculator.Models.Financial
 
                 Costs.Add(financialTransactionItem);
             }
-
-            //RebuildConsumptionItems();
-        }
-
-        public void BoringIsLifeAndStupidAmI()
-        {
-
         }
 
 
@@ -324,8 +292,6 @@ namespace SharedLivingCostCalculator.Models.Financial
 
                 Costs.Remove(financialTransactionItem);
             }
-
-            //RebuildConsumptionItems();
         }
 
         #endregion

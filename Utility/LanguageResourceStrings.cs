@@ -107,7 +107,9 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_TenantSetup { get; set; } = "Tenants"; 
         public string IDF_ActiveTenantCount { get; set; } = "Active Tenants";
 
-        public string IDF_SharedFlatArea { get; set; } = "Shared Area"; 
+        public string IDF_SharedFlatArea { get; set; } = "Shared\nArea";
+
+        public string IDF_RentedAreaShare { get; set; } = "Rented\nArea";
         public string IDF_CombinedRoomArea { get; set; } = "All Rooms Area";
 
         public string AccountingHeaderText { get; set; } = "Accounting";
@@ -141,9 +143,15 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_RentUpdateData { get; set; } = "Rent Data"; 
         public string IDF_RentOptions { get; set; } = "Rent Options";
 
-        public string IDF_RentShare { get; set; } = "Rent Share";
-        public string IDF_AdvanceFixed { get; set; } = "Fixed Costs";
-        public string IDF_AdvanceHeating { get; set; } = "Heating Costs";
+        public string IDF_RentShare { get; set; } = "Rent\nShare";
+        public string IDF_AdvanceFixed { get; set; } = "Fixed\nAdvance";
+        public string IDF_AdvanceHeating { get; set; } = "Heating\nAdvance";
+
+
+        public string IDF_Fixed { get; set; } = "Fixed";
+        public string IDF_Heating { get; set; } = "Heating";
+
+
         public string IDF_AdvanceTotal { get; set; } = "Total Costs";
         public string IDF_PriceTotal { get; set; } = "Total Price";
         public string IDF_BaseRentOnBilling { get; set; } = "factor in billing";
@@ -151,12 +159,17 @@ namespace SharedLivingCostCalculator.Utility
         
         public string IDF_Costs { get; set; } = "Other Costs Setup"; 
 
-        public string IDF_OtherCosts { get; set; } = "Other Costs";
+        public string IDF_OtherCostsAdvance { get; set; } = "Other\nCosts";
+        public string IDF_OtherCosts { get; set; } = "other costs details";
+
+        public string IDF_OtherCostsList { get; set; } = "Additional Cost Items";
+       
+        public string IDF_OtherCostsSum { get; set; } = "Sum";
 
         public string IDF_AnnualOther { get; set; } = "Other";
 
         public string IDF_AnnualComplete { get; set; } = "Complete";
-        public string IDF_CompleteCosts { get; set; } = "Complete";
+        public string IDF_CompleteCosts { get; set; } = "Complete\nCosts";
 
         public string IDF_Credit { get; set; } = "Credit(s)";      
 

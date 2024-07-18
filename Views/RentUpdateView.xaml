@@ -74,7 +74,7 @@
                              Grid.Column="1"
                              Grid.Row="1"/>
 
-                <TextBlock Text="{DynamicResource IDF_AdvanceFixed}"
+                <TextBlock Text="{DynamicResource IDF_Fixed}"
                                Style="{StaticResource StringValueTextBlock}"
                                Grid.Column="0"
                                Grid.Row="2"/>
@@ -90,7 +90,7 @@
                              Grid.Column="1"
                              Grid.Row="2"/>
 
-                <TextBlock Text="{DynamicResource IDF_AdvanceHeating}"
+                <TextBlock Text="{DynamicResource IDF_Heating}"
                                Style="{StaticResource StringValueTextBlock}"
                                Grid.Column="0"
                                Grid.Row="3"/>
@@ -106,7 +106,7 @@
                              Grid.Column="1"
                              Grid.Row="3"/>
 
-                <ToggleButton Content="{DynamicResource IDF_OtherCosts}"
+                <ToggleButton Content="{DynamicResource IDF_Costs}"
                               Command="{Binding ShowCostsCommand}"
                               IsChecked="{Binding CostsWindowActive}"
                               HorizontalAlignment="Stretch"

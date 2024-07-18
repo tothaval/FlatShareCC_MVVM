@@ -122,8 +122,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     RentUpdates.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
 
                     SelectedValue = _flatViewModel.GetMostRecentRent();
-
-                    //OnPropertyChanged(nameof(RentUpdates));
                 }
             }
         }
