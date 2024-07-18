@@ -129,9 +129,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         // collections
         #region collections
 
-        public ObservableCollection<RoomCostsViewModel> CurrentRoomCosts { get; set; }
-
-
         public ObservableCollection<RentViewModel> RentUpdates
         {
             get { return _flat.RentUpdates; }
@@ -184,7 +181,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         public FlatViewModel(Flat flat)
         {
             _flat = flat;
-            CurrentRoomCosts = new ObservableCollection<RoomCostsViewModel>();
 
             Rooms = new ObservableCollection<RoomViewModel>();
 
@@ -199,8 +195,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
                       
             if (!clone)
             {
-                CurrentRoomCosts = new ObservableCollection<RoomCostsViewModel>();
-
                 Rooms = new ObservableCollection<RoomViewModel>();
 
                 CreateRooms();
@@ -281,8 +275,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
                 foreach (RoomViewModel room in Rooms)
                 {
                     room.RoomAreaChanged += Room_RoomAreaChanged;
-
-                    //room.PropertyChanged += Room_PropertyChanged;
                 }
             }
         }
@@ -362,19 +354,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             }
 
             return rentViewModel;
-        }
-
-
-        public void SetMostRecentCosts()
-        {
-            RentViewModel? rent = GetMostRecentRent();
-
-            if (rent != null && rent.RoomCosts != null)
-            {
-                CurrentRoomCosts = rent.RoomCosts;
-            }
-
-            OnPropertyChanged(nameof(CurrentRoomCosts));
         }
 
         #endregion methods

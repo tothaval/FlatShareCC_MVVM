@@ -64,7 +64,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 if (_flatCollection.Count > 0 && _SelectedItem != null)
                 {
                     _SelectedItem.ConnectRooms();
-                    _SelectedItem.SetMostRecentCosts();
                     _SelectedItem.ActiveTenantListConversion();
 
                     FlatViewModelChange?.Invoke(this, EventArgs.Empty);

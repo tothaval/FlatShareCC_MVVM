@@ -42,7 +42,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public FinancialTransactionItem FixedCostsAdvance { get; set; } = new FinancialTransactionItem()
         {
-            TransactionItem = "Advance Fixed",
+            TransactionItem = "Fixed",
             TransactionShareTypes = TransactionShareTypes.Area,
             TransactionSum = 0.0
         };
@@ -50,7 +50,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public FinancialTransactionItem HeatingCostsAdvance { get; set; } = new FinancialTransactionItem()
         {
-            TransactionItem = "Advance Heating",
+            TransactionItem = "Heating",
             TransactionShareTypes = TransactionShareTypes.Consumption,
             TransactionSum = 0.0
         };
@@ -83,10 +83,6 @@ namespace SharedLivingCostCalculator.Models.Financial
         [XmlArray("OtherCostItemCollection")]
         public ObservableCollection<FinancialTransactionItem> Costs { get; set; } = new ObservableCollection<FinancialTransactionItem>();
 
-
-        // storing the actual rent cost shares of each room
-        public ObservableCollection<RoomCosts> RoomCostShares { get; set; } = new ObservableCollection<RoomCosts>();
-
         #endregion collections
 
 
@@ -110,8 +106,6 @@ namespace SharedLivingCostCalculator.Models.Financial
             ColdRent = rent;
             FixedCostsAdvance = shared;
             HeatingCostsAdvance = heating;
-
-            GenerateRoomCosts(model);
         }
 
         #endregion constructors
@@ -126,23 +120,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         }
 
 
-        public void GenerateRoomCosts(FlatViewModel flatViewModel)
-        {
-            RoomCostShares.Clear();
-
-            if (flatViewModel != null)
-            {
-                foreach (RoomViewModel room in flatViewModel.Rooms)
-                {
-                    RoomCostShares.Add(
-                        new RoomCosts(room)
-                        );
-                }
-            }
-        }
-
-
-        public void RemoveCostItem(FinancialTransactionItem item)
+        public void RemoveFinancialTransactionItem(FinancialTransactionItem item)
         {
             Costs.Remove(item);
         }

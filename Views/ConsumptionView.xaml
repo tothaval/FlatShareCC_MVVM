@@ -123,8 +123,8 @@
                  Grid.Column="1"
                  Grid.Row="5"/>
 
- 
-        <ListView ItemsSource="{Binding RoomCosts, NotifyOnSourceUpdated=True}"
+
+        <ListView ItemsSource="{Binding  BillingViewModel.SelectedConsumptionItem.RoomConsumptionViewModels, NotifyOnSourceUpdated=True}"
                   SelectionMode="Single"
                   TextBlock.TextAlignment="Right"       
                   Margin="5 5"
@@ -144,7 +144,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
-                                           Text="{Binding Room.RoomName}"
+                                           Text="{Binding RoomName}"
                                            Style="{StaticResource StringValueTextBlock}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -154,7 +154,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
-                                           HorizontalAlignment="Right" Text="{Binding Room.RoomArea}"
+                                           HorizontalAlignment="Right" Text="{Binding RoomArea}"
                                            Style="{StaticResource DoubleValueTextBlock}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -162,26 +162,26 @@
 
                         <GridViewColumn Header="{DynamicResource IDF_Consumption}">
                             <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Text="{Binding HeatingUnitsConsumption,
-                                        UpdateSourceTrigger=PropertyChanged,
-                                        Mode=TwoWay,
-                                        NotifyOnTargetUpdated=True,
-                                        NotifyOnSourceUpdated=True,
-                                        ValidatesOnDataErrors=true,
-                                        StringFormat=N4, Delay=500}"
-                                         IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
-                                         VerticalAlignment="Center" 
-                                         Style="{StaticResource DoubleValueTextBox}"
-                                         />
-                                </DataTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding ConsumptionValue,
+                                  UpdateSourceTrigger=PropertyChanged,
+                                  Mode=TwoWay,
+                                  NotifyOnTargetUpdated=True,
+                                  NotifyOnSourceUpdated=True,
+                                  ValidatesOnDataErrors=true,
+                                  StringFormat=N4, Delay=500}"
+                                   IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                                   VerticalAlignment="Center" 
+                                   Style="{StaticResource DoubleValueTextBox}"
+                                   />
+                            </DataTemplate>  
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
                         <GridViewColumn Header="{DynamicResource IDF_Percentage}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding RoomConsumptionPercentage, Mode=OneWay,
+                                <TextBlock Text="{Binding ConsumptionPercentage, Mode=OneWay,
                                     UpdateSourceTrigger=PropertyChanged,
                                     NotifyOnSourceUpdated=True,StringFormat=N2}"
                                          Style="{StaticResource DoubleValueTextBlock}"/>

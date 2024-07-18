@@ -26,29 +26,55 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                     Margin="0">
+            <comps:FlatInfo HorizontalContentAlignment="Left"/>
 
-        <comps:FlatInfo HorizontalContentAlignment="Left"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            
-            <RadioButton Content="{DynamicResource IDF_Rent}"
-                         IsChecked="{Binding RentSelected}"
-                         GroupName="CostViewSelectionGroup"
-                         Style="{StaticResource RadioButtonStyle}"
-                         Grid.Column="0"/>
+                <TextBlock Style="{StaticResource StringValueTextBlock}">
+                    <LineBreak/>
+                    <Run Text="Begin: "/>
+                    <LineBreak/>
+                    <Run Text="End: "/>
+                    <LineBreak/>
+                    <Run Text="Costs: "/>
+                </TextBlock>
 
-            <RadioButton Content="{DynamicResource IDF_Billing}"
-                         IsChecked="{Binding BillingSelected}"
-                         GroupName="CostViewSelectionGroup"
-                         IsEnabled="{Binding HasBilling}"
-                         Visibility="{Binding HasBilling,
-                Converter={StaticResource booltovis}}"
-                         Style="{StaticResource RadioButtonStyle}"
-                         Grid.Column="1"/>
-            
+                <TextBlock Style="{StaticResource DoubleValueTextBlock}" Grid.Column="1">
+                    <LineBreak/>
+                    <Run Text ="{Binding ActiveViewModel.Signature, Mode=OneWay}"/>
+                </TextBlock>
+
+            </Grid>
         </StackPanel>
+
+        <UniformGrid Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                     Columns="2"
+                    Margin="0 5 0 0">
+            
+            <ToggleButton Content="{DynamicResource IDF_Rent}"
+                          IsChecked="{Binding RentSelected}"
+                          Style="{StaticResource toggleButtonStyle}"
+                          />
+
+            <ToggleButton Content="{DynamicResource IDF_Billing}"
+                          IsChecked="{Binding BillingSelected}"
+                          Style="{StaticResource toggleButtonStyle}"
+                          IsEnabled="{Binding HasBilling}"
+                          Visibility="{Binding HasBilling,
+                Converter={StaticResource booltovis}}"/>
+            
+        </UniformGrid>
 
         <ContentPresenter Grid.Row="2"
                           Content="{Binding ActiveViewModel,

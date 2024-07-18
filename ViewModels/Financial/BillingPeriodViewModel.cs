@@ -7,6 +7,8 @@
  *  allows for editing of BillingViewModel
  *  
  *  is encapsulated within a BillingManagementViewModel
+ *  
+ *  implements INotifyDataErrorInfo
  */
 using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models.Financial;
@@ -17,7 +19,6 @@ using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using SharedLivingCostCalculator.Views.Windows;
 using System.Collections;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -49,21 +50,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             {
                 _CostsWindowActive = value;
 
-                if (Application.Current.MainWindow != null)
+                if (_CostsWindowActive == false && billingWindow != null)
                 {
-                    var ownedWindows = Application.Current.MainWindow.OwnedWindows;
-
-                    if (_CostsWindowActive == false && ownedWindows != null)
+                    foreach (Window wdw in billingWindow.OwnedWindows)
                     {
-                        foreach (Window wdw in Application.Current.MainWindow.OwnedWindows)
+                        if (wdw.GetType() == typeof(CostsView))
                         {
-                            if (wdw.GetType() == typeof(CostsView))
-                            {
-                                wdw.Close();
-                            }
+                            wdw.Close();
                         }
                     }
                 }
+
 
                 OnPropertyChanged(nameof(CostsWindowActive));
             }
@@ -215,10 +212,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         #endregion event properties & fields
 
 
-        // collections
+        // collections EMPTY
         #region collections
-
-        public ObservableCollection<RoomCostsViewModel> RoomCosts => _billingViewModel.RoomCosts;
 
         #endregion collections
 

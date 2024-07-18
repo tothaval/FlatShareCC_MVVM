@@ -5,6 +5,7 @@
  *  provides methods for recurring calculations related to the BillingViewModel
  *  and its associated logic
  */
+using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 
 namespace SharedLivingCostCalculator.Calculations
@@ -26,71 +27,45 @@ namespace SharedLivingCostCalculator.Calculations
         // methods
         #region methods
 
-        /// <summary>
-        ///  heating units consumed by the room and an equal share of BillingViewModel SharedHeatingUnitsConsumption property
-        ///  are added and the value returned
-        /// </summary>
-        /// <param name="billingViewModel"></param>
-        /// <param name="roomConsumption"></param>
-        /// <returns>a positive double value on success, -100.0 on error</returns>
-        public double CombinedRoomConsumption(BillingViewModel billingViewModel, double roomConsumption)
-        {
-            if (SharedRoomConsumption(billingViewModel) == -100.0)
-            {
-                return -100.0;
-            }
+        //public double HeatingUnitsConsumption()
+        //{
+        //    double heatingUnits = 0.0 ;
 
-            return SharedRoomConsumption(billingViewModel) + roomConsumption;                
-        }
+        //    foreach (ConsumptionItemViewModel item in ConsumptionItemViewModels)
+        //    {
+        //        if (item.ConsumptionItem.ConsumptionCause.TransactionItem.Equals(GetBilling.TotalHeatingCostsPerPeriod.TransactionItem))
+        //        {
+        //            heatingUnits = item.ConsumedUnits;
 
+        //            break;
+        //        }
+        //    }
 
-        /// <summary>
-        ///  heating units consumed by the room and an equal share of BillingViewModel SharedHeatingUnitsConsumption property
-        ///  are added and the value divided by the total heating units consumption, the result is returned
-        /// </summary>
-        /// <param name="billingViewModel"></param>
-        /// <param name="roomConsumption"></param>
-        /// <returns>a positive double value on success, -100.0 on error</returns>
-        public double CombinedRoomConsumptionRatio(BillingViewModel billingViewModel, double roomConsumption)
-        {
-            if (CombinedRoomConsumption(billingViewModel, roomConsumption) == -100.0)
-            {
-                return -100.0;
-            }
-
-            return CombinedRoomConsumption(billingViewModel, roomConsumption) / billingViewModel.TotalHeatingUnitsConsumption;
-        }
+        //    return heatingUnits;
+        //}
 
 
-        /// <summary>
-        /// calculates the ratio of the consumed heating units compared to the total 
-        /// consumption of heating units of a Billing period.
-        /// </summary>
-        /// <param name="billingViewModel"></param>
-        /// <param name="roomConsumption"></param>
-        /// <returns>returns roomConsumption / TotalHeatingUnitsConsumption (BillingViewModel)</returns>
-        public double ConsumptionRatio(BillingViewModel billingViewModel, double roomConsumption)
-        {
-            return roomConsumption / billingViewModel.TotalHeatingUnitsConsumption;
-        }
+        //private bool TotalConsumptionIsLessThanSum()
+        //{
+        //    if (_roomCostsCarrier.GetType() == typeof(BillingViewModel))
+        //    {
+        //        double totalConsumption = ((BillingViewModel)_roomCostsCarrier).TotalHeatingUnitsConsumption;
 
+        //        foreach (RoomCostsViewModel roomCosts in ((BillingViewModel)_roomCostsCarrier).RoomCosts)
+        //        {
+        //            totalConsumption -= roomCosts.HeatingUnitsConsumption;
 
-        /// <summary>
-        /// heating units not consumed by the rooms are represented by BillingViewModel SharedHeatingUnitsConsumption property,
-        /// this value is divided by the total number of rooms, the result is returned.
-        /// </summary>
-        /// <param name="billingViewModel"></param>
-        /// <returns>a positive double value on success, -100.0 on error</returns>
-        public double SharedRoomConsumption(BillingViewModel billingViewModel)
-        {
-            if (billingViewModel.GetFlatViewModel().RoomCount != 0)
-            {
-                return billingViewModel.SharedHeatingUnitsConsumption / billingViewModel.GetFlatViewModel().RoomCount;
-            }
+        //            if (totalConsumption < 0)
+        //            {
+        //                break;
+        //            }
+        //        }
 
-            return -100.0;
-        }
+        //        return totalConsumption >= 0;
+        //    }
 
+        //    return false;
+        //}
         #endregion methods
 
 

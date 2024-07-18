@@ -49,6 +49,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 if (_BillingSelected && _billingViewModel != null && _flatViewModel != null)
                 {
                     ActiveViewModel = (ICostDisplay)new BillingCostsViewModel(_billingViewModel, _flatViewModel);
+
+                    RentSelected = false;
+                }
+                else if (!_RentSelected && !BillingSelected)
+                {
+                    RentSelected = true;
                 }
                 OnPropertyChanged(nameof(BillingSelected));
             }
@@ -81,6 +87,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 if (_RentSelected && _rentViewModel != null && _flatViewModel != null)
                 {
                     ActiveViewModel = (ICostDisplay)new RentCostsViewModel(_rentViewModel, _flatViewModel);
+
+                    BillingSelected = false;
+                }
+                else if(!_RentSelected && !BillingSelected)
+                {
+                    BillingSelected = true;
                 }
                 OnPropertyChanged(nameof(RentSelected));
             }

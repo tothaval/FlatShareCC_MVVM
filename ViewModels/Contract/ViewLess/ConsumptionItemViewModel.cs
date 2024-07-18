@@ -1,12 +1,13 @@
-﻿using SharedLivingCostCalculator.Models.Contract;
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  ConsumptionItemViewModel  : BaseViewModel
+ * 
+ *  viewmodel for ConsumptionItem model
+ */
+using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 {
@@ -52,10 +53,26 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             }
         }
 
+
+        /// <summary>
+        /// heating units not consumed by the rooms but by the shared area
+        /// are represented by this value, the SharedConsumption will be split
+        /// equally onto the number of rooms and the share will be added to 
+        /// the room consumption.
+        /// </summary>
         public double SharedConsumption => ConsumedUnits - TotalRoomUnits;
 
+
+        /// <summary>
+        /// returns SharedConsumption / ConsumedUnits * 100.
+        /// </summary>
         public double SharedConsumptionPercentage => SharedConsumption / ConsumedUnits * 100;
 
+
+        /// <summary>
+        /// heating units consumed by the rooms, but not by the shared area
+        /// are represented by this value
+        /// </summary>
         public double TotalRoomUnits => CalculateTotalRoomUnits();
 
 
@@ -67,12 +84,20 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
             RoomConsumptionViewModels = new ObservableCollection<RoomConsumptionViewModel>();
 
-
-            foreach (RoomViewModel item in _BillingViewModel.FlatViewModel.Rooms)
+            if (_ConsumptionItem.RoomConsumptions.Count > 0)
             {
-                RoomConsumptionViewModels.Add(new RoomConsumptionViewModel(new RoomConsumption(item.GetRoom, 0.0)));
+                foreach (RoomConsumption item in _ConsumptionItem.RoomConsumptions)
+                {
+                    RoomConsumptionViewModels.Add(new RoomConsumptionViewModel(item, this));
+                }
             }
-
+            else
+            {
+                foreach (RoomViewModel item in _BillingViewModel.FlatViewModel.Rooms)
+                {
+                    RoomConsumptionViewModels.Add(new RoomConsumptionViewModel(new RoomConsumption(item.GetRoom, 0.0), this));
+                }
+            }
         }
 
 
@@ -91,3 +116,4 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
     }
 }
+// EOF

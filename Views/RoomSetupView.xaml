@@ -52,11 +52,12 @@
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   BorderThickness="2"
                   Margin="0 5 0 0"
+                  MaxWidth="1280"
                     >
 
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel/>
+                    <UniformGrid FlowDirection="LeftToRight"/>
                 </ItemsPanelTemplate>
                 
             </ListView.ItemsPanel>
