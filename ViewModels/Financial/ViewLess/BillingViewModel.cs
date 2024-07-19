@@ -48,6 +48,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             {
                 _SumPerMonth = value;
                 OnPropertyChanged(nameof(OtherFTISum));
+
+                RebuildRoomCostShares();
             }
         }
 
@@ -108,7 +110,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
 
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalCostsPerPeriod)));
-
             }
         }
 
@@ -153,6 +154,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
                 OnPropertyChanged(nameof(TotalFixedCostsPerPeriod));
+
+                RebuildRoomCostShares();
             }
         }
 
@@ -199,6 +202,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
                 OnPropertyChanged(nameof(TotalHeatingCostsPerPeriod));
+
+                RebuildRoomCostShares();
             }
         }
 
@@ -229,6 +234,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             //    
             // DetermineAnnualRent via calculation and date checks of rent updates in flatviewmodel
             //
+            //      RebuildRoomCostShares();
             //
             //    return BillingViewModel.RentViewModel.AnnualRent;
 
@@ -308,6 +314,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
 
                 OnPropertyChanged(nameof(HasCredits));
+
+                RebuildRoomCostShares();
             }
         }
 
@@ -338,10 +346,18 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 {
                     GenerateRoomPayments();
                 }
+                else
+                {
+                    RoomPayments.Clear();
+                    GetBilling.RoomPayments.Clear();
+                }
 
                 BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
 
                 OnPropertyChanged(nameof(HasPayments));
+                OnPropertyChanged(nameof(Balance));                
+
+                RebuildRoomCostShares();
             }
         }
 
@@ -417,6 +433,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 OnPropertyChanged(nameof(ConsumptionItemViewModels));
 
                 //DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomConsumptionViewModels)));
+
+
+                RebuildRoomCostShares();
             }
         }
 
@@ -432,8 +451,14 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
 
                 //DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomConsumptionViewModels)));
+
+
+                RebuildRoomCostShares();
             }
         }
+
+
+        public ObservableCollection<RoomCostShareBilling> RoomCostShares { get; set; }
 
 
         private ObservableCollection<RoomPaymentsViewModel> _RoomPayments;
@@ -445,6 +470,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 _RoomPayments = value;
                 OnPropertyChanged(nameof(RoomPayments));
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomPayments)));
+
+                RebuildRoomCostShares();
             }
         }
         #endregion collections
@@ -473,6 +500,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             GenerateFTIViewModels();
 
             GenerateRoomPayments();
+
+            RebuildRoomCostShares();
         }
 
         #endregion constructors
@@ -538,13 +567,14 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
 
             OnPropertyChanged(nameof(OtherFTISum));
+
+
+            RebuildRoomCostShares();
         }
 
 
         private double DetermineBalance()
         {
-            double balance = 0.0;
-
             if (HasPayments)
             {
                 return TotalPayments - TotalCosts;
@@ -565,7 +595,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             //advance += months * rentViewModel.ExtraCostsTotal;
 
             ObservableCollection<RentViewModel> rentViewModels = new ObservableCollection<RentViewModel>();
-
 
             return advance;
         }
@@ -654,7 +683,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                     if (item.CostShareTypes == Enums.TransactionShareTypes.Consumption)
                     {
                         GetBilling.AddConsumptionItem(item.FTI);
-                    }                    
+                    }
                 }
 
 
@@ -686,37 +715,55 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                     FinancialTransactionItemViewModels.Add(FinancialTransactionItemViewModel);
                 }
             }
+
+            CalculateOtherFTISum();
         }
 
 
         public void GenerateRoomPayments()
         {
-            RoomPayments = new ObservableCollection<RoomPaymentsViewModel>();
+            RoomPayments.Clear();
 
             if (GetBilling.RoomPayments.Count < 1)
             {
-                foreach (RoomViewModel room in _flatViewModel.Rooms)
-                {
-                    RoomPaymentsViewModel roomPaymentsViewModel = new RoomPaymentsViewModel(new RoomPayments(room));
-
-                    RoomPayments.Add(roomPaymentsViewModel);
-                }
+                GetBilling.AddRoomPayments(FlatViewModel);
             }
-            else
+
+            foreach (RoomPayments roomPayments in GetBilling.RoomPayments)
             {
-                foreach (RoomPayments roomPayments in GetBilling.RoomPayments)
-                {
-                    RoomPaymentsViewModel roomPaymentsViewModel = new RoomPaymentsViewModel(roomPayments);
+                RoomPaymentsViewModel roomPaymentsViewModel = new RoomPaymentsViewModel(roomPayments);
 
-                    RoomPayments.Add(roomPaymentsViewModel);
-                }
+                RoomPayments.Add(roomPaymentsViewModel);
             }
+
+            OnPropertyChanged(nameof(RoomPayments));
+            OnPropertyChanged(nameof(TotalPayments));
+
+            OnPropertyChanged(nameof(Balance));
         }
 
 
         public FlatViewModel GetFlatViewModel()
         {
             return _flatViewModel;
+        }
+
+
+        public double GetFTIShareSum(TransactionShareTypes transactionShareTypes)
+        {
+            double shareSum = 0.0;
+
+            // search consumption items
+            foreach (FinancialTransactionItemViewModel item in FinancialTransactionItemViewModels)
+            {
+                // search for matching consumption item
+                if (item.CostShareTypes == transactionShareTypes)
+                {
+                    shareSum += item.Cost;
+                }
+            }
+
+            return shareSum;
         }
 
 
@@ -751,6 +798,55 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public double GetRoomPaymentsPerPeriod(Room room)
+        {
+            double paymentsPerPeriod = 0.0;
+
+            foreach (RoomPaymentsViewModel roomPaymentsViewModel in RoomPayments)
+            {
+
+                if (roomPaymentsViewModel.RoomName.Equals(room.RoomName) && roomPaymentsViewModel.RoomArea == room.RoomArea)
+                {
+                    foreach (Payment payment in roomPaymentsViewModel.RoomPayments.Payments)
+                    {
+                        if (payment.StartDate >= StartDate
+                            && payment.StartDate <= EndDate
+                            && payment.EndDate >= StartDate
+                            && payment.EndDate <= EndDate
+                            )
+                        {
+                            paymentsPerPeriod += payment.PaymentTotal;
+
+                            break;
+                        }
+                    }
+                }
+
+
+            }
+
+            OnPropertyChanged(nameof(TotalPayments));
+            OnPropertyChanged(nameof(Balance));
+
+            return paymentsPerPeriod;
+        }
+
+
+        private void RebuildRoomCostShares()
+        {
+            RoomCostShares = new ObservableCollection<RoomCostShareBilling>();
+
+            if (GetFlatViewModel() != null)
+            {
+                foreach (RoomViewModel item in _flatViewModel.Rooms)
+                {
+                    RoomCostShares.Add(new RoomCostShareBilling(item.GetRoom, this));
+                }
+            }
+
+            OnPropertyChanged(nameof(RoomCostShares));
+        }
+
 
         public void RemoveCredit()
         {
@@ -765,6 +861,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             GenerateFTIViewModels();
 
             GenerateConsumptionItemViewModels();
+
+
+            RebuildRoomCostShares();
         }
 
 
@@ -799,6 +898,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             CalculateOtherFTISum();
 
+            RebuildRoomCostShares();
         }
 
         #endregion events

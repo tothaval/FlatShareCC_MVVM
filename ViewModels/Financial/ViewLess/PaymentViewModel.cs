@@ -27,10 +27,14 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 _helper.ClearError(nameof(StartDate));
                 _helper.ClearError(nameof(EndDate));
 
-                if (StartDate == EndDate || EndDate < StartDate)
+                if (PaymentQuantity > 1)
                 {
-                    _helper.AddError("start date must be before enddate", nameof(EndDate));
+                    if (StartDate == EndDate || EndDate < StartDate)
+                    {
+                        _helper.AddError("start date must be before enddate", nameof(EndDate));
+                    }
                 }
+
                 _payment.EndDate = value;
                 OnPropertyChanged(nameof(EndDate));
             }
@@ -96,11 +100,21 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 _helper.ClearError(nameof(StartDate));
                 _helper.ClearError(nameof(EndDate));
 
-                if (StartDate == EndDate || EndDate < StartDate)
+                if (PaymentQuantity < 2)
                 {
-                    _helper.AddError("start date must be before enddate", nameof(StartDate));
+                    if (StartDate == EndDate || EndDate < StartDate)
+                    {
+                        _helper.AddError("start date must be before enddate", nameof(StartDate));
+                    } 
                 }
+
                 _payment.StartDate = value;
+
+                if (_payment.PaymentQuantity == 1)
+                {
+                    EndDate = StartDate;
+                }
+
                 OnPropertyChanged(nameof(StartDate));
             }
         }

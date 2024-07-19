@@ -104,11 +104,8 @@ namespace SharedLivingCostCalculator.Models.Financial
                 FlatViewModel model
                 )
         {
-            foreach (RoomViewModel room in model.Rooms)
-            {
-                RoomPayments.Add(new RoomPayments(room));
-            }
 
+            AddRoomPayments(model);
             Check4HeatingCosts();
         }
 
@@ -129,10 +126,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             TotalHeatingCostsPerPeriod.TransactionSum = totalHeatingCostsPerPeriod;
 
 
-            foreach (RoomViewModel room in model.Rooms)
-            {
-                RoomPayments.Add(new RoomPayments(room));
-            }
+            AddRoomPayments(model);
         }
 
         #endregion constructors
@@ -181,6 +175,15 @@ namespace SharedLivingCostCalculator.Models.Financial
 
                 Costs.Add(financialTransactionItem);
             }
+        }
+
+        public void AddRoomPayments(FlatViewModel model)
+        {
+            foreach (RoomViewModel room in model.Rooms)
+            {
+                RoomPayments.Add(new RoomPayments(room));
+            }
+
         }
 
 

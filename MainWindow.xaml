@@ -96,6 +96,11 @@
             <views:CreditSetupView/>
         </DataTemplate>
 
+
+        <DataTemplate DataType="{x:Type vmsfin:CreditViewViewModel}">
+            <windows:CreditView/>
+        </DataTemplate>
+
         <!--#endregion vmsfin-->
         
         <DataTemplate DataType="{x:Type mVMs:MainPageViewModel}">

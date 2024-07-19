@@ -35,16 +35,20 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_BillingPeriodData { get; set; } = "Billing Data";
         public string IDF_BillingPeriodOptions { get; set; } = "Billing Options";
         public string IDF_Consumption { get; set; } = "Consumption";
-        public string IDF_ConsumptionShare { get; set; } = "Heating Share";
-        public string IDF_CombinedConsumption { get; set; } = "Heating Combined";
+        public string IDF_ConsumptionShare { get; set; } = "Heating\nShare";
+        public string IDF_CombinedConsumption { get; set; } = "Heating\nCombined";
+        public string IDF_ConsumptionPercentage { get; set; } = "Heating\n% ";
 
         public string IDF_ExtraCosts { get; set; } = "Extra\nCosts";
         public string IDF_FixedCosts { get; set; } = "Fixed\nCosts";
         public string IDF_HeatingCosts { get; set; } = "Heating\nCosts";
         public string IDF_TotalCosts { get; set; } = "Total\nCosts";
         public string IDF_Balance { get; set; } = "Balance";
+        public string IDF_RoomData { get; set; } = "room data";
+        public string IDF_RoomCostShares { get; set; } = "annual room costs";
+        public string IDF_OtherCostsData { get; set; } = "other costs data";
 
-        public string IDF_RoomHeatingUnits { get; set; } = "Heating Room";
+        public string IDF_RoomHeatingUnits { get; set; } = "Heating\nRoom";
         public string IDF_CombinedRoomHeatingUnits { get; set; } = "All Rooms\nHeating Units";
         public string IDF_Percentage { get; set; } = "%";
         public string IDF_TotalConsumption { get; set; } = "Total";

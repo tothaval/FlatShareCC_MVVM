@@ -10,15 +10,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
 {
-    public class CreditSetupViewModel : BaseViewModel
+    public class CreditViewViewModel : BaseViewModel
     {
-        public BillingViewModel BillingViewModel { get; }
-
 
         private bool _DataLockCheckbox;
         public bool DataLockCheckbox
@@ -80,19 +78,22 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         #endregion commands
 
-        public CreditSetupViewModel(BillingViewModel billingViewModel)
+
+        public CreditViewViewModel(RentViewModel rentViewModel)
         {
-            BillingViewModel = billingViewModel;
+            RentViewModel = rentViewModel;
 
             AddFinacialTransactionItemCommand = new RelayCommand((s) => AddFinacialTransactionItem(s), (s) => true);
             DuplicateCostItemCommand = new RelayCommand((s) => DuplicateCostItem(s), (s) => true);
             RemoveFinancialTransactionItemCommand = new RelayCommand((s) => RemoveFinancialTransactionItem(s), (s) => true);
 
-            if (BillingViewModel.CostsHasDataLock)
-            {
-                DataLockCheckbox = true;
-            }
+            //if (BillingViewModel.CostsHasDataLock)
+            //{
+            //    DataLockCheckbox = true;
+            //}
 
+            CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
+            LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
         }
 
 
@@ -155,7 +156,31 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             //}
         }
 
-        
+
+        private void Close(object s)
+        {
+            Window window = (Window)s;
+
+            MessageBoxResult result = MessageBox.Show(window,
+                $"Close Other FinancialTransactionItems window?\n\n",
+                "Close Window", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                window.Close();
+            }
+
+        }
+
+
+        private void Drag(object s)
+        {
+            Window window = (Window)s;
+
+            window.DragMove();
+        }
+
+
         private void RegisterCostItemValueChange()
         {
             //foreach (FinancialTransactionItemViewModel item in CostItems)
@@ -163,6 +188,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             //    item.ValueChange += Item_ValueChange;
             //}
         }
+
 
 
         private void RemoveFinancialTransactionItem(object s)
@@ -209,7 +235,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
         #endregion events
-
 
     }
 }

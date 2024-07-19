@@ -46,6 +46,9 @@
     <Compile Update="Views\FlatSetupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\OtherCostsSetupView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\PrintView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -80,6 +83,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\RentUpdateView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Windows\CreditView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -132,6 +138,9 @@
     <Page Update="Views\FlatSetupView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\OtherCostsSetupView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\PrintView.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -166,6 +175,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\RentUpdateView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Windows\CreditView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

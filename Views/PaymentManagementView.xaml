@@ -12,7 +12,7 @@
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
 
-            <ListView ItemsSource="{Binding RoomPayments}"
+            <ListView ItemsSource="{Binding RoomPayments, NotifyOnSourceUpdated=True}"
                       SelectedItem="{Binding Path=SelectedValue}"
                       ItemContainerStyle="{StaticResource ItemContainerStyle}">
 

@@ -22,12 +22,12 @@
         <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
       </HeatingCostsAdvance>
-      <HasCredits>false</HasCredits>
+      <HasCredits>true</HasCredits>
       <HasDataLock>false</HasDataLock>
       <GetBilling>
         <CostsHasDataLock>true</CostsHasDataLock>
         <EndDate>2024-07-18T13:24:28.8029103+02:00</EndDate>
-        <HasCredits>false</HasCredits>
+        <HasCredits>true</HasCredits>
         <HasDataLock>false</HasDataLock>
         <HasPayments>false</HasPayments>
         <StartDate>2023-07-19T13:24:28.8029153+02:00</StartDate>
@@ -254,7 +254,7 @@
       <RoomAssignments>
         <RoomAssignment>
           <RoomName>room10</RoomName>
-          <TenantName>tenant_9</TenantName>
+          <TenantName>tenant_47</TenantName>
         </RoomAssignment>
         <RoomAssignment>
           <RoomName>room22</RoomName>
@@ -266,7 +266,7 @@
         </RoomAssignment>
         <RoomAssignment>
           <RoomName>room40</RoomName>
-          <TenantName>tenant_11</TenantName>
+          <TenantName>tenant_68</TenantName>
         </RoomAssignment>
       </RoomAssignments>
     </TenantConfiguration>

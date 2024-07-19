@@ -5,8 +5,12 @@
   <IDF_BillingPeriodData>Billing Data</IDF_BillingPeriodData>
   <IDF_BillingPeriodOptions>Billing Options</IDF_BillingPeriodOptions>
   <IDF_Consumption>Consumption</IDF_Consumption>
-  <IDF_ConsumptionShare>Heating Share</IDF_ConsumptionShare>
-  <IDF_CombinedConsumption>Heating Combined</IDF_CombinedConsumption>
+  <IDF_ConsumptionShare>Heating
+Share</IDF_ConsumptionShare>
+  <IDF_CombinedConsumption>Heating
+Combined</IDF_CombinedConsumption>
+  <IDF_ConsumptionPercentage>Heating
+% </IDF_ConsumptionPercentage>
   <IDF_ExtraCosts>Extra
 Costs</IDF_ExtraCosts>
   <IDF_FixedCosts>Fixed
@@ -16,7 +20,11 @@ Costs</IDF_HeatingCosts>
   <IDF_TotalCosts>Total
 Costs</IDF_TotalCosts>
   <IDF_Balance>Balance</IDF_Balance>
-  <IDF_RoomHeatingUnits>Heating Room</IDF_RoomHeatingUnits>
+  <IDF_RoomData>room data</IDF_RoomData>
+  <IDF_RoomCostShares>annual room costs</IDF_RoomCostShares>
+  <IDF_OtherCostsData>other costs data</IDF_OtherCostsData>
+  <IDF_RoomHeatingUnits>Heating
+Room</IDF_RoomHeatingUnits>
   <IDF_CombinedRoomHeatingUnits>All Rooms
 Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_Percentage>%</IDF_Percentage>
