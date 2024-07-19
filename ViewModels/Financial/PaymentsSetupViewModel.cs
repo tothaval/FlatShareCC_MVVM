@@ -87,7 +87,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // collections
         #region collections
 
-        public ObservableCollection<PaymentViewModel> Payments => RoomPaymentsViewModel.PaymentViewModels;
+        public ObservableCollection<PaymentViewModel> Payments
+        {
+            get{
+                if (RoomPaymentsViewModel != null)
+                {
+                    return RoomPaymentsViewModel.PaymentViewModels;
+                }
+
+                return null;
+            }
+        }
 
         #endregion collections
 
@@ -114,7 +124,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             AddPaymentCommand = new AddPaymentCommand(_RoomPaymentsViewModel);
             DeletePaymentCommand = new DeletePaymentCommand(this);
 
-            _RoomPaymentsViewModel.RoomPayments.Payments.CollectionChanged += Payments_CollectionChanged;
+            if (_RoomPaymentsViewModel != null)
+            {
+                _RoomPaymentsViewModel.RoomPayments.Payments.CollectionChanged += Payments_CollectionChanged;
+            }            
         }
         #endregion constructors
 

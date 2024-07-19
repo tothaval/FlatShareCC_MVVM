@@ -66,6 +66,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             }
         }
 
+        public CreditSetupViewModel CreditSetupViewModel { get; set; }
+
 
         private bool _DataLockCheckbox;
         public bool DataLockCheckbox
@@ -286,6 +288,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             PaymentManagementViewModel = new PaymentManagementViewModel(_billingViewModel);
             ConsumptionViewModel = new ConsumptionViewModel(_billingViewModel);
+            CreditSetupViewModel = new CreditSetupViewModel(_billingViewModel);
 
             CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
             LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);

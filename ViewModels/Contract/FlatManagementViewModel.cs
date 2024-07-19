@@ -84,6 +84,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 if (_ShowAccounting)
                 {
                     ShowCosts = false;
+                    ShowManual = false;
+                    ShowFlatManagement = false;
                 }
                 OnPropertyChanged(nameof(ShowAccounting));
             }
@@ -101,6 +103,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 if (_ShowCosts)
                 {
                     ShowAccounting = false;
+                    ShowManual = false;
+                    ShowFlatManagement = false;
                 }
                 OnPropertyChanged(nameof(ShowCosts));
             }
@@ -117,8 +121,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
                 if (_ShowFlatManagement)
                 {
+                    ShowAccounting = false;
+                    ShowCosts = false;
                     ShowManual = false;
-                    ShowSettings = false;
                 }
 
                 OnPropertyChanged(nameof(ShowFlatManagement));
@@ -155,8 +160,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
                 if (_ShowManual)
                 {
+                    ShowAccounting = false;
+                    ShowCosts = false;
                     ShowFlatManagement = false;
-                    ShowSettings = false;
                 }
 
                 OnPropertyChanged(nameof(ShowManual));
@@ -191,11 +197,13 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             {
                 _ShowSettings = value;
 
-                if (_ShowSettings)
-                {
-                    ShowManual = false;
-                    ShowFlatManagement = false;
-                }
+                //if (_ShowSettings)
+                //{
+                //    ShowAccounting = false;
+                //    ShowCosts = false;
+                //    ShowManual = false;
+                //    ShowFlatManagement = false;
+                //}
 
                 OnPropertyChanged(nameof(ShowSettings));
             }

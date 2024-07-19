@@ -110,7 +110,12 @@ namespace SharedLivingCostCalculator.Models.Financial
         #endregion
 
 
+        // Collections
+        #region Collections
+
         public ObservableCollection<FinancialTransactionItemViewModel> FinancialTransactionItemViewModels { get; set; } = new ObservableCollection<FinancialTransactionItemViewModel>();
+
+        #endregion
 
 
         // Constructors

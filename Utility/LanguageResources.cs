@@ -136,13 +136,19 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_Consumption"] = languageResource.IDF_Consumption;
             Application.Current.Resources["IDF_ConsumptionShare"] = languageResource.IDF_ConsumptionShare;
             Application.Current.Resources["IDF_CombinedConsumption"] = languageResource.IDF_CombinedConsumption;
-
+            Application.Current.Resources["IDF_ConsumptionPercentage"] = languageResource.IDF_ConsumptionPercentage;
+                       
             Application.Current.Resources["IDF_ExtraCosts"] = languageResource.IDF_ExtraCosts;
             Application.Current.Resources["IDF_FixedCosts"] = languageResource.IDF_FixedCosts;
             Application.Current.Resources["IDF_HeatingCosts"] = languageResource.IDF_HeatingCosts;
             Application.Current.Resources["IDF_TotalCosts"] = languageResource.IDF_TotalCosts;
             Application.Current.Resources["IDF_Balance"] = languageResource.IDF_Balance;
 
+            
+            Application.Current.Resources["IDF_OtherCostsData"] = languageResource.IDF_OtherCostsData;
+            Application.Current.Resources["IDF_RoomCostShares"] = languageResource.IDF_RoomCostShares;
+            Application.Current.Resources["IDF_RoomData"] = languageResource.IDF_RoomData;
+             
             Application.Current.Resources["IDF_RoomHeatingUnits"] = languageResource.IDF_RoomHeatingUnits;
             Application.Current.Resources["IDF_CombinedRoomHeatingUnits"] = languageResource.IDF_CombinedRoomHeatingUnits;
             Application.Current.Resources["IDF_Percentage"] = languageResource.IDF_Percentage;

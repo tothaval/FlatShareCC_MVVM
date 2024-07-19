@@ -532,7 +532,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding RoomName,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    Mode=OneWay}"
                                                    Style="{StaticResource StringValueTextBlock}"/>
 
                                             </DataTemplate>
@@ -544,8 +545,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding RoomArea,
-                                            UpdateSourceTrigger=PropertyChanged,
-                                            Mode=OneWay, StringFormat=N2}"
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    Mode=OneWay, StringFormat=N2}"
                                                    Style="{StaticResource DoubleValueTextBlock}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -595,7 +596,9 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding OtherCostsShare,
-                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2}"
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    Mode=OneWay,
+                                                    StringFormat=C2}"
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
                                             </DataTemplate>

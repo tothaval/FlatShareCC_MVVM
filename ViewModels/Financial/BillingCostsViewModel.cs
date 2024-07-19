@@ -9,9 +9,6 @@
  *  instance of FlatViewModel and the
  *  selected BillingViewModel instance
  */
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Data;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
@@ -32,6 +29,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         private readonly FlatViewModel _flatViewModel;
 
 
+        public double OtherCostItemCountBasedWidth => BillingViewModel.FinancialTransactionItemViewModels.Count * 125;
+
+
         private bool _ShowFlatCosts;
         public bool ShowFlatCosts
         {
@@ -40,6 +40,44 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             {
                 _ShowFlatCosts = value;
                 OnPropertyChanged(nameof(ShowFlatCosts));
+            }
+        }
+
+
+        private bool _ShowOtherCosts;
+        public bool ShowOtherCosts
+        {
+            get { return _ShowOtherCosts; }
+            set
+            {
+                _ShowOtherCosts = value;
+
+                if (_ShowOtherCosts)
+                {
+                    ShowOtherCostsData = false;
+                    ShowRoomCostShares = false;
+                    ShowRoomData = false;
+                }
+                OnPropertyChanged(nameof(ShowOtherCosts));
+            }
+        }
+
+
+        private bool _ShowOtherCostsData;
+        public bool ShowOtherCostsData
+        {
+            get { return _ShowOtherCostsData; }
+            set
+            {
+                _ShowOtherCostsData = value;
+
+                if (_ShowOtherCostsData)
+                {
+                    ShowOtherCosts = false;
+                    ShowRoomCostShares = false;
+                    ShowRoomData = false;
+                }
+                OnPropertyChanged(nameof(ShowOtherCostsData));
             }
         }
 
@@ -54,6 +92,45 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 OnPropertyChanged(nameof(ShowRoomCosts));
             }
         }
+
+
+        private bool _ShowRoomCostShares;
+        public bool ShowRoomCostShares
+        {
+            get { return _ShowRoomCostShares; }
+            set
+            {
+                _ShowRoomCostShares = value;
+
+                if (_ShowRoomCostShares)
+                {
+                    ShowOtherCosts = false;
+                    ShowOtherCostsData = false;
+                    ShowRoomData = false;
+                }
+                OnPropertyChanged(nameof(ShowRoomCostShares));
+            }
+        }
+
+
+        private bool _ShowRoomData;
+        public bool ShowRoomData
+        {
+            get { return _ShowRoomData; }
+            set
+            {
+                _ShowRoomData = value;
+
+                if (_ShowRoomData)
+                {
+                    ShowOtherCosts = false;
+                    ShowOtherCostsData = false;
+                    ShowRoomCostShares = false;
+                }
+                OnPropertyChanged(nameof(ShowRoomData));
+            }
+        }
+
 
         public string Signature
         {

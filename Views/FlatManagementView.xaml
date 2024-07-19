@@ -31,9 +31,11 @@
             <DockPanel>
                 <Grid Name="topgrid" DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.5*"/>
-                        <ColumnDefinition Width="0.25*"/>
-                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
                     <ToggleButton Content="{DynamicResource FlatManagementHeaderText}"
@@ -41,18 +43,41 @@
                               Style="{StaticResource toggleButtonStyle}"
                               Grid.Column="0"/>
 
+                    <ToggleButton Content="{DynamicResource AccountingHeaderText}"
+                              IsChecked="{Binding ShowAccounting}"
+                              Style="{StaticResource toggleButtonStyle}"
+                              Grid.Column="1"/>
+
+                    <ToggleButton Content="{DynamicResource IDF_ShowCosts}"
+                              IsChecked="{Binding ShowCosts}"
+                              Style="{StaticResource toggleButtonStyle}"                              
+                              Grid.Column="2"/>
 
                     <ToggleButton Content="{DynamicResource IDF_Manual}"
                               IsChecked="{Binding ShowManual}"
                               Style="{StaticResource toggleButtonStyle}"
-                              Grid.Column="1"/>
+                              Grid.Column="3"/>
 
                     <ToggleButton Content="{DynamicResource IDF_Settings}"
                               IsChecked="{Binding ShowSettings}"
                               Style="{StaticResource toggleButtonStyle}"
-                              Grid.Column="2"/>
+                              Grid.Column="4"/>
                 </Grid>
 
+                <Border Style="{StaticResource VisibilityFieldBorder}"
+                    Visibility="{Binding ShowSettings, Converter={StaticResource VisibilityConverter}}"
+                    DockPanel.Dock="Top" >
+                    <Grid>
+
+                        <local:SettingsView HorizontalAlignment="Left" HorizontalContentAlignment="Left">
+                            <local:SettingsView.DataContext>
+                                <vms:SettingsViewModel/>
+                            </local:SettingsView.DataContext>
+
+                        </local:SettingsView>
+                    </Grid>
+                </Border>
+                
                 <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowFlatManagement, Converter={StaticResource VisibilityConverter}}"
                     DockPanel.Dock="Top"
@@ -228,19 +253,6 @@
                 </Border>
 
 
-                <Border Style="{StaticResource VisibilityFieldBorder}"
-                    Visibility="{Binding ShowSettings, Converter={StaticResource VisibilityConverter}}"
-                    DockPanel.Dock="Top" >
-                    <Grid>
-
-                        <local:SettingsView HorizontalAlignment="Left" HorizontalContentAlignment="Left">
-                            <local:SettingsView.DataContext>
-                                <vms:SettingsViewModel/>
-                            </local:SettingsView.DataContext>
-
-                        </local:SettingsView>
-                    </Grid>
-                </Border>
 
 
                 <Grid DockPanel.Dock="Top" 
@@ -251,15 +263,6 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <ToggleButton Content="{DynamicResource AccountingHeaderText}"
-                              IsChecked="{Binding ShowAccounting}"
-                              Style="{StaticResource toggleButtonStyle}"
-                              Grid.Column="0"/>
-
-                    <ToggleButton Content="{DynamicResource IDF_ShowCosts}"
-                              IsChecked="{Binding ShowCosts}"
-                              Style="{StaticResource toggleButtonStyle}"                              
-                              Grid.Column="1"/>
                 </Grid>
 
 

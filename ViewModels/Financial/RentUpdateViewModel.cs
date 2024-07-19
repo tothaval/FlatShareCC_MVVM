@@ -89,6 +89,21 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
+
+        private bool _CreditViewActive;
+
+        public bool CreditViewActive
+        {
+            get { return _CreditViewActive; }
+            set
+            {
+                _CreditViewActive = value;
+                OnPropertyChanged(nameof(CreditViewActive));
+            }
+        }
+
+
+
         private bool _DataLockCheckbox;
         public bool DataLockCheckbox
         {
@@ -125,7 +140,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 }
 
                 OnPropertyChanged(nameof(HasCredits));
-                OnPropertyChanged(nameof(SetCreditVisibility));
+                OnPropertyChanged(nameof(CreditViewActive));
             }
         }
 
@@ -170,7 +185,18 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-        public bool SetCreditVisibility => HasCredits;
+
+        private bool _ShowCreditView;
+
+        public bool ShowCreditView
+        {
+            get { return _ShowCreditView; }
+            set
+            {
+                _ShowCreditView = value;
+                OnPropertyChanged(nameof(ShowCreditView));
+            }
+        }
 
         #endregion properties
 
@@ -191,6 +217,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         public ICommand ShowCostsCommand { get; }
 
+
+        public ICommand ShowCreditCommand { get; }
+
         #endregion commands
 
 
@@ -210,6 +239,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             ShowBillingCommand = new RelayCommand(p => ShowBillingView(), (s) => true);
             ShowCostsCommand = new RelayCommand(p => ShowCostsView(), (s) => true);
+            ShowCreditCommand = new RelayCommand(p => ShowCreditWindow(), (s) => true);
 
 
             if (_rentViewModel.HasBilling)
@@ -278,10 +308,31 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             }
         }
 
+
+        private void ShowCreditWindow()
+        {
+            if (ShowCreditView)
+            {
+                var mainWindow = Application.Current.MainWindow;
+
+                CreditView creditView = new CreditView();
+
+                creditView.DataContext = new CreditViewViewModel(RentViewModel);
+                
+                creditView.Owner = mainWindow;
+                creditView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+                creditView.Closed += OwnedWindow_Closed; ;
+                
+                creditView.Show();
+            }
+        }
+
         #endregion methods
 
 
         // events
+        
         #region events
 
         public void OwnedWindow_Closed(object? sender, EventArgs e)
@@ -294,6 +345,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             if (sender.GetType() == typeof(CostsView))
             {
                 CostsWindowActive = false;
+            }
+            
+            if (sender.GetType() == typeof(CreditView))
+            {
+                ShowCreditView = false;
             }
 
             var mainWindow = Application.Current.MainWindow;
