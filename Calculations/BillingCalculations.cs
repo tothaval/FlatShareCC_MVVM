@@ -33,7 +33,7 @@ namespace SharedLivingCostCalculator.Calculations
 
         //    foreach (ConsumptionItemViewModel item in ConsumptionItemViewModels)
         //    {
-        //        if (item.ConsumptionItem.ConsumptionCause.TransactionItem.Equals(GetBilling.TotalHeatingCostsPerPeriod.TransactionItem))
+        //        if (item.ConsumptionItem.ConsumptionCause.TransactionItem.Equals(Billing.TotalHeatingCostsPerPeriod.TransactionItem))
         //        {
         //            heatingUnits = item.ConsumedUnits;
 

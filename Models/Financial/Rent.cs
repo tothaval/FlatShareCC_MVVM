@@ -29,10 +29,10 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double AnnualRent => ColdRent.TransactionSum * 12;
 
 
-        public FinancialTransactionItem ColdRent { get; set; } = new FinancialTransactionItem() 
+        public FinancialTransactionItemRent ColdRent { get; set; } = new FinancialTransactionItemRent() 
         {
             TransactionItem = "Cold Rent",
-            TransactionShareTypes=TransactionShareTypes.Area,
+            TransactionShareTypes=TransactionShareTypesRent.Area,
             TransactionSum = 0.0
         };
 
@@ -40,18 +40,18 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double CostsTotal => ColdRent.TransactionSum + ExtraCostsTotal;
 
 
-        public FinancialTransactionItem FixedCostsAdvance { get; set; } = new FinancialTransactionItem()
+        public FinancialTransactionItemRent FixedCostsAdvance { get; set; } = new FinancialTransactionItemRent()
         {
             TransactionItem = "Fixed",
-            TransactionShareTypes = TransactionShareTypes.Area,
+            TransactionShareTypes = TransactionShareTypesRent.Area,
             TransactionSum = 0.0
         };
 
 
-        public FinancialTransactionItem HeatingCostsAdvance { get; set; } = new FinancialTransactionItem()
+        public FinancialTransactionItemBilling HeatingCostsAdvance { get; set; } = new FinancialTransactionItemBilling()
         {
             TransactionItem = "Heating",
-            TransactionShareTypes = TransactionShareTypes.Consumption,
+            TransactionShareTypes = TransactionShareTypesBilling.Consumption,
             TransactionSum = 0.0
         };
 
@@ -80,8 +80,13 @@ namespace SharedLivingCostCalculator.Models.Financial
         #region collections
 
         // storing TransactionItems in case of other costs being factored in into rent calculation
-        [XmlArray("OtherCostItemCollection")]
-        public ObservableCollection<FinancialTransactionItem> Costs { get; set; } = new ObservableCollection<FinancialTransactionItem>();
+        [XmlArray("OtherCosts")]
+        public ObservableCollection<FinancialTransactionItemRent> Costs { get; set; } = new ObservableCollection<FinancialTransactionItemRent>();
+
+
+        // storing TransactionItems in case of other costs being factored in into rent calculation
+        [XmlArray("Credits")]
+        public ObservableCollection<FinancialTransactionItemRent> Credits { get; set; } = new ObservableCollection<FinancialTransactionItemRent>();
 
         #endregion collections
 
@@ -97,9 +102,9 @@ namespace SharedLivingCostCalculator.Models.Financial
         public Rent(
                     FlatViewModel model,
                     DateTime startDate,
-                    FinancialTransactionItem rent,
-                    FinancialTransactionItem shared,
-                    FinancialTransactionItem heating
+                    FinancialTransactionItemRent rent,
+                    FinancialTransactionItemRent shared,
+                    FinancialTransactionItemBilling heating
                     )
         {
             StartDate = startDate;
@@ -114,13 +119,25 @@ namespace SharedLivingCostCalculator.Models.Financial
         // methods
         #region methods
 
-        public void AddFinacialTransactionItem(FinancialTransactionItem item)
+        public void AddCredit(FinancialTransactionItemRent item)
+        {
+            Credits.Add(item);
+        }
+
+
+        public void AddFinacialTransactionItem(FinancialTransactionItemRent item)
         {
             Costs.Add(item);
         }
 
 
-        public void RemoveFinancialTransactionItem(FinancialTransactionItem item)
+        public void RemoveCredit(FinancialTransactionItemRent item)
+        {
+            Credits.Remove(item);
+        }
+
+
+        public void RemoveFinancialTransactionItem(FinancialTransactionItemRent item)
         {
             Costs.Remove(item);
         }

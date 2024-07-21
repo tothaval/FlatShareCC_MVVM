@@ -9,7 +9,7 @@
              xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
              mc:Ignorable="d">
     <UserControl.Resources>
-        
+
         <DataTemplate DataType="{x:Type vms:RentCostsViewModel}">
             <views:RentCostsView/>
         </DataTemplate>
@@ -19,49 +19,52 @@
         </DataTemplate>
 
         <BooleanToVisibilityConverter x:Key="booltovis"/>
-        
+
     </UserControl.Resources>
 
     <Grid Margin="0 5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Row="0"
-                    Orientation="Horizontal"
-                     Margin="0">
-            <comps:FlatInfo HorizontalContentAlignment="Left"/>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+        <comps:FlatInfo HorizontalContentAlignment="Left" Grid.Column="0" Grid.Row="0"/>
 
-                <TextBlock Style="{StaticResource StringValueTextBlock}">
+        <Grid HorizontalAlignment="Right" Grid.Column="1" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Style="{StaticResource StringValueTextBlock}">
                     <LineBreak/>
                     <Run Text="Begin: "/>
                     <LineBreak/>
                     <Run Text="End: "/>
                     <LineBreak/>
                     <Run Text="Costs: "/>
-                </TextBlock>
+            </TextBlock>
 
-                <TextBlock Style="{StaticResource DoubleValueTextBlock}" Grid.Column="1">
+            <TextBlock Style="{StaticResource DoubleValueTextBlock}" Grid.Column="1">
                     <LineBreak/>
                     <Run Text ="{Binding ActiveViewModel.Signature, Mode=OneWay}"/>
-                </TextBlock>
+            </TextBlock>
 
-            </Grid>
-        </StackPanel>
+        </Grid>
 
-        <UniformGrid Grid.Row="1"
-                    HorizontalAlignment="Stretch"
+        <UniformGrid Grid.Column="0" 
+                     Grid.ColumnSpan="2"
+                     Grid.Row="1"
+                     HorizontalAlignment="Stretch"
                      Columns="2"
-                    Margin="0 5 0 0">
-            
+                     Margin="0 5 0 0">
+
             <ToggleButton Content="{DynamicResource IDF_Rent}"
                           IsChecked="{Binding RentSelected}"
                           Style="{StaticResource toggleButtonStyle}"
@@ -73,10 +76,12 @@
                           IsEnabled="{Binding HasBilling}"
                           Visibility="{Binding HasBilling,
                 Converter={StaticResource booltovis}}"/>
-            
+
         </UniformGrid>
 
-        <ContentPresenter Grid.Row="2"
+        <ContentPresenter Grid.Column="0"
+                          Grid.ColumnSpan="2"
+                          Grid.Row="2"
                           Content="{Binding ActiveViewModel,
             NotifyOnSourceUpdated=True}"/>
     </Grid>

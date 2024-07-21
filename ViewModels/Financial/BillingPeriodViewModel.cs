@@ -54,7 +54,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 {
                     foreach (Window wdw in billingWindow.OwnedWindows)
                     {
-                        if (wdw.GetType() == typeof(CostsView))
+                        if (wdw.GetType() == typeof(BillingCostsWindow))
                         {
                             wdw.Close();
                         }
@@ -345,9 +345,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             {
                 billingWindow = (Window)p;
 
-                CostsView otherCostsView = new CostsView();
+                BillingCostsWindow otherCostsView = new BillingCostsWindow();
 
-                otherCostsView.DataContext = new CostsViewModel(BillingViewModel);
+                otherCostsView.DataContext = new BillingCostsWindowViewModel(BillingViewModel);
 
                 otherCostsView.Owner = billingWindow;
                 otherCostsView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -365,7 +365,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         public void OwnedWindow_Closed(object? sender, EventArgs e)
         {
-            if (sender.GetType() == typeof(CostsView))
+            if (sender.GetType() == typeof(BillingCostsWindow))
             {
                 CostsWindowActive = false;
             }

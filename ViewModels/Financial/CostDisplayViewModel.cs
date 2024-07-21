@@ -49,13 +49,18 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 if (_BillingSelected && _billingViewModel != null && _flatViewModel != null)
                 {
                     ActiveViewModel = (ICostDisplay)new BillingCostsViewModel(_billingViewModel, _flatViewModel);
-
+                    
                     RentSelected = false;
                 }
                 else if (!_RentSelected && !BillingSelected)
                 {
                     RentSelected = true;
                 }
+
+
+                _FlatManagementViewModel.ShowCostsBillingSelected = value;
+
+
                 OnPropertyChanged(nameof(BillingSelected));
             }
         }
@@ -117,8 +122,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             //_AccountingViewModel.FlatManagement.FlatViewModelChange += FlatManagement_FlatViewModelChange;
 
-            RentSelected = true;
-
             Update();
         }
         #endregion constructors
@@ -132,8 +135,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             if (_AccountingViewModel.FlatViewModel != null)
             {
                 _flatViewModel = _AccountingViewModel.FlatViewModel;
-
-                BillingSelected = false;
             }
 
             if (_AccountingViewModel.Rents.SelectedValue != null)
@@ -152,19 +153,24 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 _billingViewModel = null;
             }
 
+
+            if (_AccountingViewModel.Rents.SelectedValue != null
+                && _AccountingViewModel.Rents.SelectedValue.HasBilling)
+            {
+                if (_FlatManagementViewModel.ShowCostsBillingSelected)
+                {
+                    BillingSelected = true;
+                }
+            }
+            else
+            {
+                RentSelected = true;
+            }
+
+
             OnPropertyChanged(nameof(FlatViewModel));
             OnPropertyChanged(nameof(ActiveViewModel));
             OnPropertyChanged(nameof(HasBilling));
-
-
-            RentSelected = true;
-
-            if (!HasBilling)
-            {
-                BillingSelected = false;
-
-                RentSelected = true;
-            }
         }
 
         #endregion methods

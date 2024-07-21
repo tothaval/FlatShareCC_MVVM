@@ -65,7 +65,7 @@ namespace SharedLivingCostCalculator.ViewModels
         private void Close(object s)
         {
             MessageBoxResult result = MessageBox.Show(
-                $"Do you want to close Shared Living Cost Calculator?\n\n",
+                $"Do you want to close Shared Living TransactionSum Calculator?\n\n",
                 "Close SLCC", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {

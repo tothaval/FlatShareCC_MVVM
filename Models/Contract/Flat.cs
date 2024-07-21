@@ -34,6 +34,9 @@ namespace SharedLivingCostCalculator.Models.Contract
         public string FlatNotes { get; set; } = "notes";
 
 
+        public bool HasDataLock { get; set; } = false;
+
+
         public int RoomCount { get; set; }
 
         #endregion properties

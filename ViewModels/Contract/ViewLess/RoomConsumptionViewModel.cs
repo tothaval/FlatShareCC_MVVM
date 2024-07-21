@@ -13,7 +13,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         private ConsumptionItemViewModel _ConsumptionItemViewModel;
 
 
-        public double ConsumptionPercentage => ConsumptionValue / _ConsumptionItemViewModel.ConsumedUnits * 100;
+        public string ConsumptionCause => _ConsumptionItemViewModel.ConsumptionCause;
+
+
+        public double ConsumptionCost { get; set; } = 0.0;
 
 
         public double ConsumptionValue
@@ -21,7 +24,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             get { return _RoomConsumption.ConsumptionValue; }
             set {
                 _RoomConsumption.ConsumptionValue = value;
-                OnPropertyChanged(nameof(ConsumptionPercentage));
+
                 OnPropertyChanged(nameof(ConsumptionValue));
             }
         }

@@ -12,10 +12,6 @@ namespace SharedLivingCostCalculator.Interfaces.Financial
     {
         public double TransactionSum { get; set; }
 
-
-        public TransactionShareTypes TransactionShareTypes { get; set; }
-
-
         public string TransactionItem { get; set; }
     }
 }

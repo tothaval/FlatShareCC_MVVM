@@ -11,7 +11,7 @@ using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
-using System.Windows;
+
 
 namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 {
@@ -63,10 +63,22 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
 
         private Flat _flat;
-        public Flat GetFlat => _flat;
+        public Flat Flat => _flat;
 
 
         public string FlatNotes { get { return _flat.FlatNotes; } set { _flat.FlatNotes = value; OnPropertyChanged(nameof(FlatNotes)); } }
+
+
+        public bool HasDataLock
+        {
+            get { return Flat.HasDataLock; }
+            set
+            {
+                Flat.HasDataLock = value;
+
+                OnPropertyChanged(nameof(HasDataLock));
+            }
+        }
 
 
         public double Rent => CurrentRent();

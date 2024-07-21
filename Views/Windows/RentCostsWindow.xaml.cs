@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace SharedLivingCostCalculator.Views.Windows
 {
     /// <summary>
-    /// Interaktionslogik für CostsView.xaml
+    /// Interaktionslogik für RentCostsWindow.xaml
     /// </summary>
-    public partial class CostsView : Window
+    public partial class RentCostsWindow : Window
     {
-        public CostsView()
+        public RentCostsWindow()
         {
             InitializeComponent();
         }

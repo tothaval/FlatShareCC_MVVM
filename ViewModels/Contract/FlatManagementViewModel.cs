@@ -41,7 +41,33 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public CostDisplayViewModel Cost { get; }
 
 
+        public bool DataLock
+        {
+            get {
+                if (SelectedItem != null)
+                {
+                    return !SelectedItem.HasDataLock;
+                }
+
+                return false;
+                }
+            set
+            {
+                if (SelectedItem != null)
+                {
+                    SelectedItem.HasDataLock = !value;
+                }
+
+                OnPropertyChanged(nameof(DataLock));
+                OnPropertyChanged(nameof(HasDataLock));
+            }
+        }
+
+
         public FlatSetupViewModel FlatSetup { get; set; }
+
+
+        public bool HasDataLock => !DataLock;
 
 
         public bool HasFlat => _flatCollection.Count > 0;
@@ -107,6 +133,19 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                     ShowFlatManagement = false;
                 }
                 OnPropertyChanged(nameof(ShowCosts));
+            }
+        }
+
+        
+        private bool _ShowCostsBillingSelected;
+        public bool ShowCostsBillingSelected
+        {
+            get { return _ShowCostsBillingSelected; }
+            set
+            {
+                _ShowCostsBillingSelected = value;
+
+                OnPropertyChanged(nameof(ShowCostsBillingSelected));
             }
         }
 
@@ -267,9 +306,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public ICommand DeleteFlatCommand { get; }
 
 
-        public ICommand DuplicateFlatCommand { get; }
-
-
         public ICommand NewFlatCommand { get; }
 
         #endregion commands
@@ -286,11 +322,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             RoomSetup = new RoomSetupViewModel(this);
             TenantSetup = new TenantSetupViewModel(this);
 
-            DuplicateFlatCommand = new RelayCommand((s) => DuplicateFlat(), (s) => true);
             NewFlatCommand = new RelayCommand((s) => CreateFlat(), (s) => true);
 
             DeleteFlatCommand = new ExecuteDeleteFlatCommand(flatCollection, this);
-
+                       
             _flatCollection = flatCollection;
 
             _flatCollection.CollectionChanged += _flatCollection_CollectionChanged;
@@ -300,6 +335,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             SelectFirstFlatCollectionItem();
 
             LoadData();
+
         }
 
         #endregion constructors
@@ -357,6 +393,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
                 ShowCosts = applicationData.ShowCosts_Shown;
 
+                ShowCostsBillingSelected = applicationData.ShowCostsBilling_Shown;
+
                 ShowFlatManagement = applicationData.FlatManagement_Shown;
 
                 ShowFlatSetup = applicationData.FlatSetup_Shown;
@@ -369,10 +407,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             }
 
 
-
             OnPropertyChanged(nameof(FlatSetup));
             OnPropertyChanged(nameof(RoomSetup));
             OnPropertyChanged(nameof(TenantSetup));
+
         }
 
 
@@ -387,6 +425,14 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             {
                 SelectedItem = FlatCollection[applicationData.FlatViewModelSelectedIndex];
                 _flatCollection.CollectionChanged -= LoadUp;
+
+                if (SelectedItem != null)
+                {
+                    if (SelectedItem.HasDataLock)
+                    {
+                        DataLock = !SelectedItem.HasDataLock;
+                    }
+                }
             }
         }
 
@@ -402,6 +448,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             flatViewModel.RentUpdates.Add(new RentViewModel(flatViewModel, new Rent()));
 
+            flatViewModel.HasDataLock = true;
+
             _flatCollection.Add(flatViewModel);
 
 
@@ -415,55 +463,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             OnPropertyChanged(nameof(RoomSetup));
             OnPropertyChanged(nameof(TenantSetup));
         }
-
-
-        private void DuplicateFlat()
-        {
-            // the object that is to be duplicated must be cloned or value changes
-            // will affect the origin object as well. right now, duplicate duplicates
-            // all flat data and room data, tenants, tenantConfigurations or rents are
-            // not duplicated, if necessary, expand below code to clone other data as well.
-
-
-            Flat flat = new Flat();
-
-            double area = (double)SelectedItem.Area;
-            int roomCount = (int)SelectedItem.RoomCount;
-            string address = (string)SelectedItem.Address;
-            string details = (string)SelectedItem.Details;
-            string flatNotes = (string)SelectedItem.FlatNotes;
-
-            flat.Area = area;
-            flat.Address = address;
-            flat.Details = details;
-            flat.FlatNotes = flatNotes;
-            flat.RoomCount = roomCount;
-
-            foreach (RoomViewModel item in SelectedItem.Rooms)
-            {
-                double roomArea = item.RoomArea;
-                string roomName = item.RoomName;
-
-                flat.Rooms.Add(new RoomViewModel(new Room(roomName, roomArea)));
-            }
-
-            FlatViewModel flatViewModel = new FlatViewModel(flat, true);
-                                                
-            SelectedItem = flatViewModel;
-
-            _flatCollection.Add(flatViewModel);
-
-            ShowFlatSetup = true;
-
-            SelectedItem = _flatCollection?.Last();
-
-            OnPropertyChanged(nameof(SelectedItem));
-            OnPropertyChanged(nameof(HasFlat));
-            OnPropertyChanged(nameof(FlatSetup));
-            OnPropertyChanged(nameof(RoomSetup));
-            OnPropertyChanged(nameof(TenantSetup));
-        }
-
+                    
 
         private void ResetVisibility()
         {

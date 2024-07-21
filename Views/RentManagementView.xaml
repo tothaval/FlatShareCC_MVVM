@@ -141,18 +141,25 @@
         
         <Grid Margin="0 0 0 20">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.8*"/>
-                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <Button Content="{DynamicResource IDF_NewRentChange}" Grid.Column="0"
                     Command="{Binding AddRentUpdateCommand}"
                     Style="{StaticResource buttonStyle}"/>
 
+            <ToggleButton IsChecked="{Binding DataLockCheckbox}"
+                               Style="{StaticResource LockDataToggleButtonStyle}"
+                               HorizontalAlignment="Center"
+                               Grid.Column="1"
+                               />
+
             <Button Command="{Binding DeleteCommand}"
                     CommandParameter="{Binding ElementName=rentupdates, Path=SelectedItems}"
                     Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"
-                    Grid.Column="1" Content="{DynamicResource IDF_DeleteRentChange}"
+                    Grid.Column="2" Content="{DynamicResource IDF_DeleteRentChange}"
                     Style="{StaticResource buttonStyle}"/>
         </Grid>
         

@@ -70,6 +70,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
                 _room.RoomName = value;
                 OnPropertyChanged(nameof(RoomName));
 
+                RoomAreaChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 

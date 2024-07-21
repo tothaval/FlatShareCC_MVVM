@@ -88,9 +88,13 @@
                 <views:BillingCostsView/>
             </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vmsfin:CostsViewModel}">
-                <windows:CostsView/>
-            </DataTemplate>
+        <DataTemplate DataType="{x:Type vmsfin:BillingCostsWindowViewModel}">
+            <windows:BillingCostsWindow/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vmsfin:RentCostsWindowViewModel}">
+            <windows:RentCostsWindow/>
+        </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmsfin:CreditSetupViewModel}">
             <views:CreditSetupView/>

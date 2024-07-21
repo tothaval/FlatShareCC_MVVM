@@ -113,7 +113,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         // Collections
         #region Collections
 
-        public ObservableCollection<FinancialTransactionItemViewModel> FinancialTransactionItemViewModels { get; set; } = new ObservableCollection<FinancialTransactionItemViewModel>();
+        public ObservableCollection<FinancialTransactionItemRentViewModel> FinancialTransactionItemViewModels { get; set; } = new ObservableCollection<FinancialTransactionItemRentViewModel>();
 
         #endregion
 
@@ -125,6 +125,12 @@ namespace SharedLivingCostCalculator.Models.Financial
         {
             _Room = room;
             ViewModel = rentViewModel;
+
+            if (rentViewModel.GetFlatViewModel() != null)
+            {
+                rentViewModel.GetFlatViewModel().PropertyChanged += RoomCostShareRent_PropertyChanged;
+            }
+            
 
             CalculateValues();
         }
@@ -203,28 +209,27 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         private void FillObservableCollection()
         {
-            foreach (FinancialTransactionItemViewModel item in ViewModel.FinancialTransactionItemViewModels)
+            foreach (FinancialTransactionItemRentViewModel item in ViewModel.FinancialTransactionItemViewModels)
             {
-                FinancialTransactionItemViewModel FTIvm = new FinancialTransactionItemViewModel(new FinancialTransactionItem());
+                FinancialTransactionItemRentViewModel FTIvm = new FinancialTransactionItemRentViewModel(new FinancialTransactionItemRent());
 
-                if (item.CostShareTypes == Enums.TransactionShareTypes.Equal)
+                if (item.CostShareTypes == Enums.TransactionShareTypesRent.Equal)
                 {
-                    FTIvm.Cost = EqualShareRatio() * item.Cost;
+                    FTIvm.TransactionSum = EqualShareRatio() * item.TransactionSum;
                 }
-                else if (item.CostShareTypes == Enums.TransactionShareTypes.Area)
+                else if (item.CostShareTypes == Enums.TransactionShareTypesRent.Area)
                 {
-                    FTIvm.Cost = RentedAreaShareRatio() * item.Cost;
+                    FTIvm.TransactionSum = RentedAreaShareRatio() * item.TransactionSum;
                 }
 
                 FTIvm.CostShareTypes = item.CostShareTypes;
 
-                string newItem = item.Item;
-                FTIvm.Item = newItem;
-
-                if (item.CostShareTypes != Enums.TransactionShareTypes.Consumption)
-                {
-                    FinancialTransactionItemViewModels.Add(FTIvm);
-                }
+                string newItem = item.TransactionItem;
+                FTIvm.TransactionItem = newItem;
+                
+                
+                FinancialTransactionItemViewModels.Add(FTIvm);
+                
             }
 
             OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
@@ -233,22 +238,37 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         private double GetAreaSharedCostsShare()
         {
-            return RentedAreaShareRatio() * ((RentViewModel)ViewModel).GetFTIShareSum(Enums.TransactionShareTypes.Area);
+            return RentedAreaShareRatio() * ((RentViewModel)ViewModel).GetFTIShareSum(Enums.TransactionShareTypesRent.Area);
         }
 
 
         private double GetEqualSharedCostShare()
         {
-            return ((RentViewModel)ViewModel).GetFTIShareSum(Enums.TransactionShareTypes.Equal) / ((RentViewModel)ViewModel).GetFlatViewModel().RoomCount;
+            return ((RentViewModel)ViewModel).GetFTIShareSum(Enums.TransactionShareTypesRent.Equal) / ((RentViewModel)ViewModel).GetFlatViewModel().RoomCount;
         }
 
 
         private double RentedAreaShareRatio()
         {
             return RentedAreaShare / ViewModel.GetFlatViewModel().Area;
-        } 
+        }
 
         #endregion
+
+
+        // Events
+        #region Events
+
+        private void RoomCostShareRent_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(RoomArea));
+            OnPropertyChanged(nameof(RoomName));
+
+            CalculateValues();
+        }
+
+        #endregion
+
 
     }
 }

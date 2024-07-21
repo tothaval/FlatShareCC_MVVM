@@ -17,7 +17,7 @@ namespace SharedLivingCostCalculator.Models.Contract
     public class ConsumptionItem : IConsumptionItem
     {
 
-        public FinancialTransactionItem ConsumptionCause { get; set; }
+        public FinancialTransactionItemBilling ConsumptionCause { get; set; }
 
 
         public double ConsumedUnits { get; set; }
@@ -34,7 +34,7 @@ namespace SharedLivingCostCalculator.Models.Contract
         }
 
 
-        public ConsumptionItem(FinancialTransactionItem cause, double consumedUnits = 0.0)
+        public ConsumptionItem(FinancialTransactionItemBilling cause, double consumedUnits = 0.0)
         {
             ConsumptionCause = cause;
             ConsumedUnits = consumedUnits;

@@ -21,6 +21,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         public ConsumptionItem ConsumptionItem => _ConsumptionItem;
 
 
+        public double RoomCount => _BillingViewModel.FlatViewModel.RoomCount;
+
+
         public double ConsumedUnits
         {
             get { return _ConsumptionItem.ConsumedUnits; }
@@ -82,22 +85,12 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             _ConsumptionItem = consumptionItem;
             _BillingViewModel = billingViewModel;
 
-            RoomConsumptionViewModels = new ObservableCollection<RoomConsumptionViewModel>();
+            if (_BillingViewModel.GetFlatViewModel() != null)
+            {
+                _BillingViewModel.GetFlatViewModel().PropertyChanged += ConsumptionItemViewModel_PropertyChanged;
+            }
 
-            if (_ConsumptionItem.RoomConsumptions.Count > 0)
-            {
-                foreach (RoomConsumption item in _ConsumptionItem.RoomConsumptions)
-                {
-                    RoomConsumptionViewModels.Add(new RoomConsumptionViewModel(item, this));
-                }
-            }
-            else
-            {
-                foreach (RoomViewModel item in _BillingViewModel.FlatViewModel.Rooms)
-                {
-                    RoomConsumptionViewModels.Add(new RoomConsumptionViewModel(new RoomConsumption(item.GetRoom, 0.0), this));
-                }
-            }
+            GenerateRoomConsumptionItemViewModels();
         }
 
 
@@ -111,6 +104,64 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             }
 
             return totalRoomUnits;
+        }
+
+
+        private void GenerateRoomConsumptionItemViewModels()
+        {
+            RoomConsumptionViewModels = new ObservableCollection<RoomConsumptionViewModel>();
+
+            if (_ConsumptionItem.RoomConsumptions.Count > 0)
+            {
+                foreach (RoomConsumption item in _ConsumptionItem.RoomConsumptions)
+                {
+                    RoomConsumptionViewModel roomConsumptionViewModel = new RoomConsumptionViewModel(item, this);
+
+                    roomConsumptionViewModel.PropertyChanged += RoomConsumptionViewModel_PropertyChanged;
+
+                    RoomConsumptionViewModels.Add(roomConsumptionViewModel);
+                }
+            }
+            else
+            {
+                foreach (RoomViewModel item in _BillingViewModel.FlatViewModel.Rooms)
+                {
+                    RoomConsumptionViewModel roomConsumptionViewModel = new RoomConsumptionViewModel(new RoomConsumption(item.GetRoom, 0.0), this);
+
+                    roomConsumptionViewModel.PropertyChanged += RoomConsumptionViewModel_PropertyChanged;
+
+                    RoomConsumptionViewModels.Add(roomConsumptionViewModel);
+                }
+            }
+        }
+
+
+        private void UpdateRoomConsumptionItemViewModels()
+        {
+            RoomConsumptionViewModels = new ObservableCollection<RoomConsumptionViewModel>();
+
+            foreach (RoomViewModel item in _BillingViewModel.FlatViewModel.Rooms)
+            {                
+                RoomConsumptionViewModel roomConsumptionViewModel = new RoomConsumptionViewModel(new RoomConsumption(item.GetRoom, 0.0), this);
+
+                roomConsumptionViewModel.PropertyChanged += RoomConsumptionViewModel_PropertyChanged;
+
+                RoomConsumptionViewModels.Add(roomConsumptionViewModel);
+            }
+
+        }
+
+
+        private void ConsumptionItemViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            UpdateRoomConsumptionItemViewModels();
+        }
+
+
+        private void RoomConsumptionViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(SharedConsumption));
+            OnPropertyChanged(nameof(SharedConsumptionPercentage));
         }
 
 
