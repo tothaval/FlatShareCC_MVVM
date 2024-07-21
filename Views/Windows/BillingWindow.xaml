@@ -67,6 +67,14 @@
 
             <comps:FlatInfo/>
 
+            <ToggleButton IsChecked="{Binding DataLockCheckbox}"
+                                  Style="{StaticResource LockDataToggleButtonStyle}"
+                                  HorizontalAlignment="Right"
+                                  Margin="0 5 0 0"
+                                  Grid.Column="1"
+                                  Grid.Row="0"
+                                  />
+
             <StackPanel Orientation="Vertical"
                     Grid.Column="0"
                     Grid.Row="1"
@@ -186,7 +194,6 @@
                                   Grid.Column="0"
                                   Grid.ColumnSpan="2"
                                   Grid.Row="5"/>
-                    
                 </Grid>
 
             </StackPanel>
@@ -200,11 +207,6 @@
                        Style="{StaticResource Header}"/>
 
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource IDF_LockData}"
-                          IsChecked="{Binding DataLockCheckbox}"
-                          Grid.Column="1"
-                          Style="{StaticResource OptionCheckBox}"/>
-
                     <CheckBox Content="{DynamicResource IDF_FactorInPayments}"
                           IsChecked="{Binding HasPayments}"
                           IsEnabled="{Binding DataLock}"

@@ -37,6 +37,23 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         public double Balance => DetermineBalance();
 
 
+        private double _CreditSum;
+        /// <summary>
+        /// sum of all other costs (FTIs) in CostView, except Heating FTI
+        /// </summary>
+        public double CreditSum
+        {
+            get { return _CreditSum; }
+            set
+            {
+                _CreditSum = value;
+                OnPropertyChanged(nameof(CreditSum));
+
+                RebuildRoomCostShares();
+            }
+        }
+
+
         private double _SumPerMonth;
         /// <summary>
         /// sum of all other costs (FTIs) in CostView, except Heating FTI
@@ -84,7 +101,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// </summary>
         public double TotalCostsPerPeriod
         {
-            get { return GetBilling.TotalCostsPerPeriod; }
+            get { return Billing.TotalCostsPerPeriod; }
 
             set
             {
@@ -105,7 +122,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                     _helper.AddError("value must be greater than combined costs", nameof(TotalCostsPerPeriod));
                 }
 
-                GetBilling.TotalCostsPerPeriod = value;
+                Billing.TotalCostsPerPeriod = value;
 
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
 
@@ -124,7 +141,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// </summary>
         public double TotalFixedCostsPerPeriod
         {
-            get { return GetBilling.TotalFixedCostsPerPeriod.TransactionSum; }
+            get { return Billing.TotalFixedCostsPerPeriod.TransactionSum; }
 
             set
             {
@@ -142,12 +159,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 }
 
 
-                GetBilling.TotalFixedCostsPerPeriod.TransactionSum = value;
+                Billing.TotalFixedCostsPerPeriod.TransactionSum = value;
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalFixedCostsPerPeriod)));
 
 
 
-                if (TotalCostsPerPeriod - TotalHeatingCostsPerPeriod != GetBilling.TotalFixedCostsPerPeriod.TransactionSum)
+                if (TotalCostsPerPeriod - TotalHeatingCostsPerPeriod != Billing.TotalFixedCostsPerPeriod.TransactionSum)
                 {
                     CalculateHeatingCosts();
                 }
@@ -175,7 +192,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// </summary>
         public double TotalHeatingCostsPerPeriod
         {
-            get { return GetBilling.TotalHeatingCostsPerPeriod.TransactionSum; }
+            get { return Billing.TotalHeatingCostsPerPeriod.TransactionSum; }
 
             set
             {
@@ -192,10 +209,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                     _helper.AddError("value must be greater than 0", nameof(TotalHeatingCostsPerPeriod));
                 }
 
-                GetBilling.TotalHeatingCostsPerPeriod.TransactionSum = value;
+                Billing.TotalHeatingCostsPerPeriod.TransactionSum = value;
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingCostsPerPeriod)));
 
-                if (TotalCostsPerPeriod - TotalFixedCostsPerPeriod != GetBilling.TotalHeatingCostsPerPeriod.TransactionSum)
+                if (TotalCostsPerPeriod - TotalFixedCostsPerPeriod != Billing.TotalHeatingCostsPerPeriod.TransactionSum)
                 {
                     CalculateFixedCosts();
                 }
@@ -248,23 +265,23 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         #region other properties
 
         private Billing _Billing;
-        public Billing GetBilling
+        public Billing Billing
         {
             get { return _Billing; }
             set
             {
                 _Billing = value;
-                OnPropertyChanged(nameof(GetBilling));
+                OnPropertyChanged(nameof(Billing));
             }
         }
 
 
         public bool CostsHasDataLock
         {
-            get { return GetBilling.CostsHasDataLock; }
+            get { return Billing.CostsHasDataLock; }
             set
             {
-                GetBilling.CostsHasDataLock = value;
+                Billing.CostsHasDataLock = value;
 
                 BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
 
@@ -275,7 +292,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         public DateTime EndDate
         {
-            get { return GetBilling.EndDate; }
+            get { return Billing.EndDate; }
 
             set
             {
@@ -288,7 +305,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 }
                 else
                 {
-                    GetBilling.EndDate = value; OnPropertyChanged(nameof(EndDate));
+                    Billing.EndDate = value; OnPropertyChanged(nameof(EndDate));
                     DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(EndDate)));
 
                     OnPropertyChanged(nameof(EndDate));
@@ -306,10 +323,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         public bool HasCredits
         {
-            get { return GetBilling.HasCredits; }
+            get { return Billing.HasCredits; }
             set
             {
-                GetBilling.HasCredits = value;
+                Billing.HasCredits = value;
 
                 BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
 
@@ -322,10 +339,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         public bool HasDataLock
         {
-            get { return GetBilling.HasDataLock; }
+            get { return Billing.HasDataLock; }
             set
             {
-                GetBilling.HasDataLock = value;
+                Billing.HasDataLock = value;
 
                 OnPropertyChanged(nameof(HasDataLock));
             }
@@ -337,10 +354,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         public bool HasPayments
         {
-            get { return GetBilling.HasPayments; }
+            get { return Billing.HasPayments; }
             set
             {
-                GetBilling.HasPayments = value;
+                Billing.HasPayments = value;
 
                 if (HasPayments)
                 {
@@ -349,7 +366,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 else
                 {
                     RoomPayments.Clear();
-                    GetBilling.RoomPayments.Clear();
+                    Billing.RoomPayments.Clear();
                 }
 
                 BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
@@ -379,7 +396,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         public DateTime StartDate
         {
-            get { return GetBilling.StartDate; }
+            get { return Billing.StartDate; }
 
             set
             {
@@ -387,13 +404,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 _helper.ClearError(nameof(StartDate));
                 _helper.ClearError(nameof(EndDate));
 
-                if (GetBilling.StartDate > GetBilling.EndDate)
+                if (Billing.StartDate > Billing.EndDate)
                 {
                     _helper.AddError("start date must be before enddate", nameof(StartDate));
                 }
                 else
                 {
-                    GetBilling.StartDate = value; OnPropertyChanged(nameof(StartDate));
+                    Billing.StartDate = value; OnPropertyChanged(nameof(StartDate));
                     DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
 
                     OnPropertyChanged(nameof(StartDate));
@@ -440,9 +457,22 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        private ObservableCollection<IFinancialTransactionItem> _Credits;
+        public ObservableCollection<IFinancialTransactionItem> Credits
+        {
+            get { return _Credits; }
+            set
+            {
+                _Credits = value;
+                OnPropertyChanged(nameof(Credits));
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(Credits)));
+            }
+        }
+
+
         // auf änderung in den items reagieren, v.a. bei type change und wegen aktualisierung consumption
-        private ObservableCollection<FinancialTransactionItemViewModel> _FinancialTransactionItemViewModels;
-        public ObservableCollection<FinancialTransactionItemViewModel> FinancialTransactionItemViewModels
+        private ObservableCollection<IFinancialTransactionItem> _FinancialTransactionItemViewModels;
+        public ObservableCollection<IFinancialTransactionItem> FinancialTransactionItemViewModels
         {
             get { return _FinancialTransactionItemViewModels; }
             set
@@ -488,14 +518,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 ErrorsChanged?.Invoke(this, e);
             };
 
-            FinancialTransactionItemViewModels = new ObservableCollection<FinancialTransactionItemViewModel>();
+            Credits = new ObservableCollection<IFinancialTransactionItem>();
+            FinancialTransactionItemViewModels = new ObservableCollection<IFinancialTransactionItem>();
 
             RoomPayments = new ObservableCollection<RoomPaymentsViewModel>();
 
             _flatViewModel = flatViewModel;
-            GetBilling = billing;
+            Billing = billing;
 
             GenerateConsumptionItemViewModels();
+
+            GenerateCreditViewModels();
 
             GenerateFTIViewModels();
 
@@ -510,13 +543,39 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         // methods
         #region methods
 
-        public void AddFinacialTransactionItem(FinancialTransactionItemViewModel financialTransactionItemViewModel)
+        public void AddCredit(FinancialTransactionItemBillingViewModel costItemViewModel)
         {
-            GetBilling.AddFinacialTransactionItem(financialTransactionItemViewModel.FTI);
+            Billing.AddCredit(costItemViewModel.FTI);
+
+            GenerateCreditViewModels();
+
+            OnPropertyChanged(nameof(Credits));
+        }
+
+
+        public void AddFinacialTransactionItem(FinancialTransactionItemBillingViewModel financialTransactionItemViewModel)
+        {
+            Billing.AddFinacialTransactionItem(financialTransactionItemViewModel.FTI);
 
             GenerateFTIViewModels();
 
             GenerateConsumptionItemViewModels();
+        }
+
+
+        public void CalculateCreditSum()
+        {
+            CreditSum = 0.0;
+
+            foreach (FinancialTransactionItemBillingViewModel item in Credits)
+            {
+                CreditSum += item.TransactionSum;
+            }
+
+            OnPropertyChanged(nameof(CreditSum));
+
+
+            RebuildRoomCostShares();
         }
 
 
@@ -561,9 +620,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         {
             OtherFTISum = 0.0;
 
-            foreach (FinancialTransactionItemViewModel item in FinancialTransactionItemViewModels)
+            foreach (FinancialTransactionItemBillingViewModel item in FinancialTransactionItemViewModels)
             {
-                OtherFTISum += item.Cost;
+                OtherFTISum += item.TransactionSum;
             }
 
             OnPropertyChanged(nameof(OtherFTISum));
@@ -674,22 +733,22 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         private void GenerateConsumptionItemViewModels()
         {
-            if (GetBilling != null && FinancialTransactionItemViewModels != null)
+            if (Billing != null && FinancialTransactionItemViewModels != null)
             {
                 ConsumptionItemViewModels = new ObservableCollection<ConsumptionItemViewModel>();
 
-                foreach (FinancialTransactionItemViewModel item in FinancialTransactionItemViewModels)
+                foreach (FinancialTransactionItemBillingViewModel item in FinancialTransactionItemViewModels)
                 {
-                    if (item.CostShareTypes == Enums.TransactionShareTypes.Consumption)
+                    if (item.CostShareTypes == TransactionShareTypesBilling.Consumption)
                     {
-                        GetBilling.AddConsumptionItem(item.FTI);
+                        Billing.AddConsumptionItem(item.FTI);
                     }
                 }
 
 
-                GetBilling.Check4HeatingCosts();
+                Billing.Check4HeatingCosts();
 
-                foreach (ConsumptionItem item in GetBilling.ConsumptionItems)
+                foreach (ConsumptionItem item in Billing.ConsumptionItems)
                 {
                     ConsumptionItemViewModels.Add(new ConsumptionItemViewModel(item, this));
                 }
@@ -698,17 +757,35 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             OnPropertyChanged(nameof(ConsumptionItemViewModels));
         }
 
+        private void GenerateCreditViewModels()
+        {
+            Credits = new ObservableCollection<IFinancialTransactionItem>();
+
+            if (Billing != null)
+            {
+                foreach (FinancialTransactionItemBilling item in Billing.Credits)
+                {
+                    FinancialTransactionItemBillingViewModel FinancialTransactionItemViewModel = new FinancialTransactionItemBillingViewModel(item);
+
+                    FinancialTransactionItemViewModel.ValueChange += CreditItem_ValueChange;
+
+                    Credits.Add(FinancialTransactionItemViewModel);
+                }
+            }
+
+            CalculateCreditSum();
+        }
 
 
         private void GenerateFTIViewModels()
         {
-            FinancialTransactionItemViewModels = new ObservableCollection<FinancialTransactionItemViewModel>();
+            FinancialTransactionItemViewModels = new ObservableCollection<IFinancialTransactionItem>();
 
-            if (GetBilling != null)
+            if (Billing != null)
             {
-                foreach (FinancialTransactionItem item in GetBilling.Costs)
+                foreach (FinancialTransactionItemBilling item in Billing.Costs)
                 {
-                    FinancialTransactionItemViewModel FinancialTransactionItemViewModel = new FinancialTransactionItemViewModel(item);
+                    FinancialTransactionItemBillingViewModel FinancialTransactionItemViewModel = new FinancialTransactionItemBillingViewModel(item);
 
                     FinancialTransactionItemViewModel.ValueChange += FinancialTransactionItemViewModel_ValueChange;
 
@@ -724,12 +801,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         {
             RoomPayments.Clear();
 
-            if (GetBilling.RoomPayments.Count < 1)
+            if (Billing.RoomPayments.Count < 1)
             {
-                GetBilling.AddRoomPayments(FlatViewModel);
+                Billing.AddRoomPayments(FlatViewModel);
             }
 
-            foreach (RoomPayments roomPayments in GetBilling.RoomPayments)
+            foreach (RoomPayments roomPayments in Billing.RoomPayments)
             {
                 RoomPaymentsViewModel roomPaymentsViewModel = new RoomPaymentsViewModel(roomPayments);
 
@@ -749,17 +826,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public double GetFTIShareSum(TransactionShareTypes transactionShareTypes)
+        public double GetFTIShareSum(TransactionShareTypesBilling transactionShareTypes)
         {
             double shareSum = 0.0;
 
             // search consumption items
-            foreach (FinancialTransactionItemViewModel item in FinancialTransactionItemViewModels)
+            foreach (FinancialTransactionItemBillingViewModel item in FinancialTransactionItemViewModels)
             {
                 // search for matching consumption item
                 if (item.CostShareTypes == transactionShareTypes)
                 {
-                    shareSum += item.Cost;
+                    shareSum += item.TransactionSum;
                 }
             }
 
@@ -767,7 +844,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        internal double GetRoomConsumptionPercentage(Room room, FinancialTransactionItem transactionItem)
+        internal double GetRoomConsumptionPercentage(Room room, FinancialTransactionItemBilling transactionItem)
         {
             // search consumption items
             foreach (ConsumptionItemViewModel item in ConsumptionItemViewModels)
@@ -848,20 +925,23 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public void RemoveCredit()
+        public void RemoveCredit(FinancialTransactionItemBillingViewModel costItemViewModel)
         {
-            //CreditViewModel = null;
+            Billing.RemoveCredit(costItemViewModel.FTI);
+
+            GenerateCreditViewModels();
+
+            RebuildRoomCostShares();
         }
 
 
-        public void RemoveFinancialTransactionItemViewModel(FinancialTransactionItemViewModel costItemViewModel)
+        public void RemoveFinancialTransactionItemViewModel(FinancialTransactionItemBillingViewModel costItemViewModel)
         {
-            GetBilling.RemoveFinacialTransactionItem(costItemViewModel.FTI);
+            Billing.RemoveFinacialTransactionItem(costItemViewModel.FTI);
 
             GenerateFTIViewModels();
 
             GenerateConsumptionItemViewModels();
-
 
             RebuildRoomCostShares();
         }
@@ -891,6 +971,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         // events
         #region events
+                
+        private void CreditItem_ValueChange(object? sender, EventArgs e)
+        {
+            CalculateCreditSum();
+            RebuildRoomCostShares();
+        }
+
 
         private void FinancialTransactionItemViewModel_ValueChange(object? sender, EventArgs e)
         {

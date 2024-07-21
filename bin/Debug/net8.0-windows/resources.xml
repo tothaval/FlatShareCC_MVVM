@@ -41,16 +41,16 @@
     <ScB>0.06124606</ScB>
   </C_Text_Header>
   <ButtonCornerRadius>
-    <TopLeft>16</TopLeft>
-    <TopRight>16</TopRight>
-    <BottomRight>16</BottomRight>
-    <BottomLeft>16</BottomLeft>
+    <TopLeft>12</TopLeft>
+    <TopRight>12</TopRight>
+    <BottomRight>12</BottomRight>
+    <BottomLeft>12</BottomLeft>
   </ButtonCornerRadius>
   <VisibilityFieldCornerRadius>
-    <TopLeft>25</TopLeft>
-    <TopRight>25</TopRight>
-    <BottomRight>25</BottomRight>
-    <BottomLeft>25</BottomLeft>
+    <TopLeft>13</TopLeft>
+    <TopRight>13</TopRight>
+    <BottomRight>13</BottomRight>
+    <BottomLeft>13</BottomLeft>
   </VisibilityFieldCornerRadius>
   <FontFamily>Verdana</FontFamily>
   <FS>14</FS>

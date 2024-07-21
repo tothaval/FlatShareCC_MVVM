@@ -45,6 +45,7 @@
 
 
         <ListView ItemsSource="{Binding FlatSetup.Rooms}"
+                  IsEnabled="{Binding FlatSetup.HasDataLock}"
                   SelectionMode="Single"
                   Grid.Column="0"
                   Grid.ColumnSpan="2"

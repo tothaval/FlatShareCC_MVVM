@@ -99,22 +99,22 @@
                         <Button Content="{DynamicResource IDF_NewFlat}"
                                 Command="{Binding NewFlatCommand}"
                                 Style="{StaticResource buttonStyle}"
+                                IsEnabled="{Binding HasDataLock}"
                                 Grid.Column="0" Grid.Row="0"/>
 
+                        <ToggleButton IsChecked="{Binding DataLock}"
+                               Style="{StaticResource LockDataToggleButtonStyle}"
+                               HorizontalAlignment="Center"
+                               Grid.Column="1"
+                               />
 
-                        <Button Content="duplicate ###"
-                                Command="{Binding DuplicateFlatCommand}"         
-                                IsEnabled="{Binding HasFlat, NotifyOnSourceUpdated=True}"
-                                Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
-                                Style="{StaticResource buttonStyle}"
-                                Grid.Column="1" Grid.Row="0"/>
 
                         <Button Content="{DynamicResource IDF_DeleteFlat}"
                             Command="{Binding DeleteFlatCommand}"
                             CommandParameter="{Binding ElementName=DG_FlatCollection, Path=SelectedItems}"
-                            IsEnabled="{Binding HasFlat, NotifyOnSourceUpdated=True}"
                             Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"                            
                             Style="{StaticResource buttonStyle}"
+                                IsEnabled="{Binding HasDataLock}"
                             Grid.Column="2" Grid.Row="0"/>
 
                         <ListView ItemsSource="{Binding FlatCollection}"                              

@@ -9,7 +9,7 @@ namespace SharedLivingCostCalculator.Interfaces.Contract
 {
     public interface IConsumptionItem
     {
-        FinancialTransactionItem ConsumptionCause { get; }
+        FinancialTransactionItemBilling ConsumptionCause { get; }
 
         double ConsumedUnits { get; set; }
     }

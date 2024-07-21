@@ -166,7 +166,7 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_OtherCostsAdvance { get; set; } = "Other\nCosts";
         public string IDF_OtherCosts { get; set; } = "other costs details";
 
-        public string IDF_OtherCostsList { get; set; } = "Additional Cost Items";
+        public string IDF_OtherCostsList { get; set; } = "Additional TransactionSum Items";
        
         public string IDF_OtherCostsSum { get; set; } = "Sum";
 

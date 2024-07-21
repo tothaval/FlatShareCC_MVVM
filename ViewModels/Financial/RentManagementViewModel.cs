@@ -33,6 +33,27 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         private AccountingViewModel _accountingViewModel;
 
+        public bool DataLockCheckbox
+        {
+            get
+            {
+                if (UpdateViewModel != null)
+                {
+                    return UpdateViewModel.DataLockCheckbox;
+                }
+
+                return false;
+            }
+
+            set
+            {
+                UpdateViewModel.DataLockCheckbox = value;
+                OnPropertyChanged(nameof(DataLockCheckbox));
+            }
+
+        }
+
+
 
         private FlatViewModel _flatViewModel;
         public FlatViewModel FlatViewModel => _flatViewModel;
@@ -138,9 +159,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 _flatViewModel,
                 new Rent(_flatViewModel,
                     new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
-                    new FinancialTransactionItem() { TransactionItem = new LanguageResourceStrings().IDF_Rent, TransactionShareTypes = Enums.TransactionShareTypes.Area },
-                    new FinancialTransactionItem() { TransactionItem = new LanguageResourceStrings().IDF_FixedCosts, TransactionShareTypes = Enums.TransactionShareTypes.Area },
-                    new FinancialTransactionItem() { TransactionItem = new LanguageResourceStrings().IDF_HeatingCosts, TransactionShareTypes = Enums.TransactionShareTypes.Consumption }
+                    new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_Rent, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
+                    new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_FixedCosts, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
+                    new FinancialTransactionItemBilling() { TransactionItem = new LanguageResourceStrings().IDF_HeatingCosts, TransactionShareTypes = Enums.TransactionShareTypesBilling.Consumption }
                     )
                 );
 

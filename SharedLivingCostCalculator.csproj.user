@@ -61,13 +61,13 @@
     <Compile Update="Views\TenantSetupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Windows\BillingCostsWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Windows\BillingWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\FlatManagementView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Windows\CostsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\PaymentManagementView.xaml.cs">
@@ -86,6 +86,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Windows\CreditView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Windows\RentCostsWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -153,13 +156,13 @@
     <Page Update="Views\TenantSetupView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\Windows\BillingCostsWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Windows\BillingWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\FlatManagementView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Windows\CostsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PaymentManagementView.xaml">
@@ -178,6 +181,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Windows\CreditView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Windows\RentCostsWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

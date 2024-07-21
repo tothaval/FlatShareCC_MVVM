@@ -76,7 +76,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     {
                         foreach (Window wdw in Application.Current.MainWindow.OwnedWindows)
                         {
-                            if (wdw.GetType() == typeof(CostsView))
+                            if (wdw.GetType() == typeof(RentCostsWindow))
                             {
                                 wdw.Close();
                             }
@@ -87,21 +87,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 OnPropertyChanged(nameof(CostsWindowActive));
             }
         }
-
-
-
-        private bool _CreditViewActive;
-
-        public bool CreditViewActive
-        {
-            get { return _CreditViewActive; }
-            set
-            {
-                _CreditViewActive = value;
-                OnPropertyChanged(nameof(CreditViewActive));
-            }
-        }
-
 
 
         private bool _DataLockCheckbox;
@@ -140,7 +125,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 }
 
                 OnPropertyChanged(nameof(HasCredits));
-                OnPropertyChanged(nameof(CreditViewActive));
+                OnPropertyChanged(nameof(ShowCreditView));
             }
         }
 
@@ -194,6 +179,24 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             set
             {
                 _ShowCreditView = value;
+
+
+                if (Application.Current.MainWindow != null)
+                {
+                    var ownedWindows = Application.Current.MainWindow.OwnedWindows;
+
+                    if (_ShowCreditView == false && ownedWindows != null)
+                    {
+                        foreach (Window wdw in Application.Current.MainWindow.OwnedWindows)
+                        {
+                            if (wdw.GetType() == typeof(CreditView))
+                            {
+                                wdw.Close();
+                            }
+                        }
+                    }
+                }
+
                 OnPropertyChanged(nameof(ShowCreditView));
             }
         }
@@ -295,9 +298,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             {
                 var mainWindow = Application.Current.MainWindow;
 
-                CostsView otherCostsView = new CostsView();
+                RentCostsWindow otherCostsView = new RentCostsWindow();
 
-                otherCostsView.DataContext = new CostsViewModel(RentViewModel);
+                otherCostsView.DataContext = new RentCostsWindowViewModel(RentViewModel);
 
                 otherCostsView.Owner = mainWindow;
                 otherCostsView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -342,7 +345,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 AnnualBillingWindowActive = false;
             }
 
-            if (sender.GetType() == typeof(CostsView))
+            if (sender.GetType() == typeof(RentCostsWindow))
             {
                 CostsWindowActive = false;
             }

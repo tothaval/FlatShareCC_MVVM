@@ -1,20 +1,29 @@
-﻿using SharedLivingCostCalculator.Commands;
+﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *   
+ *  CostDisplayViewModel  : BaseViewModel
+ * 
+ *  viewmodel for RentCostsWindow
+ *  
+ *  displays a seperate window for creating additional Rent costs
+ *  or for editing of existing FinancialTransactionItemViewModel instances
+ */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
-using System.Windows;
 using System.Windows.Input;
+using System.Windows;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
 {
-    public class CreditViewViewModel : BaseViewModel
+    public class RentCostsWindowViewModel : BaseViewModel
     {
-
+        
         // properties & fields
-        #region properties & fields
+        #region properties
 
         private bool _DataLockCheckbox;
         public bool DataLockCheckbox
@@ -22,7 +31,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             get { return _DataLockCheckbox; }
             set
             {
-
                 if (RentViewModel != null)
                 {
                     _DataLockCheckbox = value;
@@ -42,16 +50,16 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
-        private double _SumPerMonth;
-        public double OtherFTISum
-        {
-            get { return _SumPerMonth; }
-            set
-            {
-                _SumPerMonth = value;
-                OnPropertyChanged(nameof(OtherFTISum));
-            }
-        }
+        //private double _SumPerMonth;
+        //public double OtherFTISum
+        //{
+        //    get { return _SumPerMonth; }
+        //    set
+        //    {
+        //        _SumPerMonth = value;
+        //        OnPropertyChanged(nameof(OtherFTISum));
+        //    }
+        //}
 
 
         public RentViewModel RentViewModel { get; }
@@ -59,7 +67,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         public IRoomCostsCarrier ViewModel { get; }
 
-        #endregion
+        #endregion properties
 
 
         // commands
@@ -79,8 +87,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         #endregion commands
 
 
-        public CreditViewViewModel(RentViewModel rentViewModel)
+        // constructors
+        #region constructors
+
+        public RentCostsWindowViewModel(RentViewModel rentViewModel)
         {
+
             AddFinacialTransactionItemCommand = new RelayCommand((s) => AddFinacialTransactionItem(s), (s) => true);
             RemoveFinancialTransactionItemCommand = new RelayCommand((s) => RemoveFinancialTransactionItem(s), (s) => true);
 
@@ -96,25 +108,30 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 DataLockCheckbox = true;
             }
 
-            //if (BillingViewModel.CostsHasDataLock)
-            //{
-            //    DataLockCheckbox = true;
-            //}
-
             CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
             LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
+
+            //CostItems.CollectionChanged += Costs_CollectionChanged;
+
+
+            RegisterCostItemValueChange();
+
+            CalculateSum();
         }
 
+        #endregion constructors
 
-        // Methods
-        #region Methods
+
+        // methods
+        #region methods
+
         private void AddFinacialTransactionItem(object s)
         {
             FinancialTransactionItemRentViewModel otherCostItemViewModel = new FinancialTransactionItemRentViewModel(new FinancialTransactionItemRent());
 
-            otherCostItemViewModel.ValueChange += Item_ValueChange;
+            //otherCostItemViewModel.ValueChange += Item_ValueChange;
 
-            RentViewModel.AddCredit(otherCostItemViewModel);
+            RentViewModel.AddFinacialTransactionItem(otherCostItemViewModel);
 
             //OnPropertyChanged(nameof(CostItems));
             OnPropertyChanged(nameof(RentViewModel));
@@ -181,7 +198,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                     foreach (var item in selected)
                     {
-                        RentViewModel.RemoveCredit(item);
+                        RentViewModel.RemoveFinancialTransactionItemViewModel(item);
 
                         //OnPropertyChanged(nameof(CostItems));
                         OnPropertyChanged(nameof(RentViewModel));
@@ -211,5 +228,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         #endregion events
 
+
     }
 }
+
+// EOF

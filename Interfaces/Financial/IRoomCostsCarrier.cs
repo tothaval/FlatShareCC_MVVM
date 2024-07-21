@@ -8,6 +8,7 @@
 
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
+using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -16,13 +17,22 @@ namespace SharedLivingCostCalculator.Interfaces.Financial
     public interface IRoomCostsCarrier
     {
 
+        public double CreditSum { get; set; }
+
+
         public double OtherFTISum { get; set; }
 
 
         event PropertyChangedEventHandler DataChange;
 
 
-        public ObservableCollection<FinancialTransactionItemViewModel> FinancialTransactionItemViewModels { get; set; }
+        public ObservableCollection<IFinancialTransactionItem> Credits { get; set; }
+
+
+        public ObservableCollection<IFinancialTransactionItem> FinancialTransactionItemViewModels { get; set; }
+
+
+        public void CalculateCreditSum();
 
 
         public void CalculateOtherFTISum();

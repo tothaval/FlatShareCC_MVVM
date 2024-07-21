@@ -1,6 +1,6 @@
 ﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
- *  Flat 
+ *  FinancialTransactionItemBilling 
  * 
  *  serializable data model class
  *  for FinancialTransactionItemViewModel
@@ -10,8 +10,7 @@ using SharedLivingCostCalculator.Interfaces.Financial;
 
 namespace SharedLivingCostCalculator.Models.Financial
 {
-    [Serializable]
-    public class FinancialTransactionItem : IFinancialTransactionItem
+    public class FinancialTransactionItemBilling : IFinancialTransactionItem
     {
 
         // properties & fields
@@ -20,7 +19,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double TransactionSum { get; set; } = 0.0;
 
 
-        public TransactionShareTypes TransactionShareTypes { get; set; } = TransactionShareTypes.Equal;
+        public TransactionShareTypesBilling TransactionShareTypes { get; set; } = TransactionShareTypesBilling.Equal;
 
 
         public string TransactionItem { get; set; } = "other cost item";
@@ -31,7 +30,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         // constructors
         #region constructors
 
-        public FinancialTransactionItem()
+        public FinancialTransactionItemBilling()
         {
 
         }

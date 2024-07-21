@@ -1,294 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Flat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Address>44</Address>
-  <Area>69</Area>
-  <Details>12</Details>
+  <Address>best street 4
+12162 royal hill</Address>
+  <Area>78</Area>
+  <DataLock>false</DataLock>
+  <Details>4th floor</Details>
   <FlatNotes>notes</FlatNotes>
-  <RoomCount>4</RoomCount>
+  <RoomCount>3</RoomCount>
   <Rents>
     <Rent>
       <ColdRent>
-        <TransactionSum>275</TransactionSum>
+        <TransactionSum>470</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
-        <TransactionItem>Rent</TransactionItem>
+        <TransactionItem>Cold Rent</TransactionItem>
       </ColdRent>
       <FixedCostsAdvance>
-        <TransactionSum>215</TransactionSum>
+        <TransactionSum>250</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
       </FixedCostsAdvance>
       <HeatingCostsAdvance>
-        <TransactionSum>415</TransactionSum>
+        <TransactionSum>380</TransactionSum>
         <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
       </HeatingCostsAdvance>
       <HasCredits>true</HasCredits>
       <HasDataLock>false</HasDataLock>
       <GetBilling>
-        <CostsHasDataLock>true</CostsHasDataLock>
-        <EndDate>2024-07-18T13:24:28.8029103+02:00</EndDate>
+        <CostsHasDataLock>false</CostsHasDataLock>
+        <EndDate>2024-07-21T12:26:50.0942989+02:00</EndDate>
         <HasCredits>true</HasCredits>
         <HasDataLock>false</HasDataLock>
         <HasPayments>false</HasPayments>
-        <StartDate>2023-07-19T13:24:28.8029153+02:00</StartDate>
-        <TotalCostsPerPeriod>1700</TotalCostsPerPeriod>
+        <StartDate>2023-07-22T12:26:50.0943017+02:00</StartDate>
+        <TotalCostsPerPeriod>2200</TotalCostsPerPeriod>
         <TotalFixedCostsPerPeriod>
-          <TransactionSum>500</TransactionSum>
+          <TransactionSum>1070</TransactionSum>
           <TransactionShareTypes>Area</TransactionShareTypes>
           <TransactionItem>Fixed</TransactionItem>
         </TotalFixedCostsPerPeriod>
         <TotalHeatingCostsPerPeriod>
-          <TransactionSum>1200</TransactionSum>
+          <TransactionSum>1130</TransactionSum>
           <TransactionShareTypes>Consumption</TransactionShareTypes>
           <TransactionItem>Heating</TransactionItem>
         </TotalHeatingCostsPerPeriod>
         <Consumptions>
           <ConsumptionItem>
             <ConsumptionCause>
-              <TransactionSum>0</TransactionSum>
+              <TransactionSum>1130</TransactionSum>
               <TransactionShareTypes>Consumption</TransactionShareTypes>
               <TransactionItem>Heating</TransactionItem>
             </ConsumptionCause>
-            <ConsumedUnits>1500</ConsumedUnits>
+            <ConsumedUnits>1200</ConsumedUnits>
             <ConsumptionPerRoom>
               <RoomConsumption>
                 <Room>
-                  <RoomArea>11</RoomArea>
-                  <RoomName>room10</RoomName>
+                  <RoomArea>24</RoomArea>
+                  <RoomName>kids room</RoomName>
                 </Room>
-                <ConsumptionValue>115</ConsumptionValue>
+                <ConsumptionValue>0</ConsumptionValue>
               </RoomConsumption>
               <RoomConsumption>
                 <Room>
-                  <RoomArea>10</RoomArea>
-                  <RoomName>room22</RoomName>
+                  <RoomArea>22</RoomArea>
+                  <RoomName>living room</RoomName>
                 </Room>
-                <ConsumptionValue>422</ConsumptionValue>
+                <ConsumptionValue>0</ConsumptionValue>
               </RoomConsumption>
               <RoomConsumption>
                 <Room>
-                  <RoomArea>15</RoomArea>
-                  <RoomName>room31</RoomName>
+                  <RoomArea>19</RoomArea>
+                  <RoomName>office room</RoomName>
                 </Room>
-                <ConsumptionValue>119</ConsumptionValue>
-              </RoomConsumption>
-              <RoomConsumption>
-                <Room>
-                  <RoomArea>20</RoomArea>
-                  <RoomName>room40</RoomName>
-                </Room>
-                <ConsumptionValue>215</ConsumptionValue>
+                <ConsumptionValue>0</ConsumptionValue>
               </RoomConsumption>
             </ConsumptionPerRoom>
           </ConsumptionItem>
           <ConsumptionItem>
             <ConsumptionCause>
-              <TransactionSum>17</TransactionSum>
+              <TransactionSum>155</TransactionSum>
               <TransactionShareTypes>Consumption</TransactionShareTypes>
-              <TransactionItem>nenne</TransactionItem>
+              <TransactionItem>wein</TransactionItem>
             </ConsumptionCause>
-            <ConsumedUnits>117</ConsumedUnits>
+            <ConsumedUnits>120</ConsumedUnits>
             <ConsumptionPerRoom>
               <RoomConsumption>
                 <Room>
-                  <RoomArea>11</RoomArea>
-                  <RoomName>room10</RoomName>
+                  <RoomArea>24</RoomArea>
+                  <RoomName>kids room</RoomName>
                 </Room>
-                <ConsumptionValue>5</ConsumptionValue>
+                <ConsumptionValue>8</ConsumptionValue>
               </RoomConsumption>
               <RoomConsumption>
                 <Room>
-                  <RoomArea>10</RoomArea>
-                  <RoomName>room22</RoomName>
+                  <RoomArea>22</RoomArea>
+                  <RoomName>living room</RoomName>
                 </Room>
-                <ConsumptionValue>50</ConsumptionValue>
+                <ConsumptionValue>80</ConsumptionValue>
               </RoomConsumption>
               <RoomConsumption>
                 <Room>
-                  <RoomArea>15</RoomArea>
-                  <RoomName>room31</RoomName>
+                  <RoomArea>19</RoomArea>
+                  <RoomName>office room</RoomName>
                 </Room>
-                <ConsumptionValue>55</ConsumptionValue>
-              </RoomConsumption>
-              <RoomConsumption>
-                <Room>
-                  <RoomArea>20</RoomArea>
-                  <RoomName>room40</RoomName>
-                </Room>
-                <ConsumptionValue>5</ConsumptionValue>
+                <ConsumptionValue>19</ConsumptionValue>
               </RoomConsumption>
             </ConsumptionPerRoom>
           </ConsumptionItem>
         </Consumptions>
         <Costs>
-          <FinancialTransactionItem>
-            <TransactionSum>12</TransactionSum>
+          <FinancialTransactionItemBilling>
+            <TransactionSum>99</TransactionSum>
             <TransactionShareTypes>Equal</TransactionShareTypes>
-            <TransactionItem>unnu</TransactionItem>
-          </FinancialTransactionItem>
-          <FinancialTransactionItem>
-            <TransactionSum>45</TransactionSum>
-            <TransactionShareTypes>Area</TransactionShareTypes>
-            <TransactionItem>nu</TransactionItem>
-          </FinancialTransactionItem>
-          <FinancialTransactionItem>
-            <TransactionSum>10</TransactionSum>
-            <TransactionShareTypes>Equal</TransactionShareTypes>
-            <TransactionItem>other cost item</TransactionItem>
-          </FinancialTransactionItem>
-          <FinancialTransactionItem>
-            <TransactionSum>17</TransactionSum>
+            <TransactionItem>insurance</TransactionItem>
+          </FinancialTransactionItemBilling>
+          <FinancialTransactionItemBilling>
+            <TransactionSum>155</TransactionSum>
             <TransactionShareTypes>Consumption</TransactionShareTypes>
-            <TransactionItem>nenne</TransactionItem>
-          </FinancialTransactionItem>
+            <TransactionItem>wein</TransactionItem>
+          </FinancialTransactionItemBilling>
+          <FinancialTransactionItemBilling>
+            <TransactionSum>430</TransactionSum>
+            <TransactionShareTypes>Equal</TransactionShareTypes>
+            <TransactionItem>car share rent</TransactionItem>
+          </FinancialTransactionItemBilling>
         </Costs>
+        <Credits>
+          <FinancialTransactionItemBilling>
+            <TransactionSum>20</TransactionSum>
+            <TransactionShareTypes>Equal</TransactionShareTypes>
+            <TransactionItem>gutschrift</TransactionItem>
+          </FinancialTransactionItemBilling>
+          <FinancialTransactionItemBilling>
+            <TransactionSum>110</TransactionSum>
+            <TransactionShareTypes>Consumption</TransactionShareTypes>
+            <TransactionItem>fehlberechnung ablesefehler</TransactionItem>
+          </FinancialTransactionItemBilling>
+        </Credits>
         <Payments>
           <RoomPayments>
-            <RoomName>room10</RoomName>
+            <RoomName>kids room</RoomName>
             <PaymentCollection />
           </RoomPayments>
           <RoomPayments>
-            <RoomName>room22</RoomName>
+            <RoomName>living room</RoomName>
             <PaymentCollection />
           </RoomPayments>
           <RoomPayments>
-            <RoomName>room31</RoomName>
-            <PaymentCollection />
-          </RoomPayments>
-          <RoomPayments>
-            <RoomName>room40</RoomName>
+            <RoomName>office room</RoomName>
             <PaymentCollection />
           </RoomPayments>
         </Payments>
       </GetBilling>
       <CostsHasDataLock>false</CostsHasDataLock>
-      <StartDate>2024-07-18T00:00:00</StartDate>
-      <OtherCostItemCollection>
-        <FinancialTransactionItem>
+      <StartDate>2024-07-21T12:25:05.8681445+02:00</StartDate>
+      <OtherCosts>
+        <FinancialTransactionItemRent>
+          <TransactionSum>120</TransactionSum>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionItem> item</TransactionItem>
+        </FinancialTransactionItemRent>
+        <FinancialTransactionItemRent>
+          <TransactionSum>47.23</TransactionSum>
+          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionItem>ms</TransactionItem>
+        </FinancialTransactionItemRent>
+        <FinancialTransactionItemRent>
           <TransactionSum>55</TransactionSum>
           <TransactionShareTypes>Equal</TransactionShareTypes>
-          <TransactionItem>strom</TransactionItem>
-        </FinancialTransactionItem>
-        <FinancialTransactionItem>
-          <TransactionSum>17</TransactionSum>
+          <TransactionItem>ju</TransactionItem>
+        </FinancialTransactionItemRent>
+      </OtherCosts>
+      <Credits>
+        <FinancialTransactionItemRent>
+          <TransactionSum>125</TransactionSum>
           <TransactionShareTypes>Area</TransactionShareTypes>
-          <TransactionItem>insurance</TransactionItem>
-        </FinancialTransactionItem>
-        <FinancialTransactionItem>
-          <TransactionSum>30</TransactionSum>
-          <TransactionShareTypes>Area</TransactionShareTypes>
-          <TransactionItem>jelly fish</TransactionItem>
-        </FinancialTransactionItem>
-        <FinancialTransactionItem>
-          <TransactionSum>17</TransactionSum>
-          <TransactionShareTypes>Consumption</TransactionShareTypes>
-          <TransactionItem>peanuts</TransactionItem>
-        </FinancialTransactionItem>
-      </OtherCostItemCollection>
-    </Rent>
-    <Rent>
-      <ColdRent>
-        <TransactionSum>150</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
-        <TransactionItem>Rent</TransactionItem>
-      </ColdRent>
-      <FixedCostsAdvance>
-        <TransactionSum>75</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
-        <TransactionItem>Fixed</TransactionItem>
-      </FixedCostsAdvance>
-      <HeatingCostsAdvance>
-        <TransactionSum>95</TransactionSum>
-        <TransactionShareTypes>Consumption</TransactionShareTypes>
-        <TransactionItem>Heating</TransactionItem>
-      </HeatingCostsAdvance>
-      <HasCredits>false</HasCredits>
-      <HasDataLock>true</HasDataLock>
-      <CostsHasDataLock>false</CostsHasDataLock>
-      <StartDate>2024-07-18T00:00:00</StartDate>
-      <OtherCostItemCollection />
+          <TransactionItem>rückerstattung</TransactionItem>
+        </FinancialTransactionItemRent>
+      </Credits>
     </Rent>
   </Rents>
   <Rooms>
     <Room>
-      <RoomArea>11</RoomArea>
-      <RoomName>room10</RoomName>
+      <RoomArea>24</RoomArea>
+      <RoomName>kids room</RoomName>
     </Room>
     <Room>
-      <RoomArea>10</RoomArea>
-      <RoomName>room22</RoomName>
+      <RoomArea>22</RoomArea>
+      <RoomName>living room</RoomName>
     </Room>
     <Room>
-      <RoomArea>15</RoomArea>
-      <RoomName>room31</RoomName>
-    </Room>
-    <Room>
-      <RoomArea>20</RoomArea>
-      <RoomName>room40</RoomName>
+      <RoomArea>19</RoomArea>
+      <RoomName>office room</RoomName>
     </Room>
   </Rooms>
-  <TenantConfigurations>
-    <TenantConfiguration>
-      <Start>2024-07-09T18:47:34.1771409+02:00</Start>
-      <RoomAssignments>
-        <RoomAssignment>
-          <RoomName>room10</RoomName>
-          <TenantName>tenant_18</TenantName>
-        </RoomAssignment>
-        <RoomAssignment>
-          <RoomName>room22</RoomName>
-          <TenantName>tenant_47</TenantName>
-        </RoomAssignment>
-        <RoomAssignment>
-          <RoomName>room31</RoomName>
-          <TenantName>tenant_42</TenantName>
-        </RoomAssignment>
-        <RoomAssignment>
-          <RoomName>room40</RoomName>
-          <TenantName>tenant_47</TenantName>
-        </RoomAssignment>
-      </RoomAssignments>
-    </TenantConfiguration>
-    <TenantConfiguration>
-      <Start>2024-07-16T19:59:00.7426549+02:00</Start>
-      <RoomAssignments>
-        <RoomAssignment>
-          <RoomName>room10</RoomName>
-          <TenantName>tenant_47</TenantName>
-        </RoomAssignment>
-        <RoomAssignment>
-          <RoomName>room22</RoomName>
-          <TenantName>tenant_47</TenantName>
-        </RoomAssignment>
-        <RoomAssignment>
-          <RoomName>room31</RoomName>
-          <TenantName>tenant_47</TenantName>
-        </RoomAssignment>
-        <RoomAssignment>
-          <RoomName>room40</RoomName>
-          <TenantName>tenant_68</TenantName>
-        </RoomAssignment>
-      </RoomAssignments>
-    </TenantConfiguration>
-  </TenantConfigurations>
-  <Tenants>
-    <Tenant>
-      <IsActive>true</IsActive>
-      <MovingIn>2024-07-09T18:26:54.771017+02:00</MovingIn>
-      <Name>tenant_47</Name>
-      <MovingOut>2024-08-09T18:26:54.7710962+02:00</MovingOut>
-    </Tenant>
-    <Tenant>
-      <IsActive>true</IsActive>
-      <MovingIn>2024-07-09T18:26:55.1054074+02:00</MovingIn>
-      <Name>tenant_18</Name>
-      <MovingOut>2024-08-09T18:26:55.1054133+02:00</MovingOut>
-    </Tenant>
-    <Tenant>
-      <IsActive>true</IsActive>
-      <MovingIn>2024-07-09T18:47:31.3677481+02:00</MovingIn>
-      <Name>tenant_42</Name>
-      <MovingOut>2024-08-09T18:47:31.3677521+02:00</MovingOut>
-    </Tenant>
-  </Tenants>
+  <TenantConfigurations />
+  <Tenants />
 </Flat>

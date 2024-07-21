@@ -8,6 +8,7 @@
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
+             Name="TenantSetup"
              Background="Transparent"
              FontWeight="Normal">
 
@@ -37,11 +38,13 @@
 
                     <Button Content="New Tenant"
                             Command="{Binding NewTenantCommand}"
-                            Style="{StaticResource buttonStyle}"/>
+                            Style="{StaticResource buttonStyle}"
+                            IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
 
                     <Button Content="Delete Tenant"
                             Command="{Binding DeleteTenantCommand}"
-                            Style="{StaticResource buttonStyle}"/>
+                            Style="{StaticResource buttonStyle}"
+                            IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
 
                 </UniformGrid>
 
@@ -125,6 +128,7 @@
                     NotifyOnSourceUpdated=True,
                     Mode=TwoWay,
                     UpdateSourceTrigger=PropertyChanged}"
+                          IsEnabled="{Binding FlatViewModel.HasDataLock}"
                           Style="{StaticResource OptionCheckBox}"/>
 
                 <Grid>
@@ -140,15 +144,16 @@
                         Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged,
                         StringFormat=d}"
-                 Grid.Column="1"/>
+                                IsEnabled="{Binding FlatViewModel.HasDataLock}"
+                                Grid.Column="1"/>
 
                 </Grid>
 
                 <Grid Visibility="{Binding SelectedTenant.IsActive,
                     Converter={StaticResource inviscon}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition SharedSizeGroup="A"/>
+                        <ColumnDefinition SharedSizeGroup="B"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="{DynamicResource IDF_MovingOut}" 
@@ -158,15 +163,17 @@
                         Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged,
                         StringFormat=d}"
-                 Grid.Column="1"/>
+                                IsEnabled="{Binding FlatViewModel.HasDataLock}"
+                                Grid.Column="1"/>
 
                 </Grid>
 
                 <comps:ObjectInputView Label="{DynamicResource IDF_RoomTenant}"
-                        Value="{Binding SelectedTenant.Name,
+                                       Value="{Binding SelectedTenant.Name,
                     NotifyOnSourceUpdated=True,
                     Mode=TwoWay,
-                        UpdateSourceTrigger=PropertyChanged}"/>
+                    UpdateSourceTrigger=PropertyChanged}"
+                                       IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
 
 
             </StackPanel>
@@ -186,11 +193,13 @@
 
                     <Button Content="New Configuration"
                             Command="{Binding NewTenantConfigurationCommand}"
-                            Style="{StaticResource buttonStyle}"/>
+                            Style="{StaticResource buttonStyle}"
+                            IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
 
                     <Button Content="Delete Configuration"
                             Command="{Binding DeleteTenantConfigurationCommand}"
-                            Style="{StaticResource buttonStyle}"/>
+                            Style="{StaticResource buttonStyle}"
+                            IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
 
                 </UniformGrid>
 
@@ -242,7 +251,8 @@
                 <TextBlock Text="{DynamicResource IDF_StartDate}"
                            Style="{StaticResource StringValueTextBlock}"/>
                 <DatePicker SelectedDate="{Binding SelectedTenantConfiguration.Start}"
-                            CalendarStyle="{StaticResource CalendarStyle}"/>
+                            CalendarStyle="{StaticResource CalendarStyle}"
+                            IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
 
                 
                 <!-- define an item source and selected item for this list, RoomAssignement class ? -->
@@ -266,7 +276,8 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <ComboBox ItemsSource="{Binding ActiveTenants}"
-                                                      SelectedItem="{Binding AssignedTenant}">
+                                                      SelectedItem="{Binding AssignedTenant}"
+                                                      IsEnabled="{Binding FlatViewModel.HasDataLock, RelativeSource={RelativeSource AncestorType=ListView, Mode=FindAncestor}}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Name}"/>

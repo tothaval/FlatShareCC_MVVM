@@ -30,6 +30,9 @@ namespace SharedLivingCostCalculator.Utility
         public double Area { get; set; }
 
 
+        public bool DataLock { get; set; }
+
+
         public string Details { get; set; }
 
 
@@ -86,8 +89,9 @@ namespace SharedLivingCostCalculator.Utility
             Address = flatViewModel.Address;
             Area = flatViewModel.Area;
             RoomCount = flatViewModel.RoomCount;
+            DataLock = flatViewModel.HasDataLock;
             Details = flatViewModel.Details;
-            FlatNotes = flatViewModel.FlatNotes;
+            FlatNotes = flatViewModel.FlatNotes;            
 
             Rents = GetRents();
             Rooms = GetRooms();
@@ -107,6 +111,7 @@ namespace SharedLivingCostCalculator.Utility
             {
                 Area = Area,
                 Address = Address,
+                HasDataLock = DataLock,
                 Details = Details,
                 RoomCount = RoomCount,
                 FlatNotes = FlatNotes
@@ -140,7 +145,7 @@ namespace SharedLivingCostCalculator.Utility
                 {
                     if (rentViewModel.BillingViewModel.HasPayments)
                     {
-                        foreach (RoomPayments roomPayments in rentViewModel.BillingViewModel.GetBilling.RoomPayments)
+                        foreach (RoomPayments roomPayments in rentViewModel.BillingViewModel.Billing.RoomPayments)
                         {
                             foreach (RoomViewModel roomViewModel in rentViewModel.GetFlatViewModel().Rooms)
                             {
@@ -229,7 +234,7 @@ namespace SharedLivingCostCalculator.Utility
 
                     rentViewModel.BillingViewModel.UpdateRoomConsumptionItemViewModels();
 
-                    rent.GetBilling = rentViewModel.BillingViewModel.GetBilling;
+                    rent.GetBilling = rentViewModel.BillingViewModel.Billing;
                 }
 
                 //if (rent.HasOtherCosts)

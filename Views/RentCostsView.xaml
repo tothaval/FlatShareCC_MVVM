@@ -572,13 +572,13 @@
                                                         <DataTemplate >
                                                             <StackPanel Orientation="Vertical">
 
-                                                                <TextBlock Text="{Binding Item}" FontWeight="SemiBold"
+                                                                <TextBlock Text="{Binding TransactionItem}" FontWeight="SemiBold"
                                                                Style="{StaticResource StringValueTextBlock}"/>
 
                                                                 <TextBlock Text="{Binding CostShareTypes}"
                                                                    Style="{StaticResource StringValueTextBlock}"/>
 
-                                                                <TextBlock Text="{Binding Cost, StringFormat=C2}"
+                                                                <TextBlock Text="{Binding TransactionSum, StringFormat=C2}"
                                                                    Style="{StaticResource DoubleValueTextBlock}"/>
 
                                                             </StackPanel>

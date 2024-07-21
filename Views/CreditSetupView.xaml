@@ -15,18 +15,11 @@
         <ObjectDataProvider x:Key="enumValues"
   MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="enums:TransactionShareTypes"/>
+                <x:Type TypeName="enums:TransactionShareTypesBilling"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
     </UserControl.Resources>
-
-    <Border x:Name="border"
-           BorderBrush="{DynamicResource SCB_Text}"
-           BorderThickness="4"
-           CornerRadius="{DynamicResource VisibilityField_CornerRadius}"            
-           Background="{DynamicResource SCB_Background}"
-           Padding="{DynamicResource VisibilityFieldBorderPadding}">
 
         <Grid MaxHeight="640">
 
@@ -44,24 +37,13 @@
                        Grid.Column="0"
                        Style="{StaticResource buttonStyle}"
                        IsEnabled="{Binding DataLock}"/>
-                    <Button Content="duplicate credit item" Command="{Binding DuplicateCostItemCommand}" 
-                       CommandParameter="{Binding ElementName=_credits, Path=SelectedItems}"
-                       Grid.Column="1"
-                       Style="{StaticResource buttonStyle}"
-                       IsEnabled="{Binding DataLock}"/>
+
                     <Button Content="remove credit item" Command="{Binding RemoveFinancialTransactionItemCommand}" 
                        CommandParameter="{Binding ElementName=_credits, Path=SelectedItems}"
                        Grid.Column="2"
                        Style="{StaticResource buttonStyle}"
                        IsEnabled="{Binding DataLock}"/>
                 </Grid>
-
-                <comps:FlatInfo/>
-
-                <CheckBox Content="{DynamicResource IDF_LockData}"
-                         IsChecked="{Binding DataLockCheckbox}"
-                         Grid.Column="1"
-                         Style="{StaticResource OptionCheckBox}"/>
 
                 <UniformGrid Columns="2">
                     <TextBlock Style="{StaticResource Header}"
@@ -80,7 +62,7 @@
 
                 </UniformGrid>
 
-                <ListView ItemsSource="{Binding ViewModel.FinancialTransactionItemViewModels, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
+                <ListView ItemsSource="{Binding ViewModel.Credits, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
                      SelectionMode="Extended"
                      x:Name="_credits"
                      ItemContainerStyle="{StaticResource ItemContainerStyle}"
@@ -100,7 +82,7 @@
                                             <ComboBox ItemsSource="{Binding Source={StaticResource enumValues}, UpdateSourceTrigger=PropertyChanged}"
                                                  SelectedItem="{Binding CostShareTypes}"                                                  
                                                  HorizontalAlignment="Stretch"          
-                                                 IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CostsView}}"/>
+                                                 IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CreditSetupView}}"/>
 
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -110,11 +92,11 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Grid>
-                                                <TextBox Text="{Binding Item,
+                                                <TextBox Text="{Binding TransactionItem,
                                                UpdateSourceTrigger=PropertyChanged,
                                                Mode=TwoWay}"
                                                         HorizontalAlignment="Stretch"
-                                                        IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CostsView}}"
+                                                        IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CreditSetupView}}"
                                                         Style="{StaticResource StringValueTextBox}"/>
                                             </Grid>
                                         </DataTemplate>
@@ -125,13 +107,13 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Grid>
-                                                <TextBox Text="{Binding Cost,
+                                                <TextBox Text="{Binding TransactionSum,
                                                    StringFormat=C2,
                                                    UpdateSourceTrigger=PropertyChanged,
                                                    Mode=TwoWay,
                                                    Delay=200}"
                                                         HorizontalAlignment="Stretch"
-                                                        IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CostsView}}"
+                                                        IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CreditSetupView}}"
                                                         Style="{StaticResource DoubleValueTextBox}"/>
                                             </Grid>
                                         </DataTemplate>
@@ -149,6 +131,6 @@
             </StackPanel>
 
         </Grid>
-    </Border>
+
 </UserControl>
 

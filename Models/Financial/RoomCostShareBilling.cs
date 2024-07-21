@@ -3,6 +3,7 @@ using SharedLivingCostCalculator.Calculations;
 using SharedLivingCostCalculator.Interfaces.Contract;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Contract;
+using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
@@ -47,7 +48,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double HeatingUnitsTotalConsumptionShare { get; set; }
         public double HeatingUnitsTotalConsumptionSharePercentage { get; set; }
         public double HeatingUnitsTotalConsumptionShareRatio { get; set; }
-        
+
 
         public IRoomCostsCarrier ViewModel { get; set; }
 
@@ -55,7 +56,9 @@ namespace SharedLivingCostCalculator.Models.Financial
         // Collections
         #region Collections
 
-        public ObservableCollection<FinancialTransactionItemViewModel> FinancialTransactionItemViewModels { get; set; } = new ObservableCollection<FinancialTransactionItemViewModel>();
+        public ObservableCollection<RoomConsumptionViewModel> ConsumptionItemViewModels { get; set; } = new ObservableCollection<RoomConsumptionViewModel>();
+
+        public ObservableCollection<FinancialTransactionItemBillingViewModel> FinancialTransactionItemViewModels { get; set; } = new ObservableCollection<FinancialTransactionItemBillingViewModel>();
 
         #endregion
 
@@ -64,6 +67,12 @@ namespace SharedLivingCostCalculator.Models.Financial
         {
             _Room = room;
             ViewModel = billingViewModel;
+
+            if (billingViewModel.GetFlatViewModel() != null)
+            {
+                billingViewModel.GetFlatViewModel().PropertyChanged += RoomCostShareBilling_PropertyChanged; ;
+            }
+
 
             CalculateValues();
 
@@ -101,7 +110,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             DetermineHeatingUnitsAnnualConsumptionShares();
 
             RentCostsAnnualShare = 0.0;
-            FixedCostsAnnualCostsShare = RentedAreaShareRatio() * ((BillingViewModel)ViewModel).TotalFixedCostsPerPeriod;            
+            FixedCostsAnnualCostsShare = RentedAreaShareRatio() * ((BillingViewModel)ViewModel).TotalFixedCostsPerPeriod;
             HeatingCostsAnnualCostsShare = HeatingUnitsTotalConsumptionShareRatio * ((BillingViewModel)ViewModel).TotalHeatingCostsPerPeriod;
 
             AreaSharedCostsShare = GetAreaSharedCostsShare();
@@ -112,7 +121,9 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             DetermineAdvances();
 
-            FillObservableCollection();
+            FillConsumptionItemViewModels();
+
+            FillFinancialTransactionItemViewModels();
 
             OnPropertyChanged(nameof(SharedAreaShare));
             OnPropertyChanged(nameof(RentedAreaShare));
@@ -154,7 +165,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         private void DetermineHeatingUnitsAnnualConsumptionShares()
         {
-            FinancialTransactionItem financialTransactionItem = ((BillingViewModel)ViewModel).GetBilling.TotalHeatingCostsPerPeriod;
+            FinancialTransactionItemBilling financialTransactionItem = ((BillingViewModel)ViewModel).Billing.TotalHeatingCostsPerPeriod;
 
             foreach (ConsumptionItemViewModel consumptionItemViewModel in ((BillingViewModel)ViewModel).ConsumptionItemViewModels)
             {
@@ -183,7 +194,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public double DetermineSharedConsumptionShare(ConsumptionItemViewModel consumptionItemViewModel)
         {
-            return consumptionItemViewModel.SharedConsumption / ViewModel.GetFlatViewModel().RoomCount;
+            return consumptionItemViewModel.SharedConsumption / consumptionItemViewModel.RoomCount;
         }
 
         public double DetermineTotalConsumptionSharePercentage(double totalShare, ConsumptionItemViewModel consumptionItemViewModel)
@@ -207,55 +218,77 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         private double GetAreaSharedCostsShare()
         {
-            return RentedAreaShareRatio() * ((BillingViewModel)ViewModel).GetFTIShareSum(Enums.TransactionShareTypes.Area);
+            return RentedAreaShareRatio() * ((BillingViewModel)ViewModel).GetFTIShareSum(Enums.TransactionShareTypesBilling.Area);
         }
 
 
-        private void FillObservableCollection()
+        private void FillConsumptionItemViewModels()
+        {
+            if (ViewModel != null)
+            {
+                foreach (ConsumptionItemViewModel item in ((BillingViewModel)ViewModel).ConsumptionItemViewModels)
+                {
+                    foreach (RoomConsumptionViewModel roomConsumptionViewModel in item.RoomConsumptionViewModels)
+                    {
+                        if (roomConsumptionViewModel.RoomArea == RoomArea && roomConsumptionViewModel.RoomName.Equals(RoomName)
+                            && !roomConsumptionViewModel.ConsumptionCause.Equals(((BillingViewModel)ViewModel).Billing.TotalHeatingCostsPerPeriod.TransactionItem))
+                        {
+                            double totalshare = roomConsumptionViewModel.ConsumptionValue + DetermineSharedConsumptionShare(item);
+
+                            roomConsumptionViewModel.ConsumptionCost = DetermineTotalConsumptionShareRatio(totalshare, item) * item.ConsumptionItem.ConsumptionCause.TransactionSum;
+
+                            ConsumptionItemViewModels.Add(roomConsumptionViewModel);
+                            break;
+                        }
+                    }
+                }
+
+            }
+
+            OnPropertyChanged(nameof(ConsumptionItemViewModels));
+        }
+
+
+
+
+        private void FillFinancialTransactionItemViewModels()
         {
             ConsumptionSharedCostsShare = 0.0;
 
             if (ViewModel != null)
             {
-                foreach (FinancialTransactionItemViewModel item in ViewModel.FinancialTransactionItemViewModels)
+                foreach (FinancialTransactionItemBillingViewModel item in ViewModel.FinancialTransactionItemViewModels)
                 {
-                    FinancialTransactionItemViewModel FTIvm = new FinancialTransactionItemViewModel(new FinancialTransactionItem());
+                    FinancialTransactionItemBillingViewModel FTIvm = new FinancialTransactionItemBillingViewModel(new FinancialTransactionItemBilling());
 
-                    if (item.CostShareTypes == Enums.TransactionShareTypes.Equal)
+                    if (item.CostShareTypes == Enums.TransactionShareTypesBilling.Equal)
                     {
-                        FTIvm.Cost = EqualShareRatio() * item.Cost;
+                        FTIvm.TransactionSum = EqualShareRatio() * item.TransactionSum;
                     }
-                    else if (item.CostShareTypes == Enums.TransactionShareTypes.Area)
+                    else if (item.CostShareTypes == Enums.TransactionShareTypesBilling.Area)
                     {
-                        FTIvm.Cost = RentedAreaShareRatio() * item.Cost;
+                        FTIvm.TransactionSum = RentedAreaShareRatio() * item.TransactionSum;
                     }
-                    else if (item.CostShareTypes == Enums.TransactionShareTypes.Consumption)
+                    else if (item.CostShareTypes == Enums.TransactionShareTypesBilling.Consumption)
                     {
-                        foreach (ConsumptionItemViewModel consumptionItemViewModel in ((BillingViewModel)ViewModel).ConsumptionItemViewModels)
+                        foreach (RoomConsumptionViewModel roomConsumption in ConsumptionItemViewModels)
                         {
-                            if (consumptionItemViewModel.ConsumptionCause.Equals(item.Item)
-                                && !consumptionItemViewModel.ConsumptionCause.Equals(((BillingViewModel)ViewModel).GetBilling.TotalHeatingCostsPerPeriod.TransactionItem))
+                            if (roomConsumption.RoomName.Equals(RoomName) && roomConsumption.RoomArea == RoomArea
+                                && roomConsumption.ConsumptionCause.Equals(item.TransactionItem)
+                                && !roomConsumption.ConsumptionCause.Equals(((BillingViewModel)ViewModel).Billing.TotalHeatingCostsPerPeriod.TransactionItem))
                             {
+                                FTIvm.TransactionSum = roomConsumption.ConsumptionCost;
 
-                                foreach (RoomConsumptionViewModel roomConsumption in consumptionItemViewModel.RoomConsumptionViewModels)
-                                {
-                                    if (roomConsumption.RoomName.Equals(RoomName) && roomConsumption.RoomArea == RoomArea)
-                                    {
-                                        double totalshare = roomConsumption.ConsumptionValue + DetermineSharedConsumptionShare(consumptionItemViewModel);
-                                       
-                                        FTIvm.Cost = DetermineTotalConsumptionShareRatio(totalshare, consumptionItemViewModel) * item.Cost;
-                                        ConsumptionSharedCostsShare += FTIvm.Cost;
-                                        break;
-                                    }
-                                }
+                                ConsumptionSharedCostsShare += FTIvm.TransactionSum;
+                                break;
                             }
                         }
                     }
 
                     FTIvm.CostShareTypes = item.CostShareTypes;
-                    
-                    string newItem = item.Item;
-                    FTIvm.Item = newItem;
+
+                    string newItem = item.TransactionItem;
+                    FTIvm.TransactionItem = newItem;
 
                     FinancialTransactionItemViewModels.Add(FTIvm);
                 }
@@ -265,7 +298,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             OtherCostsAnnualCostsShare = AreaSharedCostsShare + EqualSharedCostsShare + ConsumptionSharedCostsShare;
 
             TotalCostsAnnualCostsShare = RentCostsAnnualShare + FixedCostsAnnualCostsShare + HeatingCostsAnnualCostsShare + OtherCostsAnnualCostsShare;
-             
+
             OnPropertyChanged(nameof(ConsumptionSharedCostsShare));
 
             OnPropertyChanged(nameof(OtherCostsAnnualCostsShare));
@@ -279,13 +312,22 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         private double GetEqualSharedCostShare()
         {
-            return ((BillingViewModel)ViewModel).GetFTIShareSum(Enums.TransactionShareTypes.Equal) / ((BillingViewModel)ViewModel).GetFlatViewModel().RoomCount;
+            return ((BillingViewModel)ViewModel).GetFTIShareSum(Enums.TransactionShareTypesBilling.Equal) / ((BillingViewModel)ViewModel).GetFlatViewModel().RoomCount;
         }
 
 
         private double RentedAreaShareRatio()
         {
             return RentedAreaShare / ViewModel.GetFlatViewModel().Area;
+        }
+
+
+        private void RoomCostShareBilling_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(RoomArea));
+            OnPropertyChanged(nameof(RoomName));
+
+            CalculateValues();
         }
 
 

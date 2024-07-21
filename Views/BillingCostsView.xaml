@@ -837,6 +837,8 @@
                 </Border>
 
                 <!--#endregion-->
+                
+                
                 <Border Visibility="{Binding ShowOtherCostsData, Converter={StaticResource visCon}}">
                     <ListView ItemsSource="{Binding BillingViewModel.RoomCostShares}"
                       HorizontalAlignment="Left"
@@ -877,7 +879,7 @@
                                             Width="{Binding OtherCostItemCountBasedWidth}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ListView ItemsSource="{Binding RoomConsumptionItemViewModels,
+                                                <ListView ItemsSource="{Binding ConsumptionItemViewModels,
                                             NotifyOnSourceUpdated=True}"
                                                   BorderBrush="Transparent"                                                       
                                                   BorderThickness="0">
@@ -893,14 +895,15 @@
                                                         <DataTemplate >
                                                             <StackPanel Orientation="Vertical">
 
-                                                                <TextBlock Text="{Binding Item}" FontWeight="SemiBold"
+                                                                <TextBlock Text="{Binding ConsumptionCause}" FontWeight="SemiBold"
                                                                Style="{StaticResource StringValueTextBlock}"/>
 
-                                                                <TextBlock Text="{Binding CostShareTypes}"
-                                                                   Style="{StaticResource StringValueTextBlock}"/>
-
-                                                                <TextBlock Text="{Binding ConsumedUnitsShare, StringFormat=C2}"
+                                                                <TextBlock Text="{Binding ConsumptionValue, StringFormat=N4}"
                                                                    Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                                                <TextBlock Text="{Binding ConsumptionCost, StringFormat=C2}"
+                                                                   Style="{StaticResource DoubleValueTextBlock}"/>
+
 
                                                             </StackPanel>
                                                         </DataTemplate>
@@ -909,18 +912,6 @@
                                                 </ListView>
                                             </DataTemplate>
 
-
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-
-                                    <GridViewColumn Header="{DynamicResource IDF_OtherCostsSum}">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding OtherCostsAnnualCostsShare,
-                                                    UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2}"
-                                                           Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                            </DataTemplate>
 
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -993,13 +984,13 @@
                                                         <DataTemplate >
                                                             <StackPanel Orientation="Vertical">
 
-                                                                <TextBlock Text="{Binding Item}" FontWeight="SemiBold"
+                                                                <TextBlock Text="{Binding TransactionItem}" FontWeight="SemiBold"
                                                                Style="{StaticResource StringValueTextBlock}"/>
 
                                                                 <TextBlock Text="{Binding CostShareTypes}"
                                                                    Style="{StaticResource StringValueTextBlock}"/>
 
-                                                                <TextBlock Text="{Binding Cost, StringFormat=C2}"
+                                                                <TextBlock Text="{Binding TransactionSum, StringFormat=C2}"
                                                                    Style="{StaticResource DoubleValueTextBlock}"/>
 
                                                             </StackPanel>

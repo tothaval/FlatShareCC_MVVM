@@ -33,7 +33,7 @@
             UpdateSourceTrigger=PropertyChanged,
             NotifyOnSourceUpdated=True,
             Mode=TwoWay}"
-                               IsEnabled="{Binding IsNewFlatWindow}"
+                               IsEnabled="{Binding FlatSetup.HasDataLock}"
                                Foreground="DarkSlateGray"
                                ValueMinWidth="100"
                                Grid.Row="0" />
@@ -44,6 +44,7 @@
             UpdateSourceTrigger=PropertyChanged,
             NotifyOnSourceUpdated=True,
             Mode=TwoWay}"
+                               IsEnabled="{Binding FlatSetup.HasDataLock}"
                                Foreground="DarkSlateGray"
                                ValueMinWidth="100"
                                Grid.Row="1" />
@@ -55,8 +56,8 @@
             UpdateSourceTrigger=PropertyChanged,
             NotifyOnTargetUpdated=True,
             Mode=TwoWay,
-                              Delay=250}"                                 
-                               IsEnabled="{Binding IsNewFlatWindow}"
+                              Delay=250}"                            
+                               IsEnabled="{Binding FlatSetup.HasDataLock}"
                                Foreground="DarkSlateGray"
                                  ValueAlignment="Right"
                                ValueMinWidth="100"
@@ -64,14 +65,14 @@
 
         <c_views:ObjectInputView Label="{DynamicResource IDF_Rooms}"
                                  LabelMinWidth="125"
-                               Value="{Binding FlatSetup.RoomCount,
+                                 Value="{Binding FlatSetup.RoomCount,
             NotifyOnSourceUpdated=True,
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                               IsEnabled="{Binding IsNewFlatWindow}"
+                                 IsEnabled="{Binding FlatSetup.HasDataLock}"
                                  ValueAlignment="Right"
-                               Foreground="DarkSlateGray"
-                               ValueMinWidth="100"
-                               Grid.Row="3" />
+                                 Foreground="DarkSlateGray"
+                                 ValueMinWidth="100"
+                                 Grid.Row="3" />
 
         <TextBox Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
                  Text="{Binding FlatSetup.FlatNotes, 
@@ -79,6 +80,7 @@
             UpdateSourceTrigger=PropertyChanged,
             Mode=TwoWay}"
                  Style="{DynamicResource StringValueTextBox}"
+                 IsEnabled="{Binding FlatSetup.HasDataLock}"
                  AcceptsReturn="True"
                  TextWrapping="Wrap"
                  VerticalAlignment="Stretch"

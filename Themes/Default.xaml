@@ -8,6 +8,14 @@
     <SolidColorBrush x:Key="SCB_Text_Header" Color="DimGray"/>
     <SolidColorBrush x:Key="SCB_Selection" Color="#AEF"/>
 
+    <Geometry x:Key="LockOpenData" x:Shared="False">
+        M240-640h360v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85h-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640Zm0 480h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM240-160v-400 400Z
+    </Geometry>
+
+    <Geometry x:Key="LockClosedData" x:Shared="False">
+        M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z
+    </Geometry>
+
     <Thickness x:Key="VisibilityFieldBorderPadding">5</Thickness>
 
     <CornerRadius x:Key="VisibilityField_CornerRadius">5</CornerRadius>
@@ -67,6 +75,12 @@
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
                             <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+                            <Setter Property="Opacity" Value="0.47"/>
                         </Trigger>
 
                     </ControlTemplate.Triggers>
@@ -135,6 +149,89 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="ToggleButton" x:Key="LockDataToggleButtonStyle" x:Shared="False">
+
+        <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Width" Value="47"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Content">
+            <Setter.Value>
+                <Path x:Name="LockIcon"
+                      Data="{DynamicResource LockOpenData}"
+                      Fill="{DynamicResource SCB_Background}"
+                      Stroke="{DynamicResource SCB_Text}"
+                      StrokeThickness="0.49"
+                      Stretch="Fill"
+                      Width="35"
+                      Height="28"/>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        CornerRadius="{DynamicResource Button_CornerRadius}"
+                        Padding="2">
+
+                        <ContentPresenter Content="{TemplateBinding Content}"/>
+    
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
+                            <Setter Property="BorderThickness" Value="2"/>
+                            
+                            <Setter Property="Content">                                
+                                <Setter.Value>
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            CornerRadius="{DynamicResource Button_CornerRadius}"
+                                            Padding="2">
+                                        <Path x:Name="LockClosedIcon"
+                                              Data="{DynamicResource LockClosedData}"
+                                              Fill="{DynamicResource SCB_Background}"
+                                              Stroke="{DynamicResource SCB_Text}"
+                                              StrokeThickness="0.38"
+                                              Stretch="Fill"
+                                              Width="35"
+                                              Height="28"/>
+                                    </Border>
+                                    
+                                </Setter.Value>
+                                
+                            </Setter>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
+
+                        </Trigger>
+
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--#endregion-->
 
     
