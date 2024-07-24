@@ -31,7 +31,7 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="{DynamicResource VisibilityField_CornerRadius}"/>
         <Setter Property="Padding" Value="{DynamicResource VisibilityFieldBorderPadding}"/>
-        <Setter Property="Margin" Value="0 5 0 0"/>
+        <Setter Property="Margin" Value="0 0 0 0"/>
     </Style>
 
     
@@ -46,6 +46,7 @@
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="IsHitTestVisible" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>

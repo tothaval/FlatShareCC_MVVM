@@ -22,12 +22,17 @@
     </UserControl.Resources>
 
 
-    <Border MinHeight="600"
-            BorderBrush="Transparent"
+    <Border BorderBrush="Transparent"
             Background="Transparent"
-            Padding="15">
+            Padding="20">
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                      Background="Transparent"  Foreground="Transparent"  
+                      
                       >
+            <ScrollViewer.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding LeftPressCommand}"/>
+            </ScrollViewer.InputBindings>
+            
             <DockPanel>
                 <Grid Name="topgrid" DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
@@ -61,6 +66,7 @@
                     <ToggleButton Content="{DynamicResource IDF_Settings}"
                               IsChecked="{Binding ShowSettings}"
                               Style="{StaticResource toggleButtonStyle}"
+                                  Margin="2 0 0 0"
                               Grid.Column="4"/>
                 </Grid>
 
@@ -81,7 +87,7 @@
                 <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowFlatManagement, Converter={StaticResource VisibilityConverter}}"
                     DockPanel.Dock="Top"
-                    Margin="0 5 0 0">
+                    Margin="0 0 0 0">
 
                     <Grid MinWidth="600">
                         <Grid.ColumnDefinitions>
@@ -252,11 +258,8 @@
                     <Frame Source="/Manual/ManualPages/MainPage.xaml"/>
                 </Border>
 
-
-
-
                 <Grid DockPanel.Dock="Top" 
-                  Margin="0 10 0 0" Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
+                  Margin="0 0 0 0" Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
                     Converter={StaticResource VisibilityConverter}}" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -265,12 +268,11 @@
 
                 </Grid>
 
-
                 <Border 
                         Visibility="{Binding HasFlat, NotifyOnSourceUpdated=True,
                     Converter={StaticResource VisibilityConverter}}"
                         DockPanel.Dock="Top"
-                        Margin="0 5 0 0">
+                        Margin="0 0 0 0">
                     <Border Visibility="{Binding ShowAccounting, Converter={StaticResource VisibilityConverter}}" 
                             Style="{StaticResource VisibilityFieldBorder}">
                     <Grid >
@@ -280,7 +282,6 @@
                         </Grid>
                     </Border>
                 </Border>
-
 
                 <Border Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
                     Converter={StaticResource VisibilityConverter}}"
@@ -295,7 +296,6 @@
                     </Grid>
                     </Border>
                 </Border>
-
 
             </DockPanel>
         </ScrollViewer>

@@ -15,7 +15,7 @@
 
     </UserControl.Resources>
 
-    <StackPanel Margin="20">
+    <StackPanel Margin="0 20 0 0">
 
         <!-- Flat Costs 
             Displays the monthly and annual costs
@@ -30,8 +30,7 @@
 
         <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowFlatCosts, Converter={StaticResource visCon}}"
-                    DockPanel.Dock="Top" 
-                    Margin="0 5 0 0">
+                    DockPanel.Dock="Top" >
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -234,8 +233,7 @@
 
         <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowRoomCosts, Converter={StaticResource visCon}}"
-                    DockPanel.Dock="Top" 
-                    Margin="0 5 0 0">
+                    DockPanel.Dock="Top">
 
             <StackPanel>
 
@@ -251,7 +249,9 @@
                     <ToggleButton Content="{DynamicResource IDF_OtherCosts}"
                                   IsChecked="{Binding ShowOtherCosts}"
                                   Style="{StaticResource toggleButtonStyle}"
-                                  Visibility="{Binding HasOtherCosts, Converter={StaticResource visCon}}"/>                    
+                                  Visibility="{Binding RentViewModel.HasOtherCosts, 
+                        Converter={StaticResource visCon},
+                        NotifyOnSourceUpdated=True}"/>
                 </StackPanel>
 
 
@@ -349,6 +349,18 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
+                                    <GridViewColumn Header="{DynamicResource IDF_Price}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding PriceShare,
+                                                    StringFormat=C2,
+                                                    NotifyOnSourceUpdated=True}"
+                                                           Style="{StaticResource DoubleValueTextBlock}"
+                                                           FontWeight="Bold"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
                                     <GridViewColumn Header="{DynamicResource IDF_OtherCostsAdvance}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -356,7 +368,6 @@
                                                     StringFormat=C2, 
                                                     NotifyOnSourceUpdated=True}"
                                                            Style="{StaticResource DoubleValueTextBlock}"/>
-
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -368,8 +379,7 @@
                                                     StringFormat=C2,
                                                     NotifyOnSourceUpdated=True}"
                                                            Style="{StaticResource DoubleValueTextBlock}"
-                                                   FontWeight="Bold"/>
-
+                                                           FontWeight="Bold"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -599,7 +609,8 @@
                                                     UpdateSourceTrigger=PropertyChanged,
                                                     Mode=OneWay,
                                                     StringFormat=C2}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
+                                               Style="{StaticResource DoubleValueTextBlock}"
+                                                           FontWeight="Bold"/>
 
                                             </DataTemplate>
 

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Flat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Address>iuuittituizu gzut 14, 12345 ZIP</Address>
+  <Area>52</Area>
+  <DataLock>false</DataLock>
+  <Details>hghgjgh jkl</Details>
+  <FlatNotes>fsfssthhsdgh hkigg</FlatNotes>
+  <RoomCount>4</RoomCount>
+  <Rents>
+    <Rent>
+      <ColdRent>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionItem>other cost item</TransactionItem>
+      </ColdRent>
+      <FixedCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Fixed</TransactionItem>
+      </FixedCostsAdvance>
+      <HeatingCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionItem>Heating</TransactionItem>
+      </HeatingCostsAdvance>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <StartDate>2024-06-22T12:18:40.8403088+02:00</StartDate>
+      <OtherCosts />
+      <Credits />
+    </Rent>
+    <Rent>
+      <ColdRent>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionItem>other cost item</TransactionItem>
+      </ColdRent>
+      <FixedCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Fixed</TransactionItem>
+      </FixedCostsAdvance>
+      <HeatingCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionItem>Heating</TransactionItem>
+      </HeatingCostsAdvance>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <StartDate>2023-03-16T00:00:00</StartDate>
+      <OtherCosts />
+      <Credits />
+    </Rent>
+    <Rent>
+      <ColdRent>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionItem>other cost item</TransactionItem>
+      </ColdRent>
+      <FixedCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Fixed</TransactionItem>
+      </FixedCostsAdvance>
+      <HeatingCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionItem>Heating</TransactionItem>
+      </HeatingCostsAdvance>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <StartDate>2023-08-11T00:00:00</StartDate>
+      <OtherCosts />
+      <Credits />
+    </Rent>
+    <Rent>
+      <ColdRent>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionItem>other cost item</TransactionItem>
+      </ColdRent>
+      <FixedCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Fixed</TransactionItem>
+      </FixedCostsAdvance>
+      <HeatingCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionItem>Heating</TransactionItem>
+      </HeatingCostsAdvance>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <GetBilling>
+        <CostsHasDataLock>false</CostsHasDataLock>
+        <EndDate>2023-12-31T00:00:00</EndDate>
+        <HasCredits>false</HasCredits>
+        <HasDataLock>false</HasDataLock>
+        <HasPayments>false</HasPayments>
+        <StartDate>2023-01-01T00:00:00</StartDate>
+        <TotalCostsPerPeriod>1622.17</TotalCostsPerPeriod>
+        <TotalFixedCostsPerPeriod>
+          <TransactionSum>0</TransactionSum>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionItem>other cost item</TransactionItem>
+        </TotalFixedCostsPerPeriod>
+        <TotalHeatingCostsPerPeriod>
+          <TransactionSum>0</TransactionSum>
+          <TransactionShareTypes>Consumption</TransactionShareTypes>
+          <TransactionItem>Heating</TransactionItem>
+        </TotalHeatingCostsPerPeriod>
+        <Consumptions>
+          <ConsumptionItem>
+            <ConsumptionCause>
+              <TransactionSum>0</TransactionSum>
+              <TransactionShareTypes>Consumption</TransactionShareTypes>
+              <TransactionItem>Heating</TransactionItem>
+            </ConsumptionCause>
+            <ConsumedUnits>0</ConsumedUnits>
+            <ConsumptionPerRoom>
+              <RoomConsumption>
+                <Room>
+                  <RoomArea>10</RoomArea>
+                  <RoomName>room1</RoomName>
+                </Room>
+                <ConsumptionValue>0</ConsumptionValue>
+              </RoomConsumption>
+              <RoomConsumption>
+                <Room>
+                  <RoomArea>9</RoomArea>
+                  <RoomName>room2</RoomName>
+                </Room>
+                <ConsumptionValue>0</ConsumptionValue>
+              </RoomConsumption>
+              <RoomConsumption>
+                <Room>
+                  <RoomArea>8</RoomArea>
+                  <RoomName>room3</RoomName>
+                </Room>
+                <ConsumptionValue>0</ConsumptionValue>
+              </RoomConsumption>
+              <RoomConsumption>
+                <Room>
+                  <RoomArea>12</RoomArea>
+                  <RoomName>room4</RoomName>
+                </Room>
+                <ConsumptionValue>0</ConsumptionValue>
+              </RoomConsumption>
+            </ConsumptionPerRoom>
+          </ConsumptionItem>
+        </Consumptions>
+        <Costs />
+        <Credits />
+        <Payments>
+          <RoomPayments>
+            <PaymentCollection />
+          </RoomPayments>
+          <RoomPayments>
+            <PaymentCollection />
+          </RoomPayments>
+        </Payments>
+      </GetBilling>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <StartDate>2024-09-01T00:00:00</StartDate>
+      <OtherCosts />
+      <Credits />
+    </Rent>
+    <Rent>
+      <ColdRent>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionItem>other cost item</TransactionItem>
+      </ColdRent>
+      <FixedCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Fixed</TransactionItem>
+      </FixedCostsAdvance>
+      <HeatingCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionItem>Heating</TransactionItem>
+      </HeatingCostsAdvance>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <StartDate>2022-03-16T00:00:00</StartDate>
+      <OtherCosts />
+      <Credits />
+    </Rent>
+    <Rent>
+      <ColdRent>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionItem>other cost item</TransactionItem>
+      </ColdRent>
+      <FixedCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Fixed</TransactionItem>
+      </FixedCostsAdvance>
+      <HeatingCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionItem>Heating</TransactionItem>
+      </HeatingCostsAdvance>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <StartDate>2021-05-04T00:00:00</StartDate>
+      <OtherCosts />
+      <Credits />
+    </Rent>
+  </Rents>
+  <Rooms>
+    <Room>
+      <RoomArea>10</RoomArea>
+      <RoomName>room1</RoomName>
+    </Room>
+    <Room>
+      <RoomArea>9</RoomArea>
+      <RoomName>room2</RoomName>
+    </Room>
+    <Room>
+      <RoomArea>8</RoomArea>
+      <RoomName>room3</RoomName>
+    </Room>
+    <Room>
+      <RoomArea>12</RoomArea>
+      <RoomName>room4</RoomName>
+    </Room>
+  </Rooms>
+  <TenantConfigurations>
+    <TenantConfiguration>
+      <Start>2024-07-02T20:56:16.0983884+02:00</Start>
+      <RoomAssignments>
+        <RoomAssignment>
+          <RoomName>room1</RoomName>
+          <TenantName>tenant_28</TenantName>
+        </RoomAssignment>
+        <RoomAssignment>
+          <RoomName>room2</RoomName>
+          <TenantName>tenant_6</TenantName>
+        </RoomAssignment>
+        <RoomAssignment>
+          <RoomName>room3</RoomName>
+          <TenantName>tenant_61</TenantName>
+        </RoomAssignment>
+        <RoomAssignment>
+          <RoomName>room4</RoomName>
+          <TenantName>tenant_91</TenantName>
+        </RoomAssignment>
+      </RoomAssignments>
+    </TenantConfiguration>
+  </TenantConfigurations>
+  <Tenants>
+    <Tenant>
+      <IsActive>true</IsActive>
+      <MovingIn>2024-07-02T20:56:10.4739152+02:00</MovingIn>
+      <Name>tenant_28</Name>
+      <MovingOut>2024-08-02T20:56:10.4739195+02:00</MovingOut>
+    </Tenant>
+    <Tenant>
+      <IsActive>true</IsActive>
+      <MovingIn>2024-07-02T20:56:10.9293927+02:00</MovingIn>
+      <Name>tenant_6</Name>
+      <MovingOut>2024-08-02T20:56:10.9293944+02:00</MovingOut>
+    </Tenant>
+    <Tenant>
+      <IsActive>true</IsActive>
+      <MovingIn>2024-07-02T20:56:11.321605+02:00</MovingIn>
+      <Name>tenant_61</Name>
+      <MovingOut>2024-08-02T20:56:11.3216066+02:00</MovingOut>
+    </Tenant>
+  </Tenants>
+</Flat>

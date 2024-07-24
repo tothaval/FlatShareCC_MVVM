@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Flat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Address>saafasdf</Address>
+  <Area>47</Area>
+  <DataLock>false</DataLock>
+  <Details>asdfasdfa</Details>
+  <FlatNotes>notes</FlatNotes>
+  <RoomCount>3</RoomCount>
+  <Rents>
+    <Rent>
+      <ColdRent>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionItem>other cost item</TransactionItem>
+      </ColdRent>
+      <FixedCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Fixed</TransactionItem>
+      </FixedCostsAdvance>
+      <HeatingCostsAdvance>
+        <TransactionSum>0</TransactionSum>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionItem>Heating</TransactionItem>
+      </HeatingCostsAdvance>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <StartDate>2024-06-22T00:00:00</StartDate>
+      <OtherCosts />
+      <Credits />
+    </Rent>
+  </Rents>
+  <Rooms>
+    <Room>
+      <RoomArea>13.17</RoomArea>
+      <RoomName>room1</RoomName>
+    </Room>
+    <Room>
+      <RoomArea>12.11</RoomArea>
+      <RoomName>room2</RoomName>
+    </Room>
+    <Room>
+      <RoomArea>14.82</RoomArea>
+      <RoomName>room3 huhu</RoomName>
+    </Room>
+  </Rooms>
+  <TenantConfigurations />
+  <Tenants />
+</Flat>

@@ -8,43 +8,45 @@
              xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components"        
              mc:Ignorable="d" 
              Background="Transparent">
-    
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal"
+    <Border Style="{StaticResource VisibilityFieldBorder}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal"
                     Grid.Column="1"
                     Grid.Row="0">
-            <TextBlock Style="{StaticResource StringValueTextBlock}">
+                <TextBlock Style="{StaticResource StringValueTextBlock}">
                 <Run Text="{DynamicResource IDF_CombinedRoomArea}"/>
                 <Run Text="/"/>
                 <Run Text="{DynamicResource IDF_FlatArea}"/>
-            </TextBlock>
+                </TextBlock>
 
-            <TextBlock Text="{Binding FlatSetup.CombinedRoomArea, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True,  StringFormat=N2}"
+                <TextBlock Text="{Binding FlatSetup.CombinedRoomArea, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True,  StringFormat=N2}"
                    Grid.Column="1"
                    Grid.Row="1"
                    Style="{StaticResource DoubleValueTextBlock}"/>
 
-            <TextBlock 
+                <TextBlock 
                    Grid.Column="1"
                    Grid.Row="1"
                    Style="{StaticResource DoubleValueTextBlock}">
                 <Run Text="/"/>
                 <Run Text="{Binding FlatSetup.Area, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, StringFormat=N2}"/>
-            </TextBlock>
-        </StackPanel>
+                </TextBlock>
+            </StackPanel>
 
 
-        <ListView ItemsSource="{Binding FlatSetup.Rooms}"
+            <ListView ItemsSource="{Binding FlatSetup.Rooms}"
                   IsEnabled="{Binding FlatSetup.HasDataLock}"
                   SelectionMode="Single"
                   Grid.Column="0"
@@ -52,55 +54,58 @@
                   Grid.Row="1"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   BorderThickness="2"
-                  Margin="0 5 0 0"
+                  Margin="0 0 0 0"
                   MaxWidth="1280"
                     >
 
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid FlowDirection="LeftToRight"/>
-                </ItemsPanelTemplate>
-                
-            </ListView.ItemsPanel>
-            
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="{DynamicResource SCB_Text_Header}"
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid FlowDirection="LeftToRight"/>
+                    </ItemsPanelTemplate>
+
+                </ListView.ItemsPanel>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{DynamicResource SCB_Text_Header}"
                             BorderThickness="2">
-                        <Grid HorizontalAlignment="Stretch"
+                            <Grid HorizontalAlignment="Stretch"
                               VerticalAlignment="Top">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            
-                            <c_views:ObjectInputView Label="{DynamicResource IDF_RoomName}"
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <c_views:ObjectInputView Label="{DynamicResource IDF_RoomName}"
                                                      Grid.Row="0"
                                                      Value="{Binding RoomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                      ValueMinWidth="120"/>
 
-                            <c_views:DoubleInputView Label="{DynamicResource IDF_RoomArea}"
+                                <c_views:DoubleInputView Label="{DynamicResource IDF_RoomArea}"
                                                      Value="{Binding RoomArea, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,  NotifyOnTargetUpdated=True,Delay=250}"
                                                      IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"                                                     
                                                      ValueAlignment="Right"
                                                      ValueMinWidth="120"
                                                      Grid.Row="1"/>
-                            
-                            <!--<c_views:ObjectInputView Label="{DynamicResource IDF_RoomTenant}"
+
+                                <!--<c_views:ObjectInputView Label="{DynamicResource IDF_RoomTenant}"
                                                      Value="{Binding Tenant, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                 StringFormat=\{0:n\}, Delay=250}"                                                      
                                                    ValueMinWidth="120"
                                                    Grid.Row="2"/>-->
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
 
-        </ListView>
+            </ListView>
 
-    </Grid>
+        </Grid>
+    </Border>
+
+
 </UserControl>

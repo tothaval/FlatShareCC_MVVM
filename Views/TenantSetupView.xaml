@@ -27,7 +27,7 @@
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0" Style="{StaticResource VisibilityFieldBorder}"
-                Margin="0 5 5 0">
+                Margin="0 0 0 0">
 
             <StackPanel HorizontalAlignment="Stretch">
 
@@ -182,7 +182,7 @@
 
 
         <Border Grid.Column="1" Style="{StaticResource VisibilityFieldBorder}"
-                Margin="5 5 0 0">
+                Margin="0 0 0 0">
 
             <StackPanel>
 
