@@ -74,6 +74,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 _RoomPayments = value;
 
                 OnPropertyChanged(nameof(RoomPayments));
+
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RoomPayments)));
             }
         }
 
@@ -105,6 +107,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         public RoomPaymentsViewModel(RoomPayments roomPayments)
         {
             RoomPayments = roomPayments;
+
+            PaymentViewModels.CollectionChanged += PaymentViewModels_CollectionChanged;
+            
         }
 
         #endregion constructors
@@ -112,6 +117,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         // methods
         #region methods
+
+        public void AddPayment()
+        {
+            RoomPayments.Payments?.Add(
+
+                new Payment()
+                {
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now,
+                    Sum = 0.0,
+                    PaymentQuantity = 1
+                });
+        }
 
         public double CalculateTotalPayments()
         {
@@ -151,9 +169,18 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         // events
         #region events
 
+        private void PaymentViewModels_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(CombinedPayments));
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CombinedPayments)));
+        }
+
         private void PaymentViewModel_PaymentChange(object? sender, EventArgs e)
         {
             OnPropertyChanged(nameof(CombinedPayments));
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CombinedPayments)));
         }
 
         #endregion events

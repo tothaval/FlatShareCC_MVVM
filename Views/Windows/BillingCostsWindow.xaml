@@ -78,7 +78,7 @@
                         IsEnabled="{Binding DataLock}"/>
                     <ToggleButton Style="{StaticResource LockDataToggleButtonStyle}"
                               IsChecked="{Binding DataLockCheckbox}"
-                              HorizontalAlignment="Left"
+                              HorizontalAlignment="Center"
                               Grid.Column="1"/>
                     <Button Content="remove cost item" Command="{Binding RemoveFinancialTransactionItemCommand}" 
                         CommandParameter="{Binding ElementName=_othercosts, Path=SelectedItems}"

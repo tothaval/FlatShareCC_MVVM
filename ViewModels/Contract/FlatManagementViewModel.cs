@@ -86,6 +86,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 _SelectedItem = value;
 
                 OnPropertyChanged(nameof(SelectedItem));
+                OnPropertyChanged(nameof(DataLock));
 
                 if (_flatCollection.Count > 0 && _SelectedItem != null)
                 {
@@ -306,6 +307,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public ICommand DeleteFlatCommand { get; }
 
 
+        public ICommand LeftPressCommand { get; }
+
+
         public ICommand NewFlatCommand { get; }
 
         #endregion commands
@@ -325,7 +329,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             NewFlatCommand = new RelayCommand((s) => CreateFlat(), (s) => true);
 
             DeleteFlatCommand = new ExecuteDeleteFlatCommand(flatCollection, this);
-                       
+
+            LeftPressCommand = new RelayCommand((s) => Move(), (s) => true);
+
             _flatCollection = flatCollection;
 
             _flatCollection.CollectionChanged += _flatCollection_CollectionChanged;
@@ -464,6 +470,12 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             OnPropertyChanged(nameof(TenantSetup));
         }
                     
+
+        private void Move()
+        {
+            Application.Current.MainWindow.DragMove();
+        }
+
 
         private void ResetVisibility()
         {

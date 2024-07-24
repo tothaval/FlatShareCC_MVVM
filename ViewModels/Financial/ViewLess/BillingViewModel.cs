@@ -352,6 +352,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         public bool HasErrors => _helper.HasErrors;
 
 
+        public bool HasOtherCosts => FinancialTransactionItemViewModels.Count > 0;
+
+
         public bool HasPayments
         {
             get { return Billing.HasPayments; }
@@ -488,7 +491,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public ObservableCollection<RoomCostShareBilling> RoomCostShares { get; set; }
+        public ObservableCollection<RoomCostShareBilling> RoomCostShares { get; set; } = new ObservableCollection<RoomCostShareBilling>();
 
 
         private ObservableCollection<RoomPaymentsViewModel> _RoomPayments;
@@ -518,6 +521,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 ErrorsChanged?.Invoke(this, e);
             };
 
+            ConsumptionItemViewModels = new ObservableCollection<ConsumptionItemViewModel>();
             Credits = new ObservableCollection<IFinancialTransactionItem>();
             FinancialTransactionItemViewModels = new ObservableCollection<IFinancialTransactionItem>();
 
@@ -526,11 +530,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             _flatViewModel = flatViewModel;
             Billing = billing;
 
+
+            GenerateFTIViewModels();
+
             GenerateConsumptionItemViewModels();
 
             GenerateCreditViewModels();
-
-            GenerateFTIViewModels();
 
             GenerateRoomPayments();
 
@@ -608,9 +613,14 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                         paymentsPerPeriod += payment.PaymentTotal;
                     }
                 }
-
-
             }
+
+            if (paymentsPerPeriod > 0.0)
+            {
+                RebuildRoomCostShares();
+            }
+
+
 
             return paymentsPerPeriod;
         }
@@ -697,35 +707,35 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                     }
                 }
 
-                RentViewModel? comparer = new RentViewModel(_flatViewModel, new Rent() { StartDate = StartDate });
-                bool firstRun = true;
+            //    RentViewModel? comparer = new RentViewModel(_flatViewModel, new Rent() { StartDate = StartDate });
+            //    bool firstRun = true;
 
-                // building a collection of relevant rent items
-                foreach (RentViewModel item in preSortList)
-                {
-                    if (item.StartDate >= StartDate)
-                    {
-                        RentList.Add(item);
-                        continue;
-                    }
+            //    // building a collection of relevant rent items
+            //    foreach (RentViewModel item in preSortList)
+            //    {
+            //        if (item.StartDate >= StartDate)
+            //        {
+            //            RentList.Add(item);
+            //            continue;
+            //        }
 
-                    if (item.StartDate < StartDate && firstRun)
-                    {
-                        firstRun = false;
-                        comparer = item;
-                        continue;
-                    }
+            //        if (item.StartDate < StartDate && firstRun)
+            //        {
+            //            firstRun = false;
+            //            comparer = item;
+            //            continue;
+            //        }
 
-                    if (item.StartDate < StartDate && item.StartDate > comparer.StartDate)
-                    {
-                        comparer = item;
-                    }
-                }
-                RentList.Add(comparer);
+            //        if (item.StartDate < StartDate && item.StartDate > comparer.StartDate)
+            //        {
+            //            comparer = item;
+            //        }
+            //    }
+            //    RentList.Add(comparer);
             }
 
             // sort List by StartDate, ascending
-            RentList = new ObservableCollection<RentViewModel>(RentList.OrderBy(i => i.StartDate));
+            RentList = new ObservableCollection<RentViewModel>(preSortList.OrderBy(i => i.StartDate));
 
             return RentList;
         }
@@ -746,16 +756,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 }
 
 
-                Billing.Check4HeatingCosts();
-
                 foreach (ConsumptionItem item in Billing.ConsumptionItems)
                 {
-                    ConsumptionItemViewModels.Add(new ConsumptionItemViewModel(item, this));
+                    ConsumptionItemViewModel consumptionItemViewModel = new ConsumptionItemViewModel(item, this);
+
+                    consumptionItemViewModel.PropertyChanged += ConsumptionItemViewModel_PropertyChanged;
+
+                    ConsumptionItemViewModels.Add(consumptionItemViewModel);
                 }
             }
 
             OnPropertyChanged(nameof(ConsumptionItemViewModels));
         }
+
 
         private void GenerateCreditViewModels()
         {
@@ -794,6 +807,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
 
             CalculateOtherFTISum();
+
+            OnPropertyChanged(nameof(HasOtherCosts));
         }
 
 
@@ -810,6 +825,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             {
                 RoomPaymentsViewModel roomPaymentsViewModel = new RoomPaymentsViewModel(roomPayments);
 
+                roomPaymentsViewModel.PropertyChanged += RoomPaymentsViewModel_PropertyChanged;
+
                 RoomPayments.Add(roomPaymentsViewModel);
             }
 
@@ -817,6 +834,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             OnPropertyChanged(nameof(TotalPayments));
 
             OnPropertyChanged(nameof(Balance));
+
+            RebuildRoomCostShares();
         }
 
 
@@ -875,43 +894,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public double GetRoomPaymentsPerPeriod(Room room)
-        {
-            double paymentsPerPeriod = 0.0;
-
-            foreach (RoomPaymentsViewModel roomPaymentsViewModel in RoomPayments)
-            {
-
-                if (roomPaymentsViewModel.RoomName.Equals(room.RoomName) && roomPaymentsViewModel.RoomArea == room.RoomArea)
-                {
-                    foreach (Payment payment in roomPaymentsViewModel.RoomPayments.Payments)
-                    {
-                        if (payment.StartDate >= StartDate
-                            && payment.StartDate <= EndDate
-                            && payment.EndDate >= StartDate
-                            && payment.EndDate <= EndDate
-                            )
-                        {
-                            paymentsPerPeriod += payment.PaymentTotal;
-
-                            break;
-                        }
-                    }
-                }
-
-
-            }
-
-            OnPropertyChanged(nameof(TotalPayments));
-            OnPropertyChanged(nameof(Balance));
-
-            return paymentsPerPeriod;
-        }
-
-
         private void RebuildRoomCostShares()
         {
-            RoomCostShares = new ObservableCollection<RoomCostShareBilling>();
+            RoomCostShares.Clear(); // = new ObservableCollection<RoomCostShareBilling>();
 
             if (GetFlatViewModel() != null)
             {
@@ -956,6 +941,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             //}
         }
 
+        public void UpdateCosts()
+        {
+            RebuildRoomCostShares();
+        }
+
 
         public void UpdateRoomConsumptionItemViewModels()
         {
@@ -971,7 +961,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         // events
         #region events
-                
+
+        private void ConsumptionItemViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            RebuildRoomCostShares();
+        }
+
+
         private void CreditItem_ValueChange(object? sender, EventArgs e)
         {
             CalculateCreditSum();
@@ -986,6 +982,15 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             CalculateOtherFTISum();
 
             RebuildRoomCostShares();
+        }
+
+
+        private void RoomPaymentsViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(RoomPayments));
+            OnPropertyChanged(nameof(TotalPayments));
+
+            OnPropertyChanged(nameof(Balance));
         }
 
         #endregion events

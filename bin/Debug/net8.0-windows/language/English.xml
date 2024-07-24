@@ -101,7 +101,7 @@ Advance</IDF_AdvanceHeating>
   <IDF_OtherCostsAdvance>Other
 Costs</IDF_OtherCostsAdvance>
   <IDF_OtherCosts>other costs details</IDF_OtherCosts>
-  <IDF_OtherCostsList>Additional TransactionSum Items</IDF_OtherCostsList>
+  <IDF_OtherCostsList>Additional Items</IDF_OtherCostsList>
   <IDF_OtherCostsSum>Sum</IDF_OtherCostsSum>
   <IDF_AnnualOther>Other</IDF_AnnualOther>
   <IDF_AnnualComplete>Complete</IDF_AnnualComplete>

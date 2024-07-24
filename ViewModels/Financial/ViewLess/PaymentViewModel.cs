@@ -37,6 +37,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 _payment.EndDate = value;
                 OnPropertyChanged(nameof(EndDate));
+
+                PaymentChange.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -116,6 +118,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 }
 
                 OnPropertyChanged(nameof(StartDate));
+
+                PaymentChange.Invoke(this, EventArgs.Empty);
             }
         }
 

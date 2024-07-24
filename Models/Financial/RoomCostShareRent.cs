@@ -82,6 +82,10 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public double OtherCostsShare { get; set; }
 
+
+        public double PriceShare { get; set; }
+
+
         public double RentShare { get; set; }
 
         #endregion
@@ -157,6 +161,9 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             FixedCostsAdvanceShare = RentedAreaShareRatio() * ((RentViewModel)ViewModel).FixedCostsAdvance;
 
+            double fixedCostPulse = ((RentViewModel)ViewModel).FixedCostsAdvance;
+            double heatingCostPulse = ((RentViewModel)ViewModel).HeatingCostsAdvance;
+
             if (((RentViewModel)ViewModel).HasBilling)
             {
                 BillingViewModel billingViewModel = ((RentViewModel)ViewModel).BillingViewModel;
@@ -167,20 +174,22 @@ namespace SharedLivingCostCalculator.Models.Financial
                         ((RentViewModel)ViewModel).Rent.HeatingCostsAdvance
                         );
 
-                HeatingCostsAdvanceShare = roomConsumptionPercentage * ((RentViewModel)ViewModel).HeatingCostsAdvance;
+                HeatingCostsAdvanceShare = roomConsumptionPercentage * heatingCostPulse;
             }
             else
             {
-                HeatingCostsAdvanceShare = RentedAreaShareRatio() * ((RentViewModel)ViewModel).HeatingCostsAdvance;
+                HeatingCostsAdvanceShare = RentedAreaShareRatio() * heatingCostPulse;
             }
 
             AreaSharedCostsShare = GetAreaSharedCostsShare();
 
             EqualSharedCostsShare = GetEqualSharedCostShare();
 
+            PriceShare = RentShare + FixedCostsAdvanceShare + HeatingCostsAdvanceShare;
+
             OtherCostsShare = AreaSharedCostsShare + EqualSharedCostsShare;
 
-            CompleteCostShare = RentShare + FixedCostsAdvanceShare + HeatingCostsAdvanceShare + OtherCostsShare;
+            CompleteCostShare = PriceShare + OtherCostsShare;
 
             FillObservableCollection();
 
@@ -209,6 +218,8 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         private void FillObservableCollection()
         {
+            FinancialTransactionItemViewModels.Clear();
+
             foreach (FinancialTransactionItemRentViewModel item in ViewModel.FinancialTransactionItemViewModels)
             {
                 FinancialTransactionItemRentViewModel FTIvm = new FinancialTransactionItemRentViewModel(new FinancialTransactionItemRent());

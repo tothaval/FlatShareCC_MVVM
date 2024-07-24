@@ -98,6 +98,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             _billingViewModel.RoomPayments.CollectionChanged += RoomPayments_CollectionChanged;
 
+            OnPropertyChanged(nameof(RoomPayments));
+            OnPropertyChanged(nameof(UpdateViewModel));
+            OnPropertyChanged(nameof(SelectedValue));
         }
 
         #endregion constructors

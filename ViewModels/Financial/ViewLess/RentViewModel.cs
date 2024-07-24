@@ -202,6 +202,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public bool HasOtherCosts => FinancialTransactionItemViewModels.Count>0;
+
+
         private Rent _Rent;
         public Rent Rent
         {
@@ -396,6 +399,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 item.ValueChange += CreditItemViewModel_ValueChange;
             }
 
+
             CalculateCreditSum();
             CalculateOtherFTISum();
 
@@ -404,6 +408,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             OnPropertyChanged(nameof(AnnualOtherFTISum));
             OnPropertyChanged(nameof(Credits));
             OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
+            OnPropertyChanged(nameof(HasOtherCosts));
         }
 
 

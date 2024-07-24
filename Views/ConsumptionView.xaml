@@ -65,6 +65,8 @@
                         Mode=TwoWay,
                         NotifyOnSourceUpdated=True,
                         NotifyOnValidationError=True,
+                        UpdateSourceTrigger=PropertyChanged,
+                        Delay=200,
                         ValidatesOnDataErrors=True}"
                              Style="{StaticResource DoubleValueTextBox}"
                              IsEnabled="{Binding DataLock}"

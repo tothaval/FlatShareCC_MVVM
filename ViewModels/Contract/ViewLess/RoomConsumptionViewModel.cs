@@ -30,6 +30,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         }
 
 
+        public double TotalConsumptionValue => ConsumptionValue + _ConsumptionItemViewModel.RoomSharedConsumption;
+
+
         public double RoomArea => _RoomConsumption.Room.RoomArea;
 
 

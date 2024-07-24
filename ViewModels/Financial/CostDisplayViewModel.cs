@@ -147,6 +147,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             if (_rentViewModel != null && _rentViewModel.BillingViewModel != null)
             {
                 _billingViewModel = _rentViewModel.BillingViewModel;
+
+                _billingViewModel.UpdateCosts();
             }
             else
             {
