@@ -59,6 +59,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public FlatViewModel FlatViewModel => _flatViewModel;
 
 
+        //public bool HasDataLock => GetSelectedValueHasDataLock();
+
+
+        //private bool GetSelectedValueHasDataLock()
+        //{
+        //    if (SelectedValue != null)
+        //    {
+        //         return SelectedValue.HasDataLock; 
+        //    }
+
+        //    return false;
+        //}
+
         public bool HasRentUpdate => _flatViewModel.RentUpdates.Count > 0;
 
 

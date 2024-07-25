@@ -1,9 +1,9 @@
 ﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
- *  VisibilityConverter 
+ *  VisibilityConverterToHidden 
  * 
  *  helper class for the convertion of boolean values
- *  to Visibility.Collapsed or Visibility.Visible
+ *  to Visibility.Hidden or Visibility.Visible
  */
 using System.Globalization;
 using System.Windows;
@@ -11,7 +11,7 @@ using System.Windows.Data;
 
 namespace SharedLivingCostCalculator.Converters
 {
-    internal class VisibilityConverter : IValueConverter
+    internal class VisibilityConverterToHidden : IValueConverter
     {
 
         // methods
@@ -19,7 +19,7 @@ namespace SharedLivingCostCalculator.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value is bool boolValue && boolValue ? Visibility.Visible : Visibility.Collapsed;
+            return value is bool boolValue && boolValue ? Visibility.Visible : Visibility.Hidden;
         }
 
 
@@ -27,7 +27,7 @@ namespace SharedLivingCostCalculator.Converters
         {
             throw new NotImplementedException();
         }
-        
+
         #endregion methods
 
 

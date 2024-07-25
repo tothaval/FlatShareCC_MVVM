@@ -47,6 +47,8 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
@@ -73,24 +75,30 @@
                            TextAlignment="Center"
                            Grid.Column="6"
                            Grid.Row="0"/>
-                    <TextBlock Text="{DynamicResource IDF_ExtraCosts}"
+                    <TextBlock Text="{DynamicResource IDF_OtherCostsAdvance}"
+              Style="{StaticResource Header}"
+              FontSize="{StaticResource FS}"
+              TextAlignment="Center"
+              Grid.Column="8"
+              Grid.Row="0"/>
+                    <TextBlock Text="{DynamicResource IDF_Price}"
                            Style="{StaticResource Header}"
                            FontSize="{StaticResource FS}"
                            TextAlignment="Center"
-                           Grid.Column="8"
+                           Grid.Column="10"
                            Grid.Row="0"/>
                     <TextBlock Text="{DynamicResource IDF_Advance}"
                            Style="{StaticResource Header}"
                            FontSize="{StaticResource FS}"
                            TextAlignment="Center"
-                           Grid.Column="10"
+                           Grid.Column="12"
                            Grid.Row="0"/>
 
                     <TextBlock Text="{DynamicResource IDF_Balance}"
                            Style="{StaticResource Header}"
                            FontSize="{StaticResource FS}"
                            TextAlignment="Center"
-                           Grid.Column="12"
+                           Grid.Column="14"
                            Grid.Row="0"/>
                     <!--#endregion-->
 
@@ -126,6 +134,12 @@
                            Grid.Column="11"
                            Grid.Row="0"
                            Grid.RowSpan="2"/>
+                    
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="13"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
                     <!--#endregion-->
 
 
@@ -150,12 +164,19 @@
                                    Grid.Column="6"
                                    Grid.Row="1"/>
 
-                    <TextBlock Text="{Binding BillingViewModel.TotalCostsPerPeriod,
+                    <TextBlock Text="{Binding BillingViewModel.OtherFTISum,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="8"
+                                   Grid.Row="1"/>
+
+                    <TextBlock Text="{Binding BillingViewModel.TotalCostsNoPayments,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
                                    Style="{StaticResource DoubleValueTextBlock}"
                                    FontWeight="Bold"
-                                   Grid.Column="8"
+                                   Grid.Column="10"
                                    Grid.Row="1"/>
 
                     <TextBlock Text="{Binding BillingViewModel.TotalAdvancePerPeriod,
@@ -163,14 +184,14 @@
                                         NotifyOnSourceUpdated=True}"
                                    Style="{StaticResource DoubleValueTextBlock}"
                                    FontWeight="Bold"
-                                   Grid.Column="10"
+                                   Grid.Column="12"
                                    Grid.Row="1"/>
                     <TextBlock Text="{Binding BillingViewModel.Balance,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
                                    Style="{StaticResource DoubleValueTextBlock}"
                                    FontWeight="Bold"
-                                   Grid.Column="12"
+                                   Grid.Column="14"
                                    Grid.Row="1"/>
                     <!--#endregion-->
 
@@ -181,6 +202,8 @@
                 <!--#region annual costs including payments and rents -->
                 <Grid Visibility="{Binding BillingViewModel.HasPayments, Converter={StaticResource visCon}}">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -228,24 +251,30 @@
                            TextAlignment="Center"
                            Grid.Column="8"
                            Grid.Row="0"/>
-                    <TextBlock Text="{DynamicResource IDF_ExtraCosts}"
+                    <TextBlock Text="{DynamicResource IDF_OtherCostsAdvance}"
                            Style="{StaticResource Header}"
                            FontSize="{StaticResource FS}"
                            TextAlignment="Center"
                            Grid.Column="10"
                            Grid.Row="0"/>
-                    <TextBlock Text="{DynamicResource IDF_Payments}"
+                    <TextBlock Text="{DynamicResource IDF_Price}"
                            Style="{StaticResource Header}"
                            FontSize="{StaticResource FS}"
                            TextAlignment="Center"
                            Grid.Column="12"
+                           Grid.Row="0"/>
+                    <TextBlock Text="{DynamicResource IDF_Payments}"
+                           Style="{StaticResource Header}"
+                           FontSize="{StaticResource FS}"
+                           TextAlignment="Center"
+                           Grid.Column="14"
                            Grid.Row="0"/>
 
                     <TextBlock Text="{DynamicResource IDF_Balance}"
                            Style="{StaticResource Header}"
                            FontSize="{StaticResource FS}"
                            TextAlignment="Center"
-                           Grid.Column="14"
+                           Grid.Column="16"
                            Grid.Row="0"/>
                     <!--#endregion-->
 
@@ -286,6 +315,11 @@
                            Grid.Column="13"
                            Grid.Row="0"
                            Grid.RowSpan="2"/>
+                    <Rectangle Fill="{StaticResource SCB_Text_Header}"
+                           Width="2"
+                           Grid.Column="15"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"/>
                     <!--#endregion-->
 
 
@@ -316,12 +350,19 @@
                                    Grid.Column="8"
                                    Grid.Row="1"/>
 
-                    <TextBlock Text="{Binding BillingViewModel.TotalCostsPerPeriod,
+                    <TextBlock Text="{Binding BillingViewModel.OtherFTISum,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="10"
+                                   Grid.Row="1"/>
+                    
+                    <TextBlock Text="{Binding BillingViewModel.TotalCosts,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
                                    Style="{StaticResource DoubleValueTextBlock}"
                                    FontWeight="Bold"
-                                   Grid.Column="10"
+                                   Grid.Column="12"
                                    Grid.Row="1"/>
 
                     <TextBlock Text="{Binding BillingViewModel.TotalPayments,
@@ -329,14 +370,14 @@
                                         NotifyOnSourceUpdated=True}"
                                    Style="{StaticResource DoubleValueTextBlock}"
                                    FontWeight="Bold"
-                                   Grid.Column="12"
+                                   Grid.Column="14"
                                    Grid.Row="1"/>
                     <TextBlock Text="{Binding BillingViewModel.Balance,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
                                    Style="{StaticResource DoubleValueTextBlock}"
                                    FontWeight="Bold"
-                                   Grid.Column="14"
+                                   Grid.Column="16"
                                    Grid.Row="1"/>
                     <!--#endregion-->
 
@@ -581,13 +622,14 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="{DynamicResource IDF_TotalCosts}">
+                                    <GridViewColumn Header="{DynamicResource IDF_Price}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding TotalCostsAnnualCostsShare,
                                       StringFormat=C2,
                                       NotifyOnSourceUpdated=True}"
-                                             Style="{StaticResource DoubleValueTextBlock}"/>
+                                             Style="{StaticResource DoubleValueTextBlock}"
+                                                           FontWeight="Bold"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -806,13 +848,14 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="{DynamicResource IDF_TotalCosts}">
+                                    <GridViewColumn Header="{DynamicResource IDF_Price}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding TotalCostsAnnualCostsShare,
                                           StringFormat=C2,
                                           NotifyOnSourceUpdated=True}"
-                                                 Style="{StaticResource DoubleValueTextBlock}"/>
+                                                 Style="{StaticResource DoubleValueTextBlock}"
+                                                           FontWeight="Bold"/>
 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>

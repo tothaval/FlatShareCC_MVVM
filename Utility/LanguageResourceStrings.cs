@@ -209,6 +209,7 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_AnnualHeating { get; set; } = "Heating";
         public string IDF_AnnualPrice { get; set; } = "Price";
 
+        public string IDF_firstYear { get; set; } = "first year";
         public string IDF_perYear { get; set; } = "per year";
         public string IDF_perMonth { get; set; } = "per month";
 

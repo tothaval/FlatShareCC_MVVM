@@ -18,6 +18,7 @@
 
         <conv:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
         <conv:VisibilityConverter x:Key="VisibilityConverter"/>
+        <conv:VisibilityConverterToHidden x:Key="VisibilityConverterToHidden"/>
 
     </UserControl.Resources>
 
@@ -34,6 +35,7 @@
             </ScrollViewer.InputBindings>
             
             <DockPanel>
+                <!--#region menu togglebuttons -->
                 <Grid Name="topgrid" DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -50,11 +52,13 @@
 
                     <ToggleButton Content="{DynamicResource AccountingHeaderText}"
                               IsChecked="{Binding ShowAccounting}"
+                            Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverterToHidden}}"   
                               Style="{StaticResource toggleButtonStyle}"
                               Grid.Column="1"/>
 
                     <ToggleButton Content="{DynamicResource IDF_ShowCosts}"
                               IsChecked="{Binding ShowCosts}"
+                            Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverterToHidden}}"   
                               Style="{StaticResource toggleButtonStyle}"                              
                               Grid.Column="2"/>
 
@@ -69,7 +73,9 @@
                                   Margin="2 0 0 0"
                               Grid.Column="4"/>
                 </Grid>
+                <!--#endregion-->
 
+                <!--#region Settings -->
                 <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowSettings, Converter={StaticResource VisibilityConverter}}"
                     DockPanel.Dock="Top" >
@@ -83,7 +89,9 @@
                         </local:SettingsView>
                     </Grid>
                 </Border>
-                
+                <!--#endregion-->
+
+                <!--#region FlatManagement -->
                 <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowFlatManagement, Converter={StaticResource VisibilityConverter}}"
                     DockPanel.Dock="Top"
@@ -110,6 +118,7 @@
 
                         <ToggleButton IsChecked="{Binding DataLock}"
                                Style="{StaticResource LockDataToggleButtonStyle}"
+                            Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"   
                                HorizontalAlignment="Center"
                                Grid.Column="1"
                                />
@@ -241,7 +250,7 @@
                              >
                                     <ContentPresenter Content="{Binding RoomSetup}"/>
                                 </Border>
-                                
+
                                 <Border Visibility="{Binding ShowTenantSetup, Converter={StaticResource VisibilityConverter}}"
                              >
                                     <ContentPresenter Content="{Binding TenantSetup}"/>
@@ -251,23 +260,17 @@
 
                     </Grid>
                 </Border>
+                <!--#endregion-->
 
+                <!--#region Manual -->
                 <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowManual, Converter={StaticResource VisibilityConverter}}"
                     DockPanel.Dock="Top" >
                     <Frame Source="/Manual/ManualPages/MainPage.xaml"/>
                 </Border>
+                <!--#endregion-->
 
-                <Grid DockPanel.Dock="Top" 
-                  Margin="0 0 0 0" Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
-                    Converter={StaticResource VisibilityConverter}}" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                </Grid>
-
+                <!--#region Accounting -->                
                 <Border 
                         Visibility="{Binding HasFlat, NotifyOnSourceUpdated=True,
                     Converter={StaticResource VisibilityConverter}}"
@@ -275,14 +278,16 @@
                         Margin="0 0 0 0">
                     <Border Visibility="{Binding ShowAccounting, Converter={StaticResource VisibilityConverter}}" 
                             Style="{StaticResource VisibilityFieldBorder}">
-                    <Grid >
-                        
-                        <local:AccountingView DataContext="{Binding Accounting}" />
+                        <Grid >
+
+                            <local:AccountingView DataContext="{Binding Accounting}" />
 
                         </Grid>
                     </Border>
                 </Border>
+                <!--#endregion-->
 
+                <!--#region ShowCosts -->
                 <Border Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
                     Converter={StaticResource VisibilityConverter}}"
                     DockPanel.Dock="Top" >
@@ -290,12 +295,13 @@
                     <Border Visibility="{Binding ShowCosts, Converter={StaticResource VisibilityConverter}}"
                             Style="{StaticResource VisibilityFieldBorder}">
                         <Grid >
-                        <local:CostDisplayView DataContext="{Binding Cost}"
+                            <local:CostDisplayView DataContext="{Binding Cost}"
                                         Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
                             Converter={StaticResource VisibilityConverter}}"/>
-                    </Grid>
+                        </Grid>
                     </Border>
                 </Border>
+                <!--#endregion-->
 
             </DockPanel>
         </ScrollViewer>
