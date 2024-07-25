@@ -209,7 +209,7 @@ there is a grocery store nearby.</FlatNotes>
         </Payments>
       </GetBilling>
       <CostsHasDataLock>false</CostsHasDataLock>
-      <StartDate>2024-07-24T00:00:00</StartDate>
+      <StartDate>2024-08-01T00:00:00</StartDate>
       <OtherCosts />
       <Credits />
     </Rent>

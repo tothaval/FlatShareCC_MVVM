@@ -8,12 +8,14 @@ using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace SharedLivingCostCalculator.Models.Financial
 {
@@ -115,13 +117,13 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public void CalculateValues()
         {
-            SharedAreaShare =_SharedFlatArea / _RoomCount;
+            SharedAreaShare = _SharedFlatArea / _RoomCount;
 
             RentedAreaShare = SharedAreaShare + RoomArea;
 
             DetermineHeatingUnitsAnnualConsumptionShares();
 
-            RentCostsAnnualShare = 0.0;
+            RentCostsAnnualShare = DetermineRentCostsForPaymentOption();
             FixedCostsAnnualCostsShare = RentedAreaShareRatio() * ((BillingViewModel)ViewModel).TotalFixedCostsPerPeriod;
             HeatingCostsAnnualCostsShare = HeatingUnitsTotalConsumptionShareRatio * ((BillingViewModel)ViewModel).TotalHeatingCostsPerPeriod;
 
@@ -155,6 +157,72 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         }
 
+   
+
+        private double DetermineRentCostsForPaymentOption()
+        {
+            double rentCosts = 0.0;
+
+            if (((BillingViewModel)ViewModel).HasPayments)
+            {
+                // sort List by StartDate, ascending
+                ObservableCollection<RentViewModel> RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
+
+                DateTime start = DateTime.Now;
+                DateTime end = DateTime.Now;
+
+
+                for (int i = 0; i < RentList.Count; i++)
+                {
+                    double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
+
+                    rentCosts += RentList[i].ColdRent * months * RentedAreaShareRatio();
+                }
+
+            }
+
+            return rentCosts;
+        }
+
+
+        private double DetermineNoPaymentOptionAdvances()
+        {
+            double advance = 0.0;
+
+            // sort List by StartDate, ascending
+            ObservableCollection<RentViewModel> RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
+
+            DateTime start = DateTime.Now;
+            DateTime end = DateTime.Now;
+
+
+            for (int i = 0; i < RentList.Count; i++)
+            {
+                double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
+
+                advance += RentList[i].FixedCostsAdvance * months * RentedAreaShareRatio();
+
+                if (!RentList[i].HasBilling)
+                {
+                    advance += RentList[i].HeatingCostsAdvance * months * RentedAreaShareRatio();
+                }
+                else
+                {
+                    foreach (RoomCostShareBilling roomcostitem in RentList[i].BillingViewModel.RoomCostShares)
+                    {
+                        if (roomcostitem.RoomArea == RoomArea && roomcostitem.RoomName.Equals(RoomName))
+                        {
+                            advance += RentList[i].HeatingCostsAdvance * months * roomcostitem.HeatingUnitsTotalConsumptionShareRatio;
+                            break;
+                        }
+                    }
+                }
+            }
+                 
+            return advance;
+        }
+
+
         private double DetermineAdvances()
         {
             double advance = 0.0;
@@ -167,83 +235,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                 }
                 else
                 {
-                    {
-                        ObservableCollection<RentViewModel> RentList = new ObservableCollection<RentViewModel>();
-
-                        // sort List by StartDate, ascending
-                        RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
-
-                        DateTime start = DateTime.Now;
-                        DateTime end = DateTime.Now;
-
-
-                        for (int i = 0; i < RentList.Count; i++)
-                        {
-                            int month = 0;
-                            double halfmonth = 0.0;
-
-                            if (i == 0 && RentList.Count == 1)
-                            {
-                                start = ((BillingViewModel)ViewModel).StartDate;
-
-                                end = ((BillingViewModel)ViewModel).EndDate;
-                            }
-
-                            else if (i == 0 && RentList.Count > 1)
-                            {
-                                start = ((BillingViewModel)ViewModel).StartDate;
-
-                                end = RentList[i + 1].StartDate - TimeSpan.FromDays(1);
-                            }
-                            else if (i < RentList.Count - 1)
-                            {
-                                start = RentList[i].StartDate;
-
-                                end = RentList[i + 1].StartDate - TimeSpan.FromDays(1);                         
-                            }
-                            else if (i == RentList.Count - 1)
-                            {
-                                start = RentList[i].StartDate;
-
-                                end = ((BillingViewModel)ViewModel).EndDate;
-                            }
-
-
-                            if (start.Day == 1 && end.Day != 14 && start.Year == end.Year)
-                            {
-                                month = end.Month - start.Month;
-                            }
-                            
-                            if (start.Day == 15 && end.Day != 14 && start.Year == end.Year)
-                            {
-                                month = end.Month - start.Month - 1;
-                                halfmonth += 0.5;
-
-                            }
-
-                            if (end.Day == 14 || end.Day == 15 && start.Year == end.Year)
-                            {
-                                month = end.Month - start.Month - 1;
-                                halfmonth = 0.5;
-                            }
-
-                            double Months = month + halfmonth;
-
-                            advance += RentList[i].FixedCostsAdvance * Months * RentedAreaShareRatio();
-
-                            if (!RentList[i].HasBilling)
-                            {
-                                advance += RentList[i].HeatingCostsAdvance * Months * RentedAreaShareRatio();
-                            }
-                            else
-                            {                                
-                                // search room consumption view models of billingviewmodel for HeatingUnitsTotalConsumptionShareRatio
-                                //advance += RentList[i].HeatingCostsAdvance * Months * RentList[i].BillingViewModel.
-                            }
-
-                        }
-
-                    }
+                    advance += DetermineNoPaymentOptionAdvances();
                 }
             }
 

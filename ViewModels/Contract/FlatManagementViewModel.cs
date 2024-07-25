@@ -357,6 +357,11 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             string folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\appdata\\";
             string filter = "*.xml";
 
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
             List<string> files = Directory.GetFiles(folder, filter, SearchOption.TopDirectoryOnly).ToList();
 
             foreach (string file in files)

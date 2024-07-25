@@ -198,7 +198,7 @@ new street 714</Address>
         </Payments>
       </GetBilling>
       <CostsHasDataLock>false</CostsHasDataLock>
-      <StartDate>2024-06-09T00:00:00</StartDate>
+      <StartDate>2024-06-15T00:00:00</StartDate>
       <OtherCosts>
         <FinancialTransactionItemRent>
           <TransactionSum>34</TransactionSum>

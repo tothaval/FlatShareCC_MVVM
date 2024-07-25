@@ -306,19 +306,18 @@ namespace SharedLivingCostCalculator.ViewModels
 
             Languages = new LanguageResources().LoadLanguages();
 
-            OnPropertyChanged(nameof(Languages));
-
-
             if (Application.Current.Resources["Language"] != null)
             {
                 SelectedLanguage = Application.Current.Resources["Language"].ToString();
             }
             else
             {
-                SelectedLanguage = "English.xml";
+                SelectedLanguage = "English";
             }
-                        
-            
+
+            OnPropertyChanged(nameof(Languages));
+            OnPropertyChanged(nameof(SelectedLanguage));
+
             Currency = new ObservableCollection<CultureInfo>(CultureInfo.GetCultures(CultureTypes.SpecificCultures).ToList());
 
             ApplyFontSizeCommand = new RelayCommand((s) => ApplyFontSize(s), (s) => true);

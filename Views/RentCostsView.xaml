@@ -53,6 +53,7 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <!--#region Flat costs header -->
@@ -98,7 +99,7 @@
                                Grid.Column="0"
                                Grid.Row="1"   />
 
-                <TextBlock Text="{DynamicResource IDF_perYear}"
+                <TextBlock Text="{DynamicResource IDF_firstYear}"
                                    Style="{StaticResource Header}"  
                                    FontSize="{StaticResource FS}"                                   
                                    VerticalAlignment="Center"
@@ -106,35 +107,44 @@
                                    Grid.Column="0"
                                    Grid.Row="2"/>
 
+
+                <TextBlock Text="{DynamicResource IDF_perYear}"
+                                   Style="{StaticResource Header}"  
+                                   FontSize="{StaticResource FS}"                                   
+                                   VerticalAlignment="Center"
+                           Margin="0 0 15 0"
+                                   Grid.Column="0"
+                                   Grid.Row="3"/>
+
                 <Rectangle Fill="{StaticResource SCB_Text_Header}"
                            Width="2"
                            Grid.Column="1"
                            Grid.Row="0"
-                           Grid.RowSpan="3"/>
+                           Grid.RowSpan="4"/>
 
                 <Rectangle Fill="{StaticResource SCB_Text_Header}"
                            Width="2"
                            Grid.Column="3"
                            Grid.Row="0"
-                           Grid.RowSpan="3"/>
+                           Grid.RowSpan="4"/>
 
                 <Rectangle Fill="{StaticResource SCB_Text_Header}"
                            Width="2"
                            Grid.Column="5"
                            Grid.Row="0"
-                           Grid.RowSpan="3"/>
+                           Grid.RowSpan="4"/>
 
                 <Rectangle Fill="{StaticResource SCB_Text_Header}"
                            Width="2"
                            Grid.Column="7"
                            Grid.Row="0"
-                           Grid.RowSpan="3"/>
+                           Grid.RowSpan="4"/>
 
                 <Rectangle Fill="{StaticResource SCB_Text_Header}"
                            Width="2"
                            Grid.Column="9"
                            Grid.Row="0"
-                           Grid.RowSpan="3"/>
+                           Grid.RowSpan="4"/>
                 <!--#endregion-->
 
 
@@ -176,24 +186,25 @@
                                    Grid.Column="10"
                                    Grid.Row="1"/>
                 <!--#endregion-->
+                
 
 
-                <!--#region annual costs -->
-                <TextBlock Text="{Binding RentViewModel.AnnualRent,
+                <!--#region costs until end of first year -->
+                <TextBlock Text="{Binding RentViewModel.FirstYearRent,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
                                    Style="{StaticResource DoubleValueTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="2"/>
 
-                <TextBlock Text="{Binding RentViewModel.AnnualExtraCosts,
+                <TextBlock Text="{Binding RentViewModel.FirstYearExtraCosts,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
                                    Style="{StaticResource DoubleValueTextBlock}"
                                    Grid.Column="4"
                                    Grid.Row="2"/>
 
-                <TextBlock Text="{Binding RentViewModel.AnnualCostsTotal,
+                <TextBlock Text="{Binding RentViewModel.FirstYearCostsTotal,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
                                    Style="{StaticResource DoubleValueTextBlock}"
@@ -201,12 +212,51 @@
                                    Grid.Column="6"
                                    Grid.Row="2"/>
 
-                <TextBlock Text="{Binding RentViewModel.AnnualOtherFTISum,
+                <TextBlock Text="{Binding RentViewModel.FirstYearOtherFTISum,
                                         StringFormat=C2, 
                                         NotifyOnSourceUpdated=True}"
                                    Style="{StaticResource DoubleValueTextBlock}"
                                    Grid.Column="8"
                                    Grid.Row="2"/>
+
+                <TextBlock Text="{Binding RentViewModel.FirstYearCompleteCosts,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   FontWeight="Bold"
+                                   Grid.Column="10"
+                                   Grid.Row="2"/>
+                <!--#endregion-->
+
+                <!--#region annual costs -->
+                <TextBlock Text="{Binding RentViewModel.AnnualRent,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="2"
+                                   Grid.Row="3"/>
+
+                <TextBlock Text="{Binding RentViewModel.AnnualExtraCosts,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="4"
+                                   Grid.Row="3"/>
+
+                <TextBlock Text="{Binding RentViewModel.AnnualCostsTotal,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   FontWeight="Bold"
+                                   Grid.Column="6"
+                                   Grid.Row="3"/>
+
+                <TextBlock Text="{Binding RentViewModel.AnnualOtherFTISum,
+                                        StringFormat=C2, 
+                                        NotifyOnSourceUpdated=True}"
+                                   Style="{StaticResource DoubleValueTextBlock}"
+                                   Grid.Column="8"
+                                   Grid.Row="3"/>
 
                 <TextBlock Text="{Binding RentViewModel.AnnualCompleteCosts,
                                         StringFormat=C2, 
@@ -214,7 +264,7 @@
                                    Style="{StaticResource DoubleValueTextBlock}"
                                    FontWeight="Bold"
                                    Grid.Column="10"
-                                   Grid.Row="2"/>
+                                   Grid.Row="3"/>
                 <!--#endregion-->
 
             </Grid>
