@@ -62,6 +62,26 @@ namespace SharedLivingCostCalculator.Models.Financial
         #endregion
 
 
+        // First Year Costs
+        #region First Year Costs
+
+        public double FirstYearCompleteCostShare => CompleteCostShare * DetermineMonthsUntilYearsEnd();
+
+
+        public double FirstYearFixedCostsAdvanceShare => FixedCostsAdvanceShare * DetermineMonthsUntilYearsEnd();
+
+
+        public double FirstYearHeatingCostsAdvanceShare => HeatingCostsAdvanceShare * DetermineMonthsUntilYearsEnd();
+
+
+        public double FirstYearOtherCostsShare => OtherCostsShare * DetermineMonthsUntilYearsEnd();
+
+
+        public double FirstYearRentShare => RentShare * DetermineMonthsUntilYearsEnd();
+
+        #endregion
+
+
         // Monthly Costs
         #region Monthly Costs
 
@@ -214,6 +234,11 @@ namespace SharedLivingCostCalculator.Models.Financial
         {
 
             return 1.0 / ((RentViewModel)ViewModel).GetFlatViewModel().RoomCount;
+        }
+
+        private double DetermineMonthsUntilYearsEnd()
+        {
+            return ((RentViewModel)ViewModel).DetermineMonthsUntilYearsEnd();
         }
 
         private void FillObservableCollection()

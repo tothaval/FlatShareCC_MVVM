@@ -53,6 +53,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 if (_ShowOtherCosts)
                 {
+                    ShowRoomCostsFirstYear = false;
                     ShowRoomCostsPerMonth = false;
                     ShowRoomCostsPerYear = false;
                 }
@@ -76,6 +77,27 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
+        private bool _ShowRoomCostsFirstYear;
+        public bool ShowRoomCostsFirstYear
+        {
+            get { return _ShowRoomCostsFirstYear; }
+            set
+            {
+                _ShowRoomCostsFirstYear = value;
+
+
+                if (_ShowRoomCostsFirstYear)
+                {
+                    ShowOtherCosts = false;
+                    ShowRoomCostsPerMonth = false;
+                    ShowRoomCostsPerYear = false;
+                }
+
+                OnPropertyChanged(nameof(ShowRoomCostsFirstYear));
+            }
+        }
+
+
         private bool _ShowRoomCostsPerMonth;
         public bool ShowRoomCostsPerMonth
         {
@@ -87,6 +109,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 if (_ShowRoomCostsPerMonth)
                 {
                     ShowOtherCosts = false;
+                    ShowRoomCostsFirstYear = false;
                     ShowRoomCostsPerYear = false;
                 }
 
@@ -106,6 +129,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 if (_ShowRoomCostsPerYear)
                 {
                     ShowOtherCosts = false;
+                    ShowRoomCostsFirstYear = false;
                     ShowRoomCostsPerMonth = false;                    
                 }
 

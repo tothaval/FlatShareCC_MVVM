@@ -115,6 +115,10 @@
             <views:SettingsView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vms:PrintViewModel}">
+            <views:PrintView/>
+        </DataTemplate>
+
     </Window.Resources>
     
     <Window.ContextMenu >

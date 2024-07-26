@@ -166,7 +166,12 @@ namespace SharedLivingCostCalculator.Utility
 
             Application.Current.Resources["IDF_Back"] = languageResource.IDF_Back;
             Application.Current.Resources["IDF_NewBilling"] = languageResource.IDF_NewBilling;
-            Application.Current.Resources["IDF_DeleteBilling"] = languageResource.IDF_DeleteBilling;
+            Application.Current.Resources["IDF_DeleteBilling"] = languageResource.IDF_DeleteBilling;            
+            Application.Current.Resources["IDF_PrintView"] = languageResource.IDF_PrintView;
+            
+            Application.Current.Resources["IDF_Other"] = languageResource.IDF_Other;
+            Application.Current.Resources["IDF_Tenants"] = languageResource.IDF_Tenants;
+            
             Application.Current.Resources["IDF_ShowCosts"] = languageResource.IDF_ShowCosts;
             Application.Current.Resources["IDF_NewRent"] = languageResource.IDF_NewRent;
             Application.Current.Resources["IDF_NewRentChange"] = languageResource.IDF_NewRentChange;

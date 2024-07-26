@@ -807,7 +807,25 @@
     </Style>
     <!--#endregion-->
 
-    
+    <!--#region Paragraph styles -->
+    <Style TargetType="Paragraph" x:Key="HeaderParagraph">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontFamily" Value="Verdana"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        
+    </Style>
+
+    <Style TargetType="Paragraph" x:Key="TextParagraph">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontFamily" Value="Verdana"/>
+        <Setter Property="FontSize" Value="12"/>
+
+    </Style>
+    <!--#endregion-->
+
     <Style x:Key="RadioButtonStyle" TargetType="RadioButton">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
