@@ -66,7 +66,11 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_Back { get; set; } = "Back";
         public string IDF_NewBilling { get; set; } = "New Billing";
         public string IDF_DeleteBilling { get; set; } = "Delete";
-        public string IDF_ShowCosts { get; set; } = "Show Costs";
+        public string IDF_PrintView { get; set; } = "Print";
+        public string IDF_ShowCosts { get; set; } = "Costs"; 
+        public string IDF_Other { get; set; } = "Other";
+        public string IDF_Tenants { get; set; } = "Tenants";
+        
         public string IDF_NewRent { get; set; } = "New Rent";
         public string IDF_NewRentChange { get; set; } = "New Rent Change";
         public string IDF_DeleteRent { get; set; } = "Delete Rent";

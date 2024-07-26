@@ -58,7 +58,7 @@ new street 714</Address>
         <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
       </HeatingCostsAdvance>
-      <HasCredits>false</HasCredits>
+      <HasCredits>true</HasCredits>
       <HasDataLock>false</HasDataLock>
       <GetBilling>
         <CostsHasDataLock>true</CostsHasDataLock>
@@ -211,7 +211,13 @@ new street 714</Address>
           <TransactionItem>ddgost item</TransactionItem>
         </FinancialTransactionItemRent>
       </OtherCosts>
-      <Credits />
+      <Credits>
+        <FinancialTransactionItemRent>
+          <TransactionSum>350</TransactionSum>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionItem>gutschrift</TransactionItem>
+        </FinancialTransactionItemRent>
+      </Credits>
     </Rent>
     <Rent>
       <ColdRent>

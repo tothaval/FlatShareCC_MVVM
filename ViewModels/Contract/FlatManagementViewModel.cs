@@ -73,6 +73,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public bool HasFlat => _flatCollection.Count > 0;
 
 
+        public PrintViewModel Print { get; }
+
+
         public RoomSetupViewModel RoomSetup { get; set; }
 
 
@@ -113,6 +116,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                     ShowCosts = false;
                     ShowManual = false;
                     ShowFlatManagement = false;
+                    ShowPrintView = false;
                 }
                 OnPropertyChanged(nameof(ShowAccounting));
             }
@@ -132,6 +136,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                     ShowAccounting = false;
                     ShowManual = false;
                     ShowFlatManagement = false;
+                    ShowPrintView = false;
                 }
                 OnPropertyChanged(nameof(ShowCosts));
             }
@@ -164,6 +169,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                     ShowAccounting = false;
                     ShowCosts = false;
                     ShowManual = false;
+                    ShowPrintView = false;
                 }
 
                 OnPropertyChanged(nameof(ShowFlatManagement));
@@ -203,9 +209,31 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                     ShowAccounting = false;
                     ShowCosts = false;
                     ShowFlatManagement = false;
+                    ShowPrintView = false;
                 }
 
                 OnPropertyChanged(nameof(ShowManual));
+            }
+        }
+
+
+
+        private bool _ShowPrintView;
+        public bool ShowPrintView
+        {
+            get { return _ShowPrintView; }
+            set
+            {
+                _ShowPrintView = value;
+
+                if (_ShowPrintView)
+                {
+                    ShowAccounting = false;
+                    ShowCosts = false;
+                    ShowFlatManagement = false;
+                    ShowManual = false;
+                }
+                OnPropertyChanged(nameof(ShowPrintView));
             }
         }
 
@@ -236,14 +264,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             set
             {
                 _ShowSettings = value;
-
-                //if (_ShowSettings)
-                //{
-                //    ShowAccounting = false;
-                //    ShowCosts = false;
-                //    ShowManual = false;
-                //    ShowFlatManagement = false;
-                //}
 
                 OnPropertyChanged(nameof(ShowSettings));
             }
@@ -323,6 +343,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             Accounting = new AccountingViewModel(this);
             Cost = new CostDisplayViewModel(this);
             FlatSetup = new FlatSetupViewModel(this);
+            Print = new PrintViewModel(this);
             RoomSetup = new RoomSetupViewModel(this);
             TenantSetup = new TenantSetupViewModel(this);
 
@@ -491,6 +512,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 ShowFlatSetup = false;
                 ShowRoomSetup = false;
                 ShowTenantSetup = false;
+                ShowPrintView = false;
 
 
                 if (Application.Current.MainWindow != null)

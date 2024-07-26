@@ -34,10 +34,21 @@
                 <MouseBinding MouseAction="LeftClick" Command="{Binding LeftPressCommand}"/>
             </ScrollViewer.InputBindings>
             
-            <DockPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                
                 <!--#region menu togglebuttons -->
-                <Grid Name="topgrid" DockPanel.Dock="Top">
+                <Grid Name="topgrid" Grid.Row="0" Grid.Column="0">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
@@ -62,23 +73,29 @@
                               Style="{StaticResource toggleButtonStyle}"                              
                               Grid.Column="2"/>
 
+                    <ToggleButton Content="{DynamicResource IDF_PrintView}"
+                              IsChecked="{Binding ShowPrintView}"
+                            Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverterToHidden}}"   
+                              Style="{StaticResource toggleButtonStyle}"                              
+                              Grid.Column="3"/>
+
                     <ToggleButton Content="{DynamicResource IDF_Manual}"
                               IsChecked="{Binding ShowManual}"
                               Style="{StaticResource toggleButtonStyle}"
-                              Grid.Column="3"/>
+                              Grid.Column="4"/>
 
                     <ToggleButton Content="{DynamicResource IDF_Settings}"
                               IsChecked="{Binding ShowSettings}"
                               Style="{StaticResource toggleButtonStyle}"
                                   Margin="2 0 0 0"
-                              Grid.Column="4"/>
+                              Grid.Column="5"/>
                 </Grid>
                 <!--#endregion-->
 
                 <!--#region Settings -->
                 <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowSettings, Converter={StaticResource VisibilityConverter}}"
-                    DockPanel.Dock="Top" >
+                        Grid.Row="1" Grid.Column="1">
                     <Grid>
 
                         <local:SettingsView HorizontalAlignment="Left" HorizontalContentAlignment="Left">
@@ -94,7 +111,7 @@
                 <!--#region FlatManagement -->
                 <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowFlatManagement, Converter={StaticResource VisibilityConverter}}"
-                    DockPanel.Dock="Top"
+                    Grid.Row="1" Grid.Column="0"
                     Margin="0 0 0 0">
 
                     <Grid MinWidth="600">
@@ -265,7 +282,7 @@
                 <!--#region Manual -->
                 <Border Style="{StaticResource VisibilityFieldBorder}"
                     Visibility="{Binding ShowManual, Converter={StaticResource VisibilityConverter}}"
-                    DockPanel.Dock="Top" >
+                                        Grid.Row="1" Grid.Column="0" >
                     <Frame Source="/Manual/ManualPages/MainPage.xaml"/>
                 </Border>
                 <!--#endregion-->
@@ -274,7 +291,7 @@
                 <Border 
                         Visibility="{Binding HasFlat, NotifyOnSourceUpdated=True,
                     Converter={StaticResource VisibilityConverter}}"
-                        DockPanel.Dock="Top"
+                    Grid.Row="1" Grid.Column="0"
                         Margin="0 0 0 0">
                     <Border Visibility="{Binding ShowAccounting, Converter={StaticResource VisibilityConverter}}" 
                             Style="{StaticResource VisibilityFieldBorder}">
@@ -290,7 +307,7 @@
                 <!--#region ShowCosts -->
                 <Border Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
                     Converter={StaticResource VisibilityConverter}}"
-                    DockPanel.Dock="Top" >
+                        Grid.Row="1" Grid.Column="0" >
 
                     <Border Visibility="{Binding ShowCosts, Converter={StaticResource VisibilityConverter}}"
                             Style="{StaticResource VisibilityFieldBorder}">
@@ -303,7 +320,24 @@
                 </Border>
                 <!--#endregion-->
 
-            </DockPanel>
+
+                <!--#region ShowPrintView -->
+                <Border Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
+                    Converter={StaticResource VisibilityConverter}}"
+                        Grid.Row="1" Grid.Column="0" >
+
+                    <Border Visibility="{Binding ShowPrintView, Converter={StaticResource VisibilityConverter}}"
+                            Style="{StaticResource VisibilityFieldBorder}">
+                        <Grid >
+                            <local:PrintView DataContext="{Binding Print}"
+                                        Visibility="{Binding HasFlat,NotifyOnSourceUpdated=True,
+                            Converter={StaticResource VisibilityConverter}}"/>
+                        </Grid>
+                    </Border>
+                </Border>
+                <!--#endregion-->
+
+            </Grid>
         </ScrollViewer>
     </Border>
 

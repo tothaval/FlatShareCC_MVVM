@@ -19,24 +19,24 @@
         </Style>
 
         <Style TargetType="Border">
-            <Setter Property="BorderThickness" Value="2 2 2 2"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
-
+            <!--<Setter Property="BorderThickness" Value="2 2 2 2"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>-->
+            <Setter Property="Margin" Value="0 0 0 5"/>
         </Style>
         
     </UserControl.Resources>
 
-    <UniformGrid Margin="20" Columns="3">
+    <StackPanel Margin="10 10" Orientation="Vertical">
 
         <!-- SelectedLanguageItem (texts) combobox -->
         <Border>
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_Language}"
-                           MinWidth="100"
+                           MinWidth="200"
                            Style="{StaticResource StringValueTextBlock}"
                        
                        VerticalAlignment="Center"
@@ -56,11 +56,11 @@
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_Culture}"
                            Style="{StaticResource StringValueTextBlock}"
-                           MinWidth="100"
+                           MinWidth="200"
                            Grid.Column="0"
                        VerticalAlignment="Center"/>
 
@@ -89,13 +89,13 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Style="{StaticResource StringValueTextBlock}"
-                           MinWidth="100"
+                           MinWidth="200"
                            VerticalAlignment="Center"
                            Grid.Column="0"
                            Text="{DynamicResource IDF_ButtonCornerRadius}"/>
@@ -123,13 +123,13 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Style="{StaticResource StringValueTextBlock}"
-                           MinWidth="100"
+                           MinWidth="200"
                            VerticalAlignment="Center"
                            Grid.Column="0"
                            Text="{DynamicResource IDF_VisibilityFieldCornerRadius}"/>
@@ -158,11 +158,11 @@
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_FontFamily}"
                            Style="{StaticResource StringValueTextBlock}"
-                           MinWidth="100"
+                           MinWidth="200"
                            Grid.Column="0"
                        VerticalAlignment="Center"/>
 
@@ -191,13 +191,13 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Style="{StaticResource StringValueTextBlock}"
-                           MinWidth="100"
+                           MinWidth="200"
                        VerticalAlignment="Center"
                            Grid.Column="0">
                     <Run Text="{DynamicResource IDF_FontSize}"/>
@@ -231,11 +231,11 @@
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_Foreground}"
                            Style="{StaticResource StringValueTextBlock}"
-                           MinWidth="100"
+                           MinWidth="200"
                        VerticalAlignment="Center"
                            Grid.Column="0"/>
                 <toolkit:ColorPicker HorizontalAlignment="Stretch"
@@ -256,11 +256,11 @@
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_Background}"
                            Style="{StaticResource StringValueTextBlock}"
-                           MinWidth="100"
+                           MinWidth="200"
                            Grid.Column="0"/>
                 <toolkit:ColorPicker HorizontalAlignment="Stretch"
                              SelectedColor="{Binding BackgroundColor}"
@@ -278,11 +278,11 @@
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_HeaderTextColor}"
                            Style="{StaticResource StringValueTextBlock}"
-                           MinWidth="100"
+                           MinWidth="200"
                            Grid.Column="0"/>
                 <toolkit:ColorPicker HorizontalAlignment="Stretch"
                              SelectedColor="{Binding HeaderTextColor}"
@@ -299,12 +299,12 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_SelectionColor}"
                            Style="{StaticResource StringValueTextBlock}"
-                           MinWidth="100"
+                           MinWidth="200"
                            Grid.Column="0"/>
                 <toolkit:ColorPicker HorizontalAlignment="Stretch"
                              SelectedColor="{Binding SelectionColor}"
@@ -318,5 +318,5 @@
         </Border>
 
     
-    </UniformGrid>
+    </StackPanel>
 </UserControl>
