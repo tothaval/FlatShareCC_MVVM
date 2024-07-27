@@ -3,7 +3,7 @@
   <Address>super street 155e,
 12097 element 5 hive</Address>
   <Area>125</Area>
-  <DataLock>false</DataLock>
+  <DataLock>true</DataLock>
   <Details>gen next house across</Details>
   <FlatNotes>several blocks away is a tram station
 and a bus stop.

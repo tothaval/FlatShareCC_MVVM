@@ -13,6 +13,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding FlatViewModel.Address, NotifyOnSourceUpdated=True}"
                    Style="{StaticResource Header}"
@@ -27,18 +28,35 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <ComboBox ItemsSource="{Binding TimeScale}"
                       SelectedItem="{Binding SelectedYear}"
                       Grid.Column="0"  />
+            
+            <ComboBox ItemsSource="{Binding DetailOptions}"
+                      SelectedItem="{Binding SelectedDetailOption}"
+                      Grid.Column="1"  />
+            
             <ToggleButton Content="{DynamicResource IDF_Rent}"
                           IsChecked="{Binding RentOutputSelected}"
                           Style="{StaticResource toggleButtonStyle}"
-                          Grid.Column="1" />
-            <ToggleButton Content="{DynamicResource IDF_Billing}" Style="{StaticResource toggleButtonStyle}" Grid.Column="2"/>
-            <ToggleButton Content="{DynamicResource IDF_Other}" Style="{StaticResource toggleButtonStyle}" Grid.Column="3"/>
-            <ToggleButton Content="{DynamicResource IDF_Credit}" Style="{StaticResource toggleButtonStyle}" Grid.Column="4"/>
-            <ToggleButton Content="{DynamicResource IDF_Tenants}" Style="{StaticResource toggleButtonStyle}" Grid.Column="5"/>
+                          Grid.Column="2" />
+            <ToggleButton Content="{DynamicResource IDF_Billing}" Style="{StaticResource toggleButtonStyle}" Grid.Column="3"/>
+            <ToggleButton Content="{DynamicResource IDF_Rooms}"
+                          IsChecked="{Binding RoomsOutputSelected}"
+                          Style="{StaticResource toggleButtonStyle}"
+                          Grid.Column="4"/>
+            <ToggleButton Content="{DynamicResource IDF_Other}"
+                          IsChecked="{Binding OtherOutputSelected}"
+                          Style="{StaticResource toggleButtonStyle}"
+                          Grid.Column="5"/>
+            <ToggleButton Content="{DynamicResource IDF_Credit}"
+                          IsChecked="{Binding CreditOutputSelected}"
+                          Style="{StaticResource toggleButtonStyle}"
+                          Grid.Column="6"/>
+            <ToggleButton Content="{DynamicResource IDF_Tenants}" Style="{StaticResource toggleButtonStyle}" Grid.Column="7"/>
 
         </Grid>
 
@@ -47,14 +65,60 @@
                 Content="Create New Print Output"
                 Grid.Row="2"/>
 
-        <FlowDocumentScrollViewer Grid.Row="3"
-                                  Width="840"
-                                  Height="594"
-                                  IsToolBarVisible="True"
+        <FlowDocumentReader Grid.Row="3"
+                            IsFindEnabled="True"
+                            IsScrollViewEnabled="True"
+                            
+                                  MinWidth="840"
+                                  MaxHeight="594"
                                   Foreground="Black"
-                                  VerticalScrollBarVisibility="Auto"
                                   Document="{Binding ActiveFlowDocument}"
                                   BorderBrush="DimGray"
                                   BorderThickness="2" />
+
+        <!--<FlowDocumentScrollViewer Grid.Row="4">
+            <FlowDocument Foreground="Black">
+
+
+                    <Paragraph>asfaf23r23qfa fwafaewfehg</Paragraph>
+                    <Table>
+                        <Table.Columns>
+                            <TableColumn/>
+                            <TableColumn/>
+                        </Table.Columns>
+                        <TableRowGroup>
+                            <TableRow>
+                                <TableCell>
+                                    <Paragraph>safasfdasga</Paragraph></TableCell>
+                                <TableCell>
+                                    <Paragraph>sahfhjfhjfghsjfkjmnnba</Paragraph>
+                                </TableCell>
+                            </TableRow>                            
+                        </TableRowGroup>
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell>
+                                <Paragraph>safasfdasga</Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>sahfhjfhjfghsjfkjmnnba</Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+                <List Name="lsit" Margin="23">
+                    <ListItem >
+                        <Paragraph > adff </Paragraph></ListItem>
+                    <ListItem >
+                        <Paragraph >adff241qd1d</Paragraph>
+                    </ListItem>
+
+                </List>
+                
+            </FlowDocument>
+            
+        </FlowDocumentScrollViewer>-->
+        
+        
     </Grid>
 </UserControl>
