@@ -51,40 +51,6 @@
             </Grid>
         </Border>
 
-        <!-- SelectedCulture (date and currency) combobox -->
-        <Border>
-            <Grid VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource IDF_Culture}"
-                           Style="{StaticResource StringValueTextBlock}"
-                           MinWidth="200"
-                           Grid.Column="0"
-                       VerticalAlignment="Center"/>
-
-                <ComboBox ItemsSource="{Binding Currency}"
-                          SelectedItem="{Binding SelectedCulture}"
-                          MinWidth="100" 
-                          Grid.Column="1"
-                       VerticalAlignment="Center"
-                      VerticalContentAlignment="Center">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <TextBlock Text="{Binding DisplayName}"
-                                       VerticalAlignment="Center"
-                                       Style="{StaticResource StringValueTextBlock}"
-                                       />
-                            </Grid>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-
-            </Grid>
-        </Border>
-
         <!-- ButtonCornerRadius slider -->
         <Border>
             <Grid VerticalAlignment="Center">

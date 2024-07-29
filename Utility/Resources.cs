@@ -69,6 +69,7 @@ namespace SharedLivingCostCalculator.Utility
         public CultureInfo CurrentCulture { get; set; } = CultureInfo.CurrentCulture;
 
 
+
         [XmlIgnore]
         public SolidColorBrush SCB_Background { get; set; } = new SolidColorBrush(Colors.White);
 
