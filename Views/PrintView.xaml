@@ -89,7 +89,7 @@
                         <TableRowGroup>
                             <TableRow>
                                 <TableCell>
-                                    <Paragraph>safasfdasga</Paragraph></TableCell>
+                                    <Paragraph BorderBrush="Black" BorderThickness="0 0 0 1">safasfdasga</Paragraph></TableCell>
                                 <TableCell>
                                     <Paragraph>sahfhjfhjfghsjfkjmnnba</Paragraph>
                                 </TableCell>

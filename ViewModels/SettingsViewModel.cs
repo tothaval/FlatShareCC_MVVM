@@ -8,7 +8,6 @@
  *  user to edit some application properties.
  */
 using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
@@ -191,21 +190,6 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private CultureInfo _SelectedCulture;
-        public CultureInfo SelectedCulture
-        {
-            get { return _SelectedCulture; }
-            set
-            {
-                _SelectedCulture = value;
-
-                Application.Current.Resources["Culture"] = XmlLanguage.GetLanguage(_SelectedCulture.IetfLanguageTag);
-
-                OnPropertyChanged(nameof(SelectedCulture));
-            }
-        }
-
-
         private string _SelectedLanguage;
         public string SelectedLanguage
         {
@@ -252,19 +236,6 @@ namespace SharedLivingCostCalculator.ViewModels
         // collections
         #region collections
 
-        private ObservableCollection<CultureInfo> _Currency;
-        public ObservableCollection<CultureInfo> Currency
-        {
-            get { return _Currency; }
-            set
-            {
-                _Currency = value;
-
-                OnPropertyChanged(nameof(Currency));
-            }
-        }
-
-
         private ObservableCollection<string> _Languages;
         public ObservableCollection<string> Languages
         {
@@ -275,8 +246,6 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(Languages));
             }
         }
-
-
 
         #endregion collections
 
@@ -317,8 +286,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
             OnPropertyChanged(nameof(Languages));
             OnPropertyChanged(nameof(SelectedLanguage));
-
-            Currency = new ObservableCollection<CultureInfo>(CultureInfo.GetCultures(CultureTypes.SpecificCultures).ToList());
 
             ApplyFontSizeCommand = new RelayCommand((s) => ApplyFontSize(s), (s) => true);
 
