@@ -54,6 +54,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
                     <ToggleButton Content="{DynamicResource FlatManagementHeaderText}"
@@ -61,34 +62,40 @@
                               Style="{StaticResource toggleButtonStyle}"
                               Grid.Column="0"/>
 
-                    <ToggleButton Content="{DynamicResource AccountingHeaderText}"
+                    <ToggleButton Content="{DynamicResource IDF_RentChange}"
                               IsChecked="{Binding ShowAccounting}"
                             Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverterToHidden}}"   
                               Style="{StaticResource toggleButtonStyle}"
                               Grid.Column="1"/>
 
+                    <ToggleButton Content="{DynamicResource IDF_AnnualBilling}"
+                              IsChecked="{Binding ShowAnnualBilling}"
+                            IsEnabled="{Binding Accounting.Rents.SelectedValue.HasBilling}"   
+                              Style="{StaticResource toggleButtonStyle}"
+                              Grid.Column="2"/>
+
                     <ToggleButton Content="{DynamicResource IDF_ShowCosts}"
                               IsChecked="{Binding ShowCosts}"
                             Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverterToHidden}}"   
                               Style="{StaticResource toggleButtonStyle}"                              
-                              Grid.Column="2"/>
+                              Grid.Column="3"/>
 
                     <ToggleButton Content="{DynamicResource IDF_PrintView}"
                               IsChecked="{Binding ShowPrintView}"
                             Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverterToHidden}}"   
                               Style="{StaticResource toggleButtonStyle}"                              
-                              Grid.Column="3"/>
+                              Grid.Column="4"/>
 
                     <ToggleButton Content="{DynamicResource IDF_Manual}"
                               IsChecked="{Binding ShowManual}"
                               Style="{StaticResource toggleButtonStyle}"
-                              Grid.Column="4"/>
+                              Grid.Column="5"/>
 
                     <ToggleButton Content="{DynamicResource IDF_Settings}"
-                              IsChecked="{Binding ShowSettings}"
-                              Style="{StaticResource toggleButtonStyle}"
+                                  IsChecked="{Binding ShowSettings}"
+                                  Style="{StaticResource toggleButtonStyle}"
                                   Margin="2 0 0 0"
-                              Grid.Column="5"/>
+                                  Grid.Column="6"/>
                 </Grid>
                 <!--#endregion-->
 
@@ -287,7 +294,7 @@
                 </Border>
                 <!--#endregion-->
 
-                <!--#region Accounting -->                
+                <!--#region RentChanges -->                
                 <Border 
                         Visibility="{Binding HasFlat, NotifyOnSourceUpdated=True,
                     Converter={StaticResource VisibilityConverter}}"
@@ -298,6 +305,23 @@
                         <Grid >
 
                             <local:AccountingView DataContext="{Binding Accounting}" />
+
+                        </Grid>
+                    </Border>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region AnnualBilling -->
+                <Border 
+                        Visibility="{Binding HasFlat, NotifyOnSourceUpdated=True,
+                    Converter={StaticResource VisibilityConverter}}"
+                    Grid.Row="1" Grid.Column="0"
+                        Margin="0 0 0 0">
+                    <Border Visibility="{Binding ShowAnnualBilling, Converter={StaticResource VisibilityConverter}}" 
+                            Style="{StaticResource VisibilityFieldBorder}">
+                        <Grid >
+
+                            <local:AnnualBillingView DataContext="{Binding AnnualBilling}" />
 
                         </Grid>
                     </Border>

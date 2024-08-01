@@ -38,6 +38,34 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public AccountingViewModel Accounting { get; }
 
 
+        private BillingPeriodViewModel _AnnualBilling;
+        public BillingPeriodViewModel AnnualBilling
+        {
+            get { return _AnnualBilling; }
+            set
+            {
+                _AnnualBilling = value;
+                OnPropertyChanged(nameof(AnnualBilling));
+            }
+        }
+
+        
+        private BillingViewModel? GetBillingViewModel()
+        {
+            if (Accounting != null)
+            {
+                if (Accounting.Rents.SelectedValue!= null)
+                {
+                    if (Accounting.Rents.SelectedValue.HasBilling)
+                    {                        
+                        return Accounting.Rents.SelectedValue.BillingViewModel;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public CostDisplayViewModel Cost { get; }
 
 
@@ -113,12 +141,42 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
                 if (_ShowAccounting)
                 {
+                    ShowAnnualBilling = false;
                     ShowCosts = false;
                     ShowManual = false;
                     ShowFlatManagement = false;
                     ShowPrintView = false;
                 }
                 OnPropertyChanged(nameof(ShowAccounting));
+            }
+        }
+
+
+        private bool _ShowAnnualBilling;
+        public bool ShowAnnualBilling
+        {
+            get { return _ShowAnnualBilling; }
+            set
+            {
+                _ShowAnnualBilling = value;
+
+
+                if (_ShowAnnualBilling)
+                {
+                    if (GetBillingViewModel() != null)
+                    {
+                        BillingViewModel billingViewModel = GetBillingViewModel();
+
+                        AnnualBilling = new BillingPeriodViewModel(billingViewModel.FlatViewModel, billingViewModel);
+                    }
+
+                    ShowAccounting = false;
+                    ShowCosts = false;
+                    ShowFlatManagement = false;
+                    ShowManual = false;
+                    ShowPrintView = false;
+                }
+                OnPropertyChanged(nameof(ShowAnnualBilling));
             }
         }
 
@@ -134,6 +192,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 if (_ShowCosts)
                 {
                     ShowAccounting = false;
+                    ShowAnnualBilling = false;
                     ShowManual = false;
                     ShowFlatManagement = false;
                     ShowPrintView = false;
@@ -167,6 +226,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 if (_ShowFlatManagement)
                 {
                     ShowAccounting = false;
+                    ShowAnnualBilling = false;
                     ShowCosts = false;
                     ShowManual = false;
                     ShowPrintView = false;
@@ -207,6 +267,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 if (_ShowManual)
                 {
                     ShowAccounting = false;
+                    ShowAnnualBilling = false;
                     ShowCosts = false;
                     ShowFlatManagement = false;
                     ShowPrintView = false;
@@ -229,6 +290,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 if (_ShowPrintView)
                 {
                     ShowAccounting = false;
+                    ShowAnnualBilling = false;
                     ShowCosts = false;
                     ShowFlatManagement = false;
                     ShowManual = false;

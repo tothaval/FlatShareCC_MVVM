@@ -131,14 +131,13 @@
                       IsEnabled="{Binding HasDataLock}"
                       Style="{StaticResource OptionCheckBox}"/>
 
-            <ToggleButton Content="{DynamicResource IDF_AnnualBilling}"
+            <Button Content="{DynamicResource IDF_AnnualBilling}"
                           Command="{Binding ShowBillingCommand}"
-                          IsChecked="{Binding AnnualBillingWindowActive}"
                           Visibility="{Binding SetBillingVisibility,
                 Converter={StaticResource VisibilityConverter}}"
                           HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Center"
-                          Style="{StaticResource toggleButtonStyle}"/>
+                          Style="{StaticResource buttonStyle}"/>
 
             <CheckBox Content="{DynamicResource IDF_FactorInCredit}"
                       IsChecked="{Binding HasCredits, UpdateSourceTrigger=PropertyChanged}"

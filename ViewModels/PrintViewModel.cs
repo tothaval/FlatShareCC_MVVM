@@ -34,6 +34,18 @@ namespace SharedLivingCostCalculator.ViewModels
         public AccountingViewModel Accounting => _AccountingViewModel;
 
 
+        private BillingViewModel? _BillingViewModel;
+        public BillingViewModel? BillingViewModel
+        {
+            get { return _BillingViewModel; }
+            set
+            {
+                _BillingViewModel = value;
+                OnPropertyChanged(nameof(BillingViewModel));
+            }
+        }
+
+
         private FlowDocument _ActiveFlowDocument;
         public FlowDocument ActiveFlowDocument
         {
@@ -42,6 +54,18 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _ActiveFlowDocument = value;
                 OnPropertyChanged(nameof(ActiveFlowDocument));
+            }
+        }
+
+
+        private bool _BillingOutputSelected;
+        public bool BillingOutputSelected
+        {
+            get { return _BillingOutputSelected; }
+            set
+            {
+                _BillingOutputSelected = value;
+                OnPropertyChanged(nameof(BillingOutputSelected));
             }
         }
 
@@ -77,8 +101,19 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private bool _RentOutputSelected;
+        private bool _RentHasBilling;
+        public bool RentHasBilling
+        {
+            get { return _RentHasBilling; }
+            set
+            {
+                _RentHasBilling = value;
+                OnPropertyChanged(nameof(RentHasBilling));
+            }
+        }
 
+
+        private bool _RentOutputSelected;
         public bool RentOutputSelected
         {
             get { return _RentOutputSelected; }
@@ -122,10 +157,13 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _SelectedYear = value;
                 OnPropertyChanged(nameof(SelectedYear));
+
+                CheckRentForHasBillingTrue();
             }
         }
 
         #endregion
+
 
 
         #region Collections
@@ -175,38 +213,116 @@ namespace SharedLivingCostCalculator.ViewModels
         // methods
         #region methods
 
-        private Section BuildAddressDetails(Style headerParagraph, Style textParagraph)
+        private Block BillingPlanTable(BillingViewModel viewModel)
         {
-            Section section = new Section();
+            Table billingPlanTable = DataOutputTable();
 
-            string ReportHeader = "";
+            TableRowGroup dataRowGroup = new TableRowGroup();
+            dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
+
+            dataRowGroup.Rows.Add(DataOutputTableRowBilling(viewModel, viewModel.TotalFixedCostsPerPeriod, viewModel.Billing.TotalFixedCostsPerPeriod.TransactionItem));
+            dataRowGroup.Rows.Add(DataOutputTableRowBilling(viewModel, viewModel.TotalHeatingCostsPerPeriod, viewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem));
+
+            if (OtherOutputSelected)
+            {
+                dataRowGroup.Rows.Add(DataOutputTableRowBilling(viewModel, viewModel.OtherFTISum, "other"));
+            }
+
+            if (CreditOutputSelected)
+            {
+                dataRowGroup.Rows.Add(DataOutputTableRowBilling(viewModel, -1 * viewModel.CreditSum, "credit"));
+            }
+
+            if (OtherOutputSelected || CreditOutputSelected)
+            {
+                if (OtherOutputSelected && !CreditOutputSelected)
+                {
+                    dataRowGroup.Rows.Add(DataOutputTableRowBilling(viewModel, viewModel.TotalCostsNoPayments, "sum", true));
+                }
+
+                if (!OtherOutputSelected && CreditOutputSelected)
+                {
+                    double reducedsum = viewModel.TotalCostsPerPeriod - viewModel.CreditSum;
+
+                    dataRowGroup.Rows.Add(DataOutputTableRowBilling(viewModel, reducedsum, "sum", true));
+                }
+
+                if (OtherOutputSelected && CreditOutputSelected)
+                {
+                    double reducedsum = viewModel.TotalCostsNoPayments - viewModel.CreditSum;
+
+                    dataRowGroup.Rows.Add(DataOutputTableRowBilling(viewModel, reducedsum, "sum", true));
+                }
+            }
+            else
+            {
+                dataRowGroup.Rows.Add(DataOutputTableRowBilling(viewModel, viewModel.TotalCostsPerPeriod, "sum", true));
+            }
+
+            billingPlanTable.RowGroups.Add(dataRowGroup);
+
+            return billingPlanTable;
+        }
+
+
+        private string BuildAddressDetails()
+        {
+            //Section section = new Section();
+
+            //string ReportHeader = "";
             string rooms = "";
 
             try
             {
-                ReportHeader = Application.Current.FindResource("IDF_Address").ToString();
+                //ReportHeader = Application.Current.FindResource("IDF_Address").ToString();
                 rooms = Application.Current.Resources["IDF_Rooms"].ToString();
             }
             catch (Exception)
             {
             }
 
-            Paragraph p = new Paragraph(new Run(ReportHeader));
-            p.Style = headerParagraph;
-            section.Blocks.Add(p);
+            //Paragraph p = new Paragraph(new Run(ReportHeader));
+            //p.Style = headerParagraph;
+            //section.Blocks.Add(p);
 
-            p = new Paragraph(new Run(FlatViewModel.Address));
-            p.Style = textParagraph;
-            section.Blocks.Add(p);
+            //p = new Paragraph(new Run(FlatViewModel.Address));
+            //p.Style = textParagraph;
+            //section.Blocks.Add(p);
 
-            p = new Paragraph(new Run($"{_FlatViewModel.Area}m², {_FlatViewModel.RoomCount} {rooms}"));
-            p.Style = textParagraph;
-            section.Blocks.Add(p);
+            //p = new Paragraph(new Run($"{_FlatViewModel.Area}m², {_FlatViewModel.RoomCount} {rooms}"));
+            //p.Style = textParagraph;
+            //section.Blocks.Add(p);
 
-            return section;
+            return $"{FlatViewModel.Address}, {_FlatViewModel.Area}m², {_FlatViewModel.RoomCount} {rooms}";
         }
 
+        private Section BuildBillingDetails()
+        {
+            Section billingOutput = new Section();
 
+            if (BillingOutputSelected && BillingViewModel != null)
+            {
+                billingOutput.Blocks.Add(BillingPlanTable(BillingViewModel));
+
+
+                if (RoomsOutputSelected)
+                {
+                    foreach (RoomViewModel item in BillingViewModel.FlatViewModel.Rooms)
+                    {
+                        RoomCostShareBilling roomCostShareBilling = new RoomCostShareBilling(item.GetRoom, BillingViewModel);
+
+                        billingOutput.Blocks.Add(DataOutputConsumptionRooms(roomCostShareBilling));
+
+                        billingOutput.Blocks.Add(DataOutputBillingRooms(roomCostShareBilling));
+
+                    }
+                }
+            }
+
+            return billingOutput;
+        }
+
+     
         private Section BuildCreditDetails()
         {
             Section creditOutput = new Section();
@@ -338,18 +454,41 @@ namespace SharedLivingCostCalculator.ViewModels
 
             }
 
-            Paragraph p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
+            Paragraph p;
+            p = new Paragraph(new Run("Shared Living Cost Calculator: print output")) { Style = headerParagraph };
             ActiveFlowDocument.Blocks.Add(p);
+            //ActiveFlowDocument.Blocks.Add(BuildAddressDetails(headerParagraph, textParagraph));
 
-            ActiveFlowDocument.Blocks.Add(BuildAddressDetails(headerParagraph, textParagraph));
+            CheckRentForHasBillingTrue();
 
-            if (RentOutputSelected)
+            if (BillingOutputSelected && BillingViewModel != null)
             {
                 p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
                 ActiveFlowDocument.Blocks.Add(p);
 
-                p = new Paragraph(new Run($"Rent Plan Flat {SelectedYear}")) { Margin = new Thickness(0, 20, 0, 20) };
-                p.Style = headerParagraph;
+                p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
+
+                p.Inlines.Add(new Run($"Annual Billing {SelectedYear - 1}: ")
+                { FontWeight = FontWeights.Bold, FontSize = 16.0 });
+                p.Inlines.Add(new Run($"{BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
+                //p.Style = headerParagraph;
+                ActiveFlowDocument.Blocks.Add(p);
+
+                ActiveFlowDocument.Blocks.Add(BuildBillingDetails());
+            }
+
+            if (RentOutputSelected)
+            {
+
+                p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
+                ActiveFlowDocument.Blocks.Add(p);
+
+                p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
+
+                p.Inlines.Add(new Run($"Rent Plan Flat {SelectedYear}: ")
+                { FontWeight = FontWeights.Bold, FontSize = 16.0 });
+                p.Inlines.Add(new Run($"{BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
+                //p.Style = headerParagraph;
                 ActiveFlowDocument.Blocks.Add(p);
 
                 ActiveFlowDocument.Blocks.Add(BuildRentDetails());
@@ -360,8 +499,11 @@ namespace SharedLivingCostCalculator.ViewModels
                 p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
                 ActiveFlowDocument.Blocks.Add(p);
 
-                p = new Paragraph(new Run($"Rent Plan Rooms {SelectedYear}")) { Margin = new Thickness(0, 20, 0, 20) };
-                p.Style = headerParagraph;
+                p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
+                p.Inlines.Add(new Run($"Rent Plan Rooms {SelectedYear}: ")
+                { FontWeight = FontWeights.Bold, FontSize = 16.0 });
+                p.Inlines.Add(new Run($"{BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
+                //p.Style = headerParagraph;
                 ActiveFlowDocument.Blocks.Add(p);
 
                 ActiveFlowDocument.Blocks.Add(BuildRoomDetails());
@@ -369,29 +511,50 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (OtherOutputSelected)
             {
-                p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
-                ActiveFlowDocument.Blocks.Add(p);
+                if (!RentOutputSelected && BillingOutputSelected)
+                {
 
-                p = new Paragraph(new Run($"Other Costs Plan Flat {SelectedYear}"));
-                p.Style = headerParagraph;
-                ActiveFlowDocument.Blocks.Add(p);
+                }
+                else
+                {
+                    p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
+                    ActiveFlowDocument.Blocks.Add(p);
 
-                ActiveFlowDocument.Blocks.Add(BuildOtherCostDetails());
+                    p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
+                    p.Inlines.Add(new Run($"Other Costs Plan Rooms {SelectedYear}: ")
+                    { FontWeight = FontWeights.Bold, FontSize = 16.0 });
+                    p.Inlines.Add(new Run($"{BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
+                    //p.Style = headerParagraph;
+                    ActiveFlowDocument.Blocks.Add(p);
+
+                    ActiveFlowDocument.Blocks.Add(BuildOtherCostDetails());
+                }
+
             }
 
             if (CreditOutputSelected)
             {
-                p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
-                ActiveFlowDocument.Blocks.Add(p);
+                if (!RentOutputSelected && BillingOutputSelected)
+                {
 
-                p = new Paragraph(new Run($"Credit Plan Flat {SelectedYear}"));
-                p.Style = headerParagraph;
-                ActiveFlowDocument.Blocks.Add(p);
+                }
+                else if (!RentOutputSelected && !BillingOutputSelected
+                    || RentOutputSelected && BillingOutputSelected
+                    || RentOutputSelected && !BillingOutputSelected)
+                {
+                    p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
+                    ActiveFlowDocument.Blocks.Add(p);
 
-                ActiveFlowDocument.Blocks.Add(BuildCreditDetails());
+                    p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
+                    p.Inlines.Add(new Run($"Credit Plan Rooms {SelectedYear}: ")
+                    { FontWeight = FontWeights.Bold, FontSize = 16.0 });
+                    p.Inlines.Add(new Run($"{BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
+                    //p.Style = headerParagraph;
+                    ActiveFlowDocument.Blocks.Add(p);
+
+                    ActiveFlowDocument.Blocks.Add(BuildCreditDetails());
+                }
             }
-
-
         }
 
 
@@ -720,6 +883,30 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private void CheckRentForHasBillingTrue()
+        {
+            foreach (RentViewModel item in FlatViewModel.RentUpdates)
+            {
+                if (item.StartDate.Year > _SelectedYear)
+                {
+                    continue;
+                }
+
+                if (item.HasBilling)
+                {
+                    RentHasBilling = true;
+
+                    BillingViewModel = item.BillingViewModel;
+
+                    break;
+                }
+
+                RentHasBilling = false;
+                BillingViewModel = null;
+            }
+        }
+
+
         private Block CreditPlanFlatTable(RentViewModel rentViewModel, int monthCounter = -1)
         {
             Table otherPlanFlatTable = DataOutputTable();
@@ -738,6 +925,44 @@ namespace SharedLivingCostCalculator.ViewModels
             otherPlanFlatTable.RowGroups.Add(dataRowGroup);
 
             return otherPlanFlatTable;
+        }
+
+
+        private Block DataOutputConsumptionRooms(RoomCostShareBilling roomCostShareBilling)
+        {
+            Table billingTableRooms = DataOutputTableRoomsBilling();
+
+            TableRowGroup dataRowGroup = new TableRowGroup();
+            dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
+
+            dataRowGroup.Rows.Add(DataOutputTableRowConsumptionRooms(
+                BillingViewModel,
+                roomCostShareBilling.RoomName,
+                roomCostShareBilling.HeatingUnitsTotalConsumptionShare,
+                BillingViewModel.Billing.ConsumptionItems[0].ConsumedUnits,
+                BillingViewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem));
+
+            if (OtherOutputSelected)
+            {
+                foreach (RoomConsumptionViewModel roomConsumptionViewModel in roomCostShareBilling.ConsumptionItemViewModels)
+                {
+                    if (roomConsumptionViewModel.RoomArea == roomCostShareBilling.RoomArea
+                        && roomConsumptionViewModel.RoomName.Equals(roomCostShareBilling.RoomName))
+                    {
+                        dataRowGroup.Rows.Add(DataOutputTableRowConsumptionRooms(
+                            BillingViewModel,
+                            roomCostShareBilling.RoomName,
+                            roomConsumptionViewModel.TotalConsumptionValue,
+                            roomConsumptionViewModel.ConsumptionItemViewModel.ConsumedUnits,
+                            roomConsumptionViewModel.ConsumptionCause));
+                    }
+
+                }
+            }
+
+            billingTableRooms.RowGroups.Add(dataRowGroup);
+
+            return billingTableRooms;
         }
 
 
@@ -770,6 +995,23 @@ namespace SharedLivingCostCalculator.ViewModels
 
             dataOutputTable.Columns.Add(RoomNameColumn);
             dataOutputTable.Columns.Add(DateColumn);
+            dataOutputTable.Columns.Add(ItemColumn);
+            dataOutputTable.Columns.Add(CostColumn);
+
+            return dataOutputTable;
+        }
+
+        private Table DataOutputTableRoomsBilling()
+        {
+            Table dataOutputTable = new Table();
+
+            TableColumn DateColumn = new TableColumn() { Width = new GridLength(100) };
+            TableColumn RoomNameColumn = new TableColumn() { Width = new GridLength(150) };
+            TableColumn ItemColumn = new TableColumn() { Width = new GridLength(200) };
+            TableColumn CostColumn = new TableColumn() { Width = new GridLength(150) };
+
+            dataOutputTable.Columns.Add(DateColumn);
+            dataOutputTable.Columns.Add(RoomNameColumn);
             dataOutputTable.Columns.Add(ItemColumn);
             dataOutputTable.Columns.Add(CostColumn);
 
@@ -809,14 +1051,63 @@ namespace SharedLivingCostCalculator.ViewModels
                 {
                     BorderBrush = new SolidColorBrush(Colors.Black),
                     BorderThickness = new Thickness(0, 1, 0, 0),
-                    FontWeight = FontWeights.Bold
+                    FontWeight = FontWeights.Bold,
+                    Margin = new Thickness(0, 0, 10, 0)
                 };
 
                 Payment.Blocks.Add(paymentParagraph);
             }
             else
             {
-                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"));
+                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
+                {
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+
+                Payment.Blocks.Add(paymentParagraph);
+            }
+
+            dataRow.Cells.Add(DueTime);
+            dataRow.Cells.Add(Item);
+            dataRow.Cells.Add(Payment);
+
+            return dataRow;
+        }
+
+
+        private TableRow DataOutputTableRowBilling(BillingViewModel viewModel, double payment, string item, bool FontWeightBold = false)
+        {
+            TableRow dataRow = new TableRow();
+
+            TableCell DueTime = new TableCell();
+            DueTime.TextAlignment = TextAlignment.Right;
+
+            TableCell Item = new TableCell();
+            TableCell Payment = new TableCell();
+            Payment.TextAlignment = TextAlignment.Right;
+
+            DueTime.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate:d}-{viewModel.EndDate:d}")) { Margin = new Thickness(0, 0, 10, 0) });
+
+            Item.Blocks.Add(new Paragraph(new Run(item)));
+
+            if (FontWeightBold)
+            {
+                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
+                {
+                    BorderBrush = new SolidColorBrush(Colors.Black),
+                    BorderThickness = new Thickness(0, 1, 0, 0),
+                    FontWeight = FontWeights.Bold,
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+
+                Payment.Blocks.Add(paymentParagraph);
+            }
+            else
+            {
+                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
+                {
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
 
                 Payment.Blocks.Add(paymentParagraph);
             }
@@ -865,14 +1156,18 @@ namespace SharedLivingCostCalculator.ViewModels
                 {
                     BorderBrush = new SolidColorBrush(Colors.Black),
                     BorderThickness = new Thickness(0, 1, 0, 0),
-                    FontWeight = FontWeights.Bold
+                    FontWeight = FontWeights.Bold,
+                    Margin = new Thickness(0, 0, 10, 0)
                 };
 
                 Payment.Blocks.Add(paymentParagraph);
             }
             else
             {
-                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"));
+                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
+                {
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
 
                 Payment.Blocks.Add(paymentParagraph);
             }
@@ -884,6 +1179,160 @@ namespace SharedLivingCostCalculator.ViewModels
 
             return dataRow;
         }
+
+
+        private TableRow DataOutputTableRowConsumptionRooms(BillingViewModel viewModel, string roomname, double consumption, double totalConsumption, string item)
+        {
+            TableRow dataRow = new TableRow();
+
+            TableCell Year = new TableCell();
+            Year.TextAlignment = TextAlignment.Right;
+
+            TableCell RoomName = new TableCell();
+            TableCell Item = new TableCell();
+
+            TableCell Consumption = new TableCell();
+            Consumption.TextAlignment = TextAlignment.Right;
+
+            Year.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate.Year}")));
+            RoomName.Blocks.Add(new Paragraph(new Run(roomname)));
+            Item.Blocks.Add(new Paragraph(new Run(item)));
+
+            Paragraph paymentParagraph = new Paragraph(new Run($"{consumption:N2} ({consumption / totalConsumption * 100:N2}%)"))
+            {
+                BorderBrush = new SolidColorBrush(Colors.Black),
+                Margin = new Thickness(0, 0, 10, 0)
+            };
+
+            Consumption.Blocks.Add(paymentParagraph);
+
+            dataRow.Cells.Add(Year);
+            dataRow.Cells.Add(RoomName);
+            dataRow.Cells.Add(Item);
+            dataRow.Cells.Add(Consumption);
+
+            return dataRow;
+        }
+
+        private TableRow DataOutputTableRowRoomsBilling(BillingViewModel viewModel, string roomname, double payment, string item, bool FontWeightBold = false)
+        {
+            TableRow dataRow = new TableRow();
+
+            TableCell Year = new TableCell();
+            Year.TextAlignment = TextAlignment.Right;
+
+            TableCell RoomName = new TableCell();
+            TableCell Item = new TableCell();
+
+            TableCell Payment = new TableCell();
+            Payment.TextAlignment = TextAlignment.Right;
+
+            Year.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate.Year}")));
+            RoomName.Blocks.Add(new Paragraph(new Run(roomname)));
+            Item.Blocks.Add(new Paragraph(new Run(item)));
+
+            if (FontWeightBold)
+            {
+                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
+                {
+                    BorderBrush = new SolidColorBrush(Colors.Black),
+                    BorderThickness = new Thickness(0, 1, 0, 0),
+                    FontWeight = FontWeights.Bold,
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+
+                Payment.Blocks.Add(paymentParagraph);
+            }
+            else
+            {
+                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
+                {
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+
+                Payment.Blocks.Add(paymentParagraph);
+            }
+
+            dataRow.Cells.Add(Year);
+            dataRow.Cells.Add(RoomName);
+            dataRow.Cells.Add(Item);
+            dataRow.Cells.Add(Payment);
+
+            return dataRow;
+        }
+
+
+
+        private Table DataOutputBillingRooms(RoomCostShareBilling roomCostShareBilling)
+        {
+            Table billingTableRooms = DataOutputTableRoomsBilling();
+
+            TableRowGroup dataRowGroup = new TableRowGroup();
+            dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
+
+            //TableRow dataRow = new TableRow();
+
+            //TableCell Year = new TableCell();
+            //Year.TextAlignment = TextAlignment.Right;
+
+            //TableCell RoomName = new TableCell();
+
+            //TableCell Area = new TableCell();
+
+            //TableCell AreaSum = new TableCell();
+            //AreaSum.TextAlignment = TextAlignment.Right;
+
+            //Year.Blocks.Add(new Paragraph(new Run($"{BillingViewModel.StartDate.Year}")));
+            //RoomName.Blocks.Add(new Paragraph(new Run(roomCostShareBilling.RoomName)));
+            //Area.Blocks.Add(new Paragraph(new Run($"Area {roomCostShareBilling.RoomArea:N2} + {roomCostShareBilling.SharedAreaShare:N2}")));
+            //AreaSum.Blocks.Add(new Paragraph(new Run($"{roomCostShareBilling.RentedAreaShare:N2}")) {Margin = new Thickness(0, 0, 10, 0)});
+
+            //dataRow.Cells.Add(Year);
+            //dataRow.Cells.Add(RoomName);
+            //dataRow.Cells.Add(Area);
+            //dataRow.Cells.Add(AreaSum);
+
+            //dataRowGroup.Rows.Add(dataRow);
+
+            TableRow tableRowFixedCostsShare = DataOutputTableRowRoomsBilling(
+                    BillingViewModel,
+                    roomCostShareBilling.RoomName,
+                    roomCostShareBilling.FixedCostsAnnualCostsShare,
+                    BillingViewModel.Billing.TotalFixedCostsPerPeriod.TransactionItem);
+
+            dataRowGroup.Rows.Add(tableRowFixedCostsShare);
+
+            TableRow tableRowHeatingCostsShare = DataOutputTableRowRoomsBilling(
+                    BillingViewModel,
+                    roomCostShareBilling.RoomName,
+                    roomCostShareBilling.HeatingUnitsTotalConsumptionShare,
+                    BillingViewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem);
+
+            dataRowGroup.Rows.Add(tableRowHeatingCostsShare);
+
+            if (OtherOutputSelected)
+            {
+                foreach (FinancialTransactionItemBillingViewModel item in roomCostShareBilling.FinancialTransactionItemViewModels)
+                {
+                    dataRowGroup.Rows.Add(DataOutputTableRowRoomsBilling(
+                        BillingViewModel,
+                        roomCostShareBilling.RoomName,
+                        item.TransactionSum,
+                        item.TransactionItem));
+                } 
+            }
+
+            billingTableRooms.RowGroups.Add(dataRowGroup);
+
+            dataRowGroup.Rows.Add(DataOutputTableRowRoomsBilling(
+                 BillingViewModel,
+                 roomCostShareBilling.RoomName,
+                 roomCostShareBilling.TotalCostsAnnualCostsShare,
+                 "sum", true));
+
+            return billingTableRooms;
+        }
+
 
 
         private void FillDetailOptions()
@@ -1184,6 +1633,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 BuildFlowDocument();
             }
 
+            OnPropertyChanged(nameof(BillingViewModel));
             OnPropertyChanged(nameof(FlatViewModel));
             OnPropertyChanged(nameof(ActiveFlowDocument));
         }

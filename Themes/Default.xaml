@@ -145,6 +145,13 @@
 
                         </Trigger>
 
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
+                            <Setter Property="Opacity" Value="0.47"/>
+                        </Trigger>
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

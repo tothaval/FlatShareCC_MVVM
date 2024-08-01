@@ -27,6 +27,18 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             get { return !_billingViewModel.HasDataLock; }
         }
 
+
+        private int _SelectedIndex;
+        public int SelectedIndex
+        {
+            get { return _SelectedIndex; }
+            set
+            {
+                _SelectedIndex = value;
+                OnPropertyChanged(nameof(SelectedIndex));
+            }
+        }
+
         #endregion properties & fields
 
 
@@ -37,7 +49,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
 
         // collections
-        # region collections
+        #region collections
 
         #endregion collections
 
@@ -50,6 +62,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             _billingViewModel = billingViewModel;
 
             _billingViewModel.PropertyChanged += _billingViewModel_PropertyChanged;
+
+            SelectedIndex = 0;
         }
 
         #endregion constructors

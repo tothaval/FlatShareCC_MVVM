@@ -31,6 +31,9 @@
     <Compile Update="Views\AccountingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AnnualBillingView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\BillingCostsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -124,6 +127,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AccountingView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AnnualBillingView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\BillingCostsView.xaml">
