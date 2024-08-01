@@ -21,7 +21,7 @@ using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
 {
-    internal class PaymentsSetupViewModel : BaseViewModel, INotifyDataErrorInfo
+    public class PaymentsSetupViewModel : BaseViewModel, INotifyDataErrorInfo
     {
 
         // properties & fields

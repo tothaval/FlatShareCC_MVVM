@@ -146,10 +146,25 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Button Content="{DynamicResource IDF_NewRentChange}" Grid.Column="0"
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Button Content="{DynamicResource IDF_NewRentChange}"
                     Command="{Binding AddRentUpdateCommand}"
-                            IsEnabled="{Binding UpdateViewModel.HasDataLock}"
-                    Style="{StaticResource buttonStyle}"/>
+                    IsEnabled="{Binding UpdateViewModel.HasDataLock}"
+                    Style="{StaticResource buttonStyle}"
+                    Grid.Column="0"/>
+
+            <!-- height set to be the same as lock data togglebutton style -->
+            <Button Content="{DynamicResource IDF_Raise}"
+                    Command="{Binding AddRaiseCommand}"
+                    IsEnabled="{Binding UpdateViewModel.HasDataLock}"
+                    Style="{StaticResource buttonStyle}"
+                    Height="40"
+                    Grid.Column="0"
+                    Grid.Row="1"/>
 
             <ToggleButton IsChecked="{Binding DataLockCheckbox}"
                                Style="{StaticResource LockDataToggleButtonStyle}"

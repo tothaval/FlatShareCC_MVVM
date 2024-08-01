@@ -11,7 +11,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
     public class RoomConsumptionViewModel : BaseViewModel
     {
         private ConsumptionItemViewModel _ConsumptionItemViewModel;
-
+        public ConsumptionItemViewModel ConsumptionItemViewModel => _ConsumptionItemViewModel;
 
         public string ConsumptionCause => _ConsumptionItemViewModel.ConsumptionCause;
 

@@ -12,6 +12,7 @@
  *  for editing the data of RentViewModel instances
  */
 using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
@@ -127,6 +128,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // commands
         #region commands
 
+        public ICommand AddRaiseCommand { get; }
+
+
         public ICommand AddRentUpdateCommand { get; }
 
 
@@ -146,6 +150,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
 
             AddRentUpdateCommand = new RelayCommand(p => AddRentUpdate(), (s) => true);
+            AddRaiseCommand = new RelayCommand(p => AddRaise(), (s) => true);
             DeleteCommand = new RelayCommand(p => DeleteRentUpdate(p), (s) => true);
 
             if (_flatViewModel != null)
@@ -165,6 +170,77 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         // methods
         #region methods
+
+        private FinancialTransactionItemBillingViewModel CloneBillingFTI(FinancialTransactionItemBilling item)
+        {
+            string cause = item.TransactionItem;
+
+            double sum = item.TransactionSum;
+
+            TransactionShareTypesBilling shareType = item.TransactionShareTypes;
+
+            return new FinancialTransactionItemBillingViewModel(
+                new FinancialTransactionItemBilling() { TransactionItem = cause, TransactionSum = sum, TransactionShareTypes = shareType });
+        }
+
+
+        private FinancialTransactionItemRentViewModel CloneFTI(FinancialTransactionItemRent item)
+        {
+            string cause = item.TransactionItem;
+
+            double sum = item.TransactionSum;
+
+            TransactionShareTypesRent shareType = item.TransactionShareTypes;
+
+            return new FinancialTransactionItemRentViewModel(
+                new FinancialTransactionItemRent() { TransactionItem = cause, TransactionSum = sum, TransactionShareTypes = shareType });
+        }
+
+
+        private void AddRaise()
+        {
+            RentViewModel rentViewModel = new RentViewModel(
+                _flatViewModel,
+                new Rent(_flatViewModel,
+                    new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
+                    new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_Rent, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
+                    new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_FixedCosts, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
+                    new FinancialTransactionItemBilling() { TransactionItem = new LanguageResourceStrings().IDF_HeatingCosts, TransactionShareTypes = Enums.TransactionShareTypesBilling.Consumption }
+                    )
+                );
+
+            rentViewModel.Rent.ColdRent = CloneFTI(SelectedValue.Rent.ColdRent).FTI;
+            rentViewModel.Rent.FixedCostsAdvance = CloneFTI(SelectedValue.Rent.FixedCostsAdvance).FTI;
+            rentViewModel.Rent.HeatingCostsAdvance = CloneBillingFTI(SelectedValue.Rent.HeatingCostsAdvance).FTI;
+
+
+            foreach (FinancialTransactionItemRentViewModel item in SelectedValue.Credits)
+            {
+                rentViewModel.AddCredit(CloneFTI(item.FTI));
+            }
+
+            foreach (FinancialTransactionItemRentViewModel item in SelectedValue.FinancialTransactionItemViewModels)
+            {
+                rentViewModel.AddFinacialTransactionItem(CloneFTI(item.FTI));
+            }
+
+            if (rentViewModel.Credits.Count > 0)
+            {
+               rentViewModel.HasCredits = true;
+            }
+
+            if (SelectedValue.HasBilling)
+            {
+                rentViewModel.BillingViewModel = SelectedValue.BillingViewModel;
+            }
+
+
+            _flatViewModel.RentUpdates.Add(rentViewModel);
+            SelectedValue = rentViewModel;
+            OnPropertyChanged(nameof(HasRentUpdate));
+            OnPropertyChanged(nameof(RentUpdates));
+        }
+
 
         private void AddRentUpdate()
         {

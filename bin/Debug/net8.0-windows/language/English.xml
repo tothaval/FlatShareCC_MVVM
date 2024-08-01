@@ -38,6 +38,7 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_ShowCosts>Costs</IDF_ShowCosts>
   <IDF_Other>Other</IDF_Other>
   <IDF_Tenants>Tenants</IDF_Tenants>
+  <IDF_Raise>Add Raise</IDF_Raise>
   <IDF_NewRent>New Rent</IDF_NewRent>
   <IDF_NewRentChange>New Rent Change</IDF_NewRentChange>
   <IDF_DeleteRent>Delete Rent</IDF_DeleteRent>

@@ -25,7 +25,7 @@ using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
 {
-    class BillingPeriodViewModel : BaseViewModel, INotifyDataErrorInfo
+    public class BillingPeriodViewModel : BaseViewModel, INotifyDataErrorInfo
     {
 
         // properties & fields
@@ -188,7 +188,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             {
                 _SelectedIndex = value;
 
-                OnSelectionChange();
+                //OnSelectionChange();
 
                 OnPropertyChanged(nameof(SelectedIndex));
             }
@@ -286,6 +286,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             SelectedIndex = 0;
 
+
             PaymentManagementViewModel = new PaymentManagementViewModel(_billingViewModel);
             ConsumptionViewModel = new ConsumptionViewModel(_billingViewModel);
             CreditSetupViewModel = new CreditSetupViewModel(_billingViewModel);
@@ -328,17 +329,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-        private void OnSelectionChange()
-        {
-            switch (SelectedIndex)
-            {
-                case 0:
-
-                default:
-                    break;
-            }
-        }
-
         private void ShowCostsView(object p)
         {
             if (CostsWindowActive)
@@ -351,27 +341,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 otherCostsView.Owner = billingWindow;
                 otherCostsView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-                otherCostsView.Closed += OwnedWindow_Closed;
-
+                 
                 otherCostsView.Show();
             }
         }
+
         #endregion methods
 
 
         // events
         #region events
 
-        public void OwnedWindow_Closed(object? sender, EventArgs e)
-        {
-            if (sender.GetType() == typeof(BillingCostsWindow))
-            {
-                CostsWindowActive = false;
-            }
-
-            billingWindow.Focus();
-        }
 
         #endregion events
 

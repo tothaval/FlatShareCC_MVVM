@@ -267,28 +267,15 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         private void ShowBillingView()
         {
-            if (AnnualBillingWindowActive)
-            {
                 var mainWindow = Application.Current.MainWindow;
 
-                BillingWindow billingWindow = new BillingWindow();
+                MainWindowViewModel mainWindowViewModel = mainWindow.DataContext as MainWindowViewModel;
 
-                if (RentViewModel.BillingViewModel == null)
+                if (mainWindowViewModel != null)
                 {
-                    Billing billing = new Billing(RentViewModel.GetFlatViewModel());
-
-                    RentViewModel.BillingViewModel = new BillingViewModel(RentViewModel.GetFlatViewModel(), billing);
+                    mainWindowViewModel._FlatManagementViewModel.ShowAnnualBilling = true;
                 }
-
-                billingWindow.DataContext = new BillingPeriodViewModel(RentViewModel.GetFlatViewModel(), RentViewModel.BillingViewModel);
-
-                billingWindow.Owner = mainWindow;
-                billingWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-                billingWindow.Closed += OwnedWindow_Closed;
-
-                billingWindow.Show();
-            }
+            
         }
 
 

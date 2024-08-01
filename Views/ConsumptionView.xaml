@@ -39,6 +39,7 @@
 
         <ComboBox ItemsSource="{Binding BillingViewModel.ConsumptionItemViewModels}"
                   SelectedItem="{Binding BillingViewModel.SelectedConsumptionItem}"
+                  SelectedIndex="{Binding SelectedIndex, NotifyOnSourceUpdated=True}"
                   Grid.Column="1"
                   Grid.Row="1">
             <ComboBox.ItemTemplate>

@@ -43,7 +43,11 @@
                           IsChecked="{Binding RentOutputSelected}"
                           Style="{StaticResource toggleButtonStyle}"
                           Grid.Column="2" />
-            <ToggleButton Content="{DynamicResource IDF_Billing}" Style="{StaticResource toggleButtonStyle}" Grid.Column="3"/>
+            <ToggleButton Content="{DynamicResource IDF_Billing}"
+                          IsChecked="{Binding BillingOutputSelected}"
+                          IsEnabled="{Binding RentHasBilling}"
+                          Style="{StaticResource toggleButtonStyle}"
+                          Grid.Column="3"/>
             <ToggleButton Content="{DynamicResource IDF_Rooms}"
                           IsChecked="{Binding RoomsOutputSelected}"
                           Style="{StaticResource toggleButtonStyle}"
@@ -65,12 +69,13 @@
                 Content="Create New Print Output"
                 Grid.Row="2"/>
 
-        <FlowDocumentReader Grid.Row="3"
-                            IsFindEnabled="True"
-                            IsScrollViewEnabled="True"
+        <FlowDocumentScrollViewer Grid.Row="3"
+                                  Margin="0 0 0 10"
+                                              
+                                
                             
                                   MinWidth="840"
-                                  MaxHeight="594"
+                            MaxHeight="720"
                                   Foreground="Black"
                                   Document="{Binding ActiveFlowDocument}"
                                   BorderBrush="DimGray"

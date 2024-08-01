@@ -110,48 +110,12 @@ new street 714</Address>
               </RoomConsumption>
             </ConsumptionPerRoom>
           </ConsumptionItem>
-          <ConsumptionItem>
-            <ConsumptionCause>
-              <TransactionSum>70</TransactionSum>
-              <TransactionShareTypes>Consumption</TransactionShareTypes>
-              <TransactionItem>fz</TransactionItem>
-            </ConsumptionCause>
-            <ConsumedUnits>250</ConsumedUnits>
-            <ConsumptionPerRoom>
-              <RoomConsumption>
-                <Room>
-                  <RoomArea>10.1</RoomArea>
-                  <RoomName>Schlafzimmer</RoomName>
-                </Room>
-                <ConsumptionValue>10</ConsumptionValue>
-              </RoomConsumption>
-              <RoomConsumption>
-                <Room>
-                  <RoomArea>22</RoomArea>
-                  <RoomName>Kinderzimmer</RoomName>
-                </Room>
-                <ConsumptionValue>77</ConsumptionValue>
-              </RoomConsumption>
-              <RoomConsumption>
-                <Room>
-                  <RoomArea>12</RoomArea>
-                  <RoomName>Arbeitszimmer</RoomName>
-                </Room>
-                <ConsumptionValue>30</ConsumptionValue>
-              </RoomConsumption>
-            </ConsumptionPerRoom>
-          </ConsumptionItem>
         </Consumptions>
         <Costs>
           <FinancialTransactionItemBilling>
-            <TransactionSum>370</TransactionSum>
+            <TransactionSum>150</TransactionSum>
             <TransactionShareTypes>Equal</TransactionShareTypes>
-            <TransactionItem>e5tm</TransactionItem>
-          </FinancialTransactionItemBilling>
-          <FinancialTransactionItemBilling>
-            <TransactionSum>70</TransactionSum>
-            <TransactionShareTypes>Consumption</TransactionShareTypes>
-            <TransactionItem>fz</TransactionItem>
+            <TransactionItem>strom zahlung</TransactionItem>
           </FinancialTransactionItemBilling>
         </Costs>
         <Credits />
