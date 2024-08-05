@@ -1,10 +1,10 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  BillingViewModel  : BaseViewModel
  * 
  *  viewmodel for Billing model
  *  
- *  implements IRoomCostCarrier
+ *  implements IRoomCostCarrier, INotifyDataErrorInfo
  */
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces.Financial;
@@ -243,7 +243,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         ///   within the period
         /// </summary>
         public double TotalRentCosts => DetermineRentCostsForPaymentOption();
-        
+
         #endregion costs
 
 
@@ -338,7 +338,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         public bool HasErrors => _helper.HasErrors;
 
 
-        public bool HasOtherCosts => FinancialTransactionItemViewModels.Count > 0;
+        public bool HasOtherCosts
+        {
+            get { return Billing.HasOtherCosts; }
+            set
+            {
+                Billing.HasOtherCosts = value;
+
+                BillingViewModelConfigurationChange?.Invoke(this, new EventArgs());
+
+                OnPropertyChanged(nameof(HasOtherCosts));
+
+                RebuildRoomCostShares();
+            }
+        }
 
 
         public bool HasPayments
@@ -406,6 +419,23 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 }
             }
         }
+
+
+        private int _Year;
+        public int Year
+        {
+            get { return _Year; }
+            set
+            {
+                _Year = value;
+
+                StartDate = new DateTime(_Year, 01, 01);
+                EndDate = new DateTime(_Year, 12, 31);
+
+                OnPropertyChanged(nameof(Year));
+            }
+        }
+
 
         #endregion other properties
 
@@ -516,6 +546,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             _flatViewModel = flatViewModel;
             Billing = billing;
 
+            Year = billing.StartDate.Year;
 
             GenerateFTIViewModels();
 
@@ -736,7 +767,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 double months = DeterminePaymentMonths(RentList, start, end, i);
 
                 advance += RentList[i].FixedCostsAdvance * months;
-                
+
                 advance += RentList[i].HeatingCostsAdvance * months;
             }
 

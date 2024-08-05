@@ -9,8 +9,6 @@
              mc:Ignorable="d" 
              Background="Transparent">
 
-
-    <Border Style="{StaticResource VisibilityFieldBorder}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -105,7 +103,5 @@
             </ListView>
 
         </Grid>
-    </Border>
-
 
 </UserControl>

@@ -70,7 +70,7 @@
 
                     <ToggleButton Content="{DynamicResource IDF_AnnualBilling}"
                               IsChecked="{Binding ShowAnnualBilling}"
-                            IsEnabled="{Binding Accounting.Rents.SelectedValue.HasBilling}"   
+                            Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverterToHidden}}"  
                               Style="{StaticResource toggleButtonStyle}"
                               Grid.Column="2"/>
 
@@ -121,7 +121,8 @@
                     Grid.Row="1" Grid.Column="0"
                     Margin="0 0 0 0">
 
-                    <Grid MinWidth="600">
+                    <Grid MinWidth="600"
+                          Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -162,6 +163,8 @@
                               Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
                               ItemContainerStyle="{StaticResource ItemContainerStyle}"
                               x:Name="DG_FlatCollection"     
+                                  HorizontalAlignment="Stretch"
+                                  HorizontalContentAlignment="Stretch"
                               Grid.Column="0"
                               Grid.ColumnSpan="3" Grid.Row="1">
 
@@ -244,43 +247,28 @@
 
                         </ListView>
 
-                        <ToggleButton Content="{DynamicResource IDF_FlatSetup}"
-                                      IsChecked="{Binding ShowFlatSetup}"
-                                      Style="{StaticResource toggleButtonStyle}"
-                                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
-                                      Grid.Column="0" Grid.Row="2" Margin="0 5 0 0"/>
+                        <TabControl Grid.Column="0" 
+                                    Grid.ColumnSpan="3"
+                                    Grid.Row="2"
+                                    Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
+                                    HorizontalAlignment="Left">
+                            
+                            <TabItem Header="{DynamicResource IDF_FlatSetup}">
+                                <ContentPresenter Content="{Binding FlatSetup}"/>
+                            </TabItem>
 
-                        <ToggleButton Content="{DynamicResource IDF_RoomSetup}"
-                                      IsChecked="{Binding ShowRoomSetup}"
-                                      Style="{StaticResource toggleButtonStyle}"
-                                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
-                                      Grid.Column="1" Grid.Row="2" Margin="0 5 0 0"/>
+                            <TabItem Header="{DynamicResource IDF_RoomSetup}">
+                                <ContentPresenter Content="{Binding RoomSetup}"/>
+                            </TabItem>
 
-                        <ToggleButton Content="{DynamicResource IDF_TenantSetup}"
-                                      IsChecked="{Binding ShowTenantSetup}"
-                                      Style="{StaticResource toggleButtonStyle}"
-                                      Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
-                                      Grid.Column="2" Grid.Row="2" Margin="0 5 0 0"/>
+                            <TabItem Header="{DynamicResource IDF_TenantSetup}">
+                                <ContentPresenter Content="{Binding TenantSetup}"/>
+                            </TabItem>
 
-                        <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
-                                Visibility="{Binding HasFlat, NotifyOnSourceUpdated=True,
-                            Converter={StaticResource VisibilityConverter}}">
-                            <Grid>
-                                <Border Visibility="{Binding ShowFlatSetup, Converter={StaticResource VisibilityConverter}}"
-                                   >
-                                    <ContentPresenter Content="{Binding FlatSetup}"/>
-                                </Border>
-                                <Border Visibility="{Binding ShowRoomSetup, Converter={StaticResource VisibilityConverter}}"
-                             >
-                                    <ContentPresenter Content="{Binding RoomSetup}"/>
-                                </Border>
-
-                                <Border Visibility="{Binding ShowTenantSetup, Converter={StaticResource VisibilityConverter}}"
-                             >
-                                    <ContentPresenter Content="{Binding TenantSetup}"/>
-                                </Border>
-                            </Grid>
-                        </Border>
+                            <TabItem Header="Assignment">
+                                <ContentPresenter Content="{Binding TenantAssignement}"/>
+                            </TabItem>
+                        </TabControl>
 
                     </Grid>
                 </Border>

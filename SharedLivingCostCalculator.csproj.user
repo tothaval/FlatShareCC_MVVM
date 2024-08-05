@@ -43,13 +43,22 @@
     <Compile Update="Views\CostDisplayView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\CreditSetupRentView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\CreditSetupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\FlatSetupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\OtherCostsRentView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\OtherCostsSetupView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\OtherCostsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\PrintView.xaml.cs">
@@ -62,12 +71,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\TenantSetupView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Windows\BillingCostsWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Windows\BillingWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\FlatManagementView.xaml.cs">
@@ -86,12 +89,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\RentUpdateView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Windows\CreditView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Windows\RentCostsWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -141,13 +138,22 @@
     <Page Update="Views\CostDisplayView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\CreditSetupRentView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\CreditSetupView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\FlatSetupView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\OtherCostsRentView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\OtherCostsSetupView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OtherCostsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PrintView.xaml">
@@ -160,12 +166,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\TenantSetupView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Windows\BillingCostsWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Windows\BillingWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\FlatManagementView.xaml">
@@ -184,12 +184,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\RentUpdateView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Windows\CreditView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Windows\RentCostsWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

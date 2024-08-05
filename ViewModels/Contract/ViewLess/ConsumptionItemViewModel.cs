@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  ConsumptionItemViewModel  : BaseViewModel
  * 
@@ -186,6 +186,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             OnPropertyChanged(nameof(SharedConsumptionPercentage));
 
             OnPropertyChanged(nameof(RoomSharedConsumption));
+            OnPropertyChanged(nameof(TotalRoomUnits)); 
         }
 
 

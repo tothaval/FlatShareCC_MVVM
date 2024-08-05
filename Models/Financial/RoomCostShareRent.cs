@@ -1,14 +1,15 @@
-﻿using SharedLivingCostCalculator.Interfaces.Contract;
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RoomCostShareRent 
+ * 
+ *  model class for the calculation of room costs for the rent change feature
+ */
+using SharedLivingCostCalculator.Interfaces.Contract;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharedLivingCostCalculator.Models.Financial
 {
@@ -184,22 +185,25 @@ namespace SharedLivingCostCalculator.Models.Financial
             double fixedCostPulse = ((RentViewModel)ViewModel).FixedCostsAdvance;
             double heatingCostPulse = ((RentViewModel)ViewModel).HeatingCostsAdvance;
 
-            if (((RentViewModel)ViewModel).HasBilling)
-            {
-                BillingViewModel billingViewModel = ((RentViewModel)ViewModel).BillingViewModel;
 
-                double roomConsumptionPercentage =
-                    billingViewModel.GetRoomConsumptionPercentage(
-                        _Room,
-                        ((RentViewModel)ViewModel).Rent.HeatingCostsAdvance
-                        );
+            // rethink and adapt code, search in list of billings
 
-                HeatingCostsAdvanceShare = roomConsumptionPercentage * heatingCostPulse;
-            }
-            else
-            {
-                HeatingCostsAdvanceShare = RentedAreaShareRatio() * heatingCostPulse;
-            }
+            //if (((RentViewModel)ViewModel).HasBilling)
+            //{
+            //    BillingViewModel billingViewModel = ((RentViewModel)ViewModel).BillingViewModel;
+
+            //    double roomConsumptionPercentage =
+            //        billingViewModel.GetRoomConsumptionPercentage(
+            //            _Room,
+            //            ((RentViewModel)ViewModel).Rent.HeatingCostsAdvance
+            //            );
+
+            //    HeatingCostsAdvanceShare = roomConsumptionPercentage * heatingCostPulse;
+            //}
+            //else
+            //{
+            //    HeatingCostsAdvanceShare = RentedAreaShareRatio() * heatingCostPulse;
+            //}
 
             AreaSharedCostsShare = GetAreaSharedCostsShare();
 
@@ -308,3 +312,4 @@ namespace SharedLivingCostCalculator.Models.Financial
 
     }
 }
+// EOF

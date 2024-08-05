@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *   
  *  CostDisplayViewModel  : BaseViewModel
  * 
@@ -33,26 +33,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public BillingViewModel BillingViewModel { get; }
 
 
-        private bool _DataLockCheckbox;
-        public bool DataLockCheckbox
+        public bool DataLock
         {
-            get { return _DataLockCheckbox; }
-            set
-            {
-                if (BillingViewModel != null)
-                {
-
-                    _DataLockCheckbox = value;
-                    BillingViewModel.CostsHasDataLock = value;
-                }
-
-                OnPropertyChanged(nameof(DataLockCheckbox));
-                OnPropertyChanged(nameof(DataLock));
-            }
+            get { return !BillingViewModel.HasDataLock; }
         }
-
-
-        public bool DataLock => !DataLockCheckbox;
 
 
         private readonly FlatViewModel _FlatViewModel;
@@ -100,28 +84,22 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             AddFinacialTransactionItemCommand = new RelayCommand((s) => AddFinacialTransactionItem(s), (s) => true);
             RemoveFinancialTransactionItemCommand = new RelayCommand((s) => RemoveFinancialTransactionItem(s), (s) => true);
+            CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
+            LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
 
             BillingViewModel = billingViewModel;
             ViewModel = BillingViewModel;
 
             _FlatViewModel = BillingViewModel.GetFlatViewModel();
-
-            //if (BillingViewModel.CostsHasDataLock)
-            //{
-            //    DataLockCheckbox = true;
-            //}
-
-            CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
-            LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
-
-            //CostItems.CollectionChanged += Costs_CollectionChanged;
-
+            billingViewModel.PropertyChanged += BillingViewModel_PropertyChanged;
 
             RegisterCostItemValueChange();
 
             CalculateSum();
+
+            OnPropertyChanged(nameof(DataLock));
         }
-     
+
         #endregion constructors
 
 
@@ -207,13 +185,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     }
                 }
             }
-        } 
+        }
 
         #endregion methods
 
 
         // events
         #region events
+
+        private void BillingViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(DataLock));
+        }
+
 
         private void Costs_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

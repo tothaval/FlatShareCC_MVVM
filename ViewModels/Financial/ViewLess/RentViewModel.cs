@@ -1,16 +1,13 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  RentViewModel  : BaseViewModel
  * 
  *  viewmodel for Rent model
  */
 using SharedLivingCostCalculator.Enums;
-using SharedLivingCostCalculator.Interfaces.Contract;
 using SharedLivingCostCalculator.Interfaces.Financial;
-using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
-using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -163,33 +160,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         // other properties
         #region other properties
-        private BillingViewModel? _BillingViewModel;
-        public BillingViewModel? BillingViewModel
-        {
-            get { return _BillingViewModel; }
-            set
-            {
-                _BillingViewModel = value;
-
-                if (_BillingViewModel != null)
-                {
-                    Rent.GetBilling = _BillingViewModel.Billing;
-                }
-
-                RentViewModelConfigurationChange?.Invoke(this, new EventArgs());
-
-                OnPropertyChanged(nameof(BillingViewModel));
-                OnPropertyChanged(nameof(HasBilling));
-
-                RebuildRoomCostShares();
-            }
-        }
-
 
         private readonly FlatViewModel _flatViewModel;
-
-
-        public bool HasBilling => _BillingViewModel != null;
 
 
         public bool HasCredits
@@ -247,7 +219,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-
         public DateTime StartDate
         {
             get { return Rent.StartDate; }
@@ -257,6 +228,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
             }
         }
+
         #endregion other properties
 
         #endregion properties & fields
@@ -319,18 +291,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             _flatViewModel = flatViewModel;
             Rent = rent;
-
-            if (Rent.GetBilling != null)
-            {
-                BillingViewModel = new BillingViewModel(_flatViewModel, Rent.GetBilling);
-            }
-
+              
             Credits.CollectionChanged += Credits_CollectionChanged;
             FinancialTransactionItemViewModels.CollectionChanged += OtherCosts_CollectionChanged;
 
             GenerateCosts();
-
-            OnPropertyChanged(nameof(HasBilling));
         }
 
         #endregion constructors
@@ -506,19 +471,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
 
             OnPropertyChanged(nameof(RoomCostShares));
-        }
-
-
-
-        public void RemoveBilling()
-        {
-            if (BillingViewModel != null || HasBilling)
-            {
-                BillingViewModel = null;
-                Rent.GetBilling = null;
-
-                OnPropertyChanged(nameof(HasBilling));
-            }
         }
 
 

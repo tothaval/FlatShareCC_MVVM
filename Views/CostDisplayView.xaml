@@ -6,7 +6,6 @@
              xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels.Financial"
              xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:views="clr-namespace:SharedLivingCostCalculator.Views"
-             xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
              mc:Ignorable="d">
     <UserControl.Resources>
 

@@ -23,9 +23,28 @@
 
         <Grid MaxHeight="640">
 
-            <StackPanel Margin="20">
+            <StackPanel Margin="10">
 
-                <Grid >
+
+            <UniformGrid Columns="2"
+                             Margin="0 10">
+                <TextBlock Style="{StaticResource Header}"
+                              HorizontalAlignment="Left">
+                       <Run Text="{DynamicResource IDF_Credit}"/>
+                       <Run Text="{DynamicResource IDF_perYear}"/>
+                </TextBlock>
+
+                <TextBlock Style="{StaticResource Header}"
+                            Text="{Binding OtherFTISum,
+                        StringFormat=C2,
+                        NotifyOnSourceUpdated=True}"
+                            TextAlignment="Right"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Right"/>
+
+            </UniformGrid>
+                
+            <Grid Margin="0 0 0 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -36,31 +55,14 @@
                        Command="{Binding AddFinacialTransactionItemCommand}"
                        Grid.Column="0"
                        Style="{StaticResource buttonStyle}"
-                       IsEnabled="{Binding DataLock}"/>
+                       IsEnabled="{Binding DataLock, NotifyOnSourceUpdated=True}"/>
 
                     <Button Content="remove credit item" Command="{Binding RemoveFinancialTransactionItemCommand}" 
                        CommandParameter="{Binding ElementName=_credits, Path=SelectedItems}"
                        Grid.Column="2"
                        Style="{StaticResource buttonStyle}"
-                       IsEnabled="{Binding DataLock}"/>
+                       IsEnabled="{Binding DataLock, NotifyOnSourceUpdated=True}"/>
                 </Grid>
-
-                <UniformGrid Columns="2">
-                    <TextBlock Style="{StaticResource Header}"
-                              HorizontalAlignment="Left">
-                       <Run Text="{DynamicResource IDF_Credit}"/>
-                       <Run Text="{DynamicResource IDF_perMonth}"/>
-                    </TextBlock>
-
-                    <TextBlock Style="{StaticResource Header}"
-                            Text="{Binding OtherFTISum,
-                        StringFormat=C2,
-                        NotifyOnSourceUpdated=True}"
-                            TextAlignment="Right"
-                            FontWeight="Bold"
-                            HorizontalAlignment="Right"/>
-
-                </UniformGrid>
 
                 <ListView ItemsSource="{Binding ViewModel.Credits, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
                      SelectionMode="Extended"
@@ -76,13 +78,15 @@
                         <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
                             <GridView.Columns>
 
-                                <GridViewColumn Header="Split Procedure">
+                                <GridViewColumn Header="Split">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <ComboBox ItemsSource="{Binding Source={StaticResource enumValues}, UpdateSourceTrigger=PropertyChanged}"
                                                  SelectedItem="{Binding CostShareTypes}"                                                  
                                                  HorizontalAlignment="Stretch"          
-                                                 IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CreditSetupView}}"/>
+                                                 IsEnabled="{Binding DataContext.DataLock,
+                                                RelativeSource={RelativeSource AncestorType=local:AnnualBillingView},
+                                                NotifyOnSourceUpdated=True}"/>
 
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -96,7 +100,9 @@
                                                UpdateSourceTrigger=PropertyChanged,
                                                Mode=TwoWay}"
                                                         HorizontalAlignment="Stretch"
-                                                        IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CreditSetupView}}"
+                                                        IsEnabled="{Binding DataContext.DataLock,
+                                                    RelativeSource={RelativeSource AncestorType=local:AnnualBillingView},
+                                                    NotifyOnSourceUpdated=True}"
                                                         Style="{StaticResource StringValueTextBox}"/>
                                             </Grid>
                                         </DataTemplate>
@@ -113,7 +119,9 @@
                                                    Mode=TwoWay,
                                                    Delay=200}"
                                                         HorizontalAlignment="Stretch"
-                                                        IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:CreditSetupView}}"
+                                                        IsEnabled="{Binding DataContext.DataLock,
+                                                    RelativeSource={RelativeSource AncestorType=local:AnnualBillingView},
+                                                    NotifyOnSourceUpdated=True}"
                                                         Style="{StaticResource DoubleValueTextBox}"/>
                                             </Grid>
                                         </DataTemplate>

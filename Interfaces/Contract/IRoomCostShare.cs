@@ -1,9 +1,13 @@
-﻿using SharedLivingCostCalculator.Interfaces.Financial;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  IRoomCostShare 
+ * 
+ *  interface for roomcostshare models
+ *  
+ *  currently they handle output and calculation of room related data
+ */
+
+using SharedLivingCostCalculator.Interfaces.Financial;
 
 namespace SharedLivingCostCalculator.Interfaces.Contract
 {
@@ -21,3 +25,4 @@ namespace SharedLivingCostCalculator.Interfaces.Contract
 
     }
 }
+// EOF

@@ -14,21 +14,20 @@
         <BooleanToVisibilityConverter x:Key="ProceedCommandVisibility" />
     </UserControl.Resources>
 
-    <Border Style="{StaticResource VisibilityFieldBorder}">
-        <Grid HorizontalAlignment="Stretch">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
 
-            <c_views:ObjectInputView Label="{DynamicResource IDF_Address}"
+        <c_views:ObjectInputView Label="{DynamicResource IDF_Address}"
                                  LabelMinWidth="125"
                                Value="{Binding FlatSetup.Address,
             UpdateSourceTrigger=PropertyChanged,
@@ -39,7 +38,7 @@
                                ValueMinWidth="100"
                                Grid.Row="0" />
 
-            <c_views:ObjectInputView Label="{DynamicResource IDF_Details}"
+        <c_views:ObjectInputView Label="{DynamicResource IDF_Details}"
                                  LabelMinWidth="125"
                                Value="{Binding FlatSetup.Details,
             UpdateSourceTrigger=PropertyChanged,
@@ -50,7 +49,7 @@
                                ValueMinWidth="100"
                                Grid.Row="1" />
 
-            <c_views:DoubleInputView Label="{DynamicResource IDF_FlatArea}"
+        <c_views:DoubleInputView Label="{DynamicResource IDF_FlatArea}"
                                  LabelMinWidth="125"
                                Value="{Binding FlatSetup.Area,
             NotifyOnSourceUpdated=True,
@@ -64,7 +63,7 @@
                                ValueMinWidth="100"
                                Grid.Row="2" />
 
-            <c_views:ObjectInputView Label="{DynamicResource IDF_Rooms}"
+        <c_views:ObjectInputView Label="{DynamicResource IDF_Rooms}"
                                  LabelMinWidth="125"
                                  Value="{Binding FlatSetup.RoomCount,
             NotifyOnSourceUpdated=True,
@@ -75,7 +74,7 @@
                                  ValueMinWidth="100"
                                  Grid.Row="3" />
 
-            <TextBox Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
+        <TextBox Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
                  Text="{Binding FlatSetup.FlatNotes, 
             NotifyOnSourceUpdated=True,
             UpdateSourceTrigger=PropertyChanged,
@@ -88,7 +87,6 @@
                  HorizontalContentAlignment="Left"
                  VerticalContentAlignment="Top"/>
 
-        </Grid>
-    </Border>
+    </Grid>
 
 </UserControl>

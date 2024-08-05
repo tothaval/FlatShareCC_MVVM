@@ -1,21 +1,16 @@
-﻿using Microsoft.VisualBasic;
-using SharedLivingCostCalculator.Calculations;
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RoomCostShareBilling 
+ * 
+ *  model class for the calculation of room costs for the annual billing feature
+ */
 using SharedLivingCostCalculator.Interfaces.Contract;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Contract;
-using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 
 namespace SharedLivingCostCalculator.Models.Financial
 {
@@ -192,32 +187,36 @@ namespace SharedLivingCostCalculator.Models.Financial
             // sort List by StartDate, ascending
             ObservableCollection<RentViewModel> RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
 
+            bool billingFound = false;
+
+
             DateTime start = DateTime.Now;
             DateTime end = DateTime.Now;
 
+            // rethink and adapt the code to the new changes
 
-            for (int i = 0; i < RentList.Count; i++)
-            {
-                double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
+            //for (int i = 0; i < RentList.Count; i++)
+            //{
+            //    double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
 
-                advance += RentList[i].FixedCostsAdvance * months * RentedAreaShareRatio();
+            //    advance += RentList[i].FixedCostsAdvance * months * RentedAreaShareRatio();
 
-                if (!RentList[i].HasBilling)
-                {
-                    advance += RentList[i].HeatingCostsAdvance * months * RentedAreaShareRatio();
-                }
-                else
-                {
-                    foreach (RoomCostShareBilling roomcostitem in RentList[i].BillingViewModel.RoomCostShares)
-                    {
-                        if (roomcostitem.RoomArea == RoomArea && roomcostitem.RoomName.Equals(RoomName))
-                        {
-                            advance += RentList[i].HeatingCostsAdvance * months * roomcostitem.HeatingUnitsTotalConsumptionShareRatio;
-                            break;
-                        }
-                    }
-                }
-            }
+            //    if (billingFound)
+            //    {
+            //        advance += RentList[i].HeatingCostsAdvance * months * RentedAreaShareRatio();
+            //    }
+            //    else
+            //    {
+            //        foreach (RoomCostShareBilling roomcostitem in RentList[i].BillingViewModel.RoomCostShares)
+            //        {
+            //            if (roomcostitem.RoomArea == RoomArea && roomcostitem.RoomName.Equals(RoomName))
+            //            {
+            //                advance += RentList[i].HeatingCostsAdvance * months * roomcostitem.HeatingUnitsTotalConsumptionShareRatio;
+            //                break;
+            //            }
+            //        }
+            //    }
+            //}
                  
             return advance;
         }
@@ -446,3 +445,4 @@ namespace SharedLivingCostCalculator.Models.Financial
 
     }
 }
+// EOF

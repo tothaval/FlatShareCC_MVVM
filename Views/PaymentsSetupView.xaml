@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
-             xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
              xmlns:vms="clr-namespace:SharedLivingCostCalculator.ViewModels"
              xmlns:components="clr-namespace:SharedLivingCostCalculator.Components"
              mc:Ignorable="d" 
@@ -29,7 +28,7 @@
                 <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                          MinWidth="50" 
                          Style="{StaticResource DoubleValueTextBox}"
-                         IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                         IsEnabled="{Binding DataLock, RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
                                                     
                     />
                 
@@ -37,7 +36,7 @@
                         Command="{Binding AddPaymentCommand}"
                         CommandParameter="{Binding Quantity}"
                         Style="{StaticResource buttonStyle}"
-                        IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                        IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
                                                     
                         />
             </StackPanel>
@@ -47,7 +46,7 @@
                     Grid.Column="1"
                     CommandParameter="{Binding ElementName=_payments, Path=SelectedItems}"
                     Style="{StaticResource buttonStyle}"
-                    IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                    IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
                     />
         </Grid>
 
@@ -73,7 +72,8 @@
                                             StringFormat=d,
                                             UpdateSourceTrigger=PropertyChanged}"
                                                     MinWidth="100"
-                                                    IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                                                    IsEnabled="{Binding DataContext.DataLock,
+                                            RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
                                                     HorizontalAlignment="Stretch"
                                                     FontFamily="{DynamicResource FF}"
                                                     FontSize="{DynamicResource FS}"
@@ -91,7 +91,8 @@
                                             StringFormat=d,
                                             UpdateSourceTrigger=PropertyChanged}"
                                                     MinWidth="100"
-                                                    IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                                                    IsEnabled="{Binding DataContext.DataLock,
+                                            RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
                                                     HorizontalAlignment="Stretch"
                                                     FontFamily="{DynamicResource FF}"
                                                     FontSize="{DynamicResource FS}"
@@ -111,7 +112,8 @@
                                             UpdateSourceTrigger=PropertyChanged,
                                             ValidatesOnDataErrors=true}"
                                                  Style="{StaticResource DoubleValueTextBox}"                                                 
-                                                 IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                                                 IsEnabled="{Binding DataContext.DataLock,
+                                            RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
                                                  />
 
                                     </DataTemplate>
@@ -126,7 +128,8 @@
                                             UpdateSourceTrigger=PropertyChanged,
                                             ValidatesOnDataErrors=true}"
                                                  Style="{StaticResource DoubleValueTextBox}"
-                                                 IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"                                                 
+                                                 IsEnabled="{Binding DataContext.DataLock,
+                                            RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"                                                 
                                                  />
 
                                     </DataTemplate>
@@ -143,7 +146,8 @@
                                             ValidatesOnDataErrors=true,
                                             Mode=OneWay}"
                                                  Style="{StaticResource DoubleValueTextBox}"
-                                                 IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"                                                    
+                                                 IsEnabled="{Binding DataContext.DataLock,
+                                            RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"                                                    
                                                  />
 
                                     </DataTemplate>

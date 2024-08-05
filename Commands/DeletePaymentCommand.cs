@@ -1,9 +1,8 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  DeletePaymentCommand 
  * 
- *  command for removing a paymentviewmodel
- *  instance from a roomviewmodel instance
+ *  command for removing a paymentviewmodel instance from a BillingViewModel instance
  */
 using SharedLivingCostCalculator.ViewModels.Financial;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;

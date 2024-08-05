@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  LanguageResourceStrings 
  * 
@@ -13,7 +13,6 @@
  */
 using System.Text;
 using System.Xml.Serialization;
-using SharedLivingCostCalculator.Enums;
 
 namespace SharedLivingCostCalculator.Utility
 {
@@ -31,6 +30,7 @@ namespace SharedLivingCostCalculator.Utility
         // billing views
         #region billing views
 
+        public string IDF_AnnualBillings { get; set; } = "Annual Billing(s)";
         public string IDF_Billing { get; set; } = "Billing";
         public string IDF_BillingPeriodData { get; set; } = "Billing Data";
         public string IDF_BillingPeriodOptions { get; set; } = "Billing Options";
@@ -40,8 +40,8 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_ConsumptionPercentage { get; set; } = "Heating\n% ";
 
         public string IDF_ExtraCosts { get; set; } = "Extra\nCosts";
-        public string IDF_FixedCosts { get; set; } = "Fixed\nCosts";
-        public string IDF_HeatingCosts { get; set; } = "Heating\nCosts";
+        public string IDF_FixedCosts { get; set; } = "Fixed";
+        public string IDF_HeatingCosts { get; set; } = "Heating";
         public string IDF_TotalCosts { get; set; } = "Total\nCosts";
         public string IDF_Balance { get; set; } = "Balance";
         public string IDF_RoomData { get; set; } = "room data";
@@ -54,6 +54,8 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_TotalConsumption { get; set; } = "Total";
         public string IDF_SharedConsumption { get; set; } = "Shared";
         public string IDF_TotalRooms { get; set; } = "Rooms";
+        public string IDF_Year { get; set; } = "Year";
+        
 
         public string BillingManagementInstructionText { get; set; }
 
@@ -64,8 +66,8 @@ namespace SharedLivingCostCalculator.Utility
         #region buttons and commands
 
         public string IDF_Back { get; set; } = "Back";
-        public string IDF_NewBilling { get; set; } = "New Billing";
-        public string IDF_DeleteBilling { get; set; } = "Delete";
+        public string IDF_NewBilling { get; set; } = "New Annual Billing";
+        public string IDF_DeleteBilling { get; set; } = "Delete Annual Billing";
         public string IDF_PrintView { get; set; } = "Print";
         public string IDF_ShowCosts { get; set; } = "Costs"; 
         public string IDF_Other { get; set; } = "Other";
@@ -165,10 +167,10 @@ namespace SharedLivingCostCalculator.Utility
 
         public string IDF_AdvanceTotal { get; set; } = "Total Costs";
         public string IDF_PriceTotal { get; set; } = "Total Price";
-        public string IDF_BaseRentOnBilling { get; set; } = "factor in billing";
+        public string IDF_BaseRentOnBilling { get; set; } = "add billing";
         public string IDF_AnnualBilling { get; set; } = "Annual Billing";
         
-        public string IDF_Costs { get; set; } = "Other Costs Setup"; 
+        public string IDF_Costs { get; set; } = "Other Costs"; 
 
         public string IDF_OtherCostsAdvance { get; set; } = "Other\nCosts";
         public string IDF_OtherCosts { get; set; } = "other costs details";
@@ -182,13 +184,13 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_AnnualComplete { get; set; } = "Complete";
         public string IDF_CompleteCosts { get; set; } = "Complete\nCosts";
 
-        public string IDF_Credit { get; set; } = "Credit(s)";      
+        public string IDF_Credit { get; set; } = "Credit(s)";
 
-        public string IDF_HasOtherCosts { get; set; } = "factor in other costs";                
+        public string IDF_HasOtherCosts { get; set; } = "other costs";                
         public string IDF_NewOtherCosts { get; set; } = "setup other costs";
                 
-        public string IDF_FactorInCredit { get; set; } = "factor in credits";
-        public string IDF_FactorInPayments { get; set; } = "factor in payments";
+        public string IDF_FactorInCredit { get; set; } = "credits";
+        public string IDF_FactorInPayments { get; set; } = "payments";
 
 
         public string IDF_NewCredit { get; set; } = "Setup Credit";
@@ -217,8 +219,9 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_AnnualPrice { get; set; } = "Price";
 
         public string IDF_firstYear { get; set; } = "first year";
-        public string IDF_perYear { get; set; } = "per year";
         public string IDF_perMonth { get; set; } = "per month";
+        public string IDF_perRoom { get; set; } = "per room";
+        public string IDF_perYear { get; set; } = "per year";
 
         public string RentManagementInstructionText { get; set; }
 

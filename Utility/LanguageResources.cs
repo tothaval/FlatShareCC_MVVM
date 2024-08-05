@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  LanguageResources 
  * 
@@ -130,6 +130,8 @@ namespace SharedLivingCostCalculator.Utility
             // billing views
             #region billing views
 
+            Application.Current.Resources["IDF_AnnualBillings"] = languageResource.IDF_AnnualBillings;
+
             Application.Current.Resources["IDF_Billing"] = languageResource.IDF_Billing;
             Application.Current.Resources["IDF_BillingPeriodData"] = languageResource.IDF_BillingPeriodData;
             Application.Current.Resources["IDF_BillingPeriodOptions"] = languageResource.IDF_BillingPeriodOptions;
@@ -155,6 +157,8 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_TotalConsumption"] = languageResource.IDF_TotalConsumption;
             Application.Current.Resources["IDF_SharedConsumption"] = languageResource.IDF_SharedConsumption;
             Application.Current.Resources["IDF_TotalRooms"] = languageResource.IDF_TotalRooms;
+            Application.Current.Resources["IDF_Year"] = languageResource.IDF_Year;
+            
 
             Application.Current.Resources["BillingManagementInstructionText"] = languageResource.BillingManagementInstructionText;
 
@@ -313,6 +317,8 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_perYear"] = languageResource.IDF_perYear;
             Application.Current.Resources["IDF_firstYear"] = languageResource.IDF_firstYear;            
             Application.Current.Resources["IDF_perMonth"] = languageResource.IDF_perMonth;
+            Application.Current.Resources["IDF_perRoom"] = languageResource.IDF_perRoom;
+            
 
             Application.Current.Resources["RentManagementInstructionText"] = languageResource.RentManagementInstructionText;
 

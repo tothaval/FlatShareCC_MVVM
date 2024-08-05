@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  Flat 
  * 
@@ -46,6 +46,10 @@ namespace SharedLivingCostCalculator.Models.Contract
         #region collections
 
         [XmlIgnore]
+        public ObservableCollection<BillingViewModel> AnnualBillings { get; set; }
+
+
+        [XmlIgnore]
         public ObservableCollection<RentViewModel> RentUpdates { get; set; }
 
 
@@ -72,6 +76,7 @@ namespace SharedLivingCostCalculator.Models.Contract
             Details = string.Empty;
             Area = 0.0;
             RoomCount = 1;
+            AnnualBillings = new ObservableCollection<BillingViewModel>();
             Rooms = new ObservableCollection<RoomViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();
             TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
@@ -86,6 +91,8 @@ namespace SharedLivingCostCalculator.Models.Contract
             RoomCount = roomCount;
 
             Details = details;
+
+            AnnualBillings = new ObservableCollection<BillingViewModel>();
 
             Rooms = new ObservableCollection<RoomViewModel> { };
 
@@ -105,6 +112,7 @@ namespace SharedLivingCostCalculator.Models.Contract
             Rooms = rooms;
             Details += details;
 
+            AnnualBillings = new ObservableCollection<BillingViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();
             TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
             Tenants = new ObservableCollection<TenantViewModel>();

@@ -1,15 +1,12 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  Billing 
  * 
  *  data model class for BillingViewModel
  */
 using SharedLivingCostCalculator.Enums;
-using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
-using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
-using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 
@@ -34,6 +31,9 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
         public bool HasDataLock { get; set; } = false;
+        
+
+        public bool HasOtherCosts { get; set; } = false;
 
 
         public bool HasPayments { get; set; } = false;
@@ -105,6 +105,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public Billing()
         {
+            Costs.CollectionChanged += Costs_CollectionChanged;
         }
 
 
@@ -113,6 +114,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                 )
         {
 
+            Costs.CollectionChanged += Costs_CollectionChanged;
             AddRoomPayments(model);
             Check4HeatingCosts();
         }
@@ -134,6 +136,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             TotalHeatingCostsPerPeriod.TransactionSum = totalHeatingCostsPerPeriod;
 
 
+            Costs.CollectionChanged += Costs_CollectionChanged;
             AddRoomPayments(model);
         }
 
@@ -326,6 +329,17 @@ namespace SharedLivingCostCalculator.Models.Financial
 
                 Costs.Remove(financialTransactionItem);
             }
+        }
+
+        #endregion
+
+
+        // events
+        #region events
+
+        private void Costs_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            HasOtherCosts = (Costs.Count == 0) ? HasOtherCosts = false : HasOtherCosts = true;
         }
 
         #endregion
