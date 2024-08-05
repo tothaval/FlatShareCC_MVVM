@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  CostDisplayViewModel  : BaseViewModel
  * 
@@ -78,7 +78,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public FlatViewModel FlatViewModel => _flatViewModel;
 
 
-        public bool HasBilling => _billingViewModel != null;
+        public bool HasBilling => _flatViewModel.AnnualBillings.Count > 0;
 
 
         private bool _RentSelected;
@@ -144,11 +144,14 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 ActiveViewModel = (ICostDisplay)new RentCostsViewModel(_rentViewModel, _flatViewModel);
             }
 
-            if (_rentViewModel != null && _rentViewModel.BillingViewModel != null)
+            if (_flatViewModel != null && _flatViewModel.AnnualBillings != null )
             {
-                _billingViewModel = _rentViewModel.BillingViewModel;
+                if (_FlatManagementViewModel.AnnualBilling != null && _FlatManagementViewModel.AnnualBilling.SelectedValue != null)
+                {
+                    _billingViewModel = _FlatManagementViewModel.AnnualBilling.SelectedValue;
 
-                _billingViewModel.UpdateCosts();
+                    _billingViewModel.UpdateCosts(); 
+                }
             }
             else
             {
@@ -157,7 +160,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
 
             if (_AccountingViewModel.Rents.SelectedValue != null
-                && _AccountingViewModel.Rents.SelectedValue.HasBilling)
+                && _flatViewModel != null && _flatViewModel.AnnualBillings.Count > 0)
             {
                 if (_FlatManagementViewModel.ShowCostsBillingSelected)
                 {

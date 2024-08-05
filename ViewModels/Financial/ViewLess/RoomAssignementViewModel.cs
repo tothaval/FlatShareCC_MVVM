@@ -1,13 +1,13 @@
-﻿using SharedLivingCostCalculator.Models;
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RoomAssignementViewModel  : BaseViewModel
+ * 
+ *  viewmodel for RoomAssignement model
+ */
+
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 {
@@ -70,3 +70,4 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
     }
 }
+// EOF

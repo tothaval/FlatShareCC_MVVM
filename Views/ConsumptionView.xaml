@@ -5,12 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
-             xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              FontWeight="Normal">
 
-    <Grid>
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
             <ColumnDefinition Width="*" SharedSizeGroup="Values"/>
@@ -24,13 +23,17 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="{DynamicResource IDF_Consumption}"
-                   Style="{StaticResource Header}"
+        <TextBlock Style="{StaticResource Header}"
+                   Margin="0 10"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Grid.Row="0"/>
+                   Grid.Row="0">
+                       <Run Text="{DynamicResource IDF_Consumption}"/>
+                       <Run Text="{DynamicResource IDF_perYear}"/>
+        </TextBlock>
 
         <TextBlock Text="Select"
                    Style="{StaticResource StringValueTextBlock}"
@@ -80,15 +83,11 @@
                                Grid.Column="0"
                                Grid.Row="3"/>
 
-        <TextBox Text="{Binding BillingViewModel.SelectedConsumptionItem.TotalRoomUnits, 
+        <TextBlock Text="{Binding BillingViewModel.SelectedConsumptionItem.TotalRoomUnits, 
                         StringFormat=N4,
-                        Mode=OneWay,
-                        NotifyOnSourceUpdated=True,
-                        NotifyOnValidationError=True,
-                        ValidatesOnDataErrors=True}"
-                 Style="{StaticResource DoubleValueTextBox}"
+                        NotifyOnSourceUpdated=True}"
+                 Style="{StaticResource DoubleValueTextBlock}"
                  IsEnabled="{Binding DataLock}"
-                 IsReadOnly="True"
                  Grid.Column="1"
                  Grid.Row="3"/>
 
@@ -97,15 +96,11 @@
                                Grid.Column="0"
                                Grid.Row="4"/>
 
-        <TextBox Text="{Binding BillingViewModel.SelectedConsumptionItem.SharedConsumption,
+        <TextBlock Text="{Binding BillingViewModel.SelectedConsumptionItem.SharedConsumption,
                         StringFormat=N4,
-                        Mode=OneWay,
-                        NotifyOnSourceUpdated=True,
-                        NotifyOnValidationError=True,
-                        ValidatesOnDataErrors=True}"
-                 Style="{StaticResource DoubleValueTextBox}"
+                        NotifyOnSourceUpdated=True}"
+                 Style="{StaticResource DoubleValueTextBlock}"
                  IsEnabled="{Binding DataLock}"
-                 IsReadOnly="True"
                  Grid.Column="1"
                  Grid.Row="4"/>
 
@@ -114,31 +109,35 @@
                                Grid.Column="0"
                                Grid.Row="5"/>
 
-        <TextBox Text="{Binding BillingViewModel.SelectedConsumptionItem.SharedConsumptionPercentage,
+        <TextBlock Text="{Binding BillingViewModel.SelectedConsumptionItem.SharedConsumptionPercentage,
                         StringFormat=N4,
-                        Mode=OneWay,
-                        NotifyOnSourceUpdated=True,
-                        NotifyOnValidationError=True,
-                        ValidatesOnDataErrors=True}"
-                 Style="{StaticResource DoubleValueTextBox}"
+                        NotifyOnSourceUpdated=True}"
+                 Style="{StaticResource DoubleValueTextBlock}"
                  IsEnabled="{Binding DataLock}"
-                 IsReadOnly="True"
                  Grid.Column="1"
                  Grid.Row="5"/>
 
+        <TextBlock Style="{StaticResource Header}"
+                   Margin="0 10"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Grid.Row="6">
+                       <Run Text="{DynamicResource IDF_Consumption}"/>
+                       <Run Text="{DynamicResource IDF_perRoom}"/>
+        </TextBlock>
 
         <ListView ItemsSource="{Binding  BillingViewModel.SelectedConsumptionItem.RoomConsumptionViewModels, NotifyOnSourceUpdated=True}"
                   SelectionMode="Single"
                   TextBlock.TextAlignment="Right"       
                   Margin="5 5"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  HorizontalContentAlignment="Left"
-                  HorizontalAlignment="Left"
+                  HorizontalContentAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
                   BorderThickness="0"
                   ItemContainerStyle="{StaticResource ItemContainerStyle}"
                   Grid.Column="0"
                   Grid.ColumnSpan="2"
-                  Grid.Row="6">
+                  Grid.Row="7">
 
                 <ListView.View>
                     <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
@@ -173,7 +172,7 @@
                                   NotifyOnSourceUpdated=True,
                                   ValidatesOnDataErrors=true,
                                   StringFormat=N4, Delay=500}"
-                                   IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=windows:BillingWindow}}"
+                                   IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
                                    VerticalAlignment="Center" 
                                    Style="{StaticResource DoubleValueTextBox}"
                                    />

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Language>English</Language>
+  <IDF_AnnualBillings>Annual Billing(s)</IDF_AnnualBillings>
   <IDF_Billing>Billing</IDF_Billing>
   <IDF_BillingPeriodData>Billing Data</IDF_BillingPeriodData>
   <IDF_BillingPeriodOptions>Billing Options</IDF_BillingPeriodOptions>
@@ -13,10 +14,8 @@ Combined</IDF_CombinedConsumption>
 % </IDF_ConsumptionPercentage>
   <IDF_ExtraCosts>Extra
 Costs</IDF_ExtraCosts>
-  <IDF_FixedCosts>Fixed
-Costs</IDF_FixedCosts>
-  <IDF_HeatingCosts>Heating
-Costs</IDF_HeatingCosts>
+  <IDF_FixedCosts>Fixed</IDF_FixedCosts>
+  <IDF_HeatingCosts>Heating</IDF_HeatingCosts>
   <IDF_TotalCosts>Total
 Costs</IDF_TotalCosts>
   <IDF_Balance>Balance</IDF_Balance>
@@ -31,9 +30,10 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_TotalConsumption>Total</IDF_TotalConsumption>
   <IDF_SharedConsumption>Shared</IDF_SharedConsumption>
   <IDF_TotalRooms>Rooms</IDF_TotalRooms>
+  <IDF_Year>Year</IDF_Year>
   <IDF_Back>Back</IDF_Back>
-  <IDF_NewBilling>New Billing</IDF_NewBilling>
-  <IDF_DeleteBilling>Delete</IDF_DeleteBilling>
+  <IDF_NewBilling>New Annual Billing</IDF_NewBilling>
+  <IDF_DeleteBilling>Delete Annual Billing</IDF_DeleteBilling>
   <IDF_PrintView>Print</IDF_PrintView>
   <IDF_ShowCosts>Costs</IDF_ShowCosts>
   <IDF_Other>Other</IDF_Other>
@@ -99,9 +99,9 @@ Advance</IDF_AdvanceHeating>
   <IDF_Heating>Heating</IDF_Heating>
   <IDF_AdvanceTotal>Total Costs</IDF_AdvanceTotal>
   <IDF_PriceTotal>Total Price</IDF_PriceTotal>
-  <IDF_BaseRentOnBilling>factor in billing</IDF_BaseRentOnBilling>
+  <IDF_BaseRentOnBilling>add billing</IDF_BaseRentOnBilling>
   <IDF_AnnualBilling>Annual Billing</IDF_AnnualBilling>
-  <IDF_Costs>Other Costs Setup</IDF_Costs>
+  <IDF_Costs>Other Costs</IDF_Costs>
   <IDF_OtherCostsAdvance>Other
 Costs</IDF_OtherCostsAdvance>
   <IDF_OtherCosts>other costs details</IDF_OtherCosts>
@@ -112,10 +112,10 @@ Costs</IDF_OtherCostsAdvance>
   <IDF_CompleteCosts>Complete
 Costs</IDF_CompleteCosts>
   <IDF_Credit>Credit(s)</IDF_Credit>
-  <IDF_HasOtherCosts>factor in other costs</IDF_HasOtherCosts>
+  <IDF_HasOtherCosts>other costs</IDF_HasOtherCosts>
   <IDF_NewOtherCosts>setup other costs</IDF_NewOtherCosts>
-  <IDF_FactorInCredit>factor in credits</IDF_FactorInCredit>
-  <IDF_FactorInPayments>factor in payments</IDF_FactorInPayments>
+  <IDF_FactorInCredit>credits</IDF_FactorInCredit>
+  <IDF_FactorInPayments>payments</IDF_FactorInPayments>
   <IDF_NewCredit>Setup Credit</IDF_NewCredit>
   <IDF_LockData>Lock Data</IDF_LockData>
   <IDF_RentStartDate>Begin</IDF_RentStartDate>
@@ -142,8 +142,9 @@ Year</IDF_TotalPricePerYear>
   <IDF_AnnualHeating>Heating</IDF_AnnualHeating>
   <IDF_AnnualPrice>Price</IDF_AnnualPrice>
   <IDF_firstYear>first year</IDF_firstYear>
-  <IDF_perYear>per year</IDF_perYear>
   <IDF_perMonth>per month</IDF_perMonth>
+  <IDF_perRoom>per room</IDF_perRoom>
+  <IDF_perYear>per year</IDF_perYear>
   <IDF_SettingsTitleText>SLCC Settings</IDF_SettingsTitleText>
   <IDF_Language>Language</IDF_Language>
   <IDF_Culture>Culture</IDF_Culture>

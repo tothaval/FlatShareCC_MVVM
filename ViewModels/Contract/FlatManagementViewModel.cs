@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  FlatManagementViewModel  : BaseViewModel
  * 
@@ -49,22 +49,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             }
         }
 
-        
-        private BillingViewModel? GetBillingViewModel()
-        {
-            if (Accounting != null)
-            {
-                if (Accounting.Rents.SelectedValue!= null)
-                {
-                    if (Accounting.Rents.SelectedValue.HasBilling)
-                    {                        
-                        return Accounting.Rents.SelectedValue.BillingViewModel;
-                    }
-                }
-            }
-
-            return null;
-        }
 
         public CostDisplayViewModel Cost { get; }
 
@@ -160,16 +144,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             {
                 _ShowAnnualBilling = value;
 
-
                 if (_ShowAnnualBilling)
                 {
-                    if (GetBillingViewModel() != null)
-                    {
-                        BillingViewModel billingViewModel = GetBillingViewModel();
-
-                        AnnualBilling = new BillingPeriodViewModel(billingViewModel.FlatViewModel, billingViewModel);
-                    }
-
                     ShowAccounting = false;
                     ShowCosts = false;
                     ShowFlatManagement = false;
@@ -237,25 +213,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         }
 
 
-        private bool _ShowFlatSetup;
-        public bool ShowFlatSetup
-        {
-            get { return _ShowFlatSetup; }
-            set
-            {
-                _ShowFlatSetup = value;
-
-                if (_ShowFlatSetup)
-                {
-                    ShowRoomSetup = false;
-                    ShowTenantSetup = false;
-                }
-
-                OnPropertyChanged(nameof(ShowFlatSetup));
-            }
-        }
-
-
         private bool _ShowManual;
         public bool ShowManual
         {
@@ -276,7 +233,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 OnPropertyChanged(nameof(ShowManual));
             }
         }
-
 
 
         private bool _ShowPrintView;
@@ -300,25 +256,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         }
 
 
-        private bool _ShowRoomSetup;
-        public bool ShowRoomSetup
-        {
-            get { return _ShowRoomSetup; }
-            set
-            {
-                _ShowRoomSetup = value;
-
-                if (_ShowRoomSetup)
-                {
-                    ShowFlatSetup = false;
-                    ShowTenantSetup = false;
-                }
-
-                OnPropertyChanged(nameof(ShowRoomSetup));
-            }
-        }
-
-
         private bool _ShowSettings;
         public bool ShowSettings
         {
@@ -328,25 +265,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 _ShowSettings = value;
 
                 OnPropertyChanged(nameof(ShowSettings));
-            }
-        }
-
-
-        private bool _ShowTenantSetup;
-        public bool ShowTenantSetup
-        {
-            get { return _ShowTenantSetup; }
-            set
-            {
-                _ShowTenantSetup = value;
-
-                if (_ShowTenantSetup)
-                {
-                    ShowFlatSetup = false;
-                    ShowRoomSetup = false;
-                }
-
-                OnPropertyChanged(nameof(ShowTenantSetup));
             }
         }
 
@@ -402,7 +320,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         public FlatManagementViewModel(ObservableCollection<FlatViewModel> flatCollection)
         {
-            Accounting = new AccountingViewModel(this);
+            Accounting = new AccountingViewModel(this);            
             Cost = new CostDisplayViewModel(this);
             FlatSetup = new FlatSetupViewModel(this);
             Print = new PrintViewModel(this);
@@ -491,10 +409,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
                 ShowFlatManagement = applicationData.FlatManagement_Shown;
 
-                ShowFlatSetup = applicationData.FlatSetup_Shown;
-
                 ShowManual = applicationData.Manual_Shown;
-                ShowRoomSetup = applicationData.RoomSetup_Shown;
+
                 ShowSettings = applicationData.Settings_Shown;
 
                 _flatCollection.CollectionChanged += LoadUp;
@@ -549,8 +465,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             SelectedItem = _flatCollection.First();
 
-            ShowFlatSetup = true;
-
             OnPropertyChanged(nameof(SelectedItem));
             OnPropertyChanged(nameof(HasFlat));
             OnPropertyChanged(nameof(FlatSetup));
@@ -571,9 +485,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             {
                 ShowAccounting = false;
                 ShowCosts = false;
-                ShowFlatSetup = false;
-                ShowRoomSetup = false;
-                ShowTenantSetup = false;
                 ShowPrintView = false;
 
 
@@ -590,7 +501,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 FlatSetup = new FlatSetupViewModel(this);
                 RoomSetup = new RoomSetupViewModel(this);
                 TenantSetup = new TenantSetupViewModel(this);
-
+                                
                 OnPropertyChanged(nameof(FlatSetup));
                 OnPropertyChanged(nameof(RoomSetup));
                 OnPropertyChanged(nameof(TenantSetup));
@@ -603,6 +514,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             if (_flatCollection.Count > 0)
             {
                 SelectedItem = _flatCollection?.First();
+
+                AnnualBilling = new BillingPeriodViewModel(SelectedItem);
             }
             else
             {

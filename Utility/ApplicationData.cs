@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  ApplicationData 
  * 
@@ -29,17 +29,11 @@ namespace SharedLivingCostCalculator.Utility
         private FlatManagementViewModel? _FlatManagementViewModel;
 
 
-        public bool FlatSetup_Shown { get; set; } = false;
-
-
         public int FlatViewModelSelectedIndex { get; set; } = 0;
 
 
         public bool Manual_Shown { get; set; } = false;
-
-
-        public bool RoomSetup_Shown { get; set; } = false;
-        
+               
 
         public bool Settings_Shown { get; set; } = false;
 
@@ -83,8 +77,6 @@ namespace SharedLivingCostCalculator.Utility
             {
                 Accounting_Shown = _FlatManagementViewModel.ShowAccounting;
 
-                FlatSetup_Shown = _FlatManagementViewModel.ShowFlatSetup;
-
                 FlatManagement_Shown = _FlatManagementViewModel.ShowFlatManagement;
 
                 if (_FlatManagementViewModel.FlatCollection.Count > 0)
@@ -99,8 +91,6 @@ namespace SharedLivingCostCalculator.Utility
                 }
 
                 Manual_Shown = _FlatManagementViewModel.ShowManual;
-
-                RoomSetup_Shown = _FlatManagementViewModel.ShowRoomSetup;
 
                 Settings_Shown = _FlatManagementViewModel.ShowSettings;
 

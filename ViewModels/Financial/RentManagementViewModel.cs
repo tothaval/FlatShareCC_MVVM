@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  RentManagementViewModel  : BaseViewModel
  * 
@@ -227,11 +227,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             if (rentViewModel.Credits.Count > 0)
             {
                rentViewModel.HasCredits = true;
-            }
-
-            if (SelectedValue.HasBilling)
-            {
-                rentViewModel.BillingViewModel = SelectedValue.BillingViewModel;
             }
 
 

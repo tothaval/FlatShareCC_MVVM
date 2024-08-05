@@ -10,7 +10,6 @@
         xmlns:vmsfin="clr-namespace:SharedLivingCostCalculator.ViewModels.Financial"
         xmlns:vmscon="clr-namespace:SharedLivingCostCalculator.ViewModels.Contract"
         xmlns:views="clr-namespace:SharedLivingCostCalculator.Views"
-        xmlns:windows="clr-namespace:SharedLivingCostCalculator.Views.Windows"
         Name="mainWindow"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
@@ -89,11 +88,11 @@
             </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmsfin:BillingCostsWindowViewModel}">
-            <windows:BillingCostsWindow/>
+            <views:OtherCostsView/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vmsfin:RentCostsWindowViewModel}">
-            <windows:RentCostsWindow/>
+        <DataTemplate DataType="{x:Type vmsfin:OtherCostsRentViewModel}">
+            <views:OtherCostsView/>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmsfin:CreditSetupViewModel}">
@@ -102,7 +101,7 @@
 
 
         <DataTemplate DataType="{x:Type vmsfin:CreditViewViewModel}">
-            <windows:CreditView/>
+            <views:CreditSetupRentView/>
         </DataTemplate>
 
         <!--#endregion vmsfin-->

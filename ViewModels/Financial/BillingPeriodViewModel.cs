@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  BillingPeriodViewModel : BaseViewModel
  * 
@@ -10,17 +10,19 @@
  *  
  *  implements INotifyDataErrorInfo
  */
+using PropertyTools.Wpf;
 using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using SharedLivingCostCalculator.Views.Windows;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
@@ -42,30 +44,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public ConsumptionViewModel? ConsumptionViewModel { get; set; }
 
 
-        private bool _CostsWindowActive;
-        public bool CostsWindowActive
-        {
-            get { return _CostsWindowActive; }
-            set
-            {
-                _CostsWindowActive = value;
-
-                if (_CostsWindowActive == false && billingWindow != null)
-                {
-                    foreach (Window wdw in billingWindow.OwnedWindows)
-                    {
-                        if (wdw.GetType() == typeof(BillingCostsWindow))
-                        {
-                            wdw.Close();
-                        }
-                    }
-                }
-
-
-                OnPropertyChanged(nameof(CostsWindowActive));
-            }
-        }
-
         public CreditSetupViewModel CreditSetupViewModel { get; set; }
 
 
@@ -76,7 +54,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             set
             {
                 _DataLockCheckbox = value;
-                _billingViewModel.HasDataLock = _DataLockCheckbox;
+
+                SelectedValue.HasDataLock = _DataLockCheckbox;
+
                 OnPropertyChanged(nameof(DataLockCheckbox));
                 OnPropertyChanged(nameof(DataLock));
             }
@@ -95,7 +75,14 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         public bool HasCredit
         {
-            get { return BillingViewModel.HasCredits; }
+            get
+            {
+                if (SelectedValue != null)
+                {
+                    return SelectedValue.HasCredits;
+                }
+                return false;
+            }
             set
             {
 
@@ -107,7 +94,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     if (result == MessageBoxResult.Yes)
                     {
                         //RentViewModel.RemoveBilling();
-                        BillingViewModel.HasCredits = value;
+                        SelectedValue.HasCredits = value;
 
                         if (SelectedIndex == 2)
                         {
@@ -118,7 +105,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 if (!HasCredit && value == true)
                 {
-                    BillingViewModel.HasCredits = value;
+                    SelectedValue.HasCredits = value;
 
                     if (SelectedIndex != 2)
                     {
@@ -135,9 +122,59 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public bool HasErrors => _helper.HasErrors;
 
 
+        public bool HasOther
+        {
+            get
+            {
+                if (SelectedValue != null)
+                {
+                    return SelectedValue.HasOtherCosts;
+                }
+                return false;
+            }
+            set
+            {
+
+                if (value == false)
+                {
+                    MessageBoxResult result = MessageBox.Show(
+                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
+                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        if (SelectedIndex == 1)
+                        {
+                            SelectedIndex = 0;
+                        }
+                    }
+                }
+
+                if (!HasOther && value == true)
+                {
+                    SelectedValue.HasOtherCosts = value;
+
+                    if (SelectedIndex != 1)
+                    {
+                        SelectedIndex = 1;
+                    }
+                }
+
+                OnPropertyChanged(nameof(HasOther));
+                OnPropertyChanged(nameof(SetOtherVisibility));
+            }
+        }
+
+
         public bool HasPayments
         {
-            get { return BillingViewModel.HasPayments; }
+            get
+            {
+                if (SelectedValue != null)
+                {
+                    return SelectedValue.HasPayments;
+                }
+                return false;
+            }
             set
             {
                 if (value == false)
@@ -148,9 +185,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     if (result == MessageBoxResult.Yes)
                     {
                         //RentViewModel.RemoveBilling();
-                        BillingViewModel.HasPayments = value;
+                        SelectedValue.HasPayments = value;
 
-                        if (SelectedIndex == 1)
+                        if (SelectedIndex == 3)
                         {
                             SelectedIndex = 0;
                         }
@@ -159,11 +196,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 if (!HasPayments && value == true)
                 {
-                    BillingViewModel.HasPayments = value;
+                    SelectedValue.HasPayments = value;
 
-                    if (SelectedIndex != 1)
+                    if (SelectedIndex != 3)
                     {
-                        SelectedIndex = 1;
+                        SelectedIndex = 3;
                     }
                 }
 
@@ -175,6 +212,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
 
         private ValidationHelper _helper = new ValidationHelper();
+
+
+        public BillingCostsWindowViewModel OtherCostsViewModel { get; set; }
 
 
         public PaymentManagementViewModel? PaymentManagementViewModel { get; set; }
@@ -195,8 +235,49 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
+        private BillingViewModel _selectedValue;
+        public BillingViewModel SelectedValue
+        {
+            get { return _selectedValue; }
+            set
+            {
+                if (_selectedValue == value) return;
+                _selectedValue = value;
+
+                //UpdateViewModel = new RentUpdateViewModel(_flatViewModel, _selectedValue);
+
+                PaymentManagementViewModel = new PaymentManagementViewModel(_selectedValue);
+                ConsumptionViewModel = new ConsumptionViewModel(_selectedValue);
+                CreditSetupViewModel = new CreditSetupViewModel(_selectedValue);
+                OtherCostsViewModel = new BillingCostsWindowViewModel(_selectedValue);
+
+                SelectedIndex = 0;
+
+                //SelectedItemChange?.Invoke(this, new EventArgs());
+
+                //RentUpdateSelected = true;
+                //OnPropertyChanged(nameof(RentUpdateSelected));
+                OnPropertyChanged(nameof(SelectedValue));
+
+                OnPropertyChanged(nameof(PaymentManagementViewModel));
+                OnPropertyChanged(nameof(ConsumptionViewModel));
+                OnPropertyChanged(nameof(CreditSetupViewModel));
+                OnPropertyChanged(nameof(OtherCostsViewModel));
+
+                OnPropertyChanged(nameof(HasCredit));
+                OnPropertyChanged(nameof(HasOther));
+                OnPropertyChanged(nameof(HasPayments));
+
+                OnPropertyChanged(nameof(SetCreditVisibility));
+                OnPropertyChanged(nameof(SetOtherVisibility));
+                OnPropertyChanged(nameof(SetPaymentVisibility));
+            }
+        }
+
+
         public bool SetCreditVisibility => HasCredit;
 
+        public bool SetOtherVisibility => HasOther;
 
         public bool SetPaymentVisibility => HasPayments;
 
@@ -214,8 +295,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         #endregion event properties & fields
 
 
-        // collections EMPTY
+        // collections
         #region collections
+
+        public ICollectionView AnnualBillings { get; }
 
         #endregion collections
 
@@ -223,16 +306,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // commands
         #region commands
 
-        public ICommand CloseCommand { get; }
+        public ICommand DeleteBillingCommand { get; }
 
 
-        public ICommand LeftPressCommand { get; }
-
-
-        public ICommand NewCreditCommand { get; }
-
-
-        public ICommand ShowCostsCommand { get; }
+        public ICommand NewBillingCommand { get; }
 
         #endregion commands
 
@@ -240,23 +317,24 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // constructors
         #region constructors
 
-        public BillingPeriodViewModel(FlatViewModel flatViewModel, BillingViewModel billingViewModel)
+        public BillingPeriodViewModel(FlatViewModel flatViewModel)
         {
-            NewCreditCommand = new RelayCommand(p => AddCredit(), (s) => true);
-            ShowCostsCommand = new RelayCommand(p => ShowCostsView(p), (s) => true);
-
-
-            _billingViewModel = billingViewModel;
-
-            if (_billingViewModel == null)
-            {
-                Billing billing = new Billing(flatViewModel);
-
-
-                _billingViewModel = new BillingViewModel(flatViewModel, billing);
-            }
 
             _FlatViewModel = flatViewModel;
+
+            if (_FlatViewModel != null)
+            {
+                if (_FlatViewModel.RentUpdates.Count > 0)
+                {
+                    AnnualBillings = CollectionViewSource.GetDefaultView(_FlatViewModel.AnnualBillings);
+                    AnnualBillings.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
+
+                    //SelectedValue = 
+                }
+            }
+
+            DeleteBillingCommand = new RelayCommand(p => DeleteAnnualBilling(p), (s) => true);
+            NewBillingCommand = new RelayCommand(p => AddAnnualBilling(), (s) => true);
 
 
             _helper.ErrorsChanged += (_, e) =>
@@ -266,33 +344,35 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             };
 
 
-            if (BillingViewModel.HasPayments)
-            {
-                HasPayments = true;
-            }
+            //if (BillingViewModel.HasPayments)
+            //{
+            //    HasPayments = true;
+            //}
 
 
-            if (BillingViewModel.HasCredits)
-            {
-                HasCredit = true;
-            }
+            //if (BillingViewModel.HasCredits)
+            //{
+            //    HasCredit = true;
+            //}
 
 
-            if (BillingViewModel.HasDataLock)
-            {
-                DataLockCheckbox = true;
-            }
+            //if (BillingViewModel.HasDataLock)
+            //{
+            //    DataLockCheckbox = true;
+            //}
 
 
             SelectedIndex = 0;
 
+            //PaymentManagementViewModel = new PaymentManagementViewModel(_billingViewModel);
+            //ConsumptionViewModel = new ConsumptionViewModel(_billingViewModel);
+            //CreditSetupViewModel = new CreditSetupViewModel(_billingViewModel);
+            //OtherCostsViewModel = new BillingCostsWindowViewModel(_billingViewModel);
 
-            PaymentManagementViewModel = new PaymentManagementViewModel(_billingViewModel);
-            ConsumptionViewModel = new ConsumptionViewModel(_billingViewModel);
-            CreditSetupViewModel = new CreditSetupViewModel(_billingViewModel);
-
-            CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
-            LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
+            if (_FlatViewModel.AnnualBillings.Count > 0)
+            {
+                SelectedValue = _FlatViewModel.AnnualBillings.First();
+            }
         }
 
         #endregion constructors
@@ -301,57 +381,55 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // methods
         #region methods
 
-        private void AddCredit()
-        {
-            //throw new NotImplementedException();
-        }
-
-
-        private void Close(object s)
-        {
-            Window window = (Window)s;
-
-            MessageBoxResult result = MessageBox.Show(window,
-                $"Close Billing Window?\n\n",
-                "Close Window", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
-            {
-                window.Close();
-            }
-        }
-
-
-        private void Drag(object s)
-        {
-            Window window = (Window)s;
-
-            window.DragMove();
-        }
-
-
-        private void ShowCostsView(object p)
-        {
-            if (CostsWindowActive)
-            {
-                billingWindow = (Window)p;
-
-                BillingCostsWindow otherCostsView = new BillingCostsWindow();
-
-                otherCostsView.DataContext = new BillingCostsWindowViewModel(BillingViewModel);
-
-                otherCostsView.Owner = billingWindow;
-                otherCostsView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                 
-                otherCostsView.Show();
-            }
-        }
-
         #endregion methods
 
 
         // events
         #region events
 
+        private void AddAnnualBilling()
+        {
+            BillingViewModel billingViewModel = new BillingViewModel(_FlatViewModel,
+                new Billing(_FlatViewModel));
+
+            billingViewModel.Year = DateTime.Now.Year;
+
+            _FlatViewModel.AnnualBillings.Add(billingViewModel);
+            SelectedValue = billingViewModel;
+            //OnPropertyChanged(nameof(HasAnnualBillings));
+            OnPropertyChanged(nameof(AnnualBillings));
+        }
+
+
+        private void DeleteAnnualBilling(object? parameter)
+        {
+            IList selection = (IList)parameter;
+
+            if (selection != null)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                    $"Do you want to delete selected rent change?",
+                    "Remove Rent Change(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    var selected = selection.Cast<BillingViewModel>().ToArray();
+
+                    foreach (var item in selected)
+                    {
+                        _FlatViewModel.AnnualBillings.Remove(item);
+
+                    }
+
+                    if (_FlatViewModel.AnnualBillings.Count > 0)
+                    {
+                        SelectedValue = _FlatViewModel.AnnualBillings[0];
+                    }
+
+                    //OnPropertyChanged(nameof(HasAnnualBillings));
+                    OnPropertyChanged(nameof(AnnualBillings));
+                }
+            }
+        }
 
         #endregion events
 

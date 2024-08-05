@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  FlatViewModel  : BaseViewModel
  * 
@@ -140,6 +140,17 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         // collections
         #region collections
+
+        public ObservableCollection<BillingViewModel> AnnualBillings
+        {
+            get { return _flat.AnnualBillings; }
+            set
+            {
+                _flat.AnnualBillings = value;
+                OnPropertyChanged(nameof(AnnualBillings));
+            }
+        }
+
 
         public ObservableCollection<RentViewModel> RentUpdates
         {

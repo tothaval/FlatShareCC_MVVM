@@ -1,10 +1,10 @@
-﻿using SharedLivingCostCalculator.Models.Financial;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RoomConsumption 
+ * 
+ *  serializable data model class
+ *  saves and restores consumption values for rooms
+ */
 
 namespace SharedLivingCostCalculator.Models.Contract
 {
@@ -29,3 +29,4 @@ namespace SharedLivingCostCalculator.Models.Contract
         }
     }
 }
+// EOF

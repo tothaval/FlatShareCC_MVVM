@@ -1,9 +1,8 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  FinancialTransactionItemRent 
  * 
  *  serializable data model class
- *  for FinancialTransactionItemViewModel
  */
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces.Financial;
@@ -15,6 +14,16 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         // properties & fields
         #region properties
+
+
+        public TransactionDurationTypes Duration { get; set; } = TransactionDurationTypes.Ongoing;
+
+
+        public int Rates { get; set; } = 1;
+
+
+        public DateTime StartDate { get; set; } = DateTime.Now.Date;
+
 
         public double TransactionSum { get; set; } = 0.0;
 
@@ -40,5 +49,4 @@ namespace SharedLivingCostCalculator.Models.Financial
 
     }
 }
-
 // EOF

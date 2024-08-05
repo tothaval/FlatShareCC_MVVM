@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  PersistanceDataSet 
  * 
@@ -8,9 +8,11 @@
  */
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.Models.Financial;
+using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Utility
@@ -51,6 +53,10 @@ namespace SharedLivingCostCalculator.Utility
         // collections
         #region collections
 
+        [XmlArray("AnnualBillings")]
+        public ObservableCollection<Billing> AnnualBillings { get; set; }
+
+
         [XmlArray("Rents")]
         public ObservableCollection<Rent> Rents { get; set; }
 
@@ -76,6 +82,7 @@ namespace SharedLivingCostCalculator.Utility
         {
             _flatViewModel = new FlatViewModel(new Flat());
 
+            AnnualBillings = new ObservableCollection<Billing>();
             Rents = new ObservableCollection<Rent>();
             Rooms = new ObservableCollection<Room>();
             TenantConfigurations = new ObservableCollection<TenantConfiguration>();
@@ -91,8 +98,9 @@ namespace SharedLivingCostCalculator.Utility
             RoomCount = flatViewModel.RoomCount;
             DataLock = flatViewModel.HasDataLock;
             Details = flatViewModel.Details;
-            FlatNotes = flatViewModel.FlatNotes;            
+            FlatNotes = flatViewModel.FlatNotes;
 
+            AnnualBillings = GetBillings();
             Rents = GetRents();
             Rooms = GetRooms();
             TenantConfigurations = GetTenantConfigurations();
@@ -123,6 +131,9 @@ namespace SharedLivingCostCalculator.Utility
             Task<ObservableCollection<RentViewModel>> GetRents = GetRentViewModels(flatViewModel);
             flatViewModel.RentUpdates = await GetRents;
 
+            Task<ObservableCollection<BillingViewModel>> GetAnnualBillings = GetBillingViewModels(flatViewModel);
+            flatViewModel.AnnualBillings = await GetAnnualBillings;
+
             Task<ObservableCollection<TenantViewModel>> GetTenants = GetTenantViewModels(flatViewModel);
             flatViewModel.Tenants = await GetTenants;
 
@@ -133,6 +144,38 @@ namespace SharedLivingCostCalculator.Utility
         }
 
 
+        public async Task<ObservableCollection<BillingViewModel>> GetBillingViewModels(FlatViewModel flatViewModel)
+        {
+            ObservableCollection<BillingViewModel> billingViewModels = new ObservableCollection<BillingViewModel>();
+
+            foreach (Billing billing in AnnualBillings)
+            {
+                if (billing.HasPayments)
+                {
+                    foreach (RoomPayments roomPayments in billing.RoomPayments)
+                    {
+                        foreach (RoomViewModel roomViewModel in flatViewModel.Rooms)
+                        {
+                            if (roomPayments.RoomName != null)
+                            {
+                                if (roomPayments.RoomName.Equals(roomViewModel.RoomName))
+                                {
+                                    roomPayments.RoomViewModel = roomViewModel;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                BillingViewModel billingViewModel = new BillingViewModel(flatViewModel, billing);
+
+                billingViewModels.Add(billingViewModel);
+            }
+
+            return billingViewModels;
+        }
+
+
         public async Task<ObservableCollection<RentViewModel>> GetRentViewModels(FlatViewModel flatViewModel)
         {
             ObservableCollection<RentViewModel> rentViewModels = new ObservableCollection<RentViewModel>();
@@ -140,27 +183,6 @@ namespace SharedLivingCostCalculator.Utility
             foreach (Rent rent in Rents)
             {
                 RentViewModel rentViewModel = new RentViewModel(flatViewModel, rent);
-
-                if (rentViewModel.HasBilling && rentViewModel.BillingViewModel != null)
-                {
-                    if (rentViewModel.BillingViewModel.HasPayments)
-                    {
-                        foreach (RoomPayments roomPayments in rentViewModel.BillingViewModel.Billing.RoomPayments)
-                        {
-                            foreach (RoomViewModel roomViewModel in rentViewModel.GetFlatViewModel().Rooms)
-                            {
-                                if (roomPayments.RoomName != null)
-                                {
-                                    if (roomPayments.RoomName.Equals(roomViewModel.RoomName))
-                                    {
-                                        roomPayments.RoomViewModel = roomViewModel;
-                                    } 
-                                }
-                            }
-                        }
-                    }
-
-                }
 
                 rentViewModels.Add(rentViewModel);
             }
@@ -221,6 +243,22 @@ namespace SharedLivingCostCalculator.Utility
         // methods
         #region methods
 
+        private ObservableCollection<Billing> GetBillings()
+        {
+            ObservableCollection<Billing> billings = new ObservableCollection<Billing>();
+
+            foreach (BillingViewModel billingViewModel in _flatViewModel.AnnualBillings)
+            {
+                billingViewModel.UpdateRoomConsumptionItemViewModels();
+
+                Billing billing = billingViewModel.Billing;
+
+                billings.Add(billing);
+            }
+
+            return billings;
+        }
+
         private ObservableCollection<Rent> GetRents()
         {
             ObservableCollection<Rent> rents = new ObservableCollection<Rent>();
@@ -228,24 +266,6 @@ namespace SharedLivingCostCalculator.Utility
             foreach (RentViewModel rentViewModel in _flatViewModel.RentUpdates)
             {
                 Rent rent = rentViewModel.Rent;
-
-                if (rentViewModel.BillingViewModel != null)
-                {
-
-                    rentViewModel.BillingViewModel.UpdateRoomConsumptionItemViewModels();
-
-                    rent.GetBilling = rentViewModel.BillingViewModel.Billing;
-                }
-
-                //if (rent.HasOtherCosts)
-                //{
-                //    rent.FinancialTransactionItems.Clear();
-                //    foreach (FinancialTransactionItemViewModel otherCostItemViewModel in rentViewModel.FinancialTransactionItems)
-                //    {
-                //        rent.FinancialTransactionItems.Add(otherCostItemViewModel.FinancialTransactionItem);
-                //    }
-                //}
-
 
                 rents.Add(rent);
             }
@@ -275,7 +295,7 @@ namespace SharedLivingCostCalculator.Utility
             {
                 tenantConfigurationViewModel.BuildRoomAssignements();
 
-                tenantConfigurations.Add(tenantConfigurationViewModel.GetTenantsConfiguration);                
+                tenantConfigurations.Add(tenantConfigurationViewModel.GetTenantsConfiguration);
             }
 
             return tenantConfigurations;

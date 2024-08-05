@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  Rent 
  * 
@@ -63,9 +63,6 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
         public bool HasDataLock { get; set; } = false;
-
-
-        public Billing? GetBilling { get; set; }
 
 
         public bool CostsHasDataLock { get; set; } = false;

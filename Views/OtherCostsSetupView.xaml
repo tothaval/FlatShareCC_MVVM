@@ -14,7 +14,7 @@
         <ObjectDataProvider x:Key="enumValues"
   MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="enums:TransactionShareTypes"/>
+                <x:Type TypeName="enums:TransactionShareTypesBilling"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 

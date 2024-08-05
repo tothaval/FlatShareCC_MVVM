@@ -26,10 +26,7 @@
 
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0" Style="{StaticResource VisibilityFieldBorder}"
-                Margin="0 0 0 0">
-
-            <StackPanel HorizontalAlignment="Stretch">
+            <StackPanel HorizontalAlignment="Stretch" Grid.Column="0" >
 
                 <TextBlock Text="{DynamicResource IDF_TenantManagement}" 
                            Style="{StaticResource Header}"/>
@@ -177,9 +174,6 @@
 
 
             </StackPanel>
-
-        </Border>
-
 
         <Border Grid.Column="1" Style="{StaticResource VisibilityFieldBorder}"
                 Margin="0 0 0 0">

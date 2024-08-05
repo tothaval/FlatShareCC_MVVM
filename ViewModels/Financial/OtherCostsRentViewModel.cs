@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *   
  *  CostDisplayViewModel  : BaseViewModel
  * 
@@ -19,7 +19,7 @@ using System.Windows;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
 {
-    public class RentCostsWindowViewModel : BaseViewModel
+    public class OtherCostsRentViewModel : BaseViewModel
     {
         
         // properties & fields
@@ -90,7 +90,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // constructors
         #region constructors
 
-        public RentCostsWindowViewModel(RentViewModel rentViewModel)
+        public OtherCostsRentViewModel(RentViewModel rentViewModel)
         {
 
             AddFinacialTransactionItemCommand = new RelayCommand((s) => AddFinacialTransactionItem(s), (s) => true);
@@ -98,14 +98,18 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             RentViewModel = rentViewModel;
 
-            _FlatViewModel = rentViewModel.GetFlatViewModel();
 
-            ViewModel = RentViewModel;
-
-
-            if (RentViewModel.CostsHasDataLock)
+            if (RentViewModel != null)
             {
-                DataLockCheckbox = true;
+                _FlatViewModel = rentViewModel.GetFlatViewModel();
+
+                ViewModel = RentViewModel;
+
+
+                if (RentViewModel.CostsHasDataLock)
+                {
+                    DataLockCheckbox = true;
+                } 
             }
 
             CloseCommand = new RelayCommand((s) => Close(s), (s) => true);

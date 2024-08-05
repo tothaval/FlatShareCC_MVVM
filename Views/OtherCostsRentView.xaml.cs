@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SharedLivingCostCalculator.Views.Windows
+namespace SharedLivingCostCalculator.Views
 {
     /// <summary>
-    /// Interaktionslogik für RentCostsWindow.xaml
+    /// Interaktionslogik für OtherCostsRentView.xaml
     /// </summary>
-    public partial class RentCostsWindow : Window
+    public partial class OtherCostsRentView : UserControl
     {
-        public RentCostsWindow()
+        public OtherCostsRentView()
         {
             InitializeComponent();
         }

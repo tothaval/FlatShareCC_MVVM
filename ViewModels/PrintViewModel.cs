@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  PrintViewModel  : BaseViewModel
  * 
@@ -892,13 +892,14 @@ namespace SharedLivingCostCalculator.ViewModels
                     continue;
                 }
 
-                if (item.HasBilling)
+                foreach (BillingViewModel billingViewModel in FlatViewModel.AnnualBillings)
                 {
-                    RentHasBilling = true;
+                    if (billingViewModel.Year == item.StartDate.Year - 1)
+                    {
+                        RentHasBilling = true;
 
-                    BillingViewModel = item.BillingViewModel;
-
-                    break;
+                        BillingViewModel = billingViewModel;
+                    }
                 }
 
                 RentHasBilling = false;
@@ -925,6 +926,77 @@ namespace SharedLivingCostCalculator.ViewModels
             otherPlanFlatTable.RowGroups.Add(dataRowGroup);
 
             return otherPlanFlatTable;
+        }
+
+
+        private Table DataOutputBillingRooms(RoomCostShareBilling roomCostShareBilling)
+        {
+            Table billingTableRooms = DataOutputTableRoomsBilling();
+
+            TableRowGroup dataRowGroup = new TableRowGroup();
+            dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
+
+            //TableRow dataRow = new TableRow();
+
+            //TableCell Year = new TableCell();
+            //Year.TextAlignment = TextAlignment.Right;
+
+            //TableCell RoomName = new TableCell();
+
+            //TableCell Area = new TableCell();
+
+            //TableCell AreaSum = new TableCell();
+            //AreaSum.TextAlignment = TextAlignment.Right;
+
+            //Year.Blocks.Add(new Paragraph(new Run($"{BillingViewModel.StartDate.Year}")));
+            //RoomName.Blocks.Add(new Paragraph(new Run(roomCostShareBilling.RoomName)));
+            //Area.Blocks.Add(new Paragraph(new Run($"Area {roomCostShareBilling.RoomArea:N2} + {roomCostShareBilling.SharedAreaShare:N2}")));
+            //AreaSum.Blocks.Add(new Paragraph(new Run($"{roomCostShareBilling.RentedAreaShare:N2}")) {Margin = new Thickness(0, 0, 10, 0)});
+
+            //dataRow.Cells.Add(Year);
+            //dataRow.Cells.Add(RoomName);
+            //dataRow.Cells.Add(Area);
+            //dataRow.Cells.Add(AreaSum);
+
+            //dataRowGroup.Rows.Add(dataRow);
+
+            TableRow tableRowFixedCostsShare = DataOutputTableRowRoomsBilling(
+                    BillingViewModel,
+                    roomCostShareBilling.RoomName,
+                    roomCostShareBilling.FixedCostsAnnualCostsShare,
+                    BillingViewModel.Billing.TotalFixedCostsPerPeriod.TransactionItem);
+
+            dataRowGroup.Rows.Add(tableRowFixedCostsShare);
+
+            TableRow tableRowHeatingCostsShare = DataOutputTableRowRoomsBilling(
+                    BillingViewModel,
+                    roomCostShareBilling.RoomName,
+                    roomCostShareBilling.HeatingCostsAnnualCostsShare,
+                    BillingViewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem);
+
+            dataRowGroup.Rows.Add(tableRowHeatingCostsShare);
+
+            if (OtherOutputSelected)
+            {
+                foreach (FinancialTransactionItemBillingViewModel item in roomCostShareBilling.FinancialTransactionItemViewModels)
+                {
+                    dataRowGroup.Rows.Add(DataOutputTableRowRoomsBilling(
+                        BillingViewModel,
+                        roomCostShareBilling.RoomName,
+                        item.TransactionSum,
+                        item.TransactionItem));
+                }
+            }
+
+            billingTableRooms.RowGroups.Add(dataRowGroup);
+
+            dataRowGroup.Rows.Add(DataOutputTableRowRoomsBilling(
+                 BillingViewModel,
+                 roomCostShareBilling.RoomName,
+                 roomCostShareBilling.TotalCostsAnnualCostsShare,
+                 "sum", true));
+
+            return billingTableRooms;
         }
 
 
@@ -1260,79 +1332,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
             return dataRow;
         }
-
-
-
-        private Table DataOutputBillingRooms(RoomCostShareBilling roomCostShareBilling)
-        {
-            Table billingTableRooms = DataOutputTableRoomsBilling();
-
-            TableRowGroup dataRowGroup = new TableRowGroup();
-            dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
-
-            //TableRow dataRow = new TableRow();
-
-            //TableCell Year = new TableCell();
-            //Year.TextAlignment = TextAlignment.Right;
-
-            //TableCell RoomName = new TableCell();
-
-            //TableCell Area = new TableCell();
-
-            //TableCell AreaSum = new TableCell();
-            //AreaSum.TextAlignment = TextAlignment.Right;
-
-            //Year.Blocks.Add(new Paragraph(new Run($"{BillingViewModel.StartDate.Year}")));
-            //RoomName.Blocks.Add(new Paragraph(new Run(roomCostShareBilling.RoomName)));
-            //Area.Blocks.Add(new Paragraph(new Run($"Area {roomCostShareBilling.RoomArea:N2} + {roomCostShareBilling.SharedAreaShare:N2}")));
-            //AreaSum.Blocks.Add(new Paragraph(new Run($"{roomCostShareBilling.RentedAreaShare:N2}")) {Margin = new Thickness(0, 0, 10, 0)});
-
-            //dataRow.Cells.Add(Year);
-            //dataRow.Cells.Add(RoomName);
-            //dataRow.Cells.Add(Area);
-            //dataRow.Cells.Add(AreaSum);
-
-            //dataRowGroup.Rows.Add(dataRow);
-
-            TableRow tableRowFixedCostsShare = DataOutputTableRowRoomsBilling(
-                    BillingViewModel,
-                    roomCostShareBilling.RoomName,
-                    roomCostShareBilling.FixedCostsAnnualCostsShare,
-                    BillingViewModel.Billing.TotalFixedCostsPerPeriod.TransactionItem);
-
-            dataRowGroup.Rows.Add(tableRowFixedCostsShare);
-
-            TableRow tableRowHeatingCostsShare = DataOutputTableRowRoomsBilling(
-                    BillingViewModel,
-                    roomCostShareBilling.RoomName,
-                    roomCostShareBilling.HeatingUnitsTotalConsumptionShare,
-                    BillingViewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem);
-
-            dataRowGroup.Rows.Add(tableRowHeatingCostsShare);
-
-            if (OtherOutputSelected)
-            {
-                foreach (FinancialTransactionItemBillingViewModel item in roomCostShareBilling.FinancialTransactionItemViewModels)
-                {
-                    dataRowGroup.Rows.Add(DataOutputTableRowRoomsBilling(
-                        BillingViewModel,
-                        roomCostShareBilling.RoomName,
-                        item.TransactionSum,
-                        item.TransactionItem));
-                } 
-            }
-
-            billingTableRooms.RowGroups.Add(dataRowGroup);
-
-            dataRowGroup.Rows.Add(DataOutputTableRowRoomsBilling(
-                 BillingViewModel,
-                 roomCostShareBilling.RoomName,
-                 roomCostShareBilling.TotalCostsAnnualCostsShare,
-                 "sum", true));
-
-            return billingTableRooms;
-        }
-
 
 
         private void FillDetailOptions()

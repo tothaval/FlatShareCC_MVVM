@@ -1,4 +1,14 @@
-﻿using SharedLivingCostCalculator.Commands;
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  CreditSetupViewModel  : BaseViewModel
+ * 
+ *  viewmodel for CreditSetupView, currently in use for AnnualBillingView,
+ *  probably gonna be replaced soon by a unifying method for credit setup,
+ *  it is allways the same functionality, there are too many duplications i think.
+ *  
+ *  i have to set the interfaced viewmodel and use that
+ */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
@@ -12,29 +22,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 {
     public class CreditSetupViewModel : BaseViewModel
     {
+        
+        // Properties & Fields
+        #region Properties & Fields
+
         public BillingViewModel BillingViewModel { get; }
 
 
-        private bool _DataLockCheckbox;
-        public bool DataLockCheckbox
+        public bool DataLock
         {
-            get { return _DataLockCheckbox; }
-            set
-            {
-
-                if (BillingViewModel != null)
-                {
-                    _DataLockCheckbox = value;
-                    BillingViewModel.CostsHasDataLock = value;
-                }
-
-                OnPropertyChanged(nameof(DataLockCheckbox));
-                OnPropertyChanged(nameof(DataLock));
-            }
+            get { return !BillingViewModel.HasDataLock; }
         }
-
-
-        public bool DataLock => !DataLockCheckbox;
 
 
         private readonly FlatViewModel _FlatViewModel;
@@ -55,6 +53,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         public IRoomCostsCarrier ViewModel { get; }
 
+        #endregion
 
 
         // commands
@@ -74,24 +73,27 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         #endregion commands
 
 
+        // Constructors
+        #region Constructors
+
         public CreditSetupViewModel(BillingViewModel billingViewModel)
         {
             AddFinacialTransactionItemCommand = new RelayCommand((s) => AddFinacialTransactionItem(s), (s) => true);
             RemoveFinancialTransactionItemCommand = new RelayCommand((s) => RemoveFinancialTransactionItem(s), (s) => true);
 
-            BillingViewModel = billingViewModel; 
+            BillingViewModel = billingViewModel;
 
             _FlatViewModel = billingViewModel.GetFlatViewModel();
 
             ViewModel = BillingViewModel;
 
+            billingViewModel.PropertyChanged += BillingViewModel_PropertyChanged; ;
 
-            if (BillingViewModel.HasDataLock)
-            {
-                DataLockCheckbox = true;
-            }
+            OnPropertyChanged(nameof(DataLock));
 
-        }
+        } 
+
+        #endregion
 
 
         // Methods
@@ -135,9 +137,15 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         // events
         #region events
-                
+
+        private void BillingViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(DataLock));
+        }
+
         #endregion events
 
 
     }
 }
+// EOF

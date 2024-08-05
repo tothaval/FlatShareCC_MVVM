@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  PaymentsSetupViewModel  : BaseViewModel
  * 
@@ -26,6 +26,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         // properties & fields
         #region properties
+
+        private BillingViewModel _BillingViewModel;
+
+        public bool DataLock
+        {
+            get { return !_BillingViewModel.HasDataLock; }
+        }  
 
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
 
@@ -116,8 +123,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // constructors
         #region constructors
 
-        public PaymentsSetupViewModel(RoomPaymentsViewModel roomPaymentsViewModel)
+        public PaymentsSetupViewModel(RoomPaymentsViewModel roomPaymentsViewModel, BillingViewModel billingViewModel)
         {
+            _BillingViewModel = billingViewModel;
             _RoomPaymentsViewModel = roomPaymentsViewModel;
             _quantity = 1;
 

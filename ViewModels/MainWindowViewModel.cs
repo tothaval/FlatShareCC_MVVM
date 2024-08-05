@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  MainWindowViewModel  : BaseViewModel
  * 
@@ -50,17 +50,25 @@ namespace SharedLivingCostCalculator.ViewModels
         #endregion commands
 
 
+        // Constructors
+        #region Constructors
+
         public MainWindowViewModel(ObservableCollection<FlatViewModel> flatViewModels, FlatManagementViewModel flatManagementViewModel)
         {
 
             _FlatManagementViewModel = flatManagementViewModel;
 
             CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
-            LeftDoubleClickCommand = new RelayCommand((s)=> Maximize(s), (s) => true);
+            LeftDoubleClickCommand = new RelayCommand((s) => Maximize(s), (s) => true);
             LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
             MinimizeCommand = new RelayCommand((s) => Minimize(s), (s) => true);
         }
 
+        #endregion
+
+
+        // Methods
+        #region Methods
 
         private void Close(object s)
         {
@@ -114,7 +122,9 @@ namespace SharedLivingCostCalculator.ViewModels
             Window window = (Window)s;
 
             window.WindowState = WindowState.Minimized;
-        }
+        } 
+
+        #endregion
 
 
     }

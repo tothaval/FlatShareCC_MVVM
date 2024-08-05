@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  PaymentManagementViewModel  : BaseViewModel
  * 
@@ -53,7 +53,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 if (_selectedValue == value) return;
                 _selectedValue = value;
 
-                UpdateViewModel = new PaymentsSetupViewModel(SelectedValue);
+                UpdateViewModel = new PaymentsSetupViewModel(SelectedValue, _billingViewModel);
 
                 OnPropertyChanged(nameof(SelectedValue));
             }

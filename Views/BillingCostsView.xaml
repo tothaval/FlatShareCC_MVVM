@@ -949,19 +949,34 @@
 
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate >
-                                                            <StackPanel Orientation="Vertical">
 
-                                                                <TextBlock Text="{Binding ConsumptionCause}" FontWeight="SemiBold"
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <StackPanel Orientation="Vertical">
+
+                                                                    <TextBlock Text="{Binding ConsumptionCause}" FontWeight="SemiBold"
                                                                Style="{StaticResource StringValueTextBlock}"/>
 
-                                                                <TextBlock Text="{Binding TotalConsumptionValue, StringFormat=N4}"
+                                                                    <TextBlock Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                                                    <TextBlock Text="{Binding ConsumptionCost, StringFormat=C2}" FontWeight="SemiBold"
                                                                    Style="{StaticResource DoubleValueTextBlock}"/>
+                                                                    
+                                                                </StackPanel>
 
-                                                                <TextBlock Text="{Binding ConsumptionCost, StringFormat=C2}"
+                                                                <StackPanel Orientation="Vertical">
+                                                                    <TextBlock Text="{Binding ConsumptionValue, StringFormat=N4}"
+                                                                               Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                                                    <TextBlock Text="{Binding SharedConsumption, StringFormat=N4}"
+                                                               Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                                                    <TextBlock Text="{Binding TotalConsumptionValue, StringFormat=N4}"
                                                                    Style="{StaticResource DoubleValueTextBlock}"/>
-
-
+                                                                </StackPanel>
+                                                                
+                                                                
                                                             </StackPanel>
+
                                                         </DataTemplate>
                                                     </ListView.ItemTemplate>
 
@@ -1027,8 +1042,8 @@
                                             <DataTemplate>
                                                 <ListView ItemsSource="{Binding FinancialTransactionItemViewModels,
                                             NotifyOnSourceUpdated=True}"
-                                                  BorderBrush="Transparent"                                                       
-                                                  BorderThickness="0">
+                                                          BorderBrush="Transparent"
+                                                          BorderThickness="0">
 
                                                     <ListView.ItemsPanel>
                                                         <ItemsPanelTemplate>
@@ -1041,14 +1056,16 @@
                                                         <DataTemplate >
                                                             <StackPanel Orientation="Vertical">
 
-                                                                <TextBlock Text="{Binding TransactionItem}" FontWeight="SemiBold"
-                                                               Style="{StaticResource StringValueTextBlock}"/>
+                                                                <TextBlock Text="{Binding TransactionItem}"
+                                                                           FontWeight="SemiBold"
+                                                                           Style="{StaticResource StringValueTextBlock}"/>
 
                                                                 <TextBlock Text="{Binding CostShareTypes}"
-                                                                   Style="{StaticResource StringValueTextBlock}"/>
+                                                                           Style="{StaticResource StringValueTextBlock}"/>
 
                                                                 <TextBlock Text="{Binding TransactionSum, StringFormat=C2}"
-                                                                   Style="{StaticResource DoubleValueTextBlock}"/>
+                                                                           Style="{StaticResource DoubleValueTextBlock}"
+                                                                           FontWeight="Bold"/>
 
                                                             </StackPanel>
                                                         </DataTemplate>
@@ -1066,6 +1083,7 @@
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding OtherCostsAnnualCostsShare,
                                                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat=C2}"
+                                                           FontWeight="Bold"
                                                            Style="{StaticResource DoubleValueTextBlock}"/>
 
                                             </DataTemplate>

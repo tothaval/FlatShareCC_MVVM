@@ -1,4 +1,14 @@
-﻿using SharedLivingCostCalculator.Commands;
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  CreditViewViewModel  : BaseViewModel
+ * 
+ *  viewmodel for CreditView window, currently still in use for RentUpdateView,
+ *  probably gonna be replaced soon by a unifying mechanism for credit setup,
+ *  it is allways the same functionality, there are too many duplications i think.
+ *  
+ *  i have to set the interfaced viewmodel and use that
+ */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
@@ -79,21 +89,26 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         #endregion commands
 
 
+        // Constructors
+        #region Constructors
         public CreditViewViewModel(RentViewModel rentViewModel)
         {
             AddFinacialTransactionItemCommand = new RelayCommand((s) => AddFinacialTransactionItem(s), (s) => true);
             RemoveFinancialTransactionItemCommand = new RelayCommand((s) => RemoveFinancialTransactionItem(s), (s) => true);
 
             RentViewModel = rentViewModel;
-
-            _FlatViewModel = rentViewModel.GetFlatViewModel();
-
-            ViewModel = RentViewModel;
-
-
-            if (RentViewModel.CostsHasDataLock)
+            
+            if (RentViewModel != null)
             {
-                DataLockCheckbox = true;
+                _FlatViewModel = rentViewModel.GetFlatViewModel();
+
+                ViewModel = RentViewModel;
+
+
+                if (RentViewModel.CostsHasDataLock)
+                {
+                    DataLockCheckbox = true;
+                }
             }
 
             //if (BillingViewModel.CostsHasDataLock)
@@ -104,6 +119,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
             LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
         }
+
+        #endregion
 
 
         // Methods
@@ -213,3 +230,4 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
     }
 }
+// EOF

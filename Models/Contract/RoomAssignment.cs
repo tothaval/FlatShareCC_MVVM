@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RoomAssignment 
+ * 
+ *  serializable data model class
+ *  saves and restores assignements of tenants and rooms
+ */
 
 namespace SharedLivingCostCalculator.Models.Contract
 {
@@ -26,3 +28,4 @@ namespace SharedLivingCostCalculator.Models.Contract
 
     }
 }
+// EOF

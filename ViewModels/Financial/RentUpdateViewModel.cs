@@ -1,4 +1,4 @@
-﻿/*  Shared Living TransactionSum Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
  *  RentUpdateViewModel  : BaseViewModel
  * 
@@ -9,13 +9,11 @@
  *  is encapsulated within a RentManagementViewModel
  */
 using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Interfaces;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using SharedLivingCostCalculator.Views.Windows;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -23,68 +21,20 @@ using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
 {
-    public class RentUpdateViewModel : BaseViewModel, IWindowOwner
+    public class RentUpdateViewModel : BaseViewModel
     {
 
         // properties & fields
         #region properties
-
-        private bool _AnnualBillingWindowActive;
-        public bool AnnualBillingWindowActive
+        
+        private CreditViewViewModel _CreditViewViewModel;
+        public CreditViewViewModel CreditViewViewModel
         {
-            get { return _AnnualBillingWindowActive; }
+            get { return _CreditViewViewModel; }
             set
             {
-                _AnnualBillingWindowActive = value;
-
-
-                if (Application.Current.MainWindow != null)
-                {
-                    var ownedWindows = Application.Current.MainWindow.OwnedWindows;
-
-                    if (_AnnualBillingWindowActive == false && ownedWindows != null)
-                    {
-                        foreach (Window wdw in Application.Current.MainWindow.OwnedWindows)
-                        {
-                            if (wdw.GetType() == typeof(BillingWindow))
-                            {
-                                wdw.Close();
-                            }
-                        }
-                    }
-                }
-
-
-                OnPropertyChanged(nameof(AnnualBillingWindowActive));
-            }
-        }
-
-
-        private bool _CostsWindowActive;
-        public bool CostsWindowActive
-        {
-            get { return _CostsWindowActive; }
-            set
-            {
-                _CostsWindowActive = value;
-
-                if (Application.Current.MainWindow != null)
-                {
-                    var ownedWindows = Application.Current.MainWindow.OwnedWindows;
-
-                    if (_CostsWindowActive == false && ownedWindows != null)
-                    {
-                        foreach (Window wdw in Application.Current.MainWindow.OwnedWindows)
-                        {
-                            if (wdw.GetType() == typeof(RentCostsWindow))
-                            {
-                                wdw.Close();
-                            }
-                        }
-                    }
-                }
-
-                OnPropertyChanged(nameof(CostsWindowActive));
+                _CreditViewViewModel = value;
+                OnPropertyChanged(nameof(CreditViewViewModel));
             }
         }
 
@@ -102,34 +52,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             }
         }
 
-
-        public bool HasCredits
-        {
-            get { return RentViewModel.HasCredits; }
-            set
-            {
-                if (value == false)
-                {
-                    MessageBoxResult result = MessageBox.Show(
-                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
-                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        //RentViewModel.RemoveBilling();
-                        RentViewModel.HasCredits = value;
-                    }
-                }
-                else
-                {
-                    RentViewModel.HasCredits = value;
-                }
-
-                OnPropertyChanged(nameof(HasCredits));
-                OnPropertyChanged(nameof(ShowCreditView));
-            }
-        }
-
-
+        
         public bool HasDataLock => !DataLockCheckbox;
 
 
@@ -139,65 +62,30 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         private ValidationHelper _helper = new ValidationHelper();
 
 
-        private readonly RentViewModel _rentViewModel;
-        public RentViewModel RentViewModel => _rentViewModel;
-
-
-        private bool _SetBillingVisibility;
-        public bool SetBillingVisibility
+        private OtherCostsRentViewModel _OtherCostsRentViewModel;
+        public OtherCostsRentViewModel OtherCostsRentViewModel
         {
-            get { return _SetBillingVisibility; }
+            get { return _OtherCostsRentViewModel; }
             set
             {
-                if (value == false)
-                {
-                    MessageBoxResult result = MessageBox.Show(
-                    $"Warning: If you uncheck this checkbox, all associated data will be lost. Proceed?",
-                    "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        RentViewModel.RemoveBilling();
-                        _SetBillingVisibility = value;
-                    }
-                }
-                else
-                {
-                    _SetBillingVisibility = value;
-                }
-
-                OnPropertyChanged(nameof(SetBillingVisibility));
+                _OtherCostsRentViewModel = value;
+                OnPropertyChanged(nameof(OtherCostsRentViewModel));
             }
         }
 
 
+        private readonly RentViewModel _rentViewModel;
+        public RentViewModel RentViewModel => _rentViewModel;
 
-        private bool _ShowCreditView;
 
-        public bool ShowCreditView
+        private int _SelectedIndex;
+        public int SelectedIndex
         {
-            get { return _ShowCreditView; }
+            get { return _SelectedIndex; }
             set
             {
-                _ShowCreditView = value;
-
-
-                if (Application.Current.MainWindow != null)
-                {
-                    var ownedWindows = Application.Current.MainWindow.OwnedWindows;
-
-                    if (_ShowCreditView == false && ownedWindows != null)
-                    {
-                        foreach (Window wdw in Application.Current.MainWindow.OwnedWindows)
-                        {
-                            if (wdw.GetType() == typeof(CreditView))
-                            {
-                                wdw.Close();
-                            }
-                        }
-                    }
-                }
-
-                OnPropertyChanged(nameof(ShowCreditView));
+                _SelectedIndex = value;
+                OnPropertyChanged(nameof(SelectedIndex));
             }
         }
 
@@ -214,14 +102,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         // commands
         #region commands
-
-        public ICommand ShowBillingCommand { get; }
-
-
-        public ICommand ShowCostsCommand { get; }
-
-
-        public ICommand ShowCreditCommand { get; }
 
         #endregion commands
 
@@ -240,24 +120,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             _helper.ErrorsChanged += (_, e) => ErrorsChanged?.Invoke(this, e);
 
 
-            ShowBillingCommand = new RelayCommand(p => ShowBillingView(), (s) => true);
-            ShowCostsCommand = new RelayCommand(p => ShowCostsView(), (s) => true);
-            ShowCreditCommand = new RelayCommand(p => ShowCreditWindow(), (s) => true);
+            OtherCostsRentViewModel = new OtherCostsRentViewModel(rentViewModel);
+            CreditViewViewModel = new CreditViewViewModel(rentViewModel);
 
-
-            if (_rentViewModel.HasBilling)
-            {
-                SetBillingVisibility = true;
-            }
-            if (_rentViewModel.HasDataLock)
-            {
-                DataLockCheckbox = true;
-            }
-
-            AnnualBillingWindowActive = false;
-            CostsWindowActive = false;
-
-            OnPropertyChanged(nameof(HasDataLock));
+            SelectedIndex = 0;            
         }
         #endregion constructors
 
@@ -265,87 +131,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // methods
         #region methods
 
-        private void ShowBillingView()
-        {
-                var mainWindow = Application.Current.MainWindow;
-
-                MainWindowViewModel mainWindowViewModel = mainWindow.DataContext as MainWindowViewModel;
-
-                if (mainWindowViewModel != null)
-                {
-                    mainWindowViewModel._FlatManagementViewModel.ShowAnnualBilling = true;
-                }
-            
-        }
-
-
-        private void ShowCostsView()
-        {
-            if (CostsWindowActive)
-            {
-                var mainWindow = Application.Current.MainWindow;
-
-                RentCostsWindow otherCostsView = new RentCostsWindow();
-
-                otherCostsView.DataContext = new RentCostsWindowViewModel(RentViewModel);
-
-                otherCostsView.Owner = mainWindow;
-                otherCostsView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-                otherCostsView.Closed += OwnedWindow_Closed;
-
-                otherCostsView.Show();
-            }
-        }
-
-
-        private void ShowCreditWindow()
-        {
-            if (ShowCreditView)
-            {
-                var mainWindow = Application.Current.MainWindow;
-
-                CreditView creditView = new CreditView();
-
-                creditView.DataContext = new CreditViewViewModel(RentViewModel);
-                
-                creditView.Owner = mainWindow;
-                creditView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-                creditView.Closed += OwnedWindow_Closed; ;
-                
-                creditView.Show();
-            }
-        }
-
         #endregion methods
 
 
-        // events
-        
+        // events        
         #region events
-
-        public void OwnedWindow_Closed(object? sender, EventArgs e)
-        {
-            if (sender.GetType() == typeof(BillingWindow))
-            {
-                AnnualBillingWindowActive = false;
-            }
-
-            if (sender.GetType() == typeof(RentCostsWindow))
-            {
-                CostsWindowActive = false;
-            }
-            
-            if (sender.GetType() == typeof(CreditView))
-            {
-                ShowCreditView = false;
-            }
-
-            var mainWindow = Application.Current.MainWindow;
-            mainWindow.Focus();
-        }
-
+              
         #endregion events
 
 

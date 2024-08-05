@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SharedLivingCostCalculator.Views.Windows
+namespace SharedLivingCostCalculator.Views
 {
     /// <summary>
-    /// Interaktionslogik für CreditView.xaml
+    /// Interaktionslogik für OtherCostsView.xaml
     /// </summary>
-    public partial class CreditView : Window
+    public partial class OtherCostsView : UserControl
     {
-        public CreditView()
+        public OtherCostsView()
         {
             InitializeComponent();
         }
