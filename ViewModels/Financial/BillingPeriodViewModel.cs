@@ -33,12 +33,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // properties & fields
         #region properties & fields
 
-        private readonly BillingViewModel _billingViewModel;
-        public BillingViewModel BillingViewModel => _billingViewModel;
+        //private readonly BillingViewModel _billingViewModel;
+        //public BillingViewModel BillingViewModel => _billingViewModel;
 
 
-        // for access to owned windows
-        private Window billingWindow;
+        private BillingViewModel _BillingViewModel;
+        public BillingViewModel BillingViewModel
+        {
+            get { return _BillingViewModel; }
+            set
+            {
+                _BillingViewModel = value;
+                OnPropertyChanged(nameof(BillingViewModel));
+            }
+        }
 
 
         public ConsumptionViewModel? ConsumptionViewModel { get; set; }
@@ -66,8 +74,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public bool DataLock => !DataLockCheckbox;
 
 
-        private readonly FlatViewModel _FlatViewModel;
-        public FlatViewModel FlatViewModel => _FlatViewModel;
+        private readonly FlatManagementViewModel _FlatManagementViewModel;
+
+
+        private FlatViewModel _FlatViewModel;
+        public FlatViewModel FlatViewModel
+        {
+            get { return _FlatViewModel; }
+            set
+            {
+                _FlatViewModel = value;
+                OnPropertyChanged(nameof(FlatViewModel));
+            }
+        }
 
 
         public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
@@ -246,12 +265,16 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 //UpdateViewModel = new RentUpdateViewModel(_flatViewModel, _selectedValue);
 
-                PaymentManagementViewModel = new PaymentManagementViewModel(_selectedValue);
-                ConsumptionViewModel = new ConsumptionViewModel(_selectedValue);
-                CreditSetupViewModel = new CreditSetupViewModel(_selectedValue);
-                OtherCostsViewModel = new BillingCostsWindowViewModel(_selectedValue);
 
-                SelectedIndex = 0;
+                if (_selectedValue != null)
+                {
+                    PaymentManagementViewModel = new PaymentManagementViewModel(_selectedValue);
+                    ConsumptionViewModel = new ConsumptionViewModel(_selectedValue);
+                    CreditSetupViewModel = new CreditSetupViewModel(_selectedValue);
+                    OtherCostsViewModel = new BillingCostsWindowViewModel(_selectedValue);
+
+                    SelectedIndex = 0; 
+                }
 
                 //SelectedItemChange?.Invoke(this, new EventArgs());
 
@@ -317,21 +340,25 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // constructors
         #region constructors
 
-        public BillingPeriodViewModel(FlatViewModel flatViewModel)
+        public BillingPeriodViewModel(FlatManagementViewModel flatManagementViewModel, FlatViewModel flatViewModel)
         {
-
-            _FlatViewModel = flatViewModel;
+            _FlatManagementViewModel = flatManagementViewModel;
+            _FlatViewModel = flatViewModel;            
 
             if (_FlatViewModel != null)
             {
-                if (_FlatViewModel.RentUpdates.Count > 0)
-                {
-                    AnnualBillings = CollectionViewSource.GetDefaultView(_FlatViewModel.AnnualBillings);
-                    AnnualBillings.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
+                //AnnualBillings = CollectionViewSource.GetDefaultView(_FlatViewModel.AnnualBillings);
+                //AnnualBillings.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
 
-                    //SelectedValue = 
-                }
+                //if (_FlatViewModel.AnnualBillings.Count > 0)
+                //{
+
+
+                //    //SelectedValue = 
+                //}
             }
+
+            _FlatManagementViewModel.PropertyChanged += SelectedItem_PropertyChanged;
 
             DeleteBillingCommand = new RelayCommand(p => DeleteAnnualBilling(p), (s) => true);
             NewBillingCommand = new RelayCommand(p => AddAnnualBilling(), (s) => true);
@@ -373,6 +400,21 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             {
                 SelectedValue = _FlatViewModel.AnnualBillings.First();
             }
+        }
+
+        private void SelectedItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            FlatViewModel = _FlatManagementViewModel.SelectedItem;
+
+            //AnnualBillings = CollectionViewSource.GetDefaultView(_FlatViewModel.AnnualBillings);
+            //AnnualBillings.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
+
+            OnPropertyChanged(nameof(FlatViewModel));
+            OnPropertyChanged(nameof(BillingViewModel));
+            OnPropertyChanged(nameof(AnnualBillings));
+
+            //AnnualBillings.Refresh();
+
         }
 
         #endregion constructors

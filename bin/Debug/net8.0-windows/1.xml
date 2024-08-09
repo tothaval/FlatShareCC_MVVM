@@ -9,7 +9,99 @@
 and a bus stop.
 there is a grocery store nearby.</FlatNotes>
   <RoomCount>5</RoomCount>
-  <AnnualBillings />
+  <AnnualBillings>
+    <Billing>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <EndDate>2023-12-31T00:00:00</EndDate>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <HasOtherCosts>false</HasOtherCosts>
+      <HasPayments>false</HasPayments>
+      <StartDate>2024-01-01T00:00:00</StartDate>
+      <TotalCostsPerPeriod>1507.12</TotalCostsPerPeriod>
+      <TotalFixedCostsPerPeriod>
+        <TransactionSum>550.14</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Fixed</TransactionItem>
+      </TotalFixedCostsPerPeriod>
+      <TotalHeatingCostsPerPeriod>
+        <TransactionSum>956.9799999999999</TransactionSum>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionItem>Heating</TransactionItem>
+      </TotalHeatingCostsPerPeriod>
+      <Consumptions>
+        <ConsumptionItem>
+          <ConsumptionCause>
+            <TransactionSum>956.9799999999999</TransactionSum>
+            <TransactionShareTypes>Consumption</TransactionShareTypes>
+            <TransactionItem>Heating</TransactionItem>
+          </ConsumptionCause>
+          <ConsumedUnits>1720</ConsumedUnits>
+          <ConsumptionPerRoom>
+            <RoomConsumption>
+              <Room>
+                <RoomArea>20</RoomArea>
+                <RoomName>room1</RoomName>
+              </Room>
+              <ConsumptionValue>150</ConsumptionValue>
+            </RoomConsumption>
+            <RoomConsumption>
+              <Room>
+                <RoomArea>25</RoomArea>
+                <RoomName>room2</RoomName>
+              </Room>
+              <ConsumptionValue>250</ConsumptionValue>
+            </RoomConsumption>
+            <RoomConsumption>
+              <Room>
+                <RoomArea>19</RoomArea>
+                <RoomName>room3</RoomName>
+              </Room>
+              <ConsumptionValue>250</ConsumptionValue>
+            </RoomConsumption>
+            <RoomConsumption>
+              <Room>
+                <RoomArea>27</RoomArea>
+                <RoomName>room4</RoomName>
+              </Room>
+              <ConsumptionValue>120</ConsumptionValue>
+            </RoomConsumption>
+            <RoomConsumption>
+              <Room>
+                <RoomArea>22</RoomArea>
+                <RoomName>room5</RoomName>
+              </Room>
+              <ConsumptionValue>440</ConsumptionValue>
+            </RoomConsumption>
+          </ConsumptionPerRoom>
+        </ConsumptionItem>
+      </Consumptions>
+      <Costs />
+      <Credits />
+      <Payments>
+        <RoomPayments>
+          <RoomName>room1</RoomName>
+          <PaymentCollection />
+        </RoomPayments>
+        <RoomPayments>
+          <RoomName>room2</RoomName>
+          <PaymentCollection />
+        </RoomPayments>
+        <RoomPayments>
+          <RoomName>room3</RoomName>
+          <PaymentCollection />
+        </RoomPayments>
+        <RoomPayments>
+          <RoomName>room4</RoomName>
+          <PaymentCollection />
+        </RoomPayments>
+        <RoomPayments>
+          <RoomName>room5</RoomName>
+          <PaymentCollection />
+        </RoomPayments>
+      </Payments>
+    </Billing>
+  </AnnualBillings>
   <Rents>
     <Rent>
       <ColdRent>

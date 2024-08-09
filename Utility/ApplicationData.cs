@@ -37,12 +37,6 @@ namespace SharedLivingCostCalculator.Utility
 
         public bool Settings_Shown { get; set; } = false;
 
-
-        public bool ShowCosts_Shown { get; set; } = false;
-
-
-        public bool ShowCostsBilling_Shown { get; set; } = false;
-
         #endregion properties & fields
 
 
@@ -93,10 +87,6 @@ namespace SharedLivingCostCalculator.Utility
                 Manual_Shown = _FlatManagementViewModel.ShowManual;
 
                 Settings_Shown = _FlatManagementViewModel.ShowSettings;
-
-                ShowCosts_Shown = _FlatManagementViewModel.ShowCosts;
-
-                ShowCostsBilling_Shown = _FlatManagementViewModel.ShowCostsBillingSelected;
             }
         }
 

@@ -74,19 +74,6 @@
                 <views:RentUpdateView/>
             </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vmsfin:CostDisplayViewModel}">
-                <views:CostDisplayView/>
-            </DataTemplate>
-
-
-        <DataTemplate DataType="{x:Type vmsfin:RentCostsViewModel}">
-                <views:RentCostsView/>
-            </DataTemplate>
-
-        <DataTemplate DataType="{x:Type vmsfin:BillingCostsViewModel}">
-                <views:BillingCostsView/>
-            </DataTemplate>
-
         <DataTemplate DataType="{x:Type vmsfin:BillingCostsWindowViewModel}">
             <views:OtherCostsView/>
         </DataTemplate>
@@ -170,6 +157,7 @@
         <ContentControl Content="{Binding _FlatManagementViewModel}"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
+                        Margin="2"
                             Background="Transparent"/>
         
     </Border>

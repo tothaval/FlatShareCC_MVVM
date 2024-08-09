@@ -52,7 +52,7 @@
 
         <!--#region ListView AnnualBillings -->
         <Grid Grid.IsSharedSizeScope="True">
-            <ListView ItemsSource="{Binding AnnualBillings}"
+            <ListView ItemsSource="{Binding FlatViewModel.AnnualBillings}"
                       SelectedValue="{Binding Path=SelectedValue}"
                       ItemContainerStyle="{StaticResource ItemContainerStyle}"
                       Name="rentupdates"

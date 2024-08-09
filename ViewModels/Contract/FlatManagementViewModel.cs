@@ -50,9 +50,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         }
 
 
-        public CostDisplayViewModel Cost { get; }
-
-
         public bool DataLock
         {
             get {
@@ -126,7 +123,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 if (_ShowAccounting)
                 {
                     ShowAnnualBilling = false;
-                    ShowCosts = false;
                     ShowManual = false;
                     ShowFlatManagement = false;
                     ShowPrintView = false;
@@ -147,7 +143,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 if (_ShowAnnualBilling)
                 {
                     ShowAccounting = false;
-                    ShowCosts = false;
                     ShowFlatManagement = false;
                     ShowManual = false;
                     ShowPrintView = false;
@@ -156,41 +151,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             }
         }
 
-
-        private bool _ShowCosts;
-        public bool ShowCosts
-        {
-            get { return _ShowCosts; }
-            set
-            {
-                _ShowCosts = value;
-
-                if (_ShowCosts)
-                {
-                    ShowAccounting = false;
-                    ShowAnnualBilling = false;
-                    ShowManual = false;
-                    ShowFlatManagement = false;
-                    ShowPrintView = false;
-                }
-                OnPropertyChanged(nameof(ShowCosts));
-            }
-        }
-
         
-        private bool _ShowCostsBillingSelected;
-        public bool ShowCostsBillingSelected
-        {
-            get { return _ShowCostsBillingSelected; }
-            set
-            {
-                _ShowCostsBillingSelected = value;
-
-                OnPropertyChanged(nameof(ShowCostsBillingSelected));
-            }
-        }
-
-
         private bool _ShowFlatManagement;
         public bool ShowFlatManagement
         {
@@ -203,7 +164,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 {
                     ShowAccounting = false;
                     ShowAnnualBilling = false;
-                    ShowCosts = false;
                     ShowManual = false;
                     ShowPrintView = false;
                 }
@@ -225,7 +185,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 {
                     ShowAccounting = false;
                     ShowAnnualBilling = false;
-                    ShowCosts = false;
                     ShowFlatManagement = false;
                     ShowPrintView = false;
                 }
@@ -247,7 +206,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 {
                     ShowAccounting = false;
                     ShowAnnualBilling = false;
-                    ShowCosts = false;
                     ShowFlatManagement = false;
                     ShowManual = false;
                 }
@@ -320,8 +278,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         public FlatManagementViewModel(ObservableCollection<FlatViewModel> flatCollection)
         {
-            Accounting = new AccountingViewModel(this);            
-            Cost = new CostDisplayViewModel(this);
+            Accounting = new AccountingViewModel(this);
             FlatSetup = new FlatSetupViewModel(this);
             Print = new PrintViewModel(this);
             RoomSetup = new RoomSetupViewModel(this);
@@ -403,10 +360,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             {
                 ShowAccounting = applicationData.Accounting_Shown;
 
-                ShowCosts = applicationData.ShowCosts_Shown;
-
-                ShowCostsBillingSelected = applicationData.ShowCostsBilling_Shown;
-
                 ShowFlatManagement = applicationData.FlatManagement_Shown;
 
                 ShowManual = applicationData.Manual_Shown;
@@ -484,7 +437,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             if (_flatCollection.Count == 0)
             {
                 ShowAccounting = false;
-                ShowCosts = false;
                 ShowPrintView = false;
 
 
@@ -515,7 +467,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             {
                 SelectedItem = _flatCollection?.First();
 
-                AnnualBilling = new BillingPeriodViewModel(SelectedItem);
+                AnnualBilling = new BillingPeriodViewModel(this, SelectedItem);
             }
             else
             {

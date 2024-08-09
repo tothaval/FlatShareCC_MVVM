@@ -869,15 +869,16 @@
     <!--#region TabControl styles -->
     <Style TargetType="TabControl">
         <Setter Property="Background"  Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
         <Setter Property="MinWidth" Value="400"/>
     </Style>
 
     <Style TargetType="TabItem">
         <Setter Property="Background"  Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -892,7 +893,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" TargetName="Panel"
-                                    Value="{DynamicResource SCB_Text_Header}" />
+                                    Value="{DynamicResource SCB_Text}" />
                             <Setter Property="Foreground"
                                     Value="{DynamicResource SCB_Background}" />
                             <Setter Property="FontWeight" Value="Bold"/>
@@ -901,7 +902,14 @@
                             <Setter Property="Background" Value="{DynamicResource SCB_Background}" 
                                     TargetName="Panel"/>
                             <Setter Property="Foreground"
-                                    Value="{DynamicResource SCB_HeaderText}" />
+                                    Value="{DynamicResource SCB_Text}" />
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Text}" 
+                                    TargetName="Panel"/>
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource SCB_Background}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
