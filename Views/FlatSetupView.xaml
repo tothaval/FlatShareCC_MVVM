@@ -85,7 +85,8 @@
                  TextWrapping="Wrap"
                  VerticalAlignment="Stretch"
                  HorizontalContentAlignment="Left"
-                 VerticalContentAlignment="Top"/>
+                 VerticalContentAlignment="Top"
+                 Margin="2"/>
 
     </Grid>
 

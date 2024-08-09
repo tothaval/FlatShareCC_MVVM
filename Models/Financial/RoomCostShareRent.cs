@@ -187,23 +187,30 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
             // rethink and adapt code, search in list of billings
+            int counter = 0;
 
-            //if (((RentViewModel)ViewModel).HasBilling)
-            //{
-            //    BillingViewModel billingViewModel = ((RentViewModel)ViewModel).BillingViewModel;
+            foreach (BillingViewModel item in ViewModel.GetFlatViewModel().AnnualBillings)
+            {
+                if (item.StartDate.Year == ((RentViewModel)ViewModel).StartDate.Year - 1)
+                {
+                    double roomConsumptionPercentage =
+                        item.GetRoomConsumptionPercentage(
+                            _Room,
+                            ((RentViewModel)ViewModel).Rent.HeatingCostsAdvance
+                            );
 
-            //    double roomConsumptionPercentage =
-            //        billingViewModel.GetRoomConsumptionPercentage(
-            //            _Room,
-            //            ((RentViewModel)ViewModel).Rent.HeatingCostsAdvance
-            //            );
+                    HeatingCostsAdvanceShare = roomConsumptionPercentage * heatingCostPulse;
+                    counter++;
+                    break;
+                }
+            }
 
-            //    HeatingCostsAdvanceShare = roomConsumptionPercentage * heatingCostPulse;
-            //}
-            //else
-            //{
-            //    HeatingCostsAdvanceShare = RentedAreaShareRatio() * heatingCostPulse;
-            //}
+
+            if (counter == 0)
+            {
+                HeatingCostsAdvanceShare = RentedAreaShareRatio() * heatingCostPulse;
+            }
+             
 
             AreaSharedCostsShare = GetAreaSharedCostsShare();
 
@@ -234,7 +241,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             OnPropertyChanged(nameof(AnnualCompleteCostShare));
         }
 
-        private double EqualShareRatio()
+        public double EqualShareRatio()
         {
 
             return 1.0 / ((RentViewModel)ViewModel).GetFlatViewModel().RoomCount;
@@ -288,7 +295,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         }
 
 
-        private double RentedAreaShareRatio()
+        public double RentedAreaShareRatio()
         {
             return RentedAreaShare / ViewModel.GetFlatViewModel().Area;
         }

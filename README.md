@@ -77,7 +77,7 @@ features:
 the intended workflow is:
 
 	in case a new shared flat or office is obtained:
-	create a flat(or several, if needed) -> setup flat, rooms, tenants -> setup rent changes -> show costs tab
+	create a flat(or several, if needed) -> setup flat, rooms, tenants -> setup rent changes -> create print output
 	
 	in case an annual billing is received:
 	-> create new billing in annual billings tab, fill in the values
@@ -85,10 +85,10 @@ the intended workflow is:
 		know exactly, leave payments unchecked, the consequence is that rent costs are not factored into the
 		annual billing calculation, in such cases, the program calculates advances under the assumption, that
 		every one payed the calculated shares of the relevant rent changes
-	-> click show costs tab
+	-> create print output
 	
 	in case some cost changes appear:
-	-> create a new rent change or click 'add raise' and fill in or change the values -> click show costs tab
+	-> create a new rent change or click 'add raise' and fill in or change the values -> create print output
 	
 	in case some other changes appear:
 	-> uncheck 'Is Active' on Tenant setup and insert a moving out date, currently no further effect

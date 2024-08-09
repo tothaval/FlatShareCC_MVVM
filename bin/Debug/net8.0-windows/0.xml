@@ -13,7 +13,7 @@ new street 714</Address>
       <EndDate>2024-12-31T00:00:00</EndDate>
       <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
-      <HasOtherCosts>false</HasOtherCosts>
+      <HasOtherCosts>true</HasOtherCosts>
       <HasPayments>false</HasPayments>
       <StartDate>2024-01-01T00:00:00</StartDate>
       <TotalCostsPerPeriod>1720</TotalCostsPerPeriod>
@@ -60,7 +60,13 @@ new street 714</Address>
           </ConsumptionPerRoom>
         </ConsumptionItem>
       </Consumptions>
-      <Costs />
+      <Costs>
+        <FinancialTransactionItemBilling>
+          <TransactionSum>120</TransactionSum>
+          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionItem>item</TransactionItem>
+        </FinancialTransactionItemBilling>
+      </Costs>
       <Credits />
       <Payments>
         <RoomPayments>
@@ -246,12 +252,12 @@ new street 714</Address>
       </OtherCosts>
       <Credits>
         <FinancialTransactionItemRent>
-          <Duration>Ongoing</Duration>
-          <Rates>1</Rates>
-          <StartDate>2024-08-05T11:53:36.6060549+02:00</StartDate>
-          <TransactionSum>350</TransactionSum>
+          <Duration>Limited</Duration>
+          <Rates>2</Rates>
+          <StartDate>2024-07-01T00:00:00</StartDate>
+          <TransactionSum>120</TransactionSum>
           <TransactionShareTypes>Equal</TransactionShareTypes>
-          <TransactionItem>gutschrift</TransactionItem>
+          <TransactionItem>k</TransactionItem>
         </FinancialTransactionItemRent>
       </Credits>
     </Rent>
@@ -282,6 +288,52 @@ new street 714</Address>
       <CostsHasDataLock>false</CostsHasDataLock>
       <StartDate>2023-06-15T00:00:00</StartDate>
       <OtherCosts />
+      <Credits />
+    </Rent>
+    <Rent>
+      <ColdRent>
+        <Duration>Ongoing</Duration>
+        <Rates>1</Rates>
+        <StartDate>2024-08-06T00:00:00+02:00</StartDate>
+        <TransactionSum>380</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Rent</TransactionItem>
+      </ColdRent>
+      <FixedCostsAdvance>
+        <Duration>Ongoing</Duration>
+        <Rates>1</Rates>
+        <StartDate>2024-08-06T00:00:00+02:00</StartDate>
+        <TransactionSum>255</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Fixed</TransactionItem>
+      </FixedCostsAdvance>
+      <HeatingCostsAdvance>
+        <TransactionSum>578</TransactionSum>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionItem>Heating</TransactionItem>
+      </HeatingCostsAdvance>
+      <HasCredits>true</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <StartDate>2024-09-01T00:00:00</StartDate>
+      <OtherCosts>
+        <FinancialTransactionItemRent>
+          <Duration>Ongoing</Duration>
+          <Rates>1</Rates>
+          <StartDate>2024-09-01T00:00:00</StartDate>
+          <TransactionSum>54</TransactionSum>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionItem>dfhthdt6rm</TransactionItem>
+        </FinancialTransactionItemRent>
+        <FinancialTransactionItemRent>
+          <Duration>Limited</Duration>
+          <Rates>2</Rates>
+          <StartDate>2024-10-01T00:00:00</StartDate>
+          <TransactionSum>220</TransactionSum>
+          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionItem>sessel</TransactionItem>
+        </FinancialTransactionItemRent>
+      </OtherCosts>
       <Credits />
     </Rent>
   </Rents>

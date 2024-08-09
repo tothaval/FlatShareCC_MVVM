@@ -43,6 +43,8 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double FixedCostsAnnualCostsShare { get; set; }
         public double HeatingCostsAnnualCostsShare { get; set; }
 
+        public double ExtraCostsAnnualShare => FixedCostsAnnualCostsShare + HeatingCostsAnnualCostsShare;
+
         public double OtherCostsAnnualCostsShare { get; set; }
         public double TotalCostsAnnualCostsShare { get; set; }
 
@@ -144,6 +146,8 @@ namespace SharedLivingCostCalculator.Models.Financial
             OnPropertyChanged(nameof(HeatingUnitsTotalConsumptionShare));
 
             OnPropertyChanged(nameof(HeatingUnitsTotalConsumptionSharePercentage));
+
+            OnPropertyChanged(nameof(ExtraCostsAnnualShare));
 
             OnPropertyChanged(nameof(OtherCostsAnnualCostsShare));
             OnPropertyChanged(nameof(TotalCostsAnnualCostsShare));

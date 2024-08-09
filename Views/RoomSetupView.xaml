@@ -54,6 +54,8 @@
                   BorderThickness="2"
                   Margin="0 0 0 0"
                   MaxWidth="1280"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
                     >
 
                 <ListView.ItemsPanel>
@@ -66,7 +68,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="{DynamicResource SCB_Text_Header}"
-                            BorderThickness="2">
+                            BorderThickness="2" >
                             <Grid HorizontalAlignment="Stretch"
                               VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
