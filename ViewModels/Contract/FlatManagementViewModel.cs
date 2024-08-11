@@ -227,6 +227,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         }
 
 
+        public TenantAssignmentViewModel TenantAssignment { get; set; }
+
+
         public TenantSetupViewModel TenantSetup { get; set; }
 
         #endregion properties & fields
@@ -282,6 +285,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             FlatSetup = new FlatSetupViewModel(this);
             Print = new PrintViewModel(this);
             RoomSetup = new RoomSetupViewModel(this);
+            TenantAssignment = new TenantAssignmentViewModel(this);
             TenantSetup = new TenantSetupViewModel(this);
 
             NewFlatCommand = new RelayCommand((s) => CreateFlat(), (s) => true);

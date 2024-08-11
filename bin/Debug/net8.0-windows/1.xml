@@ -11,13 +11,14 @@ there is a grocery store nearby.</FlatNotes>
   <RoomCount>5</RoomCount>
   <AnnualBillings>
     <Billing>
+      <BillingDate>2024-08-08T00:00:00</BillingDate>
       <CostsHasDataLock>false</CostsHasDataLock>
       <EndDate>2023-12-31T00:00:00</EndDate>
       <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <HasPayments>false</HasPayments>
-      <StartDate>2024-01-01T00:00:00</StartDate>
+      <StartDate>2023-01-01T00:00:00</StartDate>
       <TotalCostsPerPeriod>1507.12</TotalCostsPerPeriod>
       <TotalFixedCostsPerPeriod>
         <TransactionSum>550.14</TransactionSum>
@@ -106,7 +107,7 @@ there is a grocery store nearby.</FlatNotes>
     <Rent>
       <ColdRent>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
+        <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.8153455+02:00</StartDate>
         <TransactionSum>500</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
@@ -114,7 +115,7 @@ there is a grocery store nearby.</FlatNotes>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
+        <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.815355+02:00</StartDate>
         <TransactionSum>340</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
@@ -132,24 +133,24 @@ there is a grocery store nearby.</FlatNotes>
       <OtherCosts>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
-          <Rates>1</Rates>
-          <StartDate>2024-08-05T11:53:36.815382+02:00</StartDate>
+          <EndDate>2024-09-01T00:00:00</EndDate>
+          <StartDate>2023-04-01T00:00:00</StartDate>
           <TransactionSum>60</TransactionSum>
           <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>web access</TransactionItem>
         </FinancialTransactionItemRent>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
-          <Rates>1</Rates>
-          <StartDate>2024-08-05T11:53:36.8153916+02:00</StartDate>
+          <EndDate>2024-09-01T00:00:00</EndDate>
+          <StartDate>2023-04-01T00:00:00</StartDate>
           <TransactionSum>90</TransactionSum>
           <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>electricity</TransactionItem>
         </FinancialTransactionItemRent>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
-          <Rates>1</Rates>
-          <StartDate>2024-08-05T11:53:36.8153998+02:00</StartDate>
+          <EndDate>2024-09-01T00:00:00</EndDate>
+          <StartDate>2023-04-01T00:00:00</StartDate>
           <TransactionSum>95</TransactionSum>
           <TransactionShareTypes>Area</TransactionShareTypes>
           <TransactionItem>insurance</TransactionItem>
@@ -160,7 +161,7 @@ there is a grocery store nearby.</FlatNotes>
     <Rent>
       <ColdRent>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
+        <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.8154146+02:00</StartDate>
         <TransactionSum>522.17</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
@@ -168,7 +169,7 @@ there is a grocery store nearby.</FlatNotes>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
+        <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.8154217+02:00</StartDate>
         <TransactionSum>370</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
@@ -183,6 +184,35 @@ there is a grocery store nearby.</FlatNotes>
       <HasDataLock>false</HasDataLock>
       <CostsHasDataLock>false</CostsHasDataLock>
       <StartDate>2024-08-01T00:00:00</StartDate>
+      <OtherCosts />
+      <Credits />
+    </Rent>
+    <Rent>
+      <ColdRent>
+        <Duration>Ongoing</Duration>
+        <EndDate>2024-09-01T00:00:00</EndDate>
+        <StartDate>2024-08-11T00:00:00+02:00</StartDate>
+        <TransactionSum>522.17</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Rent</TransactionItem>
+      </ColdRent>
+      <FixedCostsAdvance>
+        <Duration>Ongoing</Duration>
+        <EndDate>2024-09-01T00:00:00</EndDate>
+        <StartDate>2024-08-11T00:00:00+02:00</StartDate>
+        <TransactionSum>382</TransactionSum>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionItem>Fixed</TransactionItem>
+      </FixedCostsAdvance>
+      <HeatingCostsAdvance>
+        <TransactionSum>720</TransactionSum>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionItem>Heating</TransactionItem>
+      </HeatingCostsAdvance>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <StartDate>2024-09-01T00:00:00</StartDate>
       <OtherCosts />
       <Credits />
     </Rent>

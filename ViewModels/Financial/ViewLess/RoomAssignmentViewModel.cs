@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 {
-    public class RoomAssignementViewModel : BaseViewModel
+    public class RoomAssignmentViewModel : BaseViewModel
     {
 
         // properties & fields
@@ -54,7 +54,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         // constructors
         #region constructors
-        public RoomAssignementViewModel(RoomViewModel roomViewModel, ObservableCollection<TenantViewModel> tenantViewModels)
+        public RoomAssignmentViewModel(RoomViewModel roomViewModel, ObservableCollection<TenantViewModel> tenantViewModels)
         {
             RoomViewModel = roomViewModel;
 

@@ -32,6 +32,7 @@ namespace SharedLivingCostCalculator.Utility
 
         public string IDF_AnnualBillings { get; set; } = "Annual Billing(s)";
         public string IDF_Billing { get; set; } = "Billing";
+        public string IDF_BillingDate { get; set; } = "Date of Billing";        
         public string IDF_BillingPeriodData { get; set; } = "Billing Data";
         public string IDF_BillingPeriodOptions { get; set; } = "Billing Options";
         public string IDF_Consumption { get; set; } = "Consumption";
@@ -56,9 +57,6 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_TotalRooms { get; set; } = "Rooms";
         public string IDF_Year { get; set; } = "Year";
         
-
-        public string BillingManagementInstructionText { get; set; }
-
         #endregion billing views
 
 
@@ -128,7 +126,6 @@ namespace SharedLivingCostCalculator.Utility
         public string AccountingHeaderText { get; set; } = "Accounting";
 
         public string FlatManagementHeaderText { get; set; } = "Flat Management";
-        public string FlatManagementInstructionText { get; set; }
 
         #endregion flat and room views, general stuff
 
@@ -223,8 +220,6 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_perRoom { get; set; } = "per room";
         public string IDF_perYear { get; set; } = "per year";
 
-        public string RentManagementInstructionText { get; set; }
-
         #endregion rent views
 
 
@@ -255,19 +250,14 @@ namespace SharedLivingCostCalculator.Utility
         #region constructors
 
         public LanguageResourceStrings()
-        {
-            _BillingManagementInstructionText();
-            _FlatManagementInstructionText();
-            _RentManagementInstructionText();
+        { 
+
         }
+
 
         public LanguageResourceStrings(string selectedLanguage)
         {
             Language = selectedLanguage;
-
-            _BillingManagementInstructionText();
-            _FlatManagementInstructionText();
-            _RentManagementInstructionText();
         }
 
         #endregion constructors
@@ -275,60 +265,6 @@ namespace SharedLivingCostCalculator.Utility
 
         //methods
         #region methods
-
-        private string _BillingManagementInstructionText()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.Append(
-                "Billing Management\n" +
-                "\n" +
-                "-> click \"Add Billing\" to create new billing\n" +
-                "-> select billing to view its data\n" +
-                "-> click \"Delete\" to delete selected billing\n" +
-                "-> click \"Show FinancialTransactionItems\" to display costs."
-                );
-
-            return stringBuilder.ToString();
-        }
-
-        private string _FlatManagementInstructionText()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.Append(
-                "Flat Management\n" +
-                "\n" +
-                "-> click \"New Flat\" to show flat setup window\n" +
-                "\t setup flat, !!! address, area(s) and room counts can not be edited\n" +
-                "\t -> click \"Proceed\" to create new flat\n" +
-                "\t -> click \"Leave\" to return to flat management\n" +
-                "-> select flat to view its most recent data\n" +
-                "-> click \"Delete\" to delete selected flat\n" +
-                "-> click \"Accounting\" to enter accounting for selected flat\n" +
-                "-> click \"Settings\" to show settings window\n"
-                );
-
-            return stringBuilder.ToString();
-        }
-
-        private string _RentManagementInstructionText()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.Append(
-                "Rent Management\n" +
-                "\n" +
-                "-> click \"Add Rent\" to create new rent\n" +
-                "-> select rent to view its data\n" +
-                "-> click \"Delete\" to delete selected rent\n" +
-                "-> specify billing in combobox if calculation\n" +
-                "   should be based on consumption ratio and area ratio\n" +
-                "-> click \"Show FinancialTransactionItems\" to display costs."
-                );
-
-            return stringBuilder.ToString();
-        }
 
         #endregion methods
 

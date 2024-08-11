@@ -77,6 +77,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
+                            
 
                             <GridViewColumn Header="{DynamicResource IDF_FixedCosts}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
@@ -219,6 +220,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
                             <TextBlock Text="{DynamicResource IDF_Year}"
@@ -228,28 +230,27 @@
                             Grid.Column="0"
                             Grid.Row="0"/>
 
-                            <TextBox Text="{Binding SelectedValue.Year,
-                                Mode=TwoWay,
+                            <TextBlock Text="{Binding SelectedValue.Year,
                                 NotifyOnSourceUpdated=True,
                                 NotifyOnValidationError=True,
                                 ValidatesOnDataErrors=True}"
-                          Style="{StaticResource DoubleValueTextBox}"
-                          IsEnabled="{Binding DataLock}"
+                          Style="{StaticResource DoubleValueTextBlock}"
                           Grid.Column="1"
                           Grid.Row="0"/>
 
-                            <TextBlock Text="{DynamicResource IDF_TotalCosts}"
+
+                            <TextBlock Text="{DynamicResource IDF_BillingDate}"
+                            MinWidth="100"
+                            HorizontalAlignment="Stretch"
                             Style="{StaticResource StringValueTextBlock}"
                             Grid.Column="0"
                             Grid.Row="1"/>
 
-                            <TextBox Text="{Binding SelectedValue.TotalCostsPerPeriod,
-                     StringFormat=C2,
-                     Mode=TwoWay,
-                     NotifyOnSourceUpdated=True,
-                     NotifyOnValidationError=True,
-                     ValidatesOnDataErrors=True}"
-                          Style="{StaticResource DoubleValueTextBox}"
+                            <DatePicker SelectedDate="{Binding SelectedValue.BillingDate,
+                                Mode=TwoWay,
+                                NotifyOnSourceUpdated=True,
+                                NotifyOnValidationError=True,
+                                ValidatesOnDataErrors=True}"
                           IsEnabled="{Binding DataLock}"
                           Grid.Column="1"
                           Grid.Row="1"/>
@@ -260,11 +261,12 @@
                          Grid.Row="2"/>
 
                             <TextBox Text="{Binding SelectedValue.TotalFixedCostsPerPeriod,
-                  StringFormat=C2,
-                  Mode=TwoWay,
-                  NotifyOnSourceUpdated=True,
-                  NotifyOnValidationError=True,
-                  ValidatesOnDataErrors=True}"
+                                StringFormat=C2,
+                                Mode=TwoWay,
+                                NotifyOnSourceUpdated=True,
+                                NotifyOnValidationError=True,
+                                ValidatesOnDataErrors=True,
+                                UpdateSourceTrigger=PropertyChanged}"
                        Style="{StaticResource DoubleValueTextBox}"
                        IsEnabled="{Binding DataLock}"
                        Grid.Column="1"
@@ -276,15 +278,31 @@
                          Grid.Row="3"/>
 
                             <TextBox Text="{Binding SelectedValue.TotalHeatingCostsPerPeriod,
-                  StringFormat=C2,
-                  Mode=TwoWay,
-                  NotifyOnSourceUpdated=True,
-                  NotifyOnValidationError=True,
-                  ValidatesOnDataErrors=True}"
+                                StringFormat=C2,
+                                Mode=TwoWay,
+                                NotifyOnSourceUpdated=True,
+                                NotifyOnValidationError=True,
+                                ValidatesOnDataErrors=True,
+                                UpdateSourceTrigger=PropertyChanged}"
                        Style="{StaticResource DoubleValueTextBox}"
                        IsEnabled="{Binding DataLock}"
                        Grid.Column="1"
                        Grid.Row="3"/>
+
+                            <TextBlock Text="{DynamicResource IDF_TotalCosts}"
+                            Style="{StaticResource StringValueTextBlock}"
+                            Grid.Column="0"
+                            Grid.Row="4"/>
+
+                            <TextBlock Text="{Binding SelectedValue.TotalCostsPerPeriod,
+                                StringFormat=C2,
+                                NotifyOnSourceUpdated=True,
+                                NotifyOnValidationError=True,
+                                ValidatesOnDataErrors=True}"
+                                       Style="{StaticResource DoubleValueTextBlock}"
+                                       FontWeight="Bold"
+                                       Grid.Column="1"
+                                       Grid.Row="4"/>
                         </Grid>
 
                     </StackPanel>

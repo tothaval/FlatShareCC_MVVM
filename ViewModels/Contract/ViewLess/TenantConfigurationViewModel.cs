@@ -71,7 +71,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         // collections
         #region collections
 
-        public ObservableCollection<RoomAssignementViewModel> RoomAssignements
+        public ObservableCollection<RoomAssignmentViewModel> RoomAssignements
         {
             get { return _TenantsConfiguration.RoomAssignmentsViewModels; }
             set

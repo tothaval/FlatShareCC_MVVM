@@ -37,6 +37,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public DateTime EndDate
+        {
+            get { return FTI.EndDate; }
+            set
+            {
+                FTI.EndDate = value;
+                OnPropertyChanged(nameof(StartDate));
+            }
+        }
+
+
         public bool HasLimitedDuration
         {
             get
@@ -47,17 +58,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 }
 
                 return true;
-            }
-        }
-
-
-        public int Rates
-        {
-            get { return FTI.Rates; }
-            set
-            {
-                FTI.Rates = value;
-                OnPropertyChanged(nameof(Rates));
             }
         }
 

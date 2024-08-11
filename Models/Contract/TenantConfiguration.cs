@@ -36,7 +36,7 @@ namespace SharedLivingCostCalculator.Models.Contract
 
 
         [XmlIgnore]
-        public ObservableCollection<RoomAssignementViewModel> RoomAssignmentsViewModels { get; set; } = new ObservableCollection<RoomAssignementViewModel>();
+        public ObservableCollection<RoomAssignmentViewModel> RoomAssignmentsViewModels { get; set; } = new ObservableCollection<RoomAssignmentViewModel>();
 
 
         [XmlIgnore]
@@ -61,7 +61,7 @@ namespace SharedLivingCostCalculator.Models.Contract
 
             foreach (RoomViewModel item in _FlatViewModel.Rooms)
             {
-                RoomAssignmentsViewModels.Add(new RoomAssignementViewModel(item, tenants));
+                RoomAssignmentsViewModels.Add(new RoomAssignmentViewModel(item, tenants));
             }
 
         }
@@ -76,7 +76,7 @@ namespace SharedLivingCostCalculator.Models.Contract
         {
             RoomAssignments.Clear();
 
-            foreach (RoomAssignementViewModel item in RoomAssignmentsViewModels)
+            foreach (RoomAssignmentViewModel item in RoomAssignmentsViewModels)
             {
                 if (item.AssignedTenant != null)
                 {
@@ -109,13 +109,13 @@ namespace SharedLivingCostCalculator.Models.Contract
                     if (room.RoomName.Equals(item.RoomName))
                     {
                         RoomAssignmentsViewModels.Add(
-                            new RoomAssignementViewModel(
+                            new RoomAssignmentViewModel(
                                 room, flatViewModel.Tenants));
                     }
                 }
             }
 
-            foreach (RoomAssignementViewModel item in RoomAssignmentsViewModels)
+            foreach (RoomAssignmentViewModel item in RoomAssignmentsViewModels)
             {
                 foreach (RoomAssignment roomAssignment in RoomAssignments)
                 {
