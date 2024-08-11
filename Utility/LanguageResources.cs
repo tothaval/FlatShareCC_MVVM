@@ -11,7 +11,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Xml.Serialization;
-using SharedLivingCostCalculator.Enums;
 
 namespace SharedLivingCostCalculator.Utility
 {
@@ -133,6 +132,7 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_AnnualBillings"] = languageResource.IDF_AnnualBillings;
 
             Application.Current.Resources["IDF_Billing"] = languageResource.IDF_Billing;
+            Application.Current.Resources["IDF_BillingDate"] = languageResource.IDF_BillingDate;            
             Application.Current.Resources["IDF_BillingPeriodData"] = languageResource.IDF_BillingPeriodData;
             Application.Current.Resources["IDF_BillingPeriodOptions"] = languageResource.IDF_BillingPeriodOptions;
             Application.Current.Resources["IDF_Consumption"] = languageResource.IDF_Consumption;
@@ -158,9 +158,6 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_SharedConsumption"] = languageResource.IDF_SharedConsumption;
             Application.Current.Resources["IDF_TotalRooms"] = languageResource.IDF_TotalRooms;
             Application.Current.Resources["IDF_Year"] = languageResource.IDF_Year;
-            
-
-            Application.Current.Resources["BillingManagementInstructionText"] = languageResource.BillingManagementInstructionText;
 
             #endregion billing views
 
@@ -229,7 +226,6 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["AccountingHeaderText"] = languageResource.AccountingHeaderText;
 
             Application.Current.Resources["FlatManagementHeaderText"] = languageResource.FlatManagementHeaderText;
-            Application.Current.Resources["FlatManagementInstructionText"] = languageResource.FlatManagementInstructionText;
 
             #endregion flat and room views, general stuff
 
@@ -319,9 +315,6 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_perMonth"] = languageResource.IDF_perMonth;
             Application.Current.Resources["IDF_perRoom"] = languageResource.IDF_perRoom;
             
-
-            Application.Current.Resources["RentManagementInstructionText"] = languageResource.RentManagementInstructionText;
-
             #endregion rent views
 
 

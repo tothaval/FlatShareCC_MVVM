@@ -182,16 +182,17 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             FixedCostsAdvanceShare = RentedAreaShareRatio() * ((RentViewModel)ViewModel).FixedCostsAdvance;
 
-            double fixedCostPulse = ((RentViewModel)ViewModel).FixedCostsAdvance;
-            double heatingCostPulse = ((RentViewModel)ViewModel).HeatingCostsAdvance;
+            double heatingCosts = ((RentViewModel)ViewModel).HeatingCostsAdvance;
 
 
             // rethink and adapt code, search in list of billings
             int counter = 0;
+            int alt_counter = 0;
 
             foreach (BillingViewModel item in ViewModel.GetFlatViewModel().AnnualBillings)
             {
-                if (item.StartDate.Year == ((RentViewModel)ViewModel).StartDate.Year - 1)
+                if (item.StartDate.Year == ((RentViewModel)ViewModel).StartDate.Year - 1
+                    && ((RentViewModel)ViewModel).StartDate > item.BillingDate)
                 {
                     double roomConsumptionPercentage =
                         item.GetRoomConsumptionPercentage(
@@ -199,16 +200,35 @@ namespace SharedLivingCostCalculator.Models.Financial
                             ((RentViewModel)ViewModel).Rent.HeatingCostsAdvance
                             );
 
-                    HeatingCostsAdvanceShare = roomConsumptionPercentage * heatingCostPulse;
+                    HeatingCostsAdvanceShare = roomConsumptionPercentage * heatingCosts;
                     counter++;
                     break;
                 }
             }
 
-
             if (counter == 0)
             {
-                HeatingCostsAdvanceShare = RentedAreaShareRatio() * heatingCostPulse;
+                foreach (BillingViewModel item in ViewModel.GetFlatViewModel().AnnualBillings)
+                {
+                    if (item.StartDate.Year == ((RentViewModel)ViewModel).StartDate.Year - 2)
+                    {
+                        double roomConsumptionPercentage =
+                            item.GetRoomConsumptionPercentage(
+                                _Room,
+                                ((RentViewModel)ViewModel).Rent.HeatingCostsAdvance
+                                );
+
+                        HeatingCostsAdvanceShare = roomConsumptionPercentage * heatingCosts;
+                        alt_counter++;
+                        break;
+                    }
+                } 
+            }
+
+
+            if (counter == 0 && alt_counter == 0)
+            {
+                HeatingCostsAdvanceShare = RentedAreaShareRatio() * heatingCosts;
             }
              
 

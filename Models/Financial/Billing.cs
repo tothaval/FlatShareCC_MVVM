@@ -19,6 +19,9 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         // properties & fields
         #region properties
+        
+        public DateTime BillingDate { get; set; } = DateTime.Now;
+
 
         public bool CostsHasDataLock { get; set; } = false;
 

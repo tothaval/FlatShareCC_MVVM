@@ -31,24 +31,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public FlatViewModel FlatViewModel => _flatViewModel;
 
 
-        private TenantConfigurationViewModel _SelectedTenantConfiguration;
-        public TenantConfigurationViewModel SelectedTenantConfiguration
-        {
-            get { return _SelectedTenantConfiguration; }
-            set
-            {
-                _SelectedTenantConfiguration = value;
-
-                if (_SelectedTenantConfiguration != null)
-                {
-                    _SelectedTenantConfiguration.GetActiveTenants();
-
-                    OnPropertyChanged(nameof(SelectedTenantConfiguration));
-                }
-            }
-        }
-
-
         private TenantViewModel _SelectedTenant;
         public TenantViewModel SelectedTenant
         {
@@ -75,13 +57,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public ICommand NewTenantCommand { get; }
 
 
-        public ICommand NewTenantConfigurationCommand { get; }
-
-
         public ICommand DeleteTenantCommand { get; }
-
-
-        public ICommand DeleteTenantConfigurationCommand { get; }
 
         #endregion commands
 
@@ -97,10 +73,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             _flatViewModel = _FlatManagementViewModel.SelectedItem;
 
             NewTenantCommand = new RelayCommand(p => AddTenant(p), (s) => true);
-            NewTenantConfigurationCommand = new RelayCommand(p => AddTenantConfiguration(p), (s) => true);
             DeleteTenantCommand = new RelayCommand(p => RemoveTenant(p), (s) => true);
-            DeleteTenantConfigurationCommand = new RelayCommand(p => RemoveTenantConfiguration(p), (s) => true);
-
 
             _FlatManagementViewModel.FlatViewModelChange += _FlatManagementViewModel_FlatViewModelChange;
 
@@ -121,17 +94,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             SelectedTenant = _flatViewModel.Tenants.Last();
 
             OnPropertyChanged(nameof(SelectedTenant));
-        }
-
-
-        private void AddTenantConfiguration(object p)
-        {
-            _flatViewModel.TenantConfigurations.Add(new TenantConfigurationViewModel(
-                new TenantConfiguration(_flatViewModel.Tenants, _flatViewModel)));
-
-            SelectedTenantConfiguration = _flatViewModel.TenantConfigurations.Last();
-
-            OnPropertyChanged(nameof(SelectedTenantConfiguration));
         }
 
         private void RemoveTenant(object p)
@@ -159,26 +121,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             }
         }
 
-        private void RemoveTenantConfiguration(object p)
-        {
-            if (_flatViewModel.Tenants.Contains(SelectedTenant))
-            {
-                MessageBoxResult result = MessageBox.Show(
-                    $"Do you want to delete the selected tenant configuration?\n\n\n",
-                    "Delete Tenant Configuration", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
-                {
-
-                    _flatViewModel.TenantConfigurations.Remove(SelectedTenantConfiguration);
-
-                    if (_flatViewModel.TenantConfigurations.Count > 0)
-                    {
-                        SelectedTenantConfiguration = _flatViewModel.TenantConfigurations.Last();
-                    }
-                }
-
-            }
-        }
 
         private void SelectFirstActiveTenant()
         {
@@ -209,8 +151,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             _flatViewModel = _FlatManagementViewModel.SelectedItem;
 
             OnPropertyChanged(nameof(FlatViewModel));
-
-            OnPropertyChanged(nameof(SelectedTenantConfiguration));
 
             SelectFirstActiveTenant();
         }

@@ -3,6 +3,7 @@
   <Language>English</Language>
   <IDF_AnnualBillings>Annual Billing(s)</IDF_AnnualBillings>
   <IDF_Billing>Billing</IDF_Billing>
+  <IDF_BillingDate>Date of Billing</IDF_BillingDate>
   <IDF_BillingPeriodData>Billing Data</IDF_BillingPeriodData>
   <IDF_BillingPeriodOptions>Billing Options</IDF_BillingPeriodOptions>
   <IDF_Consumption>Consumption</IDF_Consumption>

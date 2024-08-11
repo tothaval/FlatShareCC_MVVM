@@ -9,6 +9,7 @@ new street 714</Address>
   <RoomCount>3</RoomCount>
   <AnnualBillings>
     <Billing>
+      <BillingDate>2025-08-01T00:00:00</BillingDate>
       <CostsHasDataLock>false</CostsHasDataLock>
       <EndDate>2024-12-31T00:00:00</EndDate>
       <HasCredits>false</HasCredits>
@@ -18,7 +19,7 @@ new street 714</Address>
       <StartDate>2024-01-01T00:00:00</StartDate>
       <TotalCostsPerPeriod>1720</TotalCostsPerPeriod>
       <TotalFixedCostsPerPeriod>
-        <TransactionSum>410</TransactionSum>
+        <TransactionSum>520</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
       </TotalFixedCostsPerPeriod>
@@ -84,6 +85,7 @@ new street 714</Address>
       </Payments>
     </Billing>
     <Billing>
+      <BillingDate>2024-08-02T00:00:00</BillingDate>
       <CostsHasDataLock>false</CostsHasDataLock>
       <EndDate>2023-12-31T00:00:00</EndDate>
       <HasCredits>false</HasCredits>
@@ -163,7 +165,7 @@ new street 714</Address>
     <Rent>
       <ColdRent>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
+        <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.5767147+02:00</StartDate>
         <TransactionSum>340</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
@@ -171,7 +173,7 @@ new street 714</Address>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
+        <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.5769569+02:00</StartDate>
         <TransactionSum>215</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
@@ -189,16 +191,16 @@ new street 714</Address>
       <OtherCosts>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
-          <Rates>1</Rates>
-          <StartDate>2024-08-05T11:53:36.5798112+02:00</StartDate>
+          <EndDate>2024-09-01T00:00:00</EndDate>
+          <StartDate>2024-08-01T00:00:00</StartDate>
           <TransactionSum>80</TransactionSum>
           <TransactionShareTypes>Area</TransactionShareTypes>
           <TransactionItem>insuranc</TransactionItem>
         </FinancialTransactionItemRent>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
-          <Rates>1</Rates>
-          <StartDate>2024-08-05T11:53:36.579879+02:00</StartDate>
+          <EndDate>2024-09-01T00:00:00</EndDate>
+          <StartDate>2024-08-01T00:00:00</StartDate>
           <TransactionSum>70</TransactionSum>
           <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>pwr</TransactionItem>
@@ -209,7 +211,7 @@ new street 714</Address>
     <Rent>
       <ColdRent>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
+        <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.5799443+02:00</StartDate>
         <TransactionSum>380</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
@@ -217,7 +219,7 @@ new street 714</Address>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
+        <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.5799498+02:00</StartDate>
         <TransactionSum>235</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
@@ -235,16 +237,16 @@ new street 714</Address>
       <OtherCosts>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
-          <Rates>4</Rates>
-          <StartDate>2024-08-03T00:00:00</StartDate>
+          <EndDate>2024-09-01T00:00:00</EndDate>
+          <StartDate>2024-08-01T00:00:00</StartDate>
           <TransactionSum>34</TransactionSum>
           <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>dfhthdt6rm</TransactionItem>
         </FinancialTransactionItemRent>
         <FinancialTransactionItemRent>
           <Duration>Limited</Duration>
-          <Rates>1</Rates>
-          <StartDate>2024-08-05T11:53:36.6060444+02:00</StartDate>
+          <EndDate>2024-08-31T00:00:00</EndDate>
+          <StartDate>2024-08-01T00:00:00</StartDate>
           <TransactionSum>780</TransactionSum>
           <TransactionShareTypes>Area</TransactionShareTypes>
           <TransactionItem>ddgost item</TransactionItem>
@@ -253,7 +255,7 @@ new street 714</Address>
       <Credits>
         <FinancialTransactionItemRent>
           <Duration>Limited</Duration>
-          <Rates>2</Rates>
+          <EndDate>2024-08-31T00:00:00</EndDate>
           <StartDate>2024-07-01T00:00:00</StartDate>
           <TransactionSum>120</TransactionSum>
           <TransactionShareTypes>Equal</TransactionShareTypes>
@@ -264,7 +266,7 @@ new street 714</Address>
     <Rent>
       <ColdRent>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
+        <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.6060725+02:00</StartDate>
         <TransactionSum>340</TransactionSum>
         <TransactionShareTypes>Equal</TransactionShareTypes>
@@ -272,7 +274,7 @@ new street 714</Address>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
+        <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.6060801+02:00</StartDate>
         <TransactionSum>215</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
@@ -293,48 +295,57 @@ new street 714</Address>
     <Rent>
       <ColdRent>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
-        <StartDate>2024-08-06T00:00:00+02:00</StartDate>
+        <EndDate>2024-09-01T00:00:00</EndDate>
+        <StartDate>2024-08-05T00:00:00</StartDate>
         <TransactionSum>380</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Rent</TransactionItem>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
-        <Rates>1</Rates>
-        <StartDate>2024-08-06T00:00:00+02:00</StartDate>
-        <TransactionSum>255</TransactionSum>
+        <EndDate>2024-09-01T00:00:00</EndDate>
+        <StartDate>2024-08-05T00:00:00</StartDate>
+        <TransactionSum>235</TransactionSum>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
       </FixedCostsAdvance>
       <HeatingCostsAdvance>
-        <TransactionSum>578</TransactionSum>
+        <TransactionSum>558</TransactionSum>
         <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
       </HeatingCostsAdvance>
       <HasCredits>true</HasCredits>
       <HasDataLock>false</HasDataLock>
       <CostsHasDataLock>false</CostsHasDataLock>
-      <StartDate>2024-09-01T00:00:00</StartDate>
+      <StartDate>2024-08-11T00:00:00</StartDate>
       <OtherCosts>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
-          <Rates>1</Rates>
-          <StartDate>2024-09-01T00:00:00</StartDate>
-          <TransactionSum>54</TransactionSum>
+          <EndDate>2024-09-01T00:00:00</EndDate>
+          <StartDate>2024-08-01T00:00:00</StartDate>
+          <TransactionSum>34</TransactionSum>
           <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>dfhthdt6rm</TransactionItem>
         </FinancialTransactionItemRent>
         <FinancialTransactionItemRent>
           <Duration>Limited</Duration>
-          <Rates>2</Rates>
-          <StartDate>2024-10-01T00:00:00</StartDate>
-          <TransactionSum>220</TransactionSum>
+          <EndDate>2024-08-31T00:00:00</EndDate>
+          <StartDate>2024-08-01T00:00:00</StartDate>
+          <TransactionSum>780</TransactionSum>
           <TransactionShareTypes>Area</TransactionShareTypes>
-          <TransactionItem>sessel</TransactionItem>
+          <TransactionItem>ddgost item</TransactionItem>
         </FinancialTransactionItemRent>
       </OtherCosts>
-      <Credits />
+      <Credits>
+        <FinancialTransactionItemRent>
+          <Duration>Limited</Duration>
+          <EndDate>2024-08-31T00:00:00</EndDate>
+          <StartDate>2024-07-01T00:00:00</StartDate>
+          <TransactionSum>120</TransactionSum>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionItem>k</TransactionItem>
+        </FinancialTransactionItemRent>
+      </Credits>
     </Rent>
   </Rents>
   <Rooms>

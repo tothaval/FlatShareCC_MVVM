@@ -511,7 +511,7 @@
 
         <Setter Property="FontWeight" Value="Normal"/>
 
-        <Setter Property="Template">
+        <!--<Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DatePicker}">
                     <Grid x:Name="PART_Root" Background="Transparent">
@@ -584,7 +584,9 @@
                                         </Setter.Value>
                                     </Setter>
 
-                                    <!--<Setter Property="Template">
+                                    -->
+        
+        <!--<Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type Button}">
 
@@ -597,7 +599,7 @@
 
                                             </ControlTemplate>
                                         </Setter.Value>
-                                    </Setter>-->
+                                    </Setter>--><!--
                                 </Style>
                             </Button.Style>
                         </Button>
@@ -605,7 +607,7 @@
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
 
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">

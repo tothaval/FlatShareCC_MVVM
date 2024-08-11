@@ -104,33 +104,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// </summary>
         public double TotalCostsPerPeriod
         {
-            get { return Billing.TotalCostsPerPeriod; }
-
-            set
-            {
-                _helper.ClearError(nameof(TotalCostsPerPeriod));
-
-                if (double.IsNaN(value))
-                {
-                    _helper.AddError("value must be a number", nameof(TotalCostsPerPeriod));
-                }
-
-                if (value < 0)
-                {
-                    _helper.AddError("value must be greater than 0", nameof(TotalCostsPerPeriod));
-                }
-
-                if (value < TotalFixedCostsPerPeriod + TotalHeatingCostsPerPeriod)
-                {
-                    _helper.AddError("value must be greater than combined costs", nameof(TotalCostsPerPeriod));
-                }
-
-                Billing.TotalCostsPerPeriod = value;
-
-                OnPropertyChanged(nameof(TotalCostsPerPeriod));
-
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalCostsPerPeriod)));
-            }
+            get { return TotalFixedCostsPerPeriod + TotalHeatingCostsPerPeriod; }
         }
 
 
@@ -165,15 +139,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 Billing.TotalFixedCostsPerPeriod.TransactionSum = value;
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalFixedCostsPerPeriod)));
 
-
-
-                if (TotalCostsPerPeriod - TotalHeatingCostsPerPeriod != Billing.TotalFixedCostsPerPeriod.TransactionSum)
-                {
-                    CalculateHeatingCosts();
-                }
-
-                OnPropertyChanged(nameof(TotalCostsPerPeriod));
                 OnPropertyChanged(nameof(TotalFixedCostsPerPeriod));
+                OnPropertyChanged(nameof(TotalCostsPerPeriod));
 
                 RebuildRoomCostShares();
             }
@@ -215,13 +182,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 Billing.TotalHeatingCostsPerPeriod.TransactionSum = value;
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingCostsPerPeriod)));
 
-                if (TotalCostsPerPeriod - TotalFixedCostsPerPeriod != Billing.TotalHeatingCostsPerPeriod.TransactionSum)
-                {
-                    CalculateFixedCosts();
-                }
-
-                OnPropertyChanged(nameof(TotalCostsPerPeriod));
                 OnPropertyChanged(nameof(TotalHeatingCostsPerPeriod));
+                OnPropertyChanged(nameof(TotalCostsPerPeriod));
 
                 RebuildRoomCostShares();
             }
@@ -262,6 +224,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public DateTime BillingDate
+        {
+            get { return Billing.BillingDate; }
+            set
+            {
+                Billing.BillingDate = value;
+
+                Year = value.Year - 1;
+
+                OnPropertyChanged(nameof(BillingDate));
+            }
+        }
+
+
         public bool CostsHasDataLock
         {
             get { return Billing.CostsHasDataLock; }
@@ -291,7 +267,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 }
                 else
                 {
-                    Billing.EndDate = value; OnPropertyChanged(nameof(EndDate));
+                    Billing.EndDate = value;
+
                     DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(EndDate)));
 
                     OnPropertyChanged(nameof(EndDate));
@@ -431,6 +408,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 StartDate = new DateTime(_Year, 01, 01);
                 EndDate = new DateTime(_Year, 12, 31);
+
+
 
                 OnPropertyChanged(nameof(Year));
             }
@@ -598,18 +577,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
 
             RebuildRoomCostShares();
-        }
-
-
-        private void CalculateFixedCosts()
-        {
-            TotalFixedCostsPerPeriod = TotalCostsPerPeriod - TotalHeatingCostsPerPeriod;
-        }
-
-
-        private void CalculateHeatingCosts()
-        {
-            TotalHeatingCostsPerPeriod = TotalCostsPerPeriod - TotalFixedCostsPerPeriod;
         }
 
 

@@ -15,21 +15,24 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
     public class BillingPrintOutput
     {
 
-        public BillingViewModel? BillingViewModel { get; set; }
-
-        public Block GetBillingDetails => BillingViewModel == null ? null : BuildBillingDetails();
+        private BillingViewModel BillingViewModel { get; }
 
 
-        public BillingPrintOutput(BillingViewModel billingViewModel)
+        private int SelectedYear {  get; set; }
+
+
+        public BillingPrintOutput(BillingViewModel billingViewModel, int selectedYear)
         {
             BillingViewModel = billingViewModel;
-
+            SelectedYear = selectedYear;
         }
 
 
         private Block BillingPlanTable(BillingViewModel viewModel)
         {
-            Table billingPlanTable = new PrintOutputBase().GetOutputTableForFlat;
+            PrintOutputBase print = new PrintOutputBase(viewModel.GetFlatViewModel(), SelectedYear);
+            
+            Table billingPlanTable = print.OutputTableForFlatBilling();
 
             TableRowGroup dataRowGroup = new TableRowGroup();
             dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
@@ -129,14 +132,19 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         {
             TableRow dataRow = new TableRow();
 
-            TableCell DueTime = new TableCell();
-            DueTime.TextAlignment = TextAlignment.Right;
+            TableCell StartTime = new TableCell();
+            StartTime.TextAlignment = TextAlignment.Right;
+
+            TableCell EndTime = new TableCell();
+            EndTime.TextAlignment = TextAlignment.Right;
 
             TableCell Item = new TableCell();
             TableCell Payment = new TableCell();
             Payment.TextAlignment = TextAlignment.Right;
 
-            DueTime.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate:d}-{viewModel.EndDate:d}")) { Margin = new Thickness(0, 0, 10, 0) });
+            //StartTime.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate:d}-{viewModel.EndDate:d}")) { Margin = new Thickness(0, 0, 10, 0) });
+            StartTime.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate:d}")) { Margin = new Thickness(0, 0, 10, 0) });
+            EndTime.Blocks.Add(new Paragraph(new Run($"{viewModel.EndDate:d}")) { Margin = new Thickness(0, 0, 10, 0) });
 
             Item.Blocks.Add(new Paragraph(new Run(item)));
 
@@ -162,7 +170,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 Payment.Blocks.Add(paymentParagraph);
             }
 
-            dataRow.Cells.Add(DueTime);
+            dataRow.Cells.Add(StartTime);
+            dataRow.Cells.Add(EndTime);
             dataRow.Cells.Add(Item);
             dataRow.Cells.Add(Payment);
 
@@ -218,7 +227,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        private Section BuildBillingDetails()
+        public Section BuildBillingDetails()
         {
             Section billingOutput = new Section();
 

@@ -19,7 +19,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         public TransactionDurationTypes Duration { get; set; } = TransactionDurationTypes.Ongoing;
 
 
-        public int Rates { get; set; } = 1;
+        public DateTime EndDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1);
 
 
         public DateTime StartDate { get; set; } = DateTime.Now.Date;

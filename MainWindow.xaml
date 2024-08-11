@@ -42,6 +42,11 @@
                 <views:RoomSetupView/>
             </DataTemplate>
 
+
+        <DataTemplate DataType="{x:Type vmscon:TenantAssignmentViewModel}">
+            <views:TenantAssignmentView/>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type vmscon:TenantSetupViewModel}">
             <views:TenantSetupView/>
         </DataTemplate>

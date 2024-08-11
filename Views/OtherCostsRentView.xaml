@@ -122,14 +122,13 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Header="Rates">
+                        <GridViewColumn Header="End">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Text="{Binding Rates}"
-                                             Style="{StaticResource DoubleValueTextBox}"
-                                             HorizontalAlignment="Stretch"
-                                             Visibility="{Binding HasLimitedDuration, Converter={StaticResource viscon}}" 
-                                             IsEnabled="{Binding DataContext.HasDataLock,
+                                    <DatePicker SelectedDate="{Binding EndDate}"
+                                                HorizontalAlignment="Stretch"
+                                                Visibility="{Binding HasLimitedDuration, Converter={StaticResource viscon}}" 
+                                                IsEnabled="{Binding DataContext.HasDataLock,
                                         RelativeSource={RelativeSource AncestorType=local:RentUpdateView},
                                         NotifyOnSourceUpdated=True}"/>
 

@@ -259,7 +259,7 @@
                             </TabItem>
 
                             <TabItem Header="Assignment">
-                                <ContentPresenter Content="{Binding TenantAssignement}"/>
+                                <ContentPresenter Content="{Binding TenantAssignment}"/>
                             </TabItem>
                         </TabControl>
 
