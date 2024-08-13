@@ -14,11 +14,11 @@ there is a grocery store nearby.</FlatNotes>
       <BillingDate>2024-08-08T00:00:00</BillingDate>
       <CostsHasDataLock>false</CostsHasDataLock>
       <EndDate>2023-12-31T00:00:00</EndDate>
-      <HasCredits>false</HasCredits>
+      <HasCredits>true</HasCredits>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
-      <HasPayments>false</HasPayments>
-      <StartDate>2023-01-01T00:00:00</StartDate>
+      <HasPayments>true</HasPayments>
+      <StartDate>2023-03-15T00:00:00</StartDate>
       <TotalCostsPerPeriod>1507.12</TotalCostsPerPeriod>
       <TotalFixedCostsPerPeriod>
         <TransactionSum>550.14</TransactionSum>
@@ -90,7 +90,14 @@ there is a grocery store nearby.</FlatNotes>
         </RoomPayments>
         <RoomPayments>
           <RoomName>room3</RoomName>
-          <PaymentCollection />
+          <PaymentCollection>
+            <Payment>
+              <EndDate>2023-12-31T00:00:00</EndDate>
+              <PaymentQuantity>9</PaymentQuantity>
+              <StartDate>2023-03-15T00:00:00</StartDate>
+              <Sum>200</Sum>
+            </Payment>
+          </PaymentCollection>
         </RoomPayments>
         <RoomPayments>
           <RoomName>room4</RoomName>

@@ -87,7 +87,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{DynamicResource IDF_RentPerMonth}" Width="Auto">
+                            <GridViewColumn Header="{DynamicResource IDF_Rent}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding ColdRent,
@@ -100,10 +100,10 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{DynamicResource IDF_ExtraCostsPerMonth}" Width="Auto">
+                            <GridViewColumn Header="{DynamicResource IDF_FixedCosts}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ExtraCostsTotal,
+                                        <TextBlock Text="{Binding FixedCostsAdvance,
                                             StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
                                             NotifyOnSourceUpdated=True,
@@ -114,21 +114,47 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{DynamicResource IDF_TotalPricePerMonth}" Width="Auto">
+                            <GridViewColumn Header="{DynamicResource IDF_HeatingCosts}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding CostsTotal,StringFormat=C2,
-                                            UpdateSourceTrigger=PropertyChanged, 
+                                        <TextBlock Text="{Binding HeatingCostsAdvance,
+                                            StringFormat=C2,
+                                            UpdateSourceTrigger=PropertyChanged,
                                             NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
-                                               Style="{StaticResource DoubleValueTextBlock}"
-                                                   FontWeight="Bold"/>
+                                               Style="{StaticResource DoubleValueTextBlock}"/>
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{DynamicResource IDF_RentPerYear}" Width="Auto">
+                            <GridViewColumn Header="{DynamicResource IDF_Costs}" Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding OtherFTISum,StringFormat=C2,
+                                            UpdateSourceTrigger=PropertyChanged, 
+                                            NotifyOnSourceUpdated=True,
+                                            Mode=OneWay}"
+                                               Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="{DynamicResource IDF_Credit}" Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CreditSum,StringFormat=C2,
+                                            UpdateSourceTrigger=PropertyChanged, 
+                                            NotifyOnSourceUpdated=True,
+                                            Mode=OneWay}"
+                                               Style="{StaticResource DoubleValueTextBlock}"/>
+
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!--<GridViewColumn Header="{DynamicResource IDF_RentPerYear}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding AnnualRent,StringFormat=C2,
@@ -166,7 +192,7 @@
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                            </GridViewColumn>-->
 
                         </GridView.Columns>
                     </GridView>

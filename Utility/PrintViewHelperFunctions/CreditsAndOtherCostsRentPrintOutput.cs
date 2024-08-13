@@ -94,9 +94,6 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 PrintOutputBase print = new PrintOutputBase(FlatViewModel, SelectedYear);
 
                 Table headerTable = print.OutputTableForFlat();
-                headerTable.RowGroups.Add(print.TableRowGroupRentHeader());
-
-                rentOutput.Blocks.Add(headerTable);
 
                 if (SelectedDetailOption.Equals("TimeScale"))
                 {
@@ -295,6 +292,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             double result = 0.0;
 
+            dataRowGroup.Rows.Add(print.TableRowRentHeader());
+
             foreach (FinancialTransactionItemRentViewModel fti in FTIs)
             {
                 if (fti.Duration == Enums.TransactionDurationTypes.Ongoing)
@@ -363,10 +362,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         private Block OtherCostsPlanTableRooms(RentViewModel rentViewModel, ObservableCollection<IFinancialTransactionItem> FTIs, int month = -1)
         {
             PrintOutputBase print = new PrintOutputBase(FlatViewModel, SelectedYear);
-
-           Table rentPlanRoomsTable = print.OutputTableRooms();
-
-            rentPlanRoomsTable.RowGroups.Add(print.TableRowGroupRoomHeader());
+            
+            Table rentPlanRoomsTable = print.OutputTableRooms();
 
             TableRowGroup dataRowGroup = new TableRowGroup();
             dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
@@ -374,6 +371,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             foreach (RoomCostShareRent item in rentViewModel.RoomCostShares)
             {
                 double result = 0.0;
+
+                dataRowGroup.Rows.Add(print.SeparatorTextTableRow($"{item.RoomName} {item.RoomArea}m²"));
+
+                dataRowGroup.Rows.Add(print.TableRowRoomHeader());
+
 
                 foreach (FinancialTransactionItemRentViewModel fti in FTIs)
                 {

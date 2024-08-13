@@ -92,6 +92,12 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double CompleteCostShare { get; set; }
 
 
+        public double CostAndCreditShare { get; set; }
+
+
+        public double CreditShare { get; set; }
+
+
         public double EqualSharedCostsShare { get; set; }
 
 
@@ -138,6 +144,9 @@ namespace SharedLivingCostCalculator.Models.Financial
         // Collections
         #region Collections
 
+        public ObservableCollection<FinancialTransactionItemRentViewModel> Credits { get; set; } = new ObservableCollection<FinancialTransactionItemRentViewModel>();
+
+
         public ObservableCollection<FinancialTransactionItemRentViewModel> FinancialTransactionItemViewModels { get; set; } = new ObservableCollection<FinancialTransactionItemRentViewModel>();
 
         #endregion
@@ -155,7 +164,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             {
                 rentViewModel.GetFlatViewModel().PropertyChanged += RoomCostShareRent_PropertyChanged;
             }
-            
+
 
             CalculateValues();
         }
@@ -222,7 +231,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                         alt_counter++;
                         break;
                     }
-                } 
+                }
             }
 
 
@@ -230,7 +239,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             {
                 HeatingCostsAdvanceShare = RentedAreaShareRatio() * heatingCosts;
             }
-             
+
 
             AreaSharedCostsShare = GetAreaSharedCostsShare();
 
@@ -242,7 +251,10 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             CompleteCostShare = PriceShare + OtherCostsShare;
 
+            FillCreditsCollection();
             FillObservableCollection();
+
+            CostAndCreditShare = CompleteCostShare - CreditShare;
 
             OnPropertyChanged(nameof(SharedAreaShare));
             OnPropertyChanged(nameof(RentedAreaShare));
@@ -272,6 +284,40 @@ namespace SharedLivingCostCalculator.Models.Financial
             return ((RentViewModel)ViewModel).DetermineMonthsUntilYearsEnd();
         }
 
+
+        private void FillCreditsCollection()
+        {
+            Credits.Clear();
+
+            foreach (FinancialTransactionItemRentViewModel item in ViewModel.Credits)
+            {
+                FinancialTransactionItemRentViewModel FTIvm = new FinancialTransactionItemRentViewModel(new FinancialTransactionItemRent());
+
+                if (item.CostShareTypes == Enums.TransactionShareTypesRent.Equal)
+                {
+                    FTIvm.TransactionSum = EqualShareRatio() * item.TransactionSum;
+                }
+                else if (item.CostShareTypes == Enums.TransactionShareTypesRent.Area)
+                {
+                    FTIvm.TransactionSum = RentedAreaShareRatio() * item.TransactionSum;
+                }
+
+                FTIvm.CostShareTypes = item.CostShareTypes;
+
+                string newItem = item.TransactionItem;
+                FTIvm.TransactionItem = newItem;
+
+                CreditShare += FTIvm.TransactionSum;
+
+                Credits.Add(FTIvm);
+
+            }
+
+            OnPropertyChanged(nameof(Credits));
+            OnPropertyChanged(nameof(CreditShare));
+        }
+
+
         private void FillObservableCollection()
         {
             FinancialTransactionItemViewModels.Clear();
@@ -293,10 +339,10 @@ namespace SharedLivingCostCalculator.Models.Financial
 
                 string newItem = item.TransactionItem;
                 FTIvm.TransactionItem = newItem;
-                
-                
+
+
                 FinancialTransactionItemViewModels.Add(FTIvm);
-                
+
             }
 
             OnPropertyChanged(nameof(FinancialTransactionItemViewModels));

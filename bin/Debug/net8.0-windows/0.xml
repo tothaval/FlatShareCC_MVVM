@@ -12,7 +12,7 @@ new street 714</Address>
       <BillingDate>2025-08-01T00:00:00</BillingDate>
       <CostsHasDataLock>false</CostsHasDataLock>
       <EndDate>2024-12-31T00:00:00</EndDate>
-      <HasCredits>false</HasCredits>
+      <HasCredits>true</HasCredits>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>true</HasOtherCosts>
       <HasPayments>false</HasPayments>
@@ -60,6 +60,37 @@ new street 714</Address>
             </RoomConsumption>
           </ConsumptionPerRoom>
         </ConsumptionItem>
+        <ConsumptionItem>
+          <ConsumptionCause>
+            <TransactionSum>150</TransactionSum>
+            <TransactionShareTypes>Consumption</TransactionShareTypes>
+            <TransactionItem>rotwein</TransactionItem>
+          </ConsumptionCause>
+          <ConsumedUnits>20</ConsumedUnits>
+          <ConsumptionPerRoom>
+            <RoomConsumption>
+              <Room>
+                <RoomArea>10.1</RoomArea>
+                <RoomName>Schlafzimmer</RoomName>
+              </Room>
+              <ConsumptionValue>10</ConsumptionValue>
+            </RoomConsumption>
+            <RoomConsumption>
+              <Room>
+                <RoomArea>22</RoomArea>
+                <RoomName>Kinderzimmer</RoomName>
+              </Room>
+              <ConsumptionValue>5</ConsumptionValue>
+            </RoomConsumption>
+            <RoomConsumption>
+              <Room>
+                <RoomArea>12</RoomArea>
+                <RoomName>Arbeitszimmer</RoomName>
+              </Room>
+              <ConsumptionValue>3</ConsumptionValue>
+            </RoomConsumption>
+          </ConsumptionPerRoom>
+        </ConsumptionItem>
       </Consumptions>
       <Costs>
         <FinancialTransactionItemBilling>
@@ -67,8 +98,22 @@ new street 714</Address>
           <TransactionShareTypes>Area</TransactionShareTypes>
           <TransactionItem>item</TransactionItem>
         </FinancialTransactionItemBilling>
+        <FinancialTransactionItemBilling>
+          <TransactionSum>150</TransactionSum>
+          <TransactionShareTypes>Consumption</TransactionShareTypes>
+          <TransactionItem>rotwein</TransactionItem>
+        </FinancialTransactionItemBilling>
       </Costs>
-      <Credits />
+      <Credits>
+        <FinancialTransactionItemRent>
+          <Duration>Ongoing</Duration>
+          <EndDate>2024-09-01T00:00:00</EndDate>
+          <StartDate>2024-08-13T00:00:00+02:00</StartDate>
+          <TransactionSum>125</TransactionSum>
+          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionItem>rückerstattung</TransactionItem>
+        </FinancialTransactionItemRent>
+      </Credits>
       <Payments>
         <RoomPayments>
           <RoomName>Schlafzimmer</RoomName>
@@ -92,7 +137,7 @@ new street 714</Address>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>true</HasOtherCosts>
       <HasPayments>false</HasPayments>
-      <StartDate>2023-01-01T00:00:00</StartDate>
+      <StartDate>2023-06-15T00:00:00</StartDate>
       <TotalCostsPerPeriod>1500</TotalCostsPerPeriod>
       <TotalFixedCostsPerPeriod>
         <TransactionSum>392.22</TransactionSum>
