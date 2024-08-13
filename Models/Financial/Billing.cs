@@ -92,7 +92,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         // storing TransactionItems in case of credits being factored in into rent calculation
         [XmlArray("Credits")]
-        public ObservableCollection<FinancialTransactionItemBilling> Credits { get; set; } = new ObservableCollection<FinancialTransactionItemBilling>();
+        public ObservableCollection<FinancialTransactionItemRent> Credits { get; set; } = new ObservableCollection<FinancialTransactionItemRent>();
 
 
         // storing the payments of each room
@@ -171,7 +171,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         }
 
 
-        public void AddCredit(FinancialTransactionItemBilling financialTransactionItem)
+        public void AddCredit(FinancialTransactionItemRent financialTransactionItem)
         {
             if (IsNewFTI(financialTransactionItem))
             {
@@ -229,7 +229,34 @@ namespace SharedLivingCostCalculator.Models.Financial
         }
 
 
+        private bool CollectionContainsFTI(ICollection<FinancialTransactionItemRent> FTIs, FinancialTransactionItemRent item)
+        {
+            foreach (FinancialTransactionItemRent fti in FTIs)
+            {
+                if (CompareFTI(fti, item))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
         private bool CompareFTI(FinancialTransactionItemBilling fti, FinancialTransactionItemBilling item)
+        {
+            if (item.TransactionItem == fti.TransactionItem
+                && item.TransactionSum == fti.TransactionSum
+                && item.TransactionShareTypes == item.TransactionShareTypes)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+        private bool CompareFTI(FinancialTransactionItemRent fti, FinancialTransactionItemRent item)
         {
             if (item.TransactionItem == fti.TransactionItem
                 && item.TransactionSum == fti.TransactionSum
@@ -299,6 +326,18 @@ namespace SharedLivingCostCalculator.Models.Financial
         }
 
 
+        private bool IsNewFTI(FinancialTransactionItemRent item)
+        {
+            if (item.TransactionSum == 0.0
+                && item.TransactionItem.Equals("other cost item"))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
         private void RemoveConsumptionItem(FinancialTransactionItemBilling financialTransactionItem)
         {
             foreach (ConsumptionItem item in ConsumptionItems)
@@ -315,7 +354,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         }
 
 
-        public void RemoveCredit(FinancialTransactionItemBilling financialTransactionItem)
+        public void RemoveCredit(FinancialTransactionItemRent financialTransactionItem)
         {
             if (CollectionContainsFTI(Credits, financialTransactionItem))
             {

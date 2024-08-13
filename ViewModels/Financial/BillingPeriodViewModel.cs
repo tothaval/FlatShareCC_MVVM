@@ -115,7 +115,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                         //RentViewModel.RemoveBilling();
                         SelectedValue.HasCredits = value;
 
-                        if (SelectedIndex == 2)
+                        if (SelectedIndex == 3)
                         {
                             SelectedIndex = 0;
                         }
@@ -126,9 +126,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 {
                     SelectedValue.HasCredits = value;
 
-                    if (SelectedIndex != 2)
+                    if (SelectedIndex != 3)
                     {
-                        SelectedIndex = 2;
+                        SelectedIndex = 3;
                     }
                 }
 
@@ -161,7 +161,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
-                        if (SelectedIndex == 1)
+                        if (SelectedIndex == 2)
                         {
                             SelectedIndex = 0;
                         }
@@ -172,9 +172,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 {
                     SelectedValue.HasOtherCosts = value;
 
-                    if (SelectedIndex != 1)
+                    if (SelectedIndex != 2)
                     {
-                        SelectedIndex = 1;
+                        SelectedIndex = 2;
                     }
                 }
 
@@ -206,7 +206,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                         //RentViewModel.RemoveBilling();
                         SelectedValue.HasPayments = value;
 
-                        if (SelectedIndex == 3)
+                        if (SelectedIndex == 4)
                         {
                             SelectedIndex = 0;
                         }
@@ -217,9 +217,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 {
                     SelectedValue.HasPayments = value;
 
-                    if (SelectedIndex != 3)
+                    if (SelectedIndex != 4)
                     {
-                        SelectedIndex = 3;
+                        SelectedIndex = 4;
                     }
                 }
 

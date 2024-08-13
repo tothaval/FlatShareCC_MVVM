@@ -100,7 +100,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         #region Methods
         private void AddFinacialTransactionItem(object s)
         {
-            FinancialTransactionItemBillingViewModel otherCostItemViewModel = new FinancialTransactionItemBillingViewModel(new FinancialTransactionItemBilling());
+            FinancialTransactionItemRentViewModel otherCostItemViewModel = new FinancialTransactionItemRentViewModel(new FinancialTransactionItemRent());
 
             BillingViewModel.AddCredit(otherCostItemViewModel);
 
@@ -119,7 +119,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     "Remove Other TransactionSum(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    var selected = selection.Cast<FinancialTransactionItemBillingViewModel>().ToArray();
+                    var selected = selection.Cast<FinancialTransactionItemRentViewModel>().ToArray();
 
                     foreach (var item in selected)
                     {

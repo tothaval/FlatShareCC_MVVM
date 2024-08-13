@@ -73,7 +73,7 @@
                     SmallChange="1"
                     IsSnapToTickEnabled="True"
                     Minimum="0"
-                    Maximum="100"
+                    Maximum="55"
                     MinWidth="100">
                 </Slider>
                 
@@ -107,7 +107,7 @@
                   SmallChange="1"
                   IsSnapToTickEnabled="True"
                   Minimum="0"
-                  Maximum="100"
+                  Maximum="55"
                   MinWidth="100">
                 </Slider>
 
@@ -181,7 +181,7 @@
                     SmallChange="1"
                     IsSnapToTickEnabled="True"
                     Minimum="8"
-                    Maximum="48"   
+                    Maximum="25"   
                     MinWidth="100">
                 </Slider>
 

@@ -97,8 +97,10 @@
                         <GridViewColumn Header="Begin">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
+
                                     <DatePicker SelectedDate="{Binding StartDate}"
                                                 HorizontalAlignment="Stretch" 
+                                                Width="180"
                                                 IsEnabled="{Binding DataContext.HasDataLock,
                                         RelativeSource={RelativeSource AncestorType=local:RentUpdateView},
                                         NotifyOnSourceUpdated=True}"/>
@@ -126,6 +128,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <DatePicker SelectedDate="{Binding EndDate}"
+                                                Width="180"
                                                 HorizontalAlignment="Stretch"
                                                 Visibility="{Binding HasLimitedDuration, Converter={StaticResource viscon}}" 
                                                 IsEnabled="{Binding DataContext.HasDataLock,

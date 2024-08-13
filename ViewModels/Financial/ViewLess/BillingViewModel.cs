@@ -93,10 +93,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// <summary>
         /// returns all costs per period excluding other costs, including Rent, Fixed and Heating
         /// </summary>
-        public double TotalCosts => TotalRentCosts + TotalCostsPerPeriod + OtherFTISum;
+        public double TotalCosts => TotalCostsPerPeriodIncludingRent + OtherFTISum - CreditSum;
 
 
-        public double TotalCostsNoPayments => TotalCostsPerPeriod + OtherFTISum;
+        public double TotalCostsNoPayments => TotalCostsPerPeriod + OtherFTISum - CreditSum;
 
 
         /// <summary>
@@ -107,6 +107,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             get { return TotalFixedCostsPerPeriod + TotalHeatingCostsPerPeriod; }
         }
 
+
+        public double TotalCostsPerPeriodIncludingRent
+        {
+            get { return TotalRentCosts + TotalFixedCostsPerPeriod + TotalHeatingCostsPerPeriod; }
+        }
 
         /// <summary>
         /// returns the fixed costs per period.
@@ -232,6 +237,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 Billing.BillingDate = value;
 
                 Year = value.Year - 1;
+
+                StartDate = FindEarliestStartDate(Year);
+                EndDate = new DateTime(Year, 12, 31);
 
                 OnPropertyChanged(nameof(BillingDate));
             }
@@ -406,13 +414,46 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             {
                 _Year = value;
 
-                StartDate = new DateTime(_Year, 01, 01);
-                EndDate = new DateTime(_Year, 12, 31);
-
-
-
                 OnPropertyChanged(nameof(Year));
             }
+        }
+
+        private DateTime FindEarliestStartDate(int year)
+        {
+            RentViewModel? comparer = null;
+
+            foreach (RentViewModel item in FlatViewModel.RentUpdates)
+            {
+                if (item.StartDate.Year < year )
+                {
+                    return new DateTime(year, 01, 01);
+                }
+
+                if (item.StartDate.Year > year)
+                {
+                    continue;
+                }
+
+                if (item.StartDate.Year == year && comparer == null)
+                {
+                    comparer = item;
+                }
+
+                if (item.StartDate.Year == year && comparer != null)
+                {
+                    if ( item.StartDate < comparer.StartDate)
+                    {
+                        comparer = item;
+                    }
+                }
+            }
+
+            if (comparer != null)
+            {
+                return comparer.StartDate;
+            }
+
+            return new DateTime(year, 01, 01);
         }
 
 
@@ -527,6 +568,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             Year = billing.StartDate.Year;
 
+            StartDate = FindEarliestStartDate(Year);
+            EndDate = new DateTime(Year, 12, 31);
+
             GenerateFTIViewModels();
 
             GenerateConsumptionItemViewModels();
@@ -544,7 +588,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         // methods
         #region methods
 
-        public void AddCredit(FinancialTransactionItemBillingViewModel costItemViewModel)
+        public void AddCredit(FinancialTransactionItemRentViewModel costItemViewModel)
         {
             Billing.AddCredit(costItemViewModel.FTI);
 
@@ -568,7 +612,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         {
             CreditSum = 0.0;
 
-            foreach (FinancialTransactionItemBillingViewModel item in Credits)
+            foreach (FinancialTransactionItemRentViewModel item in Credits)
             {
                 CreditSum += item.TransactionSum;
             }
@@ -774,41 +818,50 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                     }
 
                     // rent begins after Billing period start but before Billing period end
-                    if (rent.StartDate > StartDate || rent.StartDate < EndDate)
+                    if (rent.StartDate > StartDate && rent.StartDate < EndDate)
                     {
                         preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
                     }
                 }
 
-                //    RentViewModel? comparer = new RentViewModel(_flatViewModel, new Rent() { StartDate = StartDate });
-                //    bool firstRun = true;
 
-                //    // building a collection of relevant rent items
-                //    foreach (RentViewModel item in preSortList)
-                //    {
-                //        if (item.StartDate >= StartDate)
-                //        {
-                //            RentList.Add(item);
-                //            continue;
-                //        }
+                preSortList = new ObservableCollection<RentViewModel>(preSortList.OrderBy(i => i.StartDate));
 
-                //        if (item.StartDate < StartDate && firstRun)
-                //        {
-                //            firstRun = false;
-                //            comparer = item;
-                //            continue;
-                //        }
+                RentViewModel? comparer = new RentViewModel(_flatViewModel, new Rent() { StartDate = StartDate });
+                bool firstRun = true;
 
-                //        if (item.StartDate < StartDate && item.StartDate > comparer.StartDate)
-                //        {
-                //            comparer = item;
-                //        }
-                //    }
-                //    RentList.Add(comparer);
+                // building a collection of relevant rent items
+                foreach (RentViewModel item in preSortList)
+                {
+                    if (firstRun)
+                    {
+                        if (item.StartDate < StartDate)
+                        {
+                            firstRun = false;
+                            comparer = item;
+                            continue;
+                        }
+                    }
+
+
+                    if (item.StartDate >= StartDate)
+                    {
+                        RentList.Add(item);
+                        continue;
+                    }
+
+          
+
+                    if (item.StartDate < StartDate && item.StartDate > comparer.StartDate)
+                    {
+                        comparer = item;
+                    }
+                }
+                RentList.Add(comparer);
             }
 
             // sort List by StartDate, ascending
-            RentList = new ObservableCollection<RentViewModel>(preSortList.OrderBy(i => i.StartDate));
+            RentList = new ObservableCollection<RentViewModel>(RentList.OrderBy(i => i.StartDate));
 
             return RentList;
         }
@@ -849,9 +902,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             if (Billing != null)
             {
-                foreach (FinancialTransactionItemBilling item in Billing.Credits)
+                foreach (FinancialTransactionItemRent item in Billing.Credits)
                 {
-                    FinancialTransactionItemBillingViewModel FinancialTransactionItemViewModel = new FinancialTransactionItemBillingViewModel(item);
+                    FinancialTransactionItemRentViewModel FinancialTransactionItemViewModel = new FinancialTransactionItemRentViewModel(item);
 
                     FinancialTransactionItemViewModel.ValueChange += CreditItem_ValueChange;
 
@@ -936,6 +989,24 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public double GetFTIShareSum(TransactionShareTypesRent transactionShareTypes)
+        {
+            double shareSum = 0.0;
+
+            // search consumption items
+            foreach (FinancialTransactionItemRentViewModel item in Credits)
+            {
+                // search for matching consumption item
+                if (item.CostShareTypes == transactionShareTypes)
+                {
+                    shareSum += item.TransactionSum;
+                }
+            }
+
+            return shareSum;
+        }
+
+
         internal double GetRoomConsumptionPercentage(Room room, FinancialTransactionItemBilling transactionItem)
         {
             // search consumption items
@@ -983,7 +1054,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public void RemoveCredit(FinancialTransactionItemBillingViewModel costItemViewModel)
+        public void RemoveCredit(FinancialTransactionItemRentViewModel costItemViewModel)
         {
             Billing.RemoveCredit(costItemViewModel.FTI);
 

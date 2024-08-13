@@ -133,7 +133,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{DynamicResource IDF_Advance}" Width="Auto">
+                            <!--<GridViewColumn Header="{DynamicResource IDF_Advance}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding TotalAdvancePerPeriod,
@@ -160,7 +160,7 @@
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                            </GridViewColumn>-->
 
                         </GridView.Columns>
                     </GridView>
@@ -209,28 +209,28 @@
                                 Margin="10"
                  HorizontalAlignment="Stretch">
 
-                        <Grid Margin="0 10 0 0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
-                                <ColumnDefinition Width="*" SharedSizeGroup="Values"/>
-                            </Grid.ColumnDefinitions>
+                            <Grid Margin="0 10 0 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
+                                    <ColumnDefinition Width="*" SharedSizeGroup="Values"/>
+                                </Grid.ColumnDefinitions>
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
 
-                            <TextBlock Text="{DynamicResource IDF_Year}"
+                                <TextBlock Text="{DynamicResource IDF_Year}"
                             MinWidth="100"
                             HorizontalAlignment="Stretch"
                             Style="{StaticResource StringValueTextBlock}"
                             Grid.Column="0"
                             Grid.Row="0"/>
 
-                            <TextBlock Text="{Binding SelectedValue.Year,
+                                <TextBlock Text="{Binding SelectedValue.Year,
                                 NotifyOnSourceUpdated=True,
                                 NotifyOnValidationError=True,
                                 ValidatesOnDataErrors=True}"
@@ -239,14 +239,14 @@
                           Grid.Row="0"/>
 
 
-                            <TextBlock Text="{DynamicResource IDF_BillingDate}"
+                                <TextBlock Text="{DynamicResource IDF_BillingDate}"
                             MinWidth="100"
                             HorizontalAlignment="Stretch"
                             Style="{StaticResource StringValueTextBlock}"
                             Grid.Column="0"
                             Grid.Row="1"/>
 
-                            <DatePicker SelectedDate="{Binding SelectedValue.BillingDate,
+                                <DatePicker SelectedDate="{Binding SelectedValue.BillingDate,
                                 Mode=TwoWay,
                                 NotifyOnSourceUpdated=True,
                                 NotifyOnValidationError=True,
@@ -255,12 +255,12 @@
                           Grid.Column="1"
                           Grid.Row="1"/>
 
-                            <TextBlock Text="{DynamicResource IDF_FixedCosts}"
+                                <TextBlock Text="{DynamicResource IDF_FixedCosts}"
                          Style="{StaticResource StringValueTextBlock}"
                          Grid.Column="0"
                          Grid.Row="2"/>
 
-                            <TextBox Text="{Binding SelectedValue.TotalFixedCostsPerPeriod,
+                                <TextBox Text="{Binding SelectedValue.TotalFixedCostsPerPeriod,
                                 StringFormat=C2,
                                 Mode=TwoWay,
                                 NotifyOnSourceUpdated=True,
@@ -272,12 +272,12 @@
                        Grid.Column="1"
                        Grid.Row="2"/>
 
-                            <TextBlock Text="{DynamicResource IDF_HeatingCosts}"
+                                <TextBlock Text="{DynamicResource IDF_HeatingCosts}"
                          Style="{StaticResource StringValueTextBlock}"
                          Grid.Column="0"
                          Grid.Row="3"/>
 
-                            <TextBox Text="{Binding SelectedValue.TotalHeatingCostsPerPeriod,
+                                <TextBox Text="{Binding SelectedValue.TotalHeatingCostsPerPeriod,
                                 StringFormat=C2,
                                 Mode=TwoWay,
                                 NotifyOnSourceUpdated=True,
@@ -289,12 +289,12 @@
                        Grid.Column="1"
                        Grid.Row="3"/>
 
-                            <TextBlock Text="{DynamicResource IDF_TotalCosts}"
+                                <TextBlock Text="{DynamicResource IDF_TotalCosts}"
                             Style="{StaticResource StringValueTextBlock}"
                             Grid.Column="0"
                             Grid.Row="4"/>
 
-                            <TextBlock Text="{Binding SelectedValue.TotalCostsPerPeriod,
+                                <TextBlock Text="{Binding SelectedValue.TotalCostsPerPeriod,
                                 StringFormat=C2,
                                 NotifyOnSourceUpdated=True,
                                 NotifyOnValidationError=True,
@@ -303,8 +303,8 @@
                                        FontWeight="Bold"
                                        Grid.Column="1"
                                        Grid.Row="4"/>
-                        </Grid>
-
+                            </Grid>
+         
                     </StackPanel>
                 </TabItem>
 

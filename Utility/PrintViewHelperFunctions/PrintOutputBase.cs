@@ -257,7 +257,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             TableCell Payment = new TableCell();
             Payment.TextAlignment = TextAlignment.Right;
 
-            RoomName.Blocks.Add(new Paragraph(new Run(roomname)));
+            RoomName.Blocks.Add(new Paragraph(new Run()));
 
             if (month == -1 && viewModel.StartDate.Year == SelectedYear)
             {
@@ -319,42 +319,76 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public TableRowGroup TableRowGroupRentHeader()
+        public TableRow SeparatorLineTableRow(bool whitespace = false)
         {
-            TableRowGroup headerRowGroup = new TableRowGroup();
+            TableRow tableRow = new TableRow();
 
-            headerRowGroup.Style = Application.Current.FindResource("HeaderRowStyle") as Style;
+            TableCell cell = new TableCell() { ColumnSpan = 4 };
 
-            headerRowGroup.FontSize = 14;
+            if (whitespace)
+            {
+                cell.Blocks.Add(new Paragraph(new Run("\n")));
+            }
+            else
+            {
+                cell.Blocks.Add(new Paragraph(new Run("\n")) { Background = new SolidColorBrush(Colors.LightGray) });
+            }
 
+            tableRow.Cells.Add(cell);
+
+            return tableRow;
+        }
+
+        public TableRow SeparatorTextTableRow(string text, bool sub = false)
+        {
+            TableRow tableRow = new TableRow();
+
+            TableCell cell = new TableCell();
+            TableCell emptycell = new TableCell();
+
+            cell.Blocks.Add(new Paragraph(new Run(text)) { Background = new SolidColorBrush(Colors.LightGray), FontSize = 14.0 });
+
+            if (sub)
+            {
+                cell.ColumnSpan = 3;
+
+                tableRow.Cells.Add(emptycell);
+                tableRow.Cells.Add(cell);
+            }
+            else
+            {
+                cell.ColumnSpan = 4;
+
+                tableRow.Cells.Add(cell);
+            }
+
+
+            return tableRow;
+        }
+
+
+        public TableRow TableRowRentHeader()
+        {         
             TableRow headerRow = new TableRow();
 
             TableCell headerCell_DueTime = new TableCell();
             TableCell headerCell_Item = new TableCell();
             TableCell headerCell_Costs = new TableCell();
 
-            headerCell_DueTime.Blocks.Add(new Paragraph(new Run("Time")));
-            headerCell_Item.Blocks.Add(new Paragraph(new Run("Item")));
-            headerCell_Costs.Blocks.Add(new Paragraph(new Run("Costs")));
+            headerCell_DueTime.Blocks.Add(new Paragraph(new Run("Time")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+            headerCell_Item.Blocks.Add(new Paragraph(new Run("Item")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+            headerCell_Costs.Blocks.Add(new Paragraph(new Run("Costs")) { FontWeight = FontWeights.Bold, FontSize = 12 });
 
             headerRow.Cells.Add(headerCell_DueTime);
             headerRow.Cells.Add(headerCell_Item);
             headerRow.Cells.Add(headerCell_Costs);
 
-            headerRowGroup.Rows.Add(headerRow);
-
-            return headerRowGroup;
+            return headerRow;
         }
 
 
-        public TableRowGroup TableRowGroupRoomHeader()
+        public TableRow TableRowRoomHeader()
         {
-            TableRowGroup headerRowGroup = new TableRowGroup();
-
-            headerRowGroup.Style = Application.Current.FindResource("HeaderRowStyle") as Style;
-
-            headerRowGroup.FontSize = 14;
-
             TableRow headerRow = new TableRow();
 
             TableCell RoomName = new TableCell();
@@ -362,19 +396,17 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             TableCell Item = new TableCell();
             TableCell Costs = new TableCell();
 
-            RoomName.Blocks.Add(new Paragraph(new Run("Room")));
-            DueTime.Blocks.Add(new Paragraph(new Run("Time")));
-            Item.Blocks.Add(new Paragraph(new Run("Item")));
-            Costs.Blocks.Add(new Paragraph(new Run("Costs")));
+            RoomName.Blocks.Add(new Paragraph(new Run()));
+            DueTime.Blocks.Add(new Paragraph(new Run("Time")) { FontSize = 12, FontWeight = FontWeights.Bold });
+            Item.Blocks.Add(new Paragraph(new Run("Item")) { FontSize = 12, FontWeight = FontWeights.Bold });
+            Costs.Blocks.Add(new Paragraph(new Run("Costs")) { FontSize = 12, FontWeight = FontWeights.Bold });
 
             headerRow.Cells.Add(RoomName);
             headerRow.Cells.Add(DueTime);
             headerRow.Cells.Add(Item);
             headerRow.Cells.Add(Costs);
 
-            headerRowGroup.Rows.Add(headerRow);
-
-            return headerRowGroup;
+            return headerRow;
         }
 
     }

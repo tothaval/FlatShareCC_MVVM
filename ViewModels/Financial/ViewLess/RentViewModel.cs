@@ -68,6 +68,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 OnPropertyChanged(nameof(ColdRent));
                 OnPropertyChanged(nameof(CostsTotal));
+                OnPropertyChanged(nameof(CostsAndCredits));
                 OnPropertyChanged(nameof(CompleteCosts));
                 OnPropertyChanged(nameof(FirstYearCompleteCosts));
                 OnPropertyChanged(nameof(FirstYearRent));
@@ -89,6 +90,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             {
                 _CreditSum = value;
                 OnPropertyChanged(nameof(CreditSum));
+                OnPropertyChanged(nameof(CostsAndCredits));
             }
         }
 
@@ -104,6 +106,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             {
                 _SumPerMonth = value;
                 OnPropertyChanged(nameof(OtherFTISum));
+                OnPropertyChanged(nameof(CostsAndCredits));
 
                 RebuildRoomCostShares();
             }
@@ -111,6 +114,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
 
         public double CostsTotal => ColdRent + ExtraCostsTotal;
+
+
+        public double CostsAndCredits => ColdRent + ExtraCostsTotal + OtherFTISum - CreditSum;
 
 
         public double ExtraCostsTotal => FixedCostsAdvance + HeatingCostsAdvance;
@@ -125,6 +131,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 OnPropertyChanged(nameof(FixedCostsAdvance));
                 OnPropertyChanged(nameof(ExtraCostsTotal));
                 OnPropertyChanged(nameof(CostsTotal));
+                OnPropertyChanged(nameof(CostsAndCredits));                
                 OnPropertyChanged(nameof(CompleteCosts));
                 OnPropertyChanged(nameof(FirstYearCompleteCosts));
                 OnPropertyChanged(nameof(FirstYearRent));
@@ -145,6 +152,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 OnPropertyChanged(nameof(HeatingCostsAdvance));
                 OnPropertyChanged(nameof(ExtraCostsTotal));
                 OnPropertyChanged(nameof(CostsTotal));
+                OnPropertyChanged(nameof(CostsAndCredits));
                 OnPropertyChanged(nameof(CompleteCosts));
                 OnPropertyChanged(nameof(FirstYearCompleteCosts));
                 OnPropertyChanged(nameof(FirstYearRent));
@@ -342,6 +350,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             OnPropertyChanged(nameof(CreditSum));
             OnPropertyChanged(nameof(Credits));
+            OnPropertyChanged(nameof(CostsAndCredits));
         }
 
 
@@ -357,6 +366,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             OnPropertyChanged(nameof(OtherFTISum));
             OnPropertyChanged(nameof(AnnualOtherFTISum));
             OnPropertyChanged(nameof(CompleteCosts));
+            OnPropertyChanged(nameof(CostsAndCredits));
             OnPropertyChanged(nameof(AnnualCompleteCosts));
             OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
         }
