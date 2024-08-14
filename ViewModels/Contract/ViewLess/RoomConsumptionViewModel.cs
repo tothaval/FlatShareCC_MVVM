@@ -59,6 +59,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         #endregion
 
+
         // Constructors
         #region Constructors
 

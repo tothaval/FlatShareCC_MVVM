@@ -11,8 +11,20 @@ namespace SharedLivingCostCalculator.Models.Contract
     [Serializable]
     public class RoomAssignment
     {
+
+        // Properties & Fields
+        #region Properties & Fields
+
         public string RoomName { get; set; }
-        public string TenantName { get; set; }
+
+
+        public string TenantName { get; set; } 
+
+        #endregion
+
+
+        // Constructors
+        #region Constructors
 
         public RoomAssignment()
         {
@@ -24,7 +36,9 @@ namespace SharedLivingCostCalculator.Models.Contract
         {
             RoomName = roomName;
             TenantName = tenantName;
-        }
+        } 
+
+        #endregion
 
     }
 }

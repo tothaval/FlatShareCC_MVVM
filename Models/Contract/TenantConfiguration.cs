@@ -16,8 +16,8 @@ namespace SharedLivingCostCalculator.Models.Contract
     public class TenantConfiguration
     {
 
-        // properties & fields
-        #region properties & fields
+        // Properties & Fields
+        #region Properties & Fields
 
         [XmlIgnore]
         private readonly FlatViewModel _FlatViewModel;
@@ -25,11 +25,11 @@ namespace SharedLivingCostCalculator.Models.Contract
 
         public DateTime Start { get; set; } = DateTime.Now;
 
-        #endregion properties & fields
+        #endregion
 
 
-        // collections
-        #region collections
+        // Collections
+        #region Collections
 
         [XmlArray]
         public ObservableCollection<RoomAssignment> RoomAssignments { get; set; } = new ObservableCollection<RoomAssignment>();
@@ -42,11 +42,11 @@ namespace SharedLivingCostCalculator.Models.Contract
         [XmlIgnore]
         public ObservableCollection<TenantViewModel> Tenants { get; set; } = new ObservableCollection<TenantViewModel>();
 
-        #endregion collections
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public TenantConfiguration()
         {
@@ -66,11 +66,11 @@ namespace SharedLivingCostCalculator.Models.Contract
 
         }
 
-        #endregion constructors
+        #endregion
 
 
-        // methods
-        #region methods
+        // Methods
+        #region Methods
 
         public void BuildIDMaps()
         {
@@ -133,7 +133,7 @@ namespace SharedLivingCostCalculator.Models.Contract
             }
         }
 
-        #endregion methods
+        #endregion
 
 
     }

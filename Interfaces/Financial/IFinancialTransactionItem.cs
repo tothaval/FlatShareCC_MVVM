@@ -10,9 +10,18 @@ namespace SharedLivingCostCalculator.Interfaces.Financial
 {
     public interface IFinancialTransactionItem
     {
+
+        // Properties & Fields
+        #region Properties & Fields
+
         public double TransactionSum { get; set; }
 
-        public string TransactionItem { get; set; }
+
+        public string TransactionItem { get; set; } 
+
+        #endregion
+
+
     }
 }
 // EOF

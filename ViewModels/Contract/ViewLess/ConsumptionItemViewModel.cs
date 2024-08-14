@@ -14,14 +14,14 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
     public class ConsumptionItemViewModel : BaseViewModel
     {
 
+        // Properties & Fields
+        #region Properties & Fields
+
         private BillingViewModel _BillingViewModel;
 
 
         private ConsumptionItem _ConsumptionItem;
         public ConsumptionItem ConsumptionItem => _ConsumptionItem;
-
-
-        public double RoomCount => _BillingViewModel.FlatViewModel.RoomCount;
 
 
         public double ConsumedUnits
@@ -73,7 +73,12 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         /// </summary>
         public double TotalRoomUnits => CalculateTotalRoomUnits();
 
+        #endregion
 
+
+        // Collections
+        #region Collections
+        
         private ObservableCollection<RoomConsumptionViewModel> _RoomConsumptionViewModels;
         public ObservableCollection<RoomConsumptionViewModel> RoomConsumptionViewModels
         {
@@ -85,6 +90,11 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             }
         }
 
+        #endregion
+
+
+        // Constructors
+        #region Constructors
 
         public ConsumptionItemViewModel(ConsumptionItem consumptionItem, BillingViewModel billingViewModel)
         {
@@ -99,6 +109,11 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             GenerateRoomConsumptionItemViewModels();
         }
 
+        #endregion
+
+        
+        // Methods
+        #region Methods
 
         private double CalculateRoomSharedConsumption()
         {
@@ -143,7 +158,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             {
                 foreach (RoomViewModel item in _BillingViewModel.FlatViewModel.Rooms)
                 {
-                    RoomConsumptionViewModel roomConsumptionViewModel = new RoomConsumptionViewModel(new RoomConsumption(item.GetRoom, 0.0), this);
+                    RoomConsumptionViewModel roomConsumptionViewModel = new RoomConsumptionViewModel(new RoomConsumption(item.Room, 0.0), this);
 
                     roomConsumptionViewModel.PropertyChanged += RoomConsumptionViewModel_PropertyChanged;
 
@@ -157,7 +172,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         {
             //RoomConsumptionViewModels = new ObservableCollection<RoomConsumptionViewModel>();
 
-            //foreach (RoomViewModel item in _BillingViewModel.FlatViewModel.Rooms)
+            //foreach (RoomViewModel item in _BillingViewModel._FlatViewModel.Rooms)
             //{                
             //    RoomConsumptionViewModel roomConsumptionViewModel = new RoomConsumptionViewModel(new RoomConsumption(item.GetRoom, 0.0), this);
 
@@ -168,6 +183,11 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         }
 
+        #endregion
+
+
+        // Events
+        #region Events
 
         private void ConsumptionItemViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -186,8 +206,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             OnPropertyChanged(nameof(SharedConsumptionPercentage));
 
             OnPropertyChanged(nameof(RoomSharedConsumption));
-            OnPropertyChanged(nameof(TotalRoomUnits)); 
+            OnPropertyChanged(nameof(TotalRoomUnits));
         }
+
+        #endregion
 
 
     }

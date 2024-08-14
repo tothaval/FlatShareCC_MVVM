@@ -79,7 +79,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public bool HasDataLock => !DataLock;
 
 
-        public bool HasFlat => _flatCollection.Count > 0;
+        public bool HasFlat => _FlatCollection.Count > 0;
 
 
         public PrintViewModel Print { get; }
@@ -100,7 +100,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 OnPropertyChanged(nameof(SelectedItem));
                 OnPropertyChanged(nameof(DataLock));
 
-                if (_flatCollection.Count > 0 && _SelectedItem != null)
+                if (_FlatCollection.Count > 0 && _SelectedItem != null)
                 {
                     _SelectedItem.ConnectRooms();
                     _SelectedItem.ActiveTenantListConversion();
@@ -246,14 +246,14 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         // collections
         #region collections
 
-        private ObservableCollection<FlatViewModel> _flatCollection;
+        private ObservableCollection<FlatViewModel> _FlatCollection;
         public ObservableCollection<FlatViewModel> FlatCollection
         {
-            get { return _flatCollection; }
+            get { return _FlatCollection; }
             set
             {
-                if (_flatCollection == value) return;
-                _flatCollection = value;
+                if (_FlatCollection == value) return;
+                _FlatCollection = value;
 
                 OnPropertyChanged(nameof(FlatCollection));
             }
@@ -294,9 +294,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             LeftPressCommand = new RelayCommand((s) => Move(), (s) => true);
 
-            _flatCollection = flatCollection;
+            _FlatCollection = flatCollection;
 
-            _flatCollection.CollectionChanged += _flatCollection_CollectionChanged;
+            _FlatCollection.CollectionChanged += _flatCollection_CollectionChanged;
 
             ShowFlatManagement = true;
 
@@ -370,7 +370,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
                 ShowSettings = applicationData.Settings_Shown;
 
-                _flatCollection.CollectionChanged += LoadUp;
+                _FlatCollection.CollectionChanged += LoadUp;
             }
 
 
@@ -391,7 +391,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 && FlatCollection.Count > 0 && applicationData.FlatViewModelSelectedIndex < FlatCollection.Count)
             {
                 SelectedItem = FlatCollection[applicationData.FlatViewModelSelectedIndex];
-                _flatCollection.CollectionChanged -= LoadUp;
+                _FlatCollection.CollectionChanged -= LoadUp;
 
                 if (SelectedItem != null)
                 {
@@ -417,10 +417,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             flatViewModel.HasDataLock = true;
 
-            _flatCollection.Add(flatViewModel);
+            _FlatCollection.Add(flatViewModel);
 
 
-            SelectedItem = _flatCollection.First();
+            SelectedItem = _FlatCollection.First();
 
             OnPropertyChanged(nameof(SelectedItem));
             OnPropertyChanged(nameof(HasFlat));
@@ -438,7 +438,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         private void ResetVisibility()
         {
-            if (_flatCollection.Count == 0)
+            if (_FlatCollection.Count == 0)
             {
                 ShowAccounting = false;
                 ShowPrintView = false;
@@ -467,9 +467,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         private void SelectFirstFlatCollectionItem()
         {
-            if (_flatCollection.Count > 0)
+            if (_FlatCollection.Count > 0)
             {
-                SelectedItem = _flatCollection?.First();
+                SelectedItem = _FlatCollection?.First();
 
                 AnnualBilling = new BillingPeriodViewModel(this, SelectedItem);
             }

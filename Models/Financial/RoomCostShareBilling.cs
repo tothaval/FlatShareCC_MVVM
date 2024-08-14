@@ -20,18 +20,13 @@ namespace SharedLivingCostCalculator.Models.Financial
         // Properties & Fields
         #region Properties & Fields
 
-        private int _RoomCount { get; set; } = 1;
-        private double _FlatArea { get; set; } = 0.0;
-        private double _SharedFlatArea { get; set; } = 0.0;
-
-
-        private readonly Room _Room;
-
         public double Advances => DetermineAdvances();
+        
+        
+        public double AreaSharedCostsShare { get; set; }
+
 
         public double Balance => Advances - TotalCostsAnnualCostsShare;
-
-        public double AreaSharedCostsShare { get; set; }
 
 
         public double ConsumptionSharedCostsShare { get; set; }
@@ -48,6 +43,9 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public double FixedCostsAnnualCostsShare { get; set; }
 
+
+        private double _FlatArea { get; set; } = 0.0;
+        
 
         public double HeatingCostsAnnualCostsShare { get; set; }
 
@@ -75,7 +73,13 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public double RentedAreaShare { get; set; }
 
+        
+        private readonly Room _Room;
 
+
+        private int _RoomCount { get; set; } = 1;
+        
+        
         public string RoomName => _Room.RoomName;
 
 
@@ -83,6 +87,12 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
         public double SharedAreaShare { get; set; }
+        
+
+        private double _SharedFlatArea { get; set; } = 0.0;
+
+
+        public double TotalContractCostsShare { get; set; }
 
 
         public double TotalCostsAnnualCostsShare { get; set; }
@@ -91,7 +101,6 @@ namespace SharedLivingCostCalculator.Models.Financial
         public IRoomCostsCarrier ViewModel { get; set; }
 
         #endregion
-
 
 
         // Collections
@@ -181,7 +190,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
             TotalCostsAnnualCostsShare = RentCostsAnnualShare + FixedCostsAnnualCostsShare + HeatingCostsAnnualCostsShare + OtherCostsAnnualCostsShare - CreditShare;
-
+            TotalContractCostsShare = RentCostsAnnualShare + FixedCostsAnnualCostsShare + HeatingCostsAnnualCostsShare;
 
             OnPropertyChanged(nameof(SharedAreaShare));
             OnPropertyChanged(nameof(RentedAreaShare));
@@ -198,6 +207,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             OnPropertyChanged(nameof(OtherCostsAnnualCostsShare));
             OnPropertyChanged(nameof(TotalCostsAnnualCostsShare));
+            OnPropertyChanged(nameof(TotalContractCostsShare));
 
             OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
 
@@ -221,6 +231,11 @@ namespace SharedLivingCostCalculator.Models.Financial
                 for (int i = 0; i < RentList.Count; i++)
                 {
                     double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
+
+                    if (months < 0)
+                    {
+                        months *= -1;
+                    }
 
                     rentCosts += RentList[i].ColdRent * months * RentedAreaShareRatio();
                 }
@@ -248,7 +263,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             //for (int i = 0; i < RentList.Count; i++)
             //{
-            //    double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
+            //    double months = ((_BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
 
             //    advance += RentList[i].FixedCostsAdvance * months * RentedAreaShareRatio();
 
@@ -258,7 +273,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             //    }
             //    else
             //    {
-            //        foreach (RoomCostShareBilling roomcostitem in RentList[i].BillingViewModel.RoomCostShares)
+            //        foreach (RoomCostShareBilling roomcostitem in RentList[i]._BillingViewModel.RoomCostShares)
             //        {
             //            if (roomcostitem.RoomArea == RoomArea && roomcostitem.RoomName.Equals(RoomName))
             //            {
@@ -391,16 +406,16 @@ namespace SharedLivingCostCalculator.Models.Financial
                 {
                     FinancialTransactionItemRentViewModel FTIvm = new FinancialTransactionItemRentViewModel(new FinancialTransactionItemRent());
 
-                    if (item.CostShareTypes == Enums.TransactionShareTypesRent.Equal)
+                    if (item.TransactionShareTypes == Enums.TransactionShareTypesRent.Equal)
                     {
                         FTIvm.TransactionSum = EqualShareRatio() * item.TransactionSum;
                     }
-                    else if (item.CostShareTypes == Enums.TransactionShareTypesRent.Area)
+                    else if (item.TransactionShareTypes == Enums.TransactionShareTypesRent.Area)
                     {
                         FTIvm.TransactionSum = RentedAreaShareRatio() * item.TransactionSum;
                     }
 
-                    FTIvm.CostShareTypes = item.CostShareTypes;
+                    FTIvm.TransactionShareTypes = item.TransactionShareTypes;
 
                     string newItem = item.TransactionItem;
                     FTIvm.TransactionItem = newItem;
@@ -434,15 +449,15 @@ namespace SharedLivingCostCalculator.Models.Financial
                 {
                     FinancialTransactionItemBillingViewModel FTIvm = new FinancialTransactionItemBillingViewModel(new FinancialTransactionItemBilling());
 
-                    if (item.CostShareTypes == Enums.TransactionShareTypesBilling.Equal)
+                    if (item.TransactionShareTypes == Enums.TransactionShareTypesBilling.Equal)
                     {
                         FTIvm.TransactionSum = EqualShareRatio() * item.TransactionSum;
                     }
-                    else if (item.CostShareTypes == Enums.TransactionShareTypesBilling.Area)
+                    else if (item.TransactionShareTypes == Enums.TransactionShareTypesBilling.Area)
                     {
                         FTIvm.TransactionSum = RentedAreaShareRatio() * item.TransactionSum;
                     }
-                    else if (item.CostShareTypes == Enums.TransactionShareTypesBilling.Consumption)
+                    else if (item.TransactionShareTypes == Enums.TransactionShareTypesBilling.Consumption)
                     {
                         foreach (RoomConsumptionViewModel roomConsumption in ConsumptionItemViewModels)
                         {
@@ -458,7 +473,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                         }
                     }
 
-                    FTIvm.CostShareTypes = item.CostShareTypes;
+                    FTIvm.TransactionShareTypes = item.TransactionShareTypes;
 
                     string newItem = item.TransactionItem;
                     FTIvm.TransactionItem = newItem;

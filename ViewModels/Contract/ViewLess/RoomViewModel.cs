@@ -29,13 +29,13 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         }
 
 
-        private Room _room;
-        public Room GetRoom => _room;
+        private Room _Room;
+        public Room Room => _Room;
 
 
         public double RoomArea
         {
-            get { return _room.RoomArea; }
+            get { return _Room.RoomArea; }
             set
             {
                 //if (_room.RoomArea > 0.0)
@@ -52,7 +52,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
                 //}
                 //else
                 //{
-                _room.RoomArea = value;
+                _Room.RoomArea = value;
                 //}
 
                 OnPropertyChanged(nameof(RoomArea));
@@ -64,10 +64,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public string RoomName
         {
-            get { return _room.RoomName; }
+            get { return _Room.RoomName; }
             set
             {
-                _room.RoomName = value;
+                _Room.RoomName = value;
                 OnPropertyChanged(nameof(RoomName));
 
                 RoomAreaChanged?.Invoke(this, EventArgs.Empty);
@@ -90,7 +90,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public RoomViewModel(Room room)
         {
-            _room = room;
+            _Room = room;
         }
 
         #endregion constructors

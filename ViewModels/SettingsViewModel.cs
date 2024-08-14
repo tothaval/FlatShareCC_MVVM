@@ -11,10 +11,8 @@ using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace SharedLivingCostCalculator.ViewModels

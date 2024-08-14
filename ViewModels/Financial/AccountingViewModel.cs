@@ -4,7 +4,7 @@
  * 
  *  viewmodel for AccountingView
  *  
- *  displays the selected FlatViewModel data
+ *  displays the selected _FlatViewModel data
  *  
  *  holds a TabControl to access
  *  RentManagementviewModel,
@@ -21,27 +21,24 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
     public class AccountingViewModel : BaseViewModel
     {
 
-        // properties & fields
-        #region properties & fields
+        // Properties & Fields
+        #region Properties & Fields
 
-        public string Address => _flatViewModel.Address;
-
-
-        public double Area => _flatViewModel.Area;
+        public string Address => _FlatViewModel.Address;
 
 
-        public string Details => _flatViewModel.Details;
+        public double Area => _FlatViewModel.Area;
+
+
+        public string Details => _FlatViewModel.Details;
 
 
         private readonly FlatManagementViewModel _FlatManagementViewModel;
         public FlatManagementViewModel FlatManagement => _FlatManagementViewModel;
 
 
-        public string FlatNotes => _flatViewModel.FlatNotes;
-
-
-        private FlatViewModel _flatViewModel;
-        public FlatViewModel FlatViewModel => _flatViewModel;
+        private FlatViewModel _FlatViewModel;
+        public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
         private RentManagementViewModel _Rents;
@@ -58,21 +55,21 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-        public int RoomCount => _flatViewModel.RoomCount;
+        public int RoomCount => _FlatViewModel.RoomCount;
 
-        #endregion properties & fields
+        #endregion
 
 
-        // event properties & fields
-        #region event properties & fields
+        // Event Properties & Fields
+        #region Event Properties & Fields
 
         public event EventHandler AccountingChanged;
 
-        #endregion event properties & fields
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public AccountingViewModel(FlatManagementViewModel flatManagementViewModel)
         {
@@ -80,11 +77,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             if (_FlatManagementViewModel.SelectedItem == null)
             {
-                _flatViewModel = new FlatViewModel(new Flat());
+                _FlatViewModel = new FlatViewModel(new Flat());
             }
             else
             {
-                _flatViewModel = _FlatManagementViewModel.SelectedItem;
+                _FlatViewModel = _FlatManagementViewModel.SelectedItem;
             }
 
             _FlatManagementViewModel.FlatViewModelChange += _FlatManagementViewModel_FlatViewModelChange;
@@ -92,15 +89,15 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             Rents = new RentManagementViewModel(this);
         }
 
-        #endregion constructors
+        #endregion
 
 
-        // events
-        #region events
+        // Events
+        #region Events
 
         private void _FlatManagementViewModel_FlatViewModelChange(object? sender, EventArgs e)
         {
-            _flatViewModel = _FlatManagementViewModel.SelectedItem;
+            _FlatViewModel = _FlatManagementViewModel.SelectedItem;
 
             Rents = new RentManagementViewModel(this);
 
@@ -111,7 +108,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             OnPropertyChanged(nameof(FlatViewModel));
         }
 
-        #endregion events
+        #endregion
 
 
     }

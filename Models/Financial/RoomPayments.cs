@@ -15,8 +15,8 @@ namespace SharedLivingCostCalculator.Models.Financial
     public class RoomPayments
     {
 
-        // properties & fields
-        #region properties
+        // Properties & Fields
+        #region Properties & Fields
 
         public string RoomName { get; set; }
 
@@ -24,20 +24,20 @@ namespace SharedLivingCostCalculator.Models.Financial
         [XmlIgnore]
         public RoomViewModel RoomViewModel { get; set; }
 
-        #endregion properties
+        #endregion
 
 
-        // collections
-        #region collections
+        // Collections
+        #region Collections
 
         [XmlArray("PaymentCollection")]
         public ObservableCollection<Payment> Payments { get; set; } = new ObservableCollection<Payment>();
 
-        #endregion collections
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public RoomPayments()
         {
@@ -50,7 +50,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             RoomName = roomViewModel.RoomName;
         }
 
-        #endregion constructors
+        #endregion
 
 
     }

@@ -13,9 +13,17 @@ namespace SharedLivingCostCalculator.Interfaces.Contract
 {
     public interface IConsumptionItem
     {
+
+        // Properties & Fields
+        #region Properties & Fields
+
         FinancialTransactionItemBilling ConsumptionCause { get; }
 
-        double ConsumedUnits { get; set; }
+
+        double ConsumedUnits { get; set; } 
+
+        #endregion
+
     }
 }
 // EOF

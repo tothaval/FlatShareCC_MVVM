@@ -8,16 +8,10 @@
  *  
  *  is encapsulated within a RentManagementViewModel
  */
-using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models.Financial;
-using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Input;
-
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
 {
@@ -46,7 +40,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             set
             {
                 _DataLockCheckbox = value;
-                _rentViewModel.HasDataLock = _DataLockCheckbox;
+                _RentViewModel.HasDataLock = _DataLockCheckbox;
                 OnPropertyChanged(nameof(DataLockCheckbox));
                 OnPropertyChanged(nameof(HasDataLock));
             }
@@ -54,12 +48,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         
         public bool HasDataLock => !DataLockCheckbox;
-
-
-        public bool HasErrors => ((INotifyDataErrorInfo)_helper).HasErrors;
-
-
-        private ValidationHelper _helper = new ValidationHelper();
 
 
         private OtherCostsRentViewModel _OtherCostsRentViewModel;
@@ -74,8 +62,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-        private readonly RentViewModel _rentViewModel;
-        public RentViewModel RentViewModel => _rentViewModel;
+        private readonly RentViewModel _RentViewModel;
+        public RentViewModel RentViewModel => _RentViewModel;
 
 
         private int _SelectedIndex;
@@ -92,52 +80,25 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         #endregion properties
 
 
-        // event properties & fields
-        #region event handlers
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        #endregion event handlers
-
-
-        // commands
-        #region commands
-
-        #endregion commands
-
-
         // constructors
         #region constructors
+
         public RentUpdateViewModel(FlatViewModel flatViewModel, RentViewModel rentViewModel)
         {
-            _rentViewModel = rentViewModel;
+            _RentViewModel = rentViewModel;
 
-            if (_rentViewModel == null)
+            if (_RentViewModel == null)
             {
-                _rentViewModel = new RentViewModel(flatViewModel, new Rent());
+                _RentViewModel = new RentViewModel(flatViewModel, new Rent());
             }
-
-            _helper.ErrorsChanged += (_, e) => ErrorsChanged?.Invoke(this, e);
-
 
             OtherCostsRentViewModel = new OtherCostsRentViewModel(rentViewModel);
             CreditViewViewModel = new CreditViewViewModel(rentViewModel);
 
             SelectedIndex = 0;            
         }
+
         #endregion constructors
-
-
-        // methods
-        #region methods
-
-        #endregion methods
-
-
-        // events        
-        #region events
-              
-        #endregion events
 
 
     }

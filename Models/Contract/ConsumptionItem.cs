@@ -17,6 +17,9 @@ namespace SharedLivingCostCalculator.Models.Contract
     public class ConsumptionItem : IConsumptionItem
     {
 
+        // Properties & Fields
+        #region Properties & Fields
+
         public FinancialTransactionItemBilling ConsumptionCause { get; set; }
 
 
@@ -27,10 +30,15 @@ namespace SharedLivingCostCalculator.Models.Contract
         [XmlArray("ConsumptionPerRoom")]
         public ObservableCollection<RoomConsumption> RoomConsumptions { get; set; } = new ObservableCollection<RoomConsumption>();
 
+        #endregion
+
+
+        // Constructors
+        #region Constructors
 
         public ConsumptionItem()
         {
-                
+
         }
 
 
@@ -38,10 +46,13 @@ namespace SharedLivingCostCalculator.Models.Contract
         {
             ConsumptionCause = cause;
             ConsumedUnits = consumedUnits;
+        } 
 
-            //RoomConsumptions = new ObservableCollection<RoomConsumption>();
-        }
+        #endregion
 
+
+        // Methods
+        #region Methods
 
         public void UpdateRoomConsumptionItems(ObservableCollection<RoomConsumptionViewModel> roomConsumptionViewModels)
         {
@@ -51,7 +62,11 @@ namespace SharedLivingCostCalculator.Models.Contract
             {
                 RoomConsumptions.Add(item.RoomConsumption);
             }
-        }
+        } 
+
+        #endregion
+
+
     }
 }
 // EOF

@@ -1,11 +1,12 @@
-﻿using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  RentPrintOutput
+ * 
+ *  helper class for creating rent related output in PrintViewModel
+ */
+using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows;
@@ -16,36 +17,51 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 {
     public class RentPrintOutput
     {
-        private int SelectedYear { get; }
 
-        private FlatViewModel FlatViewModel { get; }
+        // Properties & Fields
+        #region Properties & Fields
+
+        private int _SelectedYear { get; }
 
 
-        private PrintViewModel PrintViewModel { get; }
+        private FlatViewModel _FlatViewModel { get; }
 
 
+        private PrintViewModel _PrintViewModel { get; }
+
+        #endregion
+
+
+        // Constructors
+        #region Constructors
+        
         public RentPrintOutput(PrintViewModel printViewModel, FlatViewModel flatViewModel, int selectedYear)
         {
-            PrintViewModel = printViewModel;
-            FlatViewModel = flatViewModel;
-            SelectedYear = selectedYear;
-        }
+            _PrintViewModel = printViewModel;
+            _FlatViewModel = flatViewModel;
+            _SelectedYear = selectedYear;
+        } 
 
+        #endregion
+
+
+        // Methods
+        #region Methods
 
         public Section BuildRentDetails(string SelectedDetailOption)
         {
             Section rentOutput = new Section();
 
-            ObservableCollection<RentViewModel> RentList = new PrintOutputBase(FlatViewModel, SelectedYear).FindRelevantRentViewModels();
+            ObservableCollection<RentViewModel> RentList = new PrintOutputBase(_FlatViewModel, _SelectedYear).FindRelevantRentViewModels();
 
             for (int i = 0; i < RentList.Count; i++)
             {
 
 
 
-                if (RentList[i].StartDate.Year < SelectedYear)
+                if (RentList[i].StartDate.Year < _SelectedYear)
                 {
-                    if (RentList[i + 1].StartDate > RentList[i].StartDate && RentList[i + 1].StartDate.Year < SelectedYear)
+                    if (RentList[i + 1].StartDate > RentList[i].StartDate && RentList[i + 1].StartDate.Year < _SelectedYear)
                     {
                         continue;
                     }
@@ -67,7 +83,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 }
 
 
-                PrintOutputBase print = new PrintOutputBase(FlatViewModel, SelectedYear);
+                PrintOutputBase print = new PrintOutputBase(_FlatViewModel, _SelectedYear);
 
                 Table headerTable = print.OutputTableForFlat();
 
@@ -86,11 +102,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                                 break;
                             }
 
-                            if (RentList[i].StartDate.Year < SelectedYear)
+                            if (RentList[i].StartDate.Year < _SelectedYear)
                             {
                                 rentOutput.Blocks.Add(RentPlanTable(RentList[i], monthCounter));
                             }
-                            else if (RentList[i].StartDate.Year == SelectedYear
+                            else if (RentList[i].StartDate.Year == _SelectedYear
                                 && monthCounter >= RentList[i].StartDate.Month)
                             {
                                 rentOutput.Blocks.Add(RentPlanTable(RentList[i], monthCounter));
@@ -100,7 +116,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                         }
                         else
                         {
-                            if (RentList[i].StartDate.Year == SelectedYear && monthCounter < RentList[i].StartDate.Month)
+                            if (RentList[i].StartDate.Year == _SelectedYear && monthCounter < RentList[i].StartDate.Month)
                             {
                                 continue;
                             }
@@ -130,7 +146,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
         private Section BuildRoomDetails(string SelectedDetailOption)
         {
-            PrintOutputBase print = new PrintOutputBase(FlatViewModel, SelectedYear);
+            PrintOutputBase print = new PrintOutputBase(_FlatViewModel, _SelectedYear);
 
             Section roomsOutput = new Section();
 
@@ -139,7 +155,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             roomsOutput.Blocks.Add(p);
 
             p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
-            p.Inlines.Add(new Run($"Rent Plan Rooms {SelectedYear}: ")
+            p.Inlines.Add(new Run($"Rent Plan Rooms {_SelectedYear}: ")
             { FontWeight = FontWeights.Bold, FontSize = 16.0 });
             p.Inlines.Add(new Run($"{print.BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
             //p.Style = headerParagraph;
@@ -149,9 +165,9 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             for (int i = 0; i < RentList.Count; i++)
             {
-                if (RentList[i].StartDate.Year < SelectedYear)
+                if (RentList[i].StartDate.Year < _SelectedYear)
                 {
-                    if (RentList[i + 1].StartDate > RentList[i].StartDate && RentList[i + 1].StartDate.Year < SelectedYear)
+                    if (RentList[i + 1].StartDate > RentList[i].StartDate && RentList[i + 1].StartDate.Year < _SelectedYear)
                     {
                         continue;
                     }
@@ -186,11 +202,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                                 break;
                             }
 
-                            if (RentList[i].StartDate.Year < SelectedYear)
+                            if (RentList[i].StartDate.Year < _SelectedYear)
                             {
                                 roomsOutput.Blocks.Add(RentPlanTableRooms(RentList[i], monthCounter));
                             }
-                            else if (RentList[i].StartDate.Year == SelectedYear
+                            else if (RentList[i].StartDate.Year == _SelectedYear
                                 && monthCounter >= RentList[i].StartDate.Month)
                             {
                                 roomsOutput.Blocks.Add(RentPlanTableRooms(RentList[i], monthCounter));
@@ -200,7 +216,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                         }
                         else
                         {
-                            if (RentList[i].StartDate.Year == SelectedYear && monthCounter < RentList[i].StartDate.Month)
+                            if (RentList[i].StartDate.Year == _SelectedYear && monthCounter < RentList[i].StartDate.Month)
                             {
                                 continue;
                             }
@@ -225,10 +241,9 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-
         private Block RentPlanTable(RentViewModel viewModel, int month = -1)
         {
-            PrintOutputBase print = new PrintOutputBase(FlatViewModel, SelectedYear);
+            PrintOutputBase print = new PrintOutputBase(_FlatViewModel, _SelectedYear);
 
             Table rentPlanFlatTable = print.OutputTableForFlat();
 
@@ -265,7 +280,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
         private Block RentPlanTableRooms(RentViewModel viewModel, int month = -1)
         {
-            PrintOutputBase print = new PrintOutputBase(FlatViewModel, SelectedYear);
+            PrintOutputBase print = new PrintOutputBase(_FlatViewModel, _SelectedYear);
 
             Table rentPlanRoomsTable = print.OutputTableRooms();
 
@@ -311,7 +326,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             rentPlanRoomsTable.RowGroups.Add(dataRowGroup);
 
             return rentPlanRoomsTable;
-        }
+        } 
+
+        #endregion
+
 
     }
 }
+// EOF

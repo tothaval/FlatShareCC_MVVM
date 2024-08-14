@@ -4,15 +4,13 @@
  * 
  *  viewmodel for BillingPeriodView
  *  
- *  allows for editing of BillingViewModel
+ *  allows for editing of _BillingViewModel
  *  
  *  is encapsulated within a BillingManagementViewModel
  *  
  *  implements INotifyDataErrorInfo
  */
-using PropertyTools.Wpf;
 using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Contract;
@@ -22,7 +20,6 @@ using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
@@ -32,10 +29,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         // properties & fields
         #region properties & fields
-
-        //private readonly BillingViewModel _billingViewModel;
-        //public BillingViewModel BillingViewModel => _billingViewModel;
-
 
         private BillingViewModel _BillingViewModel;
         public BillingViewModel BillingViewModel
@@ -89,7 +82,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-        public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
+        public IEnumerable GetErrors(string? propertyName) => _Helper.GetErrors(propertyName);
 
 
         public bool HasCredit
@@ -138,7 +131,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-        public bool HasErrors => _helper.HasErrors;
+        public bool HasErrors => _Helper.HasErrors;
 
 
         public bool HasOther
@@ -230,10 +223,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-        private ValidationHelper _helper = new ValidationHelper();
+        private ValidationHelper _Helper = new ValidationHelper();
 
 
-        public BillingCostsWindowViewModel OtherCostsViewModel { get; set; }
+        public OtherCostsBillingViewModel OtherCostsViewModel { get; set; }
 
 
         public PaymentManagementViewModel? PaymentManagementViewModel { get; set; }
@@ -254,24 +247,24 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-        private BillingViewModel _selectedValue;
+        private BillingViewModel _SelectedValue;
         public BillingViewModel SelectedValue
         {
-            get { return _selectedValue; }
+            get { return _SelectedValue; }
             set
             {
-                if (_selectedValue == value) return;
-                _selectedValue = value;
+                if (_SelectedValue == value) return;
+                _SelectedValue = value;
 
                 //UpdateViewModel = new RentUpdateViewModel(_flatViewModel, _selectedValue);
 
 
-                if (_selectedValue != null)
+                if (_SelectedValue != null)
                 {
-                    PaymentManagementViewModel = new PaymentManagementViewModel(_selectedValue);
-                    ConsumptionViewModel = new ConsumptionViewModel(_selectedValue);
-                    CreditSetupViewModel = new CreditSetupViewModel(_selectedValue);
-                    OtherCostsViewModel = new BillingCostsWindowViewModel(_selectedValue);
+                    PaymentManagementViewModel = new PaymentManagementViewModel(_SelectedValue);
+                    ConsumptionViewModel = new ConsumptionViewModel(_SelectedValue);
+                    CreditSetupViewModel = new CreditSetupViewModel(_SelectedValue);
+                    OtherCostsViewModel = new OtherCostsBillingViewModel(_SelectedValue);
 
                     SelectedIndex = 0; 
                 }
@@ -345,56 +338,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             _FlatManagementViewModel = flatManagementViewModel;
             _FlatViewModel = flatViewModel;            
 
-            if (_FlatViewModel != null)
-            {
-                //AnnualBillings = CollectionViewSource.GetDefaultView(_FlatViewModel.AnnualBillings);
-                //AnnualBillings.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
-
-                //if (_FlatViewModel.AnnualBillings.Count > 0)
-                //{
-
-
-                //    //SelectedValue = 
-                //}
-            }
-
             _FlatManagementViewModel.PropertyChanged += SelectedItem_PropertyChanged;
 
             DeleteBillingCommand = new RelayCommand(p => DeleteAnnualBilling(p), (s) => true);
             NewBillingCommand = new RelayCommand(p => AddAnnualBilling(), (s) => true);
 
 
-            _helper.ErrorsChanged += (_, e) =>
+            _Helper.ErrorsChanged += (_, e) =>
             {
-                OnPropertyChanged(nameof(_helper));
+                OnPropertyChanged(nameof(_Helper));
                 ErrorsChanged?.Invoke(this, e);
             };
 
-
-            //if (BillingViewModel.HasPayments)
-            //{
-            //    HasPayments = true;
-            //}
-
-
-            //if (BillingViewModel.HasCredits)
-            //{
-            //    HasCredit = true;
-            //}
-
-
-            //if (BillingViewModel.HasDataLock)
-            //{
-            //    DataLockCheckbox = true;
-            //}
-
-
             SelectedIndex = 0;
-
-            //PaymentManagementViewModel = new PaymentManagementViewModel(_billingViewModel);
-            //ConsumptionViewModel = new ConsumptionViewModel(_billingViewModel);
-            //CreditSetupViewModel = new CreditSetupViewModel(_billingViewModel);
-            //OtherCostsViewModel = new BillingCostsWindowViewModel(_billingViewModel);
 
             if (_FlatViewModel.AnnualBillings.Count > 0)
             {
@@ -406,15 +362,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         {
             FlatViewModel = _FlatManagementViewModel.SelectedItem;
 
-            //AnnualBillings = CollectionViewSource.GetDefaultView(_FlatViewModel.AnnualBillings);
-            //AnnualBillings.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
-
             OnPropertyChanged(nameof(FlatViewModel));
             OnPropertyChanged(nameof(BillingViewModel));
             OnPropertyChanged(nameof(AnnualBillings));
-
-            //AnnualBillings.Refresh();
-
         }
 
         #endregion constructors
@@ -438,7 +388,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             _FlatViewModel.AnnualBillings.Add(billingViewModel);
             SelectedValue = billingViewModel;
-            //OnPropertyChanged(nameof(HasAnnualBillings));
+
             OnPropertyChanged(nameof(AnnualBillings));
         }
 
@@ -467,7 +417,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                         SelectedValue = _FlatViewModel.AnnualBillings[0];
                     }
 
-                    //OnPropertyChanged(nameof(HasAnnualBillings));
                     OnPropertyChanged(nameof(AnnualBillings));
                 }
             }

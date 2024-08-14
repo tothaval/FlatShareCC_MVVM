@@ -20,8 +20,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         private FlatManagementViewModel _FlatManagementViewModel;
 
 
-        private FlatViewModel _flatsetup;
-        public FlatViewModel FlatSetup => _flatsetup;
+        private FlatViewModel _FlatViewModel;
+        public FlatViewModel FlatViewModel => _FlatViewModel;
 
         #endregion properties
 
@@ -37,7 +37,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         {
             _FlatManagementViewModel = flatManagementViewModel;
 
-            _flatsetup = _FlatManagementViewModel.SelectedItem;
+            _FlatViewModel = _FlatManagementViewModel.SelectedItem;
 
             _FlatManagementViewModel.FlatViewModelChange += _FlatManagementViewModel_FlatViewModelChange;
         }
@@ -50,9 +50,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         private void _flatsetup_RoomCreation()
         {
-            FlatSetup.ConnectRooms();
+            FlatViewModel.ConnectRooms();
 
-            OnPropertyChanged(nameof(FlatSetup));
+            OnPropertyChanged(nameof(FlatViewModel));
         }
 
         #endregion methods
@@ -63,14 +63,14 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         private void _FlatManagementViewModel_FlatViewModelChange(object? sender, EventArgs e)
         {
-            _flatsetup = _FlatManagementViewModel.SelectedItem;
+            _FlatViewModel = _FlatManagementViewModel.SelectedItem;
 
-            if (_flatsetup != null)
+            if (_FlatViewModel != null)
             {
-                _flatsetup.RoomCreation += _flatsetup_RoomCreation;
+                _FlatViewModel.RoomCreation += _flatsetup_RoomCreation;
             }
 
-            OnPropertyChanged(nameof(FlatSetup));
+            OnPropertyChanged(nameof(FlatViewModel));
         }
 
         #endregion events

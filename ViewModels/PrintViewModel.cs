@@ -4,10 +4,11 @@
  * 
  *  viewmodel for PrintView
  *  
- *  PrintView shall generate overviews of rent and billing data
- *  they shall be formated in HTML or via FlowDocument to give a nice and easy to read
- *  overview over the costs of the selected period of time.
- *  generation of this printable data shall be done within this viewmodel.  
+ *  PrintView generates overviews of rent and billing data
+ *  the data is formated via FlowDocument to create an easy to read and copyable output
+ *  
+ *  the output offers an overview over the costs of the selected period of time
+ *  as well as detailed output for every room
  */
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Contract;
@@ -19,10 +20,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using SharedLivingCostCalculator.Commands;
 using System.Collections.ObjectModel;
-using SharedLivingCostCalculator.Models.Financial;
 using System.Windows.Media;
-using static System.Net.WebRequestMethods;
-using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Utility.PrintViewHelperFunctions;
 
 namespace SharedLivingCostCalculator.ViewModels

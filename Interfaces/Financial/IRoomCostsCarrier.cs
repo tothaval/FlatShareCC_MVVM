@@ -17,20 +17,38 @@ namespace SharedLivingCostCalculator.Interfaces.Financial
     public interface IRoomCostsCarrier
     {
 
+        // Properties & Fields
+        #region Properties & Fields
+
         public double CreditSum { get; set; }
 
 
         public double OtherFTISum { get; set; }
 
+        #endregion
+
+
+        // Event Properties & Fields
+        #region Event Properties & Fields
 
         event PropertyChangedEventHandler DataChange;
 
+        #endregion
+
+
+        // Collections
+        #region Collections
 
         public ObservableCollection<IFinancialTransactionItem> Credits { get; set; }
 
 
         public ObservableCollection<IFinancialTransactionItem> FinancialTransactionItemViewModels { get; set; }
 
+        #endregion
+
+
+        // Methods
+        #region Methods
 
         public void CalculateCreditSum();
 
@@ -38,7 +56,10 @@ namespace SharedLivingCostCalculator.Interfaces.Financial
         public void CalculateOtherFTISum();
 
 
-        FlatViewModel GetFlatViewModel();
+        FlatViewModel GetFlatViewModel(); 
+        
+        #endregion
+
 
     }
 }

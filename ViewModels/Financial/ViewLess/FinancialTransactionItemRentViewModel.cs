@@ -18,12 +18,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
     public class FinancialTransactionItemRentViewModel : BaseViewModel, IFinancialTransactionItem
     {
 
-        // properties & fields
-        #region properties & fields
-
-        private readonly FinancialTransactionItemRent _FTI;
-        public FinancialTransactionItemRent FTI => _FTI;
-
+        // Properties & Fields
+        #region Properties & Fields
 
         public TransactionDurationTypes Duration
         {
@@ -46,6 +42,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 OnPropertyChanged(nameof(StartDate));
             }
         }
+
+
+        private readonly FinancialTransactionItemRent _FTI;
+        public FinancialTransactionItemRent FTI => _FTI;
 
 
         public bool HasLimitedDuration
@@ -73,32 +73,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public double TransactionSum
-        {
-            get { return _FTI.TransactionSum; }
-            set
-            {
-                _FTI.TransactionSum = value;
-                OnPropertyChanged(nameof(TransactionSum));
-
-                ValueChange?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-
-        public TransactionShareTypesRent CostShareTypes
-        {
-            get { return _FTI.TransactionShareTypes; }
-            set
-            {
-                _FTI.TransactionShareTypes = value;
-                OnPropertyChanged(nameof(CostShareTypes));
-
-                ValueChange?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-
         public string TransactionItem
         {
             get { return _FTI.TransactionItem; }
@@ -111,26 +85,52 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
         }
 
-        #endregion properties & fields
+
+        public TransactionShareTypesRent TransactionShareTypes
+        {
+            get { return _FTI.TransactionShareTypes; }
+            set
+            {
+                _FTI.TransactionShareTypes = value;
+                OnPropertyChanged(nameof(TransactionShareTypes));
+
+                ValueChange?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
 
-        // event properties & fields
-        #region event properties & fields
+        public double TransactionSum
+        {
+            get { return _FTI.TransactionSum; }
+            set
+            {
+                _FTI.TransactionSum = value;
+                OnPropertyChanged(nameof(TransactionSum));
+
+                ValueChange?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        #endregion
+
+
+        // Event Properties & Fields
+        #region Event Properties & Fields
 
         public event EventHandler? ValueChange;
 
-        #endregion event properties & fields
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public FinancialTransactionItemRentViewModel(FinancialTransactionItemRent fti) //, RoomViewModel roomViewModel)
         {
             _FTI = fti;
         }
 
-        #endregion constructors
+        #endregion
 
 
     }

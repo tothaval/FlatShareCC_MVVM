@@ -5,7 +5,6 @@
  *  viewmodel for TenantConfiguration model
  */
 
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
@@ -45,17 +44,17 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public DateTime Start
         {
-            get { return _TenantsConfiguration.Start; }
+            get { return _TenantConfiguration.Start; }
             set
             {
-                _TenantsConfiguration.Start = value;
+                _TenantConfiguration.Start = value;
                 OnPropertyChanged(nameof(Start));
             }
         }
 
 
-        private TenantConfiguration _TenantsConfiguration;
-        public TenantConfiguration GetTenantsConfiguration => _TenantsConfiguration;
+        private TenantConfiguration _TenantConfiguration;
+        public TenantConfiguration TenantConfiguration => _TenantConfiguration;
 
         #endregion properties & fields
 
@@ -73,10 +72,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public ObservableCollection<RoomAssignmentViewModel> RoomAssignements
         {
-            get { return _TenantsConfiguration.RoomAssignmentsViewModels; }
+            get { return _TenantConfiguration.RoomAssignmentsViewModels; }
             set
             {
-                _TenantsConfiguration.RoomAssignmentsViewModels = value;
+                _TenantConfiguration.RoomAssignmentsViewModels = value;
                 GetActiveTenants();
                 OnPropertyChanged(nameof(RoomAssignements));
             }
@@ -91,7 +90,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         public TenantConfigurationViewModel(TenantConfiguration tenantsConfiguration)
         {
             ActiveTenantsNames = new ObservableCollection<string>();
-            _TenantsConfiguration = tenantsConfiguration;
+            _TenantConfiguration = tenantsConfiguration;
 
             GetActiveTenants();
         }
@@ -104,13 +103,13 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public void BuildRoomAssignements()
         {
-            _TenantsConfiguration.BuildIDMaps();
+            _TenantConfiguration.BuildIDMaps();
         }
 
 
         public void BuildRoomAssignementViewModels(FlatViewModel flatViewModel)
         {
-            _TenantsConfiguration.BuildRoomAssignmentViewModels(flatViewModel);
+            _TenantConfiguration.BuildRoomAssignmentViewModels(flatViewModel);
         }
 
 

@@ -3,7 +3,7 @@
  *  PersistanceDataSet 
  * 
  *  serializable helper class to
- *  store and retrieve FlatViewModel
+ *  store and retrieve _FlatViewModel
  *  data to or from hard drive storage  
  */
 using SharedLivingCostCalculator.Models.Contract;
@@ -280,7 +280,7 @@ namespace SharedLivingCostCalculator.Utility
 
             foreach (RoomViewModel roomViewModel in _flatViewModel.Rooms)
             {
-                rooms.Add(roomViewModel.GetRoom);
+                rooms.Add(roomViewModel.Room);
             }
 
             return rooms;
@@ -295,7 +295,7 @@ namespace SharedLivingCostCalculator.Utility
             {
                 tenantConfigurationViewModel.BuildRoomAssignements();
 
-                tenantConfigurations.Add(tenantConfigurationViewModel.GetTenantsConfiguration);
+                tenantConfigurations.Add(tenantConfigurationViewModel.TenantConfiguration);
             }
 
             return tenantConfigurations;
@@ -308,7 +308,7 @@ namespace SharedLivingCostCalculator.Utility
 
             foreach (TenantViewModel tenantViewModel in _flatViewModel.Tenants)
             {
-                tenants.Add(tenantViewModel.GetTenant);
+                tenants.Add(tenantViewModel.Tenant);
             }
 
             return tenants;

@@ -13,7 +13,6 @@ using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
 
@@ -26,47 +25,47 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // properties & fields
         #region properties
 
-        private readonly BillingViewModel _billingViewModel;
+        private readonly BillingViewModel _BillingViewModel;
 
 
-        private readonly FlatViewModel _flatViewModel;
+        private readonly FlatViewModel _FlatViewModel;
 
 
-        public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
+        public IEnumerable GetErrors(string? propertyName) => _Helper.GetErrors(propertyName);
 
 
-        public bool HasErrors => _helper.HasErrors;
+        public bool HasErrors => _Helper.HasErrors;
 
 
-        private ValidationHelper _helper = new ValidationHelper();
+        private ValidationHelper _Helper = new ValidationHelper();
 
 
         public ICollectionView RoomPayments { get; set; }
 
 
-        private RoomPaymentsViewModel _selectedValue; // private Billing _selectedBillingPeriod
+        private RoomPaymentsViewModel _SelectedValue; // private Billing _selectedBillingPeriod
         public RoomPaymentsViewModel SelectedValue
         {
-            get { return _selectedValue; }
+            get { return _SelectedValue; }
             set
             {
-                if (_selectedValue == value) return;
-                _selectedValue = value;
+                if (_SelectedValue == value) return;
+                _SelectedValue = value;
 
-                UpdateViewModel = new PaymentsSetupViewModel(SelectedValue, _billingViewModel);
+                UpdateViewModel = new PaymentsSetupViewModel(SelectedValue, _BillingViewModel);
 
                 OnPropertyChanged(nameof(SelectedValue));
             }
         }
 
 
-        private PaymentsSetupViewModel _updateViewModel;
+        private PaymentsSetupViewModel _UpdateViewModel;
         public PaymentsSetupViewModel UpdateViewModel
         {
-            get { return _updateViewModel; }
+            get { return _UpdateViewModel; }
             set
             {
-                _updateViewModel = value;
+                _UpdateViewModel = value;
                 OnPropertyChanged(nameof(UpdateViewModel));
             }
         }
@@ -90,13 +89,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         public PaymentManagementViewModel(BillingViewModel billingViewModel)
         {
-            _flatViewModel = billingViewModel.GetFlatViewModel();
-            _billingViewModel = billingViewModel;
+            _FlatViewModel = billingViewModel.GetFlatViewModel();
+            _BillingViewModel = billingViewModel;
 
-            RoomPayments = CollectionViewSource.GetDefaultView(_billingViewModel.RoomPayments);
+            RoomPayments = CollectionViewSource.GetDefaultView(_BillingViewModel.RoomPayments);
             RoomPayments.SortDescriptions.Add(new SortDescription("RoomViewModel.ID", ListSortDirection.Ascending));
 
-            _billingViewModel.RoomPayments.CollectionChanged += RoomPayments_CollectionChanged;
+            _BillingViewModel.RoomPayments.CollectionChanged += RoomPayments_CollectionChanged;
 
             OnPropertyChanged(nameof(RoomPayments));
             OnPropertyChanged(nameof(UpdateViewModel));

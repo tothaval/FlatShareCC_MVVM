@@ -12,22 +12,19 @@ namespace SharedLivingCostCalculator.Models.Contract
     public class Room
     {
 
-        // propperties & fields
-        #region propperties
+        // Properties & Fields
+        #region Properties & Fields
 
         public double RoomArea { get; set; } = 0.0;
 
 
         public string RoomName { get; set; } = string.Empty;
 
-
-        public string Signature => $"{RoomName}\n{RoomArea}m²";
-
-        #endregion propperties
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public Room()
         {
@@ -47,7 +44,7 @@ namespace SharedLivingCostCalculator.Models.Contract
             RoomArea = roomArea;
         }
 
-        #endregion constructors
+        #endregion
 
 
     }

@@ -6,10 +6,9 @@
  *  
  *  it loads and saves data
  *  
- *  it instanciates ObservableCollection<FlatViewModel>
+ *  it instanciates ObservableCollection<_FlatViewModel>
  *  for the entire application
  */
-using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.ViewModels.Contract;
@@ -32,13 +31,13 @@ namespace SharedLivingCostCalculator
         // properties
         #region properties
 
-        private ObservableCollection<FlatViewModel> _flatCollection;
+        private ObservableCollection<FlatViewModel> _FlatCollection;
 
 
-        private FlatManagementViewModel _managementViewModel;
+        private FlatManagementViewModel _FlatManagementViewModel;
 
 
-        private ResourceDictionary _resourceDictionary;
+        private ResourceDictionary _ResourceDictionary;
 
         #endregion properties
 
@@ -48,9 +47,9 @@ namespace SharedLivingCostCalculator
 
         public App()
         {
-            _flatCollection = new ObservableCollection<FlatViewModel>();
-            _resourceDictionary = new ResourceDictionary();
-            _managementViewModel = new FlatManagementViewModel(_flatCollection);
+            _FlatCollection = new ObservableCollection<FlatViewModel>();
+            _ResourceDictionary = new ResourceDictionary();
+            _FlatManagementViewModel = new FlatManagementViewModel(_FlatCollection);
         }
 
         #endregion constructors
@@ -66,7 +65,7 @@ namespace SharedLivingCostCalculator
 
             List<string> files = Directory.GetFiles(folder, filter, SearchOption.TopDirectoryOnly).ToList();
 
-            if (files.Count > _flatCollection.Count)
+            if (files.Count > _FlatCollection.Count)
             {
                 foreach (string file in files)
                 {
@@ -107,7 +106,7 @@ namespace SharedLivingCostCalculator
 
                             FlatViewModel flatViewModel = await member.GetFlatData();
 
-                            _flatCollection.Add(flatViewModel);
+                            _FlatCollection.Add(flatViewModel);
                         }
                         catch (Exception)
                         {
@@ -154,10 +153,10 @@ namespace SharedLivingCostCalculator
 
             PersistanceHandler persistanceHandler = new PersistanceHandler();
 
-            persistanceHandler.SerializeFlatData(_flatCollection);
+            persistanceHandler.SerializeFlatData(_FlatCollection);
             persistanceHandler.SerializeResources();
 
-            persistanceHandler.SerializeApplicationState(_managementViewModel);
+            persistanceHandler.SerializeApplicationState(_FlatManagementViewModel);
 
             //only needed to get a language resource string xml template
             persistanceHandler.SerializeLanguage(); 
@@ -190,7 +189,7 @@ namespace SharedLivingCostCalculator
 
             MainWindow mainWindow = new MainWindow()
             {
-                DataContext = new MainWindowViewModel(_flatCollection, _managementViewModel)
+                DataContext = new MainWindowViewModel(_FlatCollection, _FlatManagementViewModel)
             };
 
             mainWindow.Show();

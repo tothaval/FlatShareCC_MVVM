@@ -21,58 +21,58 @@ there is a grocery store nearby.</FlatNotes>
       <StartDate>2023-03-15T00:00:00</StartDate>
       <TotalCostsPerPeriod>1507.12</TotalCostsPerPeriod>
       <TotalFixedCostsPerPeriod>
-        <TransactionSum>550.14</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>550.14</TransactionSum>
       </TotalFixedCostsPerPeriod>
       <TotalHeatingCostsPerPeriod>
-        <TransactionSum>956.9799999999999</TransactionSum>
-        <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>956.9799999999999</TransactionSum>
       </TotalHeatingCostsPerPeriod>
       <Consumptions>
         <ConsumptionItem>
           <ConsumptionCause>
-            <TransactionSum>956.9799999999999</TransactionSum>
-            <TransactionShareTypes>Consumption</TransactionShareTypes>
             <TransactionItem>Heating</TransactionItem>
+            <TransactionShareTypes>Consumption</TransactionShareTypes>
+            <TransactionSum>956.9799999999999</TransactionSum>
           </ConsumptionCause>
           <ConsumedUnits>1720</ConsumedUnits>
           <ConsumptionPerRoom>
             <RoomConsumption>
+              <ConsumptionValue>150</ConsumptionValue>
               <Room>
                 <RoomArea>20</RoomArea>
                 <RoomName>room1</RoomName>
               </Room>
-              <ConsumptionValue>150</ConsumptionValue>
             </RoomConsumption>
             <RoomConsumption>
+              <ConsumptionValue>250</ConsumptionValue>
               <Room>
                 <RoomArea>25</RoomArea>
                 <RoomName>room2</RoomName>
               </Room>
-              <ConsumptionValue>250</ConsumptionValue>
             </RoomConsumption>
             <RoomConsumption>
+              <ConsumptionValue>250</ConsumptionValue>
               <Room>
                 <RoomArea>19</RoomArea>
                 <RoomName>room3</RoomName>
               </Room>
-              <ConsumptionValue>250</ConsumptionValue>
             </RoomConsumption>
             <RoomConsumption>
+              <ConsumptionValue>120</ConsumptionValue>
               <Room>
                 <RoomArea>27</RoomArea>
                 <RoomName>room4</RoomName>
               </Room>
-              <ConsumptionValue>120</ConsumptionValue>
             </RoomConsumption>
             <RoomConsumption>
+              <ConsumptionValue>440</ConsumptionValue>
               <Room>
                 <RoomArea>22</RoomArea>
                 <RoomName>room5</RoomName>
               </Room>
-              <ConsumptionValue>440</ConsumptionValue>
             </RoomConsumption>
           </ConsumptionPerRoom>
         </ConsumptionItem>
@@ -101,7 +101,14 @@ there is a grocery store nearby.</FlatNotes>
         </RoomPayments>
         <RoomPayments>
           <RoomName>room4</RoomName>
-          <PaymentCollection />
+          <PaymentCollection>
+            <Payment>
+              <EndDate>2023-08-23T00:00:00</EndDate>
+              <PaymentQuantity>4</PaymentQuantity>
+              <StartDate>2023-08-10T00:00:00</StartDate>
+              <Sum>125</Sum>
+            </Payment>
+          </PaymentCollection>
         </RoomPayments>
         <RoomPayments>
           <RoomName>room5</RoomName>
@@ -116,22 +123,22 @@ there is a grocery store nearby.</FlatNotes>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.8153455+02:00</StartDate>
-        <TransactionSum>500</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Cold Rent</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>500</TransactionSum>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.815355+02:00</StartDate>
-        <TransactionSum>340</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>340</TransactionSum>
       </FixedCostsAdvance>
       <HeatingCostsAdvance>
-        <TransactionSum>630</TransactionSum>
-        <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>630</TransactionSum>
       </HeatingCostsAdvance>
       <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
@@ -142,25 +149,25 @@ there is a grocery store nearby.</FlatNotes>
           <Duration>Ongoing</Duration>
           <EndDate>2024-09-01T00:00:00</EndDate>
           <StartDate>2023-04-01T00:00:00</StartDate>
-          <TransactionSum>60</TransactionSum>
-          <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>web access</TransactionItem>
-        </FinancialTransactionItemRent>
-        <FinancialTransactionItemRent>
-          <Duration>Ongoing</Duration>
-          <EndDate>2024-09-01T00:00:00</EndDate>
-          <StartDate>2023-04-01T00:00:00</StartDate>
-          <TransactionSum>90</TransactionSum>
           <TransactionShareTypes>Equal</TransactionShareTypes>
-          <TransactionItem>electricity</TransactionItem>
+          <TransactionSum>60</TransactionSum>
         </FinancialTransactionItemRent>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
           <EndDate>2024-09-01T00:00:00</EndDate>
           <StartDate>2023-04-01T00:00:00</StartDate>
-          <TransactionSum>95</TransactionSum>
-          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionItem>electricity</TransactionItem>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionSum>90</TransactionSum>
+        </FinancialTransactionItemRent>
+        <FinancialTransactionItemRent>
+          <Duration>Ongoing</Duration>
+          <EndDate>2024-09-01T00:00:00</EndDate>
+          <StartDate>2023-04-01T00:00:00</StartDate>
           <TransactionItem>insurance</TransactionItem>
+          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionSum>95</TransactionSum>
         </FinancialTransactionItemRent>
       </OtherCosts>
       <Credits />
@@ -170,22 +177,22 @@ there is a grocery store nearby.</FlatNotes>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.8154146+02:00</StartDate>
-        <TransactionSum>522.17</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Rent</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>522.17</TransactionSum>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.8154217+02:00</StartDate>
-        <TransactionSum>370</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>370</TransactionSum>
       </FixedCostsAdvance>
       <HeatingCostsAdvance>
-        <TransactionSum>680</TransactionSum>
-        <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>680</TransactionSum>
       </HeatingCostsAdvance>
       <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
@@ -199,22 +206,22 @@ there is a grocery store nearby.</FlatNotes>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-11T00:00:00+02:00</StartDate>
-        <TransactionSum>522.17</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Rent</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>522.17</TransactionSum>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-11T00:00:00+02:00</StartDate>
-        <TransactionSum>382</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>382</TransactionSum>
       </FixedCostsAdvance>
       <HeatingCostsAdvance>
-        <TransactionSum>720</TransactionSum>
-        <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>720</TransactionSum>
       </HeatingCostsAdvance>
       <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>

@@ -3,7 +3,7 @@
  *  Flat 
  * 
  *  serializable data model class
- *  for FlatViewModel
+ *  for _FlatViewModel
  */
 
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
@@ -19,8 +19,8 @@ namespace SharedLivingCostCalculator.Models.Contract
     public class Flat
     {
 
-        // properties & fields
-        #region properties
+        // Properties & Fields
+        #region Properties & Fields
 
         public string Address { get; set; }
 
@@ -39,11 +39,11 @@ namespace SharedLivingCostCalculator.Models.Contract
 
         public int RoomCount { get; set; }
 
-        #endregion properties
+        #endregion
 
 
-        // collections
-        #region collections
+        // Collections
+        #region Collections
 
         [XmlIgnore]
         public ObservableCollection<BillingViewModel> AnnualBillings { get; set; }
@@ -64,11 +64,11 @@ namespace SharedLivingCostCalculator.Models.Contract
         [XmlIgnore]
         public ObservableCollection<TenantViewModel> Tenants { get; set; }
 
-        #endregion collections
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public Flat()
         {
@@ -118,7 +118,7 @@ namespace SharedLivingCostCalculator.Models.Contract
             Tenants = new ObservableCollection<TenantViewModel>();
         }
 
-        #endregion constructors
+        #endregion
 
 
     }

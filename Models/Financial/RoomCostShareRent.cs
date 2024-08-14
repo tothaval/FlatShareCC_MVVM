@@ -293,16 +293,16 @@ namespace SharedLivingCostCalculator.Models.Financial
             {
                 FinancialTransactionItemRentViewModel FTIvm = new FinancialTransactionItemRentViewModel(new FinancialTransactionItemRent());
 
-                if (item.CostShareTypes == Enums.TransactionShareTypesRent.Equal)
+                if (item.TransactionShareTypes == Enums.TransactionShareTypesRent.Equal)
                 {
                     FTIvm.TransactionSum = EqualShareRatio() * item.TransactionSum;
                 }
-                else if (item.CostShareTypes == Enums.TransactionShareTypesRent.Area)
+                else if (item.TransactionShareTypes == Enums.TransactionShareTypesRent.Area)
                 {
                     FTIvm.TransactionSum = RentedAreaShareRatio() * item.TransactionSum;
                 }
 
-                FTIvm.CostShareTypes = item.CostShareTypes;
+                FTIvm.TransactionShareTypes = item.TransactionShareTypes;
 
                 string newItem = item.TransactionItem;
                 FTIvm.TransactionItem = newItem;
@@ -326,16 +326,16 @@ namespace SharedLivingCostCalculator.Models.Financial
             {
                 FinancialTransactionItemRentViewModel FTIvm = new FinancialTransactionItemRentViewModel(new FinancialTransactionItemRent());
 
-                if (item.CostShareTypes == Enums.TransactionShareTypesRent.Equal)
+                if (item.TransactionShareTypes == Enums.TransactionShareTypesRent.Equal)
                 {
                     FTIvm.TransactionSum = EqualShareRatio() * item.TransactionSum;
                 }
-                else if (item.CostShareTypes == Enums.TransactionShareTypesRent.Area)
+                else if (item.TransactionShareTypes == Enums.TransactionShareTypesRent.Area)
                 {
                     FTIvm.TransactionSum = RentedAreaShareRatio() * item.TransactionSum;
                 }
 
-                FTIvm.CostShareTypes = item.CostShareTypes;
+                FTIvm.TransactionShareTypes = item.TransactionShareTypes;
 
                 string newItem = item.TransactionItem;
                 FTIvm.TransactionItem = newItem;

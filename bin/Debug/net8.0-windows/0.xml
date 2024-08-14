@@ -19,89 +19,89 @@ new street 714</Address>
       <StartDate>2024-01-01T00:00:00</StartDate>
       <TotalCostsPerPeriod>1720</TotalCostsPerPeriod>
       <TotalFixedCostsPerPeriod>
-        <TransactionSum>520</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>520</TransactionSum>
       </TotalFixedCostsPerPeriod>
       <TotalHeatingCostsPerPeriod>
-        <TransactionSum>1310</TransactionSum>
-        <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>1310</TransactionSum>
       </TotalHeatingCostsPerPeriod>
       <Consumptions>
         <ConsumptionItem>
           <ConsumptionCause>
-            <TransactionSum>1310</TransactionSum>
-            <TransactionShareTypes>Consumption</TransactionShareTypes>
             <TransactionItem>Heating</TransactionItem>
+            <TransactionShareTypes>Consumption</TransactionShareTypes>
+            <TransactionSum>1310</TransactionSum>
           </ConsumptionCause>
           <ConsumedUnits>1500</ConsumedUnits>
           <ConsumptionPerRoom>
             <RoomConsumption>
+              <ConsumptionValue>220</ConsumptionValue>
               <Room>
                 <RoomArea>10.1</RoomArea>
                 <RoomName>Schlafzimmer</RoomName>
               </Room>
-              <ConsumptionValue>220</ConsumptionValue>
             </RoomConsumption>
             <RoomConsumption>
+              <ConsumptionValue>320</ConsumptionValue>
               <Room>
                 <RoomArea>22</RoomArea>
                 <RoomName>Kinderzimmer</RoomName>
               </Room>
-              <ConsumptionValue>320</ConsumptionValue>
             </RoomConsumption>
             <RoomConsumption>
+              <ConsumptionValue>420.0025</ConsumptionValue>
               <Room>
                 <RoomArea>12</RoomArea>
                 <RoomName>Arbeitszimmer</RoomName>
               </Room>
-              <ConsumptionValue>420.0025</ConsumptionValue>
             </RoomConsumption>
           </ConsumptionPerRoom>
         </ConsumptionItem>
         <ConsumptionItem>
           <ConsumptionCause>
-            <TransactionSum>150</TransactionSum>
-            <TransactionShareTypes>Consumption</TransactionShareTypes>
             <TransactionItem>rotwein</TransactionItem>
+            <TransactionShareTypes>Consumption</TransactionShareTypes>
+            <TransactionSum>150</TransactionSum>
           </ConsumptionCause>
           <ConsumedUnits>20</ConsumedUnits>
           <ConsumptionPerRoom>
             <RoomConsumption>
+              <ConsumptionValue>10</ConsumptionValue>
               <Room>
                 <RoomArea>10.1</RoomArea>
                 <RoomName>Schlafzimmer</RoomName>
               </Room>
-              <ConsumptionValue>10</ConsumptionValue>
             </RoomConsumption>
             <RoomConsumption>
+              <ConsumptionValue>5</ConsumptionValue>
               <Room>
                 <RoomArea>22</RoomArea>
                 <RoomName>Kinderzimmer</RoomName>
               </Room>
-              <ConsumptionValue>5</ConsumptionValue>
             </RoomConsumption>
             <RoomConsumption>
+              <ConsumptionValue>3</ConsumptionValue>
               <Room>
                 <RoomArea>12</RoomArea>
                 <RoomName>Arbeitszimmer</RoomName>
               </Room>
-              <ConsumptionValue>3</ConsumptionValue>
             </RoomConsumption>
           </ConsumptionPerRoom>
         </ConsumptionItem>
       </Consumptions>
       <Costs>
         <FinancialTransactionItemBilling>
-          <TransactionSum>120</TransactionSum>
-          <TransactionShareTypes>Area</TransactionShareTypes>
           <TransactionItem>item</TransactionItem>
+          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionSum>120</TransactionSum>
         </FinancialTransactionItemBilling>
         <FinancialTransactionItemBilling>
-          <TransactionSum>150</TransactionSum>
-          <TransactionShareTypes>Consumption</TransactionShareTypes>
           <TransactionItem>rotwein</TransactionItem>
+          <TransactionShareTypes>Consumption</TransactionShareTypes>
+          <TransactionSum>150</TransactionSum>
         </FinancialTransactionItemBilling>
       </Costs>
       <Credits>
@@ -109,9 +109,9 @@ new street 714</Address>
           <Duration>Ongoing</Duration>
           <EndDate>2024-09-01T00:00:00</EndDate>
           <StartDate>2024-08-13T00:00:00+02:00</StartDate>
-          <TransactionSum>125</TransactionSum>
-          <TransactionShareTypes>Area</TransactionShareTypes>
           <TransactionItem>rückerstattung</TransactionItem>
+          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionSum>125</TransactionSum>
         </FinancialTransactionItemRent>
       </Credits>
       <Payments>
@@ -140,53 +140,53 @@ new street 714</Address>
       <StartDate>2023-06-15T00:00:00</StartDate>
       <TotalCostsPerPeriod>1500</TotalCostsPerPeriod>
       <TotalFixedCostsPerPeriod>
-        <TransactionSum>392.22</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>392.22</TransactionSum>
       </TotalFixedCostsPerPeriod>
       <TotalHeatingCostsPerPeriod>
-        <TransactionSum>1107.78</TransactionSum>
-        <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>1107.78</TransactionSum>
       </TotalHeatingCostsPerPeriod>
       <Consumptions>
         <ConsumptionItem>
           <ConsumptionCause>
-            <TransactionSum>1107.78</TransactionSum>
-            <TransactionShareTypes>Consumption</TransactionShareTypes>
             <TransactionItem>Heating</TransactionItem>
+            <TransactionShareTypes>Consumption</TransactionShareTypes>
+            <TransactionSum>1107.78</TransactionSum>
           </ConsumptionCause>
           <ConsumedUnits>1300</ConsumedUnits>
           <ConsumptionPerRoom>
             <RoomConsumption>
+              <ConsumptionValue>0</ConsumptionValue>
               <Room>
                 <RoomArea>10.1</RoomArea>
                 <RoomName>Schlafzimmer</RoomName>
               </Room>
-              <ConsumptionValue>0</ConsumptionValue>
             </RoomConsumption>
             <RoomConsumption>
+              <ConsumptionValue>0</ConsumptionValue>
               <Room>
                 <RoomArea>22</RoomArea>
                 <RoomName>Kinderzimmer</RoomName>
               </Room>
-              <ConsumptionValue>0</ConsumptionValue>
             </RoomConsumption>
             <RoomConsumption>
+              <ConsumptionValue>0</ConsumptionValue>
               <Room>
                 <RoomArea>12</RoomArea>
                 <RoomName>Arbeitszimmer</RoomName>
               </Room>
-              <ConsumptionValue>0</ConsumptionValue>
             </RoomConsumption>
           </ConsumptionPerRoom>
         </ConsumptionItem>
       </Consumptions>
       <Costs>
         <FinancialTransactionItemBilling>
-          <TransactionSum>55</TransactionSum>
-          <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>nachzahlung strom</TransactionItem>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionSum>55</TransactionSum>
         </FinancialTransactionItemBilling>
       </Costs>
       <Credits />
@@ -212,22 +212,22 @@ new street 714</Address>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.5767147+02:00</StartDate>
-        <TransactionSum>340</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Rent</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>340</TransactionSum>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.5769569+02:00</StartDate>
-        <TransactionSum>215</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>215</TransactionSum>
       </FixedCostsAdvance>
       <HeatingCostsAdvance>
-        <TransactionSum>548</TransactionSum>
-        <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>548</TransactionSum>
       </HeatingCostsAdvance>
       <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
@@ -238,17 +238,17 @@ new street 714</Address>
           <Duration>Ongoing</Duration>
           <EndDate>2024-09-01T00:00:00</EndDate>
           <StartDate>2024-08-01T00:00:00</StartDate>
-          <TransactionSum>80</TransactionSum>
-          <TransactionShareTypes>Area</TransactionShareTypes>
           <TransactionItem>insuranc</TransactionItem>
+          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionSum>80</TransactionSum>
         </FinancialTransactionItemRent>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
           <EndDate>2024-09-01T00:00:00</EndDate>
           <StartDate>2024-08-01T00:00:00</StartDate>
-          <TransactionSum>70</TransactionSum>
-          <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>pwr</TransactionItem>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionSum>70</TransactionSum>
         </FinancialTransactionItemRent>
       </OtherCosts>
       <Credits />
@@ -258,22 +258,22 @@ new street 714</Address>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.5799443+02:00</StartDate>
-        <TransactionSum>380</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Rent</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>380</TransactionSum>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.5799498+02:00</StartDate>
-        <TransactionSum>235</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>235</TransactionSum>
       </FixedCostsAdvance>
       <HeatingCostsAdvance>
-        <TransactionSum>558</TransactionSum>
-        <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>558</TransactionSum>
       </HeatingCostsAdvance>
       <HasCredits>true</HasCredits>
       <HasDataLock>true</HasDataLock>
@@ -284,17 +284,17 @@ new street 714</Address>
           <Duration>Ongoing</Duration>
           <EndDate>2024-09-01T00:00:00</EndDate>
           <StartDate>2024-08-01T00:00:00</StartDate>
-          <TransactionSum>34</TransactionSum>
-          <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>dfhthdt6rm</TransactionItem>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionSum>34</TransactionSum>
         </FinancialTransactionItemRent>
         <FinancialTransactionItemRent>
           <Duration>Limited</Duration>
           <EndDate>2024-08-31T00:00:00</EndDate>
           <StartDate>2024-08-01T00:00:00</StartDate>
-          <TransactionSum>780</TransactionSum>
-          <TransactionShareTypes>Area</TransactionShareTypes>
           <TransactionItem>ddgost item</TransactionItem>
+          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionSum>780</TransactionSum>
         </FinancialTransactionItemRent>
       </OtherCosts>
       <Credits>
@@ -302,9 +302,9 @@ new street 714</Address>
           <Duration>Limited</Duration>
           <EndDate>2024-08-31T00:00:00</EndDate>
           <StartDate>2024-07-01T00:00:00</StartDate>
-          <TransactionSum>120</TransactionSum>
-          <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>k</TransactionItem>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionSum>120</TransactionSum>
         </FinancialTransactionItemRent>
       </Credits>
     </Rent>
@@ -313,22 +313,22 @@ new street 714</Address>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.6060725+02:00</StartDate>
-        <TransactionSum>340</TransactionSum>
-        <TransactionShareTypes>Equal</TransactionShareTypes>
         <TransactionItem>other cost item</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>340</TransactionSum>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T11:53:36.6060801+02:00</StartDate>
-        <TransactionSum>215</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>215</TransactionSum>
       </FixedCostsAdvance>
       <HeatingCostsAdvance>
-        <TransactionSum>548</TransactionSum>
-        <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>548</TransactionSum>
       </HeatingCostsAdvance>
       <HasCredits>false</HasCredits>
       <HasDataLock>false</HasDataLock>
@@ -342,22 +342,22 @@ new street 714</Address>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T00:00:00</StartDate>
-        <TransactionSum>380</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Rent</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>380</TransactionSum>
       </ColdRent>
       <FixedCostsAdvance>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
         <StartDate>2024-08-05T00:00:00</StartDate>
-        <TransactionSum>235</TransactionSum>
-        <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>235</TransactionSum>
       </FixedCostsAdvance>
       <HeatingCostsAdvance>
-        <TransactionSum>558</TransactionSum>
-        <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionItem>Heating</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>558</TransactionSum>
       </HeatingCostsAdvance>
       <HasCredits>true</HasCredits>
       <HasDataLock>false</HasDataLock>
@@ -368,17 +368,17 @@ new street 714</Address>
           <Duration>Ongoing</Duration>
           <EndDate>2024-09-01T00:00:00</EndDate>
           <StartDate>2024-08-01T00:00:00</StartDate>
-          <TransactionSum>34</TransactionSum>
-          <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>dfhthdt6rm</TransactionItem>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionSum>34</TransactionSum>
         </FinancialTransactionItemRent>
         <FinancialTransactionItemRent>
           <Duration>Limited</Duration>
           <EndDate>2024-08-31T00:00:00</EndDate>
           <StartDate>2024-08-01T00:00:00</StartDate>
-          <TransactionSum>780</TransactionSum>
-          <TransactionShareTypes>Area</TransactionShareTypes>
           <TransactionItem>ddgost item</TransactionItem>
+          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionSum>780</TransactionSum>
         </FinancialTransactionItemRent>
       </OtherCosts>
       <Credits>
@@ -386,9 +386,9 @@ new street 714</Address>
           <Duration>Limited</Duration>
           <EndDate>2024-08-31T00:00:00</EndDate>
           <StartDate>2024-07-01T00:00:00</StartDate>
-          <TransactionSum>120</TransactionSum>
-          <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionItem>k</TransactionItem>
+          <TransactionShareTypes>Equal</TransactionShareTypes>
+          <TransactionSum>120</TransactionSum>
         </FinancialTransactionItemRent>
       </Credits>
     </Rent>

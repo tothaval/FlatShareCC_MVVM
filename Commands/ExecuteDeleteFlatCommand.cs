@@ -3,8 +3,8 @@
  *  ExecuteDeleteFlatCommand 
  * 
  *  command for removing a flatviewmodel
- *  instance from the _flatCollection   
- *  ObservableCollection<FlatViewModel>
+ *  instance from the _FlatCollection   
+ *  ObservableCollection<_FlatViewModel>
  */
 using SharedLivingCostCalculator.ViewModels.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
@@ -17,30 +17,31 @@ namespace SharedLivingCostCalculator.Commands
     class ExecuteDeleteFlatCommand : BaseCommand
     {
 
-        // collections
-        #region collections
+        // Collections
+        #region Collections
+
+        private readonly ObservableCollection<FlatViewModel> _FlatCollection;
+
 
         private readonly FlatManagementViewModel _FlatManagementViewModel;
 
-        private readonly ObservableCollection<FlatViewModel> _flatCollection;
-
-        #endregion collections
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public ExecuteDeleteFlatCommand(ObservableCollection<FlatViewModel> flatCollection, FlatManagementViewModel flatManagementViewModel)
         {
-            _flatCollection = flatCollection;
+            _FlatCollection = flatCollection;
             _FlatManagementViewModel = flatManagementViewModel;
         }
 
-        #endregion constructors
+        #endregion
 
 
-        // methods
-        #region methods
+        // Methods
+        #region Methods
 
         public override void Execute(object? parameter)
         {
@@ -57,13 +58,13 @@ namespace SharedLivingCostCalculator.Commands
 
                     foreach (var item in selected)
                     {
-                        _flatCollection.Remove(item);       
+                        _FlatCollection.Remove(item);       
                     }
                 }
             }            
         }
 
-        #endregion methods
+        #endregion
 
 
     }
