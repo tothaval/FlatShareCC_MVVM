@@ -14,14 +14,33 @@ namespace SharedLivingCostCalculator.Interfaces.Contract
     public interface IRoomCostShare
     {
 
-        public string RoomName { get; }
-        public double RoomArea { get; }
-        public double SharedAreaShare { get; set; }
+        // Properties & Fields
+        #region Properties & Fields
+
         public double RentedAreaShare { get; set; }
 
-        public IRoomCostsCarrier ViewModel { get; set; }
 
-        public void CalculateValues();
+        public string RoomName { get; }
+
+
+        public double RoomArea { get; }
+
+
+        public double SharedAreaShare { get; set; }
+
+
+        public IRoomCostsCarrier ViewModel { get; set; } 
+
+        #endregion
+
+
+        // Methods
+        #region Methods
+
+        public void CalculateValues(); 
+
+        #endregion
+
 
     }
 }

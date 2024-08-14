@@ -6,9 +6,8 @@
  *  
  *  purpose:
  *      -> calculate payments for a room instance
- *          within IRoomCostCarrier class BillingViewModel
+ *          within IRoomCostCarrier class _BillingViewModel
  */
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
@@ -27,35 +26,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         public double CombinedPayments => CalculateTotalPayments();
 
 
-        public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
+        public bool HasErrors => _Helper.HasErrors;
 
 
-        public double GetRoomArea()
-        {
-            if (RoomPayments != null && RoomPayments.RoomViewModel != null)
-            {
-                return RoomPayments.RoomViewModel.RoomArea;
-            }
-
-            return 0.0;
-        }
-
-
-        public string GetRoomName()
-        {
-            if (RoomPayments != null && RoomPayments.RoomViewModel != null)
-            {
-                return RoomPayments.RoomViewModel.RoomName;
-            }
-
-            return "unknown";
-        }
-
-
-        public bool HasErrors => _helper.HasErrors;
-
-
-        private ValidationHelper _helper = new ValidationHelper();
+        private ValidationHelper _Helper = new ValidationHelper();
 
 
         public double RoomArea => GetRoomArea();
@@ -131,6 +105,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 });
         }
 
+
         public double CalculateTotalPayments()
         {
             double total = 0.0;
@@ -147,6 +122,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public IEnumerable GetErrors(string? propertyName) => _Helper.GetErrors(propertyName);
+
+
         private ObservableCollection<PaymentViewModel> GetPaymentViewModels()
         {
             ObservableCollection<PaymentViewModel> paymentViewModels = new ObservableCollection<PaymentViewModel>();
@@ -161,6 +139,28 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
 
             return paymentViewModels;
+        }
+
+
+        public string GetRoomName()
+        {
+            if (RoomPayments != null && RoomPayments.RoomViewModel != null)
+            {
+                return RoomPayments.RoomViewModel.RoomName;
+            }
+
+            return "unknown";
+        }
+
+
+        public double GetRoomArea()
+        {
+            if (RoomPayments != null && RoomPayments.RoomViewModel != null)
+            {
+                return RoomPayments.RoomViewModel.RoomArea;
+            }
+
+            return 0.0;
         }
 
         #endregion methods

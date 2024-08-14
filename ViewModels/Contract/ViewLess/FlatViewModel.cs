@@ -1,6 +1,6 @@
 ﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
- *  FlatViewModel  : BaseViewModel
+ *  _FlatViewModel  : BaseViewModel
  * 
  *  viewmodel for Flat model
  *  
@@ -21,12 +21,12 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         // properties & fields
         #region properties & fields
 
-        public string Address { get { return _flat.Address; } set { _flat.Address = value; OnPropertyChanged(nameof(Address)); } }
+        public string Address { get { return _Flat.Address; } set { _Flat.Address = value; OnPropertyChanged(nameof(Address)); } }
 
 
         public double Area
         {
-            get { return _flat.Area; }
+            get { return _Flat.Area; }
             set
             {
                 //if (_flat.Area > 0.0)
@@ -43,7 +43,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
                 //}
                 //else
                 //{
-                _flat.Area = value;
+                _Flat.Area = value;
                 //}
 
 
@@ -56,17 +56,17 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         public double CombinedRoomArea => CalculateCombinedRoomArea();
 
 
-        public string Details { get { return _flat.Details; } set { _flat.Details = value; OnPropertyChanged(nameof(Details)); } }
+        public string Details { get { return _Flat.Details; } set { _Flat.Details = value; OnPropertyChanged(nameof(Details)); } }
 
 
         public double ExtraCosts => CurrentExtraCosts();
 
 
-        private Flat _flat;
-        public Flat Flat => _flat;
+        private Flat _Flat;
+        public Flat Flat => _Flat;
 
 
-        public string FlatNotes { get { return _flat.FlatNotes; } set { _flat.FlatNotes = value; OnPropertyChanged(nameof(FlatNotes)); } }
+        public string FlatNotes { get { return _Flat.FlatNotes; } set { _Flat.FlatNotes = value; OnPropertyChanged(nameof(FlatNotes)); } }
 
 
         public bool HasDataLock
@@ -86,7 +86,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public int RoomCount
         {
-            get { return _flat.RoomCount; }
+            get { return _Flat.RoomCount; }
 
             set
             {
@@ -102,7 +102,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
                 //        "Change Room Count", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 //    if (result == MessageBoxResult.Yes)
                 //    {
-                _flat.RoomCount = value;
+                _Flat.RoomCount = value;
                 CreateRooms();
 
                 OnPropertyChanged(nameof(Area));
@@ -143,10 +143,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public ObservableCollection<BillingViewModel> AnnualBillings
         {
-            get { return _flat.AnnualBillings; }
+            get { return _Flat.AnnualBillings; }
             set
             {
-                _flat.AnnualBillings = value;
+                _Flat.AnnualBillings = value;
                 OnPropertyChanged(nameof(AnnualBillings));
             }
         }
@@ -154,10 +154,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public ObservableCollection<RentViewModel> RentUpdates
         {
-            get { return _flat.RentUpdates; }
+            get { return _Flat.RentUpdates; }
             set
             {
-                _flat.RentUpdates = value;
+                _Flat.RentUpdates = value;
                 OnPropertyChanged(nameof(RentUpdates));
             }
         }
@@ -165,10 +165,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public ObservableCollection<RoomViewModel> Rooms
         {
-            get { return _flat.Rooms; }
+            get { return _Flat.Rooms; }
             set
             {
-                _flat.Rooms = value;
+                _Flat.Rooms = value;
                 OnPropertyChanged(nameof(Rooms));
             }
         }
@@ -176,10 +176,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public ObservableCollection<TenantConfigurationViewModel> TenantConfigurations
         {
-            get { return _flat.TenantConfigurations; }
+            get { return _Flat.TenantConfigurations; }
             set
             {
-                _flat.TenantConfigurations = value;
+                _Flat.TenantConfigurations = value;
                 OnPropertyChanged(nameof(TenantConfigurations));
             }
         }
@@ -187,10 +187,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public ObservableCollection<TenantViewModel> Tenants
         {
-            get { return _flat.Tenants; }
+            get { return _Flat.Tenants; }
             set
             {
-                _flat.Tenants = value;
+                _Flat.Tenants = value;
                 OnPropertyChanged(nameof(Tenants));
             }
         }
@@ -203,7 +203,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public FlatViewModel(Flat flat)
         {
-            _flat = flat;
+            _Flat = flat;
 
             Rooms = new ObservableCollection<RoomViewModel>();
 
@@ -214,7 +214,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public FlatViewModel(Flat flat, bool clone)
         {
-            _flat = flat;
+            _Flat = flat;
                       
             if (!clone)
             {

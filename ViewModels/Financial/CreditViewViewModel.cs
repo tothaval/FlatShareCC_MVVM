@@ -78,12 +78,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public ICommand AddFinacialTransactionItemCommand { get; }
 
 
-        public ICommand CloseCommand { get; }
-
-
-        public ICommand LeftPressCommand { get; }
-
-
         public ICommand RemoveFinancialTransactionItemCommand { get; }
 
         #endregion commands
@@ -111,13 +105,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 }
             }
 
-            //if (BillingViewModel.CostsHasDataLock)
-            //{
-            //    DataLockCheckbox = true;
-            //}
-
-            CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
-            LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
         }
 
         #endregion
@@ -129,58 +116,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         {
             FinancialTransactionItemRentViewModel otherCostItemViewModel = new FinancialTransactionItemRentViewModel(new FinancialTransactionItemRent());
 
-            otherCostItemViewModel.ValueChange += Item_ValueChange;
+            //otherCostItemViewModel.ValueChange += Item_ValueChange;
 
             RentViewModel.AddCredit(otherCostItemViewModel);
 
             //OnPropertyChanged(nameof(CostItems));
             OnPropertyChanged(nameof(RentViewModel));
         }
-
-
-        private void CalculateSum()
-        {
-            //OtherFTISum = 0.0;
-
-            //foreach (FinancialTransactionItemViewModel item in CostItems)
-            //{
-            //    OtherFTISum += item.TransactionSum;
-            //}
-        }
-
-
-        private void Close(object s)
-        {
-            Window window = (Window)s;
-
-            MessageBoxResult result = MessageBox.Show(window,
-                $"Close Other FinancialTransactionItems window?\n\n",
-                "Close Window", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                window.Close();
-            }
-
-        }
-
-
-        private void Drag(object s)
-        {
-            Window window = (Window)s;
-
-            window.DragMove();
-        }
-
-
-        private void RegisterCostItemValueChange()
-        {
-            //foreach (FinancialTransactionItemViewModel item in CostItems)
-            //{
-            //    item.ValueChange += Item_ValueChange;
-            //}
-        }
-
 
 
         private void RemoveFinancialTransactionItem(object s)
@@ -200,7 +142,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     {
                         RentViewModel.RemoveCredit(item);
 
-                        //OnPropertyChanged(nameof(CostItems));
                         OnPropertyChanged(nameof(RentViewModel));
                     }
                 }
@@ -209,24 +150,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         #endregion methods
 
-
-        // events
-        #region events
-
-        private void Costs_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            RegisterCostItemValueChange();
-
-            CalculateSum();
-        }
-
-
-        private void Item_ValueChange(object? sender, EventArgs e)
-        {
-            CalculateSum();
-        }
-
-        #endregion events
 
     }
 }

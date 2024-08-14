@@ -11,16 +11,16 @@ namespace SharedLivingCostCalculator.Commands
     public abstract class BaseCommand : ICommand
     {
 
-        // event properties & fields
-        #region event properties
+        // Event Properties & Fields
+        #region Event Properties & Fields
 
         public event EventHandler? CanExecuteChanged;
         
-        #endregion event properties
+        #endregion
 
 
-        // methods
-        #region methods
+        // Methods
+        #region Methods
 
         public virtual bool CanExecute(object? parameter)
         {
@@ -36,7 +36,7 @@ namespace SharedLivingCostCalculator.Commands
             CanExecuteChanged?.Invoke(this, new EventArgs());
         }
         
-        #endregion methods
+        #endregion
 
 
     }

@@ -1,6 +1,6 @@
 ﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
- *  BillingViewModel  : BaseViewModel
+ *  _BillingViewModel  : BaseViewModel
  * 
  *  viewmodel for Billing model
  *  
@@ -23,11 +23,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
     public class BillingViewModel : BaseViewModel, IRoomCostsCarrier, INotifyDataErrorInfo
     {
 
-        // properties & fields
-        #region properties
+        // Properties & Fields
+        #region Properties & Fields
 
-        // costs
-        #region costs
+        // Costs
+        #region Costs
 
         /// <summary>
         /// depending on configuration of billing object: Balance will return
@@ -54,16 +54,16 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        private double _SumPerMonth;
+        private double _OtherFTISum;
         /// <summary>
         /// sum of all other costs (FTIs) in CostView, except Heating FTI
         /// </summary>
         public double OtherFTISum
         {
-            get { return _SumPerMonth; }
+            get { return _OtherFTISum; }
             set
             {
-                _SumPerMonth = value;
+                _OtherFTISum = value;
                 OnPropertyChanged(nameof(OtherFTISum));
 
                 RebuildRoomCostShares();
@@ -127,17 +127,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             set
             {
-                _helper.ClearError(nameof(TotalCostsPerPeriod));
-                _helper.ClearError(nameof(TotalFixedCostsPerPeriod));
+                _Helper.ClearError(nameof(TotalCostsPerPeriod));
+                _Helper.ClearError(nameof(TotalFixedCostsPerPeriod));
 
                 if (double.IsNaN(value))
                 {
-                    _helper.AddError("value must be a number", nameof(TotalFixedCostsPerPeriod));
+                    _Helper.AddError("value must be a number", nameof(TotalFixedCostsPerPeriod));
                 }
 
                 if (value < 0)
                 {
-                    _helper.AddError("value must be greater than 0", nameof(TotalFixedCostsPerPeriod));
+                    _Helper.AddError("value must be greater than 0", nameof(TotalFixedCostsPerPeriod));
                 }
 
 
@@ -171,17 +171,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             set
             {
-                _helper.ClearError(nameof(TotalCostsPerPeriod));
-                _helper.ClearError(nameof(TotalHeatingCostsPerPeriod));
+                _Helper.ClearError(nameof(TotalCostsPerPeriod));
+                _Helper.ClearError(nameof(TotalHeatingCostsPerPeriod));
 
                 if (double.IsNaN(value))
                 {
-                    _helper.AddError("value must be a number", nameof(TotalHeatingCostsPerPeriod));
+                    _Helper.AddError("value must be a number", nameof(TotalHeatingCostsPerPeriod));
                 }
 
                 if (value < 0)
                 {
-                    _helper.AddError("value must be greater than 0", nameof(TotalHeatingCostsPerPeriod));
+                    _Helper.AddError("value must be greater than 0", nameof(TotalHeatingCostsPerPeriod));
                 }
 
                 Billing.TotalHeatingCostsPerPeriod.TransactionSum = value;
@@ -211,11 +211,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// </summary>
         public double TotalRentCosts => DetermineRentCostsForPaymentOption();
 
-        #endregion costs
+        #endregion
 
 
-        // other properties
-        #region other properties
+        // Other Properties
+        #region Other Properties
 
         private Billing _Billing;
         public Billing Billing
@@ -266,12 +266,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             set
             {
-                _helper.ClearError(nameof(StartDate));
-                _helper.ClearError(nameof(EndDate));
+                _Helper.ClearError(nameof(StartDate));
+                _Helper.ClearError(nameof(EndDate));
 
                 if (StartDate == EndDate || EndDate < StartDate)
                 {
-                    _helper.AddError("start date must be before enddate", nameof(EndDate));
+                    _Helper.AddError("start date must be before enddate", nameof(EndDate));
                 }
                 else
                 {
@@ -285,11 +285,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        private readonly FlatViewModel _flatViewModel;
-        public FlatViewModel FlatViewModel => _flatViewModel;
-
-
-        public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
+        private readonly FlatViewModel _FlatViewModel;
+        public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
         public bool HasCredits
@@ -320,7 +317,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public bool HasErrors => _helper.HasErrors;
+        public bool HasErrors => _Helper.HasErrors;
 
 
         public bool HasOtherCosts
@@ -366,7 +363,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        private ValidationHelper _helper = new ValidationHelper();
+        private ValidationHelper _Helper = new ValidationHelper();
 
 
         private ConsumptionItemViewModel _SelectedConsumptionItem;
@@ -388,12 +385,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             set
             {
 
-                _helper.ClearError(nameof(StartDate));
-                _helper.ClearError(nameof(EndDate));
+                _Helper.ClearError(nameof(StartDate));
+                _Helper.ClearError(nameof(EndDate));
 
                 if (Billing.StartDate > Billing.EndDate)
                 {
-                    _helper.AddError("start date must be before enddate", nameof(StartDate));
+                    _Helper.AddError("start date must be before enddate", nameof(StartDate));
                 }
                 else
                 {
@@ -418,52 +415,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
         }
 
-        private DateTime FindEarliestStartDate(int year)
-        {
-            RentViewModel? comparer = null;
+        #endregion
 
-            foreach (RentViewModel item in FlatViewModel.RentUpdates)
-            {
-                if (item.StartDate.Year < year )
-                {
-                    return new DateTime(year, 01, 01);
-                }
-
-                if (item.StartDate.Year > year)
-                {
-                    continue;
-                }
-
-                if (item.StartDate.Year == year && comparer == null)
-                {
-                    comparer = item;
-                }
-
-                if (item.StartDate.Year == year && comparer != null)
-                {
-                    if ( item.StartDate < comparer.StartDate)
-                    {
-                        comparer = item;
-                    }
-                }
-            }
-
-            if (comparer != null)
-            {
-                return comparer.StartDate;
-            }
-
-            return new DateTime(year, 01, 01);
-        }
+        #endregion
 
 
-        #endregion other properties
-
-        #endregion properties
-
-
-        // event properties & fields
-        #region event handlers
+        // Event Properties & Fields
+        #region Event Properties & Fields
 
         public event EventHandler BillingViewModelConfigurationChange;
 
@@ -476,8 +434,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         #endregion event handlers
 
 
-        // collections
-        #region collections
+        // Collections
+        #region Collections
 
         private ObservableCollection<ConsumptionItemViewModel> _ConsumptionItemViewModels;
         public ObservableCollection<ConsumptionItemViewModel> ConsumptionItemViewModels
@@ -543,17 +501,18 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 RebuildRoomCostShares();
             }
         }
-        #endregion collections
+
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public BillingViewModel(FlatViewModel flatViewModel, Billing billing)
         {
-            _helper.ErrorsChanged += (_, e) =>
+            _Helper.ErrorsChanged += (_, e) =>
             {
-                OnPropertyChanged(nameof(_helper));
+                OnPropertyChanged(nameof(_Helper));
                 ErrorsChanged?.Invoke(this, e);
             };
 
@@ -563,7 +522,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             RoomPayments = new ObservableCollection<RoomPaymentsViewModel>();
 
-            _flatViewModel = flatViewModel;
+            _FlatViewModel = flatViewModel;
             Billing = billing;
 
             Year = billing.StartDate.Year;
@@ -582,11 +541,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             RebuildRoomCostShares();
         }
 
-        #endregion constructors
+        #endregion
 
 
-        // methods
-        #region methods
+        // Methods
+        #region Methods
 
         public void AddCredit(FinancialTransactionItemRentViewModel costItemViewModel)
         {
@@ -753,6 +712,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 {
                     double months = DeterminePaymentMonths(RentList, start, end, i);
 
+                    if (months < 0)
+                    {
+                        months *= -1;
+                    }
+
                     rentCosts += RentList[i].ColdRent * months;
                 }
 
@@ -783,6 +747,45 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
 
             return advance;
+        }
+
+
+        private DateTime FindEarliestStartDate(int year)
+        {
+            RentViewModel? comparer = null;
+
+            foreach (RentViewModel item in FlatViewModel.RentUpdates)
+            {
+                if (item.StartDate.Year < year)
+                {
+                    return new DateTime(year, 01, 01);
+                }
+
+                if (item.StartDate.Year > year)
+                {
+                    continue;
+                }
+
+                if (item.StartDate.Year == year && comparer == null)
+                {
+                    comparer = item;
+                }
+
+                if (item.StartDate.Year == year && comparer != null)
+                {
+                    if (item.StartDate < comparer.StartDate)
+                    {
+                        comparer = item;
+                    }
+                }
+            }
+
+            if (comparer != null)
+            {
+                return comparer.StartDate;
+            }
+
+            return new DateTime(year, 01, 01);
         }
 
 
@@ -827,7 +830,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 preSortList = new ObservableCollection<RentViewModel>(preSortList.OrderBy(i => i.StartDate));
 
-                RentViewModel? comparer = new RentViewModel(_flatViewModel, new Rent() { StartDate = StartDate });
+                RentViewModel? comparer = new RentViewModel(_FlatViewModel, new Rent() { StartDate = StartDate });
                 bool firstRun = true;
 
                 // building a collection of relevant rent items
@@ -875,7 +878,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 foreach (FinancialTransactionItemBillingViewModel item in FinancialTransactionItemViewModels)
                 {
-                    if (item.CostShareTypes == TransactionShareTypesBilling.Consumption)
+                    if (item.TransactionShareTypes == TransactionShareTypesBilling.Consumption)
                     {
                         Billing.AddConsumptionItem(item.FTI);
                     }
@@ -965,9 +968,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public IEnumerable GetErrors(string? propertyName) => _Helper.GetErrors(propertyName);
+
+
         public FlatViewModel GetFlatViewModel()
         {
-            return _flatViewModel;
+            return _FlatViewModel;
         }
 
 
@@ -979,7 +985,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             foreach (FinancialTransactionItemBillingViewModel item in FinancialTransactionItemViewModels)
             {
                 // search for matching consumption item
-                if (item.CostShareTypes == transactionShareTypes)
+                if (item.TransactionShareTypes == transactionShareTypes)
                 {
                     shareSum += item.TransactionSum;
                 }
@@ -997,7 +1003,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             foreach (FinancialTransactionItemRentViewModel item in Credits)
             {
                 // search for matching consumption item
-                if (item.CostShareTypes == transactionShareTypes)
+                if (item.TransactionShareTypes == transactionShareTypes)
                 {
                     shareSum += item.TransactionSum;
                 }
@@ -1044,9 +1050,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             if (GetFlatViewModel() != null)
             {
-                foreach (RoomViewModel item in _flatViewModel.Rooms)
+                foreach (RoomViewModel item in _FlatViewModel.Rooms)
                 {
-                    RoomCostShares.Add(new RoomCostShareBilling(item.GetRoom, this));
+                    RoomCostShares.Add(new RoomCostShareBilling(item.Room, this));
                 }
             }
 
@@ -1072,21 +1078,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             GenerateConsumptionItemViewModels();
 
-            RebuildRoomCostShares();
-        }
-
-
-        public void SetCredit()
-        {
-            //if (GetRent.BillingID != -1 && GetFlatViewModel().BillingPeriods.Count > GetRent.BillingID)
-            //{
-            //    BillingViewModel = GetFlatViewModel().BillingPeriods[GetRent.BillingID];
-            //    HasBilling = true;
-            //}
-        }
-
-        public void UpdateCosts()
-        {
             RebuildRoomCostShares();
         }
 

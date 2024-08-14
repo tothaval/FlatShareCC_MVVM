@@ -12,7 +12,7 @@ using System.Windows.Data;
 
 namespace SharedLivingCostCalculator.Converters
 {
-    internal class InverseVisibilityConverter : IValueConverter
+    public class InverseVisibilityConverter : IValueConverter
     {
 
         // methods

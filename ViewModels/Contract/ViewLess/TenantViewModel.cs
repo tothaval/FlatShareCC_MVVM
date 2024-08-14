@@ -13,7 +13,6 @@
  *  viewmodel for Tenant model
  */
 
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 
@@ -27,10 +26,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public bool IsActive
         {
-            get { return _tenant.IsActive; }
+            get { return _Tenant.IsActive; }
             set
             {
-                _tenant.IsActive = value;
+                _Tenant.IsActive = value;
                 OnPropertyChanged(nameof(IsActive));
 
                 TenantIsActiveChanged?.Invoke(this, EventArgs.Empty);
@@ -40,10 +39,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public DateTime MovingIn
         {
-            get { return _tenant.MovingIn; }
+            get { return _Tenant.MovingIn; }
             set
             {
-                _tenant.MovingIn = value;
+                _Tenant.MovingIn = value;
                 OnPropertyChanged(nameof(MovingIn));
             }
         }
@@ -51,10 +50,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public DateTime MovingOut
         {
-            get { return _tenant.MovingOut; }
+            get { return _Tenant.MovingOut; }
             set
             {
-                _tenant.MovingOut = value;
+                _Tenant.MovingOut = value;
                 OnPropertyChanged(nameof(MovingOut));
             }
         }
@@ -62,17 +61,17 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public string Name
         {
-            get { return _tenant.Name; }
+            get { return _Tenant.Name; }
             set
             {
-                _tenant.Name = value;
+                _Tenant.Name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
 
 
-        private Tenant _tenant;
-        public Tenant GetTenant => _tenant;
+        private Tenant _Tenant;
+        public Tenant Tenant => _Tenant;
 
         #endregion properties & fields
 
@@ -90,7 +89,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         public TenantViewModel(Tenant tenant)
         {
-            _tenant = tenant;
+            _Tenant = tenant;
         }
 
         #endregion constructors

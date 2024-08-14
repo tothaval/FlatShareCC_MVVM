@@ -14,33 +14,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
     public class FinancialTransactionItemBillingViewModel : BaseViewModel, IFinancialTransactionItem
     {
 
-        // properties & fields
-        #region properties & fields
+        // Properties & Fields
+        #region Properties & Fields
 
-        public double TransactionSum
-        {
-            get { return _FTI.TransactionSum; }
-            set
-            {
-                _FTI.TransactionSum = value;
-                OnPropertyChanged(nameof(TransactionSum));
+        private readonly FinancialTransactionItemBilling _FTI;
+        public FinancialTransactionItemBilling FTI => _FTI;
 
-                ValueChange?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-
-        public TransactionShareTypesBilling CostShareTypes
-        {
-            get { return _FTI.TransactionShareTypes; }
-            set
-            {
-                _FTI.TransactionShareTypes = value;
-                OnPropertyChanged(nameof(CostShareTypes));
-
-                ValueChange?.Invoke(this, EventArgs.Empty);
-            }
-        }
 
         public string TransactionItem
         {
@@ -55,29 +34,51 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        private readonly FinancialTransactionItemBilling _FTI;
-        public FinancialTransactionItemBilling FTI => _FTI;
+        public TransactionShareTypesBilling TransactionShareTypes
+        {
+            get { return _FTI.TransactionShareTypes; }
+            set
+            {
+                _FTI.TransactionShareTypes = value;
+                OnPropertyChanged(nameof(TransactionShareTypes));
 
-        #endregion properties & fields
+                ValueChange?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
 
-        // event properties & fields
-        #region event properties & fields
+        public double TransactionSum
+        {
+            get { return _FTI.TransactionSum; }
+            set
+            {
+                _FTI.TransactionSum = value;
+                OnPropertyChanged(nameof(TransactionSum));
+
+                ValueChange?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        #endregion 
+
+
+        // Event Properties & Fields
+        #region Event Properties & Fields
 
         public event EventHandler? ValueChange;
 
-        #endregion event properties & fields
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public FinancialTransactionItemBillingViewModel(FinancialTransactionItemBilling fti) //, RoomViewModel roomViewModel)
         {
             _FTI = fti;
         }
 
-        #endregion constructors
+        #endregion
 
 
     }

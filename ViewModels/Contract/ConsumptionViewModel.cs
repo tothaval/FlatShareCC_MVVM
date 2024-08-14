@@ -4,10 +4,8 @@
  * 
  *  viewmodel for ConsumptionView
  */
-using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System.Collections;
 using System.ComponentModel;
 
 namespace SharedLivingCostCalculator.ViewModels.Contract
@@ -18,13 +16,13 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         // properties & fields
         #region properties & fields
 
-        private BillingViewModel _billingViewModel;
-        public BillingViewModel BillingViewModel => _billingViewModel;
+        private BillingViewModel _BillingViewModel;
+        public BillingViewModel BillingViewModel => _BillingViewModel;
 
 
         public bool DataLock
         {
-            get { return !_billingViewModel.HasDataLock; }
+            get { return !_BillingViewModel.HasDataLock; }
         }
 
 
@@ -59,9 +57,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         public ConsumptionViewModel(BillingViewModel billingViewModel)
         {
-            _billingViewModel = billingViewModel;
+            _BillingViewModel = billingViewModel;
 
-            _billingViewModel.PropertyChanged += _billingViewModel_PropertyChanged;
+            _BillingViewModel.PropertyChanged += _billingViewModel_PropertyChanged;
 
             SelectedIndex = 0;
         }

@@ -11,7 +11,6 @@
  *  split the member definitions into 
  *  several parts for every viewmodel
  */
-using System.Text;
 using System.Xml.Serialization;
 
 namespace SharedLivingCostCalculator.Utility

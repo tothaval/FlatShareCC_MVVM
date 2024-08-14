@@ -34,33 +34,33 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             get { return !_BillingViewModel.HasDataLock; }
         }  
 
-        public IEnumerable GetErrors(string? propertyName) => _helper.GetErrors(propertyName);
+        public IEnumerable GetErrors(string? propertyName) => _Helper.GetErrors(propertyName);
 
 
-        private ValidationHelper _helper = new ValidationHelper();
+        private ValidationHelper _Helper = new ValidationHelper();
 
 
-        public bool HasErrors => _helper.HasErrors;
+        public bool HasErrors => _Helper.HasErrors;
 
 
-        private int _quantity;
+        private int _Quantity;
         public int Quantity
         {
-            get { return _quantity; }
+            get { return _Quantity; }
             set
             {
-                _helper.ClearError(nameof(Quantity));
+                _Helper.ClearError(nameof(Quantity));
 
                 if (double.IsNaN(value))
                 {
-                    _helper.AddError("value must be a number", nameof(Quantity));
+                    _Helper.AddError("value must be a number", nameof(Quantity));
                 }
 
                 if (value < 0)
                 {
-                    _helper.AddError("value must be greater than 0", nameof(Quantity));
+                    _Helper.AddError("value must be greater than 0", nameof(Quantity));
                 }
-                _quantity = value;
+                _Quantity = value;
                 OnPropertyChanged(nameof(Quantity));
             }
         }
@@ -127,7 +127,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         {
             _BillingViewModel = billingViewModel;
             _RoomPaymentsViewModel = roomPaymentsViewModel;
-            _quantity = 1;
+            _Quantity = 1;
 
             AddPaymentCommand = new AddPaymentCommand(_RoomPaymentsViewModel);
             DeletePaymentCommand = new DeletePaymentCommand(this);

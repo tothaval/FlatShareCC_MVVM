@@ -5,7 +5,7 @@
  *  viewmodel for FlatSetupView
  *  
  *  displays a seperate window for creating
- *  or editing of FlatViewModel instances
+ *  or editing of _FlatViewModel instances
  */
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
@@ -21,8 +21,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         private FlatManagementViewModel _FlatManagementViewModel;
 
 
-        private FlatViewModel _flatsetup;
-        public FlatViewModel FlatSetup => _flatsetup;
+        private FlatViewModel _FlatViewModel;
+        public FlatViewModel FlatViewModel => _FlatViewModel;
 
         #endregion properties & fields
 
@@ -38,11 +38,11 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         {
             _FlatManagementViewModel = flatManagementViewModel;
 
-            _flatsetup = _FlatManagementViewModel.SelectedItem;
+            _FlatViewModel = _FlatManagementViewModel.SelectedItem;
 
             _FlatManagementViewModel.FlatViewModelChange += _FlatManagementViewModel_FlatViewModelChange;
 
-            OnPropertyChanged(nameof(FlatSetup));
+            OnPropertyChanged(nameof(FlatViewModel));
         }
 
 
@@ -55,9 +55,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         private void _flatsetup_RoomCreation()
         {
-            FlatSetup.ConnectRooms();
+            FlatViewModel.ConnectRooms();
 
-            OnPropertyChanged(nameof(FlatSetup));
+            OnPropertyChanged(nameof(FlatViewModel));
         }
 
         #endregion methods
@@ -68,21 +68,21 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         private void _FlatManagementViewModel_FlatViewModelChange(object? sender, EventArgs e)
         {
-            _flatsetup = _FlatManagementViewModel.SelectedItem;
+            _FlatViewModel = _FlatManagementViewModel.SelectedItem;
             
-            if (_flatsetup != null)
+            if (_FlatViewModel != null)
             {
-                _flatsetup.RoomCreation += _flatsetup_RoomCreation;
+                _FlatViewModel.RoomCreation += _flatsetup_RoomCreation;
 
-                _flatsetup.PropertyChanged += _flatsetup_PropertyChanged;
+                _FlatViewModel.PropertyChanged += _flatsetup_PropertyChanged;
             }
 
-            OnPropertyChanged(nameof(FlatSetup));
+            OnPropertyChanged(nameof(FlatViewModel));
         }
 
         private void _flatsetup_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            OnPropertyChanged(nameof(FlatSetup));
+            OnPropertyChanged(nameof(FlatViewModel));
         }
 
         #endregion events

@@ -5,6 +5,7 @@
  *  serializable data model class
  *  for FinancialTransactionItemViewModel
  */
+
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces.Financial;
 
@@ -13,29 +14,29 @@ namespace SharedLivingCostCalculator.Models.Financial
     public class FinancialTransactionItemBilling : IFinancialTransactionItem
     {
 
-        // properties & fields
-        #region properties
-
-        public double TransactionSum { get; set; } = 0.0;
+        // Properties & Fields
+        #region Properties & Fields
+        
+        public string TransactionItem { get; set; } = "other cost item";
 
 
         public TransactionShareTypesBilling TransactionShareTypes { get; set; } = TransactionShareTypesBilling.Equal;
 
 
-        public string TransactionItem { get; set; } = "other cost item";
+        public double TransactionSum { get; set; } = 0.0;
 
         #endregion properties
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public FinancialTransactionItemBilling()
         {
 
         }
 
-        #endregion constructors
+        #endregion
 
 
     }

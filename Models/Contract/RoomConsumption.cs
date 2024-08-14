@@ -12,21 +12,35 @@ namespace SharedLivingCostCalculator.Models.Contract
     [Serializable]
     public class RoomConsumption
     {
-    
-        public Room Room { get; set; } = new Room();
+
+        // Properties & Fields
+        #region Properties & Fields
+
         public double ConsumptionValue { get; set; } = 0.0;
 
 
+        public Room Room { get; set; } = new Room();
+
+        #endregion
+
+
+        // Constructors
+        #region Constructors
+
         public RoomConsumption()
         {
-                
+
         }
 
         public RoomConsumption(Room room, double consumptionValue)
         {
             Room = room;
             ConsumptionValue = consumptionValue;
-        }
+        } 
+
+        #endregion
+
+
     }
 }
 // EOF

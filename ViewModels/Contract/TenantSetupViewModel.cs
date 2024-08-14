@@ -7,12 +7,9 @@
  *  allows editing of TenantViewModel
  */
 using SharedLivingCostCalculator.Commands;
-using SharedLivingCostCalculator.Models;
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -27,8 +24,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         private readonly FlatManagementViewModel _FlatManagementViewModel;
 
 
-        private FlatViewModel _flatViewModel;
-        public FlatViewModel FlatViewModel => _flatViewModel;
+        private FlatViewModel _FlatViewModel;
+        public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
         private TenantViewModel _SelectedTenant;
@@ -70,7 +67,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             _FlatManagementViewModel = flatManagementViewModel;
 
-            _flatViewModel = _FlatManagementViewModel.SelectedItem;
+            _FlatViewModel = _FlatManagementViewModel.SelectedItem;
 
             NewTenantCommand = new RelayCommand(p => AddTenant(p), (s) => true);
             DeleteTenantCommand = new RelayCommand(p => RemoveTenant(p), (s) => true);
@@ -88,17 +85,17 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         private void AddTenant(object p)
         {
-            _flatViewModel.Tenants.Add(
+            _FlatViewModel.Tenants.Add(
                 new TenantViewModel(new Tenant() { Name = $"tenant_{new Random().Next(101)}" }));
 
-            SelectedTenant = _flatViewModel.Tenants.Last();
+            SelectedTenant = _FlatViewModel.Tenants.Last();
 
             OnPropertyChanged(nameof(SelectedTenant));
         }
 
         private void RemoveTenant(object p)
         {
-            if (_flatViewModel.Tenants.Contains(SelectedTenant))
+            if (_FlatViewModel.Tenants.Contains(SelectedTenant))
             {
                 MessageBoxResult result = MessageBox.Show(
                     $"Do you want to delete the selected tenant?\n\n\n" +
@@ -110,11 +107,11 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 if (result == MessageBoxResult.Yes)
                 {
 
-                    _flatViewModel.Tenants.Remove(SelectedTenant);
+                    _FlatViewModel.Tenants.Remove(SelectedTenant);
 
-                    if (_flatViewModel.Tenants.Count > 0)
+                    if (_FlatViewModel.Tenants.Count > 0)
                     {
-                        SelectedTenant = _flatViewModel.Tenants.Last();
+                        SelectedTenant = _FlatViewModel.Tenants.Last();
                     }
                 }
 
@@ -124,9 +121,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         private void SelectFirstActiveTenant()
         {
-            if (_flatViewModel != null && _flatViewModel.Tenants.Count > 0)
+            if (_FlatViewModel != null && _FlatViewModel.Tenants.Count > 0)
             {
-                foreach (TenantViewModel tenant in _flatViewModel.Tenants)
+                foreach (TenantViewModel tenant in _FlatViewModel.Tenants)
                 {
                     if (!tenant.IsActive)
                     {
@@ -148,7 +145,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         private void _FlatManagementViewModel_FlatViewModelChange(object? sender, EventArgs e)
         {
-            _flatViewModel = _FlatManagementViewModel.SelectedItem;
+            _FlatViewModel = _FlatManagementViewModel.SelectedItem;
 
             OnPropertyChanged(nameof(FlatViewModel));
 

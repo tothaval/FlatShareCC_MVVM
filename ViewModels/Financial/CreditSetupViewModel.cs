@@ -62,12 +62,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public ICommand AddFinacialTransactionItemCommand { get; }
 
 
-        public ICommand CloseCommand { get; }
-
-
-        public ICommand LeftPressCommand { get; }
-
-
         public ICommand RemoveFinancialTransactionItemCommand { get; }
 
         #endregion commands

@@ -5,7 +5,7 @@
  *  viewmodel for RentManagementView
  *  
  *  displays the elements of ObservableCollection<RentViewModel>
- *  of the selected FlatViewModel instance, offers management functions
+ *  of the selected _FlatViewModel instance, offers management functions
  *  to add or remove elements to the collection
  *  
  *  holds an instance of RentUpdateViewModel, which is responsible
@@ -32,7 +32,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // properties & fields
         #region properties
 
-        private AccountingViewModel _accountingViewModel;
+        private AccountingViewModel _AccountingViewModel;
+
 
         public bool DataLockCheckbox
         {
@@ -55,25 +56,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-
-        private FlatViewModel _flatViewModel;
-        public FlatViewModel FlatViewModel => _flatViewModel;
-
-
-        //public bool HasDataLock => GetSelectedValueHasDataLock();
+        private FlatViewModel _FlatViewModel;
+        public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
-        //private bool GetSelectedValueHasDataLock()
-        //{
-        //    if (SelectedValue != null)
-        //    {
-        //         return SelectedValue.HasDataLock; 
-        //    }
-
-        //    return false;
-        //}
-
-        public bool HasRentUpdate => _flatViewModel.RentUpdates.Count > 0;
+        public bool HasRentUpdate => _FlatViewModel.RentUpdates.Count > 0;
 
 
         public ICollectionView RentUpdates { get; }
@@ -82,16 +69,16 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public bool RentUpdateSelected { get; set; }
 
 
-        private RentViewModel _selectedValue;
+        private RentViewModel _SelectedValue;
         public RentViewModel SelectedValue
         {
-            get { return _selectedValue; }
+            get { return _SelectedValue; }
             set
             {
-                if (_selectedValue == value) return;
-                _selectedValue = value;
+                if (_SelectedValue == value) return;
+                _SelectedValue = value;
 
-                UpdateViewModel = new RentUpdateViewModel(_flatViewModel, _selectedValue);
+                UpdateViewModel = new RentUpdateViewModel(_FlatViewModel, _SelectedValue);
 
                 SelectedItemChange?.Invoke(this, new EventArgs());
 
@@ -102,13 +89,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-        private RentUpdateViewModel _updateViewModel;
+        private RentUpdateViewModel _UpdateViewModel;
         public RentUpdateViewModel UpdateViewModel
         {
-            get { return _updateViewModel; }
+            get { return _UpdateViewModel; }
             set
             {
-                _updateViewModel = value;
+                _UpdateViewModel = value;
 
                 OnPropertyChanged(nameof(UpdateViewModel));
             }
@@ -144,23 +131,23 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         public RentManagementViewModel(AccountingViewModel accountingViewModel)
         {
-            _accountingViewModel = accountingViewModel;
+            _AccountingViewModel = accountingViewModel;
 
-            _flatViewModel = accountingViewModel.FlatViewModel;
+            _FlatViewModel = accountingViewModel.FlatViewModel;
 
 
             AddRentUpdateCommand = new RelayCommand(p => AddRentUpdate(), (s) => true);
             AddRaiseCommand = new RelayCommand(p => AddRaise(), (s) => true);
             DeleteCommand = new RelayCommand(p => DeleteRentUpdate(p), (s) => true);
 
-            if (_flatViewModel != null)
+            if (_FlatViewModel != null)
             {
-                if (_flatViewModel.RentUpdates.Count > 0)
+                if (_FlatViewModel.RentUpdates.Count > 0)
                 {
-                    RentUpdates = CollectionViewSource.GetDefaultView(_flatViewModel.RentUpdates);
+                    RentUpdates = CollectionViewSource.GetDefaultView(_FlatViewModel.RentUpdates);
                     RentUpdates.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
 
-                    SelectedValue = _flatViewModel.GetMostRecentRent();
+                    SelectedValue = _FlatViewModel.GetMostRecentRent();
                 }
             }
         }
@@ -212,8 +199,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         private void AddRaise()
         {
             RentViewModel rentViewModel = new RentViewModel(
-                _flatViewModel,
-                new Rent(_flatViewModel,
+                _FlatViewModel,
+                new Rent(_FlatViewModel,
                     new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
                     new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_Rent, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
                     new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_FixedCosts, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
@@ -242,7 +229,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             }
 
 
-            _flatViewModel.RentUpdates.Add(rentViewModel);
+            _FlatViewModel.RentUpdates.Add(rentViewModel);
             SelectedValue = rentViewModel;
             OnPropertyChanged(nameof(HasRentUpdate));
             OnPropertyChanged(nameof(RentUpdates));
@@ -252,8 +239,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         private void AddRentUpdate()
         {
             RentViewModel rentViewModel = new RentViewModel(
-                _flatViewModel,
-                new Rent(_flatViewModel,
+                _FlatViewModel,
+                new Rent(_FlatViewModel,
                     new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
                     new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_Rent, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
                     new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_FixedCosts, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
@@ -261,7 +248,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     )
                 );
 
-            _flatViewModel.RentUpdates.Add(rentViewModel);
+            _FlatViewModel.RentUpdates.Add(rentViewModel);
             SelectedValue = rentViewModel;
             OnPropertyChanged(nameof(HasRentUpdate));
             OnPropertyChanged(nameof(RentUpdates));
@@ -283,13 +270,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                     foreach (var item in selected)
                     {
-                        _flatViewModel.RentUpdates.Remove(item);
+                        _FlatViewModel.RentUpdates.Remove(item);
 
                     }
 
-                    if (_flatViewModel.RentUpdates.Count > 0)
+                    if (_FlatViewModel.RentUpdates.Count > 0)
                     {
-                        SelectedValue = _flatViewModel.RentUpdates[0];
+                        SelectedValue = _FlatViewModel.RentUpdates[0];
                     }
 
                     OnPropertyChanged(nameof(HasRentUpdate));

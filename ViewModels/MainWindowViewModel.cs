@@ -22,14 +22,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public FlatManagementViewModel _FlatManagementViewModel { get; set; }
 
-
-        private string mainWindowTitle;
-        public string MainWindowTitle
-        {
-            get { return mainWindowTitle; }
-            set { mainWindowTitle = value; OnPropertyChanged(nameof(MainWindowTitle)); }
-        }
-
         #endregion properties
 
 

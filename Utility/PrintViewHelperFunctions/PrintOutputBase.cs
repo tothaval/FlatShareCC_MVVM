@@ -1,4 +1,10 @@
-﻿using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
+﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
+ *  
+ *  PrintOutputBase
+ * 
+ *  helper class for creating flow document compatible objects for output in PrintViewModel
+ */
+using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using System.Windows;
 using System.Windows.Documents;
@@ -11,12 +17,20 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
     public class PrintOutputBase
     {
 
+        // Properties & Fields
+        #region Properties & Fields
+
         private FlatViewModel _FlatViewModel;
         public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
-        public int SelectedYear {  get; set; }
+        public int SelectedYear { get; set; }
 
+        #endregion
+
+
+        // Constructors
+        #region Constructors
 
         public PrintOutputBase(FlatViewModel flatViewModel, int selectedYear)
         {
@@ -24,6 +38,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             SelectedYear = selectedYear;
         }
 
+        #endregion
+
+
+        // Methods
+        #region Methods
 
         public string BuildAddressDetails()
         {
@@ -45,7 +64,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             //p.Style = headerParagraph;
             //section.Blocks.Add(p);
 
-            //p = new Paragraph(new Run(FlatViewModel.Address));
+            //p = new Paragraph(new Run(_FlatViewModel.Address));
             //p.Style = textParagraph;
             //section.Blocks.Add(p);
 
@@ -55,7 +74,6 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             return $"{FlatViewModel.Address}, {_FlatViewModel.Area}m², {_FlatViewModel.RoomCount} {rooms}";
         }
-
 
 
         public ObservableCollection<RentViewModel> FindRelevantRentViewModels()
@@ -133,6 +151,23 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
+        public Table OutputTableForFlat()
+        {
+
+            Table dataOutputTable = new Table();
+
+            TableColumn DateColumn = new TableColumn() { Width = new GridLength(100) };
+            TableColumn ItemColumn = new TableColumn() { Width = new GridLength(250) };
+            TableColumn CostColumn = new TableColumn() { Width = new GridLength(100) };
+
+            dataOutputTable.Columns.Add(DateColumn);
+            dataOutputTable.Columns.Add(ItemColumn);
+            dataOutputTable.Columns.Add(CostColumn);
+
+            return dataOutputTable;
+        }
+
+
         public Table OutputTableForFlatBilling()
         {
 
@@ -145,23 +180,6 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             dataOutputTable.Columns.Add(StartDateColumn);
             dataOutputTable.Columns.Add(EndDateColumn);
-            dataOutputTable.Columns.Add(ItemColumn);
-            dataOutputTable.Columns.Add(CostColumn);
-
-            return dataOutputTable;
-        }
-
-
-        public Table OutputTableForFlat()
-        {
-
-            Table dataOutputTable = new Table();
-
-            TableColumn DateColumn = new TableColumn() { Width = new GridLength(100) };
-            TableColumn ItemColumn = new TableColumn() { Width = new GridLength(250) };
-            TableColumn CostColumn = new TableColumn() { Width = new GridLength(100) };
-
-            dataOutputTable.Columns.Add(DateColumn);
             dataOutputTable.Columns.Add(ItemColumn);
             dataOutputTable.Columns.Add(CostColumn);
 
@@ -311,7 +329,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             {
                 if (billingViewModel.Year == SelectedYear)
                 {
-                   return billingViewModel;                    
+                    return billingViewModel;
                 }
             }
 
@@ -338,6 +356,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             return tableRow;
         }
+
 
         public TableRow SeparatorTextTableRow(string text, bool sub = false)
         {
@@ -368,7 +387,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
 
         public TableRow TableRowRentHeader()
-        {         
+        {
             TableRow headerRow = new TableRow();
 
             TableCell headerCell_DueTime = new TableCell();
@@ -407,7 +426,10 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             headerRow.Cells.Add(Costs);
 
             return headerRow;
-        }
+        } 
+
+        #endregion
 
     }
 }
+// EOF

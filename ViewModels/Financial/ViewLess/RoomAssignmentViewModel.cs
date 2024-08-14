@@ -14,11 +14,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
     public class RoomAssignmentViewModel : BaseViewModel
     {
 
-        // properties & fields
-        #region properties & fields
-
-        public RoomViewModel RoomViewModel { get; }
-
+        // Properties & Fields
+        #region Properties & Fields
 
         private TenantViewModel _AssignedTenant;
         public TenantViewModel AssignedTenant
@@ -33,27 +30,31 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
         }
 
-        #endregion properties & fields
+
+        public RoomViewModel RoomViewModel { get; }
+
+        #endregion
 
 
-        // event properties & fields
-        #region event properties & fields
+        // Event Properties & Fields
+        #region Event Properties & Fields
 
         public EventHandler AssignementChange;
 
         #endregion event properties & fields
 
 
-        // collections
-        #region collections
+        // Collections
+        #region Collections
 
         public ObservableCollection<TenantViewModel> ActiveTenants { get; } = new ObservableCollection<TenantViewModel>();
 
-        #endregion collections
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
+
         public RoomAssignmentViewModel(RoomViewModel roomViewModel, ObservableCollection<TenantViewModel> tenantViewModels)
         {
             RoomViewModel = roomViewModel;
@@ -65,7 +66,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 ActiveTenants.Add(item);
             }
         }
-        #endregion constructors
+
+        #endregion
 
 
     }

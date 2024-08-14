@@ -11,7 +11,6 @@ using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using SharedLivingCostCalculator.Enums;
 
 
 namespace SharedLivingCostCalculator.Utility
@@ -39,8 +38,8 @@ namespace SharedLivingCostCalculator.Utility
 
         public CornerRadius ButtonCornerRadius { get; set; } 
 
-        public CornerRadius VisibilityFieldCornerRadius { get; set; }
 
+        public CornerRadius VisibilityFieldCornerRadius { get; set; }
 
 
         [XmlIgnore]
@@ -67,7 +66,6 @@ namespace SharedLivingCostCalculator.Utility
 
         [XmlIgnore]
         public CultureInfo CurrentCulture { get; set; } = CultureInfo.CurrentCulture;
-
 
 
         [XmlIgnore]

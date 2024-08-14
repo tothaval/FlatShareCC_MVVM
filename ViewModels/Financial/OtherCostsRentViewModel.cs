@@ -50,18 +50,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
-        //private double _SumPerMonth;
-        //public double OtherFTISum
-        //{
-        //    get { return _SumPerMonth; }
-        //    set
-        //    {
-        //        _SumPerMonth = value;
-        //        OnPropertyChanged(nameof(OtherFTISum));
-        //    }
-        //}
-
-
         public RentViewModel RentViewModel { get; }
 
 
@@ -74,12 +62,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         #region commands
 
         public ICommand AddFinacialTransactionItemCommand { get; }
-
-
-        public ICommand CloseCommand { get; }
-
-
-        public ICommand LeftPressCommand { get; }
 
 
         public ICommand RemoveFinancialTransactionItemCommand { get; }
@@ -112,15 +94,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 } 
             }
 
-            CloseCommand = new RelayCommand((s) => Close(s), (s) => true);
-            LeftPressCommand = new RelayCommand((s) => Drag(s), (s) => true);
-
-            //CostItems.CollectionChanged += Costs_CollectionChanged;
-
-
-            RegisterCostItemValueChange();
-
-            CalculateSum();
         }
 
         #endregion constructors
@@ -133,58 +106,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         {
             FinancialTransactionItemRentViewModel otherCostItemViewModel = new FinancialTransactionItemRentViewModel(new FinancialTransactionItemRent());
 
-            //otherCostItemViewModel.ValueChange += Item_ValueChange;
-
             RentViewModel.AddFinacialTransactionItem(otherCostItemViewModel);
 
-            //OnPropertyChanged(nameof(CostItems));
             OnPropertyChanged(nameof(RentViewModel));
         }
-
-
-        private void CalculateSum()
-        {
-            //OtherFTISum = 0.0;
-
-            //foreach (FinancialTransactionItemViewModel item in CostItems)
-            //{
-            //    OtherFTISum += item.TransactionSum;
-            //}
-        }
-
-
-        private void Close(object s)
-        {
-            Window window = (Window)s;
-
-            MessageBoxResult result = MessageBox.Show(window,
-                $"Close Other FinancialTransactionItems window?\n\n",
-                "Close Window", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                window.Close();
-            }
-
-        }
-
-
-        private void Drag(object s)
-        {
-            Window window = (Window)s;
-
-            window.DragMove();
-        }
-
-
-        private void RegisterCostItemValueChange()
-        {
-            //foreach (FinancialTransactionItemViewModel item in CostItems)
-            //{
-            //    item.ValueChange += Item_ValueChange;
-            //}
-        }
-
 
 
         private void RemoveFinancialTransactionItem(object s)
@@ -204,7 +129,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     {
                         RentViewModel.RemoveFinancialTransactionItemViewModel(item);
 
-                        //OnPropertyChanged(nameof(CostItems));
                         OnPropertyChanged(nameof(RentViewModel));
                     }
                 }
@@ -212,25 +136,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
         #endregion methods
-
-
-        // events
-        #region events
-
-        private void Costs_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            RegisterCostItemValueChange();
-
-            CalculateSum();
-        }
-
-
-        private void Item_ValueChange(object? sender, EventArgs e)
-        {
-            CalculateSum();
-        }
-
-        #endregion events
 
 
     }

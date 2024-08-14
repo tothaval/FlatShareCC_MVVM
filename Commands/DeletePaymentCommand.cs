@@ -2,7 +2,7 @@
  *  
  *  DeletePaymentCommand 
  * 
- *  command for removing a paymentviewmodel instance from a BillingViewModel instance
+ *  command for removing a paymentviewmodel instance from a _BillingViewModel instance
  */
 using SharedLivingCostCalculator.ViewModels.Financial;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
@@ -14,27 +14,27 @@ namespace SharedLivingCostCalculator.Commands
     internal class DeletePaymentCommand : BaseCommand
     {
 
-        // properties & fields
-        #region properties
+        // Properties & Fields
+        #region Properties & Fields
 
-        private readonly PaymentsSetupViewModel _paymentsSetupViewModel;
+        private readonly PaymentsSetupViewModel _PaymentsSetupViewModel;
 
-        #endregion properties
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public DeletePaymentCommand(PaymentsSetupViewModel paymentsSetupViewModel)
         {
-            _paymentsSetupViewModel = paymentsSetupViewModel;
+            _PaymentsSetupViewModel = paymentsSetupViewModel;
         }
 
-        #endregion constructors
+        #endregion
 
 
-        // methods
-        #region methods
+        // Methods
+        #region Methods
 
         public override void Execute(object? parameter)
         {
@@ -51,14 +51,14 @@ namespace SharedLivingCostCalculator.Commands
 
                     foreach (var item in selected)
                     {
-                        _paymentsSetupViewModel.RoomPaymentsViewModel.RoomPayments.Payments.Remove(item.GetPayment);
+                        _PaymentsSetupViewModel.RoomPaymentsViewModel.RoomPayments.Payments.Remove(item.Payment);
 
                     }
                 }
             }
         }
 
-        #endregion methods
+        #endregion
 
 
     }

@@ -11,7 +11,7 @@ using System.Windows.Data;
 
 namespace SharedLivingCostCalculator.Converters
 {
-    internal class VisibilityConverterToHidden : IValueConverter
+    public class VisibilityConverterToHidden : IValueConverter
     {
 
         // methods

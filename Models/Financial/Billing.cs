@@ -2,7 +2,7 @@
  *  
  *  Billing 
  * 
- *  data model class for BillingViewModel
+ *  data model class for _BillingViewModel
  */
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Models.Contract;
@@ -17,9 +17,9 @@ namespace SharedLivingCostCalculator.Models.Financial
     public class Billing
     {
 
-        // properties & fields
-        #region properties
-        
+        // Properties & Fields
+        #region Properties & Fields
+
         public DateTime BillingDate { get; set; } = DateTime.Now;
 
 
@@ -73,11 +73,11 @@ namespace SharedLivingCostCalculator.Models.Financial
             TransactionSum = 0.0
         };
 
-        #endregion properties
+        #endregion
 
 
-        // collections
-        #region collections
+        // Collections
+        #region Collections
 
         // storing the costs of each room
         // per billing period and the consumption of heating units per billing period
@@ -100,11 +100,11 @@ namespace SharedLivingCostCalculator.Models.Financial
         [XmlArray("Payments")]
         public ObservableCollection<RoomPayments> RoomPayments { get; set; } = new ObservableCollection<RoomPayments>();
 
-        #endregion collections
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public Billing()
         {
@@ -143,7 +143,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             AddRoomPayments(model);
         }
 
-        #endregion constructors
+        #endregion
 
 
         // Methods
@@ -376,8 +376,8 @@ namespace SharedLivingCostCalculator.Models.Financial
         #endregion
 
 
-        // events
-        #region events
+        // Events
+        #region Events
 
         private void Costs_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

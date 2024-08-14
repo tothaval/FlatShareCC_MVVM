@@ -12,9 +12,8 @@ namespace SharedLivingCostCalculator.Models.Financial
     public class FinancialTransactionItemRent : IFinancialTransactionItem
     {
 
-        // properties & fields
-        #region properties
-
+        // Properties & Fields
+        #region Properties & Fields
 
         public TransactionDurationTypes Duration { get; set; } = TransactionDurationTypes.Ongoing;
 
@@ -25,26 +24,26 @@ namespace SharedLivingCostCalculator.Models.Financial
         public DateTime StartDate { get; set; } = DateTime.Now.Date;
 
 
-        public double TransactionSum { get; set; } = 0.0;
+        public string TransactionItem { get; set; } = "other cost item";
 
 
         public TransactionShareTypesRent TransactionShareTypes { get; set; } = TransactionShareTypesRent.Equal;
 
 
-        public string TransactionItem { get; set; } = "other cost item";
+        public double TransactionSum { get; set; } = 0.0;
 
-        #endregion properties
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public FinancialTransactionItemRent()
         {
 
         }
 
-        #endregion constructors
+        #endregion
 
 
     }

@@ -12,8 +12,8 @@ namespace SharedLivingCostCalculator.Models.Contract
     public class Tenant
     {
 
-        // properties & fields
-        #region properties
+        // Properties & Fields
+        #region Properties & Fields
 
         public bool IsActive { get; set; }
 
@@ -27,11 +27,11 @@ namespace SharedLivingCostCalculator.Models.Contract
         // only show and set if IsActive is false;
         public DateTime MovingOut { get; set; }
 
-        #endregion properties
+        #endregion
 
 
-        // constructors
-        #region constructors
+        // Constructors
+        #region Constructors
 
         public Tenant()
         {
@@ -41,7 +41,7 @@ namespace SharedLivingCostCalculator.Models.Contract
             MovingOut = DateTime.Now.AddMonths(1);
         }
 
-        #endregion constructors
+        #endregion
 
 
     }
