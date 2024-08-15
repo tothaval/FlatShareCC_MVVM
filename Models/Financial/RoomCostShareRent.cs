@@ -136,6 +136,9 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double SharedAreaShare { get; set; }
 
 
+        public string Tenant { get; set; } = "activeAssignedTenant";
+
+
         public IRoomCostsCarrier ViewModel { get; set; }
 
         #endregion

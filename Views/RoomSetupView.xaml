@@ -29,7 +29,7 @@
                 <Run Text="{DynamicResource IDF_FlatArea}"/>
                 </TextBlock>
 
-                <TextBlock Text="{Binding FlatSetup.CombinedRoomArea, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True,  StringFormat=N2}"
+                <TextBlock Text="{Binding FlatViewModel.CombinedRoomArea, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True,  StringFormat=N2}"
                    Grid.Column="1"
                    Grid.Row="1"
                    Style="{StaticResource DoubleValueTextBlock}"/>
@@ -39,13 +39,13 @@
                    Grid.Row="1"
                    Style="{StaticResource DoubleValueTextBlock}">
                 <Run Text="/"/>
-                <Run Text="{Binding FlatSetup.Area, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, StringFormat=N2}"/>
+                <Run Text="{Binding FlatViewModel.Area, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, StringFormat=N2}"/>
                 </TextBlock>
             </StackPanel>
 
 
-            <ListView ItemsSource="{Binding FlatSetup.Rooms}"
-                  IsEnabled="{Binding FlatSetup.HasDataLock}"
+        <ListView ItemsSource="{Binding FlatViewModel.Rooms}"
+                  IsEnabled="{Binding FlatViewModel.HasDataLock}"
                   SelectionMode="Single"
                   Grid.Column="0"
                   Grid.ColumnSpan="2"

@@ -92,6 +92,9 @@ namespace SharedLivingCostCalculator.Models.Financial
         private double _SharedFlatArea { get; set; } = 0.0;
 
 
+        public string Tenant { get; set; } = "activeAssignedTenant";
+
+
         public double TotalContractCostsShare { get; set; }
 
 
@@ -99,7 +102,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
         public IRoomCostsCarrier ViewModel { get; set; }
-
+        
         #endregion
 
 
@@ -130,6 +133,30 @@ namespace SharedLivingCostCalculator.Models.Financial
                 _RoomCount = ViewModel.GetFlatViewModel().RoomCount;
                 _FlatArea = ViewModel.GetFlatViewModel().Area;
                 _SharedFlatArea = ViewModel.GetFlatViewModel().SharedArea;
+
+                //foreach (TenantConfigurationViewModel item in billingViewModel.GetFlatViewModel().TenantConfigurations)
+                //{
+                //    if (item.Start > billingViewModel.EndDate)
+                //    {
+                //        continue;
+                //    }
+
+                //    if (item.Start.Year == billingViewModel.Year)
+                //    {
+
+                //    }
+
+                //    if (item.Start.Year == billingViewModel.StartDate.Year - 1)
+                //    {
+                //        foreach (RoomAssignmentViewModel roomAssignment in item.RoomAssignements)
+                //        {
+                //            if (roomAssignment.RoomViewModel.Room.Equals(room))
+                //            {
+                //                Tenant = roomAssignment.AssignedTenant.Name;
+                //            }
+                //        }                        
+                //    }
+                //}
             }
 
 
@@ -253,36 +280,29 @@ namespace SharedLivingCostCalculator.Models.Financial
             // sort List by StartDate, ascending
             ObservableCollection<RentViewModel> RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
 
-            bool billingFound = false;
-
-
             DateTime start = DateTime.Now;
             DateTime end = DateTime.Now;
 
-            // rethink and adapt the code to the new changes
+            for (int i = 0; i < RentList.Count; i++)
+            {
+                double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
 
-            //for (int i = 0; i < RentList.Count; i++)
-            //{
-            //    double months = ((_BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
+                if (months < 0)
+                {
+                    months *= -1;
+                }
 
-            //    advance += RentList[i].FixedCostsAdvance * months * RentedAreaShareRatio();
+                advance += RentList[i].FixedCostsAdvance * months * RentedAreaShareRatio();
 
-            //    if (billingFound)
-            //    {
-            //        advance += RentList[i].HeatingCostsAdvance * months * RentedAreaShareRatio();
-            //    }
-            //    else
-            //    {
-            //        foreach (RoomCostShareBilling roomcostitem in RentList[i]._BillingViewModel.RoomCostShares)
-            //        {
-            //            if (roomcostitem.RoomArea == RoomArea && roomcostitem.RoomName.Equals(RoomName))
-            //            {
-            //                advance += RentList[i].HeatingCostsAdvance * months * roomcostitem.HeatingUnitsTotalConsumptionShareRatio;
-            //                break;
-            //            }
-            //        }
-            //    }
-            //}
+                foreach (RoomCostShareRent item in RentList[i].RoomCostShares)
+                {
+                    if (item.RoomArea == RoomArea && item.RoomName.Equals(RoomName))
+                    {
+                        advance += item.HeatingCostsAdvanceShare * months;
+                        break;
+                    }
+                }                
+            }
 
             return advance;
         }
@@ -506,7 +526,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         }
 
 
-        public double GetRoomPaymentsPerPeriod(Room room)
+        private double GetRoomPaymentsPerPeriod(Room room)
         {
             double paymentsPerPeriod = 0.0;
 

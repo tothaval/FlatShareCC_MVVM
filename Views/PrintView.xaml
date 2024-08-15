@@ -55,6 +55,7 @@
                           Style="{StaticResource toggleButtonStyle}"
                           Grid.Column="5"/>
             <ToggleButton Content="{DynamicResource IDF_Tenants}"
+                          IsChecked="{Binding TenantSelected}"
                           Style="{StaticResource toggleButtonStyle}"
                           Grid.Column="6"/>
 

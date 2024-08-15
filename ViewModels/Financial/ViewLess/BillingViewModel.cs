@@ -830,7 +830,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 preSortList = new ObservableCollection<RentViewModel>(preSortList.OrderBy(i => i.StartDate));
 
-                RentViewModel? comparer = new RentViewModel(_FlatViewModel, new Rent() { StartDate = StartDate });
+                RentViewModel? comparer = null;
                 bool firstRun = true;
 
                 // building a collection of relevant rent items
@@ -838,12 +838,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 {
                     if (firstRun)
                     {
-                        if (item.StartDate < StartDate)
-                        {
-                            firstRun = false;
-                            comparer = item;
-                            continue;
-                        }
+                        firstRun = false;
+                        comparer = item;
+                        continue;
                     }
 
 
@@ -853,7 +850,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                         continue;
                     }
 
-          
+
 
                     if (item.StartDate < StartDate && item.StartDate > comparer.StartDate)
                     {

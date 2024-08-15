@@ -159,21 +159,21 @@ new street 714</Address>
           <ConsumedUnits>1300</ConsumedUnits>
           <ConsumptionPerRoom>
             <RoomConsumption>
-              <ConsumptionValue>0</ConsumptionValue>
+              <ConsumptionValue>300</ConsumptionValue>
               <Room>
                 <RoomArea>10.1</RoomArea>
                 <RoomName>Schlafzimmer</RoomName>
               </Room>
             </RoomConsumption>
             <RoomConsumption>
-              <ConsumptionValue>0</ConsumptionValue>
+              <ConsumptionValue>420</ConsumptionValue>
               <Room>
                 <RoomArea>22</RoomArea>
                 <RoomName>Kinderzimmer</RoomName>
               </Room>
             </RoomConsumption>
             <RoomConsumption>
-              <ConsumptionValue>0</ConsumptionValue>
+              <ConsumptionValue>400</ConsumptionValue>
               <Room>
                 <RoomArea>12</RoomArea>
                 <RoomName>Arbeitszimmer</RoomName>
@@ -278,7 +278,7 @@ new street 714</Address>
       <HasCredits>true</HasCredits>
       <HasDataLock>true</HasDataLock>
       <CostsHasDataLock>false</CostsHasDataLock>
-      <StartDate>2024-06-15T00:00:00</StartDate>
+      <StartDate>2024-06-01T00:00:00</StartDate>
       <OtherCosts>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
@@ -362,7 +362,7 @@ new street 714</Address>
       <HasCredits>true</HasCredits>
       <HasDataLock>false</HasDataLock>
       <CostsHasDataLock>false</CostsHasDataLock>
-      <StartDate>2024-08-11T00:00:00</StartDate>
+      <StartDate>2024-09-01T00:00:00</StartDate>
       <OtherCosts>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
