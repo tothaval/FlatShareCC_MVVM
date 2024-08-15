@@ -11,6 +11,12 @@ using System.Windows.Documents;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Data;
+using SharedLivingCostCalculator.Interfaces.Financial;
+using SharedLivingCostCalculator.ViewModels;
+using static System.Net.WebRequestMethods;
+using SharedLivingCostCalculator.Models.Contract;
+using System.Security.RightsManagement;
+using SharedLivingCostCalculator.Interfaces.Contract;
 
 namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 {
@@ -54,7 +60,13 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             try
             {
                 //ReportHeader = Application.Current.FindResource("IDF_Address").ToString();
-                rooms = Application.Current.Resources["IDF_Rooms"].ToString();
+                object? res = Application.Current.Resources["IDF_Rooms"];
+
+                if (res != null)
+                {
+                    rooms = Application.Current.Resources["IDF_Rooms"].ToString();
+                }
+
             }
             catch (Exception)
             {
@@ -73,6 +85,19 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             //section.Blocks.Add(p);
 
             return $"{FlatViewModel.Address}, {_FlatViewModel.Area}m², {_FlatViewModel.RoomCount} {rooms}";
+        }
+
+
+        public Section BuildRoomAreaData()
+        {
+            Section s = new Section();
+
+            s.Blocks.Add(new Paragraph(new Run($"{BuildAddressDetails()}")) { FontWeight = FontWeights.Normal, FontSize = 14.0 });
+            s.Blocks.Add(new Paragraph(new Run($"Room Area Data")) { FontWeight = FontWeights.Bold, FontSize = 14.0 });
+
+            s.Blocks.Add(RoomAreaTable());
+
+            return s ;
         }
 
 
@@ -187,6 +212,27 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
+        public Table OutputTableRoomAreaData()
+        {
+
+            Table dataOutputTable = new Table();
+
+            TableColumn RoomNameColumn = new TableColumn() { Width = new GridLength(120) };
+            TableColumn RoomAreaColumn = new TableColumn() { Width = new GridLength(120) };
+            TableColumn SharedAreaColumn = new TableColumn() { Width = new GridLength(120) };
+            TableColumn TotalAreaColumn = new TableColumn() { Width = new GridLength(120) };
+            TableColumn RoomAreaPercentageColumn = new TableColumn() { Width = new GridLength(120) };
+
+            dataOutputTable.Columns.Add(RoomNameColumn);
+            dataOutputTable.Columns.Add(RoomAreaColumn);
+            dataOutputTable.Columns.Add(SharedAreaColumn);
+            dataOutputTable.Columns.Add(TotalAreaColumn);
+            dataOutputTable.Columns.Add(RoomAreaPercentageColumn);
+
+            return dataOutputTable;
+        }
+
+
         public Table OutputTableRooms()
         {
 
@@ -203,6 +249,26 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             dataOutputTable.Columns.Add(CostColumn);
 
             return dataOutputTable;
+        }
+
+
+        private Block RoomAreaTable()
+        {
+            Table roomAreaTable = OutputTableRoomAreaData();
+
+            TableRowGroup dataRowGroup = new TableRowGroup();
+            dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
+
+            dataRowGroup.Rows.Add(OutputTableRowRoomAreaDataHeader());
+
+            foreach (RoomViewModel item in FlatViewModel.Rooms)
+            {
+                dataRowGroup.Rows.Add(OutputTableRowRoomAreaData(item, FlatViewModel));
+            }
+
+            roomAreaTable.RowGroups.Add(dataRowGroup);
+
+            return roomAreaTable;
         }
 
 
@@ -260,6 +326,80 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             return dataRow;
         }
+
+
+        public TableRow OutputTableRowRoomAreaData(RoomViewModel roomViewModel, FlatViewModel flatViewModel)
+        {
+            TableRow dataRow = new TableRow();
+
+            TableCell RoomNameCell = new TableCell();
+
+            TableCell RoomAreaCell = new TableCell();
+            RoomAreaCell.TextAlignment = TextAlignment.Right;
+
+            TableCell SharedAreaShareCell = new TableCell();
+            SharedAreaShareCell.TextAlignment = TextAlignment.Right;
+
+            TableCell TotalAreaShareCell = new TableCell();
+            TotalAreaShareCell.TextAlignment = TextAlignment.Right;
+
+            TableCell AreaPercentageCell = new TableCell();
+            AreaPercentageCell.TextAlignment = TextAlignment.Right;
+
+            double sharedAreaShare = flatViewModel.SharedArea / flatViewModel.RoomCount;
+            double rentedAreaShare = roomViewModel.RoomArea + sharedAreaShare;
+            double areaSharePercentage = rentedAreaShare / FlatViewModel.Area * 100;
+
+            RoomNameCell.Blocks.Add(new Paragraph(new Run($"{roomViewModel.RoomName}")));
+
+            RoomAreaCell.Blocks.Add(new Paragraph(new Run($"{roomViewModel.RoomArea:N2}")));
+            SharedAreaShareCell.Blocks.Add(new Paragraph(new Run($"{sharedAreaShare:N2}")));
+            TotalAreaShareCell.Blocks.Add(new Paragraph(new Run($"{rentedAreaShare:N2}")) { FontWeight = FontWeights.Bold, FontSize = 12.0 });
+            AreaPercentageCell.Blocks.Add(new Paragraph(new Run($"{areaSharePercentage:N2}%")) { Margin = new Thickness(0, 0, 10, 0) });
+
+            dataRow.Cells.Add(RoomNameCell);
+            dataRow.Cells.Add(RoomAreaCell);
+            dataRow.Cells.Add(SharedAreaShareCell);
+            dataRow.Cells.Add(TotalAreaShareCell);
+            dataRow.Cells.Add(AreaPercentageCell);
+
+            return dataRow;
+        }
+
+
+        public TableRow OutputTableRowRoomAreaDataHeader()
+        {
+            TableRow dataRow = new TableRow();
+
+            TableCell RoomNameCell = new TableCell();
+
+            TableCell RoomAreaCell = new TableCell();
+            RoomAreaCell.TextAlignment = TextAlignment.Right;
+
+            TableCell SharedAreaShareCell = new TableCell();
+            SharedAreaShareCell.TextAlignment = TextAlignment.Right;
+
+            TableCell TotalAreaShareCell = new TableCell();
+            TotalAreaShareCell.TextAlignment = TextAlignment.Right;
+
+            TableCell AreaPercentageCell = new TableCell();
+            AreaPercentageCell.TextAlignment = TextAlignment.Right;
+
+            RoomNameCell.Blocks.Add(new Paragraph(new Run($"Room")) { FontWeight = FontWeights.Bold, FontSize = 14.0 });
+            RoomAreaCell.Blocks.Add(new Paragraph(new Run($"Room Area")) { FontWeight = FontWeights.Bold, FontSize = 14.0 });
+            SharedAreaShareCell.Blocks.Add(new Paragraph(new Run($"Area Share")) { FontWeight = FontWeights.Bold, FontSize = 14.0 });
+            TotalAreaShareCell.Blocks.Add(new Paragraph(new Run($"Rented Area")) { FontWeight = FontWeights.Bold, FontSize = 14.0 });
+            AreaPercentageCell.Blocks.Add(new Paragraph(new Run($"Area %")) { FontWeight = FontWeights.Bold, FontSize = 14.0, Margin=new Thickness(0,0,10,0) });
+
+            dataRow.Cells.Add(RoomNameCell);
+            dataRow.Cells.Add(RoomAreaCell);
+            dataRow.Cells.Add(SharedAreaShareCell);
+            dataRow.Cells.Add(TotalAreaShareCell);
+            dataRow.Cells.Add(AreaPercentageCell);
+
+            return dataRow;
+        }
+
 
 
         public TableRow OutputTableRowRooms(RentViewModel viewModel, string roomname, double payment, string item, int month = -1, bool FontWeightBold = false)
@@ -386,6 +526,40 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
+        public TableRow RoomSeparatorTableRow(IRoomCostShare roomCostShare, bool showTenant )
+        {
+            if (showTenant)
+            {
+                return SeparatorTextTableRow($"{roomCostShare.RoomName} {roomCostShare.RoomArea}m² {roomCostShare.Tenant}");
+            }
+            
+            return SeparatorTextTableRow($"{roomCostShare.RoomName} {roomCostShare.RoomArea}m²");            
+        }
+
+
+        public TableRow TableRowBillingHeader()
+        {
+            TableRow headerRow = new TableRow();
+
+            TableCell headerCell = new TableCell();
+            TableCell headerCell_DueTime = new TableCell();
+            TableCell headerCell_Item = new TableCell();
+            TableCell headerCell_Costs = new TableCell();
+
+            headerCell.Blocks.Add(new Paragraph(new Run()));
+            headerCell_DueTime.Blocks.Add(new Paragraph(new Run("Time")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+            headerCell_Item.Blocks.Add(new Paragraph(new Run("Item")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+            headerCell_Costs.Blocks.Add(new Paragraph(new Run("Costs")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+
+            headerRow.Cells.Add(headerCell);
+            headerRow.Cells.Add(headerCell_DueTime);
+            headerRow.Cells.Add(headerCell_Item);
+            headerRow.Cells.Add(headerCell_Costs);
+
+            return headerRow;
+        }
+
+
         public TableRow TableRowRentHeader()
         {
             TableRow headerRow = new TableRow();
@@ -426,7 +600,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             headerRow.Cells.Add(Costs);
 
             return headerRow;
-        } 
+        }
 
         #endregion
 

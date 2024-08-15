@@ -26,16 +26,20 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
         private int _SelectedYear { get; set; }
 
+
+        private bool _ShowTenant { get; set; }
+
         #endregion
 
 
         // Constructors
         #region Constructors
 
-        public CreditsAndOtherCostsRentPrintOutput(FlatViewModel flatViewModel, int selectedYear)
+        public CreditsAndOtherCostsRentPrintOutput(FlatViewModel flatViewModel, int selectedYear, bool showTenant)
         {
             _FlatViewModel = flatViewModel;
             _SelectedYear = selectedYear;
+            _ShowTenant = showTenant;
         }
 
         #endregion
@@ -388,7 +392,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             {
                 double result = 0.0;
 
-                dataRowGroup.Rows.Add(print.SeparatorTextTableRow($"{item.RoomName} {item.RoomArea}m²"));
+                dataRowGroup.Rows.Add(print.RoomSeparatorTableRow(item, _ShowTenant));
 
                 dataRowGroup.Rows.Add(print.TableRowRoomHeader());
 

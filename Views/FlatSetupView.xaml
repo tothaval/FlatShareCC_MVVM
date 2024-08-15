@@ -29,35 +29,35 @@
 
         <c_views:ObjectInputView Label="{DynamicResource IDF_Address}"
                                  LabelMinWidth="125"
-                               Value="{Binding FlatSetup.Address,
+                               Value="{Binding FlatViewModel.Address,
             UpdateSourceTrigger=PropertyChanged,
             NotifyOnSourceUpdated=True,
             Mode=TwoWay}"
-                               IsEnabled="{Binding FlatSetup.HasDataLock}"
+                               IsEnabled="{Binding FlatViewModel.HasDataLock}"
                                Foreground="DarkSlateGray"
                                ValueMinWidth="100"
                                Grid.Row="0" />
 
         <c_views:ObjectInputView Label="{DynamicResource IDF_Details}"
                                  LabelMinWidth="125"
-                               Value="{Binding FlatSetup.Details,
+                               Value="{Binding FlatViewModel.Details,
             UpdateSourceTrigger=PropertyChanged,
             NotifyOnSourceUpdated=True,
             Mode=TwoWay}"
-                               IsEnabled="{Binding FlatSetup.HasDataLock}"
+                               IsEnabled="{Binding FlatViewModel.HasDataLock}"
                                Foreground="DarkSlateGray"
                                ValueMinWidth="100"
                                Grid.Row="1" />
 
         <c_views:DoubleInputView Label="{DynamicResource IDF_FlatArea}"
                                  LabelMinWidth="125"
-                               Value="{Binding FlatSetup.Area,
+                               Value="{Binding FlatViewModel.Area,
             NotifyOnSourceUpdated=True,
             UpdateSourceTrigger=PropertyChanged,
             NotifyOnTargetUpdated=True,
             Mode=TwoWay,
                               Delay=250}"                            
-                               IsEnabled="{Binding FlatSetup.HasDataLock}"
+                               IsEnabled="{Binding FlatViewModel.HasDataLock}"
                                Foreground="DarkSlateGray"
                                  ValueAlignment="Right"
                                ValueMinWidth="100"
@@ -65,22 +65,22 @@
 
         <c_views:ObjectInputView Label="{DynamicResource IDF_Rooms}"
                                  LabelMinWidth="125"
-                                 Value="{Binding FlatSetup.RoomCount,
+                                 Value="{Binding FlatViewModel.RoomCount,
             NotifyOnSourceUpdated=True,
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="{Binding FlatSetup.HasDataLock}"
+                                 IsEnabled="{Binding FlatViewModel.HasDataLock}"
                                  ValueAlignment="Right"
                                  Foreground="DarkSlateGray"
                                  ValueMinWidth="100"
                                  Grid.Row="3" />
 
         <TextBox Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
-                 Text="{Binding FlatSetup.FlatNotes, 
+                 Text="{Binding FlatViewModel.FlatNotes, 
             NotifyOnSourceUpdated=True,
             UpdateSourceTrigger=PropertyChanged,
             Mode=TwoWay}"
                  Style="{DynamicResource StringValueTextBox}"
-                 IsEnabled="{Binding FlatSetup.HasDataLock}"
+                 IsEnabled="{Binding FlatViewModel.HasDataLock}"
                  AcceptsReturn="True"
                  TextWrapping="Wrap"
                  VerticalAlignment="Stretch"

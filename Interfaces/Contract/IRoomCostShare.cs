@@ -29,6 +29,9 @@ namespace SharedLivingCostCalculator.Interfaces.Contract
         public double SharedAreaShare { get; set; }
 
 
+        public string Tenant { get; set; }
+
+
         public IRoomCostsCarrier ViewModel { get; set; } 
 
         #endregion
