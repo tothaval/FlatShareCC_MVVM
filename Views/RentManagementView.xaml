@@ -61,7 +61,7 @@
 
         <!--#region ListView RentUpdates -->
         <Grid Grid.IsSharedSizeScope="True">
-            <ListView ItemsSource="{Binding RentUpdates}"
+            <ListView ItemsSource="{Binding FlatViewModel.RentUpdates}"
                       SelectedValue="{Binding Path=SelectedValue}"
                       ItemContainerStyle="{StaticResource ItemContainerStyle}"
                       Name="rentupdates"
@@ -100,24 +100,10 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{DynamicResource IDF_FixedCosts}" Width="Auto">
+                            <GridViewColumn Header="{DynamicResource IDF_Advance}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding FixedCostsAdvance,
-                                            StringFormat=C2,
-                                            UpdateSourceTrigger=PropertyChanged,
-                                            NotifyOnSourceUpdated=True,
-                                            Mode=OneWay}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource IDF_HeatingCosts}" Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding HeatingCostsAdvance,
+                                        <TextBlock Text="{Binding Advance,
                                             StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
                                             NotifyOnSourceUpdated=True,

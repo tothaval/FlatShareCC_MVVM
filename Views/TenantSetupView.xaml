@@ -19,7 +19,9 @@
 
     </UserControl.Resources>
 
-    <StackPanel HorizontalAlignment="Stretch" Grid.Column="0" >
+    <StackPanel HorizontalAlignment="Left" Grid.Column="0"
+                Margin="10 20"
+                >
 
         <TextBlock Text="{DynamicResource IDF_TenantManagement}" 
                            Style="{StaticResource Header}"/>

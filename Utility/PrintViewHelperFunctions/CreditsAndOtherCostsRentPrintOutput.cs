@@ -407,7 +407,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     }
                     else if (fti.TransactionShareTypes == Enums.TransactionShareTypesRent.Area)
                     {
-                        sum = item.RentedAreaShareRatio() * fti.TransactionSum;
+                        sum = item.RentedAreaShareRatio * fti.TransactionSum;
                     }
 
                     if (fti.Duration == Enums.TransactionDurationTypes.Ongoing)

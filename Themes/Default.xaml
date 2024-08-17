@@ -4,6 +4,8 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <SolidColorBrush x:Key="SCB_Background" Color="White"/>
+    <SolidColorBrush x:Key="SCB_ButtonBackground" Color="White"/>
+
     <SolidColorBrush x:Key="SCB_Text" Color="#444"/>
     <SolidColorBrush x:Key="SCB_Text_Header" Color="DimGray"/>
     <SolidColorBrush x:Key="SCB_Selection" Color="#AEF"/>
@@ -34,12 +36,12 @@
         <Setter Property="Margin" Value="0 0 0 0"/>
     </Style>
 
-    
+
     <!-- Button styles -->
     <!--#region Button styles -->
     <Style TargetType="Button" x:Key="buttonStyle">
 
-        <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+        <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
         <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
         <Setter Property="FontSize" Value="{DynamicResource FS}"/>
@@ -70,16 +72,16 @@
 
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_ButtonBackground}"/>
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}"/>
                             <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}"/>
                             <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
                             <Setter Property="Opacity" Value="0.47"/>
                         </Trigger>
@@ -92,7 +94,7 @@
 
     <Style TargetType="ToggleButton" x:Key="toggleButtonStyle">
 
-        <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+        <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
@@ -126,7 +128,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Background" Value="{DynamicResource SCB_Text_Header}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_ButtonBackground}"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
                             <Setter Property="BorderThickness" Value="6"/>
                             <Setter Property="FontStyle" Value="Italic"/>
@@ -136,7 +138,7 @@
 
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource SCB_Text_Header}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_ButtonBackground}"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
 
                             <Setter Property="FontStyle" Value="Normal"/>
@@ -146,7 +148,7 @@
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}"/>
                             <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
                             <Setter Property="Opacity" Value="0.47"/>
@@ -160,7 +162,7 @@
 
     <Style TargetType="ToggleButton" x:Key="LockDataToggleButtonStyle" x:Shared="False">
 
-        <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
+        <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
@@ -175,7 +177,7 @@
             <Setter.Value>
                 <Path x:Name="LockIcon"
                       Data="{DynamicResource LockOpenData}"
-                      Fill="{DynamicResource SCB_Background}"
+                      Fill="{DynamicResource SCB_ButtonBackground}"
                       Stroke="{DynamicResource SCB_Text}"
                       StrokeThickness="0.49"
                       Stretch="Fill"
@@ -194,17 +196,17 @@
                         Padding="2">
 
                         <ContentPresenter Content="{TemplateBinding Content}"/>
-    
+
                     </Border>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_ButtonBackground}"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
                             <Setter Property="BorderThickness" Value="2"/>
-                            
-                            <Setter Property="Content">                                
+
+                            <Setter Property="Content">
                                 <Setter.Value>
                                     <Border Background="{TemplateBinding Background}"
                                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -213,22 +215,22 @@
                                             Padding="2">
                                         <Path x:Name="LockClosedIcon"
                                               Data="{DynamicResource LockClosedData}"
-                                              Fill="{DynamicResource SCB_Background}"
+                                              Fill="{DynamicResource SCB_ButtonBackground}"
                                               Stroke="{DynamicResource SCB_Text}"
                                               StrokeThickness="0.38"
                                               Stretch="Fill"
                                               Width="35"
                                               Height="28"/>
                                     </Border>
-                                    
+
                                 </Setter.Value>
-                                
+
                             </Setter>
                         </Trigger>
 
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource SCB_Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_ButtonBackground}"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
 
                         </Trigger>
@@ -242,17 +244,17 @@
 
     <!--#endregion-->
 
-    
+
     <Style TargetType="Calendar" x:Key="CalendarStyle">
-        
+
         <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}" />
         <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}" />
         <Setter Property="BorderThickness" Value="2"/>
 
     </Style>
-    
-    
+
+
     <!-- CheckBox styles -->
     <!--#region CheckBox styles -->
     <Style x:Key="MenuCheckBox" TargetType="CheckBox">
@@ -313,7 +315,7 @@
     </Style>
     <!--#endregion-->
 
-    
+
     <!-- combobox style: https://stackoverflow.com/questions/16392670/custom-combobox-in-wpf-application-->
     <!--#region ComboBox -->
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
@@ -500,7 +502,7 @@
     </Style>
     <!--#endregion-->
 
-    
+
     <!-- DatePicker styles -->
     <!--#region DatePicker -->
     <Style TargetType="DatePicker">
@@ -508,7 +510,7 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}" />
         <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
-        
+
         <Setter Property="FontWeight" Value="Normal"/>
 
         <!--<Setter Property="Template">
@@ -585,7 +587,7 @@
                                     </Setter>
 
                                     -->
-        
+
         <!--<Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type Button}">
@@ -599,7 +601,8 @@
 
                                             </ControlTemplate>
                                         </Setter.Value>
-                                    </Setter>--><!--
+                                    </Setter>-->
+        <!--
                                 </Style>
                             </Button.Style>
                         </Button>
@@ -623,7 +626,7 @@
         <Setter Property="Background" Value="{DynamicResource SCB_Background}"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-       
+
         <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
         <Setter Property="FontSize" Value="{DynamicResource FS}"/>
         <Setter Property="FontWeight" Value="Normal"/>
@@ -643,12 +646,12 @@
     </Style>
     <!--#endregion-->
 
-    
+
     <Style TargetType="Grid">
         <Setter Property="Background" Value="Transparent"/>
     </Style>
-    
-    
+
+
     <!-- ListView styles -->
     <!--#region ListView styles -->
     <Style x:Key="GridViewColumnHeaderGripper"
@@ -842,10 +845,10 @@
         <Setter Property="FontFamily" Value="Verdana"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontWeight" Value="Bold"/>
-        
+
     </Style>
-    
-    
+
+
     <Style TargetType="Paragraph" x:Key="TextParagraph">
         <Setter Property="Background" Value="White"/>
         <Setter Property="Foreground" Value="Black"/>
@@ -878,31 +881,40 @@
     </Style>
 
     <Style TargetType="TabItem">
-        <Setter Property="Background"  Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Background"  Value="{DynamicResource SCB_ButtonBackground}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SCB_ButtonBackground}"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
-                    <Grid Name="Panel">
-                        <ContentPresenter x:Name="ContentSite"
+                    <Border Name="PanelBorder"
+                            Margin="0 0 3 0">
+                        <Grid Name="Panel">
+                            <ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         ContentSource="Header"                                         
-                                        Margin="10,2"/>
-                    </Grid>
+                                        Margin="10 5"/>
+                        </Grid>
+                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" TargetName="Panel"
                                     Value="{DynamicResource SCB_Text}" />
                             <Setter Property="Foreground"
-                                    Value="{DynamicResource SCB_Background}" />
+                                    Value="{DynamicResource SCB_ButtonBackground}" />
                             <Setter Property="FontWeight" Value="Bold"/>
+
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource SCB_Background}" 
+                            <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}" 
                                     TargetName="Panel"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"
+                                    TargetName="PanelBorder"/>
+                            <Setter Property="BorderThickness" Value="1"
+                                    TargetName="PanelBorder"/>
                             <Setter Property="Foreground"
                                     Value="{DynamicResource SCB_Text}" />
                         </Trigger>
@@ -911,7 +923,8 @@
                             <Setter Property="Background" Value="{DynamicResource SCB_Text}" 
                                     TargetName="Panel"/>
                             <Setter Property="Foreground"
-                                    Value="{DynamicResource SCB_Background}" />
+                                    Value="{DynamicResource SCB_ButtonBackground}" />
+
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

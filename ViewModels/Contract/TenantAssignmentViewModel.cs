@@ -129,6 +129,13 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         {
             _FlatViewModel = _FlatManagementViewModel.SelectedItem;
 
+
+            if (_FlatViewModel != null && _FlatViewModel.TenantConfigurations.Count > 0)
+            {
+                SelectedTenantConfiguration = _FlatViewModel.TenantConfigurations.First();
+            }
+
+
             OnPropertyChanged(nameof(FlatViewModel));
 
             OnPropertyChanged(nameof(SelectedTenantConfiguration));

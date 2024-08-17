@@ -26,9 +26,6 @@ namespace SharedLivingCostCalculator.Interfaces.Contract
         public double RoomArea { get; }
 
 
-        public double SharedAreaShare { get; set; }
-
-
         public string Tenant { get; set; }
 
 

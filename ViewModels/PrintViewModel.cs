@@ -358,13 +358,17 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 BuildTimeScale();
 
-                BuildFlowDocument();
+                if (TimeScale.Count > 0)
+                {
+                    SelectedYear = TimeScale.First();
+                }
+
+                ActiveFlowDocument = new FlowDocument();
             }
 
             if (_FlatManagementViewModel.SelectedItem != null)
             {
                 _FlatViewModel = _FlatManagementViewModel.SelectedItem;
-                _AccountingViewModel.FlatManagement.SelectedItem.PropertyChanged += SelectedItem_PropertyChanged;
             }
 
             OnPropertyChanged(nameof(BillingViewModel));
@@ -396,12 +400,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         private void Rents_SelectedItemChange(object? sender, EventArgs e)
-        {
-            Update();
-        }
-
-
-        private void SelectedItem_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             Update();
         }

@@ -27,6 +27,9 @@ namespace SharedLivingCostCalculator.Utility
         public Color C_Background { get; set; }
 
 
+        public Color C_ButtonBackground { get; set; }
+
+
         public Color C_Selection{ get; set; }
 
 
@@ -73,6 +76,10 @@ namespace SharedLivingCostCalculator.Utility
 
 
         [XmlIgnore]
+        public SolidColorBrush SCB_ButtonBackground { get; set; } = new SolidColorBrush(Colors.White);
+
+
+        [XmlIgnore]
         public SolidColorBrush SCB_Selection{ get; set; } = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#AEF"));
 
 
@@ -100,6 +107,11 @@ namespace SharedLivingCostCalculator.Utility
             SCB_Background = (SolidColorBrush)Application.Current.Resources["SCB_Background"];
 
             C_Background = SCB_Background.Color;
+
+
+            SCB_ButtonBackground = (SolidColorBrush)Application.Current.Resources["SCB_ButtonBackground"];
+
+            C_ButtonBackground = SCB_ButtonBackground.Color;
 
 
             SCB_Selection = (SolidColorBrush)Application.Current.Resources["SCB_Selection"];
@@ -158,6 +170,7 @@ namespace SharedLivingCostCalculator.Utility
 
 
             Application.Current.Resources["SCB_Background"] = new SolidColorBrush(C_Background);
+            Application.Current.Resources["SCB_ButtonBackground"] = new SolidColorBrush(C_ButtonBackground);
             Application.Current.Resources["SCB_Text"] = new SolidColorBrush(C_Text);
             Application.Current.Resources["SCB_Text_Header"] = new SolidColorBrush(C_Text_Header);
             Application.Current.Resources["SCB_Selection"] = new SolidColorBrush(C_Selection);

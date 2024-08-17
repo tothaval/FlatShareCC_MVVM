@@ -21,12 +21,12 @@ namespace SharedLivingCostCalculator.Models.Financial
         // properties & fields
         #region properties
 
-        [XmlIgnore]
-        public double AnnualExtraCosts => ExtraCostsTotal * 12;
-
-
-        [XmlIgnore]
-        public double AnnualRent => ColdRent.TransactionSum * 12;
+        public FinancialTransactionItemRent Advance { get; set; } = new FinancialTransactionItemRent()
+        {
+            TransactionItem = "Advance",
+            TransactionShareTypes = TransactionShareTypesRent.Area,
+            TransactionSum = 0.0
+        };
 
 
         public FinancialTransactionItemRent ColdRent { get; set; } = new FinancialTransactionItemRent() 
@@ -37,26 +37,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         };
 
 
-        public double CostsTotal => ColdRent.TransactionSum + ExtraCostsTotal;
-
-
-        public FinancialTransactionItemRent FixedCostsAdvance { get; set; } = new FinancialTransactionItemRent()
-        {
-            TransactionItem = "Fixed",
-            TransactionShareTypes = TransactionShareTypesRent.Area,
-            TransactionSum = 0.0
-        };
-
-
-        public FinancialTransactionItemBilling HeatingCostsAdvance { get; set; } = new FinancialTransactionItemBilling()
-        {
-            TransactionItem = "Heating",
-            TransactionShareTypes = TransactionShareTypesBilling.Consumption,
-            TransactionSum = 0.0
-        };
-
-
-        public double ExtraCostsTotal => FixedCostsAdvance.TransactionSum + HeatingCostsAdvance.TransactionSum;
+        public bool CostsHasDataLock { get; set; } = false;
 
 
         public bool HasCredits { get; set; } = false;
@@ -65,7 +46,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         public bool HasDataLock { get; set; } = false;
 
 
-        public bool CostsHasDataLock { get; set; } = false;
+        public bool HasOtherCosts { get; set; } = false;
 
 
         public DateTime StartDate { get; set; } = DateTime.Now;
@@ -100,14 +81,12 @@ namespace SharedLivingCostCalculator.Models.Financial
                     FlatViewModel model,
                     DateTime startDate,
                     FinancialTransactionItemRent rent,
-                    FinancialTransactionItemRent shared,
-                    FinancialTransactionItemBilling heating
+                    FinancialTransactionItemRent advance
                     )
         {
             StartDate = startDate;
             ColdRent = rent;
-            FixedCostsAdvance = shared;
-            HeatingCostsAdvance = heating;
+            Advance = advance;
         }
 
         #endregion constructors
@@ -119,24 +98,60 @@ namespace SharedLivingCostCalculator.Models.Financial
         public void AddCredit(FinancialTransactionItemRent item)
         {
             Credits.Add(item);
+
+            HasCredits = true;
         }
 
 
         public void AddFinacialTransactionItem(FinancialTransactionItemRent item)
         {
             Costs.Add(item);
+
+            HasOtherCosts = true;
+        }
+
+
+        public void ClearCosts()
+        {
+            Costs.Clear();
+            HasOtherCosts = false;
+        }
+
+
+        public void ClearCredits()
+        {
+            Credits.Clear();
+
+            HasCredits = false;
         }
 
 
         public void RemoveCredit(FinancialTransactionItemRent item)
         {
-            Credits.Remove(item);
+
+            if (Credits.Count > 0 && Credits.Contains(item))
+            {
+                Credits.Remove(item);
+
+                if (Credits.Count == 0)
+                {
+                    HasCredits = false;
+                }
+            }
         }
 
 
         public void RemoveFinancialTransactionItem(FinancialTransactionItemRent item)
         {
-            Costs.Remove(item);
+            if (Costs.Count > 0 && Costs.Contains(item))
+            {
+                Costs.Remove(item);
+
+                if (Costs.Count == 0)
+                {
+                    HasOtherCosts = false;
+                } 
+            }
         }
 
         #endregion methods

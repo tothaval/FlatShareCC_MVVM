@@ -239,6 +239,28 @@
             </Grid>
         </Border>
 
+        <!-- ButtonBackgroundColor picker  -->
+        <Border>
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{DynamicResource IDF_ButtonBackground}"
+                           Style="{StaticResource StringValueTextBlock}"
+                           MinWidth="200"
+                           Grid.Column="0"/>
+                <toolkit:ColorPicker HorizontalAlignment="Stretch"
+                             SelectedColor="{Binding ButtonBackgroundColor}"
+                           MinWidth="100"
+                            FontFamily="{DynamicResource FF}"
+                            FontSize="{DynamicResource FS}"
+                            Foreground="{DynamicResource SCB_Text}"
+                            Background="{DynamicResource SCB_Background}"
+                           Grid.Column="1"/>
+            </Grid>
+        </Border>
+
         <!-- HeaderTextColor picker  -->
         <Border>
             <Grid VerticalAlignment="Center">

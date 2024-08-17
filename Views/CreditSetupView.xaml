@@ -35,7 +35,7 @@
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource Header}"
-                            Text="{Binding OtherFTISum,
+                            Text="{Binding BillingViewModel.CreditSum,
                         StringFormat=C2,
                         NotifyOnSourceUpdated=True}"
                             TextAlignment="Right"
@@ -81,8 +81,9 @@
                                 <GridViewColumn Header="Split">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <ComboBox ItemsSource="{Binding Source={StaticResource enumValues}, UpdateSourceTrigger=PropertyChanged}"
-                                                 SelectedItem="{Binding CostShareTypes}"                                                  
+                                            <ComboBox ItemsSource="{Binding Source={StaticResource enumValues},
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                                 SelectedItem="{Binding TransactionShareTypes}"                                                  
                                                  HorizontalAlignment="Stretch"          
                                                  IsEnabled="{Binding DataContext.DataLock,
                                                 RelativeSource={RelativeSource AncestorType=local:AnnualBillingView},
@@ -121,7 +122,7 @@
                                                         HorizontalAlignment="Stretch"
                                                         IsEnabled="{Binding DataContext.DataLock,
                                                     RelativeSource={RelativeSource AncestorType=local:AnnualBillingView},
-                                                    NotifyOnSourceUpdated=True}"
+                                                    NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                                                         Style="{StaticResource DoubleValueTextBox}"/>
                                             </Grid>
                                         </DataTemplate>

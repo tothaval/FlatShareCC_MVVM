@@ -39,18 +39,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public FlatViewModel FlatViewModel => _FlatViewModel;
 
 
-        private double _SumPerMonth;
-        public double OtherFTISum
-        {
-            get { return _SumPerMonth; }
-            set
-            {
-                _SumPerMonth = value;
-                OnPropertyChanged(nameof(OtherFTISum));
-            }
-        }
-
-
         public IRoomCostsCarrier ViewModel { get; }
 
         #endregion

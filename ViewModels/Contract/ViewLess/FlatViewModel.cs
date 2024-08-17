@@ -11,6 +11,7 @@ using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 
 namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
@@ -59,9 +60,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         public string Details { get { return _Flat.Details; } set { _Flat.Details = value; OnPropertyChanged(nameof(Details)); } }
 
 
-        public double ExtraCosts => CurrentExtraCosts();
-
-
         private Flat _Flat;
         public Flat Flat => _Flat;
 
@@ -79,9 +77,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
                 OnPropertyChanged(nameof(HasDataLock));
             }
         }
-
-
-        public double Rent => CurrentRent();
 
 
         public int RoomCount
@@ -120,12 +115,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
 
         public double SharedArea => CalculateSharedArea();
-
-
-        public double SharedExtraCosts => CalculateSharedExtraCosts();
-
-
-        public double SharedRent => CalculateSharedRent();
 
         #endregion properties & fields
 
@@ -212,21 +201,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
         }
 
-        public FlatViewModel(Flat flat, bool clone)
-        {
-            _Flat = flat;
-                      
-            if (!clone)
-            {
-                Rooms = new ObservableCollection<RoomViewModel>();
-
-                CreateRooms();
-
-                TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
-            }
-
-        }
-
         #endregion constructors
 
 
@@ -269,28 +243,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         }
 
 
-        private double CalculateSharedExtraCosts()
-        {
-            double shared_area = CalculateSharedArea();
-
-            double shared_rent = shared_area / Area * CurrentExtraCosts();
-
-            return shared_rent;
-
-        }
-
-
-        private double CalculateSharedRent()
-        {
-            double shared_area = CalculateSharedArea();
-
-            double shared_rent = shared_area / Area * CurrentRent();
-
-            return shared_rent;
-
-        }
-
-
         public void ConnectRooms()
         {
             if (Rooms != null && Rooms.Count > 0)
@@ -320,38 +272,28 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             OnPropertyChanged(nameof(Rooms));
         }
 
-
-        private double CurrentExtraCosts()
+        public BillingViewModel? GetMostRecentBilling()
         {
-            RentViewModel currentRent = new RentViewModel(this, new Rent());
-            currentRent.StartDate = new DateTime(1, 1, 1);
-
-            foreach (RentViewModel rent in RentUpdates)
+            BillingViewModel? billingViewModel = null;
+            if (AnnualBillings.Count > 0)
             {
-                if (rent.StartDate > currentRent.StartDate)
+                foreach (BillingViewModel billing in AnnualBillings)
                 {
-                    currentRent = rent;
+                    if (billingViewModel == null)
+                    {
+                        billingViewModel = billing;
+
+                        continue;
+                    }
+
+                    if (billing.StartDate > billingViewModel.StartDate)
+                    {
+                        billingViewModel = billing;
+                    }
                 }
             }
 
-            return currentRent.ExtraCostsTotal;
-        }
-
-
-        private double CurrentRent()
-        {
-            RentViewModel currentRent = new RentViewModel(this, new Rent());
-            currentRent.StartDate = new DateTime();
-
-            foreach (RentViewModel rent in RentUpdates)
-            {
-                if (rent.StartDate > currentRent.StartDate)
-                {
-                    currentRent = rent;
-                }
-            }
-
-            return currentRent.ColdRent;
+            return billingViewModel;
         }
 
 
@@ -379,6 +321,27 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             return rentViewModel;
         }
 
+
+
+        /// <summary>
+        /// trigger this via ListView header click
+        /// </summary>
+        public void OrderAnnualBillingsAscending()
+        {
+            AnnualBillings = new ObservableCollection<BillingViewModel>(AnnualBillings.OrderBy(i => i.Year));
+
+            OnPropertyChanged(nameof(AnnualBillings));
+        }
+
+        /// <summary>
+        /// trigger this via ListView header click
+        /// </summary>
+        public void OrderRentUpdatesAscending()
+        {
+            RentUpdates = new ObservableCollection<RentViewModel>(RentUpdates.OrderBy(i => i.StartDate.Year));
+
+            OnPropertyChanged(nameof(RentUpdates));
+        }
         #endregion methods
 
 

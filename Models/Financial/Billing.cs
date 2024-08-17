@@ -7,6 +7,7 @@
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
+using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 
@@ -19,6 +20,9 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         // Properties & Fields
         #region Properties & Fields
+
+        public double ActualAdvancePerPeriod { get; set; } = 0.0;
+
 
         public DateTime BillingDate { get; set; } = DateTime.Now;
 
@@ -204,6 +208,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                 Costs.Add(financialTransactionItem);
             }
         }
+               
 
         public void AddRoomPayments(FlatViewModel model)
         {
@@ -212,6 +217,17 @@ namespace SharedLivingCostCalculator.Models.Financial
                 RoomPayments.Add(new RoomPayments(room));
             }
 
+        }
+
+
+        public void ClearCosts()
+        {
+            Costs.Clear();
+        }
+
+        public void ClearCredits()
+        {
+            Credits.Clear();
         }
 
 

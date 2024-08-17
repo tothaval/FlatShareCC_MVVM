@@ -18,6 +18,7 @@ using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -97,7 +98,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             }
             set
             {
-
                 if (value == false)
                 {
                     MessageBoxResult result = MessageBox.Show(
@@ -105,25 +105,33 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
-                        //RentViewModel.RemoveBilling();
-                        SelectedValue.HasCredits = value;
 
-                        if (SelectedIndex == 3)
+                        if (SelectedValue != null)
                         {
-                            SelectedIndex = 0;
+                            SelectedValue.HasCredits = value;
+                                                        
+                            if (SelectedIndex == 3)
+                            {
+                                SelectedIndex = 0;
+                            }
                         }
                     }
                 }
 
                 if (!HasCredit && value == true)
                 {
-                    SelectedValue.HasCredits = value;
+
+                    if (SelectedValue != null)
+                    {
+                        SelectedValue.HasCredits = value; 
+                    }
 
                     if (SelectedIndex != 3)
                     {
                         SelectedIndex = 3;
                     }
                 }
+
 
                 OnPropertyChanged(nameof(HasCredit));
                 OnPropertyChanged(nameof(SetCreditVisibility));
@@ -154,20 +162,28 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     "Remove Accounting Factor", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
-                        if (SelectedIndex == 2)
+                        if (SelectedValue != null)
                         {
-                            SelectedIndex = 0;
+                            SelectedValue.HasOtherCosts = value;
+
+                            if (SelectedIndex == 2)
+                            {
+                                SelectedIndex = 0;
+                            }
                         }
                     }
                 }
 
                 if (!HasOther && value == true)
                 {
-                    SelectedValue.HasOtherCosts = value;
-
-                    if (SelectedIndex != 2)
+                    if (SelectedValue != null)
                     {
-                        SelectedIndex = 2;
+                        SelectedValue.HasOtherCosts = value;
+
+                        if (SelectedIndex != 2)
+                        {
+                            SelectedIndex = 2;
+                        }
                     }
                 }
 
@@ -266,7 +282,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     CreditSetupViewModel = new CreditSetupViewModel(_SelectedValue);
                     OtherCostsViewModel = new OtherCostsBillingViewModel(_SelectedValue);
 
-                    SelectedIndex = 0; 
+                    SelectedIndex = 0;
                 }
 
                 //SelectedItemChange?.Invoke(this, new EventArgs());
@@ -336,7 +352,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public BillingPeriodViewModel(FlatManagementViewModel flatManagementViewModel, FlatViewModel flatViewModel)
         {
             _FlatManagementViewModel = flatManagementViewModel;
-            _FlatViewModel = flatViewModel;            
+            _FlatViewModel = flatViewModel;
 
             _FlatManagementViewModel.PropertyChanged += SelectedItem_PropertyChanged;
 
@@ -350,17 +366,14 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 ErrorsChanged?.Invoke(this, e);
             };
 
-            SelectedIndex = 0;
-
-            if (_FlatViewModel.AnnualBillings.Count > 0)
-            {
-                SelectedValue = _FlatViewModel.AnnualBillings.First();
-            }
+            SelectFirstItem();
         }
 
         private void SelectedItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             FlatViewModel = _FlatManagementViewModel.SelectedItem;
+
+            SelectFirstItem();
 
             OnPropertyChanged(nameof(FlatViewModel));
             OnPropertyChanged(nameof(BillingViewModel));
@@ -372,6 +385,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
         // methods
         #region methods
+
+        private void SelectFirstItem()
+        {
+            if (_FlatViewModel != null)
+            {
+                if (_FlatViewModel.AnnualBillings.Count > 0)
+                {
+                    if (_FlatViewModel.GetMostRecentBilling() != null)
+                    {
+                        SelectedValue = _FlatViewModel.GetMostRecentBilling();
+                    }
+                }
+            }
+        }
 
         #endregion methods
 

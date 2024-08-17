@@ -170,8 +170,7 @@
                                         <GridViewColumn Header="{DynamicResource IDF_Address}">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Address, NotifyOnSourceUpdated=True,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                    <TextBlock Text="{Binding Address, NotifyOnSourceUpdated=True}"
                                                                Style="{StaticResource StringValueTextBlock}"/>
 
                                                 </DataTemplate>
@@ -181,8 +180,7 @@
                                         <GridViewColumn Header="{DynamicResource IDF_Details}">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Details, NotifyOnSourceUpdated=True,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                    <TextBlock Text="{Binding Details, NotifyOnSourceUpdated=True}"
                                         Style="{StaticResource StringValueTextBlock}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
@@ -192,8 +190,7 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Area, NotifyOnSourceUpdated=True,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
-                                                    StringFormat=N2}"
+                                                        StringFormat=N2}"
                                         Style="{StaticResource DoubleValueTextBlock}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
@@ -202,9 +199,8 @@
                                         <GridViewColumn Header="{DynamicResource IDF_Rooms}">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding RoomCount, NotifyOnSourceUpdated=True,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                        Style="{StaticResource DoubleValueTextBlock}"/>
+                                                    <TextBlock Text="{Binding RoomCount, NotifyOnSourceUpdated=True}"
+                                                               Style="{StaticResource DoubleValueTextBlock}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
@@ -213,9 +209,8 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding SharedArea, NotifyOnSourceUpdated=True,
-                                                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
                                                         StringFormat=N2}"
-                                     Style="{StaticResource DoubleValueTextBlock}"/>
+                                                               Style="{StaticResource DoubleValueTextBlock}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
@@ -224,9 +219,8 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding CombinedRoomArea, NotifyOnSourceUpdated=True,
-                                                     UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
                                                         StringFormat=N2}"
-                                     Style="{StaticResource DoubleValueTextBlock}"/>
+                                                               Style="{StaticResource DoubleValueTextBlock}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
