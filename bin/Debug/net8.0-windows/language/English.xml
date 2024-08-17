@@ -20,7 +20,7 @@ Costs</IDF_ExtraCosts>
   <IDF_TotalCosts>Total
 Costs</IDF_TotalCosts>
   <IDF_Balance>Balance</IDF_Balance>
-  <IDF_RoomData>room data</IDF_RoomData>
+  <IDF_RoomData>Room Data</IDF_RoomData>
   <IDF_RoomCostShares>annual room costs</IDF_RoomCostShares>
   <IDF_OtherCostsData>other costs data</IDF_OtherCostsData>
   <IDF_RoomHeatingUnits>Heating
@@ -32,27 +32,30 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_SharedConsumption>Shared</IDF_SharedConsumption>
   <IDF_TotalRooms>Rooms</IDF_TotalRooms>
   <IDF_Year>Year</IDF_Year>
+  <IDF_Accounting>Accounting</IDF_Accounting>
+  <IDF_AnnualBilling>Annual Billing</IDF_AnnualBilling>
   <IDF_Back>Back</IDF_Back>
-  <IDF_NewBilling>New Annual Billing</IDF_NewBilling>
+  <IDF_BaseRentOnBilling>add billing</IDF_BaseRentOnBilling>
   <IDF_DeleteBilling>Delete Annual Billing</IDF_DeleteBilling>
-  <IDF_PrintView>Print</IDF_PrintView>
-  <IDF_ShowCosts>Costs</IDF_ShowCosts>
-  <IDF_Other>Other</IDF_Other>
-  <IDF_Tenants>Tenants</IDF_Tenants>
-  <IDF_Raise>Add Raise</IDF_Raise>
-  <IDF_NewRent>New Rent</IDF_NewRent>
-  <IDF_NewRentChange>New Rent Change</IDF_NewRentChange>
+  <IDF_DeleteFlat>Delete Flat</IDF_DeleteFlat>
   <IDF_DeleteRent>Delete Rent</IDF_DeleteRent>
   <IDF_DeleteRentChange>Delete Rent Change(s)</IDF_DeleteRentChange>
-  <IDF_NewFlat>New Flat</IDF_NewFlat>
   <IDF_EditFlat>Edit Flat</IDF_EditFlat>
-  <IDF_DeleteFlat>Delete Flat</IDF_DeleteFlat>
-  <IDF_FlatSetup>Flat</IDF_FlatSetup>
-  <IDF_RoomSetup>Rooms</IDF_RoomSetup>
-  <IDF_Manual>Manual</IDF_Manual>
-  <IDF_Settings>Settings</IDF_Settings>
   <IDF_FlatCosts>Flat Costs Overview</IDF_FlatCosts>
+  <IDF_FlatSetup>Flat</IDF_FlatSetup>
+  <IDF_Manual>Manual</IDF_Manual>
+  <IDF_NewBilling>New Annual Billing</IDF_NewBilling>
+  <IDF_NewFlat>New Flat</IDF_NewFlat>
+  <IDF_NewRent>New Rent</IDF_NewRent>
+  <IDF_NewRentChange>New Rent Change</IDF_NewRentChange>
+  <IDF_Other>Other</IDF_Other>
+  <IDF_PrintView>Print</IDF_PrintView>
+  <IDF_Raise>Add Raise</IDF_Raise>
   <IDF_RoomCosts>Room Costs Overview</IDF_RoomCosts>
+  <IDF_RoomSetup>Rooms</IDF_RoomSetup>
+  <IDF_Settings>Settings</IDF_Settings>
+  <IDF_ShowCosts>Costs</IDF_ShowCosts>
+  <IDF_Tenants>Tenants</IDF_Tenants>
   <IDF_StartDate>Begin</IDF_StartDate>
   <IDF_EndDate>End</IDF_EndDate>
   <IDF_ID>ID</IDF_ID>
@@ -61,6 +64,7 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_MainWindowTitle>Shared Living TransactionSum Calculator (SLCC)</IDF_MainWindowTitle>
   <IDF_Address>Address</IDF_Address>
   <IDF_FlatArea>Flat Area</IDF_FlatArea>
+  <IDF_FlatData>Flat Data</IDF_FlatData>
   <IDF_Details>Details</IDF_Details>
   <IDF_Rooms>Rooms</IDF_Rooms>
   <IDF_RoomTenant>Tenant</IDF_RoomTenant>
@@ -74,7 +78,7 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
 Area</IDF_SharedFlatArea>
   <IDF_RentedAreaShare>Rented
 Area</IDF_RentedAreaShare>
-  <IDF_CombinedRoomArea>All Rooms Area</IDF_CombinedRoomArea>
+  <IDF_CombinedRoomArea>Rooms Area</IDF_CombinedRoomArea>
   <AccountingHeaderText>Accounting</AccountingHeaderText>
   <FlatManagementHeaderText>Flat Management</FlatManagementHeaderText>
   <IDF_Payments>Payments</IDF_Payments>
@@ -86,76 +90,61 @@ Area</IDF_RentedAreaShare>
   <IDF_Payment>Payment</IDF_Payment>
   <IDF_PaymentQuantity>Quantity</IDF_PaymentQuantity>
   <IDF_PaymentTotal>Total</IDF_PaymentTotal>
-  <IDF_Rent>Rent</IDF_Rent>
-  <IDF_RentChange>Rent Change(s)</IDF_RentChange>
-  <IDF_RentUpdateData>Rent Data</IDF_RentUpdateData>
-  <IDF_RentOptions>Rent Options</IDF_RentOptions>
-  <IDF_RentShare>Rent
-Share</IDF_RentShare>
-  <IDF_AdvanceFixed>Fixed
-Advance</IDF_AdvanceFixed>
-  <IDF_AdvanceHeating>Heating
-Advance</IDF_AdvanceHeating>
-  <IDF_Fixed>Fixed</IDF_Fixed>
-  <IDF_Heating>Heating</IDF_Heating>
-  <IDF_AdvanceTotal>Total Costs</IDF_AdvanceTotal>
-  <IDF_PriceTotal>Total Price</IDF_PriceTotal>
-  <IDF_BaseRentOnBilling>add billing</IDF_BaseRentOnBilling>
-  <IDF_AnnualBilling>Annual Billing</IDF_AnnualBilling>
+  <IDF_Advance>Advance</IDF_Advance>
+  <IDF_CompleteCosts>Complete
+Costs</IDF_CompleteCosts>
+  <IDF_Credit>Credit(s)</IDF_Credit>
   <IDF_Costs>Other Costs</IDF_Costs>
+  <IDF_ExtraCostsPerMonth>Extra Costs
+Month</IDF_ExtraCostsPerMonth>
+  <IDF_ExtraCostsPerYear>Extra Costs
+Year</IDF_ExtraCostsPerYear>
+  <IDF_FactorInCredit>credits</IDF_FactorInCredit>
+  <IDF_FactorInPayments>payments</IDF_FactorInPayments>
+  <IDF_Fixed>Fixed</IDF_Fixed>
+  <IDF_HasOtherCosts>other costs</IDF_HasOtherCosts>
+  <IDF_Heating>Heating</IDF_Heating>
+  <IDF_LockData>Lock Data</IDF_LockData>
+  <IDF_NewCredit>Setup Credit</IDF_NewCredit>
+  <IDF_NewOtherCosts>setup other costs</IDF_NewOtherCosts>
   <IDF_OtherCostsAdvance>Other
 Costs</IDF_OtherCostsAdvance>
   <IDF_OtherCosts>other costs details</IDF_OtherCosts>
   <IDF_OtherCostsList>Additional Items</IDF_OtherCostsList>
   <IDF_OtherCostsSum>Sum</IDF_OtherCostsSum>
-  <IDF_AnnualOther>Other</IDF_AnnualOther>
-  <IDF_AnnualComplete>Complete</IDF_AnnualComplete>
-  <IDF_CompleteCosts>Complete
-Costs</IDF_CompleteCosts>
-  <IDF_Credit>Credit(s)</IDF_Credit>
-  <IDF_HasOtherCosts>other costs</IDF_HasOtherCosts>
-  <IDF_NewOtherCosts>setup other costs</IDF_NewOtherCosts>
-  <IDF_FactorInCredit>credits</IDF_FactorInCredit>
-  <IDF_FactorInPayments>payments</IDF_FactorInPayments>
-  <IDF_NewCredit>Setup Credit</IDF_NewCredit>
-  <IDF_LockData>Lock Data</IDF_LockData>
-  <IDF_RentStartDate>Begin</IDF_RentStartDate>
-  <IDF_RentPerMonth>Rent
-Month</IDF_RentPerMonth>
-  <IDF_ExtraCostsPerMonth>Extra Costs
-Month</IDF_ExtraCostsPerMonth>
-  <IDF_TotalPricePerMonth>Total Price
-Month</IDF_TotalPricePerMonth>
-  <IDF_RentPerYear>Rent
-Year</IDF_RentPerYear>
-  <IDF_ExtraCostsPerYear>Extra Costs
-Year</IDF_ExtraCostsPerYear>
-  <IDF_TotalPricePerYear>Total Price
-Year</IDF_TotalPricePerYear>
-  <IDF_SharedRent>Shared Rent</IDF_SharedRent>
-  <IDF_Advance>Advance</IDF_Advance>
-  <IDF_SharedAdvance>Shared Advance</IDF_SharedAdvance>
-  <IDF_Price>Price</IDF_Price>
-  <IDF_Accounting>Accounting</IDF_Accounting>
-  <IDF_AnnualRent>Rent</IDF_AnnualRent>
-  <IDF_AnnualExtra>Extra</IDF_AnnualExtra>
-  <IDF_AnnualFixed>Fixed</IDF_AnnualFixed>
-  <IDF_AnnualHeating>Heating</IDF_AnnualHeating>
-  <IDF_AnnualPrice>Price</IDF_AnnualPrice>
-  <IDF_firstYear>first year</IDF_firstYear>
   <IDF_perMonth>per month</IDF_perMonth>
   <IDF_perRoom>per room</IDF_perRoom>
   <IDF_perYear>per year</IDF_perYear>
-  <IDF_SettingsTitleText>SLCC Settings</IDF_SettingsTitleText>
-  <IDF_Language>Language</IDF_Language>
+  <IDF_Price>Price</IDF_Price>
+  <IDF_PriceTotal>Total Price</IDF_PriceTotal>
+  <IDF_Rent>Rent</IDF_Rent>
+  <IDF_RentChange>Rent Change(s)</IDF_RentChange>
+  <IDF_RentOptions>Rent Options</IDF_RentOptions>
+  <IDF_RentPerMonth>Rent
+Month</IDF_RentPerMonth>
+  <IDF_RentPerYear>Rent
+Year</IDF_RentPerYear>
+  <IDF_RentShare>Rent
+Share</IDF_RentShare>
+  <IDF_RentStartDate>Begin</IDF_RentStartDate>
+  <IDF_RentUpdateData>Rent Data</IDF_RentUpdateData>
+  <IDF_SharedAdvance>Shared Advance</IDF_SharedAdvance>
+  <IDF_SharedRent>Shared Rent</IDF_SharedRent>
+  <IDF_TotalPricePerMonth>Total Price
+Month</IDF_TotalPricePerMonth>
+  <IDF_TotalPricePerYear>Total Price
+Year</IDF_TotalPricePerYear>
+  <IDF_Background>Background</IDF_Background>
+  <IDF_ButtonBackground>Button Background</IDF_ButtonBackground>
+  <IDF_ButtonCornerRadius>Button Rounding</IDF_ButtonCornerRadius>
   <IDF_Culture>Culture</IDF_Culture>
   <IDF_FontSize>Font Size</IDF_FontSize>
   <IDF_FontFamily>Font Family</IDF_FontFamily>
   <IDF_Foreground>Text Color</IDF_Foreground>
-  <IDF_Background>Background</IDF_Background>
   <IDF_HeaderTextColor>Header Color</IDF_HeaderTextColor>
+  <IDF_Language>Language</IDF_Language>
   <IDF_SelectionColor>Selection Color</IDF_SelectionColor>
-  <IDF_ButtonCornerRadius>Button Rounding</IDF_ButtonCornerRadius>
-  <IDF_VisibilityFieldCornerRadius>Field Rounding</IDF_VisibilityFieldCornerRadius>
   <SettingsHeaderText>Settings</SettingsHeaderText>
+  <IDF_SettingsTitleText>SLCC Settings</IDF_SettingsTitleText>
+  <IDF_VisibilityFieldCornerRadius>Field Rounding</IDF_VisibilityFieldCornerRadius>
 </Language>

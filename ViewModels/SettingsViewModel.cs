@@ -33,7 +33,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(Background));
             }
         }
-
+        
 
         private Color _backgroundColor;
         public Color BackgroundColor
@@ -45,6 +45,34 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 Background = new SolidColorBrush(BackgroundColor);
                 Application.Current.Resources["SCB_Background"] = Background;
+
+                OnPropertyChanged(nameof(BackgroundColor));
+            }
+        }
+
+
+        private Brush _ButtonBackground;
+        public Brush ButtonBackground
+        {
+            get { return _ButtonBackground; }
+            set
+            {
+                _ButtonBackground = value;
+                OnPropertyChanged(nameof(ButtonBackground));
+            }
+        }
+
+
+        private Color _ButtonBackgroundColor;
+        public Color ButtonBackgroundColor
+        {
+            get { return _ButtonBackgroundColor; }
+            set
+            {
+                _ButtonBackgroundColor = value;
+
+                Background = new SolidColorBrush(ButtonBackgroundColor);
+                Application.Current.Resources["SCB_ButtonBackground"] = Background;
 
                 OnPropertyChanged(nameof(BackgroundColor));
             }
@@ -263,6 +291,7 @@ namespace SharedLivingCostCalculator.ViewModels
             FontFamily = (FontFamily)Application.Current.Resources["FF"];
 
             BackgroundColor = ((SolidColorBrush)Application.Current.Resources["SCB_Background"]).Color;
+            ButtonBackgroundColor = ((SolidColorBrush)Application.Current.Resources["SCB_ButtonBackground"]).Color;
             ForegroundColor = ((SolidColorBrush)Application.Current.Resources["SCB_Text"]).Color;
             HeaderTextColor = ((SolidColorBrush)Application.Current.Resources["SCB_Text_Header"]).Color;
             SelectionColor = ((SolidColorBrush)Application.Current.Resources["SCB_Selection"]).Color;

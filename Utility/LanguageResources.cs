@@ -207,6 +207,7 @@ namespace SharedLivingCostCalculator.Utility
 
             Application.Current.Resources["IDF_Address"] = languageResource.IDF_Address;
             Application.Current.Resources["IDF_FlatArea"] = languageResource.IDF_FlatArea;
+            Application.Current.Resources["IDF_FlatData"] = languageResource.IDF_FlatData;
             Application.Current.Resources["IDF_Details"] = languageResource.IDF_Details;
             Application.Current.Resources["IDF_Rooms"] = languageResource.IDF_Rooms;            
 
@@ -256,9 +257,7 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_RentOptions"] = languageResource.IDF_RentOptions;
 
             Application.Current.Resources["IDF_RentShare"] = languageResource.IDF_RentShare;
-            Application.Current.Resources["IDF_AdvanceFixed"] = languageResource.IDF_AdvanceFixed;
-            Application.Current.Resources["IDF_AdvanceHeating"] = languageResource.IDF_AdvanceHeating;
-            Application.Current.Resources["IDF_AdvanceTotal"] = languageResource.IDF_AdvanceTotal;
+            Application.Current.Resources["IDF_Advance"] = languageResource.IDF_Advance;
 
             Application.Current.Resources["IDF_Fixed"] = languageResource.IDF_Fixed;
             Application.Current.Resources["IDF_Heating"] = languageResource.IDF_Heating;             
@@ -276,9 +275,6 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_OtherCostsSum"] = languageResource.IDF_OtherCostsSum;
             Application.Current.Resources["IDF_OtherCostsAdvance"] = languageResource.IDF_OtherCostsAdvance;
             
-
-            Application.Current.Resources["IDF_AnnualOther"] = languageResource.IDF_AnnualOther;
-            Application.Current.Resources["IDF_AnnualComplete"] = languageResource.IDF_AnnualComplete;
             Application.Current.Resources["IDF_CompleteCosts"] = languageResource.IDF_CompleteCosts;
 
             Application.Current.Resources["IDF_Credit"] = languageResource.IDF_Credit;
@@ -304,14 +300,7 @@ namespace SharedLivingCostCalculator.Utility
 
             Application.Current.Resources["IDF_Accounting"] = languageResource.IDF_Accounting;
 
-            Application.Current.Resources["IDF_AnnualRent"] = languageResource.IDF_AnnualRent;
-            Application.Current.Resources["IDF_AnnualExtra"] = languageResource.IDF_AnnualExtra;
-            Application.Current.Resources["IDF_AnnualFixed"] = languageResource.IDF_AnnualFixed;
-            Application.Current.Resources["IDF_AnnualHeating"] = languageResource.IDF_AnnualHeating;
-            Application.Current.Resources["IDF_AnnualPrice"] = languageResource.IDF_AnnualPrice;
-
-            Application.Current.Resources["IDF_perYear"] = languageResource.IDF_perYear;
-            Application.Current.Resources["IDF_firstYear"] = languageResource.IDF_firstYear;            
+            Application.Current.Resources["IDF_perYear"] = languageResource.IDF_perYear;         
             Application.Current.Resources["IDF_perMonth"] = languageResource.IDF_perMonth;
             Application.Current.Resources["IDF_perRoom"] = languageResource.IDF_perRoom;
             
@@ -321,22 +310,31 @@ namespace SharedLivingCostCalculator.Utility
             // setting views
             #region setting views
 
-            Application.Current.Resources["IDF_SettingsTitleText"] = languageResource.IDF_SettingsTitleText;
-            Application.Current.Resources["IDF_Language"] = languageResource.IDF_Language;
-            Application.Current.Resources["IDF_Culture"] = languageResource.IDF_Culture;
-            Application.Current.Resources["IDF_FontSize"] = languageResource.IDF_FontSize;
-            Application.Current.Resources["IDF_FontFamily"] = languageResource.IDF_FontFamily;
-            Application.Current.Resources["IDF_Foreground"] = languageResource.IDF_Foreground;
-            Application.Current.Resources["IDF_Background"] = languageResource.IDF_Background;
+            Application.Current.Resources["IDF_Background"] = languageResource.IDF_Background; 
 
+            Application.Current.Resources["IDF_ButtonBackground"] = languageResource.IDF_ButtonBackground;
+
+            Application.Current.Resources["IDF_ButtonCornerRadius"] = languageResource.IDF_ButtonCornerRadius;
+
+            Application.Current.Resources["IDF_Culture"] = languageResource.IDF_Culture;
+
+            Application.Current.Resources["IDF_FontFamily"] = languageResource.IDF_FontFamily;
+
+            Application.Current.Resources["IDF_FontSize"] = languageResource.IDF_FontSize;
+
+            Application.Current.Resources["IDF_Foreground"] = languageResource.IDF_Foreground;
 
             Application.Current.Resources["IDF_HeaderTextColor"] = languageResource.IDF_HeaderTextColor;
-            Application.Current.Resources["IDF_SelectionColor"] = languageResource.IDF_SelectionColor;
-            Application.Current.Resources["IDF_ButtonCornerRadius"] = languageResource.IDF_ButtonCornerRadius;
-            Application.Current.Resources["IDF_VisibilityFieldCornerRadius"] = languageResource.IDF_VisibilityFieldCornerRadius;
 
+            Application.Current.Resources["IDF_Language"] = languageResource.IDF_Language;
+
+            Application.Current.Resources["IDF_SelectionColor"] = languageResource.IDF_SelectionColor;
 
             Application.Current.Resources["SettingsHeaderText"] = languageResource.SettingsHeaderText;
+
+            Application.Current.Resources["IDF_SettingsTitleText"] = languageResource.IDF_SettingsTitleText;
+
+            Application.Current.Resources["IDF_VisibilityFieldCornerRadius"] = languageResource.IDF_VisibilityFieldCornerRadius;
 
         #endregion setting views
 

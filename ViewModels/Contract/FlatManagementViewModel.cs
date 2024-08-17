@@ -419,7 +419,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             _FlatCollection.Add(flatViewModel);
 
-
             SelectedItem = _FlatCollection.First();
 
             OnPropertyChanged(nameof(SelectedItem));

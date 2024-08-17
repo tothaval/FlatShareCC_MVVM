@@ -11,6 +11,7 @@ using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Eventing.Reader;
 
 namespace SharedLivingCostCalculator.Models.Financial
 {
@@ -21,8 +22,8 @@ namespace SharedLivingCostCalculator.Models.Financial
         #region Properties & Fields
 
         public double Advances => DetermineAdvances();
-        
-        
+
+
         public double AreaSharedCostsShare { get; set; }
 
 
@@ -45,7 +46,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
         private double _FlatArea { get; set; } = 0.0;
-        
+
 
         public double HeatingCostsAnnualCostsShare { get; set; }
 
@@ -73,13 +74,13 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public double RentedAreaShare { get; set; }
 
-        
+
         private readonly Room _Room;
 
 
         private int _RoomCount { get; set; } = 1;
-        
-        
+
+
         public string RoomName => _Room.RoomName;
 
 
@@ -87,7 +88,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
         public double SharedAreaShare { get; set; }
-        
+
 
         private double _SharedFlatArea { get; set; } = 0.0;
 
@@ -98,11 +99,14 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double TotalContractCostsShare { get; set; }
 
 
+        public double TotalCostsAnnualCostsShareNoRent { get; set; }
+
+
         public double TotalCostsAnnualCostsShare { get; set; }
 
 
         public IRoomCostsCarrier ViewModel { get; set; }
-        
+
         #endregion
 
 
@@ -215,9 +219,11 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             OtherCostsAnnualCostsShare = AreaSharedCostsShare + EqualSharedCostsShare + ConsumptionSharedCostsShare;
 
+            TotalContractCostsShare = RentCostsAnnualShare + FixedCostsAnnualCostsShare + HeatingCostsAnnualCostsShare;
 
             TotalCostsAnnualCostsShare = RentCostsAnnualShare + FixedCostsAnnualCostsShare + HeatingCostsAnnualCostsShare + OtherCostsAnnualCostsShare - CreditShare;
-            TotalContractCostsShare = RentCostsAnnualShare + FixedCostsAnnualCostsShare + HeatingCostsAnnualCostsShare;
+
+            TotalCostsAnnualCostsShareNoRent = ExtraCostsAnnualShare + OtherCostsAnnualCostsShare - CreditShare;
 
             OnPropertyChanged(nameof(SharedAreaShare));
             OnPropertyChanged(nameof(RentedAreaShare));
@@ -259,11 +265,6 @@ namespace SharedLivingCostCalculator.Models.Financial
                 {
                     double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
 
-                    if (months < 0)
-                    {
-                        months *= -1;
-                    }
-
                     rentCosts += RentList[i].ColdRent * months * RentedAreaShareRatio();
                 }
 
@@ -273,59 +274,99 @@ namespace SharedLivingCostCalculator.Models.Financial
         }
 
 
-        private double DetermineNoPaymentOptionAdvances()
-        {
-            double advance = 0.0;
+        /// <summary>
+        /// obsolete, calculation will use actual advances paid to calculate values
+        /// </summary>
+        /// <returns></returns>
+        //private double DetermineNoPaymentOptionAdvances()
+        //{
+        //    double advance = 0.0;
 
-            // sort List by StartDate, ascending
-            ObservableCollection<RentViewModel> RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
+        //    // sort List by StartDate, ascending
+        //    ObservableCollection<RentViewModel> RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
 
-            DateTime start = DateTime.Now;
-            DateTime end = DateTime.Now;
+        //    DateTime start = DateTime.Now;
+        //    DateTime end = DateTime.Now;
 
-            for (int i = 0; i < RentList.Count; i++)
-            {
-                double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
+        //    for (int i = 0; i < RentList.Count; i++)
+        //    {
+        //        double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
 
-                if (months < 0)
-                {
-                    months *= -1;
-                }
+        //        if (RentList[i] != null)
+        //        {
 
-                advance += RentList[i].FixedCostsAdvance * months * RentedAreaShareRatio();
+        //            foreach (RoomCostShareRent item in RentList[i].RoomCostShares)
+        //            {
+        //                if (item.RoomArea == RoomArea && item.RoomName.Equals(RoomName))
+        //                {
+        //                    advance += item.AdvanceShare * months;
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //    }
 
-                foreach (RoomCostShareRent item in RentList[i].RoomCostShares)
-                {
-                    if (item.RoomArea == RoomArea && item.RoomName.Equals(RoomName))
-                    {
-                        advance += item.HeatingCostsAdvanceShare * months;
-                        break;
-                    }
-                }                
-            }
 
-            return advance;
-        }
+        //    return advance;
+        //}
 
 
         private double DetermineAdvances()
         {
+
+            BillingViewModel billingViewModel = ((BillingViewModel)ViewModel);
+
             double advance = 0.0;
 
             if (ViewModel != null)
             {
-                if (((BillingViewModel)ViewModel).HasPayments)
+                if (billingViewModel.HasPayments)
                 {
                     advance += GetRoomPaymentsPerPeriod(_Room);
+
+                    return advance;
                 }
                 else
                 {
-                    advance += DetermineNoPaymentOptionAdvances();
+                    ObservableCollection<BillingViewModel> BillingList = ((BillingViewModel)ViewModel).GetFlatViewModel().AnnualBillings;
+
+                    int count = 0;
+
+                    foreach (BillingViewModel item in BillingList)
+                    {
+                        if (item.Year > billingViewModel.Year)
+                        {
+                            continue;
+                        }
+
+                        if (item.Year == billingViewModel.Year - 1)
+                        {
+                            RoomCostShareBilling thisOneYearEarlier = new RoomCostShareBilling(_Room, item);
+
+                            double fixedRatio = ((BillingViewModel)thisOneYearEarlier.ViewModel).FixedCostsRatio;
+                            double heatingRatio = ((BillingViewModel)thisOneYearEarlier.ViewModel).HeatingCostsRatio;
+
+                            advance += RentedAreaShareRatio() * fixedRatio * billingViewModel.ActualAdvancePerPeriod;
+
+                            advance += thisOneYearEarlier.HeatingUnitsTotalConsumptionShareRatio * heatingRatio * billingViewModel.ActualAdvancePerPeriod;
+
+                            count++;
+
+                            break;
+                        }
+                    }
+
+                    if (count > 0)
+                    {
+                        return advance;
+                    }
+
+                    advance += RentedAreaShareRatio() * billingViewModel.ActualAdvancePerPeriod;
+
+                    return advance;
+
                 }
             }
-
-            //OnPropertyChanged(nameof(Advances));
-            //OnPropertyChanged(nameof(Balance));
 
             return advance;
         }

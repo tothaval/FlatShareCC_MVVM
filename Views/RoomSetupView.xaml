@@ -9,6 +9,35 @@
              mc:Ignorable="d" 
              Background="Transparent">
 
+    <StackPanel Margin="10 0 10 20">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="{DynamicResource IDF_RoomData}"
+                   Style="{DynamicResource Header}"
+                       Grid.Column="0"/>
+
+            <TextBlock Style="{StaticResource StringValueTextBlock}"
+                       Grid.Column="1">
+                <Run Text="{DynamicResource IDF_CombinedRoomArea}"/>
+                <Run Text="/"/>
+                <Run Text="{DynamicResource IDF_FlatArea}"/>
+                </TextBlock>
+
+            <TextBlock Style="{StaticResource DoubleValueTextBlock}"                       
+                       Grid.Column="2">
+                <Run Text="{Binding FlatViewModel.CombinedRoomArea, Mode=OneWay, NotifyOnSourceUpdated=True,  StringFormat=N2}"/>    
+                <Run Text="/"/>
+                <Run Text="{Binding FlatViewModel.Area, NotifyOnSourceUpdated=True, StringFormat=N2}"/>
+                </TextBlock>
+
+        </Grid>
+
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -20,31 +49,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal"
-                    Grid.Column="1"
-                    Grid.Row="0">
-                <TextBlock Style="{StaticResource StringValueTextBlock}">
-                <Run Text="{DynamicResource IDF_CombinedRoomArea}"/>
-                <Run Text="/"/>
-                <Run Text="{DynamicResource IDF_FlatArea}"/>
-                </TextBlock>
 
-                <TextBlock Text="{Binding FlatViewModel.CombinedRoomArea, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True,  StringFormat=N2}"
-                   Grid.Column="1"
-                   Grid.Row="1"
-                   Style="{StaticResource DoubleValueTextBlock}"/>
-
-                <TextBlock 
-                   Grid.Column="1"
-                   Grid.Row="1"
-                   Style="{StaticResource DoubleValueTextBlock}">
-                <Run Text="/"/>
-                <Run Text="{Binding FlatViewModel.Area, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, StringFormat=N2}"/>
-                </TextBlock>
-            </StackPanel>
-
-
-        <ListView ItemsSource="{Binding FlatViewModel.Rooms}"
+            <ListView ItemsSource="{Binding FlatViewModel.Rooms}"
                   IsEnabled="{Binding FlatViewModel.HasDataLock}"
                   SelectionMode="Single"
                   Grid.Column="0"
@@ -105,5 +111,6 @@
             </ListView>
 
         </Grid>
+    </StackPanel>
 
 </UserControl>

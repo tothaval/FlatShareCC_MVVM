@@ -70,15 +70,15 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             dataRowGroup.Rows.Add(print.SeparatorTextTableRow("contract costs", true));
             dataRowGroup.Rows.Add(print.TableRowBillingHeader());
 
-            if (_BillingViewModel.GetFlatViewModel().RentUpdates.Count > 0)
-            {
+            //if (_BillingViewModel.GetFlatViewModel().RentUpdates.Count > 0)
+            //{
 
-                dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
-                    _BillingViewModel,
-                    roomCostShareBilling.RoomName,
-                    roomCostShareBilling.RentCostsAnnualShare,
-                    _BillingViewModel.GetFlatViewModel().RentUpdates[0].Rent.ColdRent.TransactionItem));
-            }
+            //    dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+            //        _BillingViewModel,
+            //        roomCostShareBilling.RoomName,
+            //        roomCostShareBilling.RentCostsAnnualShare,
+            //        _BillingViewModel.GetFlatViewModel().RentUpdates[0].Rent.ColdRent.TransactionItem));
+            //}
 
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                     _BillingViewModel,
@@ -95,7 +95,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                 _BillingViewModel,
                 roomCostShareBilling.RoomName,
-                roomCostShareBilling.TotalContractCostsShare,
+                roomCostShareBilling.ExtraCostsAnnualShare,
                 "sum", true));
 
             dataRowGroup.Rows.Add(print.SeparatorTextTableRow("contract costs balance", true));
@@ -116,21 +116,21 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                 _BillingViewModel,
                 roomCostShareBilling.RoomName,
-                roomCostShareBilling.Advances - roomCostShareBilling.TotalContractCostsShare,
+                roomCostShareBilling.Advances - roomCostShareBilling.ExtraCostsAnnualShare,
                 "balance", true));
 
             dataRowGroup.Rows.Add(print.SeparatorLineTableRow(true));
             dataRowGroup.Rows.Add(print.SeparatorTextTableRow("all costs", true));
             dataRowGroup.Rows.Add(print.TableRowBillingHeader());
 
-            if (_BillingViewModel.GetFlatViewModel().RentUpdates.Count > 0)
-            {
-                dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
-                    _BillingViewModel,
-                    roomCostShareBilling.RoomName,
-                    roomCostShareBilling.RentCostsAnnualShare,
-                    _BillingViewModel.GetFlatViewModel().RentUpdates[0].Rent.ColdRent.TransactionItem));
-            }
+            //if (_BillingViewModel.GetFlatViewModel().RentUpdates.Count > 0)
+            //{
+            //    dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+            //        _BillingViewModel,
+            //        roomCostShareBilling.RoomName,
+            //        roomCostShareBilling.RentCostsAnnualShare,
+            //        _BillingViewModel.GetFlatViewModel().RentUpdates[0].Rent.ColdRent.TransactionItem));
+            //}
 
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                 _BillingViewModel,
@@ -166,7 +166,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                  _BillingViewModel,
                  roomCostShareBilling.RoomName,
-                 roomCostShareBilling.TotalCostsAnnualCostsShare,
+                 roomCostShareBilling.TotalCostsAnnualCostsShareNoRent,
                  "sum", true));
 
 
@@ -182,13 +182,13 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                 _BillingViewModel,
                 roomCostShareBilling.RoomName,
-                -1 * roomCostShareBilling.TotalCostsAnnualCostsShare,
+                -1 * roomCostShareBilling.TotalCostsAnnualCostsShareNoRent,
                 "all costs"));
 
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                 _BillingViewModel,
                 roomCostShareBilling.RoomName,
-                roomCostShareBilling.Advances - roomCostShareBilling.TotalCostsAnnualCostsShare,
+                roomCostShareBilling.Advances - roomCostShareBilling.TotalCostsAnnualCostsShareNoRent,
                 "balance", true));
 
             return dataRowGroup;
@@ -477,17 +477,24 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             if (viewModel.HasPayments)
             {
+                dataRowGroup.Rows.Add(print.SeparatorTextTableRow("advances"));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalAdvancePerPeriod, "calculated advances"));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.ActualAdvancePerPeriod, "actual advances"));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalPayments, "payments"));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalPayments - viewModel.ActualAdvancePerPeriod, "payments - advances"));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalPayments - viewModel.TotalRentCosts, "payments - rent costs"));
+
                 dataRowGroup.Rows.Add(print.SeparatorLineTableRow(true));
                 dataRowGroup.Rows.Add(print.SeparatorTextTableRow("contract costs"));
 
-                if (viewModel.GetFlatViewModel().RentUpdates.Count > 0)
-                {
-                    dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalRentCosts, viewModel.GetFlatViewModel().RentUpdates[0].Rent.ColdRent.TransactionItem));
-                }
+                //if (viewModel.GetFlatViewModel().RentUpdates.Count > 0)
+                //{
+                //    dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalRentCosts, viewModel.GetFlatViewModel().RentUpdates[0].Rent.ColdRent.TransactionItem));
+                //}
                 dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalFixedCostsPerPeriod, viewModel.Billing.TotalFixedCostsPerPeriod.TransactionItem));
                 dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalHeatingCostsPerPeriod, viewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem));
 
-                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalCostsPerPeriodIncludingRent, "sum", true));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalCostsPerPeriod, "sum", true));
 
                 dataRowGroup.Rows.Add(print.SeparatorTextTableRow("contract costs balance"));
 
@@ -510,16 +517,22 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.OtherFTISum, "other"));
                 dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, -1 * viewModel.CreditSum, "credit"));
 
-                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalCosts, "sum", true));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalCostsPerPeriodIncludingRent, "sum", true));
 
                 dataRowGroup.Rows.Add(print.SeparatorTextTableRow("all costs balance"));
                 dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalPayments, "payments"));
-                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, -1 * viewModel.TotalCosts, "all costs"));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, -1 * viewModel.TotalCostsNoRent, "all costs"));
 
-                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalPayments - viewModel.TotalCosts, "balance", true));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalPayments - viewModel.TotalCostsNoRent, "balance", true));
             }
             else
             {
+
+                dataRowGroup.Rows.Add(print.SeparatorTextTableRow("advances"));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalAdvancePerPeriod, "calculated advances"));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.ActualAdvancePerPeriod, "actual advances"));
+
+
                 dataRowGroup.Rows.Add(print.SeparatorLineTableRow(true));
                 dataRowGroup.Rows.Add(print.SeparatorTextTableRow("contract costs"));
 
@@ -528,12 +541,14 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                 dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalCostsPerPeriod, "sum", true));
 
+                
                 dataRowGroup.Rows.Add(print.SeparatorTextTableRow("contract costs balance"));
-                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalAdvancePerPeriod, "advances"));
+
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.ActualAdvancePerPeriod, "actual advances"));
 
                 dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, -1 * viewModel.TotalCostsPerPeriod, "contract costs"));
 
-                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalAdvancePerPeriod - viewModel.TotalCostsPerPeriod, "balance", true));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.ActualAdvancePerPeriod - viewModel.TotalCostsPerPeriod, "balance", true));
 
                 dataRowGroup.Rows.Add(print.SeparatorLineTableRow(true));
                 dataRowGroup.Rows.Add(print.SeparatorTextTableRow("all costs"));
@@ -542,15 +557,15 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.OtherFTISum, "other"));
                 dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, -1 * viewModel.CreditSum, "credit"));
 
-                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalCostsNoPayments, "sum", true));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalCostsNoRent, "sum", true));
 
 
                 dataRowGroup.Rows.Add(print.SeparatorTextTableRow("all costs balance"));
-                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalAdvancePerPeriod, "advances"));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.ActualAdvancePerPeriod, "advances"));
 
-                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, -1 * viewModel.TotalCostsNoPayments, "all costs"));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, -1 * viewModel.TotalCostsNoRent, "all costs"));
 
-                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalAdvancePerPeriod - viewModel.TotalCostsNoPayments, "balance", true));
+                dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.ActualAdvancePerPeriod - viewModel.TotalCostsNoRent, "balance", true));
 
 
             }

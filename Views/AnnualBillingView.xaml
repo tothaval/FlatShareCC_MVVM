@@ -220,8 +220,9 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
                                 <TextBlock Text="{DynamicResource IDF_Year}"
                             MinWidth="100"
@@ -303,7 +304,25 @@
                                        FontWeight="Bold"
                                        Grid.Column="1"
                                        Grid.Row="4"/>
-                            </Grid>
+
+                                
+                            <TextBlock Text="{DynamicResource IDF_Advance}"
+                            Style="{StaticResource StringValueTextBlock}"
+                            Grid.Column="0"
+                            Grid.Row="5"/>
+
+                            <TextBox Text="{Binding SelectedValue.ActualAdvancePerPeriod,
+                                StringFormat=C2,
+                                Mode=TwoWay,
+                                NotifyOnSourceUpdated=True,
+                                NotifyOnValidationError=True,
+                                ValidatesOnDataErrors=True,
+                                UpdateSourceTrigger=PropertyChanged}"
+                       Style="{StaticResource DoubleValueTextBox}"
+                       IsEnabled="{Binding DataLock}"
+                       Grid.Column="1"
+                       Grid.Row="5"/>
+                        </Grid>
          
                     </StackPanel>
                 </TabItem>

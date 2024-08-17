@@ -63,9 +63,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public bool HasRentUpdate => _FlatViewModel.RentUpdates.Count > 0;
 
 
-        public ICollectionView RentUpdates { get; }
-
-
         public bool RentUpdateSelected { get; set; }
 
 
@@ -83,6 +80,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 SelectedItemChange?.Invoke(this, new EventArgs());
 
                 RentUpdateSelected = true;
+
                 OnPropertyChanged(nameof(RentUpdateSelected));
                 OnPropertyChanged(nameof(SelectedValue));
             }
@@ -135,7 +133,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             _FlatViewModel = accountingViewModel.FlatViewModel;
 
-
             AddRentUpdateCommand = new RelayCommand(p => AddRentUpdate(), (s) => true);
             AddRaiseCommand = new RelayCommand(p => AddRaise(), (s) => true);
             DeleteCommand = new RelayCommand(p => DeleteRentUpdate(p), (s) => true);
@@ -144,10 +141,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             {
                 if (_FlatViewModel.RentUpdates.Count > 0)
                 {
-                    RentUpdates = CollectionViewSource.GetDefaultView(_FlatViewModel.RentUpdates);
-                    RentUpdates.SortDescriptions.Add(new SortDescription("StartDate", ListSortDirection.Descending));
+                    if (_FlatViewModel.GetMostRecentRent() != null)
+                    {
 
-                    SelectedValue = _FlatViewModel.GetMostRecentRent();
+                        SelectedValue = _FlatViewModel.GetMostRecentRent();
+                    }
+
                 }
             }
         }
@@ -158,43 +157,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // methods
         #region methods
 
-        private FinancialTransactionItemBillingViewModel CloneBillingFTI(FinancialTransactionItemBilling item)
-        {
-            string cause = item.TransactionItem;
-
-            double sum = item.TransactionSum;
-
-            TransactionShareTypesBilling shareType = item.TransactionShareTypes;
-
-            return new FinancialTransactionItemBillingViewModel(
-                new FinancialTransactionItemBilling() { TransactionItem = cause, TransactionSum = sum, TransactionShareTypes = shareType });
-        }
-
-
-        private FinancialTransactionItemRentViewModel CloneFTI(FinancialTransactionItemRent item)
-        {
-            string cause = item.TransactionItem;
-
-            double sum = item.TransactionSum;
-
-            TransactionShareTypesRent shareType = item.TransactionShareTypes;
-
-            TransactionDurationTypes durationTypes = item.Duration;
-
-            DateTime endDate = new DateTime(item.EndDate.Year, item.EndDate.Month, item.EndDate.Day);
-            DateTime startDate = new DateTime(item.StartDate.Year, item.StartDate.Month, item.StartDate.Day);
-
-            return new FinancialTransactionItemRentViewModel(
-                new FinancialTransactionItemRent() {
-                    TransactionItem = cause,
-                    TransactionSum = sum,
-                    TransactionShareTypes = shareType,
-                    StartDate = startDate,
-                    EndDate = endDate,
-                    Duration = durationTypes
-                });
-        }
-
 
         private void AddRaise()
         {
@@ -203,24 +165,22 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 new Rent(_FlatViewModel,
                     new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
                     new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_Rent, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
-                    new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_FixedCosts, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
-                    new FinancialTransactionItemBilling() { TransactionItem = new LanguageResourceStrings().IDF_HeatingCosts, TransactionShareTypes = Enums.TransactionShareTypesBilling.Consumption }
+                    new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_FixedCosts, TransactionShareTypes = Enums.TransactionShareTypesRent.Area }
                     )
                 );
 
-            rentViewModel.Rent.ColdRent = CloneFTI(SelectedValue.Rent.ColdRent).FTI;
-            rentViewModel.Rent.FixedCostsAdvance = CloneFTI(SelectedValue.Rent.FixedCostsAdvance).FTI;
-            rentViewModel.Rent.HeatingCostsAdvance = CloneBillingFTI(SelectedValue.Rent.HeatingCostsAdvance).FTI;
+            rentViewModel.Rent.ColdRent = new Clone().FTI(SelectedValue.Rent.ColdRent).FTI;
+            rentViewModel.Rent.Advance = new Clone().FTI(SelectedValue.Rent.Advance).FTI;
 
 
             foreach (FinancialTransactionItemRentViewModel item in SelectedValue.Credits)
             {
-                rentViewModel.AddCredit(CloneFTI(item.FTI));
+                rentViewModel.AddCredit(new Clone().FTI(item.FTI));
             }
 
             foreach (FinancialTransactionItemRentViewModel item in SelectedValue.FinancialTransactionItemViewModels)
             {
-                rentViewModel.AddFinacialTransactionItem(CloneFTI(item.FTI));
+                rentViewModel.AddFinacialTransactionItem(new Clone().FTI(item.FTI));
             }
 
             if (rentViewModel.Credits.Count > 0)
@@ -232,7 +192,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             _FlatViewModel.RentUpdates.Add(rentViewModel);
             SelectedValue = rentViewModel;
             OnPropertyChanged(nameof(HasRentUpdate));
-            OnPropertyChanged(nameof(RentUpdates));
         }
 
 
@@ -243,16 +202,15 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 new Rent(_FlatViewModel,
                     new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
                     new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_Rent, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
-                    new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_FixedCosts, TransactionShareTypes = Enums.TransactionShareTypesRent.Area },
-                    new FinancialTransactionItemBilling() { TransactionItem = new LanguageResourceStrings().IDF_HeatingCosts, TransactionShareTypes = Enums.TransactionShareTypesBilling.Consumption }
+                    new FinancialTransactionItemRent() { TransactionItem = new LanguageResourceStrings().IDF_FixedCosts, TransactionShareTypes = Enums.TransactionShareTypesRent.Area }
                     )
                 );
 
             _FlatViewModel.RentUpdates.Add(rentViewModel);
             SelectedValue = rentViewModel;
             OnPropertyChanged(nameof(HasRentUpdate));
-            OnPropertyChanged(nameof(RentUpdates));
         }
+
 
 
         private void DeleteRentUpdate(object? parameter)
@@ -280,7 +238,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                     }
 
                     OnPropertyChanged(nameof(HasRentUpdate));
-                    OnPropertyChanged(nameof(RentUpdates));
                 }
             }
         }

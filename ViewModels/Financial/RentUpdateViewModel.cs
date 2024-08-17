@@ -92,6 +92,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 _RentViewModel = new RentViewModel(flatViewModel, new Rent());
             }
 
+
             OtherCostsRentViewModel = new OtherCostsRentViewModel(rentViewModel);
             CreditViewViewModel = new CreditViewViewModel(rentViewModel);
 

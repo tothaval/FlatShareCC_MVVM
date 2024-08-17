@@ -24,40 +24,59 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         // Annual Interval Costs
         #region Annual Interval Costs
 
-        public double AnnualCompleteCosts => AnnualCostsTotal + AnnualOtherFTISum;
+        //public double AnnualCompleteCosts => AnnualCostsTotal + AnnualOtherFTISum;
 
 
-        public double AnnualCostsTotal => AnnualRent + AnnualExtraCosts;
+        //public double AnnualCostsTotal => AnnualRent + AnnualExtraCosts;
 
 
-        public double AnnualExtraCosts => ExtraCostsTotal * 12;
+        //public double AnnualExtraCosts => ExtraCostsTotal * 12;
 
 
-        public double AnnualOtherFTISum => OtherFTISum * 12;
+        //public double AnnualOtherFTISum => OtherFTISum * 12;
 
 
-        public double AnnualRent => ColdRent * 12;
+        //public double AnnualRent => ColdRent * 12;
 
           
-        public double FirstYearCompleteCosts => FirstYearCostsTotal + FirstYearOtherFTISum;
+        //public double FirstYearCompleteCosts => FirstYearCostsTotal + FirstYearOtherFTISum;
 
 
-        public double FirstYearCostsTotal => FirstYearRent + FirstYearExtraCosts;
+        //public double FirstYearCostsTotal => FirstYearRent + FirstYearExtraCosts;
 
 
-        public double FirstYearExtraCosts => ExtraCostsTotal * CalculateAnnualPriceFactor();
+        //public double FirstYearExtraCosts => ExtraCostsTotal * CalculateAnnualPriceFactor();
 
 
-        public double FirstYearOtherFTISum => OtherFTISum * CalculateAnnualPriceFactor();
+        //public double FirstYearOtherFTISum => OtherFTISum * CalculateAnnualPriceFactor();
 
 
-        public double FirstYearRent => ColdRent * CalculateAnnualPriceFactor();
+        //public double FirstYearRent => ColdRent * CalculateAnnualPriceFactor();
 
         #endregion annual interval costs
 
 
         // Monthly Costs
         #region Monthly Costs
+
+
+        public double Advance
+        {
+            get { return Rent.Advance.TransactionSum; }
+            set
+            {
+                Rent.Advance.TransactionSum = value;
+                OnPropertyChanged(nameof(Advance));
+                OnPropertyChanged(nameof(CostsTotal));
+                OnPropertyChanged(nameof(CostsAndCredits));                
+                OnPropertyChanged(nameof(CompleteCosts));
+
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(Advance)));
+
+                RebuildRoomCostShares();
+            }
+        }   
+
 
         public double ColdRent
         {
@@ -70,9 +89,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 OnPropertyChanged(nameof(CostsTotal));
                 OnPropertyChanged(nameof(CostsAndCredits));
                 OnPropertyChanged(nameof(CompleteCosts));
-                OnPropertyChanged(nameof(FirstYearCompleteCosts));
-                OnPropertyChanged(nameof(FirstYearRent));
-                OnPropertyChanged(nameof(FirstYearCostsTotal));
 
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(ColdRent)));
 
@@ -84,10 +100,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         public double CompleteCosts => CostsTotal + OtherFTISum;
 
 
-        public double CostsTotal => ColdRent + ExtraCostsTotal;
+        public double CostsTotal => ColdRent + Advance;
 
 
-        public double CostsAndCredits => ColdRent + ExtraCostsTotal + OtherFTISum - CreditSum;
+        public double CostsAndCredits => ColdRent + Advance + OtherFTISum - CreditSum;
 
 
         private double _CreditSum;
@@ -99,51 +115,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 _CreditSum = value;
                 OnPropertyChanged(nameof(CreditSum));
                 OnPropertyChanged(nameof(CostsAndCredits));
-            }
-        }
-
-
-        public double ExtraCostsTotal => FixedCostsAdvance + HeatingCostsAdvance;
-
-
-        public double FixedCostsAdvance
-        {
-            get { return Rent.FixedCostsAdvance.TransactionSum; }
-            set
-            {
-                Rent.FixedCostsAdvance.TransactionSum = value;
-                OnPropertyChanged(nameof(FixedCostsAdvance));
-                OnPropertyChanged(nameof(ExtraCostsTotal));
-                OnPropertyChanged(nameof(CostsTotal));
-                OnPropertyChanged(nameof(CostsAndCredits));                
-                OnPropertyChanged(nameof(CompleteCosts));
-                OnPropertyChanged(nameof(FirstYearCompleteCosts));
-                OnPropertyChanged(nameof(FirstYearRent));
-                OnPropertyChanged(nameof(FirstYearCostsTotal));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(FixedCostsAdvance)));
-
-                RebuildRoomCostShares();
-            }
-        }
-
-
-        public double HeatingCostsAdvance
-        {
-            get { return Rent.HeatingCostsAdvance.TransactionSum; }
-            set
-            {
-                Rent.HeatingCostsAdvance.TransactionSum = value;
-                OnPropertyChanged(nameof(HeatingCostsAdvance));
-                OnPropertyChanged(nameof(ExtraCostsTotal));
-                OnPropertyChanged(nameof(CostsTotal));
-                OnPropertyChanged(nameof(CostsAndCredits));
-                OnPropertyChanged(nameof(CompleteCosts));
-                OnPropertyChanged(nameof(FirstYearCompleteCosts));
-                OnPropertyChanged(nameof(FirstYearRent));
-                OnPropertyChanged(nameof(FirstYearCostsTotal));
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(HeatingCostsAdvance)));
-
-                RebuildRoomCostShares();
             }
         }
 
@@ -192,6 +163,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             {
                 Rent.HasCredits = value;
 
+                if (value == false)
+                {
+                    Rent.ClearCredits();
+                }
+
                 RentViewModelConfigurationChange?.Invoke(this, new EventArgs());
 
                 OnPropertyChanged(nameof(HasCredits));
@@ -211,7 +187,24 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public bool HasOtherCosts => FinancialTransactionItemViewModels.Count > 0;
+        public bool HasOtherCosts
+        {
+            get { return Rent.HasOtherCosts; }
+            set
+            {
+                Rent.HasOtherCosts = value;
+
+                if (value == false)
+                {
+                    Rent.ClearCosts();
+                }
+
+                RentViewModelConfigurationChange?.Invoke(this, new EventArgs());
+
+                OnPropertyChanged(nameof(HasCredits));
+            }
+        }
+
 
 
         private Rent _Rent;
@@ -277,7 +270,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 _FinancialTransactionItemViewModels = value;
                 OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
                 OnPropertyChanged(nameof(OtherFTISum));
-                OnPropertyChanged(nameof(AnnualOtherFTISum));
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(FinancialTransactionItemViewModels)));
             }
         }
@@ -299,7 +291,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             _FlatViewModel = flatViewModel;
             Rent = rent;
-              
+
             Credits.CollectionChanged += Credits_CollectionChanged;
             FinancialTransactionItemViewModels.CollectionChanged += OtherCosts_CollectionChanged;
 
@@ -365,13 +357,22 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
 
             OnPropertyChanged(nameof(OtherFTISum));
-            OnPropertyChanged(nameof(AnnualOtherFTISum));
             OnPropertyChanged(nameof(CompleteCosts));
             OnPropertyChanged(nameof(CostsAndCredits));
-            OnPropertyChanged(nameof(AnnualCompleteCosts));
             OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
         }
 
+
+        private void ClearCosts()
+        {
+            Rent.ClearCosts();
+        }
+
+
+        private void ClearCredits()
+        {
+            Rent.ClearCredits();
+        }
 
         public double DetermineMonthsUntilYearsEnd()
         {
@@ -438,10 +439,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             RebuildRoomCostShares();
 
-            OnPropertyChanged(nameof(AnnualRent));
-            OnPropertyChanged(nameof(AnnualExtraCosts));
-            OnPropertyChanged(nameof(AnnualCostsTotal));
-            OnPropertyChanged(nameof(AnnualOtherFTISum));
             OnPropertyChanged(nameof(Credits));
             OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
             OnPropertyChanged(nameof(HasOtherCosts));
@@ -514,9 +511,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         {
             CalculateOtherFTISum();
 
-            OnPropertyChanged(nameof(AnnualOtherFTISum));
             OnPropertyChanged(nameof(CompleteCosts));
-            OnPropertyChanged(nameof(AnnualCompleteCosts));
         }
 
 
@@ -532,7 +527,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             OnPropertyChanged(nameof(Credits));
             OnPropertyChanged(nameof(CompleteCosts));
-            OnPropertyChanged(nameof(AnnualCompleteCosts));
         }
 
 
@@ -542,7 +536,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
             OnPropertyChanged(nameof(CompleteCosts));
-            OnPropertyChanged(nameof(AnnualCompleteCosts));
         }
 
         #endregion

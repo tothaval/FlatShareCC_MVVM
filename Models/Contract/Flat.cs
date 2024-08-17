@@ -83,41 +83,6 @@ namespace SharedLivingCostCalculator.Models.Contract
             Tenants = new ObservableCollection<TenantViewModel>();
         }
 
-
-        public Flat(string address, double area, int roomCount, string details = "")
-        {
-            Address = address;
-            Area = area;
-            RoomCount = roomCount;
-
-            Details = details;
-
-            AnnualBillings = new ObservableCollection<BillingViewModel>();
-
-            Rooms = new ObservableCollection<RoomViewModel> { };
-
-            for (int i = 0; i < roomCount; i++)
-            {
-                Rooms.Add(new RoomViewModel(new Room($"room {i}")));
-            }
-
-            RentUpdates = new ObservableCollection<RentViewModel>();
-            TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
-            Tenants = new ObservableCollection<TenantViewModel>();
-        }
-
-
-        public Flat(string address, double area, int roomCount, ObservableCollection<RoomViewModel> rooms, string details = "") : this(address, area, roomCount)
-        {
-            Rooms = rooms;
-            Details += details;
-
-            AnnualBillings = new ObservableCollection<BillingViewModel>();
-            RentUpdates = new ObservableCollection<RentViewModel>();
-            TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
-            Tenants = new ObservableCollection<TenantViewModel>();
-        }
-
         #endregion
 
 
