@@ -823,6 +823,25 @@
     <!--#endregion-->
 
 
+    <Style TargetType="Menu">
+        <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
+    </Style>
+
+    
+    <Style TargetType="MenuItem">
+        <Setter Property="Margin" Value="0 0 4 2"/>
+
+        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>
+        <Setter Property="BorderThickness" Value="2 1 1 2"/>
+        <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text_Header}"/>
+        
+        <Setter Property="FontSize" Value="{DynamicResource FS}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+    </Style>
+
+
     <!-- Style for header/footer rows. -->
     <Style x:Key="HeaderRowStyle" TargetType="{x:Type TableRowGroup}">
         <Setter Property="FontWeight" Value="DemiBold"/>

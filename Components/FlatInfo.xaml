@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="{Binding FlatViewModel.Address, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                       Style="{DynamicResource Header}"
+                       Style="{DynamicResource StringValueTextBlock}"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Bottom"
                        Grid.Row="0"

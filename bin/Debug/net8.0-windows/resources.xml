@@ -12,13 +12,13 @@
   </C_Background>
   <C_ButtonBackground>
     <A>255</A>
-    <R>216</R>
-    <G>216</G>
-    <B>216</B>
+    <R>238</R>
+    <G>236</G>
+    <B>225</B>
     <ScA>1</ScA>
-    <ScR>0.6866853</ScR>
-    <ScG>0.6866853</ScG>
-    <ScB>0.6866853</ScB>
+    <ScR>0.8549926</ScR>
+    <ScG>0.838799</ScG>
+    <ScB>0.7529422</ScB>
   </C_ButtonBackground>
   <C_Selection>
     <A>255</A>
