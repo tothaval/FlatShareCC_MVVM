@@ -60,6 +60,18 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private bool _AllCostsSelected;
+        public bool AllCostsSelected
+        {
+            get { return _AllCostsSelected; }
+            set
+            {
+                _AllCostsSelected = value;
+                OnPropertyChanged(nameof(AllCostsSelected));
+            }
+        }
+
+
         private bool _BillingOutputSelected;
         public bool BillingOutputSelected
         {
@@ -68,6 +80,42 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _BillingOutputSelected = value;
                 OnPropertyChanged(nameof(BillingOutputSelected));
+            }
+        }
+
+
+        private bool _ConsumptionSelected;
+        public bool ConsumptionSelected
+        {
+            get { return _ConsumptionSelected; }
+            set
+            {
+                _ConsumptionSelected = value;
+                OnPropertyChanged(nameof(ConsumptionSelected));
+            }
+        }
+
+
+        private bool _ContractCostsIncludeCreditsSelected;
+        public bool ContractCostsIncludeCreditsSelected
+        {
+            get { return _ContractCostsIncludeCreditsSelected; }
+            set
+            {
+                _ContractCostsIncludeCreditsSelected = value;
+                OnPropertyChanged(nameof(ContractCostsIncludeCreditsSelected));
+            }
+        }
+
+
+        private bool _ContractCostsSelected;
+        public bool ContractCostsSelected
+        {
+            get { return _ContractCostsSelected; }
+            set
+            {
+                _ContractCostsSelected = value;
+                OnPropertyChanged(nameof(ContractCostsSelected));
             }
         }
 
@@ -103,6 +151,42 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private bool _PrintWarningsSelected;
+        public bool PrintWarningsSelected
+        {
+            get { return _PrintWarningsSelected; }
+            set
+            {
+                _PrintWarningsSelected = value;
+                OnPropertyChanged(nameof(PrintWarningsSelected));
+            }
+        }
+
+
+        private bool _RentCostsOnBillingBalanceSelected;
+        public bool RentCostsOnBillingBalanceSelected
+        {
+            get { return _RentCostsOnBillingBalanceSelected; }
+            set
+            {
+                _RentCostsOnBillingBalanceSelected = value;
+                OnPropertyChanged(nameof(RentCostsOnBillingBalanceSelected));
+            }
+        }
+
+
+        private bool _RentCostsOutputOnBillingSelected;
+        public bool RentCostsOutputOnBillingSelected
+        {
+            get { return _RentCostsOutputOnBillingSelected; }
+            set
+            {
+                _RentCostsOutputOnBillingSelected = value;
+                OnPropertyChanged(nameof(RentCostsOutputOnBillingSelected));
+            }
+        }
+
+
         private bool _RentOutputSelected;
         public bool RentOutputSelected
         {
@@ -111,6 +195,18 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _RentOutputSelected = value;
                 OnPropertyChanged(nameof(RentOutputSelected));
+            }
+        }
+
+
+        private bool _RoomAreaDataSelected;
+        public bool RoomAreaDataSelected
+        {
+            get { return _RoomAreaDataSelected; }
+            set
+            {
+                _RoomAreaDataSelected = value;
+                OnPropertyChanged(nameof(RoomAreaDataSelected));
             }
         }
 
@@ -194,6 +290,10 @@ namespace SharedLivingCostCalculator.ViewModels
 
             SelectedDetailOption = "ValueChange";
 
+            RentOutputSelected = true;
+            ContractCostsSelected = true;
+            RoomAreaDataSelected = true;
+
             Update();
         }
 
@@ -232,8 +332,13 @@ namespace SharedLivingCostCalculator.ViewModels
                 p = new Paragraph(new Run("Shared Living Cost Calculator: print output")) { Style = headerParagraph };
                 ActiveFlowDocument.Blocks.Add(p);
                 //ActiveFlowDocument.Blocks.Add(BuildAddressDetails(headerParagraph, textParagraph));
-                                
-                ActiveFlowDocument.Blocks.Add(print.BuildRoomAreaData());
+
+
+                if (RoomAreaDataSelected)
+                {
+                    ActiveFlowDocument.Blocks.Add(print.BuildRoomAreaData()); 
+                }
+
                 
                 if (BillingOutputSelected)
                 {
@@ -254,7 +359,7 @@ namespace SharedLivingCostCalculator.ViewModels
                         ActiveFlowDocument.Blocks.Add(p);
 
 
-                        BillingPrintOutput billingPrintOutput = new BillingPrintOutput(billingViewModel, SelectedYear, TenantSelected);
+                        BillingPrintOutput billingPrintOutput = new BillingPrintOutput(this, billingViewModel, SelectedYear, TenantSelected);
 
                         ActiveFlowDocument.Blocks.Add(billingPrintOutput.BuildBillingDetails());
                     }

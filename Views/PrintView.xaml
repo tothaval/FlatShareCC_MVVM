@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Foreground="Black">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,11 +17,115 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding FlatViewModel.Address, NotifyOnSourceUpdated=True}"
-                   Style="{StaticResource Header}"
+                   Style="{StaticResource StringValueTextBlock}"
+                   FontSize="12"
                    Margin="0 10 0 10"
                    Grid.Row="0"/>
 
-        <Grid Grid.Row="1">
+        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="0 10">
+
+            <TextBlock Text="Configurate Print Output:" Style="{StaticResource Header}" FontSize="14" />
+
+            <Menu>
+
+                <MenuItem Header="Print Selection">
+                    <MenuItem Header="{DynamicResource IDF_AnnualBilling}"
+                              IsCheckable="True"
+                              IsChecked="{Binding BillingOutputSelected}"/>
+                    <MenuItem Header="{DynamicResource IDF_Rent}"
+                              IsCheckable="True"
+                              IsChecked="{Binding RentOutputSelected}"/>
+                    <MenuItem Header="{DynamicResource IDF_Other}"
+                              IsCheckable="True"
+                              IsChecked="{Binding OtherOutputSelected}"/>
+                    <MenuItem Header="{DynamicResource IDF_Credit}"
+                              IsCheckable="True"
+                              IsChecked="{Binding CreditOutputSelected}"/>
+
+                </MenuItem>
+
+                <MenuItem Header="General Print Options">
+
+                    <MenuItem Header="{DynamicResource IDF_Tenants}"
+                              IsCheckable="True"
+                              IsChecked="{Binding TenantSelected}"/>
+
+                    
+                    <MenuItem Header="Room Area Data"
+                              IsCheckable="True"
+                              IsChecked="{Binding RoomAreaDataSelected}"/>
+
+                    <MenuItem Header="Consumption"
+                              IsCheckable="True"
+                              IsChecked="{Binding ConsumptionSelected}"/>
+
+                    <MenuItem Header="Print Warnings __WIP__"
+                         IsCheckable="True"
+                         IsChecked="{Binding PrintWarningsSelected}"/>
+
+                </MenuItem>
+
+
+                <MenuItem Header="Costs Print Options">
+
+                    <UniformGrid Columns="2" >
+
+                        <TextBlock Text="Details Scope" VerticalAlignment="Center"/>
+                        
+                        <ComboBox ItemsSource="{Binding DetailOptions}"
+                              SelectedItem="{Binding SelectedDetailOption}"/>
+
+                    </UniformGrid>
+
+                    <MenuItem Header="Contract Costs"
+                              IsCheckable="True"
+                              IsChecked="{Binding ContractCostsSelected}"/>
+
+
+                    <!-- later include
+                              IsEnabled="{Binding ContractCostsSelected}" -->
+                    <MenuItem Header="Credits In Contract Costs Balance"
+                              IsCheckable="True"
+                              IsChecked="{Binding ContractCostsIncludeCreditsSelected}"/>
+
+
+                    <MenuItem Header="All Costs"
+                              IsCheckable="True"
+                              IsChecked="{Binding AllCostsSelected}"/>
+
+
+                    <MenuItem Header="Include Rent Costs In Annual Billing Balance"
+                              IsCheckable="True"
+                              IsChecked="{Binding RentCostsOnBillingBalanceSelected}"/>
+
+                    <MenuItem Header="Include New Costs Output In Annual Billing __WIP__"
+                              IsCheckable="True"
+                              IsChecked="{Binding RentCostsOutputOnBillingSelected}"/>
+                </MenuItem>
+
+            </Menu>
+            
+            
+            <StackPanel Orientation="Horizontal">
+                <!-- General Option-->
+
+
+
+
+                <!-- Rent Option-->
+
+
+
+
+
+            </StackPanel>
+
+
+        </StackPanel>
+
+
+
+        <!--<Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -30,13 +135,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ComboBox ItemsSource="{Binding TimeScale}"
-                      SelectedItem="{Binding SelectedYear}"
-                      Grid.Column="0"  />
-            
-            <ComboBox ItemsSource="{Binding DetailOptions}"
-                      SelectedItem="{Binding SelectedDetailOption}"
-                      Grid.Column="1"  />
+
             
             <ToggleButton Content="{DynamicResource IDF_Rent}"
                           IsChecked="{Binding RentOutputSelected}"
@@ -59,12 +158,34 @@
                           Style="{StaticResource toggleButtonStyle}"
                           Grid.Column="6"/>
 
-        </Grid>
+        </Grid>-->
 
-        <Button Style="{DynamicResource buttonStyle}"
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{DynamicResource IDF_Year}"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="12"
+                               FontFamily="Verdana"
+                       Margin="10 0"
+                      Grid.Column="0"  />
+            <ComboBox ItemsSource="{Binding TimeScale}"
+                          Text="{DynamicResource IDF_Year}"
+                          
+                      SelectedItem="{Binding SelectedYear}"
+                      Grid.Column="1"  />
+
+            <Button Style="{DynamicResource buttonStyle}"
                 Command="{Binding CreatePrintOutputCommand}"
                 Content="Create New Print Output"
-                Grid.Row="2"/>
+                      Grid.Column="2"  />
+        </Grid>
+
 
         <FlowDocumentScrollViewer Grid.Row="3"
                                   Margin="0 0 0 10"
@@ -120,7 +241,7 @@
             </FlowDocument>
             
         </FlowDocumentScrollViewer>-->
-        
-        
+
+
     </Grid>
 </UserControl>

@@ -328,31 +328,30 @@ namespace SharedLivingCostCalculator.Models.Financial
                 }
                 else
                 {
-                    ObservableCollection<BillingViewModel> BillingList = ((BillingViewModel)ViewModel).GetFlatViewModel().AnnualBillings;
+
+                    ObservableCollection<RentViewModel> RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
+
+                    DateTime start = DateTime.Now;
+                    DateTime end = DateTime.Now;
 
                     int count = 0;
 
-                    foreach (BillingViewModel item in BillingList)
+                    for (int i = 0; i < RentList.Count; i++)
                     {
-                        if (item.Year > billingViewModel.Year)
+                        double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
+
+                        if (RentList[i] != null)
                         {
-                            continue;
-                        }
+                            foreach (RoomCostShareRent item in RentList[i].RoomCostShares)
+                            {
+                                if (item.RoomArea == RoomArea && item.RoomName.Equals(RoomName))
+                                {
+                                    advance += item.AdvanceShare * months;
 
-                        if (item.Year == billingViewModel.Year - 1)
-                        {
-                            RoomCostShareBilling thisOneYearEarlier = new RoomCostShareBilling(_Room, item);
-
-                            double fixedRatio = ((BillingViewModel)thisOneYearEarlier.ViewModel).FixedCostsRatio;
-                            double heatingRatio = ((BillingViewModel)thisOneYearEarlier.ViewModel).HeatingCostsRatio;
-
-                            advance += RentedAreaShareRatio() * fixedRatio * billingViewModel.ActualAdvancePerPeriod;
-
-                            advance += thisOneYearEarlier.HeatingUnitsTotalConsumptionShareRatio * heatingRatio * billingViewModel.ActualAdvancePerPeriod;
-
-                            count++;
-
-                            break;
+                                    count++;
+                                    break;
+                                }
+                            }
                         }
                     }
 
