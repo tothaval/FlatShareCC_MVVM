@@ -48,8 +48,8 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private FlowDocument _ActiveFlowDocument;
-        public FlowDocument ActiveFlowDocument
+        private FlowDocument? _ActiveFlowDocument;
+        public FlowDocument? ActiveFlowDocument
         {
             get { return _ActiveFlowDocument; }
             set
@@ -281,7 +281,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             _AccountingViewModel = flatManagementViewModel.Accounting;
 
-            _AccountingViewModel.AccountingChanged += _AccountingViewModel_AccountingChanged;
+            Accounting.AccountingChanged += _AccountingViewModel_AccountingChanged;
 
             CreatePrintOutputCommand = new RelayCommand((s) => BuildFlowDocument(), (s) => true);
 
@@ -456,10 +456,11 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public void Update()
         {
+            ActiveFlowDocument = null;
 
-            if (_AccountingViewModel.FlatViewModel != null)
+            if (Accounting.FlatViewModel != null)
             {
-                _FlatViewModel = _AccountingViewModel.FlatViewModel;
+                _FlatViewModel = Accounting.FlatViewModel;
 
                 BuildTimeScale();
 
@@ -490,9 +491,9 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private void _AccountingViewModel_AccountingChanged(object? sender, EventArgs e)
         {
-            _AccountingViewModel.Rents.SelectedItemChange -= Rents_SelectedItemChange;
+            Accounting.Rents.SelectedItemChange -= Rents_SelectedItemChange;
 
-            _AccountingViewModel.Rents.SelectedItemChange += Rents_SelectedItemChange;
+            Accounting.Rents.SelectedItemChange += Rents_SelectedItemChange;
 
             Update();
         }

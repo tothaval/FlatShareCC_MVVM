@@ -16,6 +16,7 @@ using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Media;
 
 
@@ -841,7 +842,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         private DateTime FindEarliestStartDate(int year)
         {
-            RentViewModel? comparer = null;
+            RentViewModel comparer = _FlatViewModel.InitialRent;
 
             foreach (RentViewModel item in FlatViewModel.RentUpdates)
             {
@@ -868,13 +869,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                     }
                 }
             }
-
-            if (comparer != null)
-            {
-                return comparer.StartDate;
-            }
-
-            return new DateTime(year, 01, 01);
+            
+            return comparer.StartDate;           
         }
 
 
@@ -882,6 +878,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         {
             ObservableCollection<RentViewModel> preSortList = new ObservableCollection<RentViewModel>();
             ObservableCollection<RentViewModel> RentList = new ObservableCollection<RentViewModel>();
+
+            preSortList.Add(GetFlatViewModel().InitialRent);
 
             if (GetFlatViewModel().RentUpdates.Count > 0)
             {

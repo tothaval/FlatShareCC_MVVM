@@ -34,7 +34,7 @@
             <ScrollViewer.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding LeftPressCommand}"/>
             </ScrollViewer.InputBindings>
-            
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -45,7 +45,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                
+
                 <!--#region menu togglebuttons -->
                 <Grid Name="topgrid" Grid.Row="0" Grid.Column="0">
                     <Grid.ColumnDefinitions>
@@ -135,14 +135,6 @@
                                 IsEnabled="{Binding HasDataLock}"
                                 Grid.Column="0" Grid.Row="0"/>
 
-                        <ToggleButton IsChecked="{Binding DataLock}"
-                               Style="{StaticResource LockDataToggleButtonStyle}"
-                            Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"   
-                               HorizontalAlignment="Center"
-                               Grid.Column="1"
-                               />
-
-
                         <Button Content="{DynamicResource IDF_DeleteFlat}"
                             Command="{Binding DeleteFlatCommand}"
                             CommandParameter="{Binding ElementName=DG_FlatCollection, Path=SelectedItems}"
@@ -151,16 +143,16 @@
                                 IsEnabled="{Binding HasDataLock}"
                             Grid.Column="2" Grid.Row="0"/>
 
-                        <ListView ItemsSource="{Binding FlatCollection}"                              
-                              SelectionMode="Extended"
-                              SelectedItem="{Binding SelectedItem}"
-                              Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
-                              ItemContainerStyle="{StaticResource ItemContainerStyle}"
-                              x:Name="DG_FlatCollection"     
+                        <ListView ItemsSource="{Binding FlatCollection}"
+                                  SelectionMode="Extended"
+                                  SelectedValue="{Binding Path=SelectedItem}"
+                                  Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
+                                  ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                                  x:Name="DG_FlatCollection"
                                   HorizontalAlignment="Stretch"
                                   HorizontalContentAlignment="Stretch"
-                              Grid.Column="0"
-                              Grid.ColumnSpan="3" Grid.Row="1">
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="3" Grid.Row="1">
 
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
@@ -240,11 +232,46 @@
                                     Grid.Row="2"
                                     Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
                                     HorizontalAlignment="Stretch">
-                            
+
                             <TabItem Header="{DynamicResource IDF_FlatSetup}">
-                                <StackPanel>
-                                    <ContentPresenter Content="{Binding FlatSetup}"/>
+                                <StackPanel IsEnabled="{Binding InitialValuesFinalized}">
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <ContentPresenter Content="{Binding FlatSetup}"/>
+
+                                        <StackPanel Margin="0 20 0 0">
+
+                                            <TextBlock Text="Select First Costs Input:"
+                                                       Style="{StaticResource Header}"/>
+                                            
+                                            <UniformGrid Margin="0 2 0 0">
+                                                <ToggleButton Content="Use Flat Costs"
+                                                          Command="{Binding UseFlatCostsCommand}"
+                                                          IsChecked="{Binding UseFlatCostsChecked}"
+                                                          Style="{StaticResource toggleButtonStyle}"/>
+
+                                                <ToggleButton Content="Use Room Costs"
+                                                          Command="{Binding UseRoomCostsCommand}"
+                                                          IsChecked="{Binding UseRoomCostsChecked}"                                                          
+                                                          Style="{StaticResource toggleButtonStyle}"/>
+                                            </UniformGrid>
+                                            
+                                            <ContentPresenter Content="{Binding InitialRentSetup}"
+                                                              Margin="0 0"/>
+
+                                        </StackPanel>
+
+
+
+                                    </StackPanel>
                                     <ContentPresenter Content="{Binding RoomSetup}"/>
+
+                                    <Button Content="Finalize Flat Data Setup"
+                                            Command="{Binding FinalizeInitialFlatDataSetupCommand}"
+                                            Style="{StaticResource buttonStyle}"
+                                            HorizontalAlignment="Stretch"
+                                            Margin="10 0"/>
+
                                 </StackPanel>
                             </TabItem>
 
@@ -255,6 +282,7 @@
                             <TabItem Header="Assignment">
                                 <ContentPresenter Content="{Binding TenantAssignment}"/>
                             </TabItem>
+
                         </TabControl>
 
                     </Grid>
@@ -269,7 +297,7 @@
                 </Border>
                 <!--#endregion-->
 
-                <!--#region RentChanges -->                
+                <!--#region RentChanges -->
                 <Border 
                         Visibility="{Binding HasFlat, NotifyOnSourceUpdated=True,
                     Converter={StaticResource VisibilityConverter}}"

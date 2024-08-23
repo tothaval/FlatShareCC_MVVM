@@ -167,7 +167,23 @@ namespace SharedLivingCostCalculator.Models.Financial
             }
 
 
-            CalculateValues();
+            RentedAreaShare = new Compute().RentedAreaShare(_Room, _RentViewModel.GetFlatViewModel());
+            RentedAreaShareRatio = new Compute().RentedAreaShareRatio(_Room, _RentViewModel.GetFlatViewModel());
+
+
+            if (_RentViewModel.IsInitialRent)
+            {
+                RentShare = room.InitialColdRent;
+                AdvanceShare = room.InitialAdvance;
+
+                PriceShare = RentShare + AdvanceShare;
+
+                CompleteCostShare = PriceShare + 0.0;
+            }
+            else
+            {
+                CalculateValues();
+            }            
         }
 
         #endregion
@@ -183,9 +199,6 @@ namespace SharedLivingCostCalculator.Models.Financial
         /// </summary>
         public void CalculateValues()
         {
-
-            RentedAreaShare = new Compute().RentedAreaShare(_Room, _RentViewModel.GetFlatViewModel());
-            RentedAreaShareRatio = new Compute().RentedAreaShareRatio(_Room, _RentViewModel.GetFlatViewModel());
 
             RentShare = RentedAreaShareRatio * _RentViewModel.ColdRent;
 

@@ -7,7 +7,6 @@
  *  purpose:
  *      -> display existing flats
  *      -> create, edit, delete flats
- *      -> open Settings view
  *      -> display most recent rent of selected flat
  *      
  *      -> application main view
@@ -50,42 +49,43 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         }
 
 
-        public bool DataLock
-        {
-            get {
-                if (SelectedItem != null)
-                {
-                    return !SelectedItem.HasDataLock;
-                }
-
-                return false;
-                }
-            set
-            {
-                if (SelectedItem != null)
-                {
-                    SelectedItem.HasDataLock = !value;
-                }
-
-                OnPropertyChanged(nameof(DataLock));
-                OnPropertyChanged(nameof(HasDataLock));
-            }
-        }
-
-
         public FlatSetupViewModel FlatSetup { get; set; }
 
 
-        public bool HasDataLock => !DataLock;
-
-
         public bool HasFlat => _FlatCollection.Count > 0;
+
+
+        public InitialRentSetupViewModel InitialRentSetup { get; set; }
+
+
+        private bool _InitialValuesFinalized;
+        public bool InitialValuesFinalized
+        {
+            get { return _InitialValuesFinalized; }
+            set
+            {
+                _InitialValuesFinalized = value;
+                OnPropertyChanged(nameof(InitialValuesFinalized));
+            }
+        }
 
 
         public PrintViewModel Print { get; }
 
 
         public RoomSetupViewModel RoomSetup { get; set; }
+
+
+        private int _SelectedIndex;
+        public int SelectedIndex
+        {
+            get { return _SelectedIndex; }
+            set
+            {
+                _SelectedIndex = value;
+                OnPropertyChanged(nameof(SelectedIndex));
+            }
+        }
 
 
         private FlatViewModel _SelectedItem;
@@ -95,10 +95,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             set
             {
                 if (_SelectedItem == value) return;
+
                 _SelectedItem = value;
 
                 OnPropertyChanged(nameof(SelectedItem));
-                OnPropertyChanged(nameof(DataLock));
 
                 if (_FlatCollection.Count > 0 && _SelectedItem != null)
                 {
@@ -106,8 +106,24 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                     _SelectedItem.ActiveTenantListConversion();
 
                     FlatViewModelChange?.Invoke(this, EventArgs.Empty);
-                }
 
+                    InitialRentSetup = new InitialRentSetupViewModel(_SelectedItem.InitialRent);
+
+                    _SelectedItem.UseRoomCosts4InitialRent();
+
+                    if (_SelectedItem.InitialRent.Rent.UseRoomCosts4InitialRent)
+                    {
+                        UseRoomCostsChecked = true;
+                    }
+                    else
+                    {
+                        UseFlatCostsChecked = true;
+                    }
+
+                    InitialValuesFinalized = !SelectedItem.InitialValuesFinalized;
+
+                    OnPropertyChanged(nameof(InitialRentSetup));
+                }
             }
         }
 
@@ -151,7 +167,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             }
         }
 
-        
+
         private bool _ShowFlatManagement;
         public bool ShowFlatManagement
         {
@@ -232,6 +248,50 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
         public TenantSetupViewModel TenantSetup { get; set; }
 
+
+        private bool _UseFlatCostsChecked;
+        public bool UseFlatCostsChecked
+        {
+            get { return _UseFlatCostsChecked; }
+            set
+            {
+                _UseFlatCostsChecked = value;
+
+                if (SelectedItem != null)
+                {
+                    SelectedItem.InitialRent.NoDataLock = value;
+                }
+
+                if (UseRoomCostsChecked)
+                {
+                    UseRoomCostsChecked = false;
+                }
+
+
+                OnPropertyChanged(nameof(UseFlatCostsChecked));
+            }
+        }
+
+
+        private bool _UseRoomCostsChecked;
+        public bool UseRoomCostsChecked
+        {
+            get { return _UseRoomCostsChecked; }
+            set
+            {
+                _UseRoomCostsChecked = value;
+
+                _SelectedItem.InitialRent.Rent.UseRoomCosts4InitialRent = value;
+
+                if (UseFlatCostsChecked)
+                {
+                    UseFlatCostsChecked = false;
+                }
+
+                OnPropertyChanged(nameof(UseRoomCostsChecked));
+            }
+        }
+
         #endregion properties & fields
 
 
@@ -268,10 +328,19 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public ICommand DeleteFlatCommand { get; }
 
 
+        public ICommand FinalizeInitialFlatDataSetupCommand { get; }
+
+
         public ICommand LeftPressCommand { get; }
 
 
         public ICommand NewFlatCommand { get; }
+
+
+        public ICommand UseFlatCostsCommand { get; }
+
+
+        public ICommand UseRoomCostsCommand { get; }
 
         #endregion commands
 
@@ -292,7 +361,13 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             DeleteFlatCommand = new ExecuteDeleteFlatCommand(flatCollection, this);
 
+            FinalizeInitialFlatDataSetupCommand = new RelayCommand((s) => FinalizeDataSetup(), (s) => true);
+            
             LeftPressCommand = new RelayCommand((s) => Move(), (s) => true);
+
+            UseFlatCostsCommand = new RelayCommand((s) => UseFlatCosts(), (s) => true);
+
+            UseRoomCostsCommand = new RelayCommand((s) => UseRoomCosts(), (s) => true);
 
             _FlatCollection = flatCollection;
 
@@ -373,7 +448,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 _FlatCollection.CollectionChanged += LoadUp;
             }
 
-
             OnPropertyChanged(nameof(FlatSetup));
             OnPropertyChanged(nameof(RoomSetup));
             OnPropertyChanged(nameof(TenantSetup));
@@ -392,14 +466,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             {
                 SelectedItem = FlatCollection[applicationData.FlatViewModelSelectedIndex];
                 _FlatCollection.CollectionChanged -= LoadUp;
-
-                if (SelectedItem != null)
-                {
-                    if (SelectedItem.HasDataLock)
-                    {
-                        DataLock = !SelectedItem.HasDataLock;
-                    }
-                }
             }
         }
 
@@ -419,7 +485,11 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             _FlatCollection.Add(flatViewModel);
 
-            SelectedItem = _FlatCollection.First();
+            SelectedIndex = FlatCollection.Count;
+
+            OnPropertyChanged(nameof(FlatCollection));
+
+            //SelectFirstFlatCollectionItem();
 
             OnPropertyChanged(nameof(SelectedItem));
             OnPropertyChanged(nameof(HasFlat));
@@ -427,7 +497,21 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             OnPropertyChanged(nameof(RoomSetup));
             OnPropertyChanged(nameof(TenantSetup));
         }
-                    
+
+
+        private void FinalizeDataSetup()
+        {
+            if (SelectedItem != null)
+            {
+                if (SelectedItem.InitialValuesFinalized == false)
+                {
+                    SelectedItem.InitialValuesFinalized = true;
+
+                    InitialValuesFinalized = !SelectedItem.InitialValuesFinalized;
+                }
+            }
+        }
+
 
         private void Move()
         {
@@ -442,21 +526,12 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 ShowAccounting = false;
                 ShowPrintView = false;
 
-
-                if (Application.Current.MainWindow != null)
-                {
-                    foreach (Window item in Application.Current.MainWindow.OwnedWindows)
-                    {
-                        item.Close();
-                    } 
-                }
-
                 SelectedItem = null;
 
                 FlatSetup = new FlatSetupViewModel(this);
                 RoomSetup = new RoomSetupViewModel(this);
                 TenantSetup = new TenantSetupViewModel(this);
-                                
+
                 OnPropertyChanged(nameof(FlatSetup));
                 OnPropertyChanged(nameof(RoomSetup));
                 OnPropertyChanged(nameof(TenantSetup));
@@ -468,13 +543,39 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         {
             if (_FlatCollection.Count > 0)
             {
-                SelectedItem = _FlatCollection?.First();
+                SelectedIndex = 0;
+
+                //SelectedItem = FlatCollection.Last();
 
                 AnnualBilling = new BillingPeriodViewModel(this, SelectedItem);
             }
             else
             {
                 ResetVisibility();
+            }
+        }
+
+
+        private void UseFlatCosts()
+        {
+            UseRoomCostsChecked = false;
+            UseFlatCostsChecked = true;
+
+            if (SelectedItem != null)
+            {
+                SelectedItem.UseRoomCosts4InitialRent();
+            }
+        }
+
+
+        private void UseRoomCosts()
+        {
+            UseFlatCostsChecked = false;
+            UseRoomCostsChecked = true;
+
+            if (SelectedItem != null)
+            {
+                SelectedItem.UseRoomCosts4InitialRent();
             }
         }
 
@@ -488,10 +589,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         {
             SelectFirstFlatCollectionItem();
 
-            ResetVisibility();
-
             OnPropertyChanged(nameof(HasFlat));
-
             OnPropertyChanged(nameof(FlatSetup));
             OnPropertyChanged(nameof(RoomSetup));
             OnPropertyChanged(nameof(TenantSetup));

@@ -15,6 +15,15 @@ namespace SharedLivingCostCalculator.Models.Contract
         // Properties & Fields
         #region Properties & Fields
 
+        public double InitialAdvance { get; set; } = 0.0;
+
+
+        public double InitialColdRent { get; set; } = 0.0;
+
+
+        public bool InitialCostsAreRoomBased { get; set; } = false;
+
+
         public double RoomArea { get; set; } = 0.0;
 
 

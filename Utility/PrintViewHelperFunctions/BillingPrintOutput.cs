@@ -24,6 +24,9 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         private BillingViewModel _BillingViewModel { get; }
 
 
+        private PrintOutputBase _Print { get; }
+
+
         private PrintViewModel _PrintViewModel { get; }
 
 
@@ -44,6 +47,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             _BillingViewModel = billingViewModel;
             _SelectedYear = selectedYear;
             _ShowTenant = showTenant;
+
+            _Print = new PrintOutputBase(_BillingViewModel.FlatViewModel, _SelectedYear);
         }
 
         #endregion
@@ -52,10 +57,10 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         // Methods
         #region Methods
 
-        private TableRowGroup AllCosts(TableRowGroup dataRowGroup, BillingViewModel viewModel, PrintOutputBase print)
+        private TableRowGroup AllCosts(TableRowGroup dataRowGroup, BillingViewModel viewModel)
         {
-            dataRowGroup.Rows.Add(print.SeparatorLineTableRow(true));
-            dataRowGroup.Rows.Add(print.SeparatorTextTableRow("all costs"));
+            dataRowGroup.Rows.Add(_Print.SeparatorLineTableRow(true));
+            dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("all costs"));
 
             double sum = 0.0;
             double advance = 0.0;
@@ -102,7 +107,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, sum, "sum", true));
 
 
-            dataRowGroup.Rows.Add(print.SeparatorTextTableRow("all costs balance"));
+            dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("all costs balance"));
 
             if (viewModel.HasPayments)
             {
@@ -144,10 +149,10 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        private TableRowGroup AllCostsRooms(TableRowGroup dataRowGroup, RoomCostShareBilling roomCostShareBilling, PrintOutputBase print)
+        private TableRowGroup AllCostsRooms(TableRowGroup dataRowGroup, RoomCostShareBilling roomCostShareBilling)
         {
-            dataRowGroup.Rows.Add(print.SeparatorTextTableRow("all costs", true));
-            dataRowGroup.Rows.Add(print.TableRowBillingHeader());
+            dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("all costs", true));
+            dataRowGroup.Rows.Add(_Print.TableRowBillingHeader());
 
             double sum = 0.0;
 
@@ -200,8 +205,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 "sum", true));
 
 
-            dataRowGroup.Rows.Add(print.SeparatorTextTableRow("all costs balance", true));
-            dataRowGroup.Rows.Add(print.TableRowBillingHeader());
+            dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("all costs balance", true));
+            dataRowGroup.Rows.Add(_Print.TableRowBillingHeader());
 
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                 _BillingViewModel,
@@ -257,8 +262,6 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
         private Table BillingOutputTableRooms(RoomCostShareBilling roomCostShareBilling)
         {
-            PrintOutputBase print = new PrintOutputBase(_BillingViewModel.GetFlatViewModel(), _SelectedYear);
-
             Table billingTableRooms = BillingOutputTableForRooms();
 
             TableRowGroup dataRowGroup = new TableRowGroup();
@@ -266,13 +269,13 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             if (_PrintViewModel.ContractCostsSelected)
             {
-                dataRowGroup = ContractCostsRooms(dataRowGroup, roomCostShareBilling, print);
+                dataRowGroup = ContractCostsRooms(dataRowGroup, roomCostShareBilling);
             }
 
             if (_PrintViewModel.AllCostsSelected)
             {
 
-                dataRowGroup = AllCostsRooms(dataRowGroup, roomCostShareBilling, print);
+                dataRowGroup = AllCostsRooms(dataRowGroup, roomCostShareBilling);
             }
 
             billingTableRooms.RowGroups.Add(dataRowGroup);
@@ -406,20 +409,18 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
         private Block BillingPlanTable(BillingViewModel viewModel)
         {
-            PrintOutputBase print = new PrintOutputBase(viewModel.GetFlatViewModel(), _SelectedYear);
-
-            Table billingPlanTable = print.OutputTableForFlatBilling();
+            Table billingPlanTable = _Print.OutputTableForFlatBilling();
 
             TableRowGroup dataRowGroup = new TableRowGroup();
             dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
 
-            dataRowGroup.Rows.Add(print.SeparatorTextTableRow("advances"));
+            dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("advances"));
             dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.TotalAdvancePerPeriod, "calculated advances"));
             dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, viewModel.ActualAdvancePerPeriod, "actual advances"));
 
             if (_PrintViewModel.ConsumptionSelected)
             {
-                dataRowGroup.Rows.Add(print.SeparatorTextTableRow("consumption"));
+                dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("consumption"));
 
                 foreach (ConsumptionItemViewModel item in viewModel.ConsumptionItemViewModels)
                 {
@@ -434,12 +435,12 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             if (_PrintViewModel.ContractCostsSelected)
             {
-                dataRowGroup = ContractCosts(dataRowGroup, viewModel, print);
+                dataRowGroup = ContractCosts(dataRowGroup, viewModel);
             }
 
             if (_PrintViewModel.AllCostsSelected)
             {
-                dataRowGroup = AllCosts(dataRowGroup, viewModel, print);
+                dataRowGroup = AllCosts(dataRowGroup, viewModel);
             }
 
             billingPlanTable.RowGroups.Add(dataRowGroup);
@@ -522,10 +523,10 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        private TableRowGroup ContractCosts(TableRowGroup dataRowGroup, BillingViewModel viewModel, PrintOutputBase print)
+        private TableRowGroup ContractCosts(TableRowGroup dataRowGroup, BillingViewModel viewModel)
         {
-            dataRowGroup.Rows.Add(print.SeparatorLineTableRow(true));
-            dataRowGroup.Rows.Add(print.SeparatorTextTableRow("contract costs"));
+            dataRowGroup.Rows.Add(_Print.SeparatorLineTableRow(true));
+            dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("contract costs"));
 
             double sum = 0.0;
             double advance = 0.0;
@@ -565,7 +566,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, sum, "sum", true));
 
 
-            dataRowGroup.Rows.Add(print.SeparatorTextTableRow("contract costs balance"));
+            dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("contract costs balance"));
 
             if (viewModel.HasPayments)
             {
@@ -600,10 +601,10 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        private TableRowGroup ContractCostsRooms(TableRowGroup dataRowGroup, RoomCostShareBilling roomCostShareBilling, PrintOutputBase print)
+        private TableRowGroup ContractCostsRooms(TableRowGroup dataRowGroup, RoomCostShareBilling roomCostShareBilling)
         {
-            dataRowGroup.Rows.Add(print.SeparatorTextTableRow("contract costs", true));
-            dataRowGroup.Rows.Add(print.TableRowBillingHeader());
+            dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("contract costs", true));
+            dataRowGroup.Rows.Add(_Print.TableRowBillingHeader());
 
             double sum = 0.0;
 
@@ -644,8 +645,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 "sum", true));
 
 
-            dataRowGroup.Rows.Add(print.SeparatorTextTableRow("contract costs balance", true));
-            dataRowGroup.Rows.Add(print.TableRowBillingHeader());
+            dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("contract costs balance", true));
+            dataRowGroup.Rows.Add(_Print.TableRowBillingHeader());
 
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                 _BillingViewModel,

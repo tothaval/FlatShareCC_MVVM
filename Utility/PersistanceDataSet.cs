@@ -45,7 +45,19 @@ namespace SharedLivingCostCalculator.Utility
         private readonly FlatViewModel _flatViewModel;
 
 
+        public bool InitialValuesFinalized { get; set; }
+
+
+        public Rent InitialRent { get; set; }
+
+
         public int RoomCount { get; set; }
+
+
+        public bool UseRooms { get; set; } = true;
+
+        
+        public bool UseWorkplaces { get; set; } = false;
 
         #endregion properties
 
@@ -86,7 +98,7 @@ namespace SharedLivingCostCalculator.Utility
             Rents = new ObservableCollection<Rent>();
             Rooms = new ObservableCollection<Room>();
             TenantConfigurations = new ObservableCollection<TenantConfiguration>();
-            Tenants = new ObservableCollection<Tenant>();
+            Tenants = new ObservableCollection<Tenant>();            
         }
 
         public PersistanceDataSet(FlatViewModel flatViewModel)
@@ -99,6 +111,12 @@ namespace SharedLivingCostCalculator.Utility
             DataLock = flatViewModel.HasDataLock;
             Details = flatViewModel.Details;
             FlatNotes = flatViewModel.FlatNotes;
+
+            InitialRent = flatViewModel.InitialRent.Rent;
+            InitialValuesFinalized = flatViewModel.InitialValuesFinalized;
+
+            UseRooms = flatViewModel.Flat.UseRooms;
+            UseWorkplaces = flatViewModel.Flat.UseWorkspaces;
 
             AnnualBillings = GetBillings();
             Rents = GetRents();
@@ -122,8 +140,13 @@ namespace SharedLivingCostCalculator.Utility
                 HasDataLock = DataLock,
                 Details = Details,
                 RoomCount = RoomCount,
-                FlatNotes = FlatNotes
+                FlatNotes = FlatNotes,
+                InitialValuesFinalized = InitialValuesFinalized,
+                UseRooms = UseRooms,
+                UseWorkspaces = UseWorkplaces
             });
+
+            flatViewModel.InitialRent = new RentViewModel(flatViewModel, InitialRent);
 
             Task<ObservableCollection<RoomViewModel>> GetRooms = GetRoomViewModels(flatViewModel);
             flatViewModel.Rooms = await GetRooms;
@@ -197,7 +220,7 @@ namespace SharedLivingCostCalculator.Utility
 
             foreach (Room room in Rooms)
             {
-                RoomViewModel roomViewModel = new RoomViewModel(room);
+                RoomViewModel roomViewModel = new RoomViewModel(room, flatViewModel);
 
                 roomViewModels.Add(roomViewModel);
             }

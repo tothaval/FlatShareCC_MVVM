@@ -26,28 +26,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // properties & fields
         #region properties & fields
 
-        private bool _DataLockCheckbox;
-        public bool DataLockCheckbox
-        {
-            get { return _DataLockCheckbox; }
-            set
-            {
-
-                if (RentViewModel != null)
-                {
-                    _DataLockCheckbox = value;
-                    RentViewModel.CostsHasDataLock = value;
-                }
-
-                OnPropertyChanged(nameof(DataLockCheckbox));
-                OnPropertyChanged(nameof(DataLock));
-            }
-        }
-
-
-        public bool DataLock => !DataLockCheckbox;
-
-
         private readonly FlatViewModel _FlatViewModel;
         public FlatViewModel FlatViewModel => _FlatViewModel;
 
@@ -97,12 +75,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 _FlatViewModel = rentViewModel.GetFlatViewModel();
 
                 ViewModel = RentViewModel;
-
-
-                if (RentViewModel.CostsHasDataLock)
-                {
-                    DataLockCheckbox = true;
-                }
             }
 
         }

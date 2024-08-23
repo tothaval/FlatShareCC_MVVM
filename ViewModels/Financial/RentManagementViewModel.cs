@@ -35,27 +35,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         private AccountingViewModel _AccountingViewModel;
 
 
-        public bool DataLockCheckbox
-        {
-            get
-            {
-                if (UpdateViewModel != null)
-                {
-                    return UpdateViewModel.DataLockCheckbox;
-                }
-
-                return false;
-            }
-
-            set
-            {
-                UpdateViewModel.DataLockCheckbox = value;
-                OnPropertyChanged(nameof(DataLockCheckbox));
-            }
-
-        }
-
-
         private FlatViewModel _FlatViewModel;
         public FlatViewModel FlatViewModel => _FlatViewModel;
 
@@ -79,10 +58,15 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 SelectedItemChange?.Invoke(this, new EventArgs());
 
+                // used for IsEnabled property, therefor it needs to be set true
+                // in this case, value handles 
+                _SelectedValue.NoDataLock = true;
+
                 RentUpdateSelected = true;
 
                 OnPropertyChanged(nameof(RentUpdateSelected));
                 OnPropertyChanged(nameof(SelectedValue));
+
             }
         }
 

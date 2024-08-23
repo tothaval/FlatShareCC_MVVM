@@ -43,12 +43,6 @@
                     Height="40"
                     Grid.Column="1"/>
 
-            <ToggleButton IsChecked="{Binding DataLockCheckbox}"
-                               Style="{StaticResource LockDataToggleButtonStyle}"
-                               HorizontalAlignment="Center"
-                               Grid.Column="2"
-                               />
-
             <Button Command="{Binding DeleteCommand}"
                     CommandParameter="{Binding ElementName=rentupdates, Path=SelectedItems}"
                             IsEnabled="{Binding UpdateViewModel.HasDataLock}"
@@ -139,46 +133,6 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-
-                            <!--<GridViewColumn Header="{DynamicResource IDF_RentPerYear}" Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding AnnualRent,StringFormat=C2,
-                                            UpdateSourceTrigger=PropertyChanged,
-                                            NotifyOnSourceUpdated=True,
-                                            Mode=OneWay}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource IDF_ExtraCostsPerYear}" Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding AnnualExtraCosts,StringFormat=C2,
-                                            UpdateSourceTrigger=PropertyChanged,
-                                            NotifyOnSourceUpdated=True,
-                                            Mode=OneWay}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource IDF_TotalPricePerYear}" Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding AnnualCostsTotal,StringFormat=C2,
-                                            UpdateSourceTrigger=PropertyChanged,
-                                            NotifyOnSourceUpdated=True,
-                                            Mode=OneWay}"
-                                               Style="{StaticResource DoubleValueTextBlock}"
-                                                   FontWeight="Bold"/>
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
 
                         </GridView.Columns>
                     </GridView>
