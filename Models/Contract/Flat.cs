@@ -6,6 +6,7 @@
  *  for _FlatViewModel
  */
 
+using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using System.Collections.ObjectModel;
@@ -38,6 +39,18 @@ namespace SharedLivingCostCalculator.Models.Contract
 
 
         public int RoomCount { get; set; }
+
+
+        public bool InitialValuesFinalized { get; set; } = false;
+
+
+        public Rent InitialRent { get; set; }
+
+
+        public bool UseRooms { get; set; } = true;
+
+
+        public bool UseWorkspaces { get; set; } = false;
 
         #endregion
 
@@ -76,6 +89,7 @@ namespace SharedLivingCostCalculator.Models.Contract
             Details = string.Empty;
             Area = 0.0;
             RoomCount = 1;
+            InitialRent = new Rent(true);
             AnnualBillings = new ObservableCollection<BillingViewModel>();
             Rooms = new ObservableCollection<RoomViewModel>();
             RentUpdates = new ObservableCollection<RentViewModel>();

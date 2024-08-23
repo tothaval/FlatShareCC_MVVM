@@ -18,6 +18,22 @@ namespace SharedLivingCostCalculator.Utility
         }
 
 
+        public DateTime DateEvaluation(DateTime date, FlatViewModel flatViewModel)
+        {
+            DateTime contractStart = new DateTime(
+                flatViewModel.InitialRent.StartDate.Year,
+                flatViewModel.InitialRent.StartDate.Month,
+                flatViewModel.InitialRent.StartDate.Day);
+
+            if (date < contractStart)
+            {
+                date = contractStart;
+            }
+
+            return date;
+        }
+
+
         public double GetAreaSharedCostsShare(Room room, RentViewModel rentViewModel)
         {
             double areaShareRatio = new Compute().RentedAreaShareRatio(room, rentViewModel.GetFlatViewModel());

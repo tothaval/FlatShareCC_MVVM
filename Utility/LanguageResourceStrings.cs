@@ -130,14 +130,15 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_ShowCosts { get; set; } = "Costs"; 
 
         
-        public string IDF_Tenants { get; set; } = "Tenants";     
+        public string IDF_Tenants { get; set; } = "Tenants";
 
         #endregion buttons and commands
 
 
         // flat and room views, general stuff
         #region flat and room views, general stuff
-
+        
+        public string IDF_ContractStart { get; set; } = "Contract Start:";
         public string IDF_StartDate { get; set; } = "Begin";
         public string IDF_EndDate { get; set; } = "End";
 

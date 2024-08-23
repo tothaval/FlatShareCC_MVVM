@@ -21,94 +21,40 @@
                     HorizontalAlignment="Left">
 
             <TabItem Header="{DynamicResource IDF_RentUpdateData}">
-                <StackPanel HorizontalAlignment="Stretch" Margin="10">
-
-
-                    <UniformGrid Columns="2"
-                         Margin="0 10">
-                        <TextBlock Style="{StaticResource Header}"
-                              HorizontalAlignment="Left">
-                       <Run Text="{DynamicResource IDF_Rent}"/>
-                       <Run Text="{DynamicResource IDF_perMonth}"/>
-                        </TextBlock>
-
-                        <TextBlock Style="{StaticResource Header}"
-                              Text="{Binding RentViewModel.CostsTotal, StringFormat=C2}"
-                              TextAlignment="Right"
-                              FontWeight="Bold"
-                              HorizontalAlignment="Right"/>
-
-                    </UniformGrid>
-
-                    <Grid Margin="0 10 0 0">
+                <StackPanel>
+                    <Grid VerticalAlignment="Top" Margin="0 10" >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
-                            <ColumnDefinition Width="*" SharedSizeGroup="Value"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
-
-
                         <TextBlock Text="{DynamicResource IDF_StartDate}"
-                           MinWidth="100"
-                           HorizontalAlignment="Stretch"
-                           Style="{StaticResource StringValueTextBlock}"
-                           Grid.Column="0"
-                           Grid.Row="0"/>
+              MinWidth="100"
+              HorizontalAlignment="Stretch"
+                   VerticalAlignment="Center"
+              Style="{StaticResource StringValueTextBlock}"
+              Grid.Column="0"
+              Grid.Row="0"/>
 
                         <DatePicker SelectedDate="{Binding RentViewModel.StartDate,
-                    StringFormat=d,
-                    UpdateSourceTrigger=PropertyChanged}"
-                            MinWidth="100"
-                            IsEnabled="{Binding HasDataLock}"
-                            HorizontalAlignment="Stretch"
-                            CalendarStyle="{StaticResource CalendarStyle}"                            
-                            Grid.Column="1"
-                            Grid.Row="0">
-
+                StringFormat=d,
+                UpdateSourceTrigger=PropertyChanged}"
+               MinWidth="100"
+               HorizontalAlignment="Stretch"
+                   VerticalAlignment="Center"
+               CalendarStyle="{StaticResource CalendarStyle}"                            
+               Grid.Column="1"
+               Grid.Row="0">
                         </DatePicker>
-
-                        <TextBlock Text="{DynamicResource IDF_Rent}"
-                               Style="{StaticResource StringValueTextBlock}"
-                               Grid.Column="0"
-                               Grid.Row="1"/>
-
-                        <TextBox Text="{Binding RentViewModel.ColdRent,
-                        StringFormat=C2,
-                        Mode=TwoWay,
-                        NotifyOnSourceUpdated=True,
-                        NotifyOnValidationError=True,
-                        ValidatesOnDataErrors=True}"
-                             Style="{StaticResource DoubleValueTextBox}"
-                             IsEnabled="{Binding HasDataLock}"
-                             Grid.Column="1"
-                             Grid.Row="1"/>
-
-                        <TextBlock Text="{DynamicResource IDF_Advance}"
-                               Style="{StaticResource StringValueTextBlock}"
-                               Grid.Column="0"
-                               Grid.Row="2"/>
-
-                        <TextBox Text="{Binding RentViewModel.Advance,
-                        StringFormat=C2,
-                        Mode=TwoWay,
-                        NotifyOnSourceUpdated=True,
-                        NotifyOnValidationError=True,
-                        ValidatesOnDataErrors=True}"
-                             Style="{StaticResource DoubleValueTextBox}"
-                             IsEnabled="{Binding HasDataLock}"
-                             Grid.Column="1"
-                             Grid.Row="2"/>
-
                     </Grid>
 
-
+                    <local:RentDataSetupView DataContext="{Binding RentViewModel}"/>
                 </StackPanel>
+
             </TabItem>
 
             <TabItem Header="{DynamicResource IDF_Costs}">

@@ -6,12 +6,12 @@
  *  
  *  the most important data object
  */
+using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models.Contract;
-using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
-using System.Windows.Media;
+using System.Windows.Input;
 
 
 namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
@@ -79,6 +79,30 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         }
 
 
+        public bool InitialValuesFinalized
+        {
+            get { return Flat.InitialValuesFinalized; }
+            set
+            {
+                Flat.InitialValuesFinalized = value;
+
+                OnPropertyChanged(nameof(InitialValuesFinalized));
+            }
+        }
+
+
+        private RentViewModel _InitialRent;
+        public RentViewModel InitialRent
+        {
+            get { return _InitialRent; }
+            set
+            {
+                _InitialRent = value;
+                OnPropertyChanged(nameof(InitialRent));
+            }
+        }
+
+
         public int RoomCount
         {
             get { return _Flat.RoomCount; }
@@ -115,6 +139,21 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
 
         public double SharedArea => CalculateSharedArea();
+
+
+        private bool _UseRoomCosts;
+        public bool UseRoomCosts
+        {
+            get { return _UseRoomCosts; }
+            set
+            {
+                _UseRoomCosts = value;
+
+                InitialRent.UseRoomCosts4InitialRent(value);
+
+                OnPropertyChanged(nameof(UseRoomCosts));
+            }
+        }
 
         #endregion properties & fields
 
@@ -187,6 +226,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         #endregion collections
 
 
+
         // constructors
         #region constructors
 
@@ -194,13 +234,15 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         {
             _Flat = flat;
 
+            InitialRent = new RentViewModel(this, _Flat.InitialRent);
+
             Rooms = new ObservableCollection<RoomViewModel>();
 
             CreateRooms();
 
             TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
         }
-
+         
         #endregion constructors
 
 
@@ -226,6 +268,23 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             }
 
             return combinedRoomArea;
+        }
+
+
+        public void CalculateInitialRent()
+        {
+
+            double coldRent = 0.0;
+            double advance = 0.0;
+
+            foreach (RoomViewModel item in Rooms)
+            {
+                coldRent += item.InitialColdRent;
+                advance += item.InitialAdvance;
+            }
+
+            InitialRent.ColdRent = coldRent;
+            InitialRent.Advance = advance;
         }
 
 
@@ -261,7 +320,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
             for (int i = 0; i < RoomCount; i++)
             {
-                RoomViewModel room = new RoomViewModel(new Room($"room{i + 1}", 0));
+                RoomViewModel room = new RoomViewModel(new Room($"room{i + 1}", 0), this);
 
                 room.RoomAreaChanged += Room_RoomAreaChanged;
                 room.PropertyChanged += Room_PropertyChanged;
@@ -342,6 +401,30 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
             OnPropertyChanged(nameof(RentUpdates));
         }
+
+
+        internal void UseRoomCosts4InitialRent()
+        {
+            foreach (RoomViewModel item in Rooms)
+            {
+                item.InitialCostsAreRoomBased = InitialRent.Rent.UseRoomCosts4InitialRent;
+            }
+        }
+
+
+        internal void UseRooms()
+        {
+            Flat.UseRooms = true;
+            Flat.UseWorkspaces = false;
+        }
+
+
+        internal void UseWorkplaces()
+        {
+            Flat.UseRooms = false;
+            Flat.UseWorkspaces = true;
+        }
+
         #endregion methods
 
 
@@ -350,10 +433,15 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         private void Room_RoomAreaChanged(object? sender, EventArgs e)
         {
-            //if (CombinedRoomArea > Area)
-            //{
-            //    MessageBox.Show("combined area of Rooms is larger than flat area");
-            //}
+            RoomViewModel? room = sender as RoomViewModel;
+
+            if (room != null && UseRoomCosts)
+            {
+
+
+                OnPropertyChanged(nameof(CombinedRoomArea));
+                OnPropertyChanged(nameof(SharedArea));
+            }
 
             OnPropertyChanged(nameof(CombinedRoomArea));
             OnPropertyChanged(nameof(SharedArea));
@@ -367,11 +455,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
             if (room != null)
             {
-                //if (CombinedRoomArea > Area)
-                //{
-                //    MessageBox.Show("combined area of Rooms is larger than flat area");
-                //}
-
                 OnPropertyChanged(nameof(CombinedRoomArea));
                 OnPropertyChanged(nameof(SharedArea));
             }

@@ -34,11 +34,6 @@
                     Style="{StaticResource buttonStyle}"
                     Grid.Column="0"/>
 
-            <ToggleButton IsChecked="{Binding DataLockCheckbox}"
-                          Style="{StaticResource LockDataToggleButtonStyle}"
-                          HorizontalAlignment="Center"
-                          Grid.Column="1"/>
-
             <Button Content="{DynamicResource IDF_DeleteBilling}"
                     Command="{Binding DeleteBillingCommand}"
                     CommandParameter="{Binding ElementName=rentupdates, Path=SelectedItems}"

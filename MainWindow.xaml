@@ -79,6 +79,11 @@
                 <views:RentUpdateView/>
             </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vmsfin:InitialRentSetupViewModel}">
+            <views:InitialRentSetupView/>
+        </DataTemplate>
+                      
+
         <DataTemplate DataType="{x:Type vmsfin:OtherCostsBillingViewModel}">
             <views:OtherCostsView/>
         </DataTemplate>

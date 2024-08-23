@@ -29,6 +29,46 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         }
 
 
+        private readonly FlatViewModel _FlatViewModel;
+
+
+        public double InitialAdvance
+        {
+            get { return _Room.InitialAdvance; }
+            set
+            {
+                _Room.InitialAdvance = value;
+                     
+                OnPropertyChanged(nameof(InitialAdvance));
+
+                _FlatViewModel.CalculateInitialRent();
+            }
+        }
+
+        public double InitialColdRent
+        {
+            get { return _Room.InitialColdRent; }
+            set
+            {
+                _Room.InitialColdRent = value;
+                          
+                OnPropertyChanged(nameof(InitialColdRent));
+
+                _FlatViewModel.CalculateInitialRent();
+            }
+        }
+
+        public bool InitialCostsAreRoomBased
+        {
+            get { return _Room.InitialCostsAreRoomBased; }
+            set
+            {
+                _Room.InitialCostsAreRoomBased = value;
+                OnPropertyChanged(nameof(InitialCostsAreRoomBased));
+            }
+        }
+
+
         private Room _Room;
         public Room Room => _Room;
 
@@ -88,9 +128,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         // constructors
         #region constructors
 
-        public RoomViewModel(Room room)
+        public RoomViewModel(Room room, FlatViewModel flatViewModel)
         {
             _Room = room;
+            _FlatViewModel = flatViewModel;
         }
 
         #endregion constructors

@@ -7,8 +7,11 @@
  *  displays a seperate window for creating
  *  or editing of _FlatViewModel instances
  */
+using SharedLivingCostCalculator.Commands;
+using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
+using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels.Contract
 {
@@ -24,7 +27,42 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         private FlatViewModel _FlatViewModel;
         public FlatViewModel FlatViewModel => _FlatViewModel;
 
+
+        private bool _UseRoomsChecked;
+        public bool UseRoomsChecked
+        {
+            get { return _UseRoomsChecked; }
+            set
+            {
+                _UseRoomsChecked = value;
+                OnPropertyChanged(nameof(UseRoomsChecked));
+            }
+        }
+
+
+        private bool _UseWorkspacesChecked;
+        public bool UseWorkspacesChecked
+        {
+            get { return _UseWorkspacesChecked; }
+            set
+            {
+                _UseWorkspacesChecked = value;
+                OnPropertyChanged(nameof(UseWorkspacesChecked));
+            }
+        }
+
         #endregion properties & fields
+
+
+        // Commands
+        #region Commands
+
+        public ICommand UseRoomsCommand { get; }
+
+
+        public ICommand UseWorkspacesCommand { get; }
+
+        #endregion
 
 
         // constructors
@@ -41,6 +79,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             _FlatViewModel = _FlatManagementViewModel.SelectedItem;
 
             _FlatManagementViewModel.FlatViewModelChange += _FlatManagementViewModel_FlatViewModelChange;
+
+            UseRoomsCommand = new RelayCommand((s) => UseRooms(), (s) => true);
+
+            UseWorkspacesCommand = new RelayCommand((s) => UseWorkplaces(), (s) => true);
 
             OnPropertyChanged(nameof(FlatViewModel));
         }
@@ -60,6 +102,31 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             OnPropertyChanged(nameof(FlatViewModel));
         }
 
+
+        private void UseRooms()
+        {
+            UseWorkspacesChecked = false;
+            UseRoomsChecked = true;
+
+            if (FlatViewModel != null)
+            {
+                FlatViewModel.UseRooms();
+            }
+        }
+
+
+        private void UseWorkplaces()
+        {
+            UseWorkspacesChecked = true;
+            UseRoomsChecked = false;
+
+            if (FlatViewModel != null)
+            {
+                FlatViewModel.UseWorkplaces();
+            }
+        }
+
+
         #endregion methods
 
 
@@ -69,12 +136,15 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         private void _FlatManagementViewModel_FlatViewModelChange(object? sender, EventArgs e)
         {
             _FlatViewModel = _FlatManagementViewModel.SelectedItem;
-            
+
             if (_FlatViewModel != null)
             {
                 _FlatViewModel.RoomCreation += _flatsetup_RoomCreation;
 
                 _FlatViewModel.PropertyChanged += _flatsetup_PropertyChanged;
+
+                UseRoomsChecked = _FlatViewModel.Flat.UseRooms;
+                UseWorkspacesChecked = _FlatViewModel.Flat.UseWorkspaces;
             }
 
             OnPropertyChanged(nameof(FlatViewModel));

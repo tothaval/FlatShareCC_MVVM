@@ -10,6 +10,7 @@
     <Grid HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -22,10 +23,14 @@
             ElementName=SIV}"
                    Style="{StaticResource StringValueTextBlock}"
                    />
+
+        <Button Style="{StaticResource PopupButtonStyle}"
+                Grid.Column="1"/>
+
         <TextBox Text="{Binding Path=Value, ElementName=SIV, UpdateSourceTrigger=PropertyChanged, StringFormat=C2}"
                  IsReadOnly="{Binding Path=IsReadOnly, ElementName=SIV}"                 
                  x:Name="TB_Value"
-                     Grid.Column="1"
+                     Grid.Column="2"
                  TextAlignment="{Binding Path=ValueAlignment, ElementName=SIV}"                
                  MinWidth="{Binding Path=ValueMinWidth, ElementName=SIV}"
                  Style="{StaticResource DoubleValueTextBox}"

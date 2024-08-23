@@ -7,6 +7,7 @@
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Financial;
+using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
@@ -139,20 +140,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         // Other Properties
         #region Other Properties
 
-        public bool CostsHasDataLock
-        {
-            get { return Rent.CostsHasDataLock; }
-            set
-            {
-                Rent.CostsHasDataLock = value;
-
-                RentViewModelConfigurationChange?.Invoke(this, new EventArgs());
-
-                OnPropertyChanged(nameof(CostsHasDataLock));
-            }
-        }
-
-
         private readonly FlatViewModel _FlatViewModel;
 
 
@@ -175,14 +162,15 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public bool HasDataLock
+
+        private bool _HasDataLock;
+        public bool NoDataLock
         {
-            get { return Rent.HasDataLock; }
+            get { return _HasDataLock; }
             set
             {
-                Rent.HasDataLock = value;
-
-                OnPropertyChanged(nameof(HasDataLock));
+                _HasDataLock = value;
+                OnPropertyChanged(nameof(NoDataLock));
             }
         }
 
@@ -206,6 +194,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public bool IsInitialRent
+        {
+            get { return Rent.IsInitialRent; }
+            set
+            {
+                Rent.IsInitialRent = value;
+
+                OnPropertyChanged(nameof(IsInitialRent));
+            }
+        }
+
 
         private Rent _Rent;
         public Rent Rent
@@ -224,8 +223,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             get { return Rent.StartDate; }
             set
             {
-                Rent.StartDate = value; OnPropertyChanged(nameof(StartDate));
+                if (!Rent.IsInitialRent)
+                {
+                    Rent.StartDate = new Compute().DateEvaluation(value, _FlatViewModel);
+                }
+                else
+                {
+                    Rent.StartDate = value;
+                }
+                
+                OnPropertyChanged(nameof(StartDate));
+
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
+
+                ChangeDateValues();
             }
         }
 
@@ -363,6 +374,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        private void ChangeDateValues()
+        {
+            foreach (FinancialTransactionItemRentViewModel item in Credits)
+            {
+                item.StartDate = StartDate;
+            }
+
+            foreach (FinancialTransactionItemRentViewModel item in FinancialTransactionItemViewModels)
+            {
+                item.StartDate = StartDate;
+            }
+        }
+
+
         private void ClearCosts()
         {
             Rent.ClearCosts();
@@ -410,38 +435,41 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         public void GenerateCosts()
         {
-            Credits = new ObservableCollection<IFinancialTransactionItem>();
-            FinancialTransactionItemViewModels = new ObservableCollection<IFinancialTransactionItem>();
-
-            foreach (FinancialTransactionItemRent item in Rent.Costs)
+            if (Rent != null)
             {
-                FinancialTransactionItemViewModels.Add(new FinancialTransactionItemRentViewModel(item));
+                Credits = new ObservableCollection<IFinancialTransactionItem>();
+                FinancialTransactionItemViewModels = new ObservableCollection<IFinancialTransactionItem>();
+
+                foreach (FinancialTransactionItemRent item in Rent.Costs)
+                {
+                    FinancialTransactionItemViewModels.Add(new FinancialTransactionItemRentViewModel(item));
+                }
+
+                foreach (FinancialTransactionItemRent item in Rent.Credits)
+                {
+                    Credits.Add(new FinancialTransactionItemRentViewModel(item));
+                }
+
+                foreach (FinancialTransactionItemRentViewModel item in FinancialTransactionItemViewModels)
+                {
+                    item.ValueChange += CostItemViewModel_ValueChange;
+                }
+
+                foreach (FinancialTransactionItemRentViewModel item in Credits)
+                {
+                    item.ValueChange += CreditItemViewModel_ValueChange;
+                }
+
+
+                CalculateCreditSum();
+                CalculateOtherFTISum();
+
+                RebuildRoomCostShares();
+
+                OnPropertyChanged(nameof(Credits));
+                OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
+                OnPropertyChanged(nameof(HasOtherCosts)); 
             }
-
-            foreach (FinancialTransactionItemRent item in Rent.Credits)
-            {
-                Credits.Add(new FinancialTransactionItemRentViewModel(item));
-            }
-
-            foreach (FinancialTransactionItemRentViewModel item in FinancialTransactionItemViewModels)
-            {
-                item.ValueChange += CostItemViewModel_ValueChange;
-            }
-
-            foreach (FinancialTransactionItemRentViewModel item in Credits)
-            {
-                item.ValueChange += CreditItemViewModel_ValueChange;
-            }
-
-
-            CalculateCreditSum();
-            CalculateOtherFTISum();
-
-            RebuildRoomCostShares();
-
-            OnPropertyChanged(nameof(Credits));
-            OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
-            OnPropertyChanged(nameof(HasOtherCosts));
         }
 
 
@@ -473,10 +501,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         {
             RoomCostShares = new ObservableCollection<RoomCostShareRent>();
 
-            foreach (RoomViewModel item in GetFlatViewModel().Rooms)
+            if (Rent.IsInitialRent && Rent.UseRoomCosts4InitialRent)
             {
-                RoomCostShares.Add(new RoomCostShareRent(item.Room, this));
+
             }
+            else
+            {
+                foreach (RoomViewModel item in GetFlatViewModel().Rooms)
+                {
+                    RoomCostShares.Add(new RoomCostShareRent(item.Room, this));
+                }
+
+            }
+
 
             OnPropertyChanged(nameof(RoomCostShares));
         }
@@ -499,6 +536,16 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             GenerateCosts();
 
             OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
+        }
+
+        internal void UseRoomCosts4InitialRent(bool useRoomCosts)
+        {
+            Rent.SetUseRoomCosts(useRoomCosts);
+
+            if (Rent.IsInitialRent)
+            {
+                _FlatViewModel.UseRoomCosts4InitialRent();
+            }
         }
 
         #endregion

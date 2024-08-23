@@ -1,5 +1,8 @@
 # SharedLivingCostCalculator dev_build
 
+!!! this document is not up to date, some information might be obsolete.
+
+
  primary use case:   
  calculation of costs and advances for people who share an office, 
  a flat or other areas. 

@@ -93,19 +93,6 @@
                     <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
                         <GridView.Columns>
 
-                            <GridViewColumn Header="Begin">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <DatePicker SelectedDate="{Binding StartDate}"
-                                                    HorizontalAlignment="Stretch"
-                                                    IsEnabled="{Binding DataContext.HasDataLock,
-                                            RelativeSource={RelativeSource AncestorType=local:RentUpdateView},
-                                            NotifyOnSourceUpdated=True}"/>
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
                             <GridViewColumn Header="Duration">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -140,7 +127,7 @@
                                     <DataTemplate>
                                         <ComboBox ItemsSource="{Binding Source={StaticResource shareTypesEnum},
                                             UpdateSourceTrigger=PropertyChanged}"
-                                                  SelectedItem="{Binding CostShareTypes}"                                                  
+                                                  SelectedItem="{Binding TransactionShareTypes}"                                                  
                                                   HorizontalAlignment="Stretch" 
                                                   IsEnabled="{Binding DataContext.HasDataLock,
                                             RelativeSource={RelativeSource AncestorType=local:RentUpdateView},

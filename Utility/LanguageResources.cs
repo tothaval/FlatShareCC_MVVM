@@ -195,7 +195,8 @@ namespace SharedLivingCostCalculator.Utility
 
             // flat and room views, general stuff
             #region flat and room views, general stuff
-
+            
+            Application.Current.Resources["IDF_ContractStart"] = languageResource.IDF_ContractStart;
             Application.Current.Resources["IDF_StartDate"] = languageResource.IDF_StartDate;
             Application.Current.Resources["IDF_EndDate"] = languageResource.IDF_EndDate;
 

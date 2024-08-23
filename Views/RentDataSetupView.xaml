@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="SharedLivingCostCalculator.Views.RentDataSetupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <StackPanel HorizontalAlignment="Stretch">
+        
+        <UniformGrid Columns="2">
+            <TextBlock Style="{StaticResource Header}"
+                       HorizontalAlignment="Left"
+                       Margin="10 0 0 0">
+                <Run Text="{DynamicResource IDF_Rent}"/>
+          <Run Text="{DynamicResource IDF_perMonth}"/>
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource Header}"
+                 Text="{Binding CostsTotal, StringFormat=C2}"
+                 TextAlignment="Right"
+                 FontWeight="Bold"
+                 HorizontalAlignment="Right"/>
+
+        </UniformGrid>
+
+        <Grid Margin="0 10 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" SharedSizeGroup="Value"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="{DynamicResource IDF_Rent}"
+                  Style="{StaticResource StringValueTextBlock}"                       
+                  Grid.Column="0"
+                  Grid.Row="1"/>
+
+            <Button Style="{StaticResource PopupButtonStyle}"
+                        Grid.Column="1"
+                  Grid.Row="1"/>
+            
+            <TextBox Text="{Binding ColdRent,
+                StringFormat=C2,
+                Mode=TwoWay,
+           NotifyOnSourceUpdated=True,
+                NotifyOnValidationError=True,
+                ValidatesOnDataErrors=True}"
+                     Style="{StaticResource DoubleValueTextBox}"
+                     IsEnabled="{Binding NoDataLock}"
+                     Grid.Column="2"
+                     Grid.Row="1"/>
+
+            
+            <TextBlock Text="{DynamicResource IDF_Advance}"
+                       Style="{StaticResource StringValueTextBlock}"
+                       Grid.Column="0"
+                       Grid.Row="2"/>
+
+            <Button Style="{StaticResource PopupButtonStyle}"
+                        Grid.Column="1"
+                  Grid.Row="2"/>
+            
+            <TextBox Text="{Binding Advance,
+                StringFormat=C2,
+                Mode=TwoWay,
+                NotifyOnSourceUpdated=True,
+                NotifyOnValidationError=True,
+                ValidatesOnDataErrors=True}"
+                     Style="{StaticResource DoubleValueTextBox}"
+                     IsEnabled="{Binding NoDataLock}"
+                     Grid.Column="2"
+                     Grid.Row="2"/>
+            
+        </Grid>
+
+
+    </StackPanel>
+</UserControl>

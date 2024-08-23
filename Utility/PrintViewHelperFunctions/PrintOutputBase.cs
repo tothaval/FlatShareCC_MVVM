@@ -11,11 +11,6 @@ using System.Windows.Documents;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Data;
-using SharedLivingCostCalculator.Interfaces.Financial;
-using SharedLivingCostCalculator.ViewModels;
-using static System.Net.WebRequestMethods;
-using SharedLivingCostCalculator.Models.Contract;
-using System.Security.RightsManagement;
 using SharedLivingCostCalculator.Interfaces.Contract;
 
 namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
@@ -109,6 +104,25 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             DateTime startDate = new DateTime(SelectedYear, 1, 1);
             DateTime endDate = new DateTime(SelectedYear, 12, 31);
 
+            int counter = 0;
+
+            // rent begins before selected year ends
+            if (_FlatViewModel.InitialRent.StartDate < endDate)
+            {
+                counter++;
+            }
+
+            // rent begins after Billing period start but before Billing period end
+            if (_FlatViewModel.InitialRent.StartDate > startDate || _FlatViewModel.InitialRent.StartDate < endDate)
+            {
+                counter++;
+            }
+
+            if (counter > 0)
+            {
+                preSortList.Add(_FlatViewModel.InitialRent); 
+            }
+
             if (FlatViewModel.RentUpdates.Count > 0)
             {
                 // filling the collection with potential matches
@@ -123,14 +137,14 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     // rent begins before selected year starts
                     if (rent.StartDate < startDate)
                     {
-                        preSortList.Add(new RentViewModel(FlatViewModel, rent.Rent));
+                        preSortList.Add(rent);
                         continue;
                     }
 
                     // rent begins before selected year ends
                     if (rent.StartDate < endDate)
                     {
-                        preSortList.Add(new RentViewModel(FlatViewModel, rent.Rent));
+                        preSortList.Add(rent);
 
                         continue;
                     }
@@ -138,35 +152,9 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     // rent begins after Billing period start but before Billing period end
                     if (rent.StartDate > startDate || rent.StartDate < endDate)
                     {
-                        preSortList.Add(new RentViewModel(FlatViewModel, rent.Rent));
+                        preSortList.Add(rent);
                     }
                 }
-
-                //    RentViewModel? comparer = new RentViewModel(_flatViewModel, new Rent() { StartDate = StartDate });
-                //    bool firstRun = true;
-
-                //    // building a collection of relevant rent items
-                //    foreach (RentViewModel item in preSortList)
-                //    {
-                //        if (item.StartDate >= StartDate)
-                //        {
-                //            RentList.Add(item);
-                //            continue;
-                //        }
-
-                //        if (item.StartDate < StartDate && firstRun)
-                //        {
-                //            firstRun = false;
-                //            comparer = item;
-                //            continue;
-                //        }
-
-                //        if (item.StartDate < StartDate && item.StartDate > comparer.StartDate)
-                //        {
-                //            comparer = item;
-                //        }
-                //    }
-                //    RentList.Add(comparer);
             }
 
             // sort List by StartDate, ascending
