@@ -216,6 +216,17 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             get { return _ShowPrintView; }
             set
             {
+
+                if (value == true && SelectedItem != null)
+                {
+                    SelectedItem.InitialRent.RecalculateRoomCosts();
+
+                    foreach (RentViewModel item in SelectedItem.RentUpdates)
+                    {
+                        item.RecalculateRoomCosts();
+                    }
+                }
+
                 _ShowPrintView = value;
 
                 if (_ShowPrintView)
@@ -224,6 +235,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                     ShowAnnualBilling = false;
                     ShowFlatManagement = false;
                     ShowManual = false;
+
+
+
                 }
                 OnPropertyChanged(nameof(ShowPrintView));
             }

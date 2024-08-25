@@ -260,7 +260,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public TableRow OutputTableRow(RentViewModel viewModel, double payment, string item, int month = -1, bool FontWeightBold = false)
+        public TableRow OutputTableRow(RentViewModel viewModel, double payment, string item, int month = -1, bool FontWeightBold = false, bool HasTopLine = true)
         {
             TableRow dataRow = new TableRow();
 
@@ -291,10 +291,15 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
                 {
                     BorderBrush = new SolidColorBrush(Colors.Black),
-                    BorderThickness = new Thickness(0, 1, 0, 0),
+                    BorderThickness = new Thickness(0, 0, 0, 0),
                     FontWeight = FontWeights.Bold,
                     Margin = new Thickness(0, 0, 10, 0)
                 };
+
+                if (HasTopLine)
+                {
+                    paymentParagraph.BorderThickness = new Thickness(0, 1, 0, 0);
+                }
 
                 Payment.Blocks.Add(paymentParagraph);
             }
@@ -390,7 +395,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
 
 
-        public TableRow OutputTableRowRooms(RentViewModel viewModel, string roomname, double payment, string item, int month = -1, bool FontWeightBold = false)
+        public TableRow OutputTableRowRooms(RentViewModel viewModel, string roomname, double payment, string item, int month = -1, bool FontWeightBold = false, bool HasTopLine = true)
         {
             TableRow dataRow = new TableRow();
 
@@ -404,6 +409,72 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             Payment.TextAlignment = TextAlignment.Right;
 
             RoomName.Blocks.Add(new Paragraph(new Run()));
+
+            if (month == -1 && viewModel.StartDate.Year == SelectedYear)
+            {
+                DueTime.Blocks.Add(new Paragraph(new Run($"> {viewModel.StartDate.Month}/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
+            }
+            else if (month == -1 && viewModel.StartDate.Year < SelectedYear)
+            {
+                DueTime.Blocks.Add(new Paragraph(new Run($"> 1/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
+            }
+            else
+            {
+                DueTime.Blocks.Add(new Paragraph(new Run($"{month}/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
+            }
+
+            Item.Blocks.Add(new Paragraph(new Run(item)));
+
+            if (FontWeightBold)
+            {
+                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}\n"))
+                {
+                    BorderBrush = new SolidColorBrush(Colors.Black),
+                    BorderThickness = new Thickness(0, 0, 0, 0),
+                    FontWeight = FontWeights.Bold,
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+
+                if (HasTopLine)
+                {
+                    paymentParagraph.BorderThickness = new Thickness(0, 1, 0, 0);
+                }
+
+                Payment.Blocks.Add(paymentParagraph);
+            }
+            else
+            {
+                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
+                {
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+
+                Payment.Blocks.Add(paymentParagraph);
+            }
+
+            dataRow.Cells.Add(RoomName);
+            dataRow.Cells.Add(DueTime);
+            dataRow.Cells.Add(Item);
+            dataRow.Cells.Add(Payment);
+
+            return dataRow;
+        }
+
+
+        public TableRow OutputTableRowRoomsWithRoomName(RentViewModel viewModel, string roomname, double payment, string item, int month = -1, bool FontWeightBold = false)
+        {
+            TableRow dataRow = new TableRow();
+
+            TableCell RoomName = new TableCell();
+
+            TableCell DueTime = new TableCell();
+            DueTime.TextAlignment = TextAlignment.Right;
+
+            TableCell Item = new TableCell();
+            TableCell Payment = new TableCell();
+            Payment.TextAlignment = TextAlignment.Right;
+
+            RoomName.Blocks.Add(new Paragraph(new Run(roomname)));
 
             if (month == -1 && viewModel.StartDate.Year == SelectedYear)
             {

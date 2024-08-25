@@ -39,8 +39,8 @@ namespace SharedLivingCostCalculator.Models.Financial
          * OtherCostsShare              <- EqualSharedCostsShare + AreaSharedCostsShare, sum of other costs
          * CompleteCostShare            <- RentShare + FixedCostsAdvanceShare + HeatingCostsShare + OtherCostsShare, all costs combined
          */
-        
-        
+
+
         #region Annual Costs
 
         //public double AnnualCompleteCostShare => CompleteCostShare * 12;
@@ -63,19 +63,17 @@ namespace SharedLivingCostCalculator.Models.Financial
         // First Year Costs
         #region First Year Costs
 
-        //public double FirstYearCompleteCostShare => CompleteCostShare * DetermineMonthsUntilYearsEnd();
+        public double FirstYearCompleteCostShare => CompleteCostShare * DetermineMonthsUntilYearsEnd();
+
+        public double FirstYearContractCostsShare => FirstYearAdvanceShare + FirstYearRentShare;
+
+        public double FirstYearAdvanceShare => AdvanceShare * DetermineMonthsUntilYearsEnd();
 
 
-        //public double FirstYearFixedCostsAdvanceShare => FixedCostsAdvanceShare * DetermineMonthsUntilYearsEnd();
+        public double FirstYearOtherCostsShare => OtherCostsShare * DetermineMonthsUntilYearsEnd();
 
 
-        //public double FirstYearHeatingCostsAdvanceShare => HeatingCostsAdvanceShare * DetermineMonthsUntilYearsEnd();
-
-
-        //public double FirstYearOtherCostsShare => OtherCostsShare * DetermineMonthsUntilYearsEnd();
-
-
-        //public double FirstYearRentShare => RentShare * DetermineMonthsUntilYearsEnd();
+        public double FirstYearRentShare => RentShare * DetermineMonthsUntilYearsEnd();
 
         #endregion
 
@@ -160,18 +158,11 @@ namespace SharedLivingCostCalculator.Models.Financial
             _RentViewModel = rentViewModel;
             _Room = room;
             ViewModel = rentViewModel;
-                       
-            if (rentViewModel.GetFlatViewModel() != null)
-            {
-                rentViewModel.GetFlatViewModel().PropertyChanged += RoomCostShareRent_PropertyChanged;
-            }
-
 
             RentedAreaShare = new Compute().RentedAreaShare(_Room, _RentViewModel.GetFlatViewModel());
             RentedAreaShareRatio = new Compute().RentedAreaShareRatio(_Room, _RentViewModel.GetFlatViewModel());
 
-
-            if (_RentViewModel.IsInitialRent)
+            if (_RentViewModel.IsInitialRent && _RentViewModel.Rent.UseRoomCosts4InitialRent)
             {
                 RentShare = room.InitialColdRent;
                 AdvanceShare = room.InitialAdvance;
@@ -256,12 +247,12 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             CostAndCreditShare = CompleteCostShare - CreditShare;
 
-            OnPropertyChanged(nameof(RentedAreaShare));
-            OnPropertyChanged(nameof(RentShare));
-            OnPropertyChanged(nameof(AdvanceShare));
+            //OnPropertyChanged(nameof(RentedAreaShare));
+            //OnPropertyChanged(nameof(RentShare));
+            //OnPropertyChanged(nameof(AdvanceShare));
 
-            OnPropertyChanged(nameof(OtherCostsShare));
-            OnPropertyChanged(nameof(CompleteCostShare));
+            //OnPropertyChanged(nameof(OtherCostsShare));
+            //OnPropertyChanged(nameof(CompleteCostShare));
 
             //OnPropertyChanged(nameof(AnnualFixedCostsAdvanceShare));
             //OnPropertyChanged(nameof(AnnualHeatingCostsAdvanceShare));
@@ -362,8 +353,8 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         private void RoomCostShareRent_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            OnPropertyChanged(nameof(RoomArea));
-            OnPropertyChanged(nameof(RoomName));
+            //OnPropertyChanged(nameof(RoomArea));
+            //OnPropertyChanged(nameof(RoomName));
 
             CalculateValues();
         }

@@ -248,12 +248,14 @@
                                                 <ToggleButton Content="Use Flat Costs"
                                                           Command="{Binding UseFlatCostsCommand}"
                                                           IsChecked="{Binding UseFlatCostsChecked}"
-                                                          Style="{StaticResource toggleButtonStyle}"/>
+                                                          Style="{StaticResource toggleButtonStyle}"
+                                                              ToolTip="{DynamicResource LRS_PH_UseFlatCosts}"/>
 
                                                 <ToggleButton Content="Use Room Costs"
                                                           Command="{Binding UseRoomCostsCommand}"
                                                           IsChecked="{Binding UseRoomCostsChecked}"                                                          
-                                                          Style="{StaticResource toggleButtonStyle}"/>
+                                                          Style="{StaticResource toggleButtonStyle}"
+                                                              ToolTip="{DynamicResource LRS_PH_UseRoomCosts}"/>
                                             </UniformGrid>
                                             
                                             <ContentPresenter Content="{Binding InitialRentSetup}"

@@ -8,7 +8,7 @@
   <FlatNotes>several blocks away is a tram station
 and a bus stop.
 there is a grocery store nearby.</FlatNotes>
-  <InitialValuesFinalized>true</InitialValuesFinalized>
+  <InitialValuesFinalized>false</InitialValuesFinalized>
   <InitialRent>
     <Advance>
       <Duration>Ongoing</Duration>

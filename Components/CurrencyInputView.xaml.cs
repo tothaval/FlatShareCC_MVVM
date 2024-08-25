@@ -58,6 +58,16 @@ namespace SharedLivingCostCalculator.Components
             DependencyProperty.Register("LabelWidth", typeof(double), typeof(CurrencyInputView), new PropertyMetadata(100.0));
 
 
+        public string PopupHint
+        {
+            get { return (string)GetValue(PopupHintProperty); }
+            set { SetValue(PopupHintProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PopupHint.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PopupHintProperty =
+            DependencyProperty.Register("PopupHint", typeof(string), typeof(CurrencyInputView), new PropertyMetadata(string.Empty));
+
         public double Value
         {
             get { return (double)GetValue(ValueProperty); }

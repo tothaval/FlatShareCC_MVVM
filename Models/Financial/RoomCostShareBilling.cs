@@ -340,7 +340,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                     {
                         double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
 
-                        if (RentList[i] != null)
+                        if (RentList[i] != null && RentList[i].RoomCostShares != null)
                         {
                             foreach (RoomCostShareRent item in RentList[i].RoomCostShares)
                             {

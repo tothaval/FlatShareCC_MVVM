@@ -6,6 +6,7 @@
  *  which assignes the members of a LanguageResourceStrings instance
  *  to the application resources 
  */
+using SharedLivingCostCalculator.Utility.LanguageRessources;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -87,6 +88,8 @@ namespace SharedLivingCostCalculator.Utility
 
                             SetResources(member);
 
+                            SetResources4PopupHints(new PopupHintStrings());
+
                             break;
                         }
                         catch
@@ -120,6 +123,39 @@ namespace SharedLivingCostCalculator.Utility
             }
 
             return languages;
+        }
+
+
+        public void SetResources4PopupHints(PopupHintStrings popupHintStrings)
+        {
+
+            // flatmanagment
+            #region flatmanagment
+
+            Application.Current.Resources["LRS_PH_Address"] = popupHintStrings.LRS_PH_Address;
+            Application.Current.Resources["LRS_PH_Advance"] = popupHintStrings.LRS_PH_Advance;
+
+            Application.Current.Resources["LRS_PH_ContractStart"] = popupHintStrings.LRS_PH_ContractStart;
+            Application.Current.Resources["LRS_PH_Details"] = popupHintStrings.LRS_PH_Details;
+
+            Application.Current.Resources["LRS_PH_FlatArea"] = popupHintStrings.LRS_PH_FlatArea;
+            Application.Current.Resources["LRS_PH_FlatNotes"] = popupHintStrings.LRS_PH_FlatNotes;
+
+            Application.Current.Resources["LRS_PH_Rent"] = popupHintStrings.LRS_PH_Rent;
+            Application.Current.Resources["LRS_PH_RoomArea"] = popupHintStrings.LRS_PH_RoomArea;
+            
+            Application.Current.Resources["LRS_PH_RoomCount"] = popupHintStrings.LRS_PH_RoomCount;
+            Application.Current.Resources["LRS_PH_RoomName"] = popupHintStrings.LRS_PH_RoomName;
+
+            Application.Current.Resources["LRS_PH_RoomSetupAreaDisplay"] = popupHintStrings.LRS_PH_RoomSetupAreaDisplay;
+
+            Application.Current.Resources["LRS_PH_UseFlatCosts"] = popupHintStrings.LRS_PH_UseFlatCosts;
+            Application.Current.Resources["LRS_PH_UseRoomCosts"] = popupHintStrings.LRS_PH_UseRoomCosts;
+
+            Application.Current.Resources["LRS_PH_UseRooms"] = popupHintStrings.LRS_PH_UseRooms;
+            Application.Current.Resources["LRS_PH_UseWorkplaces"] = popupHintStrings.LRS_PH_UseWorkplaces;
+
+            #endregion
         }
 
 
