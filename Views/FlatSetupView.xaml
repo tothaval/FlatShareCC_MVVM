@@ -37,14 +37,14 @@
                               Command="{Binding UseRoomsCommand}"
                               IsChecked="{Binding UseRoomsChecked}"
                               Style="{StaticResource toggleButtonStyle}"
-                              ToolTip="If selected, rooms will be used to calculate the values."/>
+                              ToolTip="{DynamicResource LRS_PH_UseRooms}"/>
 
                 <ToggleButton Content="Use Workspaces"
                               Command="{Binding UseWorkspacesCommand}"
                               IsChecked="{Binding UseWorkspacesChecked}"
                               Style="{StaticResource toggleButtonStyle}"
                               IsEnabled="false"
-                              ToolTip="If selected, rooms and workplaces will be used to calculate the values."/>
+                              ToolTip="{DynamicResource LRS_PH_UseWorkplaces}"/>
                               
             </UniformGrid>
 
@@ -56,6 +56,7 @@
             NotifyOnSourceUpdated=True,
             Mode=TwoWay}"
                                IsEnabled="{Binding FlatViewModel.HasDataLock}"
+                                     PopupHint="{DynamicResource LRS_PH_Address}"
                                Foreground="DarkSlateGray"
                                ValueMinWidth="100"
                                Grid.Row="1" />
@@ -66,6 +67,7 @@
             UpdateSourceTrigger=PropertyChanged,
             NotifyOnSourceUpdated=True,
             Mode=TwoWay}"
+                                     PopupHint="{DynamicResource LRS_PH_Details}"
                                IsEnabled="{Binding FlatViewModel.HasDataLock}"
                                Foreground="DarkSlateGray"
                                ValueMinWidth="100"
@@ -78,7 +80,8 @@
             UpdateSourceTrigger=PropertyChanged,
             NotifyOnTargetUpdated=True,
             Mode=TwoWay,
-                              Delay=250}"                            
+                              Delay=250}"                
+                                     PopupHint="{DynamicResource LRS_PH_FlatArea}"            
                                IsEnabled="{Binding FlatViewModel.HasDataLock}"
                                Foreground="DarkSlateGray"
                                  ValueAlignment="Right"
@@ -90,6 +93,7 @@
                                  Value="{Binding FlatViewModel.RoomCount,
             NotifyOnSourceUpdated=True,
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     PopupHint="{DynamicResource LRS_PH_RoomCount}"
                                  IsEnabled="{Binding FlatViewModel.HasDataLock}"
                                  ValueAlignment="Right"
                                  Foreground="DarkSlateGray"
@@ -101,10 +105,10 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
-                <Button Style="{StaticResource PopupButtonStyle}"
-                        Grid.Column="0"/>
-                
+
+                <c_views:PopupButton PopupText="{DynamicResource LRS_PH_FlatNotes}"
+                                     Grid.Column="0"/>
+
                 <TextBox Grid.Column="1"
                      Text="{Binding FlatViewModel.FlatNotes,
                 UpdateSourceTrigger=LostFocus,

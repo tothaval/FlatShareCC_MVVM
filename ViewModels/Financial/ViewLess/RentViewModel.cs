@@ -39,20 +39,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         //public double AnnualRent => ColdRent * 12;
 
-          
-        //public double FirstYearCompleteCosts => FirstYearCostsTotal + FirstYearOtherFTISum;
+
+        public double FirstYearCompleteCosts => FirstYearCostsTotal + FirstYearOtherFTISum;
 
 
-        //public double FirstYearCostsTotal => FirstYearRent + FirstYearExtraCosts;
+        public double FirstYearCostsTotal => FirstYearRent + FirstYearAdvance;
 
 
-        //public double FirstYearExtraCosts => ExtraCostsTotal * CalculateAnnualPriceFactor();
+        public double FirstYearAdvance => Advance * CalculateAnnualPriceFactor();
 
 
-        //public double FirstYearOtherFTISum => OtherFTISum * CalculateAnnualPriceFactor();
+        public double FirstYearOtherFTISum => OtherFTISum * CalculateAnnualPriceFactor();
 
 
-        //public double FirstYearRent => ColdRent * CalculateAnnualPriceFactor();
+        public double FirstYearRent => ColdRent * CalculateAnnualPriceFactor();
 
         #endregion annual interval costs
 
@@ -69,14 +69,14 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 Rent.Advance.TransactionSum = value;
                 OnPropertyChanged(nameof(Advance));
                 OnPropertyChanged(nameof(CostsTotal));
-                OnPropertyChanged(nameof(CostsAndCredits));                
+                OnPropertyChanged(nameof(CostsAndCredits));
                 OnPropertyChanged(nameof(CompleteCosts));
 
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(Advance)));
 
-                RebuildRoomCostShares();
+                //RebuildRoomCostShares();
             }
-        }   
+        }
 
 
         public double ColdRent
@@ -93,7 +93,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(ColdRent)));
 
-                RebuildRoomCostShares();
+                //RebuildRoomCostShares();
             }
 
         }
@@ -130,7 +130,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 OnPropertyChanged(nameof(OtherFTISum));
                 OnPropertyChanged(nameof(CostsAndCredits));
 
-                RebuildRoomCostShares();
+                //RebuildRoomCostShares();
             }
         }
 
@@ -231,7 +231,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 {
                     Rent.StartDate = value;
                 }
-                
+
                 OnPropertyChanged(nameof(StartDate));
 
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
@@ -464,11 +464,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 CalculateCreditSum();
                 CalculateOtherFTISum();
 
-                RebuildRoomCostShares();
+                //RebuildRoomCostShares();
 
                 OnPropertyChanged(nameof(Credits));
                 OnPropertyChanged(nameof(FinancialTransactionItemViewModels));
-                OnPropertyChanged(nameof(HasOtherCosts)); 
+                OnPropertyChanged(nameof(HasOtherCosts));
             }
         }
 
@@ -497,23 +497,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public void RecalculateRoomCosts()
+        {
+            RebuildRoomCostShares();
+        }
+
+
         private void RebuildRoomCostShares()
         {
             RoomCostShares = new ObservableCollection<RoomCostShareRent>();
 
-            if (Rent.IsInitialRent && Rent.UseRoomCosts4InitialRent)
+            foreach (RoomViewModel item in GetFlatViewModel().Rooms)
             {
-
+                RoomCostShares.Add(new RoomCostShareRent(item.Room, this));
             }
-            else
-            {
-                foreach (RoomViewModel item in GetFlatViewModel().Rooms)
-                {
-                    RoomCostShares.Add(new RoomCostShareRent(item.Room, this));
-                }
-
-            }
-
 
             OnPropertyChanged(nameof(RoomCostShares));
         }

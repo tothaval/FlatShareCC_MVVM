@@ -777,6 +777,24 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public double GetMonths()
+        {
+            // sort List by StartDate, ascending
+            ObservableCollection<RentViewModel> RentList = FindRelevantRentViewModels();
+
+            DateTime start = DateTime.Now;
+            DateTime end = DateTime.Now;
+
+            double months = 0.0;
+
+            for (int i = 0; i < RentList.Count; i++)
+            {
+                months += DeterminePaymentMonths(RentList, start, end, i);                
+            }
+
+            return months;
+        }
+
         private double DetermineRentCostsForPaymentOption()
         {
             double rentCosts = 0.0;

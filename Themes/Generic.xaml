@@ -4,6 +4,63 @@
     xmlns:local="clr-namespace:SharedLivingCostCalculator"    
     xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components">
 
+    <Style TargetType="{x:Type comps:PopupButton}">
+
+        <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="IsHitTestVisible" Value="True"/>
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Margin" Value="10 0"/>
+        <Setter Property="Content" Value="?"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type comps:PopupButton}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderThickness="1"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            CornerRadius="{DynamicResource Button_CornerRadius}">
+                        <Grid Background="Transparent">
+                            <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type comps:PopupButton}}}"
+                                                  Margin="0"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"
+                                                  />
+                        </Grid>
+                    </Border>
+
+
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource SCB_Text}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_ButtonBackground}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource SCB_ButtonBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
+                            <Setter Property="Opacity" Value="0.47"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <Style TargetType="{x:Type comps:NavButton}">
         <Setter Property="Margin" Value="2"/>

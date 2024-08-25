@@ -30,7 +30,7 @@ new street 714</Address>
     <HasOtherCosts>false</HasOtherCosts>
     <IsInitialRent>true</IsInitialRent>
     <StartDate>2023-03-01T00:00:00</StartDate>
-    <UseRoomCosts4InitialRent>true</UseRoomCosts4InitialRent>
+    <UseRoomCosts4InitialRent>false</UseRoomCosts4InitialRent>
     <UseWorkplaces>false</UseWorkplaces>
     <OtherCosts />
     <Credits />
@@ -409,7 +409,7 @@ new street 714</Address>
         <StartDate>2024-08-05T00:00:00</StartDate>
         <TransactionItem>Rent</TransactionItem>
         <TransactionShareTypes>Area</TransactionShareTypes>
-        <TransactionSum>380</TransactionSum>
+        <TransactionSum>385.12</TransactionSum>
       </ColdRent>
       <CostsHasDataLock>false</CostsHasDataLock>
       <HasCredits>false</HasCredits>
@@ -444,21 +444,21 @@ new street 714</Address>
     <Room>
       <InitialAdvance>48</InitialAdvance>
       <InitialColdRent>112</InitialColdRent>
-      <InitialCostsAreRoomBased>true</InitialCostsAreRoomBased>
+      <InitialCostsAreRoomBased>false</InitialCostsAreRoomBased>
       <RoomArea>10.1</RoomArea>
       <RoomName>Schlafzimmer</RoomName>
     </Room>
     <Room>
       <InitialAdvance>22</InitialAdvance>
       <InitialColdRent>155</InitialColdRent>
-      <InitialCostsAreRoomBased>true</InitialCostsAreRoomBased>
+      <InitialCostsAreRoomBased>false</InitialCostsAreRoomBased>
       <RoomArea>22</RoomArea>
       <RoomName>Kinderzimmer</RoomName>
     </Room>
     <Room>
       <InitialAdvance>55</InitialAdvance>
       <InitialColdRent>125</InitialColdRent>
-      <InitialCostsAreRoomBased>true</InitialCostsAreRoomBased>
+      <InitialCostsAreRoomBased>false</InitialCostsAreRoomBased>
       <RoomArea>12</RoomArea>
       <RoomName>Arbeitszimmer</RoomName>
     </Room>

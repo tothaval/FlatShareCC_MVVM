@@ -49,7 +49,10 @@
                     <MenuItem Header="{DynamicResource IDF_Tenants}"
                               IsCheckable="True"
                               IsChecked="{Binding TenantSelected}"/>
-
+                    
+                    <MenuItem Header="Display Summary"
+                              IsCheckable="True"
+                              IsChecked="{Binding DisplaySummarySelected}"/>
                     
                     <MenuItem Header="Room Area Data"
                               IsCheckable="True"
@@ -91,14 +94,17 @@
 
                     <MenuItem Header="All Costs"
                               IsCheckable="True"
-                              IsChecked="{Binding AllCostsSelected}"/>
+                              IsChecked="{Binding AllCostsSelected}"/>                    
 
+                    <MenuItem Header="Include Annual Rent Costs"
+                              IsCheckable="True"
+                              IsChecked="{Binding AnnualRentCostsSelected}"/>
 
                     <MenuItem Header="Include Rent Costs In Annual Billing Balance"
                               IsCheckable="True"
                               IsChecked="{Binding RentCostsOnBillingBalanceSelected}"/>
 
-                    <MenuItem Header="Include New Costs Output In Annual Billing __WIP__"
+                    <MenuItem Header="Include New Costs Output In Annual Billing"
                               IsCheckable="True"
                               IsChecked="{Binding RentCostsOutputOnBillingSelected}"/>
                 </MenuItem>

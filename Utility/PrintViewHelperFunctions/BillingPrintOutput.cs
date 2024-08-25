@@ -278,6 +278,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 dataRowGroup = AllCostsRooms(dataRowGroup, roomCostShareBilling);
             }
 
+            if (_PrintViewModel.RentCostsOutputOnBillingSelected)
+            {
+                dataRowGroup = NewCostsRoomsFromCosts(dataRowGroup, roomCostShareBilling);
+            }
+
             billingTableRooms.RowGroups.Add(dataRowGroup);
 
             return billingTableRooms;
@@ -407,6 +412,54 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
+        private TableRow BillingOutputTableRowRoomsNoCurrency(BillingViewModel viewModel, string roomname, double value, string item, bool FontWeightBold = false)
+        {
+            TableRow dataRow = new TableRow();
+
+            TableCell Year = new TableCell();
+            Year.TextAlignment = TextAlignment.Left;
+
+            TableCell RoomName = new TableCell();
+            TableCell Item = new TableCell();
+
+            TableCell Payment = new TableCell();
+            Payment.TextAlignment = TextAlignment.Right;
+
+            Year.Blocks.Add(new Paragraph(new Run()));
+            RoomName.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate.Year}")));
+            Item.Blocks.Add(new Paragraph(new Run(item)));
+
+            if (FontWeightBold)
+            {
+                Paragraph paymentParagraph = new Paragraph(new Run($"{value:N2}"))
+                {
+                    BorderBrush = new SolidColorBrush(Colors.Black),
+                    BorderThickness = new Thickness(0, 1, 0, 0),
+                    FontWeight = FontWeights.Bold,
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+
+                Payment.Blocks.Add(paymentParagraph);
+            }
+            else
+            {
+                Paragraph paymentParagraph = new Paragraph(new Run($"{value:N2}"))
+                {
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+
+                Payment.Blocks.Add(paymentParagraph);
+            }
+
+            dataRow.Cells.Add(Year);
+            dataRow.Cells.Add(RoomName);
+            dataRow.Cells.Add(Item);
+            dataRow.Cells.Add(Payment);
+
+            return dataRow;
+        }
+
+
         private Block BillingPlanTable(BillingViewModel viewModel)
         {
             Table billingPlanTable = _Print.OutputTableForFlatBilling();
@@ -445,6 +498,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             billingPlanTable.RowGroups.Add(dataRowGroup);
 
+
+
             return billingPlanTable;
         }
 
@@ -469,6 +524,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     }
 
                     billingOutput.Blocks.Add(BillingOutputTableRooms(roomCostShareBilling));
+
                 }
             }
 
@@ -679,6 +735,55 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 roomCostShareBilling.RoomName,
                 roomCostShareBilling.Advances - sum,
                 "balance", true));
+
+            return dataRowGroup;
+        }
+
+
+
+        private TableRowGroup NewCostsRoomsFromCosts(TableRowGroup dataRowGroup, RoomCostShareBilling roomCostShareBilling)
+        {
+
+            dataRowGroup.Rows.Add(_Print.SeparatorLineTableRow(true));
+            dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("new monthly advance based on annual billing costs", true));
+            dataRowGroup.Rows.Add(_Print.TableRowBillingHeader());
+
+            double months = _BillingViewModel.GetMonths();
+
+            double newPrice = roomCostShareBilling.FixedCostsAnnualCostsShare + roomCostShareBilling.HeatingCostsAnnualCostsShare;
+
+            double newPricePerMonth = newPrice / months;
+
+
+            dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+                _BillingViewModel,
+                roomCostShareBilling.RoomName,
+                roomCostShareBilling.FixedCostsAnnualCostsShare,
+                "fixed"));
+
+            dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+                _BillingViewModel,
+                roomCostShareBilling.RoomName,
+                roomCostShareBilling.HeatingCostsAnnualCostsShare,
+                "heating"));
+
+            dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+                _BillingViewModel,
+                roomCostShareBilling.RoomName,
+                newPrice,
+                "annual costs", true));
+
+            dataRowGroup.Rows.Add(BillingOutputTableRowRoomsNoCurrency(
+                _BillingViewModel,
+                roomCostShareBilling.RoomName,
+                months,
+                "billing months"));
+
+            dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+                _BillingViewModel,
+                roomCostShareBilling.RoomName,
+                newPricePerMonth,
+                "new monthly advance", true));
 
             return dataRowGroup;
         }

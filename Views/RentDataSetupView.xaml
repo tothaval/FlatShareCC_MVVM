@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"              
+             xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -44,10 +45,10 @@
                   Grid.Column="0"
                   Grid.Row="1"/>
 
-            <Button Style="{StaticResource PopupButtonStyle}"
-                        Grid.Column="1"
-                  Grid.Row="1"/>
-            
+            <comps:PopupButton PopupText="{DynamicResource LRS_PH_Rent}"
+                           Grid.Column="1"
+                               Grid.Row="1"/>
+
             <TextBox Text="{Binding ColdRent,
                 StringFormat=C2,
                 Mode=TwoWay,
@@ -65,9 +66,9 @@
                        Grid.Column="0"
                        Grid.Row="2"/>
 
-            <Button Style="{StaticResource PopupButtonStyle}"
-                        Grid.Column="1"
-                  Grid.Row="2"/>
+            <comps:PopupButton PopupText="{DynamicResource LRS_PH_Advance}"
+                           Grid.Column="1"
+                               Grid.Row="2"/>
             
             <TextBox Text="{Binding Advance,
                 StringFormat=C2,

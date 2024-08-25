@@ -762,7 +762,7 @@
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Foreground" Value="{DynamicResource SCB_Text}"/>
 
-        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="MinWidth" Value="120"/>
         <Setter Property="Width" Value="Auto"/>
 
         <Setter Property="OverridesDefaultStyle" Value="True" />

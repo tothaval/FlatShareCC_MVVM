@@ -36,18 +36,6 @@ namespace SharedLivingCostCalculator.ViewModels
         public AccountingViewModel Accounting => _AccountingViewModel;
 
 
-        private BillingViewModel? _BillingViewModel;
-        public BillingViewModel? BillingViewModel
-        {
-            get { return _BillingViewModel; }
-            set
-            {
-                _BillingViewModel = value;
-                OnPropertyChanged(nameof(BillingViewModel));
-            }
-        }
-
-
         private FlowDocument? _ActiveFlowDocument;
         public FlowDocument? ActiveFlowDocument
         {
@@ -72,6 +60,18 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private bool _AnnualRentCostsSelected;
+        public bool AnnualRentCostsSelected
+        {
+            get { return _AnnualRentCostsSelected; }
+            set
+            {
+                _AnnualRentCostsSelected = value;
+                OnPropertyChanged(nameof(AnnualRentCostsSelected));
+            }
+        }
+
+
         private bool _BillingOutputSelected;
         public bool BillingOutputSelected
         {
@@ -80,6 +80,18 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _BillingOutputSelected = value;
                 OnPropertyChanged(nameof(BillingOutputSelected));
+            }
+        }
+
+
+        private BillingViewModel? _BillingViewModel;
+        public BillingViewModel? BillingViewModel
+        {
+            get { return _BillingViewModel; }
+            set
+            {
+                _BillingViewModel = value;
+                OnPropertyChanged(nameof(BillingViewModel));
             }
         }
 
@@ -128,6 +140,18 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _CreditOutputSelected = value;
                 OnPropertyChanged(nameof(CreditOutputSelected));
+            }
+        }
+
+
+        private bool _DisplaySummarySelected;
+        public bool DisplaySummarySelected
+        {
+            get { return _DisplaySummarySelected; }
+            set
+            {
+                _DisplaySummarySelected = value;
+                OnPropertyChanged(nameof(DisplaySummarySelected));
             }
         }
 
@@ -398,7 +422,7 @@ namespace SharedLivingCostCalculator.ViewModels
                     //p.Style = headerParagraph;
                     ActiveFlowDocument.Blocks.Add(p);
 
-                    CreditsAndOtherCostsRentPrintOutput creditsAndOther = new CreditsAndOtherCostsRentPrintOutput(FlatViewModel, SelectedYear, TenantSelected);
+                    CreditsAndOtherCostsRentPrintOutput creditsAndOther = new CreditsAndOtherCostsRentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected);
 
                     ActiveFlowDocument.Blocks.Add(creditsAndOther.BuildOtherCostDetails(false, SelectedDetailOption));
                 }
@@ -415,7 +439,7 @@ namespace SharedLivingCostCalculator.ViewModels
                     p.Style = headerParagraph;
                     ActiveFlowDocument.Blocks.Add(p);
 
-                    ActiveFlowDocument.Blocks.Add(new CreditsAndOtherCostsRentPrintOutput(FlatViewModel, SelectedYear, TenantSelected).BuildOtherCostDetails(true, SelectedDetailOption));
+                    ActiveFlowDocument.Blocks.Add(new CreditsAndOtherCostsRentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected).BuildOtherCostDetails(true, SelectedDetailOption));
                 }
 
             }

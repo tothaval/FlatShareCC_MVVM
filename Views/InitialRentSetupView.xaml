@@ -4,12 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
 
         <Grid VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -26,6 +28,9 @@
               Grid.Column="0"
               Grid.Row="0"/>
 
+            <comps:PopupButton PopupText="{DynamicResource LRS_PH_ContractStart}"
+                           Grid.Column="1"/>
+
             <DatePicker SelectedDate="{Binding RentViewModel.StartDate,
                 StringFormat=d,
                 UpdateSourceTrigger=LostFocus}"
@@ -33,7 +38,7 @@
                HorizontalAlignment="Stretch"
                    VerticalAlignment="Center"
                CalendarStyle="{StaticResource CalendarStyle}"                            
-               Grid.Column="1"
+               Grid.Column="2"
                Grid.Row="0">
             </DatePicker>
         </Grid>
