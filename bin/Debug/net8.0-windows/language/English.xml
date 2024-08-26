@@ -136,16 +136,15 @@ Month</IDF_TotalPricePerMonth>
   <IDF_TotalPricePerYear>Total Price
 Year</IDF_TotalPricePerYear>
   <IDF_Background>Background</IDF_Background>
-  <IDF_ButtonBackground>Button Background</IDF_ButtonBackground>
-  <IDF_ButtonCornerRadius>Button Rounding</IDF_ButtonCornerRadius>
-  <IDF_Culture>Culture</IDF_Culture>
+  <IDF_ButtonBackground>Button</IDF_ButtonBackground>
+  <IDF_ButtonCornerRadius>Button</IDF_ButtonCornerRadius>
   <IDF_FontSize>Font Size</IDF_FontSize>
   <IDF_FontFamily>Font Family</IDF_FontFamily>
-  <IDF_Foreground>Text Color</IDF_Foreground>
-  <IDF_HeaderTextColor>Header Color</IDF_HeaderTextColor>
+  <IDF_Foreground>Text</IDF_Foreground>
+  <IDF_HeaderTextColor>Header</IDF_HeaderTextColor>
   <IDF_Language>Language</IDF_Language>
-  <IDF_SelectionColor>Selection Color</IDF_SelectionColor>
+  <IDF_SelectionColor>List Selection</IDF_SelectionColor>
   <SettingsHeaderText>Settings</SettingsHeaderText>
   <IDF_SettingsTitleText>SLCC Settings</IDF_SettingsTitleText>
-  <IDF_VisibilityFieldCornerRadius>Field Rounding</IDF_VisibilityFieldCornerRadius>
+  <IDF_VisibilityFieldCornerRadius>Field</IDF_VisibilityFieldCornerRadius>
 </Language>

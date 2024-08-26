@@ -353,8 +353,6 @@ namespace SharedLivingCostCalculator.Utility
 
             Application.Current.Resources["IDF_ButtonCornerRadius"] = languageResource.IDF_ButtonCornerRadius;
 
-            Application.Current.Resources["IDF_Culture"] = languageResource.IDF_Culture;
-
             Application.Current.Resources["IDF_FontFamily"] = languageResource.IDF_FontFamily;
 
             Application.Current.Resources["IDF_FontSize"] = languageResource.IDF_FontSize;

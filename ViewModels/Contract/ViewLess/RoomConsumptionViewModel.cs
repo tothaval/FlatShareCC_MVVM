@@ -78,7 +78,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
         private double GetPercentage()
         {
-            return TotalConsumptionValue / ConsumptionItemViewModel.ConsumedUnits * 100;
+            return ConsumptionValue / ConsumptionItemViewModel.ConsumedUnits * 100;
         } 
 
         #endregion

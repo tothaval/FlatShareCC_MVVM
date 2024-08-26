@@ -7,7 +7,6 @@
         xmlns:utils="clr-namespace:SharedLivingCostCalculator.Utility"
         xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
         xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
-        xmlns:c_views="clr-namespace:SharedLivingCostCalculator.Components"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -15,7 +14,7 @@
     </UserControl.Resources>
 
     <StackPanel Margin="20">
-       
+
         <comps:FlatInfo HorizontalContentAlignment="Left" Margin="0 0 0 10"/>
 
         <TextBlock Text="{DynamicResource IDF_AnnualBillings}" Style="{StaticResource Header}"/>
@@ -32,7 +31,8 @@
                     Command="{Binding NewBillingCommand}"
                     IsEnabled="{Binding UpdateViewModel.HasDataLock}"
                     Style="{StaticResource buttonStyle}"
-                    Grid.Column="0"/>
+                    Grid.Column="0"
+                    ToolTip="Click to add new Annual Billing"/>
 
             <Button Content="{DynamicResource IDF_DeleteBilling}"
                     Command="{Binding DeleteBillingCommand}"
@@ -40,6 +40,7 @@
                     IsEnabled="{Binding UpdateViewModel.HasDataLock}"
                     Visibility="{Binding HasRentUpdate, Converter={StaticResource VisConv}}"
                     Grid.Column="2"
+                    ToolTip="Click to delete selected Annual Billing"
                     Style="{StaticResource buttonStyle}"/>
         </Grid>
         <!--#endregion-->
@@ -60,19 +61,20 @@
                     <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
                         <GridView.Columns>
 
-                            <GridViewColumn Header="{DynamicResource IDF_Year}" Width="Auto">
+                            <GridViewColumn Width="Auto" Header="{DynamicResource IDF_Year}">
+
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding StartDate.Year,
                                             UpdateSourceTrigger=PropertyChanged,
                                             NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
+                                                   ToolTip="Year of the annual billing."
                                                Style="{StaticResource StringValueTextBlock}" HorizontalAlignment="Center"/>
-
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            
+
 
                             <GridViewColumn Header="{DynamicResource IDF_FixedCosts}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
@@ -82,6 +84,7 @@
                                             UpdateSourceTrigger=PropertyChanged,
                                             NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
+                                                   ToolTip="Annual fixed costs."
                                                Style="{StaticResource DoubleValueTextBlock}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -95,6 +98,7 @@
                                             UpdateSourceTrigger=PropertyChanged,
                                             NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
+                                                   ToolTip="Annual heating costs."
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
                                     </DataTemplate>
@@ -108,6 +112,7 @@
                                             UpdateSourceTrigger=PropertyChanged, 
                                             NotifyOnSourceUpdated=True,
                                             Mode=OneWay}"
+                                                   ToolTip="Annual other costs."
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
                                     </DataTemplate>
@@ -121,41 +126,13 @@
                                             StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
                                             NotifyOnSourceUpdated=True,
-                                            Mode=OneWay}"
+                                            Mode=OneWay}"                                                   
+                                                   ToolTip="Annual credits."
                                                Style="{StaticResource DoubleValueTextBlock}"/>
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-
-                            <!--<GridViewColumn Header="{DynamicResource IDF_Advance}" Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding TotalAdvancePerPeriod,
-                                            StringFormat=C2,
-                                            UpdateSourceTrigger=PropertyChanged,
-                                            NotifyOnSourceUpdated=True,
-                                            Mode=OneWay}"
-                                               Style="{StaticResource DoubleValueTextBlock}"/>
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{DynamicResource IDF_Balance}" Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Balance,
-                                            StringFormat=C2,
-                                            UpdateSourceTrigger=PropertyChanged,
-                                            NotifyOnSourceUpdated=True,
-                                            Mode=OneWay}"
-                                               Style="{StaticResource DoubleValueTextBlock}"
-                                                   FontWeight="Bold"/>
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
 
                         </GridView.Columns>
                     </GridView>
@@ -180,83 +157,112 @@
                        IsChecked="{Binding HasOther}"
                        IsEnabled="{Binding DataLock}"
                        Style="{StaticResource OptionCheckBox}"
+                          ToolTip="Check if there are any annual other costs you wish to calculate."
                               Margin="5"/>
 
                 <CheckBox Content="{DynamicResource IDF_FactorInCredit}"
                        IsChecked="{Binding HasCredit}"
                        IsEnabled="{Binding DataLock}"
                        Style="{StaticResource OptionCheckBox}"
+                          ToolTip="Check if there are any annual credits you wish to calculate."
                               Margin="5"/>
 
                 <CheckBox Content="{DynamicResource IDF_FactorInPayments}"
                        IsChecked="{Binding HasPayments}"
                        IsEnabled="{Binding DataLock}"
-                       Style="{StaticResource OptionCheckBox}"
-                              Margin="5"/>
+                       Style="{StaticResource OptionCheckBox}"                          
+                              Margin="5">
+                    <CheckBox.ToolTip>
+                        <TextBlock>
+                            <Run Text="Check if calculated advances in print output are unequal compared to actual advances."/>
+                            <LineBreak/>
+                            <Run Text="Create payments for each room and insert the values, to calculate"/>
+<LineBreak/>
+                            <Run Text="the right annual billing balance results."/>
+                        </TextBlock>
+
+                    </CheckBox.ToolTip>
+                </CheckBox>
             </StackPanel>
 
             <TabControl Grid.Column="1" SelectedIndex="{Binding SelectedIndex}"  Margin="0 5"
                              HorizontalAlignment="Left">
 
-                <TabItem Header="{DynamicResource IDF_BillingPeriodData}">
-
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Text="{DynamicResource IDF_BillingPeriodData}"
+                                   ToolTip="Selected annual billing general data."/>
+                    </TabItem.Header>
                     <StackPanel Orientation="Vertical"
                                 Margin="10"
                  HorizontalAlignment="Stretch">
 
-                            <Grid Margin="0 10 0 0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
-                                    <ColumnDefinition Width="*" SharedSizeGroup="Values"/>
-                                </Grid.ColumnDefinitions>
+                        <Grid Margin="0 10 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*" SharedSizeGroup="Values"/>
+                            </Grid.ColumnDefinitions>
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                                <TextBlock Text="{DynamicResource IDF_Year}"
+                            <TextBlock Text="{DynamicResource IDF_Year}"
                             MinWidth="100"
                             HorizontalAlignment="Stretch"
                             Style="{StaticResource StringValueTextBlock}"
                             Grid.Column="0"
                             Grid.Row="0"/>
 
-                                <TextBlock Text="{Binding SelectedValue.Year,
+                            <comps:PopupButton PopupText="The year of the annual billing will be date of billing year - 1."
+                                               ToolTip="The year of the annual billing will be date of billing year - 1."
+                                               Grid.Column="1"
+                                               Grid.Row="0"/>
+
+                            <TextBlock Text="{Binding SelectedValue.Year,
                                 NotifyOnSourceUpdated=True,
                                 NotifyOnValidationError=True,
                                 ValidatesOnDataErrors=True}"
                           Style="{StaticResource DoubleValueTextBlock}"
-                          Grid.Column="1"
+                          Grid.Column="2"
                           Grid.Row="0"/>
 
 
-                                <TextBlock Text="{DynamicResource IDF_BillingDate}"
+                            <TextBlock Text="{DynamicResource IDF_BillingDate}"
                             MinWidth="100"
                             HorizontalAlignment="Stretch"
                             Style="{StaticResource StringValueTextBlock}"
                             Grid.Column="0"
                             Grid.Row="1"/>
-
-                                <DatePicker SelectedDate="{Binding SelectedValue.BillingDate,
+                            <comps:PopupButton PopupText="The invoice date of the annual billing. the date can not be before flat contract start."
+                                               ToolTip="The invoice date of the annual billing. the date can not be before flat contract start."
+                                               Grid.Column="1"
+                                               Grid.Row="1"/>
+                            <DatePicker SelectedDate="{Binding SelectedValue.BillingDate,
                                 Mode=TwoWay,
                                 NotifyOnSourceUpdated=True,
                                 NotifyOnValidationError=True,
                                 ValidatesOnDataErrors=True}"
                           IsEnabled="{Binding DataLock}"
-                          Grid.Column="1"
+                          Grid.Column="2"
                           Grid.Row="1"/>
 
-                                <TextBlock Text="{DynamicResource IDF_FixedCosts}"
+                            <TextBlock Text="{DynamicResource IDF_FixedCosts}"
                          Style="{StaticResource StringValueTextBlock}"
                          Grid.Column="0"
                          Grid.Row="2"/>
-
-                                <TextBox Text="{Binding SelectedValue.TotalFixedCostsPerPeriod,
+                            <comps:PopupButton PopupText="Insert the annual fixed costs for the entire flat."
+                                               ToolTip="Insert the annual fixed costs for the entire flat."
+                                               Grid.Column="1"
+                                               Grid.Row="2"/>
+                            <TextBox Text="{Binding SelectedValue.TotalFixedCostsPerPeriod,
                                 StringFormat=C2,
                                 Mode=TwoWay,
                                 NotifyOnSourceUpdated=True,
@@ -265,15 +271,18 @@
                                 UpdateSourceTrigger=PropertyChanged}"
                        Style="{StaticResource DoubleValueTextBox}"
                        IsEnabled="{Binding DataLock}"
-                       Grid.Column="1"
+                       Grid.Column="2"
                        Grid.Row="2"/>
 
-                                <TextBlock Text="{DynamicResource IDF_HeatingCosts}"
+                            <TextBlock Text="{DynamicResource IDF_HeatingCosts}"
                          Style="{StaticResource StringValueTextBlock}"
                          Grid.Column="0"
                          Grid.Row="3"/>
-
-                                <TextBox Text="{Binding SelectedValue.TotalHeatingCostsPerPeriod,
+                            <comps:PopupButton PopupText="Insert the annual heating costs for the entire flat."
+                                               ToolTip="Insert the annual heating costs for the entire flat."
+                                               Grid.Column="1"
+                                               Grid.Row="3"/>
+                            <TextBox Text="{Binding SelectedValue.TotalHeatingCostsPerPeriod,
                                 StringFormat=C2,
                                 Mode=TwoWay,
                                 NotifyOnSourceUpdated=True,
@@ -282,30 +291,37 @@
                                 UpdateSourceTrigger=PropertyChanged}"
                        Style="{StaticResource DoubleValueTextBox}"
                        IsEnabled="{Binding DataLock}"
-                       Grid.Column="1"
+                       Grid.Column="2"
                        Grid.Row="3"/>
 
-                                <TextBlock Text="{DynamicResource IDF_TotalCosts}"
+                            <TextBlock Text="{DynamicResource IDF_TotalCosts}"
                             Style="{StaticResource StringValueTextBlock}"
                             Grid.Column="0"
                             Grid.Row="4"/>
+                            <comps:PopupButton PopupText="The sum of fixed and heating costs will be calculated automatically."
+                                               ToolTip="The sum of fixed and heating costs will be calculated automatically."
+                                               Grid.Column="1"
+                                               Grid.Row="4"/>
 
-                                <TextBlock Text="{Binding SelectedValue.TotalCostsPerPeriod,
+                            <TextBlock Text="{Binding SelectedValue.TotalCostsPerPeriod,
                                 StringFormat=C2,
                                 NotifyOnSourceUpdated=True,
                                 NotifyOnValidationError=True,
                                 ValidatesOnDataErrors=True}"
                                        Style="{StaticResource DoubleValueTextBlock}"
                                        FontWeight="Bold"
-                                       Grid.Column="1"
+                                       Grid.Column="2"
                                        Grid.Row="4"/>
 
-                                
+
                             <TextBlock Text="{DynamicResource IDF_Advance}"
                             Style="{StaticResource StringValueTextBlock}"
                             Grid.Column="0"
                             Grid.Row="5"/>
-
+                            <comps:PopupButton PopupText="Insert the paid advance value from the annual billing."
+                                               ToolTip="Insert the paid advance value from the annual billing."
+                                               Grid.Column="1"
+                                               Grid.Row="5"/>
                             <TextBox Text="{Binding SelectedValue.ActualAdvancePerPeriod,
                                 StringFormat=C2,
                                 Mode=TwoWay,
@@ -315,16 +331,37 @@
                                 UpdateSourceTrigger=PropertyChanged}"
                        Style="{StaticResource DoubleValueTextBox}"
                        IsEnabled="{Binding DataLock}"
-                       Grid.Column="1"
+                       Grid.Column="2"
                        Grid.Row="5"/>
+
+                        <TextBlock Text="{DynamicResource IDF_Balance}"
+                            Style="{StaticResource StringValueTextBlock}"
+                            Grid.Column="0"
+                            Grid.Row="6"/>
+                        <comps:PopupButton PopupText="Result of Total Costs - Advance. Positive values indicate you have to pay, negative values indicate you paid too much."
+                                           ToolTip="Result of Total Costs - Advance. Positive values indicate you have to pay, negative values indicate you paid too much."
+                                               Grid.Column="1"
+                                               Grid.Row="6"/>
+                            <TextBlock Text="{Binding SelectedValue.ContractBalance,
+                                StringFormat=C2,
+                                Mode=OneWay,
+                                NotifyOnSourceUpdated=True}"
+                                       FontWeight="Bold"
+                       Style="{StaticResource DoubleValueTextBlock}"
+                       IsEnabled="{Binding DataLock}"
+                       Grid.Column="2"
+                       Grid.Row="6"/>
                         </Grid>
-         
+
                     </StackPanel>
                 </TabItem>
 
 
-                <TabItem Header="{DynamicResource IDF_Consumption}">
-
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Text="{DynamicResource IDF_Consumption}"
+                                   ToolTip="Selected annual billing consumption data."/>
+                    </TabItem.Header>
                     <local:ConsumptionView 
                      DataContext="{Binding ConsumptionViewModel,
                  NotifyOnSourceUpdated=True}"
@@ -332,10 +369,13 @@
 
                 </TabItem>
 
-                <TabItem Header="{DynamicResource IDF_Other}"
-                  Visibility="{Binding SetOtherVisibility,
-                     Converter={StaticResource VisConv},
-                     NotifyOnSourceUpdated=True}">
+                <TabItem Visibility="{Binding SetOtherVisibility,
+                    Converter={StaticResource VisConv},
+                    NotifyOnSourceUpdated=True}">
+                    <TabItem.Header>
+                        <TextBlock Text="{DynamicResource IDF_Other}"
+                                   ToolTip="Selected annual billing other costs data."/>
+                    </TabItem.Header>
 
                     <local:OtherCostsView
                          DataContext="{Binding OtherCostsViewModel,
@@ -344,10 +384,13 @@
 
                 </TabItem>
 
-                <TabItem Header="{DynamicResource IDF_Credit}"
-                  Visibility="{Binding SetCreditVisibility,
-                     Converter={StaticResource VisConv},
-                     NotifyOnSourceUpdated=True}">
+                <TabItem Visibility="{Binding SetCreditVisibility,
+                    Converter={StaticResource VisConv},
+                    NotifyOnSourceUpdated=True}">
+                    <TabItem.Header>
+                        <TextBlock Text="{DynamicResource IDF_Credit}"
+                                   ToolTip="Selected annual billing credits data."/>
+                    </TabItem.Header>
 
                     <local:CreditSetupView
                          DataContext="{Binding CreditSetupViewModel,
@@ -356,11 +399,13 @@
 
                 </TabItem>
 
-                <TabItem Header="{DynamicResource IDF_Payments}"
-                      Visibility="{Binding SetPaymentVisibility,
-                     Converter={StaticResource VisConv},
-                 NotifyOnSourceUpdated=True}"
-                      >
+                <TabItem Visibility="{Binding SetPaymentVisibility,
+                    Converter={StaticResource VisConv},
+                    NotifyOnSourceUpdated=True}">
+                    <TabItem.Header>
+                        <TextBlock Text="{DynamicResource IDF_Payments}"
+                                   ToolTip="Selected annual billing payments data."/>
+                    </TabItem.Header>
 
                     <local:PaymentManagementView 
                      DataContext="{Binding PaymentManagementViewModel,

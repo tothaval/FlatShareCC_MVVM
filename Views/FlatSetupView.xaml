@@ -107,6 +107,7 @@
                 </Grid.ColumnDefinitions>
 
                 <c_views:PopupButton PopupText="{DynamicResource LRS_PH_FlatNotes}"
+                                     ToolTip="{DynamicResource LRS_PH_FlatNotes}"
                                      Grid.Column="0"/>
 
                 <TextBox Grid.Column="1"

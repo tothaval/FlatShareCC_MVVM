@@ -31,16 +31,16 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmscon:FlatManagementViewModel}">
-                <views:FlatManagementView/>
-            </DataTemplate>
+            <views:FlatManagementView/>
+        </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmscon:FlatSetupViewModel}">
-                <views:FlatSetupView/>
-            </DataTemplate>
+            <views:FlatSetupView/>
+        </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmscon:RoomSetupViewModel}">
-                <views:RoomSetupView/>
-            </DataTemplate>
+            <views:RoomSetupView/>
+        </DataTemplate>
 
 
         <DataTemplate DataType="{x:Type vmscon:TenantAssignmentViewModel}">
@@ -56,33 +56,33 @@
         <!-- financial -->
         <!--#region vmsfin -->
         <DataTemplate DataType="{x:Type vmsfin:AccountingViewModel}">
-                <views:AccountingView/>
-            </DataTemplate>
+            <views:AccountingView/>
+        </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmsfin:BillingPeriodViewModel}">
-                <views:AnnualBillingView/>
-            </DataTemplate>
+            <views:AnnualBillingView/>
+        </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmsfin:PaymentManagementViewModel}">
-                <views:PaymentManagementView/>
-            </DataTemplate>
+            <views:PaymentManagementView/>
+        </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmsfin:PaymentsSetupViewModel}">
-                <views:PaymentsSetupView/>
-            </DataTemplate>
+            <views:PaymentsSetupView/>
+        </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmsfin:RentManagementViewModel}">
-                <views:RentManagementView/>
-            </DataTemplate>
+            <views:RentManagementView/>
+        </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmsfin:RentUpdateViewModel}">
-                <views:RentUpdateView/>
-            </DataTemplate>
+            <views:RentUpdateView/>
+        </DataTemplate>
 
         <DataTemplate DataType="{x:Type vmsfin:InitialRentSetupViewModel}">
             <views:InitialRentSetupView/>
         </DataTemplate>
-                      
+
 
         <DataTemplate DataType="{x:Type vmsfin:OtherCostsBillingViewModel}">
             <views:OtherCostsView/>
@@ -102,7 +102,7 @@
         </DataTemplate>
 
         <!--#endregion vmsfin-->
-        
+
         <DataTemplate DataType="{x:Type mVMs:MainPageViewModel}">
             <mPs:MainPage/>
         </DataTemplate>
@@ -116,22 +116,22 @@
         </DataTemplate>
 
     </Window.Resources>
-    
+
     <Window.ContextMenu >
         <ContextMenu >
-            
+
             <MenuItem Header="Minimize"
                       Command="{Binding MinimizeCommand}"
                       CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}},
                                 Path=PlacementTarget}"/>
-            
+
             <MenuItem Header="Close" Command="{Binding CloseCommand}"/>
-            
+
         </ContextMenu>
-        
-        
+
+
     </Window.ContextMenu>
-    
+
 
     <WindowChrome.WindowChrome>
         <WindowChrome
@@ -143,14 +143,14 @@
         </WindowChrome>
     </WindowChrome.WindowChrome>
 
-    <Window.InputBindings>        
+    <Window.InputBindings>
         <MouseBinding MouseAction="LeftClick" Command="{Binding LeftPressCommand}"
                       CommandParameter="{Binding ElementName=mainWindow}"/>
         <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding LeftDoubleClickCommand}"
                       CommandParameter="{Binding ElementName=mainWindow}"/>
     </Window.InputBindings>
 
-    
+
     <!-- Margin is necessary to prevent strange WindowState.Maximize to
          WindowState.Normal behaviour, the border is not rendered on the
          second time, a small resize of the window redraws the border,
@@ -165,11 +165,11 @@
 
 
         <ContentControl Content="{Binding _FlatManagementViewModel}"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
                         Margin="2"
-                            Background="Transparent"/>
-        
+                        Background="Transparent"/>
+
     </Border>
-    
+
 </Window>

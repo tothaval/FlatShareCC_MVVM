@@ -21,7 +21,7 @@
 
     </UserControl.Resources>
 
-        <StackPanel Margin="10">
+    <StackPanel Margin="10">
 
         <UniformGrid Columns="2"
                          Margin="0 10">
@@ -40,103 +40,108 @@
         </UniformGrid>
 
         <Grid Margin="0 0 0 10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-                <Button Content="add cost item"
-                       Command="{Binding AddFinacialTransactionItemCommand}"
-                       Grid.Column="0"
-                       Style="{StaticResource buttonStyle}"
-                       IsEnabled="{Binding DataLock, NotifyOnSourceUpdated=True}"/>
+            <Button Content="add cost item"
+                    Command="{Binding AddFinacialTransactionItemCommand}"
+                    Grid.Column="0"
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding DataLock, NotifyOnSourceUpdated=True}"
+                    ToolTip="Add a new annual other cost item to the selected annual billing."/>
 
-                <Button Content="remove cost item" Command="{Binding RemoveFinancialTransactionItemCommand}" 
-                       CommandParameter="{Binding ElementName=_othercosts, Path=SelectedItems}"
-                       Grid.Column="2"
-                       Style="{StaticResource buttonStyle}"
-                       IsEnabled="{Binding DataLock, NotifyOnSourceUpdated=True}"/>
-            </Grid>
+            <Button Content="remove cost item" Command="{Binding RemoveFinancialTransactionItemCommand}"
+                    CommandParameter="{Binding ElementName=_othercosts, Path=SelectedItems}"
+                    Grid.Column="2"
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding DataLock, NotifyOnSourceUpdated=True}"
+                    ToolTip="Remove selected annual other cost item(s) from selected annual billing."/>
+        </Grid>
 
 
-            <!-- ganze listview verstecken wenn die dauer geändert wird
+        <!-- ganze listview verstecken wenn die dauer geändert wird
                  oder nicht? ansonsten raten disablen. -->
-            
-            <ListView ItemsSource="{Binding ViewModel.FinancialTransactionItemViewModels, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
-                     SelectionMode="Extended"
-                     x:Name="_othercosts"
-                     ItemContainerStyle="{StaticResource ItemContainerStyle}"
-                         MaxHeight="480"
-                         
-                         ScrollViewer.CanContentScroll="True"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     >
 
-                <ListView.View>
-                    <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
-                        <GridView.Columns>
-              
+        <ListView ItemsSource="{Binding ViewModel.FinancialTransactionItemViewModels, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
+                  SelectionMode="Extended"
+                  x:Name="_othercosts"
+                  ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                  MaxHeight="480"
+                         
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+                    <GridView.Columns>
+
                         <GridViewColumn Header="Split">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ComboBox ItemsSource="{Binding Source={StaticResource enumValues}, UpdateSourceTrigger=PropertyChanged,
-                                               Delay=200}"
-                                                 SelectedItem="{Binding TransactionShareTypes}"                                                  
-                                                 HorizontalAlignment="Stretch"          
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding Source={StaticResource enumValues},
+                                        UpdateSourceTrigger=PropertyChanged,
+                                        Delay=200}"
+                                              SelectedItem="{Binding TransactionShareTypes}"
+                                              HorizontalAlignment="Stretch"
+                                              IsEnabled="{Binding DataContext.DataLock,
+                                        RelativeSource={RelativeSource AncestorType=local:AnnualBillingView},
+                                        NotifyOnSourceUpdated=True}"
+                                              ToolTip="Select whether the annual other cost item should be split equal amongst rooms, depending on area share or depending on consumption."/>
+
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Item">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBox Text="{Binding TransactionItem,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Delay=200,
+                                            Mode=TwoWay}"
+                                                 HorizontalAlignment="Stretch"
                                                  IsEnabled="{Binding DataContext.DataLock,
                                             RelativeSource={RelativeSource AncestorType=local:AnnualBillingView},
-                                            NotifyOnSourceUpdated=True}"/>
-
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="Item">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <TextBox Text="{Binding TransactionItem,
-                                               UpdateSourceTrigger=PropertyChanged,
-                                                   Delay=200,
-                                               Mode=TwoWay}"
-                                                        HorizontalAlignment="Stretch"
-                                                        IsEnabled="{Binding DataContext.DataLock,
-                                                RelativeSource={RelativeSource AncestorType=local:AnnualBillingView},
                                             NotifyOnSourceUpdated=True}"
-                                                        Style="{StaticResource StringValueTextBox}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                                 Style="{StaticResource StringValueTextBox}"                                                 
+                                                 ToolTip="Insert the name or a word for the item, f.e. annual insurance contribution, electricity annual statement, healthy beverage annual abonoment"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                            <GridViewColumn Header="Cost">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <TextBox Text="{Binding TransactionSum,
-                                                   StringFormat=C2,
-                                                   UpdateSourceTrigger=PropertyChanged,
-                                                   Mode=TwoWay,
-                                                   Delay=200}"
-                                                        HorizontalAlignment="Stretch"
-                                                        IsEnabled="{Binding DataContext.DataLock,
-                                                RelativeSource={RelativeSource AncestorType=local:AnnualBillingView},
+                        <GridViewColumn Header="Cost">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBox Text="{Binding TransactionSum,
+                                            StringFormat=C2,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=TwoWay,
+                                            Delay=200}"
+                                                 HorizontalAlignment="Stretch"
+                                                 IsEnabled="{Binding DataContext.DataLock,
+                                            RelativeSource={RelativeSource AncestorType=local:AnnualBillingView},
                                             NotifyOnSourceUpdated=True}"
-                                                        Style="{StaticResource DoubleValueTextBox}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                                 Style="{StaticResource DoubleValueTextBox}"
+                                                 ToolTip="Insert annual costs of the item."/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                        </GridView.Columns>
+                    </GridView.Columns>
 
-                    </GridView>
+                </GridView>
 
-                </ListView.View>
+            </ListView.View>
 
-            </ListView>
+        </ListView>
 
-        </StackPanel>
+    </StackPanel>
 
 </UserControl>

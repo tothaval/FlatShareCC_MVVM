@@ -30,12 +30,27 @@
         
         <TextBlock Text="Learn more about:" Grid.Column="0" Grid.Row="0"/>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" ButtonBase.Click="StackPanel_Click">
+        <UniformGrid Grid.Row="1" Grid.Column="0" ButtonBase.Click="StackPanel_Click" Columns="5">
             <comps:NavButton NavUri="/Manual/ManualPages/FlatManagementPage.xaml"
-                             Text="FlatManagement"/>
+                             Text="Flat Management"
+                             ToolTip="Click to learn more about Flat Management page."/>
+
+            <comps:NavButton NavUri=""
+                             Text="Rent Change(s)"
+                             ToolTip="Click to learn more about Rent Change(s) page."/>
+
+            <comps:NavButton NavUri=""
+                             Text="Annual Billing"
+                             ToolTip="Click to learn more about Annual Billing page."/>
+
+
+            <comps:NavButton NavUri=""
+                             Text="Print"
+                             ToolTip="Click to learn more about Print page."/>
 
             <comps:NavButton NavUri="/Manual/ManualPages/SettingsPage.xaml"
-                             Text="Settings"/>
-        </StackPanel>
+                             Text="Settings"
+                             ToolTip="Click to learn more about Settings page."/>
+        </UniformGrid>
     </Grid>
 </Page>

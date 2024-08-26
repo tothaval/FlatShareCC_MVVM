@@ -36,6 +36,7 @@
                 </TextBlock>
 
             <c_views:PopupButton PopupText="{DynamicResource LRS_PH_RoomSetupAreaDisplay}"
+                                 ToolTip="{DynamicResource LRS_PH_RoomSetupAreaDisplay}"
                                  Grid.Column="2"/>
 
             <TextBlock Style="{StaticResource DoubleValueTextBlock}"                       

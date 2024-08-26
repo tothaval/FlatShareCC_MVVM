@@ -64,7 +64,8 @@
                     Style="{StaticResource buttonStyle}"                                 
                     IsEnabled="{Binding DataContext.HasDataLock,
                               RelativeSource={RelativeSource AncestorType=local:RentUpdateView},
-                              NotifyOnSourceUpdated=True}"/>
+                              NotifyOnSourceUpdated=True}"
+                    ToolTip="Add a new other cost item to the selected rent change."/>
 
             <Button Content="remove cost item" Command="{Binding RemoveFinancialTransactionItemCommand}" 
                     CommandParameter="{Binding ElementName=_othercosts, Path=SelectedItems}"
@@ -72,7 +73,8 @@
                     Style="{StaticResource buttonStyle}"
                     IsEnabled="{Binding DataContext.HasDataLock,
                               RelativeSource={RelativeSource AncestorType=local:RentUpdateView},
-                              NotifyOnSourceUpdated=True}"/>
+                              NotifyOnSourceUpdated=True}"
+                    ToolTip="Remove selected other cost item(s) from selected rent change."/>
         </Grid>
 
 
@@ -103,7 +105,8 @@
                                               HorizontalAlignment="Stretch"
                                               IsEnabled="{Binding DataContext.HasDataLock,
                                         RelativeSource={RelativeSource AncestorType=local:RentUpdateView},
-                                        NotifyOnSourceUpdated=True}"/>
+                                        NotifyOnSourceUpdated=True}"
+                                              ToolTip="Choose between limited and ongoing duration."/>
 
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -118,7 +121,8 @@
                                                 Visibility="{Binding HasLimitedDuration, Converter={StaticResource viscon}}" 
                                                 IsEnabled="{Binding DataContext.HasDataLock,
                                         RelativeSource={RelativeSource AncestorType=local:RentUpdateView},
-                                        NotifyOnSourceUpdated=True}"/>
+                                        NotifyOnSourceUpdated=True}"
+                                                ToolTip="Select the end date of a other cost item with limited duration."/>
 
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -133,7 +137,8 @@
                                               HorizontalAlignment="Stretch"
                                               IsEnabled="{Binding DataContext.HasDataLock,
                                         RelativeSource={RelativeSource AncestorType=local:RentUpdateView},
-                                        NotifyOnSourceUpdated=True}"/>
+                                        NotifyOnSourceUpdated=True}"
+                                              ToolTip="Select whether the other cost item should be split equal amongst rooms or depending on area share."/>
 
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -150,7 +155,8 @@
                                                  HorizontalAlignment="Stretch" 
                                                  IsEnabled="{Binding DataContext.HasDataLock,
                                             RelativeSource={RelativeSource AncestorType=local:RentUpdateView},
-                                            NotifyOnSourceUpdated=True}"/>
+                                            NotifyOnSourceUpdated=True}"
+                                                 ToolTip="Insert the name or a word for the item, f.e. insurance, electricity, web access (ISP)"/>
                                     </Grid>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -169,7 +175,8 @@
                                                  IsEnabled="{Binding DataContext.HasDataLock,
                                             RelativeSource={RelativeSource AncestorType=local:RentUpdateView},
                                             NotifyOnSourceUpdated=True}"
-                                                        Style="{StaticResource DoubleValueTextBox}"/>
+                                                 Style="{StaticResource DoubleValueTextBox}"
+                                                 ToolTip="Insert monthly costs of the item."/>
                                     </Grid>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

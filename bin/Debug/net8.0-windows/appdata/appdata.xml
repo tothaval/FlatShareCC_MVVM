@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ApplicationDataOnExit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Accounting_Shown>false</Accounting_Shown>
+  <AnnualBilling_Shown>false</AnnualBilling_Shown>
   <FlatManagement_Shown>false</FlatManagement_Shown>
   <FlatViewModelSelectedIndex>0</FlatViewModelSelectedIndex>
   <Manual_Shown>false</Manual_Shown>
+  <Print_Shown>true</Print_Shown>
   <Settings_Shown>false</Settings_Shown>
 </ApplicationDataOnExit>

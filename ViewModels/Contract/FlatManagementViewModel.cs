@@ -453,9 +453,13 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             {
                 ShowAccounting = applicationData.Accounting_Shown;
 
+                ShowAnnualBilling = applicationData.AnnualBilling_Shown;
+
                 ShowFlatManagement = applicationData.FlatManagement_Shown;
 
                 ShowManual = applicationData.Manual_Shown;
+
+                ShowPrintView = applicationData.Print_Shown;
 
                 ShowSettings = applicationData.Settings_Shown;
 

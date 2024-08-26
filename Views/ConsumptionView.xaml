@@ -12,6 +12,7 @@
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*" SharedSizeGroup="Values"/>
         </Grid.ColumnDefinitions>
 
@@ -29,7 +30,7 @@
         <TextBlock Style="{StaticResource Header}"
                    Margin="0 10"
                    Grid.Column="0"
-                   Grid.ColumnSpan="2"
+                   Grid.ColumnSpan="3"
                    Grid.Row="0">
                        <Run Text="{DynamicResource IDF_Consumption}"/>
                        <Run Text="{DynamicResource IDF_perYear}"/>
@@ -40,10 +41,15 @@
                    Grid.Column="0"
                    Grid.Row="1"/>
 
+        <comps:PopupButton PopupText="Select the consumption item you wish to edit."
+                           ToolTip="Select the consumption item you wish to edit."
+                           Grid.Column="1"
+                           Grid.Row="1"/>
+
         <ComboBox ItemsSource="{Binding BillingViewModel.ConsumptionItemViewModels}"
                   SelectedItem="{Binding BillingViewModel.SelectedConsumptionItem}"
                   SelectedIndex="{Binding SelectedIndex, NotifyOnSourceUpdated=True}"
-                  Grid.Column="1"
+                  Grid.Column="2"
                   Grid.Row="1">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
@@ -64,6 +70,12 @@
                                Grid.Column="0"
                                Grid.Row="2"/>
 
+
+        <comps:PopupButton PopupText="Insert the total amount of units consumed in the year covered by the selected annual billing."
+                           ToolTip="Insert the total amount of units consumed in the year covered by the selected annual billing."
+                           Grid.Column="1"
+                           Grid.Row="2"/>
+
         <TextBox Text="{Binding BillingViewModel.SelectedConsumptionItem.ConsumedUnits,
                         StringFormat=N4,
                         Mode=TwoWay,
@@ -74,7 +86,7 @@
                         ValidatesOnDataErrors=True}"
                              Style="{StaticResource DoubleValueTextBox}"
                              IsEnabled="{Binding DataLock}"
-                             Grid.Column="1"
+                             Grid.Column="2"
                              Grid.Row="2"/>
 
 
@@ -83,12 +95,17 @@
                                Grid.Column="0"
                                Grid.Row="3"/>
 
+        <comps:PopupButton PopupText="After inserting room consumption values below, the combined sum of room consumption values will be displayed here."
+                           ToolTip="After inserting room consumption values below, the combined sum of room consumption values will be displayed here."
+                           Grid.Column="1"
+                           Grid.Row="3"/>
+
         <TextBlock Text="{Binding BillingViewModel.SelectedConsumptionItem.TotalRoomUnits, 
                         StringFormat=N4,
                         NotifyOnSourceUpdated=True}"
                  Style="{StaticResource DoubleValueTextBlock}"
                  IsEnabled="{Binding DataLock}"
-                 Grid.Column="1"
+                 Grid.Column="2"
                  Grid.Row="3"/>
 
         <TextBlock Text="{DynamicResource IDF_SharedConsumption}"
@@ -96,12 +113,16 @@
                                Grid.Column="0"
                                Grid.Row="4"/>
 
+        <comps:PopupButton PopupText="After inserting room consumption values below, the shared consumption value will be displayed here. Shared consumption could be f.e. kitchen heating consumption if there is one kitchen for all."
+                           ToolTip="After inserting room consumption values below, the shared consumption value will be displayed here. Shared consumption could be f.e. kitchen heating consumption if there is one kitchen for all."
+                           Grid.Column="1"
+                           Grid.Row="4"/>
         <TextBlock Text="{Binding BillingViewModel.SelectedConsumptionItem.SharedConsumption,
                         StringFormat=N4,
                         NotifyOnSourceUpdated=True}"
                  Style="{StaticResource DoubleValueTextBlock}"
                  IsEnabled="{Binding DataLock}"
-                 Grid.Column="1"
+                 Grid.Column="2"
                  Grid.Row="4"/>
 
         <TextBlock Text="{DynamicResource IDF_Percentage}"
@@ -109,18 +130,22 @@
                                Grid.Column="0"
                                Grid.Row="5"/>
 
+        <comps:PopupButton PopupText="After inserting room consumption values below, the shared consumption value percentage in relation to the total consumption value will be displayed here"
+                           ToolTip="After inserting room consumption values below, the shared consumption value percentage in relation to the total consumption value will be displayed here"
+                           Grid.Column="1"
+                           Grid.Row="5"/>
         <TextBlock Text="{Binding BillingViewModel.SelectedConsumptionItem.SharedConsumptionPercentage,
                         StringFormat=N4,
                         NotifyOnSourceUpdated=True}"
                  Style="{StaticResource DoubleValueTextBlock}"
                  IsEnabled="{Binding DataLock}"
-                 Grid.Column="1"
+                 Grid.Column="2"
                  Grid.Row="5"/>
 
         <TextBlock Style="{StaticResource Header}"
                    Margin="0 10"
                    Grid.Column="0"
-                   Grid.ColumnSpan="2"
+                   Grid.ColumnSpan="3"
                    Grid.Row="6">
                        <Run Text="{DynamicResource IDF_Consumption}"/>
                        <Run Text="{DynamicResource IDF_perRoom}"/>
@@ -136,65 +161,68 @@
                   BorderThickness="0"
                   ItemContainerStyle="{StaticResource ItemContainerStyle}"
                   Grid.Column="0"
-                  Grid.ColumnSpan="2"
+                  Grid.ColumnSpan="3"
                   Grid.Row="7">
 
-                <ListView.View>
-                    <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
 
-                        <GridViewColumn Header="{DynamicResource IDF_RoomName}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
+                    <GridViewColumn Header="{DynamicResource IDF_RoomName}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
                                            Text="{Binding RoomName}"
-                                           Style="{StaticResource StringValueTextBlock}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                           Style="{StaticResource StringValueTextBlock}"
+                                           ToolTip="The name of the room."/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
-                        <GridViewColumn Header="{DynamicResource IDF_RoomArea}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
+                    <GridViewColumn Header="{DynamicResource IDF_RoomArea}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock VerticalAlignment="Center" TextAlignment="Right" Padding="2" 
                                            HorizontalAlignment="Right" Text="{Binding RoomArea}"
-                                           Style="{StaticResource DoubleValueTextBlock}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                           Style="{StaticResource DoubleValueTextBlock}"
+                                           ToolTip="The area of the room without the shared area share."/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
-                        <GridViewColumn Header="{DynamicResource IDF_Consumption}">
-                            <GridViewColumn.CellTemplate>
+                    <GridViewColumn Header="{DynamicResource IDF_Consumption}">
+                        <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding ConsumptionValue,
-                                  UpdateSourceTrigger=PropertyChanged,
-                                  Mode=TwoWay,
-                                  NotifyOnTargetUpdated=True,
-                                  NotifyOnSourceUpdated=True,
-                                  ValidatesOnDataErrors=true,
-                                  StringFormat=N4, Delay=500}"
-                                   IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
-                                   VerticalAlignment="Center" 
-                                   Style="{StaticResource DoubleValueTextBox}"
-                                   />
-                            </DataTemplate>  
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                    UpdateSourceTrigger=PropertyChanged,
+                                    Mode=TwoWay,
+                                    NotifyOnTargetUpdated=True,
+                                    NotifyOnSourceUpdated=True,
+                                    ValidatesOnDataErrors=true,
+                                    StringFormat=N4, Delay=500}"
+                                         IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
+                                         VerticalAlignment="Center" 
+                                         Style="{StaticResource DoubleValueTextBox}"
+                                         ToolTip="Insert the consumed units value here. If left empty, heating costs will be split equally amongst rooms."/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
-                        <GridViewColumn Header="{DynamicResource IDF_Percentage}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
+                    <GridViewColumn Header="{DynamicResource IDF_Percentage}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
                                 <TextBlock Text="{Binding ConsumptionPercentage, Mode=OneWay,
                                     UpdateSourceTrigger=PropertyChanged,
                                     NotifyOnSourceUpdated=True,StringFormat=N2}"
-                                         Style="{StaticResource DoubleValueTextBlock}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                                           Style="{StaticResource DoubleValueTextBlock}"
+                                           ToolTip="The percentage of consumed units per room in relation to total consumed units."/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
-        
+
     </Grid>
 
 </UserControl>

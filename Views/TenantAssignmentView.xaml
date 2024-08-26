@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <UserControl.Resources>
 
         <conv:InverseVisibilityConverter x:Key="inviscon"/>
@@ -17,129 +17,151 @@
     </UserControl.Resources>
 
 
-        <StackPanel HorizontalAlignment="Left"
+    <StackPanel HorizontalAlignment="Left"
                     Margin="10 20">
 
-            <TextBlock Text="Tenants Configuration"
+        <TextBlock Text="Tenant Configurations"
                       Style="{StaticResource Header}"/>
 
-            <UniformGrid Columns="2">
+        <UniformGrid Columns="2">
 
-                <Button Content="New Configuration"
-                       Command="{Binding NewTenantConfigurationCommand}"
-                       Style="{StaticResource buttonStyle}"
-                       IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
+            <Button Content="New Configuration"
+                    Command="{Binding NewTenantConfigurationCommand}"
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding FlatViewModel.HasDataLock}"
+                    ToolTip="Add a new tenant to room configuration."/>
 
-                <Button Content="Delete Configuration"
-                       Command="{Binding DeleteTenantConfigurationCommand}"
-                       Style="{StaticResource buttonStyle}"
-                       IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
+            <Button Content="Delete Configuration"
+                    Command="{Binding DeleteTenantConfigurationCommand}"
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding FlatViewModel.HasDataLock}"
+                    ToolTip="Delete selected tenant configuration(s)."/>
 
-            </UniformGrid>
+        </UniformGrid>
 
-            <ListView ItemsSource="{Binding FlatViewModel.TenantConfigurations}"
-                     SelectedItem="{Binding SelectedTenantConfiguration}"
-                     ItemContainerStyle="{StaticResource ItemContainerStyle}">
+        <ListView ItemsSource="{Binding FlatViewModel.TenantConfigurations}"
+                  SelectedItem="{Binding SelectedTenantConfiguration}"
+                  ItemContainerStyle="{StaticResource ItemContainerStyle}">
 
-                <ListView.View>
+            <ListView.View>
 
-                    <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+                <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
 
-                        <GridView.Columns>
+                    <GridView.Columns>
 
-                            <GridViewColumn Header="{DynamicResource IDF_StartDate}"
+                        <GridViewColumn Header="{DynamicResource IDF_StartDate}"
                            Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Start,
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Start,
                            NotifyOnSourceUpdated=True,
                            StringFormat=d}"
                         Style="{StaticResource StringValueTextBlock}"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
 
-                            <GridViewColumn Header="{DynamicResource IDF_ActiveTenantCount}"
+                        <GridViewColumn Header="{DynamicResource IDF_ActiveTenantCount}"
                            Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding ActiveTenantsNames,
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ActiveTenantsNames,
                                            Converter={StaticResource listToString},
                                            NotifyOnSourceUpdated=True}"
                                                   Style="{StaticResource DoubleValueTextBlock}"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                        </GridView.Columns>
+                    </GridView.Columns>
 
-                    </GridView>
+                </GridView>
 
 
-                </ListView.View>
+            </ListView.View>
 
-            </ListView>
+        </ListView>
 
+        <TextBlock Text="Tenant Configuration Data"
+                      Style="{StaticResource Header}"/>
+
+        <Grid Margin="0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
             <TextBlock Text="{DynamicResource IDF_StartDate}"
-                      Style="{StaticResource StringValueTextBlock}"/>
+                       Style="{StaticResource StringValueTextBlock}"                       
+                       Grid.Column="0"/>
+
+            <comps:PopupButton PopupText="Insert the date this configuration starts."
+                               ToolTip="Insert the date this configuration starts."
+                               Grid.Column="1"/>
+
             <DatePicker SelectedDate="{Binding SelectedTenantConfiguration.Start}"
-                       CalendarStyle="{StaticResource CalendarStyle}"
-                       IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
+                        CalendarStyle="{StaticResource CalendarStyle}"
+                        IsEnabled="{Binding FlatViewModel.HasDataLock}"
+                        Grid.Column="2"/>
+
+        </Grid>
+        
 
 
-            <!-- define an item source and selected item for this list, RoomAssignement class ? -->
-            <ListView ItemsSource="{Binding SelectedTenantConfiguration.RoomAssignements}"
+        <!-- define an item source and selected item for this list, RoomAssignement class ? -->
+        <ListView ItemsSource="{Binding SelectedTenantConfiguration.RoomAssignements}"
                      ItemContainerStyle="{StaticResource ItemContainerStyle}"
                      >
-                <ListView.View>
-                    <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
-                        <GridView.Columns>
-                            <GridViewColumn Header="{DynamicResource IDF_RoomName}">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding RoomViewModel.RoomName}"
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
+                    <GridView.Columns>
+                        <GridViewColumn Header="{DynamicResource IDF_RoomName}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding RoomViewModel.RoomName}"
                                                   Style="{StaticResource StringValueTextBlock}"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
 
-                            <GridViewColumn Header="{DynamicResource IDF_RoomTenant}">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ComboBox ItemsSource="{Binding ActiveTenants}"
-                                                 SelectedItem="{Binding AssignedTenant}"
-                                                 IsEnabled="{Binding FlatViewModel.HasDataLock, RelativeSource={RelativeSource AncestorType=ListView, Mode=FindAncestor}}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Name}"/>
-                                                </DataTemplate>
+                        <GridViewColumn Header="{DynamicResource IDF_RoomTenant}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding ActiveTenants}"
+                                              SelectedItem="{Binding AssignedTenant}"
+                                              IsEnabled="{Binding FlatViewModel.HasDataLock, RelativeSource={RelativeSource AncestorType=ListView, Mode=FindAncestor}}"
+                                              ToolTip="Assign an active tenant to this room.">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Name}"/>
+                                            </DataTemplate>
 
-                                            </ComboBox.ItemTemplate>
+                                        </ComboBox.ItemTemplate>
 
-                                        </ComboBox>
-                                    </DataTemplate>
+                                    </ComboBox>
+                                </DataTemplate>
 
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                        </GridView.Columns>
-
-
-
-                    </GridView>
+                    </GridView.Columns>
 
 
 
-                </ListView.View>
+                </GridView>
 
 
-            </ListView>
+
+            </ListView.View>
 
 
-            <!--<UniformGrid Columns="2" Rows="2">
+        </ListView>
+
+
+        <!--<UniformGrid Columns="2" Rows="2">
                <TextBlock Text="{DynamicResource IDF_RoomName}" Grid.Column="0"/>
                <TextBlock Text="{DynamicResource IDF_RoomTenant}" Grid.Column="1"    />
 
@@ -158,6 +180,6 @@
 
 
 
-        </StackPanel>
+    </StackPanel>
 
 </UserControl>

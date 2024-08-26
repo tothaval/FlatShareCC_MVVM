@@ -41,11 +41,13 @@
             </Grid.RowDefinitions>
 
             <TextBlock Text="{DynamicResource IDF_Rent}"
-                  Style="{StaticResource StringValueTextBlock}"                       
+                  Style="{StaticResource StringValueTextBlock}"    
+                       MinWidth="100"
                   Grid.Column="0"
                   Grid.Row="1"/>
 
             <comps:PopupButton PopupText="{DynamicResource LRS_PH_Rent}"
+                               ToolTip="{DynamicResource LRS_PH_Rent}"
                            Grid.Column="1"
                                Grid.Row="1"/>
 
@@ -67,6 +69,7 @@
                        Grid.Row="2"/>
 
             <comps:PopupButton PopupText="{DynamicResource LRS_PH_Advance}"
+                               ToolTip="{DynamicResource LRS_PH_Advance}"
                            Grid.Column="1"
                                Grid.Row="2"/>
             

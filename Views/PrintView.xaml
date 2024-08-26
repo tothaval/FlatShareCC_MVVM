@@ -10,10 +10,9 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding FlatViewModel.Address, NotifyOnSourceUpdated=True}"
@@ -129,43 +128,7 @@
 
         </StackPanel>
 
-
-
-        <!--<Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            
-            <ToggleButton Content="{DynamicResource IDF_Rent}"
-                          IsChecked="{Binding RentOutputSelected}"
-                          Style="{StaticResource toggleButtonStyle}"
-                          Grid.Column="2" />
-            <ToggleButton Content="{DynamicResource IDF_Billing}"
-                          IsChecked="{Binding BillingOutputSelected}"
-                          Style="{StaticResource toggleButtonStyle}"
-                          Grid.Column="3"/>
-            <ToggleButton Content="{DynamicResource IDF_Other}"
-                          IsChecked="{Binding OtherOutputSelected}"
-                          Style="{StaticResource toggleButtonStyle}"
-                          Grid.Column="4"/>
-            <ToggleButton Content="{DynamicResource IDF_Credit}"
-                          IsChecked="{Binding CreditOutputSelected}"
-                          Style="{StaticResource toggleButtonStyle}"
-                          Grid.Column="5"/>
-            <ToggleButton Content="{DynamicResource IDF_Tenants}"
-                          IsChecked="{Binding TenantSelected}"
-                          Style="{StaticResource toggleButtonStyle}"
-                          Grid.Column="6"/>
-
-        </Grid>-->
-
+        
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -204,50 +167,6 @@
                                   Document="{Binding ActiveFlowDocument}"
                                   BorderBrush="DimGray"
                                   BorderThickness="2" />
-
-        <!--<FlowDocumentScrollViewer Grid.Row="4">
-            <FlowDocument Foreground="Black">
-
-
-                    <Paragraph>asfaf23r23qfa fwafaewfehg</Paragraph>
-                    <Table>
-                        <Table.Columns>
-                            <TableColumn/>
-                            <TableColumn/>
-                        </Table.Columns>
-                        <TableRowGroup>
-                            <TableRow>
-                                <TableCell>
-                                    <Paragraph BorderBrush="Black" BorderThickness="0 0 0 1">safasfdasga</Paragraph></TableCell>
-                                <TableCell>
-                                    <Paragraph>sahfhjfhjfghsjfkjmnnba</Paragraph>
-                                </TableCell>
-                            </TableRow>                            
-                        </TableRowGroup>
-                    <TableRowGroup>
-                        <TableRow>
-                            <TableCell>
-                                <Paragraph>safasfdasga</Paragraph>
-                            </TableCell>
-                            <TableCell>
-                                <Paragraph>sahfhjfhjfghsjfkjmnnba</Paragraph>
-                            </TableCell>
-                        </TableRow>
-                    </TableRowGroup>
-                </Table>
-                <List Name="lsit" Margin="23">
-                    <ListItem >
-                        <Paragraph > adff </Paragraph></ListItem>
-                    <ListItem >
-                        <Paragraph >adff241qd1d</Paragraph>
-                    </ListItem>
-
-                </List>
-                
-            </FlowDocument>
-            
-        </FlowDocumentScrollViewer>-->
-
-
+     
     </Grid>
 </UserControl>
