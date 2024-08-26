@@ -29,14 +29,16 @@
         <UniformGrid Columns="2" Margin="0 10">
 
             <Button Content="New Tenant"
-                            Command="{Binding NewTenantCommand}"
-                            Style="{StaticResource buttonStyle}"
-                            IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
+                    Command="{Binding NewTenantCommand}"
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding FlatViewModel.HasDataLock}"
+                    ToolTip="Add a new tenant to tenant list."/>
 
             <Button Content="Delete Tenant"
-                            Command="{Binding DeleteTenantCommand}"
-                            Style="{StaticResource buttonStyle}"
-                            IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
+                    Command="{Binding DeleteTenantCommand}"
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding FlatViewModel.HasDataLock}"
+                    ToolTip="Remove selected tenant(s) from tenant list."/>
 
         </UniformGrid>
 
@@ -116,56 +118,72 @@
                            Style="{StaticResource Header}"/>
 
         <CheckBox Content="{DynamicResource IDF_TenantIsActive}"
-                          IsChecked="{Binding SelectedTenant.IsActive,
-                    NotifyOnSourceUpdated=True,
-                    Mode=TwoWay,
-                    UpdateSourceTrigger=PropertyChanged}"
-                          IsEnabled="{Binding FlatViewModel.HasDataLock}"
-                          Style="{StaticResource OptionCheckBox}"/>
+                  IsChecked="{Binding SelectedTenant.IsActive,
+            NotifyOnSourceUpdated=True,
+            Mode=TwoWay,
+            UpdateSourceTrigger=PropertyChanged}"
+                  IsEnabled="{Binding FlatViewModel.HasDataLock}"
+                  Style="{StaticResource OptionCheckBox}"
+                  ToolTip="Deselect if tenant is moving out."/>
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto" MinWidth="120"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="{DynamicResource IDF_MovingIn}" 
-                               Style="{StaticResource StringValueTextBlock}"/>
+                       Style="{StaticResource StringValueTextBlock}"/>
+
+            <comps:PopupButton PopupText="Insert date of tenant moving in."
+                               ToolTip="Insert date of tenant moving in."
+                               Grid.Column="1"/>
+
             <DatePicker SelectedDate="{Binding SelectedTenant.MovingIn,
                         NotifyOnSourceUpdated=True,
                         Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged,
                         StringFormat=d}"
                                 IsEnabled="{Binding FlatViewModel.HasDataLock}"
-                                Grid.Column="1"/>
+                                Grid.Column="2"/>
 
         </Grid>
 
         <Grid Visibility="{Binding SelectedTenant.IsActive,
                     Converter={StaticResource inviscon}}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="A"/>
+                <ColumnDefinition Width="Auto" MinWidth="120"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition SharedSizeGroup="B"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="{DynamicResource IDF_MovingOut}" 
                                Style="{StaticResource StringValueTextBlock}"/>
+
+            <comps:PopupButton PopupText="Insert date of tenant moving out."
+                               ToolTip="Insert date of tenant moving out."
+                               Grid.Column="1"/>
+
+
             <DatePicker SelectedDate="{Binding SelectedTenant.MovingOut,
                         NotifyOnSourceUpdated=True,
                         Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged,
                         StringFormat=d}"
                                 IsEnabled="{Binding FlatViewModel.HasDataLock}"
-                                Grid.Column="1"/>
+                                Grid.Column="2"/>
 
         </Grid>
 
         <comps:ObjectInputView Label="{DynamicResource IDF_RoomTenant}"
-                                       Value="{Binding SelectedTenant.Name,
+                               LabelMinWidth="118"
+                               Value="{Binding SelectedTenant.Name,
                     NotifyOnSourceUpdated=True,
                     Mode=TwoWay,
                     UpdateSourceTrigger=PropertyChanged}"
-                                       IsEnabled="{Binding FlatViewModel.HasDataLock}"/>
+                               IsEnabled="{Binding FlatViewModel.HasDataLock}"
+                               PopupHint="Insert tenants name."/>
 
 
     </StackPanel>

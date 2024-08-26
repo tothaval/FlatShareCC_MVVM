@@ -33,6 +33,7 @@
                     Command="{Binding AddRentUpdateCommand}"
                     IsEnabled="{Binding UpdateViewModel.HasDataLock}"
                     Style="{StaticResource buttonStyle}"
+                    ToolTip="Click to add new rent change."
                     Grid.Column="0"/>
 
             <!-- height set to be the same as lock data togglebutton style -->
@@ -40,6 +41,7 @@
                     Command="{Binding AddRaiseCommand}"
                     IsEnabled="{Binding UpdateViewModel.HasDataLock}"
                     Style="{StaticResource buttonStyle}"
+                    ToolTip="Click to clone selected rent change."
                     Height="40"
                     Grid.Column="1"/>
 
@@ -48,7 +50,8 @@
                             IsEnabled="{Binding UpdateViewModel.HasDataLock}"
                     Visibility="{Binding HasRentUpdate, Converter={StaticResource VisibilityConverter}}"
                     Grid.Column="3" Content="{DynamicResource IDF_DeleteRentChange}"
-                    Style="{StaticResource buttonStyle}"/>
+                    Style="{StaticResource buttonStyle}"
+                    ToolTip="Click to delete selected rent change(s)."/>
         </Grid>
         <!--#endregion-->
 

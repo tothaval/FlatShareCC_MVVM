@@ -4,20 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              FontWeight="Normal">
 
     <StackPanel Orientation="Vertical" Margin="10">
 
-        <TextBlock Style="{StaticResource Header}"
-                   Margin="0 10"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
-                   Grid.Row="0">
+        <Grid Margin="0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Style="{StaticResource Header}"
+                   Grid.Column="0">
                        <Run Text="{DynamicResource IDF_Payments}"/>
                        <Run Text="{DynamicResource IDF_perYear}"/>
-        </TextBlock>
+            </TextBlock>
+
+            <comps:PopupButton PopupText="Select a room and add payments to the selected room using Add Payment(s) button."
+                               ToolTip="Select a room and add payments to the selected room using Add Payment(s) button."
+                               Grid.Column="1"/>
+
+        </Grid>
+
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0 10">
 
@@ -31,9 +42,12 @@
                             <GridViewColumn Header="{DynamicResource IDF_RoomName}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding RoomName, NotifyOnSourceUpdated=True,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                               Style="{StaticResource StringValueTextBlock}"/>
+                                        <TextBlock Text="{Binding RoomName,
+                                            NotifyOnSourceUpdated=True,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=OneWay}"
+                                                   Style="{StaticResource StringValueTextBlock}"
+                                                   ToolTip="The name of the room."/>
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -42,11 +56,13 @@
                             <GridViewColumn Header="{DynamicResource IDF_RoomArea}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding RoomArea, NotifyOnSourceUpdated=True,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
+                                        <TextBlock Text="{Binding RoomArea,
+                                            NotifyOnSourceUpdated=True,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=OneWay,
                                             StringFormat=N2}"
-                                                               Style="{StaticResource DoubleValueTextBlock}"/>
-
+                                                   Style="{StaticResource DoubleValueTextBlock}"                                                   
+                                                   ToolTip="The area of the room without shared area share."/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -54,11 +70,13 @@
                             <GridViewColumn Header="{DynamicResource IDF_Payments}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding CombinedPayments, NotifyOnSourceUpdated=True,
-                                                        UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
+                                        <TextBlock Text="{Binding CombinedPayments,
+                                            NotifyOnSourceUpdated=True,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Mode=OneWay,
                                             StringFormat=C2}"
-                                                               Style="{StaticResource DoubleValueTextBlock}"/>
-
+                                                   Style="{StaticResource DoubleValueTextBlock}"                                                   
+                                                   ToolTip="The sum of the recorded payments for the room."/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

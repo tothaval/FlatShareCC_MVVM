@@ -12,7 +12,7 @@
         mc:Ignorable="d"
         Background="Transparent">
     <UserControl.Resources>
-        
+
         <Style TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal"/>
             <Setter Property="Margin" Value="0 5"/>
@@ -23,7 +23,7 @@
             <Setter Property="BorderBrush" Value="{DynamicResource SCB_Text_Header}"/>-->
             <Setter Property="Margin" Value="0 0 0 5"/>
         </Style>
-        
+
     </UserControl.Resources>
 
     <StackPanel Margin="10 10" Orientation="Vertical">
@@ -32,31 +32,43 @@
         <Border>
             <Grid >
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
+
                 <TextBlock Text="{DynamicResource IDF_Language}"
                            MinWidth="200"
                            Style="{StaticResource StringValueTextBlock}"
-                       
-                       VerticalAlignment="Center"
+                           VerticalAlignment="Center"
                            Grid.Column="0"/>
+
+                <comps:PopupButton PopupText="Select language. Changes will take effect immediately."
+                                   ToolTip="Select language. Changes will take effect immediately."
+                                   Grid.Column="1"/>
+
                 <ComboBox ItemsSource="{Binding Languages}"
                           SelectedItem="{Binding SelectedLanguage}"
                           HorizontalAlignment="Stretch"
-                       VerticalAlignment="Center"
-                      VerticalContentAlignment="Center"
+                          VerticalAlignment="Center"
+                          VerticalContentAlignment="Center"
                           MinWidth="100"
-                           Grid.Column="1"/>
+                          Grid.Column="2"/>
             </Grid>
         </Border>
+
+        <TextBlock Text="Corner Rounding"
+                   Margin="0 10 0 0"
+                   Style="{StaticResource Header}"
+                   FontSize="{DynamicResource FS}"/>
 
         <!-- ButtonCornerRadius slider -->
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
@@ -66,8 +78,12 @@
                            Grid.Column="0"
                            Text="{DynamicResource IDF_ButtonCornerRadius}"/>
 
+                <comps:PopupButton PopupText="Use slider to change button corner rounding. Value right to the slider indicates current corner radius. Changes will take effect immediately."
+                                   ToolTip="Use slider to change button corner rounding. Value right to the slider indicates current corner radius. Changes will take effect immediately."
+                                   Grid.Column="1"/>
+
                 <Slider Interval="1"
-                    Grid.Column="1"
+                    Grid.Column="2"
                     Value="{Binding ButtonCornerRadius}"
                     LargeChange="5"
                     SmallChange="1"
@@ -76,11 +92,12 @@
                     Maximum="55"
                     MinWidth="100">
                 </Slider>
-                
+
                 <TextBlock Style="{StaticResource DoubleValueTextBlock}"
                            VerticalAlignment="Center"
                            MinWidth="50"
-                           Grid.Column="2" Text="{Binding ButtonCornerRadius}"/>
+                           Grid.Column="3"
+                           Text="{Binding ButtonCornerRadius}"/>
 
             </Grid>
         </Border>
@@ -89,8 +106,9 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
@@ -100,31 +118,42 @@
                            Grid.Column="0"
                            Text="{DynamicResource IDF_VisibilityFieldCornerRadius}"/>
 
+                <comps:PopupButton PopupText="Use slider to change field corner rounding. Value right to the slider indicates current button corner radius. Changes will take effect immediately."
+                                   ToolTip="Use slider to change field corner rounding. Value right to the slider indicates current button corner radius. Changes will take effect immediately."
+                                   Grid.Column="1"/>
+
                 <Slider Interval="1"
-                  Grid.Column="1"
-                  Value="{Binding VisibilityFieldCornerRadius}"
-                  LargeChange="5"
-                  SmallChange="1"
-                  IsSnapToTickEnabled="True"
-                  Minimum="0"
-                  Maximum="55"
-                  MinWidth="100">
+                        Grid.Column="2"
+                        Value="{Binding VisibilityFieldCornerRadius}"
+                        LargeChange="5"
+                        SmallChange="1"
+                        IsSnapToTickEnabled="True"
+                        Minimum="0"
+                        Maximum="55"
+                        MinWidth="100">
                 </Slider>
 
                 <TextBlock Style="{StaticResource DoubleValueTextBlock}"
                            VerticalAlignment="Center"
                            MinWidth="50"
-                           Grid.Column="2" Text="{Binding VisibilityFieldCornerRadius}"/>
-
+                           Grid.Column="3" Text="{Binding VisibilityFieldCornerRadius}"/>
             </Grid>
         </Border>
+
+
+
+        <TextBlock Text="Font Settings"
+                   Margin="0 10 0 0"
+                   Style="{StaticResource Header}"
+                   FontSize="{DynamicResource FS}"/>
 
         <!-- FontFamily combobox -->
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_FontFamily}"
                            Style="{StaticResource StringValueTextBlock}"
@@ -132,12 +161,16 @@
                            Grid.Column="0"
                        VerticalAlignment="Center"/>
 
+                <comps:PopupButton PopupText="Choose a font family from your system fonts. Changes will take effect immediately."
+                                   ToolTip="Choose a font family from your system fonts. Changes will take effect immediately."
+                                   Grid.Column="1"/>
+
                 <ComboBox ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}"
                           SelectedItem="{Binding FontFamily}"
                           MinWidth="100" 
-                          Grid.Column="1"
-                       VerticalAlignment="Center"
-                      VerticalContentAlignment="Center">
+                          Grid.Column="2"
+                          VerticalAlignment="Center"
+                          VerticalContentAlignment="Center">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -157,8 +190,9 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
@@ -170,8 +204,12 @@
                     <Run Text="{Binding FontSize}" FontSize="{Binding FontSize}" />
                 </TextBlock>
 
+                <comps:PopupButton PopupText="Use the slider to change Font Size. Value to the left indicates selected font size. Confirm by clicking * button right to the slider, after that changes will take effect."
+                                   ToolTip="Use the slider to change Font Size. Value to the left indicates selected font size. Confirm by clicking * button right to the slider, after that changes will take effect."
+                                   Grid.Column="1"/>
+
                 <Slider Interval="1"
-                    Grid.Column="1"
+                    Grid.Column="2"
                     VerticalAlignment="Center"
                     VerticalContentAlignment="Center"
                     Value="{Binding FontSize,
@@ -188,22 +226,34 @@
                 <Button Content="*"
                         Command="{Binding ApplyFontSizeCommand}"
                         Style="{DynamicResource buttonStyle}"
-                        Grid.Column="2"/>
+                        Grid.Column="3"/>
             </Grid>
         </Border>
+
+
+        <TextBlock Text="Color Settings"
+                   Margin="0 10 0 0"
+                   Style="{StaticResource Header}"
+                   FontSize="{DynamicResource FS}"/>
 
         <!-- ForegroundColor picker -->
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_Foreground}"
                            Style="{StaticResource StringValueTextBlock}"
                            MinWidth="200"
                        VerticalAlignment="Center"
                            Grid.Column="0"/>
+
+                <comps:PopupButton PopupText="Use color picker to change the standard text color. Changes will take effect immediately."
+                                   ToolTip="Use color picker to change the standard text color. Changes will take effect immediately."
+                                   Grid.Column="1"/>
+
                 <toolkit:ColorPicker HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center"
                                  VerticalContentAlignment="Center"
@@ -213,7 +263,7 @@
                             FontSize="{DynamicResource FS}"
                             Foreground="{DynamicResource SCB_Text}"
                             Background="{DynamicResource SCB_Background}"
-                           Grid.Column="1"/>
+                           Grid.Column="2"/>
             </Grid>
         </Border>
 
@@ -221,13 +271,19 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_Background}"
                            Style="{StaticResource StringValueTextBlock}"
                            MinWidth="200"
                            Grid.Column="0"/>
+
+                <comps:PopupButton PopupText="Use color picker to change the background color. Changes will take effect immediately."
+                                   ToolTip="Use color picker to change the background color. Changes will take effect immediately."
+                                   Grid.Column="1"/>
+
                 <toolkit:ColorPicker HorizontalAlignment="Stretch"
                              SelectedColor="{Binding BackgroundColor}"
                            MinWidth="100"
@@ -235,7 +291,7 @@
                             FontSize="{DynamicResource FS}"
                             Foreground="{DynamicResource SCB_Text}"
                             Background="{DynamicResource SCB_Background}"
-                           Grid.Column="1"/>
+                           Grid.Column="2"/>
             </Grid>
         </Border>
 
@@ -243,13 +299,19 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_ButtonBackground}"
                            Style="{StaticResource StringValueTextBlock}"
                            MinWidth="200"
                            Grid.Column="0"/>
+
+                <comps:PopupButton PopupText="Use color picker to change the background color of buttons and clickable areas. Changes will take effect immediately."
+                                   ToolTip="Use color picker to change the background color of buttons and clickable areas. Changes will take effect immediately."
+                                   Grid.Column="1"/>
+
                 <toolkit:ColorPicker HorizontalAlignment="Stretch"
                              SelectedColor="{Binding ButtonBackgroundColor}"
                            MinWidth="100"
@@ -257,7 +319,7 @@
                             FontSize="{DynamicResource FS}"
                             Foreground="{DynamicResource SCB_Text}"
                             Background="{DynamicResource SCB_Background}"
-                           Grid.Column="1"/>
+                           Grid.Column="2"/>
             </Grid>
         </Border>
 
@@ -265,13 +327,19 @@
         <Border>
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_HeaderTextColor}"
                            Style="{StaticResource StringValueTextBlock}"
                            MinWidth="200"
                            Grid.Column="0"/>
+
+                <comps:PopupButton PopupText="Use color picker to change the text color of headers and checkable buttons, as well as background color of popup hints. Changes will take effect immediately."
+                                   ToolTip="Use color picker to change the text color of headers and checkable buttons, as well as background color of popup hints. Changes will take effect immediately."
+                                   Grid.Column="1"/>
+                
                 <toolkit:ColorPicker HorizontalAlignment="Stretch"
                              SelectedColor="{Binding HeaderTextColor}"
                            MinWidth="100"
@@ -279,7 +347,7 @@
                             FontSize="{DynamicResource FS}"
                             Foreground="{DynamicResource SCB_Text}"
                             Background="{DynamicResource SCB_Background}"
-                           Grid.Column="1"/>
+                           Grid.Column="2"/>
             </Grid>
         </Border>
 
@@ -288,12 +356,18 @@
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource IDF_SelectionColor}"
                            Style="{StaticResource StringValueTextBlock}"
                            MinWidth="200"
                            Grid.Column="0"/>
+
+                <comps:PopupButton PopupText="Use color picker to change the color of list selection background. Changes will take effect immediately."
+                                   ToolTip="Use color picker to change the color of list selection background. Changes will take effect immediately."
+                                   Grid.Column="1"/>
+
                 <toolkit:ColorPicker HorizontalAlignment="Stretch"
                              SelectedColor="{Binding SelectionColor}"
                            MinWidth="100"
@@ -301,10 +375,10 @@
                             FontSize="{DynamicResource FS}"
                             Foreground="{DynamicResource SCB_Text}"
                             Background="{DynamicResource SCB_Background}"
-                           Grid.Column="1"/>
+                           Grid.Column="2"/>
             </Grid>
         </Border>
 
-    
+
     </StackPanel>
 </UserControl>

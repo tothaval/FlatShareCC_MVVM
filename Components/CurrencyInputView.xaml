@@ -26,6 +26,8 @@
 
         <local:PopupButton PopupText="{Binding Path=PopupHint,
             ElementName=SIV}"
+                           ToolTip="{Binding Path=PopupHint,
+            ElementName=SIV}"
                            Grid.Column="1"/>
 
         <TextBox Text="{Binding Path=Value, ElementName=SIV, UpdateSourceTrigger=PropertyChanged, StringFormat=C2}"

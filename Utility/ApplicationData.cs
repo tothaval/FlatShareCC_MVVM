@@ -21,6 +21,7 @@ namespace SharedLivingCostCalculator.Utility
 
         public bool Accounting_Shown { get; set; } = false;
 
+        public bool AnnualBilling_Shown { get; set; } = false;
 
         public bool FlatManagement_Shown { get; set; } = false;
 
@@ -33,7 +34,10 @@ namespace SharedLivingCostCalculator.Utility
 
 
         public bool Manual_Shown { get; set; } = false;
-               
+
+
+        public bool Print_Shown { get; set; } = false;
+
 
         public bool Settings_Shown { get; set; } = false;
 
@@ -71,6 +75,8 @@ namespace SharedLivingCostCalculator.Utility
             {
                 Accounting_Shown = _FlatManagementViewModel.ShowAccounting;
 
+                AnnualBilling_Shown = _FlatManagementViewModel.ShowAnnualBilling;
+
                 FlatManagement_Shown = _FlatManagementViewModel.ShowFlatManagement;
 
                 if (_FlatManagementViewModel.FlatCollection.Count > 0)
@@ -85,6 +91,8 @@ namespace SharedLivingCostCalculator.Utility
                 }
 
                 Manual_Shown = _FlatManagementViewModel.ShowManual;
+
+                Print_Shown = _FlatManagementViewModel.ShowPrintView;
 
                 Settings_Shown = _FlatManagementViewModel.ShowSettings;
             }

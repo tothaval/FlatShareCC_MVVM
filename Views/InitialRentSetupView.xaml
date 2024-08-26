@@ -29,6 +29,7 @@
               Grid.Row="0"/>
 
             <comps:PopupButton PopupText="{DynamicResource LRS_PH_ContractStart}"
+                               ToolTip="{DynamicResource LRS_PH_ContractStart}"
                            Grid.Column="1"/>
 
             <DatePicker SelectedDate="{Binding RentViewModel.StartDate,

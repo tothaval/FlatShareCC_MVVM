@@ -386,26 +386,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         // methods
         #region methods
 
-        private void SelectFirstItem()
-        {
-            if (_FlatViewModel != null)
-            {
-                if (_FlatViewModel.AnnualBillings.Count > 0)
-                {
-                    if (_FlatViewModel.GetMostRecentBilling() != null)
-                    {
-                        SelectedValue = _FlatViewModel.GetMostRecentBilling();
-                    }
-                }
-            }
-        }
-
-        #endregion methods
-
-
-        // events
-        #region events
-
         private void AddAnnualBilling()
         {
             BillingViewModel billingViewModel = new BillingViewModel(_FlatViewModel,
@@ -427,8 +407,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
             if (selection != null)
             {
                 MessageBoxResult result = MessageBox.Show(
-                    $"Do you want to delete selected rent change?",
-                    "Remove Rent Change(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    $"Do you want to delete selected annual billing(s)?",
+                    "Remove Annual Billing(s)", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     var selected = selection.Cast<BillingViewModel>().ToArray();
@@ -448,6 +428,29 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 }
             }
         }
+
+
+        private void SelectFirstItem()
+        {
+            if (_FlatViewModel != null)
+            {
+                if (_FlatViewModel.AnnualBillings.Count > 0)
+                {
+                    if (_FlatViewModel.GetMostRecentBilling() != null)
+                    {
+                        SelectedValue = _FlatViewModel.GetMostRecentBilling();
+                    }
+                }
+            }
+        }
+
+        #endregion methods
+
+
+        // events
+        #region events
+
+
 
         #endregion events
 

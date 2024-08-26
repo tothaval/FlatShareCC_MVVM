@@ -40,6 +40,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 Billing.ActualAdvancePerPeriod = value;
 
                 OnPropertyChanged(nameof(ActualAdvancePerPeriod));
+                OnPropertyChanged(nameof(ContractBalance));
 
                 DetermineTotalAdvancePerPeriod();
             }
@@ -56,6 +57,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
 
         public double Balance => DetermineBalance();
+
+
+        public double ContractBalance => TotalCostsPerPeriod - ActualAdvancePerPeriod;
 
 
         private double _CreditSum;
@@ -176,6 +180,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 OnPropertyChanged(nameof(TotalFixedCostsPerPeriod));
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
+                OnPropertyChanged(nameof(ContractBalance));
 
                 RebuildRoomCostShares();
             }
@@ -219,6 +224,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 OnPropertyChanged(nameof(TotalHeatingCostsPerPeriod));
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
+                OnPropertyChanged(nameof(ContractBalance));
 
                 RebuildRoomCostShares();
             }

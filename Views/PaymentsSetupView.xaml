@@ -21,22 +21,29 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal">
-
+                
                 <TextBlock Text="{DynamicResource IDF_Quantity}"
                            Style="{StaticResource StringValueTextBlock}"
                            VerticalAlignment="Center" />
+
+                <components:PopupButton PopupText="Insert the amount of payment items you wish to create. Use one for each different value."
+                                        ToolTip="Insert the amount of payment items you wish to create. Use one for each different value."/>
+
                 <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                          MinWidth="50" 
                          Style="{StaticResource DoubleValueTextBox}"
                          IsEnabled="{Binding DataLock, RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
                                                     
                     />
-                
+
                 <Button Content ="{DynamicResource IDF_AddPayment}"
                         Command="{Binding AddPaymentCommand}"
                         CommandParameter="{Binding Quantity}"
                         Style="{StaticResource buttonStyle}"
-                        IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
+                        IsEnabled="{Binding DataContext.DataLock,
+                    RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
+                        ToolTip="Click to add the amount of payment items specified with quantity value to the selected room."
+                        Margin="10 0"
                                                     
                         />
             </StackPanel>
@@ -44,9 +51,12 @@
             <Button Content="{DynamicResource IDF_DeletePayment}"
                     Command="{Binding DeletePaymentCommand}"
                     Grid.Column="1"
-                    CommandParameter="{Binding ElementName=_payments, Path=SelectedItems}"
+                    CommandParameter="{Binding ElementName=_payments,
+                Path=SelectedItems}"
                     Style="{StaticResource buttonStyle}"
-                    IsEnabled="{Binding DataContext.DataLock, RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
+                    IsEnabled="{Binding DataContext.DataLock,
+                RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
+                    ToolTip="Click to remove the selected payment(s) from the selected room."
                     />
         </Grid>
 
@@ -60,11 +70,11 @@
                       ItemContainerStyle="{StaticResource ItemContainerStyle}">
 
                 <ListView.View>
-                    
+
                     <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
-                        
+
                         <GridView.Columns>
-                            
+
                             <GridViewColumn Header="{DynamicResource IDF_PaymentStartDate}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -78,7 +88,8 @@
                                                     FontFamily="{DynamicResource FF}"
                                                     FontSize="{DynamicResource FS}"
                                                     Foreground="{DynamicResource SCB_Text}"
-                                                    Background="{DynamicResource SCB_Background}"/>
+                                                    Background="{DynamicResource SCB_Background}"
+                                                    ToolTip="Set the date of the payment, it must be within the annual billing time period."/>
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -97,7 +108,8 @@
                                                     FontFamily="{DynamicResource FF}"
                                                     FontSize="{DynamicResource FS}"
                                                     Foreground="{DynamicResource SCB_Text}"
-                                                    Background="{DynamicResource SCB_Background}"/>
+                                                    Background="{DynamicResource SCB_Background}"
+                                                    ToolTip="Set the end date of the payment period, it must be within the annual billing time period."/>
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -112,8 +124,9 @@
                                             UpdateSourceTrigger=PropertyChanged,
                                             ValidatesOnDataErrors=true}"
                                                  Style="{StaticResource DoubleValueTextBox}"                                                 
-                                                 IsEnabled="{Binding DataContext.DataLock,
+                                                 IsEnabled="{Binding DataContext.DataLock,                                            
                                             RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"
+                                                 ToolTip="Enter the monthly payment amount."
                                                  />
 
                                     </DataTemplate>
@@ -129,7 +142,8 @@
                                             ValidatesOnDataErrors=true}"
                                                  Style="{StaticResource DoubleValueTextBox}"
                                                  IsEnabled="{Binding DataContext.DataLock,
-                                            RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"                                                 
+                                            RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"  
+                                                 ToolTip="Enter the number of payments with that particulary amount."
                                                  />
 
                                     </DataTemplate>
@@ -139,21 +153,18 @@
                             <GridViewColumn Header="{DynamicResource IDF_PaymentTotal}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding PaymentTotal,
+                                        <TextBlock Text="{Binding PaymentTotal,
                                             StringFormat=C2,
                                             NotifyOnSourceUpdated=True,
-                                            UpdateSourceTrigger=PropertyChanged,
-                                            ValidatesOnDataErrors=true,
                                             Mode=OneWay}"
-                                                 Style="{StaticResource DoubleValueTextBox}"
-                                                 IsEnabled="{Binding DataContext.DataLock,
-                                            RelativeSource={RelativeSource AncestorType=local:AnnualBillingView}}"                                                    
+                                                   Style="{StaticResource DoubleValueTextBlock}"
+                                                   ToolTip="The result of payment multiplicated with quantity."
                                                  />
 
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            
+
                         </GridView.Columns>
 
                     </GridView>
@@ -163,6 +174,6 @@
             </ListView>
 
         </ScrollViewer>
-        
+
     </StackPanel>
 </UserControl>
