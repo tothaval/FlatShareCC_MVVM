@@ -13,6 +13,7 @@ using SharedLivingCostCalculator.Models.Financial;
 using System.Windows.Media;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels;
+using SharedLivingCostCalculator.Enums;
 
 namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 {
@@ -76,7 +77,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public Section BuildOtherCostDetails(bool isCredit, string SelectedDetailOption)
+        public Section BuildOtherCostDetails(bool isCredit, DataOutputProgressionTypes SelectedDetailOption)
         {
             IsCredit = isCredit;
 
@@ -130,7 +131,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                 Table headerTable = print.OutputTableForFlat();
 
-                if (SelectedDetailOption.Equals("TimeScale"))
+                if (SelectedDetailOption == DataOutputProgressionTypes.TimeChange)
                 {
                     for (int monthCounter = 1; monthCounter < 13; monthCounter++)
                     {
@@ -211,7 +212,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        private Section BuildRoomDetailsOther(bool isCredit, string SelectedDetailOption)
+        private Section BuildRoomDetailsOther(bool isCredit, DataOutputProgressionTypes SelectedDetailOption)
         {
             Section roomsOutput = new Section();
 
@@ -262,7 +263,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     }
                 }
 
-                if (SelectedDetailOption.Equals("TimeScale"))
+                if (SelectedDetailOption == DataOutputProgressionTypes.TimeChange)
                 {
                     for (int monthCounter = 1; monthCounter < 13; monthCounter++)
                     {

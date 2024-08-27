@@ -1,6 +1,6 @@
 ﻿/*  Shared Living Costs Calculator (by Stephan Kammel, Dresden, Germany, 2024)
  *  
- *  TransactionShareTypesBilling 
+ *  TransactionDurationTypes 
  * 
  *  enum holds all supported durations for FTIs
  *  

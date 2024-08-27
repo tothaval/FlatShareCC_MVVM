@@ -7,6 +7,8 @@
              xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
              xmlns:enums="clr-namespace:SharedLivingCostCalculator.Enums"
+             xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:p="clr-namespace:System;assembly=mscorlib"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
@@ -81,15 +83,19 @@
                         ToolTip="Remove selected credit item(s) from selected rent change."/>
             </Grid>
 
-            <ListView ItemsSource="{Binding ViewModel.Credits, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
-                     SelectionMode="Extended"
-                     x:Name="_credits"
-                     ItemContainerStyle="{StaticResource ItemContainerStyle}"
-                         MaxHeight="480"
-                         
-                         ScrollViewer.CanContentScroll="True"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     >
+            <ListView ItemsSource="{Binding ViewModel.Credits,
+                UpdateSourceTrigger=PropertyChanged,
+                NotifyOnSourceUpdated=True}"
+                      SelectionMode="Extended"
+                      x:Name="_credits"
+                      ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                      MaxHeight="480"
+                      
+                      GridViewColumnHeader.Click="_credits_Click"
+                      
+                      ScrollViewer.CanContentScroll="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      >
 
                 <ListView.View>
                     <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">

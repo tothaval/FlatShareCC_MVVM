@@ -6,6 +6,8 @@
              xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:p="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -41,7 +43,10 @@
 
         <ListView ItemsSource="{Binding FlatViewModel.TenantConfigurations}"
                   SelectedItem="{Binding SelectedTenantConfiguration}"
-                  ItemContainerStyle="{StaticResource ItemContainerStyle}">
+                  ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                  x:Name="TenantConfigs"
+                  
+                  GridViewColumnHeader.Click="TenantConfigs_Click">
 
             <ListView.View>
 
@@ -107,13 +112,15 @@
                         Grid.Column="2"/>
 
         </Grid>
-        
+
 
 
         <!-- define an item source and selected item for this list, RoomAssignement class ? -->
         <ListView ItemsSource="{Binding SelectedTenantConfiguration.RoomAssignements}"
-                     ItemContainerStyle="{StaticResource ItemContainerStyle}"
-                     >
+                  ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                  
+                  x:Name="RoomAssignments"
+                  GridViewColumnHeader.Click="RoomAssignments_Click">
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
                     <GridView.Columns>

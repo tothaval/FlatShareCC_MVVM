@@ -23,6 +23,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using SharedLivingCostCalculator.Utility.PrintViewHelperFunctions;
 using SharedLivingCostCalculator.Models.Contract;
+using SharedLivingCostCalculator.Enums;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
@@ -144,6 +145,18 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private bool _DataOutputProgressionSelected;
+        public bool DataOutputProgressionSelected
+        {
+            get { return _DataOutputProgressionSelected; }
+            set
+            {
+                _DataOutputProgressionSelected = value;
+                OnPropertyChanged(nameof(DataOutputProgressionSelected));
+            }
+        }
+
+        
         private bool _DisplaySummarySelected;
         public bool DisplaySummarySelected
         {
@@ -161,6 +174,18 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private FlatViewModel _FlatViewModel;
         public FlatViewModel FlatViewModel => _FlatViewModel;
+
+
+        private bool _IncludeTaxesSelected;
+        public bool IncludeTaxesSelected
+        {
+            get { return _IncludeTaxesSelected; }
+            set
+            {
+                _IncludeTaxesSelected = value;
+                OnPropertyChanged(nameof(IncludeTaxesSelected));
+            }
+        }
 
 
         private bool _OtherOutputSelected;
@@ -235,8 +260,8 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private string _SelectedDetailOption;
-        public string SelectedDetailOption
+        private DataOutputProgressionTypes _SelectedDetailOption;
+        public DataOutputProgressionTypes SelectedDetailOption
         {
             get { return _SelectedDetailOption; }
             set
@@ -259,6 +284,30 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private TaxOptionTypes _SelectedTaxOption;
+        public TaxOptionTypes SelectedTaxOption
+        {
+            get { return _SelectedTaxOption; }
+            set
+            {
+                _SelectedTaxOption = value;
+                OnPropertyChanged(nameof(SelectedTaxOption));
+            }
+        }
+
+
+        private double _TaxValue;
+        public double TaxValue
+        {
+            get { return _TaxValue; }
+            set
+            {
+                _TaxValue = value;
+                OnPropertyChanged(nameof(TaxValue));
+            }
+        }
+
+
         private bool _TenantSelected;
         public bool TenantSelected
         {
@@ -274,9 +323,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
 
         #region Collections
-
-        public ObservableCollection<string> DetailOptions { get; set; } = new ObservableCollection<string>();
-
 
         public ObservableCollection<int> TimeScale { get; set; } = new ObservableCollection<int>();
 
@@ -308,15 +354,12 @@ namespace SharedLivingCostCalculator.ViewModels
             Accounting.AccountingChanged += _AccountingViewModel_AccountingChanged;
 
             CreatePrintOutputCommand = new RelayCommand((s) => BuildFlowDocument(), (s) => true);
-
-            DetailOptions.Add("TimeScale");
-            DetailOptions.Add("ValueChange");
-
-            SelectedDetailOption = "ValueChange";
-
+            
             RentOutputSelected = true;
             ContractCostsSelected = true;
             RoomAreaDataSelected = true;
+
+            SelectedDetailOption = DataOutputProgressionTypes.ValueChange;
 
             Update();
         }
@@ -450,27 +493,30 @@ namespace SharedLivingCostCalculator.ViewModels
         {
             TimeScale.Clear();
 
-            foreach (RentViewModel item in _FlatViewModel.RentUpdates)
+            if (FlatViewModel != null)
             {
-                if (!TimeScale.Contains(item.StartDate.Year))
+                foreach (RentViewModel item in _FlatViewModel.RentUpdates)
                 {
-                    TimeScale.Add(item.StartDate.Year);
+                    if (!TimeScale.Contains(item.StartDate.Year))
+                    {
+                        TimeScale.Add(item.StartDate.Year);
+                    }
                 }
-            }
 
-            foreach (BillingViewModel item in _FlatViewModel.AnnualBillings)
-            {
-                if (!TimeScale.Contains(item.StartDate.Year))
+                foreach (BillingViewModel item in _FlatViewModel.AnnualBillings)
                 {
-                    TimeScale.Add(item.StartDate.Year);
+                    if (!TimeScale.Contains(item.Year))
+                    {
+                        TimeScale.Add(item.Year);
+                    }
                 }
-            }
 
-            TimeScale = new ObservableCollection<int>(TimeScale.OrderBy(i => i));
+                TimeScale = new ObservableCollection<int>(TimeScale.OrderBy(i => i));
 
-            if (TimeScale.Count > 0)
-            {
-                SelectedYear = TimeScale.Last();
+                if (TimeScale.Count > 0)
+                {
+                    SelectedYear = TimeScale.Last();
+                } 
             }
 
             OnPropertyChanged(nameof(SelectedYear));
@@ -486,19 +532,19 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _FlatViewModel = Accounting.FlatViewModel;
 
-                BuildTimeScale();
-
-                if (TimeScale.Count > 0)
-                {
-                    SelectedYear = TimeScale.First();
-                }
-
                 ActiveFlowDocument = new FlowDocument();
             }
 
             if (_FlatManagementViewModel.SelectedItem != null)
             {
                 _FlatViewModel = _FlatManagementViewModel.SelectedItem;
+            }
+
+            BuildTimeScale();
+
+            if (TimeScale.Count > 0)
+            {
+                SelectedYear = TimeScale.First();
             }
 
             OnPropertyChanged(nameof(BillingViewModel));

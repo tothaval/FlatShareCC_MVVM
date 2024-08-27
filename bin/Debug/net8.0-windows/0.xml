@@ -265,6 +265,86 @@ new street 714</Address>
         </RoomPayments>
       </Payments>
     </Billing>
+    <Billing>
+      <ActualAdvancePerPeriod>2700.5</ActualAdvancePerPeriod>
+      <BillingDate>2027-08-12T00:00:00</BillingDate>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <EndDate>2025-12-31T00:00:00</EndDate>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <HasOtherCosts>false</HasOtherCosts>
+      <HasPayments>false</HasPayments>
+      <StartDate>2025-01-01T00:00:00</StartDate>
+      <TotalCostsPerPeriod>0</TotalCostsPerPeriod>
+      <TotalFixedCostsPerPeriod>
+        <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>562</TransactionSum>
+      </TotalFixedCostsPerPeriod>
+      <TotalHeatingCostsPerPeriod>
+        <TransactionItem>Heating</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>2400</TransactionSum>
+      </TotalHeatingCostsPerPeriod>
+      <Consumptions>
+        <ConsumptionItem>
+          <ConsumptionCause>
+            <TransactionItem>Heating</TransactionItem>
+            <TransactionShareTypes>Consumption</TransactionShareTypes>
+            <TransactionSum>2400</TransactionSum>
+          </ConsumptionCause>
+          <ConsumedUnits>0</ConsumedUnits>
+          <ConsumptionPerRoom>
+            <RoomConsumption>
+              <ConsumptionValue>0</ConsumptionValue>
+              <Room>
+                <InitialAdvance>48</InitialAdvance>
+                <InitialColdRent>112</InitialColdRent>
+                <InitialCostsAreRoomBased>false</InitialCostsAreRoomBased>
+                <RoomArea>10.1</RoomArea>
+                <RoomName>Schlafzimmer</RoomName>
+              </Room>
+            </RoomConsumption>
+            <RoomConsumption>
+              <ConsumptionValue>0</ConsumptionValue>
+              <Room>
+                <InitialAdvance>22</InitialAdvance>
+                <InitialColdRent>155</InitialColdRent>
+                <InitialCostsAreRoomBased>false</InitialCostsAreRoomBased>
+                <RoomArea>22</RoomArea>
+                <RoomName>Kinderzimmer</RoomName>
+              </Room>
+            </RoomConsumption>
+            <RoomConsumption>
+              <ConsumptionValue>0</ConsumptionValue>
+              <Room>
+                <InitialAdvance>55</InitialAdvance>
+                <InitialColdRent>125</InitialColdRent>
+                <InitialCostsAreRoomBased>false</InitialCostsAreRoomBased>
+                <RoomArea>12</RoomArea>
+                <RoomName>Arbeitszimmer</RoomName>
+              </Room>
+            </RoomConsumption>
+          </ConsumptionPerRoom>
+        </ConsumptionItem>
+      </Consumptions>
+      <Costs />
+      <Credits />
+      <Payments>
+        <RoomPayments>
+          <RoomName>Schlafzimmer</RoomName>
+          <PaymentCollection />
+        </RoomPayments>
+        <RoomPayments>
+          <RoomName>Kinderzimmer</RoomName>
+          <PaymentCollection />
+        </RoomPayments>
+        <RoomPayments>
+          <RoomName>Arbeitszimmer</RoomName>
+          <PaymentCollection />
+        </RoomPayments>
+      </Payments>
+    </Billing>
   </AnnualBillings>
   <Rents>
     <Rent>
@@ -341,7 +421,7 @@ new street 714</Address>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
           <EndDate>2024-09-01T00:00:00</EndDate>
-          <StartDate>2024-08-01T00:00:00</StartDate>
+          <StartDate>2024-01-01T00:00:00</StartDate>
           <TransactionItem>dfhthdt6rm</TransactionItem>
           <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionSum>34</TransactionSum>
@@ -349,7 +429,7 @@ new street 714</Address>
         <FinancialTransactionItemRent>
           <Duration>Limited</Duration>
           <EndDate>2024-08-31T00:00:00</EndDate>
-          <StartDate>2024-08-01T00:00:00</StartDate>
+          <StartDate>2024-01-01T00:00:00</StartDate>
           <TransactionItem>ddgost item</TransactionItem>
           <TransactionShareTypes>Area</TransactionShareTypes>
           <TransactionSum>780</TransactionSum>
@@ -359,10 +439,18 @@ new street 714</Address>
         <FinancialTransactionItemRent>
           <Duration>Limited</Duration>
           <EndDate>2024-08-31T00:00:00</EndDate>
-          <StartDate>2024-07-01T00:00:00</StartDate>
+          <StartDate>2024-01-01T00:00:00</StartDate>
           <TransactionItem>k</TransactionItem>
           <TransactionShareTypes>Equal</TransactionShareTypes>
           <TransactionSum>120</TransactionSum>
+        </FinancialTransactionItemRent>
+        <FinancialTransactionItemRent>
+          <Duration>Limited</Duration>
+          <EndDate>2024-09-30T00:00:00</EndDate>
+          <StartDate>2024-01-01T00:00:00</StartDate>
+          <TransactionItem>s</TransactionItem>
+          <TransactionShareTypes>Area</TransactionShareTypes>
+          <TransactionSum>50</TransactionSum>
         </FinancialTransactionItemRent>
       </Credits>
     </Rent>
@@ -437,6 +525,34 @@ new street 714</Address>
           <TransactionSum>75</TransactionSum>
         </FinancialTransactionItemRent>
       </OtherCosts>
+      <Credits />
+    </Rent>
+    <Rent>
+      <Advance>
+        <Duration>Ongoing</Duration>
+        <EndDate>2024-09-01T00:00:00</EndDate>
+        <StartDate>2024-08-27T00:00:00+02:00</StartDate>
+        <TransactionItem>Fixed</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>230</TransactionSum>
+      </Advance>
+      <ColdRent>
+        <Duration>Ongoing</Duration>
+        <EndDate>2024-09-01T00:00:00</EndDate>
+        <StartDate>2024-08-27T00:00:00+02:00</StartDate>
+        <TransactionItem>Rent</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>390</TransactionSum>
+      </ColdRent>
+      <CostsHasDataLock>false</CostsHasDataLock>
+      <HasCredits>false</HasCredits>
+      <HasDataLock>false</HasDataLock>
+      <HasOtherCosts>false</HasOtherCosts>
+      <IsInitialRent>false</IsInitialRent>
+      <StartDate>2025-03-01T00:00:00</StartDate>
+      <UseRoomCosts4InitialRent>false</UseRoomCosts4InitialRent>
+      <UseWorkplaces>false</UseWorkplaces>
+      <OtherCosts />
       <Credits />
     </Rent>
   </Rents>

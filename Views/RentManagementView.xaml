@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
              xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
+             xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:p="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Name="RentManagement">
@@ -63,9 +65,12 @@
                       ItemContainerStyle="{StaticResource ItemContainerStyle}"
                       Name="rentupdates"
                       MaxHeight="280"
+                      
+                      GridViewColumnHeader.Click="rentupdates_Click"
                                         
                       VirtualizingStackPanel.IsVirtualizing="False"
                       SelectionMode="Extended">
+                
                 <ListView.View>
 
                     <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">
