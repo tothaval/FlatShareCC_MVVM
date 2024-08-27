@@ -7,6 +7,8 @@
              xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:enums="clr-namespace:SharedLivingCostCalculator.Enums"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:p="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              FontWeight="Normal">
@@ -70,6 +72,8 @@
                   x:Name="_othercosts"
                   ItemContainerStyle="{StaticResource ItemContainerStyle}"
                   MaxHeight="480"
+                  
+                  GridViewColumnHeader.Click="_othercosts_Click"
                          
                   ScrollViewer.CanContentScroll="True"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">

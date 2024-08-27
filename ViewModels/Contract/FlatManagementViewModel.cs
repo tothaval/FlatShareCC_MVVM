@@ -225,6 +225,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                     {
                         item.RecalculateRoomCosts();
                     }
+
+                    Print.Update();
                 }
 
                 _ShowPrintView = value;
@@ -483,6 +485,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
                 && FlatCollection.Count > 0 && applicationData.FlatViewModelSelectedIndex < FlatCollection.Count)
             {
                 SelectedItem = FlatCollection[applicationData.FlatViewModelSelectedIndex];
+
+                // to refire print calculation if it has not happend the first time when set in the LoadData method
+                ShowPrintView = ShowPrintView;
+
                 _FlatCollection.CollectionChanged -= LoadUp;
             }
         }

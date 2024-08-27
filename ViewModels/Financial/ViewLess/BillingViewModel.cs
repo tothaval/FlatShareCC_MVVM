@@ -16,8 +16,6 @@ using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
-using System.Windows.Media;
 
 
 namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
@@ -272,12 +270,15 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             {
                 Billing.BillingDate = value;
 
-                Year = value.Year - 1;
+                int year = value.Year - 1;
 
-                StartDate = FindEarliestStartDate(Year);
-                EndDate = new DateTime(Year, 12, 31);
+                Year = year;
+
+                EndDate = new DateTime(year, 12, 31);
+                StartDate = FindEarliestStartDate(year);
 
                 OnPropertyChanged(nameof(BillingDate));
+                OnPropertyChanged(nameof(Year));
             }
         }
 
@@ -305,7 +306,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 _Helper.ClearError(nameof(StartDate));
                 _Helper.ClearError(nameof(EndDate));
 
-                if (StartDate == EndDate || EndDate < StartDate)
+                if (StartDate == value || value < StartDate)
                 {
                     _Helper.AddError("start date must be before enddate", nameof(EndDate));
                 }
@@ -434,7 +435,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 _Helper.ClearError(nameof(StartDate));
                 _Helper.ClearError(nameof(EndDate));
 
-                if (Billing.StartDate > Billing.EndDate)
+                if (value > Billing.EndDate)
                 {
                     _Helper.AddError("start date must be before enddate", nameof(StartDate));
                 }
@@ -932,7 +933,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                     }
 
                     // rent begins after Billing period start but before Billing period end
-                    if (rent.StartDate > StartDate && rent.StartDate < EndDate)
+                    if (rent.StartDate >= StartDate && rent.StartDate < EndDate)
                     {
                         preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
                     }
@@ -945,6 +946,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 RentViewModel? comparer = null;
                 bool firstRun = true;
+                bool beginsWithYear = false;
 
                 // building a collection of relevant rent items
                 foreach (RentViewModel item in preSortList)
@@ -960,10 +962,15 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                     if (item.StartDate >= StartDate)
                     {
                         RentList.Add(item);
+
+                        if (item.StartDate == StartDate)
+                        {
+                            beginsWithYear = true;
+                        }
                         continue;
                     }
 
-                    if (item.StartDate < StartDate && item.StartDate > comparer.StartDate)
+                    if (item.StartDate < StartDate && item.StartDate > comparer.StartDate && !beginsWithYear)
                     {
                         comparer = item;
                     }

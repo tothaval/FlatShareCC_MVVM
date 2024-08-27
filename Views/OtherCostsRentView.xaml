@@ -8,6 +8,8 @@
              xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
              xmlns:enums="clr-namespace:SharedLivingCostCalculator.Enums"
+             xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:p="clr-namespace:System;assembly=mscorlib"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
@@ -82,15 +84,18 @@
                  oder nicht? ansonsten raten disablen. -->
 
         <ListView ItemsSource="{Binding ViewModel.FinancialTransactionItemViewModels,
-            UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
-                     SelectionMode="Extended"
-                     x:Name="_othercosts"
-                     ItemContainerStyle="{StaticResource ItemContainerStyle}"
-                         MaxHeight="480"
+            UpdateSourceTrigger=PropertyChanged,
+            NotifyOnSourceUpdated=True}"
+                  SelectionMode="Extended"
+                  x:Name="_othercosts"
+                  ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                  MaxHeight="480"
+                  
+                  GridViewColumnHeader.Click="_othercosts_Click"
                          
-                         ScrollViewer.CanContentScroll="True"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     >
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  >
 
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">

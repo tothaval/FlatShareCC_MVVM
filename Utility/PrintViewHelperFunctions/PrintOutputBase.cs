@@ -118,6 +118,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 counter++;
             }
 
+
             if (counter > 0)
             {
                 preSortList.Add(_FlatViewModel.InitialRent); 
@@ -150,15 +151,81 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     }
 
                     // rent begins after Billing period start but before Billing period end
-                    if (rent.StartDate > startDate || rent.StartDate < endDate)
+                    if (rent.StartDate >= startDate || rent.StartDate <= endDate)
                     {
                         preSortList.Add(rent);
                     }
                 }
             }
 
+            RentViewModel? comparer = null;
+            bool firstRun = true;
+            bool beginsWithYear = false;
+
+            // building a collection of relevant rent items
+            foreach (RentViewModel item in preSortList)
+            {
+                if (firstRun)
+                {
+                    firstRun = false;
+                    comparer = item;
+                    continue;
+                }
+
+
+                if (item.StartDate >= startDate)
+                {
+                    RentList.Add(item);
+
+                    if (item.StartDate == startDate)
+                    {
+                        beginsWithYear = true;
+                    }
+                    continue;
+                }
+
+                if (item.StartDate < startDate && item.StartDate > comparer.StartDate && !beginsWithYear)
+                {
+                    comparer = item;
+                }
+            }
+
+
+            if (comparer != null)
+            {
+                RentList.Add(comparer);
+            }
+
+            if (beginsWithYear)
+            {
+                int i = 0;
+
+                while (true)
+                {
+                    if (RentList.Count > i)
+                    {
+                        if (RentList[i].StartDate.Year < SelectedYear)
+                        {
+                            RentList.RemoveAt(i);
+
+                            i--;
+                        }
+
+                        i++;
+                    }
+                    else
+                    {                        
+                        break;
+                    }
+                }
+            }
+                   
+
             // sort List by StartDate, ascending
-            RentList = new ObservableCollection<RentViewModel>(preSortList.OrderBy(i => i.StartDate));
+            if (RentList.Count > 1)
+            {
+                RentList = new ObservableCollection<RentViewModel>(RentList.OrderBy(i => i.StartDate)); 
+            }
 
             return RentList;
         }
@@ -427,7 +494,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             if (FontWeightBold)
             {
-                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}\n"))
+                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
                 {
                     BorderBrush = new SolidColorBrush(Colors.Black),
                     BorderThickness = new Thickness(0, 0, 0, 0),

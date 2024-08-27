@@ -4,9 +4,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
+             xmlns:enums="clr-namespace:SharedLivingCostCalculator.Enums"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Foreground="Black">
+
+    <UserControl.Resources>
+
+        <conv:VisibilityConverter x:Key="viscon"/>
+
+        <ObjectDataProvider x:Key="taxOptionTypesEnum"
+  MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:TaxOptionTypes"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+
+        <ObjectDataProvider x:Key="dataOutputProgressionTypesEnum"
+  MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:DataOutputProgressionTypes"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+
+
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -48,11 +74,11 @@
                     <MenuItem Header="{DynamicResource IDF_Tenants}"
                               IsCheckable="True"
                               IsChecked="{Binding TenantSelected}"/>
-                    
+
                     <MenuItem Header="Display Summary"
                               IsCheckable="True"
                               IsChecked="{Binding DisplaySummarySelected}"/>
-                    
+
                     <MenuItem Header="Room Area Data"
                               IsCheckable="True"
                               IsChecked="{Binding RoomAreaDataSelected}"/>
@@ -69,15 +95,14 @@
 
 
                 <MenuItem Header="Costs Print Options">
+                    
+                    <MenuItem Header="Change Output Progression"
+                              IsCheckable="True"
+                              IsChecked="{Binding DataOutputProgressionSelected}"/>
 
-                    <UniformGrid Columns="2" >
-
-                        <TextBlock Text="Details Scope" VerticalAlignment="Center"/>
-                        
-                        <ComboBox ItemsSource="{Binding DetailOptions}"
-                              SelectedItem="{Binding SelectedDetailOption}"/>
-
-                    </UniformGrid>
+                    <MenuItem Header="Include Taxes"
+                              IsCheckable="True"
+                              IsChecked="{Binding IncludeTaxesSelected}"/>
 
                     <MenuItem Header="Contract Costs"
                               IsCheckable="True"
@@ -93,7 +118,7 @@
 
                     <MenuItem Header="All Costs"
                               IsCheckable="True"
-                              IsChecked="{Binding AllCostsSelected}"/>                    
+                              IsChecked="{Binding AllCostsSelected}"/>
 
                     <MenuItem Header="Include Annual Rent Costs"
                               IsCheckable="True"
@@ -109,26 +134,60 @@
                 </MenuItem>
 
             </Menu>
-            
-            
-            <StackPanel Orientation="Horizontal">
-                <!-- General Option-->
 
+            <MenuItem Visibility="{Binding DataOutputProgressionSelected,
+                Converter={StaticResource viscon}}"
+                      IsCheckable="False">
+                <MenuItem.Header>
+                    <WrapPanel>
+                        <TextBlock Text="Change Data On"
+                                   MinWidth="150"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource StringValueTextBlock}"/>
+                        
+                        <ComboBox ItemsSource="{Binding Source={StaticResource dataOutputProgressionTypesEnum},
+                            UpdateSourceTrigger=PropertyChanged,
+                            Delay=200}"
+                                  SelectedItem="{Binding SelectedDetailOption}"
+                                  MinWidth="150"/>
+                    </WrapPanel>
+                </MenuItem.Header>
+            </MenuItem>
 
+            <MenuItem Visibility="{Binding IncludeTaxesSelected,
+                Converter={StaticResource viscon}}"
+                      IsCheckable="False">
+                <MenuItem.Header>
+                    <WrapPanel>
+                        <TextBlock Text="Tax %"
+                                   VerticalAlignment="Center"
+                                   MinWidth="150"
+                                   Style="{StaticResource StringValueTextBlock}"/>
 
+                        <TextBox Text="{Binding TaxValue, 
+                            StringFormat=N2,
+                            UpdateSourceTrigger=PropertyChanged}"
+                                 MinWidth="150"
+                                 Background="{DynamicResource SCB_Background}"
+                                 Style="{StaticResource DoubleValueTextBox}"/>
 
-                <!-- Rent Option-->
+                        <TextBlock Text="Sum Is"
+                                   Style="{StaticResource StringValueTextBlock}"
+                                   MinWidth="150"/>
 
-
-
-
-
-            </StackPanel>
-
+                        <ComboBox ItemsSource="{Binding Source={StaticResource taxOptionTypesEnum},
+                            UpdateSourceTrigger=PropertyChanged,
+                            Delay=200}"
+                                  SelectedItem="{Binding SelectedTaxOption}"
+                                  MinWidth="150"
+                                  />
+                    </WrapPanel>
+                </MenuItem.Header>
+            </MenuItem>
 
         </StackPanel>
 
-        
+
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -167,6 +226,6 @@
                                   Document="{Binding ActiveFlowDocument}"
                                   BorderBrush="DimGray"
                                   BorderThickness="2" />
-     
+
     </Grid>
 </UserControl>

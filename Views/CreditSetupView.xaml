@@ -7,6 +7,8 @@
              xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:enums="clr-namespace:SharedLivingCostCalculator.Enums"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:p="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              FontWeight="Normal">
@@ -60,22 +62,28 @@
                         />
 
                 <Button Content="remove credit item" Command="{Binding RemoveFinancialTransactionItemCommand}" 
-                        CommandParameter="{Binding ElementName=_credits, Path=SelectedItems}"
+                        CommandParameter="{Binding ElementName=_credits,
+                    Path=SelectedItems}"
                         Grid.Column="2"
                         Style="{StaticResource buttonStyle}"
-                        IsEnabled="{Binding DataLock, NotifyOnSourceUpdated=True}"
+                        IsEnabled="{Binding DataLock,
+                    NotifyOnSourceUpdated=True}"
                         ToolTip="Remove selected credit item(s) from selected annual billing."/>
             </Grid>
 
-            <ListView ItemsSource="{Binding ViewModel.Credits, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
-                     SelectionMode="Extended"
-                     x:Name="_credits"
-                     ItemContainerStyle="{StaticResource ItemContainerStyle}"
-                         MaxHeight="480"
-                         
-                         ScrollViewer.CanContentScroll="True"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     >
+            <ListView ItemsSource="{Binding ViewModel.Credits,
+                UpdateSourceTrigger=PropertyChanged,
+                NotifyOnSourceUpdated=True}"
+                      SelectionMode="Extended"
+                      x:Name="_credits"
+                      ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                      MaxHeight="480"
+                      
+                      ScrollViewer.CanContentScroll="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"                      
+                      
+                      GridViewColumnHeader.Click="_credits_Click"
+                      >
 
                 <ListView.View>
                     <GridView ColumnHeaderContainerStyle="{StaticResource GVCH}">

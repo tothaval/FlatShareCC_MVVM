@@ -6,6 +6,8 @@
              xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:conv="clr-namespace:SharedLivingCostCalculator.Converters"
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:p="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Name="TenantSetup"
@@ -43,9 +45,12 @@
         </UniformGrid>
 
         <ListView ItemsSource="{Binding FlatViewModel.Tenants}"
-                          SelectedItem="{Binding SelectedTenant}"
-                          ItemContainerStyle="{StaticResource ItemContainerStyle}"
-                          >
+                  SelectedItem="{Binding SelectedTenant}"
+                  ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                  x:Name="Tenants"
+                  
+                  GridViewColumnHeader.Click="Tenants_Click"
+                  >
 
             <ListView.View>
 

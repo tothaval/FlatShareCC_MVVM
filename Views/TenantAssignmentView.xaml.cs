@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,191 @@ namespace SharedLivingCostCalculator.Views
     /// </summary>
     public partial class TenantAssignmentView : UserControl
     {
+
+        GridViewColumnHeader _lastHeaderClicked = null;
+        ListSortDirection _lastDirection = ListSortDirection.Ascending;
+        
+        
         public TenantAssignmentView()
         {
             InitializeComponent();
         }
+
+
+        private void Sort(string sortBy, ListSortDirection direction, object itemSource)
+        {
+            ICollectionView dataView =
+              CollectionViewSource.GetDefaultView(itemSource);
+
+            dataView.SortDescriptions.Clear();
+            SortDescription sd = new SortDescription(sortBy, direction);
+            dataView.SortDescriptions.Add(sd);
+            dataView.Refresh();
+        }
+
+
+        private void TenantConfigs_Click(object sender, RoutedEventArgs e)
+        {
+            var headerClicked = e.OriginalSource as GridViewColumnHeader;
+
+            int index = 0;
+
+            ListSortDirection direction;
+
+            if (headerClicked != null)
+            {
+                if (headerClicked.Role != GridViewColumnHeaderRole.Padding)
+                {
+                    if (headerClicked != _lastHeaderClicked)
+                    {
+                        direction = ListSortDirection.Ascending;
+                    }
+                    else
+                    {
+                        if (_lastDirection == ListSortDirection.Ascending)
+                        {
+                            direction = ListSortDirection.Descending;
+                        }
+                        else
+                        {
+                            direction = ListSortDirection.Ascending;
+                        }
+                    }
+
+                    var columnBinding = headerClicked.Column.DisplayMemberBinding as Binding;
+                    var sortBy = columnBinding?.Path.Path ?? headerClicked.Column.Header as string;
+
+                    if (headerClicked != null)
+                    {
+                        GridViewHeaderRowPresenter presenter = headerClicked.Parent as GridViewHeaderRowPresenter;
+                        if (presenter != null)
+                        {
+                            index = presenter.Columns.IndexOf(headerClicked.Column);
+                        }
+                    }
+
+
+                    switch (index)
+                    {
+
+                        case 0:
+                            sortBy = "Start";
+                            break;
+
+                        case 1:
+                            sortBy = "ActiveTenantsNames";
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    Sort(sortBy, direction, TenantConfigs.ItemsSource);
+
+                    if (direction == ListSortDirection.Ascending)
+                    {
+                        headerClicked.Column.HeaderTemplate =
+                          Resources["HeaderTemplateArrowUp"] as DataTemplate;
+                    }
+                    else
+                    {
+                        headerClicked.Column.HeaderTemplate =
+                          Resources["HeaderTemplateArrowDown"] as DataTemplate;
+                    }
+
+                    // Remove arrow from previously sorted header
+                    if (_lastHeaderClicked != null && _lastHeaderClicked != headerClicked)
+                    {
+                        _lastHeaderClicked.Column.HeaderTemplate = null;
+                    }
+
+                    _lastHeaderClicked = headerClicked;
+                    _lastDirection = direction;
+                }
+            }
+        }
+
+
+        private void RoomAssignments_Click(object sender, RoutedEventArgs e)
+        {
+            var headerClicked = e.OriginalSource as GridViewColumnHeader;
+
+            int index = 0;
+
+            ListSortDirection direction;
+
+            if (headerClicked != null)
+            {
+                if (headerClicked.Role != GridViewColumnHeaderRole.Padding)
+                {
+                    if (headerClicked != _lastHeaderClicked)
+                    {
+                        direction = ListSortDirection.Ascending;
+                    }
+                    else
+                    {
+                        if (_lastDirection == ListSortDirection.Ascending)
+                        {
+                            direction = ListSortDirection.Descending;
+                        }
+                        else
+                        {
+                            direction = ListSortDirection.Ascending;
+                        }
+                    }
+
+                    var columnBinding = headerClicked.Column.DisplayMemberBinding as Binding;
+                    var sortBy = columnBinding?.Path.Path ?? headerClicked.Column.Header as string;
+
+                    if (headerClicked != null)
+                    {
+                        GridViewHeaderRowPresenter presenter = headerClicked.Parent as GridViewHeaderRowPresenter;
+                        if (presenter != null)
+                        {
+                            index = presenter.Columns.IndexOf(headerClicked.Column);
+                        }
+                    }
+
+
+                    switch (index)
+                    {
+
+                        case 0:
+                            sortBy = "RoomName";
+                            break;
+
+                        case 1:
+                            sortBy = "AssignedTenant";
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    Sort(sortBy, direction, RoomAssignments.ItemsSource);
+
+                    if (direction == ListSortDirection.Ascending)
+                    {
+                        headerClicked.Column.HeaderTemplate =
+                          Resources["HeaderTemplateArrowUp"] as DataTemplate;
+                    }
+                    else
+                    {
+                        headerClicked.Column.HeaderTemplate =
+                          Resources["HeaderTemplateArrowDown"] as DataTemplate;
+                    }
+
+                    // Remove arrow from previously sorted header
+                    if (_lastHeaderClicked != null && _lastHeaderClicked != headerClicked)
+                    {
+                        _lastHeaderClicked.Column.HeaderTemplate = null;
+                    }
+
+                    _lastHeaderClicked = headerClicked;
+                    _lastDirection = direction;
+                }
+            }
+        }
     }
 }
+// EOF

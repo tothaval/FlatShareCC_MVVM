@@ -166,6 +166,7 @@
                                   Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverter}}"
                                   ItemContainerStyle="{StaticResource ItemContainerStyle}"
                                   x:Name="DG_FlatCollection"
+                                  GridViewColumnHeader.Click="DG_FlatCollection_Click"
                                   HorizontalAlignment="Stretch"
                                   HorizontalContentAlignment="Stretch"
                                   Grid.Column="0"

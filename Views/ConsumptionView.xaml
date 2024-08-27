@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:comps="clr-namespace:SharedLivingCostCalculator.Components"
              xmlns:local="clr-namespace:SharedLivingCostCalculator.Views"
+             xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:p="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              FontWeight="Normal">
@@ -160,6 +162,10 @@
                   HorizontalAlignment="Stretch"
                   BorderThickness="0"
                   ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                  Name="RoomConsumptionVMsList"
+                  
+                  GridViewColumnHeader.Click="RoomConsumptionVMsList_Click"
+                  
                   Grid.Column="0"
                   Grid.ColumnSpan="3"
                   Grid.Row="7">
