@@ -175,7 +175,12 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_ConsumptionShare"] = languageResource.IDF_ConsumptionShare;
             Application.Current.Resources["IDF_CombinedConsumption"] = languageResource.IDF_CombinedConsumption;
             Application.Current.Resources["IDF_ConsumptionPercentage"] = languageResource.IDF_ConsumptionPercentage;
-                       
+
+            Application.Current.Resources["IDF_BasicHeatingCostsPercentage"] = languageResource.IDF_BasicHeatingCostsPercentage;
+            Application.Current.Resources["IDF_ColdWaterCosts"] = languageResource.IDF_ColdWaterCosts;
+            Application.Current.Resources["IDF_ConsumptionHeatingCostsPercentage"] = languageResource.IDF_ConsumptionHeatingCostsPercentage;
+            Application.Current.Resources["IDF_WarmWaterCosts"] = languageResource.IDF_WarmWaterCosts;
+
             Application.Current.Resources["IDF_ExtraCosts"] = languageResource.IDF_ExtraCosts;
             Application.Current.Resources["IDF_FixedCosts"] = languageResource.IDF_FixedCosts;
             Application.Current.Resources["IDF_HeatingCosts"] = languageResource.IDF_HeatingCosts;

@@ -101,7 +101,9 @@
                                                      Grid.Row="0"
                                                      Value="{Binding RoomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                          PopupHint="{DynamicResource LRS_PH_RoomName}"
-                                                     ValueMinWidth="120"/>
+                                                     ValueMinWidth="120"
+                                                         ValueMinHeight="30"
+                                                         ValueHeight="60"/>
 
                                 <c_views:DoubleInputView Label="{DynamicResource IDF_RoomArea}"
                                                      Value="{Binding RoomArea, UpdateSourceTrigger=LostFocus, Mode=TwoWay,  NotifyOnTargetUpdated=True,Delay=250}"

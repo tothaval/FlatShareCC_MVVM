@@ -109,7 +109,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
                     InitialRentSetup = new InitialRentSetupViewModel(_SelectedItem.InitialRent);
 
-                    _SelectedItem.UseRoomCosts4InitialRent();
+                    //_SelectedItem.UseRoomCosts4InitialRent();
 
                     if (_SelectedItem.InitialRent.Rent.UseRoomCosts4InitialRent)
                     {
@@ -507,6 +507,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             flatViewModel.HasDataLock = true;
 
+            flatViewModel.UseRoomCosts4InitialRent(false);
+
             _FlatCollection.Add(flatViewModel);
 
             SelectedIndex = FlatCollection.Count;
@@ -587,7 +589,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             if (SelectedItem != null)
             {
-                SelectedItem.UseRoomCosts4InitialRent();
+                SelectedItem.UseRoomCosts4InitialRent(false);
             }
         }
 
@@ -599,7 +601,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             if (SelectedItem != null)
             {
-                SelectedItem.UseRoomCosts4InitialRent();
+                SelectedItem.UseRoomCosts4InitialRent(true);
             }
         }
 

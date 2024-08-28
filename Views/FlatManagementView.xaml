@@ -181,7 +181,10 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Address, NotifyOnSourceUpdated=True}"
-                                                               Style="{StaticResource StringValueTextBlock}"/>
+                                                               Style="{StaticResource StringValueTextBlock}"
+                                                               ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                               MaxHeight="60"
+                                                               Width="400"/>
 
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>

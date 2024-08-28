@@ -238,6 +238,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
             Rooms = new ObservableCollection<RoomViewModel>();
 
+            UseRoomCosts = true;
+            InitialRent.Rent.UseRoomCosts4InitialRent = true;
+
             CreateRooms();
 
             TenantConfigurations = new ObservableCollection<TenantConfigurationViewModel>();
@@ -403,8 +406,10 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         }
 
 
-        internal void UseRoomCosts4InitialRent()
+        internal void UseRoomCosts4InitialRent(bool value)
         {
+            InitialRent.Rent.SetUseRoomCosts(value);
+
             foreach (RoomViewModel item in Rooms)
             {
                 item.InitialCostsAreRoomBased = InitialRent.Rent.UseRoomCosts4InitialRent;

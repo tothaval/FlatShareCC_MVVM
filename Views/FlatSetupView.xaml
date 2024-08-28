@@ -50,16 +50,20 @@
 
 
             <c_views:ObjectInputView Label="{DynamicResource IDF_Address}"
-                                 LabelMinWidth="125"
-                               Value="{Binding FlatViewModel.Address,
-            UpdateSourceTrigger=PropertyChanged,
-            NotifyOnSourceUpdated=True,
-            Mode=TwoWay}"
-                               IsEnabled="{Binding FlatViewModel.HasDataLock}"
+                                     LabelMinWidth="125"                                     
+                                     Value="{Binding FlatViewModel.Address,
+                UpdateSourceTrigger=PropertyChanged,
+                NotifyOnSourceUpdated=True,
+                Mode=TwoWay}"
+                                     IsEnabled="{Binding FlatViewModel.HasDataLock}"
                                      PopupHint="{DynamicResource LRS_PH_Address}"
-                               Foreground="DarkSlateGray"
-                               ValueMinWidth="100"
-                               Grid.Row="1" />
+                                     Foreground="DarkSlateGray"                                     
+                                     ValueWidth="400"
+                                     ValueHeight="60"
+                                     
+                                     ValueMinWidth="400"
+                                     ValueMinHeight="30"
+                                     Grid.Row="1" />
 
             <c_views:ObjectInputView Label="{DynamicResource IDF_Details}"
                                  LabelMinWidth="125"
@@ -71,6 +75,7 @@
                                IsEnabled="{Binding FlatViewModel.HasDataLock}"
                                Foreground="DarkSlateGray"
                                ValueMinWidth="100"
+                                     ValueMinHeight="30"
                                Grid.Row="2" />
 
             <c_views:DoubleInputView Label="{DynamicResource IDF_FlatArea}"

@@ -30,25 +30,34 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double Balance => Advances - TotalCostsAnnualCostsShare;
 
 
+        public double BasicHeatingCostsShare { get; set; }
+
+
+        public double ColdWaterCostsShare { get; set; }
+
+
+        public double ConsumptionHeatingCostsShare { get; set; }
+
+
         public double ConsumptionSharedCostsShare { get; set; }
 
-
+                
         public double CreditShare { get; set; }
 
 
         public double EqualSharedCostsShare { get; set; }
 
 
-        public double ExtraCostsAnnualShare => FixedCostsAnnualCostsShare + HeatingCostsAnnualCostsShare;
+        public double ExtraCostsAnnualShare => ProRataAmounts + FixedAmountShare;
 
 
-        public double FixedCostsAnnualCostsShare { get; set; }
+        public double ProRataAmounts { get; set; }
 
 
         private double _FlatArea { get; set; } = 0.0;
 
 
-        public double HeatingCostsAnnualCostsShare { get; set; }
+        public double FixedAmountShare { get; set; }
 
 
         public double HeatingUnitsAnnualConsumptionShare { get; set; }
@@ -106,6 +115,9 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
         public IRoomCostsCarrier ViewModel { get; set; }
+
+
+        public double WarmWaterCostsShare { get; set; }
 
         #endregion
 
@@ -190,6 +202,36 @@ namespace SharedLivingCostCalculator.Models.Financial
              */
         }
 
+        public double CalculateBasicHeatingCostsShare()
+        {
+            BillingViewModel billingViewModel = (BillingViewModel)ViewModel;
+
+            double basicHeatingCostsPercentage = billingViewModel.BasicHeatingCostsPercentage / 100;
+
+            double basicHeatingCostsShare = basicHeatingCostsPercentage * billingViewModel.TotalHeatingCostsPerPeriod;
+
+            basicHeatingCostsShare = CalculateEqualCostShare(basicHeatingCostsShare);
+
+            return basicHeatingCostsShare;
+        }
+
+        public double CalculateConsumptionHeatingCostsShare()
+        {
+            BillingViewModel billingViewModel = (BillingViewModel)ViewModel;
+
+            double fixedAmountPercentage = billingViewModel.ConsumptionHeatingCostsPercentage / 100;
+
+            double fixedAmountShare = fixedAmountPercentage * billingViewModel.TotalHeatingCostsPerPeriod * HeatingUnitsTotalConsumptionShareRatio;
+
+            return fixedAmountShare;
+        }
+
+
+        public double CalculateEqualCostShare(double totalCosts)
+        {
+            return totalCosts / _RoomCount;
+        }
+
 
         public void CalculateValues()
         {
@@ -200,8 +242,16 @@ namespace SharedLivingCostCalculator.Models.Financial
             DetermineHeatingUnitsAnnualConsumptionShares();
 
             RentCostsAnnualShare = DetermineRentCostsForPaymentOption();
-            FixedCostsAnnualCostsShare = RentedAreaShareRatio() * ((BillingViewModel)ViewModel).TotalFixedCostsPerPeriod;
-            HeatingCostsAnnualCostsShare = HeatingUnitsTotalConsumptionShareRatio * ((BillingViewModel)ViewModel).TotalHeatingCostsPerPeriod;
+            ProRataAmounts = RentedAreaShareRatio() * ((BillingViewModel)ViewModel).TotalFixedCostsPerPeriod;
+
+            BasicHeatingCostsShare = CalculateBasicHeatingCostsShare();
+            ColdWaterCostsShare = CalculateEqualCostShare(((BillingViewModel)ViewModel).ColdWaterCosts);
+            WarmWaterCostsShare = CalculateEqualCostShare(((BillingViewModel)ViewModel).WarmWaterCosts);
+            ColdWaterCostsShare = CalculateEqualCostShare(((BillingViewModel)ViewModel).ColdWaterCosts);
+
+            ConsumptionHeatingCostsShare = CalculateConsumptionHeatingCostsShare();
+
+            FixedAmountShare = ColdWaterCostsShare + WarmWaterCostsShare + BasicHeatingCostsShare + ConsumptionHeatingCostsShare;
 
             AreaSharedCostsShare = GetAreaSharedCostsShare();
 
@@ -219,9 +269,9 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             OtherCostsAnnualCostsShare = AreaSharedCostsShare + EqualSharedCostsShare + ConsumptionSharedCostsShare;
 
-            TotalContractCostsShare = RentCostsAnnualShare + FixedCostsAnnualCostsShare + HeatingCostsAnnualCostsShare;
+            TotalContractCostsShare = RentCostsAnnualShare + ProRataAmounts + FixedAmountShare;
 
-            TotalCostsAnnualCostsShare = RentCostsAnnualShare + FixedCostsAnnualCostsShare + HeatingCostsAnnualCostsShare + OtherCostsAnnualCostsShare - CreditShare;
+            TotalCostsAnnualCostsShare = RentCostsAnnualShare + ProRataAmounts + FixedAmountShare + OtherCostsAnnualCostsShare - CreditShare;
 
             TotalCostsAnnualCostsShareNoRent = ExtraCostsAnnualShare + OtherCostsAnnualCostsShare - CreditShare;
 
@@ -257,13 +307,10 @@ namespace SharedLivingCostCalculator.Models.Financial
                 // sort List by StartDate, ascending
                 ObservableCollection<RentViewModel> RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
 
-                DateTime start = DateTime.Now;
-                DateTime end = DateTime.Now;
-
 
                 for (int i = 0; i < RentList.Count; i++)
                 {
-                    double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
+                    double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, i);
 
                     rentCosts += RentList[i].ColdRent * months * RentedAreaShareRatio();
                 }
@@ -323,24 +370,21 @@ namespace SharedLivingCostCalculator.Models.Financial
                 if (billingViewModel.HasPayments)
                 {
                     advance += GetRoomPaymentsPerPeriod(_Room);
-
-                    return advance;
                 }
                 else
                 {
 
                     ObservableCollection<RentViewModel> RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
 
-                    DateTime start = DateTime.Now;
-                    DateTime end = DateTime.Now;
-
-                    int count = 0;
-
                     for (int i = 0; i < RentList.Count; i++)
                     {
-                        double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, start, end, i);
+                        double months = ((BillingViewModel)ViewModel).DeterminePaymentMonths(RentList, i);
 
-                        if (RentList[i] != null && RentList[i].RoomCostShares != null)
+                        RentList[i].RecalculateRoomCosts();
+
+                        Task.Delay(10);
+
+                        if (RentList[i] != null && RentList[i].RoomCostShares.Count > 0)
                         {
                             foreach (RoomCostShareRent item in RentList[i].RoomCostShares)
                             {
@@ -348,22 +392,17 @@ namespace SharedLivingCostCalculator.Models.Financial
                                 {
                                     advance += item.AdvanceShare * months;
 
-                                    count++;
                                     break;
                                 }
                             }
                         }
+
+                        else
+                        {
+
+                            advance += RentedAreaShareRatio() * RentList[i].Advance * months;
+                        }
                     }
-
-                    if (count > 0)
-                    {
-                        return advance;
-                    }
-
-                    advance += RentedAreaShareRatio() * billingViewModel.ActualAdvancePerPeriod;
-
-                    return advance;
-
                 }
             }
 
