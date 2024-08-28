@@ -94,11 +94,39 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                 dataRowGroup.Rows.Add(BillingOutputTableRow(
                     viewModel,
-                    viewModel.TotalHeatingCostsPerPeriod,
-                    viewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem)
+                    viewModel.ColdWaterCosts,
+                    viewModel.Billing.ColdWaterCosts.TransactionItem)
                     );
 
-                sum += viewModel.TotalHeatingCostsPerPeriod;
+                sum += viewModel.ColdWaterCosts;
+
+
+                dataRowGroup.Rows.Add(BillingOutputTableRow(
+                    viewModel,
+                    viewModel.WarmWaterCosts,
+                    viewModel.Billing.WarmWaterCosts.TransactionItem)
+                    );
+
+                sum += viewModel.WarmWaterCosts;
+
+
+                dataRowGroup.Rows.Add(BillingOutputTableRow(
+                    viewModel,
+                    viewModel.BasicHeatingCosts,
+                    viewModel.Billing.BasicHeatingCosts.TransactionItem)
+                    );
+
+                sum += viewModel.BasicHeatingCosts;
+
+
+                dataRowGroup.Rows.Add(BillingOutputTableRow(
+                    viewModel,
+                    viewModel.ConsumptionHeatingCosts,
+                    viewModel.Billing.ConsumptionHeatingCosts.TransactionItem)
+                    );
+
+                sum += viewModel.ConsumptionHeatingCosts;
+
 
                 foreach (FinancialTransactionItemBillingViewModel item in viewModel.FinancialTransactionItemViewModels)
                 {
@@ -212,21 +240,50 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     }
                 }
 
+                // pro rata
                 dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                         _BillingViewModel,
                         roomCostShareBilling.RoomName,
-                        roomCostShareBilling.FixedCostsAnnualCostsShare,
+                        roomCostShareBilling.ProRataAmounts,
                         _BillingViewModel.Billing.TotalFixedCostsPerPeriod.TransactionItem));
 
-                sum += roomCostShareBilling.FixedCostsAnnualCostsShare;
+                sum += roomCostShareBilling.ProRataAmounts;
 
+                // cold water
+                dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+                    _BillingViewModel,
+                    roomCostShareBilling.RoomName,
+                    roomCostShareBilling.ColdWaterCostsShare,
+                    _BillingViewModel.Billing.ColdWaterCosts.TransactionItem));
+
+                sum += roomCostShareBilling.ColdWaterCostsShare;
+
+                // warm water
+                dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+                    _BillingViewModel,
+                    roomCostShareBilling.RoomName,
+                    roomCostShareBilling.WarmWaterCostsShare,
+                    _BillingViewModel.Billing.WarmWaterCosts.TransactionItem));
+
+                sum += roomCostShareBilling.WarmWaterCostsShare;
+
+                // basic heating costs
+                dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+                    _BillingViewModel,
+                    roomCostShareBilling.RoomName,
+                    roomCostShareBilling.BasicHeatingCostsShare,
+                    _BillingViewModel.Billing.BasicHeatingCosts.TransactionItem));
+
+                sum += roomCostShareBilling.BasicHeatingCostsShare;
+
+                // consumption heating costs
                 dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                         _BillingViewModel,
                         roomCostShareBilling.RoomName,
-                        roomCostShareBilling.HeatingCostsAnnualCostsShare,
-                        _BillingViewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem));
+                        roomCostShareBilling.ConsumptionHeatingCostsShare,
+                        _BillingViewModel.Billing.ConsumptionHeatingCosts.TransactionItem));
 
-                sum += roomCostShareBilling.HeatingCostsAnnualCostsShare;
+                sum += roomCostShareBilling.ConsumptionHeatingCostsShare;
 
 
                 foreach (FinancialTransactionItemBillingViewModel item in roomCostShareBilling.FinancialTransactionItemViewModels)
@@ -716,11 +773,39 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                 dataRowGroup.Rows.Add(BillingOutputTableRow(
                     viewModel,
-                    viewModel.TotalHeatingCostsPerPeriod,
-                    viewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem)
+                    viewModel.ColdWaterCosts,
+                    viewModel.Billing.ColdWaterCosts.TransactionItem)
                     );
 
-                sum += viewModel.TotalHeatingCostsPerPeriod;
+                sum += viewModel.ColdWaterCosts;
+
+
+                dataRowGroup.Rows.Add(BillingOutputTableRow(
+                    viewModel,
+                    viewModel.WarmWaterCosts,
+                    viewModel.Billing.WarmWaterCosts.TransactionItem)
+                    );
+
+                sum += viewModel.WarmWaterCosts;
+
+
+                dataRowGroup.Rows.Add(BillingOutputTableRow(
+                    viewModel,
+                    viewModel.BasicHeatingCosts,
+                    viewModel.Billing.BasicHeatingCosts.TransactionItem)
+                    );
+
+                sum += viewModel.BasicHeatingCosts;
+
+
+                dataRowGroup.Rows.Add(BillingOutputTableRow(
+                    viewModel,
+                    viewModel.ConsumptionHeatingCosts,
+                    viewModel.Billing.ConsumptionHeatingCosts.TransactionItem)
+                    );
+
+                sum += viewModel.ConsumptionHeatingCosts;
+
 
                 dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, sum, "sum", true));
 
@@ -819,21 +904,50 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     }
                 }
 
+                // pro rata
                 dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                         _BillingViewModel,
                         roomCostShareBilling.RoomName,
-                        roomCostShareBilling.FixedCostsAnnualCostsShare,
+                        roomCostShareBilling.ProRataAmounts,
                         _BillingViewModel.Billing.TotalFixedCostsPerPeriod.TransactionItem));
 
-                sum += roomCostShareBilling.FixedCostsAnnualCostsShare;
+                sum += roomCostShareBilling.ProRataAmounts;
 
+                // cold water
+                dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+                    _BillingViewModel,
+                    roomCostShareBilling.RoomName,
+                    roomCostShareBilling.ColdWaterCostsShare,
+                    _BillingViewModel.Billing.ColdWaterCosts.TransactionItem));
+
+                sum += roomCostShareBilling.ColdWaterCostsShare;
+
+                // warm water
+                dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+                    _BillingViewModel,
+                    roomCostShareBilling.RoomName,
+                    roomCostShareBilling.WarmWaterCostsShare,
+                    _BillingViewModel.Billing.WarmWaterCosts.TransactionItem));
+
+                sum += roomCostShareBilling.WarmWaterCostsShare;
+
+                // basic heating costs
+                dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
+                    _BillingViewModel,
+                    roomCostShareBilling.RoomName,
+                    roomCostShareBilling.BasicHeatingCostsShare,
+                    _BillingViewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem));
+
+                sum += roomCostShareBilling.BasicHeatingCostsShare;
+
+                // consumption heating costs
                 dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                         _BillingViewModel,
                         roomCostShareBilling.RoomName,
-                        roomCostShareBilling.HeatingCostsAnnualCostsShare,
-                        _BillingViewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem));
+                        roomCostShareBilling.ConsumptionHeatingCostsShare,
+                        _BillingViewModel.Billing.ConsumptionHeatingCosts.TransactionItem));
 
-                sum += roomCostShareBilling.HeatingCostsAnnualCostsShare;
+                sum += roomCostShareBilling.ConsumptionHeatingCostsShare;
 
                 dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                     _BillingViewModel,
@@ -932,7 +1046,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             double months = _BillingViewModel.GetMonths();
 
-            double newPrice = roomCostShareBilling.FixedCostsAnnualCostsShare + roomCostShareBilling.HeatingCostsAnnualCostsShare;
+            double newPrice = roomCostShareBilling.ProRataAmounts + roomCostShareBilling.FixedAmountShare;
 
             double newPricePerMonth = newPrice / months;
 
@@ -940,13 +1054,13 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                 _BillingViewModel,
                 roomCostShareBilling.RoomName,
-                roomCostShareBilling.FixedCostsAnnualCostsShare,
+                roomCostShareBilling.ProRataAmounts,
                 "fixed"));
 
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(
                 _BillingViewModel,
                 roomCostShareBilling.RoomName,
-                roomCostShareBilling.HeatingCostsAnnualCostsShare,
+                roomCostShareBilling.FixedAmountShare,
                 "heating"));
 
             dataRowGroup.Rows.Add(BillingOutputTableRowRooms(

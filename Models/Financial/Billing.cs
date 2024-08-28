@@ -24,6 +24,35 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double ActualAdvancePerPeriod { get; set; } = 0.0;
 
 
+        public FinancialTransactionItemBilling BasicHeatingCosts { get; set; } = new FinancialTransactionItemBilling()
+        {
+            TransactionItem = "Basic Heating Costs",
+            TransactionShareTypes = TransactionShareTypesBilling.Equal,
+            TransactionSum = 0.0
+        };
+
+
+        public double BasicHeatingCostsPercentage { get; set; } = 0.0;
+
+
+        public FinancialTransactionItemBilling ColdWaterCosts { get; set; } = new FinancialTransactionItemBilling()
+        {
+            TransactionItem = "Cold Water Costs",
+            TransactionShareTypes = TransactionShareTypesBilling.Equal,
+            TransactionSum = 0.0
+        };
+
+        public FinancialTransactionItemBilling ConsumptionHeatingCosts { get; set; } = new FinancialTransactionItemBilling()
+        {
+            TransactionItem = "Consumption Heating Costs",
+            TransactionShareTypes = TransactionShareTypesBilling.Consumption,
+            TransactionSum = 0.0
+        };
+
+
+        public double ConsumptionHeatingCostsPercentage { get; set; } = 0.0;
+
+
         public DateTime BillingDate { get; set; } = DateTime.Now;
 
 
@@ -74,6 +103,14 @@ namespace SharedLivingCostCalculator.Models.Financial
         {
             TransactionItem = "Heating",
             TransactionShareTypes = TransactionShareTypesBilling.Consumption,
+            TransactionSum = 0.0
+        };
+
+
+        public FinancialTransactionItemBilling WarmWaterCosts { get; set; } = new FinancialTransactionItemBilling()
+        {
+            TransactionItem = "Warm Water Costs",
+            TransactionShareTypes = TransactionShareTypesBilling.Equal,
             TransactionSum = 0.0
         };
 

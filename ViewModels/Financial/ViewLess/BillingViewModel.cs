@@ -57,6 +57,84 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         public double Balance => DetermineBalance();
 
 
+        public double BasicHeatingCosts
+        {
+            get { return Billing.BasicHeatingCosts.TransactionSum; }
+            set
+            {
+                Billing.BasicHeatingCosts.TransactionSum = value;
+
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(BasicHeatingCosts)));
+
+                OnPropertyChanged(nameof(BasicHeatingCosts));
+            }
+        }
+
+
+        public double BasicHeatingCostsPercentage
+        {
+            get { return Billing.BasicHeatingCostsPercentage; }
+            set
+            {
+                Billing.BasicHeatingCostsPercentage = value;
+
+                BasicHeatingCosts = value / 100 * TotalHeatingCostsPerPeriod;
+                
+                ConsumptionHeatingCostsPercentage = 100 - BasicHeatingCostsPercentage;                
+
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(BasicHeatingCostsPercentage)));
+
+                OnPropertyChanged(nameof(BasicHeatingCostsPercentage));
+            }
+        }
+
+
+        public double ColdWaterCosts
+        {
+            get { return Billing.ColdWaterCosts.TransactionSum; }
+            set
+            {
+                Billing.ColdWaterCosts.TransactionSum = value;
+
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(ColdWaterCosts)));
+
+                OnPropertyChanged(nameof(ColdWaterCosts));
+                OnPropertyChanged(nameof(TotalCostsPerPeriod));
+                OnPropertyChanged(nameof(ContractBalance));
+            }
+        }
+
+
+        public double ConsumptionHeatingCosts
+        {
+            get { return Billing.ConsumptionHeatingCosts.TransactionSum; }
+            set
+            {
+                Billing.ConsumptionHeatingCosts.TransactionSum = value;
+
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(ConsumptionHeatingCosts)));
+
+                OnPropertyChanged(nameof(ConsumptionHeatingCosts));
+            }
+        }
+
+
+        public double ConsumptionHeatingCostsPercentage
+        {
+            get { return Billing.ConsumptionHeatingCostsPercentage; }
+            set
+            {
+                Billing.ConsumptionHeatingCostsPercentage = value;
+
+                ConsumptionHeatingCosts = value / 100 * TotalHeatingCostsPerPeriod;
+
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(ConsumptionHeatingCostsPercentage)));
+
+                OnPropertyChanged(nameof(ConsumptionHeatingCostsPercentage));
+            }
+        }
+
+
         public double ContractBalance => TotalCostsPerPeriod - ActualAdvancePerPeriod;
 
 
@@ -77,10 +155,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public double FixedCostsRatio => CalculateFixedCostsRatio();
+        //public double FixedCostsRatio => CalculateFixedCostsRatio();
 
 
-        public double HeatingCostsRatio => CalculateHeatingCostsRatio();
+        //public double HeatingCostsRatio => CalculateHeatingCostsRatio();
          
 
         private double _OtherFTISum;
@@ -135,13 +213,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// </summary>
         public double TotalCostsPerPeriod
         {
-            get { return TotalFixedCostsPerPeriod + TotalHeatingCostsPerPeriod; }
+            get { return TotalFixedCostsPerPeriod + ColdWaterCosts + WarmWaterCosts + TotalHeatingCostsPerPeriod; }
         }
 
 
         public double TotalCostsPerPeriodIncludingRent
         {
-            get { return TotalRentCosts + TotalFixedCostsPerPeriod + TotalHeatingCostsPerPeriod; }
+            get { return TotalRentCosts + TotalFixedCostsPerPeriod + ColdWaterCosts + WarmWaterCosts + TotalHeatingCostsPerPeriod; }
         }
                       
 
@@ -244,6 +322,22 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         ///   within the period
         /// </summary>
         public double TotalRentCosts => DetermineRentCostsForPaymentOption();
+
+
+        public double WarmWaterCosts
+        {
+            get { return Billing.WarmWaterCosts.TransactionSum; }
+            set
+            {
+                Billing.WarmWaterCosts.TransactionSum = value;
+
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(WarmWaterCosts)));
+
+                OnPropertyChanged(nameof(WarmWaterCosts));
+                OnPropertyChanged(nameof(TotalCostsPerPeriod));
+                OnPropertyChanged(nameof(ContractBalance));
+            }
+        }
 
         #endregion
 
@@ -630,20 +724,20 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        private double CalculateFixedCostsRatio()
-        {
-            double fixedCostsRatio = TotalFixedCostsPerPeriod / TotalCostsPerPeriod;
+        //private double CalculateFixedCostsRatio()
+        //{
+        //    double fixedCostsRatio = TotalFixedCostsPerPeriod / TotalCostsPerPeriod;
 
-            return fixedCostsRatio;
-        }
+        //    return fixedCostsRatio;
+        //}
 
 
-        private double CalculateHeatingCostsRatio()
-        {
-            double heatingCostsRatio = TotalHeatingCostsPerPeriod / TotalCostsPerPeriod;
+        //private double CalculateHeatingCostsRatio()
+        //{
+        //    double heatingCostsRatio = TotalHeatingCostsPerPeriod / TotalCostsPerPeriod;
 
-            return heatingCostsRatio;
-        }
+        //    return heatingCostsRatio;
+        //}
 
 
         public double CalculatePaymentsPerPeriod()
@@ -722,29 +816,26 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             return ActualAdvancePerPeriod - TotalCostsPerPeriod;
         }
 
-        public double DeterminePaymentMonths(ObservableCollection<RentViewModel> RentList, DateTime start, DateTime end, int i)
+        public double DeterminePaymentMonths(ObservableCollection<RentViewModel> RentList, int i)
         {
+            DateTime start = StartDate;
+            DateTime end = EndDate;
+
             double Months = 0.0;
 
             int month = 0;
             double halfmonth = 0.0;
 
-            if (i == 0 && RentList.Count == 1)
+            if (i < RentList.Count - 1)
             {
-                start = StartDate;
-
-                end = EndDate;
-            }
-
-            else if (i == 0 && RentList.Count > 1)
-            {
-                start = StartDate;
-
-                end = RentList[i + 1].StartDate - TimeSpan.FromDays(1);
-            }
-            else if (i < RentList.Count - 1)
-            {
-                start = RentList[i].StartDate;
+                if (RentList[i].StartDate.Year < StartDate.Year)
+                {
+                    start = new DateTime(StartDate.Year, 01,01);
+                }
+                else if (RentList[i].StartDate.Year == StartDate.Year)
+                {
+                    start = RentList[i].StartDate;
+                }                
 
                 end = RentList[i + 1].StartDate - TimeSpan.FromDays(1);
             }
@@ -754,7 +845,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 end = EndDate;
             }
-
 
             if (start.Day == 1 && end.Day != 14 && start.Year == end.Year)
             {
@@ -789,14 +879,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             // sort List by StartDate, ascending
             ObservableCollection<RentViewModel> RentList = FindRelevantRentViewModels();
 
-            DateTime start = DateTime.Now;
-            DateTime end = DateTime.Now;
-
             double months = 0.0;
 
             for (int i = 0; i < RentList.Count; i++)
             {
-                months += DeterminePaymentMonths(RentList, start, end, i);                
+                months += DeterminePaymentMonths(RentList, i);                
             }
 
             return months;
@@ -811,12 +898,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 // sort List by StartDate, ascending
                 ObservableCollection<RentViewModel> RentList = FindRelevantRentViewModels();
 
-                DateTime start = DateTime.Now;
-                DateTime end = DateTime.Now;
-
                 for (int i = 0; i < RentList.Count; i++)
                 {
-                    double months = DeterminePaymentMonths(RentList, start, end, i);
+                    double months = DeterminePaymentMonths(RentList, i);
 
                     rentCosts += RentList[i].ColdRent * months;
                 }
@@ -834,15 +918,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             // sort List by StartDate, ascending
             ObservableCollection<RentViewModel> RentList = FindRelevantRentViewModels();
 
-            DateTime start = DateTime.Now;
-            DateTime end = DateTime.Now;
-
 
             for (int i = 0; i < RentList.Count; i++)
             {
                 if (RentList[i] != null)
                 {
-                    double months = DeterminePaymentMonths(RentList, start, end, i);
+                    double months = DeterminePaymentMonths(RentList, i);
 
                     advance += RentList[i].Advance * months;
                 }
@@ -869,11 +950,16 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         {
             RentViewModel comparer = _FlatViewModel.InitialRent;
 
+            if (comparer.StartDate.Year < year)
+            {
+                return new DateTime(year, 01, 01);
+            }
+
             foreach (RentViewModel item in FlatViewModel.RentUpdates)
             {
-                if (item.StartDate.Year < year)
+                if (item.StartDate.Year < year && item.StartDate > comparer.StartDate)
                 {
-                    return new DateTime(year, 01, 01);
+                    comparer = item;
                 }
 
                 if (item.StartDate.Year > year)
@@ -881,12 +967,12 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                     continue;
                 }
 
-                if (item.StartDate.Year == year && comparer == null)
+                if (item.StartDate.Year == year)
                 {
                     comparer = item;
                 }
 
-                if (item.StartDate.Year == year && comparer != null)
+                if (item.StartDate.Year == year && item.StartDate < comparer.StartDate)
                 {
                     if (item.StartDate < comparer.StartDate)
                     {
@@ -918,7 +1004,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                     }
 
                     // rent begins before Billing period starts
-                    if (rent.StartDate < StartDate)
+                    if (rent.StartDate <= StartDate)
                     {
                         preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
                         continue;

@@ -41,6 +41,12 @@
             ElementName=SIV}"
                  MinWidth="{Binding Path=ValueMinWidth,
             ElementName=SIV}"
+                 MinHeight="{Binding Path=ValueMinHeight,
+            ElementName=SIV}"
+                 MaxWidth="{Binding Path=ValueWidth,
+            ElementName=SIV}"
+                 MaxHeight="{Binding Path=ValueHeight,
+            ElementName=SIV}"                 
                  Style="{StaticResource StringValueTextBox}"/>
     </Grid>
 </UserControl>

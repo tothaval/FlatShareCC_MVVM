@@ -43,6 +43,23 @@ there is a grocery store nearby.</FlatNotes>
   <AnnualBillings>
     <Billing>
       <ActualAdvancePerPeriod>0</ActualAdvancePerPeriod>
+      <BasicHeatingCosts>
+        <TransactionItem>Basic Heating Costs</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </BasicHeatingCosts>
+      <BasicHeatingCostsPercentage>0</BasicHeatingCostsPercentage>
+      <ColdWaterCosts>
+        <TransactionItem>Cold Water Costs</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </ColdWaterCosts>
+      <ConsumptionHeatingCosts>
+        <TransactionItem>Consumption Heating Costs</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </ConsumptionHeatingCosts>
+      <ConsumptionHeatingCostsPercentage>0</ConsumptionHeatingCostsPercentage>
       <BillingDate>2024-08-08T00:00:00</BillingDate>
       <CostsHasDataLock>false</CostsHasDataLock>
       <EndDate>2023-12-31T00:00:00</EndDate>
@@ -50,7 +67,7 @@ there is a grocery store nearby.</FlatNotes>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <HasPayments>true</HasPayments>
-      <StartDate>2023-02-15T00:00:00</StartDate>
+      <StartDate>2023-04-01T00:00:00</StartDate>
       <TotalCostsPerPeriod>1507.12</TotalCostsPerPeriod>
       <TotalFixedCostsPerPeriod>
         <TransactionItem>Fixed</TransactionItem>
@@ -62,6 +79,11 @@ there is a grocery store nearby.</FlatNotes>
         <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionSum>956.9799999999999</TransactionSum>
       </TotalHeatingCostsPerPeriod>
+      <WarmWaterCosts>
+        <TransactionItem>Warm Water Costs</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </WarmWaterCosts>
       <Consumptions>
         <ConsumptionItem>
           <ConsumptionCause>

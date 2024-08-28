@@ -86,6 +86,24 @@ namespace SharedLivingCostCalculator.Components
             DependencyProperty.Register("ValueAlignment", typeof(TextAlignment), typeof(ObjectInputView), new PropertyMetadata(null));
 
 
+        public double ValueHeight
+        {
+            get { return (double)GetValue(ValueHeightProperty); }
+            set { SetValue(ValueHeightProperty, value); }
+        }
+        public static readonly DependencyProperty ValueHeightProperty =
+            DependencyProperty.Register("ValueHeight", typeof(double), typeof(ObjectInputView), new PropertyMetadata(100.0));
+
+
+        public double ValueMinHeight
+        {
+            get { return (double)GetValue(ValueMinHeightProperty); }
+            set { SetValue(ValueMinHeightProperty, value); }
+        }
+        public static readonly DependencyProperty ValueMinHeightProperty =
+            DependencyProperty.Register("ValueMinHeight", typeof(double), typeof(ObjectInputView), new PropertyMetadata(50.0));
+
+
         public double ValueMinWidth
         {
             get { return (double)GetValue(ValueMinWidthProperty); }
@@ -93,6 +111,15 @@ namespace SharedLivingCostCalculator.Components
         }
         public static readonly DependencyProperty ValueMinWidthProperty =
             DependencyProperty.Register("ValueMinWidth", typeof(double), typeof(ObjectInputView), new PropertyMetadata(250.0));
+
+
+        public double ValueWidth
+       {
+            get { return (double)GetValue(ValueWidthProperty); }
+            set { SetValue(ValueWidthProperty, value); }
+        }
+        public static readonly DependencyProperty ValueWidthProperty =
+            DependencyProperty.Register("ValueWidth", typeof(double), typeof(ObjectInputView), new PropertyMetadata(400.0));
 
         #endregion dependency properties
 

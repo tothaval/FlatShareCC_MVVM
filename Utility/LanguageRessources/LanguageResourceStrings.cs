@@ -39,10 +39,16 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_CombinedConsumption { get; set; } = "Heating\nCombined";
         public string IDF_ConsumptionPercentage { get; set; } = "Heating\n% ";
 
+           
+        public string IDF_BasicHeatingCostsPercentage { get; set; } = "Basic Heating Costs %";
+        public string IDF_ColdWaterCosts { get; set; } = "Cold Water Costs";
+        public string IDF_ConsumptionHeatingCostsPercentage { get; set; } = "Heating Consumption Costs";
+        public string IDF_WarmWaterCosts { get; set; } = "Warm Water Costs";
+
         public string IDF_ExtraCosts { get; set; } = "Extra\nCosts";
         public string IDF_FixedCosts { get; set; } = "Fixed";
         public string IDF_HeatingCosts { get; set; } = "Heating";
-        public string IDF_TotalCosts { get; set; } = "Total\nCosts";
+        public string IDF_TotalCosts { get; set; } = "Total Costs";
         public string IDF_Balance { get; set; } = "Balance";
         public string IDF_RoomData { get; set; } = "Room Data";
         public string IDF_RoomCostShares { get; set; } = "annual room costs";

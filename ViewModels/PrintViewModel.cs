@@ -495,7 +495,9 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (FlatViewModel != null)
             {
-                foreach (RentViewModel item in _FlatViewModel.RentUpdates)
+                TimeScale.Add(FlatViewModel.InitialRent.StartDate.Year);
+
+                foreach (RentViewModel item in FlatViewModel.RentUpdates)
                 {
                     if (!TimeScale.Contains(item.StartDate.Year))
                     {
@@ -503,11 +505,35 @@ namespace SharedLivingCostCalculator.ViewModels
                     }
                 }
 
-                foreach (BillingViewModel item in _FlatViewModel.AnnualBillings)
+                foreach (BillingViewModel item in FlatViewModel.AnnualBillings)
                 {
                     if (!TimeScale.Contains(item.Year))
                     {
                         TimeScale.Add(item.Year);
+                    }
+                }
+                
+                TimeScale = new ObservableCollection<int>(TimeScale.OrderBy(i => i));
+
+                if (FlatViewModel.RentUpdates.Count > 0)
+                {
+                    for (int i = FlatViewModel.InitialRent.StartDate.Year; i < FlatViewModel.RentUpdates.Last().StartDate.Year; i++)
+                    {
+                        if (!TimeScale.Contains(i))
+                        {
+                            TimeScale.Add(i);
+                        }
+                    }
+                }
+
+                if (FlatViewModel.AnnualBillings.Count > 0)
+                {
+                    for (int i = FlatViewModel.InitialRent.StartDate.Year; i < FlatViewModel.AnnualBillings.Last().StartDate.Year; i++)
+                    {
+                        if (!TimeScale.Contains(i))
+                        {
+                            TimeScale.Add(i);
+                        }
                     }
                 }
 

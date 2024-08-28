@@ -286,7 +286,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public ObservableCollection<RoomCostShareRent> RoomCostShares { get; set; }
+        public ObservableCollection<RoomCostShareRent> RoomCostShares { get; set; } = new ObservableCollection<RoomCostShareRent>();
 
         #endregion
 
@@ -537,11 +537,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
         internal void UseRoomCosts4InitialRent(bool useRoomCosts)
         {
-            Rent.SetUseRoomCosts(useRoomCosts);
-
             if (Rent.IsInitialRent)
             {
-                _FlatViewModel.UseRoomCosts4InitialRent();
+                _FlatViewModel.UseRoomCosts4InitialRent(useRoomCosts);
             }
         }
 

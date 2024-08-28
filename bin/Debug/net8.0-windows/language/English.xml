@@ -13,12 +13,15 @@ Share</IDF_ConsumptionShare>
 Combined</IDF_CombinedConsumption>
   <IDF_ConsumptionPercentage>Heating
 % </IDF_ConsumptionPercentage>
+  <IDF_BasicHeatingCostsPercentage>Basic Heating Costs %</IDF_BasicHeatingCostsPercentage>
+  <IDF_ColdWaterCosts>Cold Water Costs</IDF_ColdWaterCosts>
+  <IDF_ConsumptionHeatingCostsPercentage>Heating Consumption Costs</IDF_ConsumptionHeatingCostsPercentage>
+  <IDF_WarmWaterCosts>Warm Water Costs</IDF_WarmWaterCosts>
   <IDF_ExtraCosts>Extra
 Costs</IDF_ExtraCosts>
   <IDF_FixedCosts>Fixed</IDF_FixedCosts>
   <IDF_HeatingCosts>Heating</IDF_HeatingCosts>
-  <IDF_TotalCosts>Total
-Costs</IDF_TotalCosts>
+  <IDF_TotalCosts>Total Costs</IDF_TotalCosts>
   <IDF_Balance>Balance</IDF_Balance>
   <IDF_RoomData>Room Data</IDF_RoomData>
   <IDF_RoomCostShares>annual room costs</IDF_RoomCostShares>

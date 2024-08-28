@@ -196,7 +196,7 @@
                         <TextBlock Text="{DynamicResource IDF_BillingPeriodData}"
                                    ToolTip="Selected annual billing general data."/>
                     </TabItem.Header>
-                    <StackPanel Orientation="Vertical"
+                    <StackPanel Orientation="Horizontal"
                                 Margin="10"
                  HorizontalAlignment="Stretch">
 
@@ -208,6 +208,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -258,12 +259,13 @@
                           Grid.Column="2"
                           Grid.Row="1"/>
 
+                            <!-- Shared Amount // Summe anteilige Beträge (Nicht Wasser, nicht Heizung) -->
                             <TextBlock Text="{DynamicResource IDF_FixedCosts}"
                          Style="{StaticResource StringValueTextBlock}"
                          Grid.Column="0"
                          Grid.Row="2"/>
-                            <comps:PopupButton PopupText="Insert the annual fixed costs for the entire flat."
-                                               ToolTip="Insert the annual fixed costs for the entire flat."
+                            <comps:PopupButton PopupText="Insert the annual fixed costs."
+                                               ToolTip="Insert the annual fixed costs."
                                                Grid.Column="1"
                                                Grid.Row="2"/>
                             <TextBox Text="{Binding SelectedValue.TotalFixedCostsPerPeriod,
@@ -278,14 +280,87 @@
                        Grid.Column="2"
                        Grid.Row="2"/>
 
-                            <TextBlock Text="{DynamicResource IDF_HeatingCosts}"
-                         Style="{StaticResource StringValueTextBlock}"
-                         Grid.Column="0"
-                         Grid.Row="3"/>
-                            <comps:PopupButton PopupText="Insert the annual heating costs for the entire flat."
-                                               ToolTip="Insert the annual heating costs for the entire flat."
-                                               Grid.Column="1"
+                            <!-- Fixed Amount // Summe Festbeträge (Wasser & Heizung) 
+                                    
+                                Comprised of Heating Costs, Warm Water Costs, Cold Water Costs
+                                
+                                    Heating Costs are comprised of basic costs and consumption costs
+                                    
+                                    needed values: basic costs share percentage, consumption costs shared percentage
+                            
+                            
+                                to calculate the fixed amount:
+                                
+                            cold water costs / contract parties = cold water costs share cwcs
+                            warm water costs / contract parties = warm water costs share wwcs (could be expanded for consumption in the future)
+                            
+                            basic costs share percentage * Flat Heating Costs = heating costs basic costs share hcbcs
+                            
+                            room heating units share / total consumed heating units = room consumption cost share percentage rccsp
+                            
+                            per Room
+                                consumption costs shared percentage * Flat Heating Costs *  room consumption cost share percentage = room consumption costs rcc
+                            
+                            cwcs + wwcs + hcbcs + rccsp = rcc
+                            
+                            -->
+
+                            <!-- Cold Water Costs -->
+                            <TextBlock Text="{DynamicResource IDF_ColdWaterCosts}"
+                                       Style="{StaticResource StringValueTextBlock}"
+                                       Grid.Column="0"
+                                       Grid.Row="3"/>
+                            
+                            <comps:PopupButton PopupText="Insert the annual cold water costs."
+                                               ToolTip="Insert the annual cold water costs."
+                                               Grid.Column="1"                            
                                                Grid.Row="3"/>
+                            
+                            <TextBox Text="{Binding SelectedValue.ColdWaterCosts,
+                                StringFormat=C2,
+                                Mode=TwoWay,
+                                NotifyOnSourceUpdated=True,
+                                NotifyOnValidationError=True,
+                                ValidatesOnDataErrors=True,
+                                UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource DoubleValueTextBox}"
+                                     IsEnabled="{Binding DataLock}"
+                                     Grid.Column="2"
+                                     Grid.Row="3"/>
+                            
+                            <!-- Warm Water Costs -->
+                            <TextBlock Text="{DynamicResource IDF_WarmWaterCosts}"
+                                       Style="{StaticResource StringValueTextBlock}"
+                                       Grid.Column="0"
+                                       Grid.Row="4"/>
+                            
+                            <comps:PopupButton PopupText="Insert the annual warm water costs."
+                                               ToolTip="Insert the annual warm water costs."
+                                               Grid.Column="1"
+                                               Grid.Row="4"/>
+                            <TextBox Text="{Binding SelectedValue.WarmWaterCosts,
+                                StringFormat=C2,
+                                Mode=TwoWay,
+                                NotifyOnSourceUpdated=True,
+                                NotifyOnValidationError=True,
+                                ValidatesOnDataErrors=True,
+                                UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource DoubleValueTextBox}"
+                                     IsEnabled="{Binding DataLock}"
+                                     Grid.Column="2"
+                                     Grid.Row="4"/>
+
+                            <!-- Heating Costs -->
+                            <TextBlock Text="{DynamicResource IDF_HeatingCosts}"
+                                       Style="{StaticResource StringValueTextBlock}"
+                                       Grid.Column="0"
+                                       Grid.Row="5"/>
+                            
+                            <comps:PopupButton PopupText="Insert the annual heating costs."
+                                               ToolTip="Insert the annual heating costs."
+                                               Grid.Column="1"
+                                               Grid.Row="5"/>
+                            
                             <TextBox Text="{Binding SelectedValue.TotalHeatingCostsPerPeriod,
                                 StringFormat=C2,
                                 Mode=TwoWay,
@@ -293,19 +368,81 @@
                                 NotifyOnValidationError=True,
                                 ValidatesOnDataErrors=True,
                                 UpdateSourceTrigger=PropertyChanged}"
-                       Style="{StaticResource DoubleValueTextBox}"
-                       IsEnabled="{Binding DataLock}"
-                       Grid.Column="2"
-                       Grid.Row="3"/>
+                                     Style="{StaticResource DoubleValueTextBox}"
+                                     IsEnabled="{Binding DataLock}"
+                                     Grid.Column="2"
+                                     Grid.Row="5"/>
+
+                            <!-- Heating Costs Basic Costs Share Percentage -->
+                            <TextBlock Text="{DynamicResource IDF_BasicHeatingCostsPercentage}"
+                                       Style="{StaticResource StringValueTextBlock}"
+                                       Grid.Column="0"
+                                       Grid.Row="6"/>
+
+                            <comps:PopupButton PopupText="Insert the basic heating costs percentage value."
+                                               ToolTip="Insert the basic heating costs percentage value."
+                                               Grid.Column="1"
+                                               Grid.Row="6"/>
+
+                            <TextBox Text="{Binding SelectedValue.BasicHeatingCostsPercentage,
+                                StringFormat=N2,
+                                Mode=TwoWay,
+                                NotifyOnSourceUpdated=True,
+                                NotifyOnValidationError=True,
+                                ValidatesOnDataErrors=True,
+                                UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource DoubleValueTextBox}"
+                                     IsEnabled="{Binding DataLock}"
+                                     Grid.Column="2"
+                                     Grid.Row="6"/>
+
+                            <!-- Heating Costs Consumption Costs Share Percentage -->
+                            <TextBlock Text="{DynamicResource IDF_ConsumptionHeatingCostsPercentage}"
+                                       Style="{StaticResource StringValueTextBlock}"
+                                       Grid.Column="0"
+                                       Grid.Row="7"/>
+
+                            <comps:PopupButton PopupText="Insert the consumption heating costs percentage value."
+                                               ToolTip="Insert the consumption heating costs percentage value."
+                                               Grid.Column="1"
+                                               Grid.Row="7"/>
+
+                            <TextBlock Text="{Binding SelectedValue.ConsumptionHeatingCostsPercentage,
+                                StringFormat=N2,
+                                Mode=OneWay,
+                                NotifyOnSourceUpdated=True}"
+                                     Style="{StaticResource DoubleValueTextBlock}"
+                                     IsEnabled="{Binding DataLock}"
+                                     Grid.Column="2"
+                                     Grid.Row="7"/>
+
+
+                        </Grid>
+
+
+
+                        <Grid Margin="0 10 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*" SharedSizeGroup="Values"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
                             <TextBlock Text="{DynamicResource IDF_TotalCosts}"
                             Style="{StaticResource StringValueTextBlock}"
                             Grid.Column="0"
-                            Grid.Row="4"/>
+                            Grid.Row="0"/>
+
                             <comps:PopupButton PopupText="The sum of fixed and heating costs will be calculated automatically."
                                                ToolTip="The sum of fixed and heating costs will be calculated automatically."
                                                Grid.Column="1"
-                                               Grid.Row="4"/>
+                                               Grid.Row="0"/>
 
                             <TextBlock Text="{Binding SelectedValue.TotalCostsPerPeriod,
                                 StringFormat=C2,
@@ -315,17 +452,19 @@
                                        Style="{StaticResource DoubleValueTextBlock}"
                                        FontWeight="Bold"
                                        Grid.Column="2"
-                                       Grid.Row="4"/>
+                                       Grid.Row="0"/>
 
 
                             <TextBlock Text="{DynamicResource IDF_Advance}"
                             Style="{StaticResource StringValueTextBlock}"
                             Grid.Column="0"
-                            Grid.Row="5"/>
+                            Grid.Row="1"/>
+
                             <comps:PopupButton PopupText="Insert the paid advance value from the annual billing."
                                                ToolTip="Insert the paid advance value from the annual billing."
                                                Grid.Column="1"
-                                               Grid.Row="5"/>
+                                               Grid.Row="1"/>
+
                             <TextBox Text="{Binding SelectedValue.ActualAdvancePerPeriod,
                                 StringFormat=C2,
                                 Mode=TwoWay,
@@ -333,29 +472,34 @@
                                 NotifyOnValidationError=True,
                                 ValidatesOnDataErrors=True,
                                 UpdateSourceTrigger=PropertyChanged}"
-                       Style="{StaticResource DoubleValueTextBox}"
-                       IsEnabled="{Binding DataLock}"
-                       Grid.Column="2"
-                       Grid.Row="5"/>
+                                     Style="{StaticResource DoubleValueTextBox}"
+                                     IsEnabled="{Binding DataLock}"
+                                     Grid.Column="2"
+                                     Grid.Row="1"/>
+
 
                             <TextBlock Text="{DynamicResource IDF_Balance}"
-                            Style="{StaticResource StringValueTextBlock}"
-                            Grid.Column="0"
-                            Grid.Row="6"/>
+                                       Style="{StaticResource StringValueTextBlock}"
+                                       Grid.Column="0"
+                                       Grid.Row="2"/>
+
                             <comps:PopupButton PopupText="Result of Total Costs - Advance. Positive values indicate you have to pay, negative values indicate you paid too much."
-                                           ToolTip="Result of Total Costs - Advance. Positive values indicate you have to pay, negative values indicate you paid too much."
+                                               ToolTip="Result of Total Costs - Advance. Positive values indicate you have to pay, negative values indicate you paid too much."
                                                Grid.Column="1"
-                                               Grid.Row="6"/>
+                                               Grid.Row="2"/>
+
                             <TextBlock Text="{Binding SelectedValue.ContractBalance,
                                 StringFormat=C2,
                                 Mode=OneWay,
                                 NotifyOnSourceUpdated=True}"
                                        FontWeight="Bold"
-                       Style="{StaticResource DoubleValueTextBlock}"
-                       IsEnabled="{Binding DataLock}"
-                       Grid.Column="2"
-                       Grid.Row="6"/>
+                                       Style="{StaticResource DoubleValueTextBlock}"
+                                       IsEnabled="{Binding DataLock}"
+                                       Grid.Column="2"
+                                       Grid.Row="2"/>
+
                         </Grid>
+
 
                     </StackPanel>
                 </TabItem>
