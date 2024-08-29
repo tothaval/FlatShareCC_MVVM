@@ -44,16 +44,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
         }
 
+
+        public bool AdvanceDeviation { get; set; }
+
+
+        public double AdvanceDifference => ActualAdvancePerPeriod - TotalAdvancePerPeriod;
+
+
         /// <summary>
         /// depending on configuration of billing object: Balance will return
         /// the result of all payments (and credits) per Period minus all costs per period (including Rent) or
         /// the result of all advances (and credtis) per Period minus all costs per period (exxcluding Rent)
         /// </summary>
         /// 
-
-        public bool AdvanceDeviation { get; set; }
-
-
         public double Balance => DetermineBalance();
 
 

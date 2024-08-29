@@ -51,11 +51,12 @@
                 <!--#region menu togglebuttons -->
                 <Grid Name="topgrid" Grid.Row="0" Grid.Column="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
@@ -184,7 +185,7 @@
                                                                Style="{StaticResource StringValueTextBlock}"
                                                                ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                                MaxHeight="60"
-                                                               Width="400"/>
+                                                               Width="320"/>
 
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>

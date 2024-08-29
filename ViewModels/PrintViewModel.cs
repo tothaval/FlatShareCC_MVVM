@@ -379,7 +379,7 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (FlatViewModel != null && SelectedYear > 0)
             {
-                PrintOutputBase print = new PrintOutputBase(FlatViewModel, SelectedYear);
+                PrintOutputBase print = new PrintOutputBase(this, FlatViewModel, SelectedYear);
 
                 Style textParagraph = new Style();
                 Style headerParagraph = new Style();
@@ -410,7 +410,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (BillingOutputSelected)
                 {
 
-                    BillingViewModel? billingViewModel = new PrintOutputBase(FlatViewModel, SelectedYear).SearchForBillingViewModel();
+                    BillingViewModel? billingViewModel = new PrintOutputBase(this, FlatViewModel, SelectedYear).SearchForBillingViewModel();
 
                     if (billingViewModel != null)
                     {
@@ -465,9 +465,9 @@ namespace SharedLivingCostCalculator.ViewModels
                     //p.Style = headerParagraph;
                     ActiveFlowDocument.Blocks.Add(p);
 
-                    CreditsAndOtherCostsRentPrintOutput creditsAndOther = new CreditsAndOtherCostsRentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected);
+                    CreditsAndOtherCostsRentPrintOutput creditsAndOther = new CreditsAndOtherCostsRentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected, false);
 
-                    ActiveFlowDocument.Blocks.Add(creditsAndOther.BuildOtherCostDetails(false, SelectedDetailOption));
+                    ActiveFlowDocument.Blocks.Add(creditsAndOther.BuildOtherCostDetails(SelectedDetailOption));
                 }
 
                 if (CreditOutputSelected)
@@ -482,7 +482,9 @@ namespace SharedLivingCostCalculator.ViewModels
                     p.Style = headerParagraph;
                     ActiveFlowDocument.Blocks.Add(p);
 
-                    ActiveFlowDocument.Blocks.Add(new CreditsAndOtherCostsRentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected).BuildOtherCostDetails(true, SelectedDetailOption));
+                    CreditsAndOtherCostsRentPrintOutput creditsAndOther = new CreditsAndOtherCostsRentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected, true);
+
+                    ActiveFlowDocument.Blocks.Add(creditsAndOther.BuildOtherCostDetails(SelectedDetailOption));
                 }
 
             }

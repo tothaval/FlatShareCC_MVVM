@@ -14,6 +14,7 @@ using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Models.Contract;
+using System.Windows.Media.Animation;
 
 namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 {
@@ -50,7 +51,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             _SelectedYear = selectedYear;
             _ShowTenant = showTenant;
 
-            _Print = new PrintOutputBase(_FlatViewModel, _SelectedYear);
+            _Print = new PrintOutputBase(_PrintViewModel, _FlatViewModel, _SelectedYear);
         }
 
         #endregion
@@ -64,57 +65,24 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             if (!_PrintViewModel.DisplaySummarySelected)
             {
                 dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("all costs"));
-                dataRowGroup.Rows.Add(_Print.TableRowRentHeader());
 
-                dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.ColdRent, viewModel.Rent.ColdRent.TransactionItem, month));
-                dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.Advance, viewModel.Rent.Advance.TransactionItem, month));
+                dataRowGroup = ContractCostsDisplay(dataRowGroup, viewModel, month);
 
                 dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.OtherFTISum, "other", month));
                 dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, -1 * viewModel.CreditSum, "credit", month));
 
-                if (_PrintViewModel.IncludeTaxesSelected)
-                {
-                    double tax = _PrintViewModel.TaxValue / 100;
-                    double taxedSum = 0.0;
-
-                    if (_PrintViewModel.SelectedTaxOption == TaxOptionTypes.Taxed)
-                    {
-                        taxedSum = tax * viewModel.CostsAndCredits;
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.CostsAndCredits, "sum", month, true));
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, taxedSum, $"including {_PrintViewModel.TaxValue}% taxes", month));
-                    }
-                    else
-                    {
-                        taxedSum = (tax + 1) * viewModel.CostsAndCredits - viewModel.CostsAndCredits;
-
-                        double withTaxes = taxedSum + viewModel.CostsAndCredits;
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.CostsAndCredits, "sum", month, true));
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, taxedSum, $"tax {_PrintViewModel.TaxValue}%", month));
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, withTaxes, "taxed sum", month, true));
-                    }
-                }
-                else
-                {
-                    dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.CostsAndCredits, "sum", month, true));
-                }
+                dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, viewModel, month, viewModel.CostsAndCredits, false);
 
 
                 if (_PrintViewModel.AnnualRentCostsSelected)
                 {
                     dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("all costs until end of year"));
-                    dataRowGroup.Rows.Add(_Print.TableRowRentHeader());
 
-                    dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.FirstYearRent, viewModel.Rent.ColdRent.TransactionItem, month));
-                    dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.FirstYearAdvance, viewModel.Rent.Advance.TransactionItem, month));
+                    dataRowGroup = ContractCostsDisplayUntilEndOfYear(dataRowGroup, viewModel, month);
 
                     dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.FirstYearOtherFTISum, "other"));
 
-                    dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.FirstYearCompleteCosts, "sum", -1, true));
+                    dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, viewModel, -1, viewModel.FirstYearCompleteCosts, false);
                 }
 
                 dataRowGroup.Rows.Add(_Print.SeparatorLineTableRow(true));
@@ -123,10 +91,136 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             {
                 dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("all costs summary"));
 
-                dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.CostsAndCredits, "sum", month, true, false));
+                dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, viewModel, month, viewModel.CostsAndCredits, true);
             }
 
             return dataRowGroup;
+        }
+
+
+        private TableRowGroup AllCostsRooms(TableRowGroup dataRowGroup, RentViewModel viewModel, RoomCostShareRent roomCostShareRent, int month)
+        {
+
+            if (!_PrintViewModel.DisplaySummarySelected)
+            {
+                dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("all costs", true));
+
+                dataRowGroup = ContractCostsRoomsDisplay(dataRowGroup, viewModel, roomCostShareRent, month);
+
+                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.OtherCostsShare, "other", month));
+
+                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, -1* roomCostShareRent.CreditShare, "credit", month));
+
+                dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, viewModel, month, roomCostShareRent.RoomName, roomCostShareRent.CostAndCreditShare, false);
+
+                if (_PrintViewModel.AnnualRentCostsSelected)
+                {
+                    dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("all costs until end of year", true));
+
+                    dataRowGroup = ContractCostsRoomsDisplayUntilEndOfYear(dataRowGroup, viewModel, roomCostShareRent, month);
+
+                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.FirstYearOtherCostsShare, "other", month));
+
+                    dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, viewModel, month, roomCostShareRent.RoomName, roomCostShareRent.FirstYearCompleteCostShare, false);
+                }
+            }
+            else
+            {
+                dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, viewModel, month, roomCostShareRent.RoomName, roomCostShareRent.CostAndCreditShare, true);
+
+            }
+
+            return dataRowGroup;
+        }
+
+
+        /// <summary>
+        /// prints output rows according to selected data output progression
+        /// and adds them to the documentContext
+        /// </summary>
+        /// <param name="documentContext">the context within the flow document where this should be added</param>
+        /// <param name="RentList"></param>
+        /// <param name="SelectedDetailOption"></param>
+        /// <param name="iterator"></param>
+        /// <returns>documentContext</returns>
+        private Section BuildDataOutputProgression(Section documentContext, ObservableCollection<RentViewModel> RentList, DataOutputProgressionTypes SelectedDetailOption, int iterator, bool isFlat)
+        {
+            if (SelectedDetailOption == DataOutputProgressionTypes.TimeChange)
+            {
+                for (int monthCounter = 1; monthCounter < 13; monthCounter++)
+                {
+
+                    if (iterator + 1 < RentList.Count)
+                    {
+                        // später im Ablauf, um Nachfolger zu berücksichtigen
+
+                        if (RentList[iterator + 1].StartDate.Month - 1 < monthCounter)
+                        {
+                            break;
+                        }
+
+                        if (RentList[iterator].StartDate.Year < _SelectedYear)
+                        {
+                            if (isFlat)
+                            {
+                                documentContext.Blocks.Add(RentPlanTable(RentList[iterator], monthCounter));
+                            }
+                            else
+                            {
+                                documentContext.Blocks.Add(RentPlanTableRooms(RentList[iterator], monthCounter));
+                            }
+
+                        }
+                        else if (RentList[iterator].StartDate.Year == _SelectedYear
+                            && monthCounter >= RentList[iterator].StartDate.Month)
+                        {
+                            if (isFlat)
+                            {
+                                documentContext.Blocks.Add(RentPlanTable(RentList[iterator], monthCounter));
+                            }
+                            else
+                            {
+                                documentContext.Blocks.Add(RentPlanTableRooms(RentList[iterator], monthCounter));
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        if (RentList[iterator].StartDate.Year == _SelectedYear && monthCounter < RentList[iterator].StartDate.Month)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (isFlat)
+                            {
+                                documentContext.Blocks.Add(RentPlanTable(RentList[iterator], monthCounter));
+                            }
+                            else
+                            {
+                                documentContext.Blocks.Add(RentPlanTableRooms(RentList[iterator], monthCounter));
+                            }
+                        }
+
+                    }
+
+                }
+            }
+            else
+            {
+                if (isFlat)
+                {
+                    documentContext.Blocks.Add(RentPlanTable(RentList[iterator]));
+                }
+                else
+                {
+                    documentContext.Blocks.Add(RentPlanTableRooms(RentList[iterator]));
+                }
+
+            }
+
+            return documentContext;
         }
 
 
@@ -134,85 +228,20 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         {
             Section rentOutput = new Section();
 
-            ObservableCollection<RentViewModel> RentList = new PrintOutputBase(_FlatViewModel, _SelectedYear).FindRelevantRentViewModels();
+            ObservableCollection<RentViewModel> RentList = new PrintOutputBase(_PrintViewModel ,_FlatViewModel, _SelectedYear).FindRelevantRentViewModels();
 
             for (int i = 0; i < RentList.Count; i++)
             {
+                Section? valueChangeHeader = _Print.BuildValueChangeHeader(rentOutput, RentList, i);
 
-                if (RentList[i].StartDate.Year < _SelectedYear)
+                if (valueChangeHeader == null)
                 {
-                    if (i + 1 < RentList.Count)
-                    {
-                        if (RentList[i + 1].StartDate > RentList[i].StartDate && RentList[i + 1].StartDate.Year < _SelectedYear)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            rentOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
-                        }
-                    }
-                }
-                else
-                {
-                    if (i == 0)
-                    {
-                        rentOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
-                    }
-                    else
-                    {
-                        rentOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 40, 0, 0), FontWeight = FontWeights.Bold });
-                    }
+                    continue;
                 }
 
-                Table headerTable = _Print.OutputTableForFlat();
+                rentOutput = valueChangeHeader;
 
-                if (SelectedDetailOption == DataOutputProgressionTypes.TimeChange)
-                {
-                    for (int monthCounter = 1; monthCounter < 13; monthCounter++)
-                    {
-
-                        if (i + 1 < RentList.Count)
-                        {
-                            // später im Ablauf, um Nachfolger zu berücksichtigen
-
-                            if (RentList[i + 1].StartDate.Month - 1 < monthCounter)
-                            {
-                                break;
-                            }
-
-                            if (RentList[i].StartDate.Year < _SelectedYear)
-                            {
-                                rentOutput.Blocks.Add(RentPlanTable(RentList[i], monthCounter));
-                            }
-                            else if (RentList[i].StartDate.Year == _SelectedYear
-                                && monthCounter >= RentList[i].StartDate.Month)
-                            {
-                                rentOutput.Blocks.Add(RentPlanTable(RentList[i], monthCounter));
-                            }
-
-                        }
-                        else
-                        {
-                            if (RentList[i].StartDate.Year == _SelectedYear && monthCounter < RentList[i].StartDate.Month)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                rentOutput.Blocks.Add(RentPlanTable(RentList[i], monthCounter));
-                            }
-
-                        }
-
-                    }
-                }
-                else
-                {
-                    rentOutput.Blocks.Add(RentPlanTable(RentList[i]));
-
-                }
-
+                rentOutput = BuildDataOutputProgression(rentOutput, RentList, SelectedDetailOption, i, true);
             }
 
             rentOutput.Blocks.Add(BuildRoomDetails(SelectedDetailOption));
@@ -241,79 +270,16 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             for (int i = 0; i < RentList.Count; i++)
             {
-                if (RentList[i].StartDate.Year < _SelectedYear)
+                Section? valueChangeHeader = _Print.BuildValueChangeHeader(roomsOutput, RentList, i);
+
+                if (valueChangeHeader == null)
                 {
-                    if (i + 1 < RentList.Count)
-                    {
-                        if (RentList[i + 1].StartDate > RentList[i].StartDate && RentList[i + 1].StartDate.Year < _SelectedYear)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            roomsOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
-                        }
-                    }
-                }
-                else
-                {
-                    if (i == 0)
-                    {
-                        roomsOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
-                    }
-                    else
-                    {
-                        roomsOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 40, 0, 0), FontWeight = FontWeights.Bold });
-                    }
+                    continue;
                 }
 
-                if (SelectedDetailOption == DataOutputProgressionTypes.TimeChange)
-                {
-                    for (int monthCounter = 1; monthCounter < 13; monthCounter++)
-                    {
+                roomsOutput = valueChangeHeader;
 
-                        if (i + 1 < RentList.Count)
-                        {
-                            // später im Ablauf, um Nachfolger zu berücksichtigen
-
-                            if (RentList[i + 1].StartDate.Month - 1 < monthCounter)
-                            {
-                                break;
-                            }
-
-                            if (RentList[i].StartDate.Year < _SelectedYear)
-                            {
-                                roomsOutput.Blocks.Add(RentPlanTableRooms(RentList[i], monthCounter));
-                            }
-                            else if (RentList[i].StartDate.Year == _SelectedYear
-                                && monthCounter >= RentList[i].StartDate.Month)
-                            {
-                                roomsOutput.Blocks.Add(RentPlanTableRooms(RentList[i], monthCounter));
-                            }
-
-
-                        }
-                        else
-                        {
-                            if (RentList[i].StartDate.Year == _SelectedYear && monthCounter < RentList[i].StartDate.Month)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                roomsOutput.Blocks.Add(RentPlanTableRooms(RentList[i], monthCounter));
-                            }
-
-                        }
-
-                    }
-                }
-                else
-                {
-                    roomsOutput.Blocks.Add(RentPlanTableRooms(RentList[i]));
-
-                }
-
+                roomsOutput = BuildDataOutputProgression(roomsOutput, RentList, SelectedDetailOption, i, false);
             }
 
             return roomsOutput;
@@ -325,61 +291,142 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             if (!_PrintViewModel.DisplaySummarySelected)
             {
                 dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("contract costs"));
-                dataRowGroup.Rows.Add(_Print.TableRowRentHeader());
 
-                dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.ColdRent, viewModel.Rent.ColdRent.TransactionItem, month));
-                dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.Advance, viewModel.Rent.Advance.TransactionItem, month));
+                dataRowGroup = ContractCostsDisplay(dataRowGroup, viewModel, month);
 
-                if (_PrintViewModel.IncludeTaxesSelected)
-                {
-                    double tax = _PrintViewModel.TaxValue / 100;
-                    double taxedSum = 0.0;
-
-                    if (_PrintViewModel.SelectedTaxOption == TaxOptionTypes.Taxed)
-                    {
-                        taxedSum = tax * viewModel.CostsTotal;
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.CostsTotal, "sum", month, true));
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, taxedSum, $"including {_PrintViewModel.TaxValue}% taxes", month));
-                    }
-                    else
-                    {
-                        taxedSum = (tax + 1) * viewModel.CostsTotal - viewModel.CostsTotal;
-
-                        double withTaxes = taxedSum + viewModel.CostsTotal;
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.CostsTotal, "sum", month, true));
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, taxedSum, $"tax {_PrintViewModel.TaxValue}%", month));
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, withTaxes, "taxed sum", month, true));
-                    }
-                }
-                else
-                {
-                    dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.CostsTotal, "sum", month, true));
-                }
+                dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, viewModel, month, viewModel.CostsTotal, false);
 
                 if (_PrintViewModel.AnnualRentCostsSelected)
                 {
                     dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("contract costs until end of year"));
-                    dataRowGroup.Rows.Add(_Print.TableRowRentHeader());
 
-                    dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.FirstYearRent, viewModel.Rent.ColdRent.TransactionItem));
-                    dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.FirstYearAdvance, viewModel.Rent.Advance.TransactionItem));
+                    dataRowGroup = ContractCostsDisplayUntilEndOfYear(dataRowGroup, viewModel, month);
 
-                    dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.FirstYearCostsTotal, "sum", -1, true));
+                    dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, viewModel, month, viewModel.FirstYearCostsTotal, false);
                 }
-
-                dataRowGroup.Rows.Add(_Print.SeparatorLineTableRow(true));
             }
             else
             {
                 dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("contract costs summary"));
 
-                dataRowGroup.Rows.Add(_Print.OutputTableRow(viewModel, viewModel.CostsTotal, "sum", month, true, false));
+                dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, viewModel, month, viewModel.CostsTotal, true);
             }
+
+            return dataRowGroup;
+        }
+
+
+        /// <summary>
+        /// creates table header and cold rent and advance rows in print output
+        /// for the entire flat.
+        /// </summary>
+        /// <param name="dataRowGroup">the surrounding table context</param>
+        /// <param name="viewModel">the viewmodel that shall be displayed</param>
+        /// <param name="month">-1 if ValueChange is selected as data output progression, else the month that shall be displayed</param>
+        /// <returns>the modified surrounding table context</returns>
+        private TableRowGroup ContractCostsDisplay(TableRowGroup dataRowGroup, RentViewModel viewModel, int month)
+        {
+            dataRowGroup.Rows.Add(_Print.TableRowRentHeader());
+
+            dataRowGroup.Rows.Add(
+                _Print.OutputTableRow(
+                    viewModel,
+                    viewModel.ColdRent,
+                    viewModel.Rent.ColdRent.TransactionItem,
+                    month));
+
+            dataRowGroup.Rows.Add(
+                _Print.OutputTableRow(
+                    viewModel,
+                    viewModel.Advance,
+                    viewModel.Rent.Advance.TransactionItem,
+                    month));
+
+            return dataRowGroup;
+        }
+
+
+        /// <summary>
+        /// creates table header, cold rent and advance rows in print output
+        /// for the entire flat, displaying costs until the end of the selected year
+        /// 
+        /// on TimeChange data output progression selected, the displayed values
+        /// will currently not shrink with higher month value, as one might expect.
+        /// </summary>
+        /// <param name="dataRowGroup">the surrounding table context</param>
+        /// <param name="viewModel">the viewmodel that shall be displayed</param>
+        /// <param name="month">-1 if ValueChange is selected as data output progression, else the month that shall be displayed</param>
+        /// <returns>the modified surrounding table context</returns>
+        private TableRowGroup ContractCostsDisplayUntilEndOfYear(TableRowGroup dataRowGroup, RentViewModel viewModel, int month)
+        {
+            dataRowGroup.Rows.Add(_Print.TableRowRentHeader());
+
+            dataRowGroup.Rows.Add(
+                _Print.OutputTableRow(
+                    viewModel,
+                    viewModel.FirstYearRent,
+                    viewModel.Rent.ColdRent.TransactionItem,
+                    month));
+
+            dataRowGroup.Rows.Add(
+                _Print.OutputTableRow(
+                    viewModel,
+                    viewModel.FirstYearAdvance,
+                    viewModel.Rent.Advance.TransactionItem,
+                    month));
+
+            return dataRowGroup;
+        }
+
+
+        private TableRowGroup ContractCostsRooms(TableRowGroup dataRowGroup, RentViewModel viewModel, RoomCostShareRent roomCostShareRent, int month)
+        {
+
+            if (!_PrintViewModel.DisplaySummarySelected)
+            {
+                dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("contract costs", true));
+
+                dataRowGroup = ContractCostsRoomsDisplay(dataRowGroup, viewModel, roomCostShareRent, month);
+
+                dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, viewModel, month, roomCostShareRent.RoomName, roomCostShareRent.PriceShare, false);
+
+                if (_PrintViewModel.AnnualRentCostsSelected)
+                {
+                    dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("contract costs until end of year", true));
+
+                    dataRowGroup = ContractCostsRoomsDisplayUntilEndOfYear(dataRowGroup, viewModel, roomCostShareRent, month);
+
+                    dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, viewModel, month, roomCostShareRent.RoomName, roomCostShareRent.FirstYearContractCostsShare, false);
+                }
+            }
+            else
+            {
+                dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, viewModel, month, roomCostShareRent.RoomName, roomCostShareRent.PriceShare, true);
+            }
+
+            return dataRowGroup;
+        }
+
+
+        private TableRowGroup ContractCostsRoomsDisplay(TableRowGroup dataRowGroup, RentViewModel viewModel, RoomCostShareRent roomCostShareRent, int month)
+        {
+            dataRowGroup.Rows.Add(_Print.TableRowRoomHeader());
+
+            dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.RentShare, viewModel.Rent.ColdRent.TransactionItem, month));
+
+            dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.AdvanceShare, viewModel.Rent.Advance.TransactionItem, month));
+
+            return dataRowGroup;
+        }
+
+
+        private TableRowGroup ContractCostsRoomsDisplayUntilEndOfYear(TableRowGroup dataRowGroup, RentViewModel viewModel, RoomCostShareRent roomCostShareRent, int month)
+        {
+            dataRowGroup.Rows.Add(_Print.TableRowRoomHeader());
+
+            dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.FirstYearRentShare, viewModel.Rent.ColdRent.TransactionItem, month));
+
+            dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.FirstYearAdvanceShare, viewModel.Rent.Advance.TransactionItem, month));
 
             return dataRowGroup;
         }
@@ -464,122 +511,6 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             rentPlanRoomsTable.RowGroups.Add(dataRowGroup);
 
             return rentPlanRoomsTable;
-        }
-
-
-        private TableRowGroup AllCostsRooms(TableRowGroup dataRowGroup, RentViewModel viewModel, RoomCostShareRent roomCostShareRent, int month)
-        {
-
-            if (!_PrintViewModel.DisplaySummarySelected)
-            {
-                dataRowGroup.Rows.Add(_Print.SeparatorLineTableRow(true));
-                dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("all costs", true));
-
-                dataRowGroup.Rows.Add(_Print.TableRowRoomHeader());
-
-                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.RentShare, viewModel.Rent.ColdRent.TransactionItem, month));
-
-                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.AdvanceShare, viewModel.Rent.Advance.TransactionItem, month));
-
-                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.OtherCostsShare, "other", month));
-
-                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.CreditShare, "credit", month));
-
-
-                if (_PrintViewModel.IncludeTaxesSelected)
-                {
-                    double tax = _PrintViewModel.TaxValue / 100;
-                    double taxedSum = 0.0;
-
-                    if (_PrintViewModel.SelectedTaxOption == TaxOptionTypes.Taxed)
-                    {
-                        taxedSum = tax * roomCostShareRent.CostAndCreditShare;
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.CostAndCreditShare, "sum", month, true));
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, taxedSum, $"including {_PrintViewModel.TaxValue}% taxes", month));
-                    }
-                    else
-                    {
-                        taxedSum = (tax + 1) * roomCostShareRent.CostAndCreditShare - roomCostShareRent.CostAndCreditShare;
-
-                        double withTaxes = taxedSum + roomCostShareRent.CostAndCreditShare;
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.CostAndCreditShare, "sum", month, true));
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, taxedSum, $"including {_PrintViewModel.TaxValue}% taxes", month));
-
-                        dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, withTaxes, "taxed sum", month, true));
-                    }
-                }
-                else
-                {
-                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.CostAndCreditShare, "sum", month, true));
-                }
-
-                if (_PrintViewModel.AnnualRentCostsSelected)
-                {
-                    dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("all costs until end of year", true));
-
-                    dataRowGroup.Rows.Add(_Print.TableRowRoomHeader());
-
-                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.FirstYearRentShare, viewModel.Rent.ColdRent.TransactionItem, month));
-
-                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.FirstYearAdvanceShare, viewModel.Rent.Advance.TransactionItem, month));
-
-                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.FirstYearOtherCostsShare, "other", month));
-
-                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.FirstYearCompleteCostShare, "sum", month, true));
-
-                }
-
-            }
-            else
-            {
-                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.CostAndCreditShare, roomCostShareRent.RoomName, month, true, false));
-            }
-
-            return dataRowGroup;
-        }
-
-
-        private TableRowGroup ContractCostsRooms(TableRowGroup dataRowGroup, RentViewModel viewModel, RoomCostShareRent roomCostShareRent, int month)
-        {
-
-            if (!_PrintViewModel.DisplaySummarySelected)
-            {
-                dataRowGroup.Rows.Add(_Print.SeparatorLineTableRow(true));
-
-                dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("contract costs", true));
-
-                dataRowGroup.Rows.Add(_Print.TableRowRoomHeader());
-
-                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.RentShare, viewModel.Rent.ColdRent.TransactionItem, month));
-
-                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.AdvanceShare, viewModel.Rent.Advance.TransactionItem, month));
-
-                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.PriceShare, "sum", month, true));
-
-                if (_PrintViewModel.AnnualRentCostsSelected)
-                {
-                    dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("contract costs until end of year", true));
-
-                    dataRowGroup.Rows.Add(_Print.TableRowRoomHeader());
-
-                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.FirstYearRentShare, viewModel.Rent.ColdRent.TransactionItem, month));
-
-                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.FirstYearAdvanceShare, viewModel.Rent.Advance.TransactionItem, month));
-
-                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.FirstYearContractCostsShare, "sum", month, true));
-                }
-            }
-            else
-            {
-                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(viewModel, roomCostShareRent.RoomName, roomCostShareRent.PriceShare, roomCostShareRent.RoomName, month, true, false));
-            }
-
-
-            return dataRowGroup;
         }
 
         #endregion
