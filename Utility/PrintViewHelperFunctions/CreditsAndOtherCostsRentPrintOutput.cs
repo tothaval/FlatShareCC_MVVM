@@ -26,7 +26,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         private FlatViewModel _FlatViewModel { get; set; }
 
 
-        private bool IsCredit {  get; set; }
+        private bool IsCredit { get; set; } = false;
 
 
         private PrintOutputBase _Print { get; }
@@ -46,14 +46,15 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         // Constructors
         #region Constructors
 
-        public CreditsAndOtherCostsRentPrintOutput(PrintViewModel printViewModel, FlatViewModel flatViewModel, int selectedYear, bool showTenant)
-        {
+        public CreditsAndOtherCostsRentPrintOutput(PrintViewModel printViewModel, FlatViewModel flatViewModel, int selectedYear, bool showTenant, bool isCredit)
+        {            
             _PrintViewModel = printViewModel;
             _FlatViewModel = flatViewModel;
             _SelectedYear = selectedYear;
             _ShowTenant = showTenant;
+            IsCredit = isCredit;
 
-            _Print = new PrintOutputBase(_FlatViewModel, _SelectedYear);
+            _Print = new PrintOutputBase(_PrintViewModel, _FlatViewModel, _SelectedYear);
         }
 
         #endregion
@@ -62,7 +63,88 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         // Methods
         #region Methods
 
-        private Section BuildNewPlanTable(Section rentOutput, RentViewModel rentViewModel, int monthCounter, bool isCredit = false)
+        private Section BuildDataOutputProgressionCreditsAndOtherCosts(Section documentContext, ObservableCollection<RentViewModel> RentList, DataOutputProgressionTypes SelectedDetailOption, int iterator, bool isFlat)
+        {
+            if (SelectedDetailOption == DataOutputProgressionTypes.TimeChange)
+            {
+                for (int monthCounter = 1; monthCounter < 13; monthCounter++)
+                {
+                    if (iterator + 1 < RentList.Count)
+                    {
+                        // später im Ablauf, um Nachfolger zu berücksichtigen
+
+                        if (RentList[iterator + 1].StartDate.Month - 1 < monthCounter)
+                        {
+                            break;
+                        }
+
+                        if (RentList[iterator].StartDate.Year < _SelectedYear)
+                        {
+                            if (isFlat)
+                            {
+                                documentContext.Blocks.Add(BuildNewPlanTable(documentContext, RentList[iterator], monthCounter));
+                            }
+                            else
+                            {
+                                documentContext.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[iterator], monthCounter));
+                            }
+
+                        }
+                        else if (RentList[iterator].StartDate.Year == _SelectedYear
+                            && monthCounter >= RentList[iterator].StartDate.Month)
+                        {
+                            if (isFlat)
+                            {
+                                documentContext.Blocks.Add(BuildNewPlanTable(documentContext, RentList[iterator], monthCounter));
+                            }
+                            else
+                            {
+                                documentContext.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[iterator], monthCounter));
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        if (RentList[iterator].StartDate.Year == _SelectedYear && monthCounter < RentList[iterator].StartDate.Month)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (isFlat)
+                            {
+                                documentContext.Blocks.Add(BuildNewPlanTable(documentContext, RentList[iterator], monthCounter));
+                            }
+                            else
+                            {
+                                documentContext.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[iterator], monthCounter));
+                            }
+                        }
+
+                    }
+
+                }
+            }
+            else
+            {
+                if (isFlat)
+                {
+                    documentContext.Blocks.Add(BuildNewPlanTable(documentContext, RentList[iterator], -1));
+                }
+                else
+                {
+                    documentContext.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[iterator]));
+                }
+
+            }
+
+            return documentContext;
+        }
+
+               
+
+            private Section BuildNewPlanTable(Section rentOutput, RentViewModel rentViewModel, int monthCounter, bool isCredit = false)
         {
             if (IsCredit)
             {
@@ -77,142 +159,33 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public Section BuildOtherCostDetails(bool isCredit, DataOutputProgressionTypes SelectedDetailOption)
+        public Section BuildOtherCostDetails(DataOutputProgressionTypes SelectedDetailOption)
         {
-            IsCredit = isCredit;
-
             Section rentOutput = new Section();
 
-            ObservableCollection<RentViewModel> RentList = new PrintOutputBase(_FlatViewModel, _SelectedYear).FindRelevantRentViewModels();
+            ObservableCollection<RentViewModel> RentList = new PrintOutputBase(_PrintViewModel, _FlatViewModel, _SelectedYear).FindRelevantRentViewModels();
 
             for (int i = 0; i < RentList.Count; i++)
             {
+                Section? valueChangeHeader = _Print.BuildValueChangeHeader(rentOutput, RentList, i);
 
-                if (IsCredit)
+                if (valueChangeHeader == null)
                 {
-                    if (!RentList[i].HasCredits)
-                    {
-                        continue;
-                    }
-                }
-                else
-                {
-                    if (!RentList[i].HasOtherCosts)
-                    {
-                        continue;
-                    }
+                    continue;
                 }
 
+                rentOutput = valueChangeHeader;
 
-                if (RentList[i].StartDate.Year < _SelectedYear)
-                {
-                    if (RentList[i + 1].StartDate > RentList[i].StartDate && RentList[i + 1].StartDate.Year < _SelectedYear)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        rentOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
-                    }
-                }
-                else
-                {
-                    if (i == 0)
-                    {
-                        rentOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
-                    }
-                    else
-                    {
-                        rentOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 40, 0, 0), FontWeight = FontWeights.Bold });
-                    }
-                }
-
-                PrintOutputBase print = new PrintOutputBase(_FlatViewModel, _SelectedYear);
-
-                Table headerTable = print.OutputTableForFlat();
-
-                if (SelectedDetailOption == DataOutputProgressionTypes.TimeChange)
-                {
-                    for (int monthCounter = 1; monthCounter < 13; monthCounter++)
-                    {
-                        if (isCredit)
-                        {
-                            if (!RentList[i].HasCredits)
-                            {
-                                rentOutput.Blocks.Add(new Paragraph(new Run($"end:\t\t\t{RentList[i].StartDate - TimeSpan.FromDays(1):d}")));
-                                continue;
-                            }
-                        }
-                        else
-                        {
-                            if (!RentList[i].HasOtherCosts)
-                            {
-                                rentOutput.Blocks.Add(new Paragraph(new Run($"end:\t\t\t{RentList[i].StartDate - TimeSpan.FromDays(1):d}")));
-                                continue;
-                            }
-                        }
-
-
-                        if (RentList[i].StartDate.Year == _SelectedYear && monthCounter < RentList[i].StartDate.Month)
-                        {
-                            continue;
-                        }
-
-                        if (i + 1 < RentList.Count)
-                        {
-                            //später im Ablauf, um Nachfolger zu berücksichtigen
-
-                            if (RentList[i + 1].StartDate.Month - 1 < monthCounter)
-                            {
-                                break;
-                            }
-
-                            if (RentList[i].StartDate.Year < _SelectedYear)
-                            {
-                                rentOutput.Blocks.Add(BuildNewPlanTable(rentOutput, RentList[i], monthCounter, isCredit));
-                            }
-                            else if (RentList[i].StartDate.Year == _SelectedYear
-                                && monthCounter >= RentList[i].StartDate.Month)
-                            {
-                                rentOutput.Blocks.Add(BuildNewPlanTable(rentOutput, RentList[i], monthCounter, isCredit));
-                            }
-                        }
-                        else
-                        {
-                            if (RentList[i].StartDate.Year == _SelectedYear && monthCounter < RentList[i].StartDate.Month)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                rentOutput.Blocks.Add(BuildNewPlanTable(rentOutput, RentList[i], monthCounter, isCredit));
-                            }
-
-                        }
-
-                    }
-                }
-                else
-                {
-                    rentOutput.Blocks.Add(BuildNewPlanTable(rentOutput, RentList[i], -1, isCredit));
-                }
-
-
-                if (i + 1 < RentList.Count && RentList[i + 1].HasOtherCosts == false
-                    || i + 1 < RentList.Count && RentList[i + 1].HasCredits == false)
-                {
-                    rentOutput.Blocks.Add(new Paragraph(new Run($"rent end:\t\t{RentList[i + 1].StartDate - TimeSpan.FromDays(1):d}")));
-
-                }
+                rentOutput = BuildDataOutputProgressionCreditsAndOtherCosts(rentOutput, RentList, SelectedDetailOption, i, true);
             }
 
-            rentOutput.Blocks.Add(BuildRoomDetailsOther(isCredit, SelectedDetailOption));
+            rentOutput.Blocks.Add(BuildRoomDetailsOther(SelectedDetailOption));
 
             return rentOutput;
         }
 
 
-        private Section BuildRoomDetailsOther(bool isCredit, DataOutputProgressionTypes SelectedDetailOption)
+        private Section BuildRoomDetailsOther(DataOutputProgressionTypes SelectedDetailOption)
         {
             Section roomsOutput = new Section();
 
@@ -220,7 +193,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             roomsOutput.Blocks.Add(p);
 
-            if (isCredit)
+            if (IsCredit)
             {
                 p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
                 p.Inlines.Add(new Run($"Credit Plan Rooms {_SelectedYear}: ")
@@ -240,75 +213,16 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             for (int i = 0; i < RentList.Count; i++)
             {
-                if (RentList[i].StartDate.Year < _SelectedYear)
+                Section? valueChangeHeader = _Print.BuildValueChangeHeader(roomsOutput, RentList, i);
+
+                if (valueChangeHeader == null)
                 {
-                    if (RentList[i + 1].StartDate > RentList[i].StartDate && RentList[i + 1].StartDate.Year < _SelectedYear)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        roomsOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
-                    }
-                }
-                else
-                {
-                    if (i == 0)
-                    {
-                        roomsOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
-                    }
-                    else
-                    {
-                        roomsOutput.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[i].StartDate:d}")) { Margin = new Thickness(0, 40, 0, 0), FontWeight = FontWeights.Bold });
-                    }
+                    continue;
                 }
 
-                if (SelectedDetailOption == DataOutputProgressionTypes.TimeChange)
-                {
-                    for (int monthCounter = 1; monthCounter < 13; monthCounter++)
-                    {
+                roomsOutput = valueChangeHeader;
 
-                        if (i + 1 < RentList.Count)
-                        {
-                            // später im Ablauf, um Nachfolger zu berücksichtigen
-
-                            if (RentList[i + 1].StartDate.Month - 1 < monthCounter)
-                            {
-                                break;
-                            }
-
-                            if (RentList[i].StartDate.Year < _SelectedYear)
-                            {
-                                roomsOutput.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[i], isCredit, monthCounter));
-                            }
-                            else if (RentList[i].StartDate.Year == _SelectedYear
-                                && monthCounter >= RentList[i].StartDate.Month)
-                            {
-                                roomsOutput.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[i], isCredit, monthCounter));
-                            }
-
-
-                        }
-                        else
-                        {
-                            if (RentList[i].StartDate.Year == _SelectedYear && monthCounter < RentList[i].StartDate.Month)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                roomsOutput.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[i], isCredit, monthCounter));
-                            }
-
-                        }
-
-                    }
-                }
-                else
-                {
-                    roomsOutput.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[i], isCredit));
-                }
-
+                roomsOutput = BuildDataOutputProgressionCreditsAndOtherCosts(roomsOutput, RentList, SelectedDetailOption, i, false);
             }
 
             return roomsOutput;
@@ -326,47 +240,62 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             dataRowGroup.Rows.Add(_Print.TableRowRentHeader());
 
-            foreach (FinancialTransactionItemRentViewModel fti in FTIs)
+            if (!_PrintViewModel.DisplaySummarySelected)
             {
-                if (fti.Duration == Enums.TransactionDurationTypes.Ongoing)
+                foreach (FinancialTransactionItemRentViewModel fti in FTIs)
                 {
-                    dataRowGroup.Rows.Add(_Print.OutputTableRow(rentViewModel, fti.TransactionSum, fti.TransactionItem, monthCounter));
-
-                    result += fti.TransactionSum;
-                }
-                else
-                {
-                    if (fti.StartDate.Year == _SelectedYear && fti.EndDate.Year > _SelectedYear)
+                    if (fti.Duration == Enums.TransactionDurationTypes.Ongoing)
                     {
                         dataRowGroup.Rows.Add(_Print.OutputTableRow(rentViewModel, fti.TransactionSum, fti.TransactionItem, monthCounter));
 
                         result += fti.TransactionSum;
                     }
-                    else if (fti.StartDate.Year == _SelectedYear && fti.EndDate.Year == _SelectedYear)
+                    else
                     {
-                        if (monthCounter < fti.StartDate.Month)
-                        {
-                            continue;
-                        }
-
-                        if (fti.StartDate.Month == monthCounter)
+                        if (fti.StartDate.Year == _SelectedYear && fti.EndDate.Year > _SelectedYear)
                         {
                             dataRowGroup.Rows.Add(_Print.OutputTableRow(rentViewModel, fti.TransactionSum, fti.TransactionItem, monthCounter));
 
                             result += fti.TransactionSum;
                         }
-
-                        if (monthCounter > fti.StartDate.Month && monthCounter <= fti.EndDate.Month)
+                        else if (fti.StartDate.Year == _SelectedYear && fti.EndDate.Year == _SelectedYear)
                         {
-                            dataRowGroup.Rows.Add(_Print.OutputTableRow(rentViewModel, fti.TransactionSum, fti.TransactionItem, monthCounter));
+                            if (monthCounter < fti.StartDate.Month)
+                            {
+                                continue;
+                            }
 
-                            result += fti.TransactionSum;
+                            if (fti.StartDate.Month == monthCounter)
+                            {
+                                dataRowGroup.Rows.Add(_Print.OutputTableRow(rentViewModel, fti.TransactionSum, fti.TransactionItem, monthCounter));
+
+                                result += fti.TransactionSum;
+                            }
+
+                            if (monthCounter > fti.StartDate.Month && monthCounter <= fti.EndDate.Month)
+                            {
+                                dataRowGroup.Rows.Add(_Print.OutputTableRow(rentViewModel, fti.TransactionSum, fti.TransactionItem, monthCounter));
+
+                                result += fti.TransactionSum;
+                            }
                         }
                     }
                 }
-            }
 
-            dataRowGroup.Rows.Add(_Print.OutputTableRow(rentViewModel, result, "sum", monthCounter, true));
+                dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, rentViewModel, monthCounter, result, false); 
+            }
+            else
+            {
+                if (IsCredit)
+                {
+                    dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, rentViewModel, monthCounter, rentViewModel.CreditSum, true);
+                }
+                else
+                {
+                    dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, rentViewModel, monthCounter, rentViewModel.OtherFTISum, true);
+                }
+
+            }
 
             otherPlanFlatTable.RowGroups.Add(dataRowGroup);
 
@@ -374,11 +303,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        private Block CreditsAndOtherCostsPlanTableRooms(RentViewModel rentViewModel, bool isCredit, int monthCounter = -1)
+        private Block CreditsAndOtherCostsPlanTableRooms(RentViewModel rentViewModel, int monthCounter = -1)
         {
             Section output = new Section();
 
-            if (isCredit)
+            if (IsCredit)
             {
                 output.Blocks.Add(OtherCostsPlanTableRooms(rentViewModel, rentViewModel.Credits, monthCounter));
             }
@@ -468,20 +397,19 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                         }
                     }
 
-                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, result, "sum", month, true));
+                    dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, rentViewModel, month, item.RoomName, result, false);
                 }
                 else
                 {
                     if (IsCredit)
                     {
-                        dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, item.CreditShare, item.RoomName, month));
+                        dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, rentViewModel, month, item.RoomName, item.CreditShare, true);
                     }
                     else
                     {
-                        dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, item.OtherCostsShare, item.RoomName, month));
+                        dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, rentViewModel, month, item.RoomName, item.OtherCostsShare, true);
                     }
                 }
-
             }
 
 

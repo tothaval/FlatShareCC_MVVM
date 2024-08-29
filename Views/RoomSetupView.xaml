@@ -98,38 +98,39 @@
                                 </Grid.RowDefinitions>
 
                                 <c_views:ObjectInputView Label="{DynamicResource IDF_RoomName}"
-                                                     Grid.Row="0"
-                                                     Value="{Binding RoomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                         Grid.Row="0"
+                                                         Value="{Binding RoomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                          PopupHint="{DynamicResource LRS_PH_RoomName}"
-                                                     ValueMinWidth="120"
+                                                         ValueMinWidth="300"
                                                          ValueMinHeight="30"
+                                                         ValueWidth="400"
                                                          ValueHeight="60"/>
 
                                 <c_views:DoubleInputView Label="{DynamicResource IDF_RoomArea}"
-                                                     Value="{Binding RoomArea, UpdateSourceTrigger=LostFocus, Mode=TwoWay,  NotifyOnTargetUpdated=True,Delay=250}"
-                                                     IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"
+                                                         Value="{Binding RoomArea, UpdateSourceTrigger=LostFocus, Mode=TwoWay,  NotifyOnTargetUpdated=True,Delay=250}"
+                                                         IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"
                                                          PopupHint="{DynamicResource LRS_PH_RoomArea}"
-                                                     ValueAlignment="Right"
-                                                     ValueMinWidth="120"
-                                                     Grid.Row="1"/>
+                                                         ValueAlignment="Right"
+                                                         ValueMinWidth="300"
+                                                         Grid.Row="1"/>
 
                                 <c_views:CurrencyInputView Label="{DynamicResource IDF_Rent}"
-                                                Value="{Binding InitialColdRent, UpdateSourceTrigger=LostFocus, Mode=TwoWay,  NotifyOnTargetUpdated=True,Delay=250}"
-                                                IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"                                                     
+                                                           Value="{Binding InitialColdRent, UpdateSourceTrigger=LostFocus, Mode=TwoWay,  NotifyOnTargetUpdated=True,Delay=250}"
+                                                           IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"                                                     
                                                            Visibility="{Binding InitialCostsAreRoomBased, Converter={StaticResource visConv}}"
-                                                         PopupHint="{DynamicResource LRS_PH_Rent}"
-                                                ValueAlignment="Right"
-                                                ValueMinWidth="120"
-                                                Grid.Row="2"/>
+                                                           PopupHint="{DynamicResource LRS_PH_Rent}"
+                                                           ValueAlignment="Right"
+                                                           ValueMinWidth="120"
+                                                           Grid.Row="2"/>
 
                                 <c_views:CurrencyInputView Label="{DynamicResource IDF_Advance}"
-                                                Value="{Binding InitialAdvance, UpdateSourceTrigger=LostFocus, Mode=TwoWay,  NotifyOnTargetUpdated=True,Delay=250}"
-                                                IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"                                                     
+                                                           Value="{Binding InitialAdvance, UpdateSourceTrigger=LostFocus, Mode=TwoWay,  NotifyOnTargetUpdated=True,Delay=250}"
+                                                           IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlatSetupView}}, Path=DataContext.IsNewFlatWindow}"                                                     
                                                            Visibility="{Binding InitialCostsAreRoomBased, Converter={StaticResource visConv}}"
-                                                         PopupHint="{DynamicResource LRS_PH_Advance}"
-                                                ValueAlignment="Right"
-                                                ValueMinWidth="120"
-                                                Grid.Row="3"/>
+                                                           PopupHint="{DynamicResource LRS_PH_Advance}"
+                                                           ValueAlignment="Right"
+                                                           ValueMinWidth="120"
+                                                           Grid.Row="3"/>
 
                                 <!--<c_views:ObjectInputView Label="{DynamicResource IDF_RoomTenant}"
                                                      Value="{Binding Tenant, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,

@@ -29,7 +29,7 @@ new street 714</Address>
     <HasDataLock>true</HasDataLock>
     <HasOtherCosts>false</HasOtherCosts>
     <IsInitialRent>true</IsInitialRent>
-    <StartDate>2023-03-01T00:00:00</StartDate>
+    <StartDate>2020-03-01T00:00:00</StartDate>
     <UseRoomCosts4InitialRent>false</UseRoomCosts4InitialRent>
     <UseWorkplaces>false</UseWorkplaces>
     <OtherCosts />
@@ -217,9 +217,9 @@ new street 714</Address>
       <ConsumptionHeatingCosts>
         <TransactionItem>Consumption Heating Costs</TransactionItem>
         <TransactionShareTypes>Consumption</TransactionShareTypes>
-        <TransactionSum>0</TransactionSum>
+        <TransactionSum>1107.78</TransactionSum>
       </ConsumptionHeatingCosts>
-      <ConsumptionHeatingCostsPercentage>0</ConsumptionHeatingCostsPercentage>
+      <ConsumptionHeatingCostsPercentage>100</ConsumptionHeatingCostsPercentage>
       <BillingDate>2024-08-01T00:00:00</BillingDate>
       <CostsHasDataLock>false</CostsHasDataLock>
       <EndDate>2023-12-31T00:00:00</EndDate>
@@ -227,7 +227,7 @@ new street 714</Address>
       <HasDataLock>false</HasDataLock>
       <HasOtherCosts>true</HasOtherCosts>
       <HasPayments>false</HasPayments>
-      <StartDate>2023-06-01T00:00:00</StartDate>
+      <StartDate>2023-01-01T00:00:00</StartDate>
       <TotalCostsPerPeriod>1500</TotalCostsPerPeriod>
       <TotalFixedCostsPerPeriod>
         <TransactionItem>Fixed</TransactionItem>
@@ -314,20 +314,20 @@ new street 714</Address>
       <BasicHeatingCosts>
         <TransactionItem>Basic Heating Costs</TransactionItem>
         <TransactionShareTypes>Equal</TransactionShareTypes>
-        <TransactionSum>0</TransactionSum>
+        <TransactionSum>720</TransactionSum>
       </BasicHeatingCosts>
-      <BasicHeatingCostsPercentage>0</BasicHeatingCostsPercentage>
+      <BasicHeatingCostsPercentage>30</BasicHeatingCostsPercentage>
       <ColdWaterCosts>
         <TransactionItem>Cold Water Costs</TransactionItem>
         <TransactionShareTypes>Equal</TransactionShareTypes>
-        <TransactionSum>0</TransactionSum>
+        <TransactionSum>120</TransactionSum>
       </ColdWaterCosts>
       <ConsumptionHeatingCosts>
         <TransactionItem>Consumption Heating Costs</TransactionItem>
         <TransactionShareTypes>Consumption</TransactionShareTypes>
-        <TransactionSum>0</TransactionSum>
+        <TransactionSum>1680</TransactionSum>
       </ConsumptionHeatingCosts>
-      <ConsumptionHeatingCostsPercentage>0</ConsumptionHeatingCostsPercentage>
+      <ConsumptionHeatingCostsPercentage>70</ConsumptionHeatingCostsPercentage>
       <BillingDate>2027-08-12T00:00:00</BillingDate>
       <CostsHasDataLock>false</CostsHasDataLock>
       <EndDate>2025-12-31T00:00:00</EndDate>
@@ -350,7 +350,7 @@ new street 714</Address>
       <WarmWaterCosts>
         <TransactionItem>Warm Water Costs</TransactionItem>
         <TransactionShareTypes>Equal</TransactionShareTypes>
-        <TransactionSum>0</TransactionSum>
+        <TransactionSum>230</TransactionSum>
       </WarmWaterCosts>
       <Consumptions>
         <ConsumptionItem>
@@ -359,7 +359,7 @@ new street 714</Address>
             <TransactionShareTypes>Consumption</TransactionShareTypes>
             <TransactionSum>2400</TransactionSum>
           </ConsumptionCause>
-          <ConsumedUnits>0</ConsumedUnits>
+          <ConsumedUnits>4672</ConsumedUnits>
           <ConsumptionPerRoom>
             <RoomConsumption>
               <ConsumptionValue>0</ConsumptionValue>
