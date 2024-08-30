@@ -4,6 +4,7 @@
  * 
  *  helper class for serializing data
  */
+using SharedLivingCostCalculator.ViewModels.Contract;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
@@ -30,6 +31,19 @@ namespace SharedLivingCostCalculator.Utility
 
         // methods
         #region methods
+
+        internal void SaveData(FlatManagementViewModel flatManagementViewModel)
+        {
+            SerializeFlatData(flatManagementViewModel.FlatCollection);
+            SerializeResources();
+
+            SerializeApplicationState(flatManagementViewModel);
+
+            //only needed to get a language resource string xml template
+            SerializeLanguage();
+
+        }
+
 
         internal void SerializeApplicationState(BaseViewModel currentViewModel)
         {

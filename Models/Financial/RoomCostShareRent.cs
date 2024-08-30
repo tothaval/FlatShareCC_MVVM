@@ -123,6 +123,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
         private readonly Room _Room;
+        public Room Room => _Room;
 
 
         public string RoomName => _Room.RoomName;

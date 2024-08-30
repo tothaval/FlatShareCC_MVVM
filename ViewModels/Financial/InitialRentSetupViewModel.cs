@@ -1,4 +1,5 @@
-﻿using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
+﻿using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
+using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,11 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 {
     public class InitialRentSetupViewModel : BaseViewModel
     {
+        private FlatViewModel _FlatViewModel;
+        public FlatViewModel FlatViewModel => _FlatViewModel;
 
-		private RentViewModel _RentViewModel;
+
+        private RentViewModel _RentViewModel;
         public RentViewModel RentViewModel => _RentViewModel;
 		
 
@@ -19,6 +23,8 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         {
             _RentViewModel = rentViewModel;
             _RentViewModel.IsInitialRent = true;
+
+            _FlatViewModel = rentViewModel.GetFlatViewModel();
         }
     }
 }

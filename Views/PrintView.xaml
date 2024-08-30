@@ -51,89 +51,166 @@
 
             <TextBlock Text="Configurate Print Output:" Style="{StaticResource Header}" FontSize="14" />
 
-            <Menu>
+            <Grid>
+                <Menu>
 
-                <MenuItem Header="Print Selection">
-                    <MenuItem Header="{DynamicResource IDF_AnnualBilling}"
+                    <MenuItem Header="Print Selection">
+
+                        <MenuItem Header="{DynamicResource IDF_ContractData}"
+                              IsCheckable="True"
+                              IsChecked="{Binding ContractDataOutputSelected}"/>
+
+                        <MenuItem Header="{DynamicResource IDF_AnnualBilling}"
                               IsCheckable="True"
                               IsChecked="{Binding BillingOutputSelected}"/>
-                    <MenuItem Header="{DynamicResource IDF_Rent}"
+                        <MenuItem Header="{DynamicResource IDF_Rent}"
                               IsCheckable="True"
                               IsChecked="{Binding RentOutputSelected}"/>
-                    <MenuItem Header="{DynamicResource IDF_Other}"
+                        <MenuItem Header="{DynamicResource IDF_Other}"
                               IsCheckable="True"
                               IsChecked="{Binding OtherOutputSelected}"/>
-                    <MenuItem Header="{DynamicResource IDF_Credit}"
+                        <MenuItem Header="{DynamicResource IDF_Credit}"
                               IsCheckable="True"
                               IsChecked="{Binding CreditOutputSelected}"/>
 
-                </MenuItem>
+                    </MenuItem>
 
-                <MenuItem Header="General Print Options">
 
-                    <MenuItem Header="{DynamicResource IDF_Tenants}"
-                              IsCheckable="True"
-                              IsChecked="{Binding TenantSelected}"/>
+                    <MenuItem Header="Print Options">
+                        <MenuItem Header="Annual Billing"
+                              Visibility="{Binding BillingOutputSelected,
+                        Converter={StaticResource viscon}}">
 
-                    <MenuItem Header="Display Summary"
-                              IsCheckable="True"
-                              IsChecked="{Binding DisplaySummarySelected}"/>
-
-                    <MenuItem Header="Room Area Data"
-                              IsCheckable="True"
-                              IsChecked="{Binding RoomAreaDataSelected}"/>
-
-                    <MenuItem Header="Consumption"
+                            <MenuItem Header="Consumption"
                               IsCheckable="True"
                               IsChecked="{Binding ConsumptionSelected}"/>
 
-                    <MenuItem Header="Print Warnings __WIP__"
+                            <!-- later include
+                           IsEnabled="{Binding ContractCostsSelected}" -->
+                            <MenuItem Header="Credits In Contract Costs Balance"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding ContractCostsIncludeCreditsSelected}"
+                                  Visibility="{Binding ContractCostsSelected,
+                            Converter={StaticResource viscon}}"/>
+
+                            <MenuItem Header="Include Rent Costs In Annual Billing Balance"
+                           IsCheckable="True"
+                           IsChecked="{Binding RentCostsOnBillingBalanceSelected}"/>
+
+                            <MenuItem Header="Include New Costs Output In Annual Billing"
+                           IsCheckable="True"
+                           IsChecked="{Binding RentCostsOutputOnBillingSelected}"/>
+
+                        </MenuItem>
+
+                        <MenuItem Header="Rent, Credits, Other"
+                              Visibility="{Binding NonBillingOutputSelected,
+                        Converter={StaticResource viscon}}">
+
+                            <MenuItem Header="Change Output Progression"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding DataOutputProgressionSelected}"/>
+
+                            <MenuItem Header="Include Annual Costs"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding AnnualCostsSelected}"/>
+
+
+                            <MenuItem Header="Detailed Non Contract Items Output"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding DetailedNonContractItemsSelected}"/>
+
+                        </MenuItem>
+
+                        <MenuItem Header="All Costs"
+                           IsCheckable="True"
+                           IsChecked="{Binding AllCostsSelected}"/>
+
+                        <MenuItem Header="Contract Costs"
+                           IsCheckable="True"
+                           IsChecked="{Binding ContractCostsSelected}"/>
+
+                        <MenuItem Header="Display Summary"
+                         IsCheckable="True"
+                         IsChecked="{Binding DisplaySummarySelected}"/>
+
+                        <MenuItem Header="Include Taxes"
+                           IsCheckable="True"
+                           IsChecked="{Binding IncludeTaxesSelected}"/>
+
+                        <MenuItem Header="Print Warnings __WIP__"
                          IsCheckable="True"
                          IsChecked="{Binding PrintWarningsSelected}"/>
 
-                </MenuItem>
-
-
-                <MenuItem Header="Costs Print Options">
-                    
-                    <MenuItem Header="Change Output Progression"
+                        <MenuItem Header="Room Area Data"
                               IsCheckable="True"
-                              IsChecked="{Binding DataOutputProgressionSelected}"/>
+                              IsChecked="{Binding RoomAreaDataSelected}"/>
 
-                    <MenuItem Header="Include Taxes"
+                        <MenuItem Header="{DynamicResource IDF_Tenants}"
                               IsCheckable="True"
-                              IsChecked="{Binding IncludeTaxesSelected}"/>
-
-                    <MenuItem Header="Contract Costs"
-                              IsCheckable="True"
-                              IsChecked="{Binding ContractCostsSelected}"/>
+                              IsChecked="{Binding TenantSelected}"/>
+                    </MenuItem>
 
 
-                    <!-- later include
-                              IsEnabled="{Binding ContractCostsSelected}" -->
-                    <MenuItem Header="Credits In Contract Costs Balance"
-                              IsCheckable="True"
-                              IsChecked="{Binding ContractCostsIncludeCreditsSelected}"/>
+                    <MenuItem Header="Configuration">
+
+                        <MenuItem Header="Print All Data"
+                         IsCheckable="True"
+                         IsChecked="{Binding PrintAllSelected}"/>
+
+                        <MenuItem Header="Print Flat Data"
+                         IsCheckable="True"
+                         IsChecked="{Binding PrintFlatSelected}"/>
 
 
-                    <MenuItem Header="All Costs"
-                              IsCheckable="True"
-                              IsChecked="{Binding AllCostsSelected}"/>
 
-                    <MenuItem Header="Include Annual Rent Costs"
-                              IsCheckable="True"
-                              IsChecked="{Binding AnnualRentCostsSelected}"/>
+                        <MenuItem Header="Print All Rooms"
+                         IsCheckable="True"
+                         IsChecked="{Binding PrintRoomsSelected}"/>
 
-                    <MenuItem Header="Include Rent Costs In Annual Billing Balance"
-                              IsCheckable="True"
-                              IsChecked="{Binding RentCostsOnBillingBalanceSelected}"/>
 
-                    <MenuItem Header="Include New Costs Output In Annual Billing"
-                              IsCheckable="True"
-                              IsChecked="{Binding RentCostsOutputOnBillingSelected}"/>
-                </MenuItem>
+                        <MenuItem Header="Print Room Data"
+                         IsCheckable="True"
+                         IsChecked="{Binding PrintExcerptSelected}"/>
 
-            </Menu>
+                        <MenuItem Visibility="{Binding PrintExcerptSelected,
+         Converter={StaticResource viscon}}"
+               IsCheckable="False">
+                            <MenuItem.Header>
+                                <WrapPanel>
+                                    <TextBlock Text="Room"
+                            VerticalAlignment="Center"
+                            MinWidth="150"
+                            Style="{StaticResource StringValueTextBlock}"/>
+
+                                    <ComboBox ItemsSource="{Binding FlatViewModel.Rooms,
+                     UpdateSourceTrigger=PropertyChanged,
+                     Delay=200}"
+                           SelectedItem="{Binding SelectedRoom}"
+                           MinWidth="150">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Style="{StaticResource StringValueTextBlock}">
+                                 <Run Text="{Binding RoomName}"/>
+                                                </TextBlock>
+
+                                            </DataTemplate>
+
+                                        </ComboBox.ItemTemplate>
+
+                                    </ComboBox>
+                                </WrapPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+
+                <Button Content="{DynamicResource IDF_ResetMenuButton}"
+                        Command="{Binding ResetMenuCommand}"
+                        Style="{StaticResource buttonStyle}"
+                        HorizontalAlignment="Right"/>
+
+            </Grid>
 
             <MenuItem Visibility="{Binding DataOutputProgressionSelected,
                 Converter={StaticResource viscon}}"
@@ -144,7 +221,7 @@
                                    MinWidth="150"
                                    VerticalAlignment="Center"
                                    Style="{StaticResource StringValueTextBlock}"/>
-                        
+
                         <ComboBox ItemsSource="{Binding Source={StaticResource dataOutputProgressionTypesEnum},
                             UpdateSourceTrigger=PropertyChanged,
                             Delay=200}"
@@ -183,7 +260,7 @@
                                   />
                     </WrapPanel>
                 </MenuItem.Header>
-            </MenuItem>
+            </MenuItem>     
 
         </StackPanel>
 

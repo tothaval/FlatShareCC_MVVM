@@ -6,12 +6,10 @@
  *  
  *  the most important data object
  */
-using SharedLivingCostCalculator.Commands;
 using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 
 namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
@@ -30,23 +28,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
             get { return _Flat.Area; }
             set
             {
-                //if (_flat.Area > 0.0)
-                //{
-                //    MessageBoxResult result = MessageBox.Show(
-                //        "Warning: If you change the value all existing\n" +
-                //        "calculations will be effected.\n\n" +
-                //        "Proceed?",
-                //        "Change Flat Area", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                //    if (result == MessageBoxResult.Yes)
-                //    {
-                //        _flat.Area = value;
-                //    }
-                //}
-                //else
-                //{
                 _Flat.Area = value;
-                //}
-
 
                 OnPropertyChanged(nameof(Area));
                 OnPropertyChanged(nameof(SharedArea));
@@ -57,6 +39,18 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         public double CombinedRoomArea => CalculateCombinedRoomArea();
 
 
+        public double Deposit
+        {
+            get { return _Flat.Deposit; }
+            set
+            {
+                _Flat.Deposit = value;
+
+                OnPropertyChanged(nameof(Deposit));
+            }
+        }
+
+
         public string Details { get { return _Flat.Details; } set { _Flat.Details = value; OnPropertyChanged(nameof(Details)); } }
 
 
@@ -65,18 +59,6 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
 
         public string FlatNotes { get { return _Flat.FlatNotes; } set { _Flat.FlatNotes = value; OnPropertyChanged(nameof(FlatNotes)); } }
-
-
-        public bool HasDataLock
-        {
-            get { return Flat.HasDataLock; }
-            set
-            {
-                Flat.HasDataLock = value;
-
-                OnPropertyChanged(nameof(HasDataLock));
-            }
-        }
 
 
         public bool InitialValuesFinalized
@@ -109,31 +91,11 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
 
             set
             {
-                //if (_flat.RoomCount > 1)
-                //{
-                //    MessageBoxResult result = MessageBox.Show(
-                //        "Warning: If you insert a value less than the\n" +
-                //        "current value, you will loose room data.\n" +
-                //        "\n" +
-                //        "Warning: If you change the value all existing\n" +
-                //        "calculations will be effected.\n\n" +
-                //        "Proceed?",
-                //        "Change Room Count", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                //    if (result == MessageBoxResult.Yes)
-                //    {
                 _Flat.RoomCount = value;
                 CreateRooms();
 
                 OnPropertyChanged(nameof(Area));
                 OnPropertyChanged(nameof(RoomCount));
-                //}
-                //}
-
-                //if (_flat.RoomCount <= 1)
-                //{
-                //    _flat.RoomCount = value;
-                //    CreateRooms();
-                //}
             }
         }
 

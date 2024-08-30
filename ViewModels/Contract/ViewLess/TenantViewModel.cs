@@ -24,6 +24,17 @@ namespace SharedLivingCostCalculator.ViewModels.Contract.ViewLess
         // properties & fields
         #region properties & fields
 
+        public double DepositShare
+        {
+            get { return _Tenant.DepositShare; }
+            set
+            {
+                _Tenant.DepositShare = value;
+                OnPropertyChanged(nameof(DepositShare));
+            }
+        }
+
+
         public bool IsActive
         {
             get { return _Tenant.IsActive; }

@@ -15,6 +15,9 @@ namespace SharedLivingCostCalculator.Models.Contract
         // Properties & Fields
         #region Properties & Fields
 
+        public double DepositShare { get; set; }
+
+
         public bool IsActive { get; set; }
 
 
@@ -35,6 +38,7 @@ namespace SharedLivingCostCalculator.Models.Contract
 
         public Tenant()
         {
+            DepositShare = 0.0;
             IsActive = true;
             Name = "tenant";
             MovingIn = DateTime.Now;

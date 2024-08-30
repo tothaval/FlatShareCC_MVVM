@@ -57,7 +57,7 @@
                                 BorderThickness="2"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 CornerRadius="{DynamicResource Button_CornerRadius}"
-                                Padding="5">
+                            Padding="20 2">
                         <Grid Background="Transparent">
                             <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"
                                                   Margin="0"
@@ -889,6 +889,9 @@
         
         <Setter Property="FontSize" Value="{DynamicResource FS}"/>
         <Setter Property="FontFamily" Value="{DynamicResource FF}"/>
+        <Setter Property="StaysOpenOnClick" Value="True"/>
+
+        <Setter Property="Padding" Value="20 2"/>
     </Style>
 
 

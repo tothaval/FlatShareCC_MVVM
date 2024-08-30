@@ -163,23 +163,29 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         {
             Section rentOutput = new Section();
 
-            ObservableCollection<RentViewModel> RentList = new PrintOutputBase(_PrintViewModel, _FlatViewModel, _SelectedYear).FindRelevantRentViewModels();
-
-            for (int i = 0; i < RentList.Count; i++)
+            if (_PrintViewModel.PrintAllSelected || _PrintViewModel.PrintFlatSelected)
             {
-                Section? valueChangeHeader = _Print.BuildValueChangeHeader(rentOutput, RentList, i);
+                ObservableCollection<RentViewModel> RentList = new PrintOutputBase(_PrintViewModel, _FlatViewModel, _SelectedYear).FindRelevantRentViewModels();
 
-                if (valueChangeHeader == null)
+                for (int i = 0; i < RentList.Count; i++)
                 {
-                    continue;
-                }
+                    Section? valueChangeHeader = _Print.BuildValueChangeHeader(rentOutput, RentList, i);
 
-                rentOutput = valueChangeHeader;
+                    if (valueChangeHeader == null)
+                    {
+                        continue;
+                    }
 
-                rentOutput = BuildDataOutputProgressionCreditsAndOtherCosts(rentOutput, RentList, SelectedDetailOption, i, true);
+                    rentOutput = valueChangeHeader;
+
+                    rentOutput = BuildDataOutputProgressionCreditsAndOtherCosts(rentOutput, RentList, SelectedDetailOption, i, true);
+                } 
             }
 
-            rentOutput.Blocks.Add(BuildRoomDetailsOther(SelectedDetailOption));
+            if (_PrintViewModel.PrintExcerptSelected || _PrintViewModel.PrintAllSelected || _PrintViewModel.PrintRoomsSelected)
+            {
+                rentOutput.Blocks.Add(BuildRoomDetailsOther(SelectedDetailOption));
+            }
 
             return rentOutput;
         }
@@ -195,15 +201,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             if (IsCredit)
             {
-                p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
-                p.Inlines.Add(new Run($"Credit Plan Rooms {_SelectedYear}: ")
-                { FontWeight = FontWeights.Bold, FontSize = 16.0 });
+                roomsOutput.Blocks.Add(_Print.BuildHeader($"Credit Plan Rooms {_SelectedYear}: "));
             }
             else
             {
-                p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
-                p.Inlines.Add(new Run($"Other Costs Plan Rooms {_SelectedYear}: ")
-                { FontWeight = FontWeights.Bold, FontSize = 16.0 });
+                roomsOutput.Blocks.Add(_Print.BuildHeader($"Other Costs Plan Rooms {_SelectedYear}: "));
             }
 
             p.Inlines.Add(new Run($"{_Print.BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
@@ -337,78 +339,85 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             foreach (RoomCostShareRent item in rentViewModel.RoomCostShares)
             {
-                if (!_PrintViewModel.DisplaySummarySelected)
+                RoomViewModel thisRoom = new RoomViewModel(item.Room, _FlatViewModel);
+
+                bool printThisRoom = new Compute().PrintThisRoom(_PrintViewModel, thisRoom);
+
+                if (printThisRoom)
                 {
-                    double result = 0.0;
-
-                    dataRowGroup.Rows.Add(_Print.RoomSeparatorTableRow(item, _ShowTenant));
-
-                    dataRowGroup.Rows.Add(_Print.TableRowRoomHeader());
-
-
-                    foreach (FinancialTransactionItemRentViewModel fti in FTIs)
+                    if (!_PrintViewModel.DisplaySummarySelected)
                     {
-                        double sum = 0.0;
+                        double result = 0.0;
 
-                        if (fti.TransactionShareTypes == Enums.TransactionShareTypesRent.Equal)
-                        {
-                            sum = item.EqualShareRatio() * fti.TransactionSum;
-                        }
-                        else if (fti.TransactionShareTypes == Enums.TransactionShareTypesRent.Area)
-                        {
-                            sum = item.RentedAreaShareRatio * fti.TransactionSum;
-                        }
+                        dataRowGroup.Rows.Add(_Print.RoomSeparatorTableRow(item, _ShowTenant));
 
-                        if (fti.Duration == Enums.TransactionDurationTypes.Ongoing)
-                        {
-                            dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, sum, fti.TransactionItem, month));
+                        dataRowGroup.Rows.Add(_Print.TableRowRoomHeader());
 
-                            result += sum;
-                        }
-                        else
+
+                        foreach (FinancialTransactionItemRentViewModel fti in FTIs)
                         {
-                            if (fti.StartDate.Year == _SelectedYear && fti.EndDate.Year > _SelectedYear)
+                            double sum = 0.0;
+
+                            if (fti.TransactionShareTypes == Enums.TransactionShareTypesRent.Equal)
+                            {
+                                sum = item.EqualShareRatio() * fti.TransactionSum;
+                            }
+                            else if (fti.TransactionShareTypes == Enums.TransactionShareTypesRent.Area)
+                            {
+                                sum = item.RentedAreaShareRatio * fti.TransactionSum;
+                            }
+
+                            if (fti.Duration == Enums.TransactionDurationTypes.Ongoing)
                             {
                                 dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, sum, fti.TransactionItem, month));
 
                                 result += sum;
                             }
-                            else if (fti.StartDate.Year == _SelectedYear && fti.EndDate.Year == _SelectedYear)
+                            else
                             {
-                                if (month < fti.StartDate.Month)
-                                {
-                                    continue;
-                                }
-
-                                if (fti.StartDate.Month == month)
+                                if (fti.StartDate.Year == _SelectedYear && fti.EndDate.Year > _SelectedYear)
                                 {
                                     dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, sum, fti.TransactionItem, month));
 
                                     result += sum;
                                 }
-
-                                if (month > fti.StartDate.Month && month <= fti.EndDate.Month)
+                                else if (fti.StartDate.Year == _SelectedYear && fti.EndDate.Year == _SelectedYear)
                                 {
-                                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, sum, fti.TransactionItem, month));
+                                    if (month < fti.StartDate.Month)
+                                    {
+                                        continue;
+                                    }
 
-                                    result += sum;
+                                    if (fti.StartDate.Month == month)
+                                    {
+                                        dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, sum, fti.TransactionItem, month));
+
+                                        result += sum;
+                                    }
+
+                                    if (month > fti.StartDate.Month && month <= fti.EndDate.Month)
+                                    {
+                                        dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, sum, fti.TransactionItem, month));
+
+                                        result += sum;
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, rentViewModel, month, item.RoomName, result, false);
-                }
-                else
-                {
-                    if (IsCredit)
-                    {
-                        dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, rentViewModel, month, item.RoomName, item.CreditShare, true);
+                        dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, rentViewModel, month, item.RoomName, result, false);
                     }
                     else
                     {
-                        dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, rentViewModel, month, item.RoomName, item.OtherCostsShare, true);
-                    }
+                        if (IsCredit)
+                        {
+                            dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, rentViewModel, month, item.RoomName, item.CreditShare, true);
+                        }
+                        else
+                        {
+                            dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, rentViewModel, month, item.RoomName, item.OtherCostsShare, true);
+                        }
+                    } 
                 }
             }
 

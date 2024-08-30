@@ -29,13 +29,13 @@ namespace SharedLivingCostCalculator.Models.Contract
         public double Area { get; set; }
 
 
+        public double Deposit { get; set; }
+
+
         public string Details { get; set; }
 
 
         public string FlatNotes { get; set; } = "notes";
-
-
-        public bool HasDataLock { get; set; } = false;
 
 
         public int RoomCount { get; set; }
