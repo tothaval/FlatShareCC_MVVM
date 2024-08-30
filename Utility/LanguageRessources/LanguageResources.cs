@@ -136,22 +136,21 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["LRS_PH_Advance"] = popupHintStrings.LRS_PH_Advance;
 
             Application.Current.Resources["LRS_PH_ContractStart"] = popupHintStrings.LRS_PH_ContractStart;
+
+            Application.Current.Resources["LRS_PH_Deposit"] = popupHintStrings.LRS_PH_Deposit;
             Application.Current.Resources["LRS_PH_Details"] = popupHintStrings.LRS_PH_Details;
 
             Application.Current.Resources["LRS_PH_FlatArea"] = popupHintStrings.LRS_PH_FlatArea;
             Application.Current.Resources["LRS_PH_FlatNotes"] = popupHintStrings.LRS_PH_FlatNotes;
 
             Application.Current.Resources["LRS_PH_Rent"] = popupHintStrings.LRS_PH_Rent;
-            Application.Current.Resources["LRS_PH_RoomArea"] = popupHintStrings.LRS_PH_RoomArea;
-            
+            Application.Current.Resources["LRS_PH_RoomArea"] = popupHintStrings.LRS_PH_RoomArea;            
             Application.Current.Resources["LRS_PH_RoomCount"] = popupHintStrings.LRS_PH_RoomCount;
             Application.Current.Resources["LRS_PH_RoomName"] = popupHintStrings.LRS_PH_RoomName;
-
             Application.Current.Resources["LRS_PH_RoomSetupAreaDisplay"] = popupHintStrings.LRS_PH_RoomSetupAreaDisplay;
 
             Application.Current.Resources["LRS_PH_UseFlatCosts"] = popupHintStrings.LRS_PH_UseFlatCosts;
             Application.Current.Resources["LRS_PH_UseRoomCosts"] = popupHintStrings.LRS_PH_UseRoomCosts;
-
             Application.Current.Resources["LRS_PH_UseRooms"] = popupHintStrings.LRS_PH_UseRooms;
             Application.Current.Resources["LRS_PH_UseWorkplaces"] = popupHintStrings.LRS_PH_UseWorkplaces;
 
@@ -207,29 +206,41 @@ namespace SharedLivingCostCalculator.Utility
             #region buttons and commands
 
             Application.Current.Resources["IDF_Back"] = languageResource.IDF_Back;
-            Application.Current.Resources["IDF_NewBilling"] = languageResource.IDF_NewBilling;
+
+            Application.Current.Resources["IDF_ContractData"] = languageResource.IDF_ContractData;
+
             Application.Current.Resources["IDF_DeleteBilling"] = languageResource.IDF_DeleteBilling;            
-            Application.Current.Resources["IDF_PrintView"] = languageResource.IDF_PrintView;
-            
-            Application.Current.Resources["IDF_Other"] = languageResource.IDF_Other;
-            Application.Current.Resources["IDF_Tenants"] = languageResource.IDF_Tenants;
-            
-            Application.Current.Resources["IDF_ShowCosts"] = languageResource.IDF_ShowCosts;
-            Application.Current.Resources["IDF_NewRent"] = languageResource.IDF_NewRent;
-            Application.Current.Resources["IDF_NewRentChange"] = languageResource.IDF_NewRentChange;
-            Application.Current.Resources["IDF_Raise"] = languageResource.IDF_Raise;           
-            Application.Current.Resources["IDF_DeleteRent"] = languageResource.IDF_DeleteRent;
+            Application.Current.Resources["IDF_DeleteFlat"] = languageResource.IDF_DeleteFlat;
+            Application.Current.Resources["IDF_DeleteRent"] = languageResource.IDF_DeleteRent;            
             Application.Current.Resources["IDF_DeleteRentChange"] = languageResource.IDF_DeleteRentChange;
 
-            Application.Current.Resources["IDF_NewFlat"] = languageResource.IDF_NewFlat;
             Application.Current.Resources["IDF_EditFlat"] = languageResource.IDF_EditFlat;
-            Application.Current.Resources["IDF_DeleteFlat"] = languageResource.IDF_DeleteFlat;
-            Application.Current.Resources["IDF_Settings"] = languageResource.IDF_Settings;
-            Application.Current.Resources["IDF_Manual"] = languageResource.IDF_Manual;
-            Application.Current.Resources["IDF_FlatSetup"] = languageResource.IDF_FlatSetup;
-            Application.Current.Resources["IDF_RoomSetup"] = languageResource.IDF_RoomSetup;
+
             Application.Current.Resources["IDF_FlatCosts"] = languageResource.IDF_FlatCosts;
+            Application.Current.Resources["IDF_FlatSetup"] = languageResource.IDF_FlatSetup;
+
+            Application.Current.Resources["IDF_Manual"] = languageResource.IDF_Manual;
+
+            Application.Current.Resources["IDF_NewBilling"] = languageResource.IDF_NewBilling;
+            Application.Current.Resources["IDF_NewFlat"] = languageResource.IDF_NewFlat;
+            Application.Current.Resources["IDF_NewRent"] = languageResource.IDF_NewRent;
+            Application.Current.Resources["IDF_NewRentChange"] = languageResource.IDF_NewRentChange;
+            
+            Application.Current.Resources["IDF_Other"] = languageResource.IDF_Other;
+
+            Application.Current.Resources["IDF_PrintView"] = languageResource.IDF_PrintView;
+
+            Application.Current.Resources["IDF_Raise"] = languageResource.IDF_Raise;
+            Application.Current.Resources["IDF_ResetMenuButton"] = languageResource.IDF_ResetMenuButton;
             Application.Current.Resources["IDF_RoomCosts"] = languageResource.IDF_RoomCosts;
+            Application.Current.Resources["IDF_RoomSetup"] = languageResource.IDF_RoomSetup;
+
+            Application.Current.Resources["IDF_Settings"] = languageResource.IDF_Settings;
+            Application.Current.Resources["IDF_ShowCosts"] = languageResource.IDF_ShowCosts;
+
+            Application.Current.Resources["IDF_Tenants"] = languageResource.IDF_Tenants;
+            
+
 
             #endregion buttons and commands
 
@@ -238,6 +249,9 @@ namespace SharedLivingCostCalculator.Utility
             #region flat and room views, general stuff
             
             Application.Current.Resources["IDF_ContractStart"] = languageResource.IDF_ContractStart;
+            Application.Current.Resources["IDF_Deposit"] = languageResource.IDF_Deposit;
+            Application.Current.Resources["IDF_DepositShare"] = languageResource.IDF_DepositShare;
+
             Application.Current.Resources["IDF_StartDate"] = languageResource.IDF_StartDate;
             Application.Current.Resources["IDF_EndDate"] = languageResource.IDF_EndDate;
 
@@ -306,7 +320,6 @@ namespace SharedLivingCostCalculator.Utility
 
 
             Application.Current.Resources["IDF_PriceTotal"] = languageResource.IDF_PriceTotal;
-            Application.Current.Resources["IDF_BaseRentOnBilling"] = languageResource.IDF_BaseRentOnBilling;
             Application.Current.Resources["IDF_AnnualBilling"] = languageResource.IDF_AnnualBilling;
 
             Application.Current.Resources["IDF_HasOtherCosts"] = languageResource.IDF_HasOtherCosts;

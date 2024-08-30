@@ -1,5 +1,7 @@
 ﻿using PropertyTools.Wpf;
 using SharedLivingCostCalculator.Models.Contract;
+using SharedLivingCostCalculator.Models.Financial;
+using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using System;
@@ -14,7 +16,6 @@ namespace SharedLivingCostCalculator.Utility
     {
         public Compute()
         {
-
         }
 
 
@@ -49,6 +50,26 @@ namespace SharedLivingCostCalculator.Utility
             double equalRatio = rentViewModel.GetFTIShareSum(Enums.TransactionShareTypesRent.Equal) / rentViewModel.GetFlatViewModel().RoomCount;
 
             return equalRatio;
+        }
+
+
+        public bool PrintThisRoom(PrintViewModel printViewModel, RoomViewModel compareToThisRoom)
+        {
+            if (printViewModel.PrintAllSelected || printViewModel.PrintRoomsSelected)
+            {
+                return true;
+            }
+
+            if (printViewModel.SelectedRoom != null)
+            {
+                bool printThisRoom = printViewModel.PrintExcerptSelected &&
+                    printViewModel.SelectedRoom.RoomName.Equals(compareToThisRoom.RoomName) &&
+                    printViewModel.SelectedRoom.RoomArea == compareToThisRoom.RoomArea;
+
+                return printThisRoom;
+            }
+
+            return false;
         }
 
 

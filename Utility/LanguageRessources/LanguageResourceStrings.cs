@@ -75,10 +75,10 @@ namespace SharedLivingCostCalculator.Utility
         
         
         public string IDF_Back { get; set; } = "Back";
-        
-        
-        public string IDF_BaseRentOnBilling { get; set; } = "add billing";
 
+
+        public string IDF_ContractData { get; set; } = "Contract Data";
+        
 
         public string IDF_DeleteBilling { get; set; } = "Delete Annual Billing";
                        
@@ -122,8 +122,11 @@ namespace SharedLivingCostCalculator.Utility
         
 
         public string IDF_Raise { get; set; } = "Add Raise";
-        
 
+
+        public string IDF_ResetMenuButton { get; set; } = "Reset Menu";
+
+        
         public string IDF_RoomCosts { get; set; } = "Room Costs Overview";
 
 
@@ -145,6 +148,10 @@ namespace SharedLivingCostCalculator.Utility
         #region flat and room views, general stuff
         
         public string IDF_ContractStart { get; set; } = "Contract Start:";
+
+        public string IDF_Deposit { get; set; } = "Deposit";
+        public string IDF_DepositShare { get; set; } = "Deposit Share";
+
         public string IDF_StartDate { get; set; } = "Begin";
         public string IDF_EndDate { get; set; } = "End";
 

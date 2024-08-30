@@ -151,15 +151,7 @@ namespace SharedLivingCostCalculator
         {
             CleanFolder();
 
-            PersistanceHandler persistanceHandler = new PersistanceHandler();
-
-            persistanceHandler.SerializeFlatData(_FlatCollection);
-            persistanceHandler.SerializeResources();
-
-            persistanceHandler.SerializeApplicationState(_FlatManagementViewModel);
-
-            //only needed to get a language resource string xml template
-            persistanceHandler.SerializeLanguage(); 
+            new PersistanceHandler().SaveData(_FlatManagementViewModel);
 
             base.OnExit(e);
         }

@@ -85,6 +85,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
         private readonly Room _Room;
+        public Room Room => _Room;
 
 
         private int _RoomCount { get; set; } = 1;

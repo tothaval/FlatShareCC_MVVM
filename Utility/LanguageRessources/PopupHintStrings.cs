@@ -16,7 +16,8 @@ namespace SharedLivingCostCalculator.Utility.LanguageRessources
         // PH   Popup Hint
         // IDF  Identifier
 
-        public string LRS_PH_Address { get; set; } = "Insert full adress of flat.\n";
+        public string LRS_PH_Address { get; set; } = "Insert full adress of flat."; 
+        public string LRS_PH_Deposit { get; set; } = "Enter the deposit for the contract, if there is any.";
         public string LRS_PH_Details { get; set; } = "Insert details to better describe\nthe flat or contract, if necessary.";
         public string LRS_PH_FlatArea { get; set; } = "Insert complete area of flat.";
         public string LRS_PH_RoomCount { get; set; } = "Insert the number of rooms.";

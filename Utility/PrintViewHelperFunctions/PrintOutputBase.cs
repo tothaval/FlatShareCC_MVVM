@@ -201,6 +201,24 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
+        public Section BuildHeader(string headerText)
+        {
+            Section s = new Section();
+
+            Paragraph p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
+            s.Blocks.Add(p);
+
+            p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
+
+            p.Inlines.Add(new Run(headerText)
+            { FontWeight = FontWeights.Bold, FontSize = 16.0 });
+            p.Inlines.Add(new Run($"{BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
+
+            s.Blocks.Add(p);
+
+            return s;
+        }
+
         public Section BuildRoomAreaData()
         {
             Section s = new Section();
@@ -272,7 +290,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public TableRowGroup BuildTaxDisplayBilling(TableRowGroup dataRowGroup, BillingViewModel viewModel,double taxationTarget, bool isSummary)
+        public TableRowGroup BuildTaxDisplayBilling(TableRowGroup dataRowGroup, BillingViewModel viewModel, double taxationTarget, bool isSummary)
         {
             if (_PrintViewModel.IncludeTaxesSelected)
             {
@@ -388,7 +406,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public TableRowGroup BuildTaxDisplayRoomsBilling(TableRowGroup dataRowGroup, BillingViewModel viewModel,string roomName, double taxationTarget, bool isSummary)
+        public TableRowGroup BuildTaxDisplayRoomsBilling(TableRowGroup dataRowGroup, BillingViewModel viewModel, string roomName, double taxationTarget, bool isSummary)
         {
             if (_PrintViewModel.IncludeTaxesSelected)
             {
@@ -426,7 +444,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     }
 
                     dataRowGroup.Rows.Add(BillingOutputTableRowRooms(viewModel, roomName, taxedSum, $"tax {_PrintViewModel.TaxValue}%", false, true, false));
-                                        
+
                     dataRowGroup.Rows.Add(BillingOutputTableRowRooms(viewModel, roomName, withTaxes, "taxed sum", true, true, true));
                 }
             }
@@ -460,6 +478,10 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     {
                         documentContext.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[iterator].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
                     }
+                }
+                else
+                {
+                    documentContext.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[iterator].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
                 }
             }
             else
@@ -609,7 +631,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             if (counter > 0)
             {
-                preSortList.Add(_FlatViewModel.InitialRent); 
+                preSortList.Add(_FlatViewModel.InitialRent);
             }
 
             if (FlatViewModel.RentUpdates.Count > 0)
@@ -702,17 +724,17 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                         i++;
                     }
                     else
-                    {                        
+                    {
                         break;
                     }
                 }
             }
-                   
+
 
             // sort List by StartDate, ascending
             if (RentList.Count > 1)
             {
-                RentList = new ObservableCollection<RentViewModel>(RentList.OrderBy(i => i.StartDate)); 
+                RentList = new ObservableCollection<RentViewModel>(RentList.OrderBy(i => i.StartDate));
             }
 
             return RentList;
@@ -803,7 +825,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             DueTime.TextAlignment = TextAlignment.Right;
 
             TableCell Item = new TableCell();
-           
+
             if (month == -1 && viewModel.StartDate.Year == SelectedYear)
             {
                 DueTime.Blocks.Add(new Paragraph(new Run($"> {viewModel.StartDate.Month}/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
@@ -818,7 +840,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             }
 
             Item.Blocks.Add(new Paragraph(new Run(item)));
-                     
+
             dataRow.Cells.Add(DueTime);
             dataRow.Cells.Add(Item);
             dataRow.Cells.Add(ConfiguratePaymentCell(payment, FontWeightBold, HasTopLine));
@@ -888,7 +910,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             RoomAreaCell.Blocks.Add(new Paragraph(new Run($"Room Area")) { FontWeight = FontWeights.Bold, FontSize = 14.0 });
             SharedAreaShareCell.Blocks.Add(new Paragraph(new Run($"Area Share")) { FontWeight = FontWeights.Bold, FontSize = 14.0 });
             TotalAreaShareCell.Blocks.Add(new Paragraph(new Run($"Rented Area")) { FontWeight = FontWeights.Bold, FontSize = 14.0 });
-            AreaPercentageCell.Blocks.Add(new Paragraph(new Run($"Area %")) { FontWeight = FontWeights.Bold, FontSize = 14.0, Margin=new Thickness(0,0,10,0) });
+            AreaPercentageCell.Blocks.Add(new Paragraph(new Run($"Area %")) { FontWeight = FontWeights.Bold, FontSize = 14.0, Margin = new Thickness(0, 0, 10, 0) });
 
             dataRow.Cells.Add(RoomNameCell);
             dataRow.Cells.Add(RoomAreaCell);
@@ -1018,14 +1040,14 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public TableRow RoomSeparatorTableRow(IRoomCostShare roomCostShare, bool showTenant )
+        public TableRow RoomSeparatorTableRow(IRoomCostShare roomCostShare, bool showTenant)
         {
             if (showTenant)
             {
                 return SeparatorTextTableRow($"{roomCostShare.RoomName} {roomCostShare.RoomArea}m² {roomCostShare.Tenant}");
             }
-            
-            return SeparatorTextTableRow($"{roomCostShare.RoomName} {roomCostShare.RoomArea}m²");            
+
+            return SeparatorTextTableRow($"{roomCostShare.RoomName} {roomCostShare.RoomArea}m²");
         }
 
 

@@ -385,22 +385,33 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             if (_BillingViewModel != null)
             {
-                billingOutput.Blocks.Add(BillingPlanTable(_BillingViewModel));
 
-                foreach (RoomViewModel item in _BillingViewModel.FlatViewModel.Rooms)
+                if (_PrintViewModel.PrintFlatSelected || _PrintViewModel.PrintAllSelected)
                 {
-                    RoomCostShareBilling roomCostShareBilling = new RoomCostShareBilling(item.Room, _BillingViewModel);
-                    
-                    billingOutput.Blocks.Add(BuildRoomSeparatorLine(roomCostShareBilling));
-                    
+                    billingOutput.Blocks.Add(BillingPlanTable(_BillingViewModel));
+                }
 
-                    if (_PrintViewModel.ConsumptionSelected)
+
+                if (_PrintViewModel.PrintExcerptSelected || _PrintViewModel.PrintAllSelected || _PrintViewModel.PrintRoomsSelected)
+                {
+                    foreach (RoomViewModel item in _BillingViewModel.FlatViewModel.Rooms)
                     {
-                        billingOutput.Blocks.Add(OutputConsumptionTableRooms(roomCostShareBilling));
+                        bool printThisRoom = new Compute().PrintThisRoom(_PrintViewModel, item);
+
+                        if (printThisRoom)
+                        {
+                            RoomCostShareBilling roomCostShareBilling = new RoomCostShareBilling(item.Room, _BillingViewModel);
+
+                            billingOutput.Blocks.Add(BuildRoomSeparatorLine(roomCostShareBilling));
+                            if (_PrintViewModel.ConsumptionSelected)
+                            {
+                                billingOutput.Blocks.Add(OutputConsumptionTableRooms(roomCostShareBilling));
+
+                            }
+
+                            billingOutput.Blocks.Add(BillingOutputTableRooms(roomCostShareBilling));
+                        }
                     }
-
-                    billingOutput.Blocks.Add(BillingOutputTableRooms(roomCostShareBilling));
-
                 }
             }
 
@@ -780,7 +791,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("new monthly advances based on annual billing costs", true));
             if (!_PrintViewModel.DisplaySummarySelected)
-            {                
+            {
                 dataRowGroup.Rows.Add(_Print.TableRowBillingHeader());
 
                 dataRowGroup.Rows.Add(_Print.BillingOutputTableRowRooms(
@@ -829,7 +840,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     newPricePerMonth,
                     true);
             }
-
+            
             return dataRowGroup;
         }
 

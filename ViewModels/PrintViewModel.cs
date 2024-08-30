@@ -61,14 +61,14 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
-        private bool _AnnualRentCostsSelected;
-        public bool AnnualRentCostsSelected
+        private bool _AnnualCostsSelected;
+        public bool AnnualCostsSelected
         {
-            get { return _AnnualRentCostsSelected; }
+            get { return _AnnualCostsSelected; }
             set
             {
-                _AnnualRentCostsSelected = value;
-                OnPropertyChanged(nameof(AnnualRentCostsSelected));
+                _AnnualCostsSelected = value;
+                OnPropertyChanged(nameof(AnnualCostsSelected));
             }
         }
 
@@ -133,6 +133,18 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private bool _ContractDataOutputSelected;
+        public bool ContractDataOutputSelected
+        {
+            get { return _ContractDataOutputSelected; }
+            set
+            {
+                _ContractDataOutputSelected = value;
+                OnPropertyChanged(nameof(ContractDataOutputSelected));
+            }
+        }
+
+
         private bool _CreditOutputSelected;
         public bool CreditOutputSelected
         {
@@ -141,6 +153,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _CreditOutputSelected = value;
                 OnPropertyChanged(nameof(CreditOutputSelected));
+                OnPropertyChanged(nameof(NonBillingOutputSelected));
             }
         }
 
@@ -156,7 +169,19 @@ namespace SharedLivingCostCalculator.ViewModels
             }
         }
 
-        
+
+        private bool _DetailedNonContractItemsSelected;
+        public bool DetailedNonContractItemsSelected
+        {
+            get { return _DetailedNonContractItemsSelected; }
+            set
+            {
+                _DetailedNonContractItemsSelected = value;
+                OnPropertyChanged(nameof(DetailedNonContractItemsSelected));
+            }
+        }
+
+
         private bool _DisplaySummarySelected;
         public bool DisplaySummarySelected
         {
@@ -188,6 +213,13 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        public int _LastSelectedYear { get; set; }
+
+
+        public bool NonBillingOutputSelected => RentOutputSelected || OtherOutputSelected || CreditOutputSelected;
+
+
+
         private bool _OtherOutputSelected;
         public bool OtherOutputSelected
         {
@@ -196,8 +228,108 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _OtherOutputSelected = value;
                 OnPropertyChanged(nameof(OtherOutputSelected));
+                OnPropertyChanged(nameof(NonBillingOutputSelected));
             }
         }
+
+
+        private bool _PrintAllSelected;
+        public bool PrintAllSelected
+        {
+            get { return _PrintAllSelected; }
+            set
+            {
+                _PrintAllSelected = value;
+
+                if (value)
+                {
+                    _PrintExcerptSelected = false;
+                    _PrintFlatSelected = false;
+                    _PrintRoomsSelected = false;
+                }
+
+
+                OnPropertyChanged(nameof(PrintAllSelected));
+                OnPropertyChanged(nameof(PrintExcerptSelected));
+                OnPropertyChanged(nameof(PrintFlatSelected));
+                OnPropertyChanged(nameof(PrintRoomsSelected));
+            }
+        }
+
+
+        private bool _PrintExcerptSelected;
+        public bool PrintExcerptSelected
+        {
+            get { return _PrintExcerptSelected; }
+            set
+            {
+                _PrintExcerptSelected = value;
+
+                PrintAllSelected = false;
+
+                if (value)
+                {
+                    _PrintRoomsSelected = false;
+                    OnPropertyChanged(nameof(PrintRoomsSelected));
+                }
+
+                if (value == false && PrintFlatSelected == false && PrintRoomsSelected == false)
+                {
+                    PrintAllSelected = true;
+                }
+
+                OnPropertyChanged(nameof(PrintExcerptSelected));
+            }
+        }
+
+
+        private bool _PrintFlatSelected;
+        public bool PrintFlatSelected
+        {
+            get { return _PrintFlatSelected; }
+            set
+            {
+                _PrintFlatSelected = value;
+
+                PrintAllSelected = false;
+
+                if (value == false && PrintExcerptSelected == false && PrintRoomsSelected == false)
+                {
+                    PrintAllSelected = true;
+                }
+
+                OnPropertyChanged(nameof(PrintFlatSelected));
+            }
+        }
+
+
+        private bool _PrintRoomsSelected;
+        public bool PrintRoomsSelected
+        {
+            get { return _PrintRoomsSelected; }
+            set
+            {
+                _PrintRoomsSelected = value;
+
+                PrintAllSelected = false;
+
+                if (value)
+                {
+                    _PrintExcerptSelected = false;
+                    OnPropertyChanged(nameof(PrintExcerptSelected));
+                }
+
+                if (value == false && PrintExcerptSelected == false && PrintFlatSelected == false)
+                {
+                    PrintAllSelected = true;
+                }
+
+                OnPropertyChanged(nameof(PrintRoomsSelected));
+            }
+        }
+
+
+        private PrintOutputBase _Print { get; set; }
 
 
         private bool _PrintWarningsSelected;
@@ -244,6 +376,7 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _RentOutputSelected = value;
                 OnPropertyChanged(nameof(RentOutputSelected));
+                OnPropertyChanged(nameof(NonBillingOutputSelected));
             }
         }
 
@@ -272,6 +405,18 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private RoomViewModel _SelectedRoom;
+        public RoomViewModel SelectedRoom
+        {
+            get { return _SelectedRoom; }
+            set
+            {
+                _SelectedRoom = value;
+                OnPropertyChanged(nameof(SelectedRoom));
+            }
+        }
+
+
         private int _SelectedYear;
         public int SelectedYear
         {
@@ -279,6 +424,9 @@ namespace SharedLivingCostCalculator.ViewModels
             set
             {
                 _SelectedYear = value;
+
+                _LastSelectedYear = value;
+
                 OnPropertyChanged(nameof(SelectedYear));
             }
         }
@@ -333,6 +481,9 @@ namespace SharedLivingCostCalculator.ViewModels
 
         public ICommand CreatePrintOutputCommand { get; }
 
+
+        public ICommand ResetMenuCommand { get; }
+
         #endregion
 
 
@@ -354,12 +505,9 @@ namespace SharedLivingCostCalculator.ViewModels
             Accounting.AccountingChanged += _AccountingViewModel_AccountingChanged;
 
             CreatePrintOutputCommand = new RelayCommand((s) => BuildFlowDocument(), (s) => true);
-            
-            RentOutputSelected = true;
-            ContractCostsSelected = true;
-            RoomAreaDataSelected = true;
+            ResetMenuCommand = new RelayCommand((s) => ResetMenu(), (s) => true);
 
-            SelectedDetailOption = DataOutputProgressionTypes.ValueChange;
+            ResetMenu();
 
             Update();
         }
@@ -372,6 +520,15 @@ namespace SharedLivingCostCalculator.ViewModels
 
         private void BuildFlowDocument()
         {
+            // there is a memory allocation happening if print button is repeatedly clicked.
+            // this shall serve as a reminder to the fact, besides the issue already being written on my todo
+            // only rent, credit and other cost print output affected,
+            // as of now, i am unsure where the cause is located, because the flow document is newly initiaded
+            // on every click, gonnna look into this every now and then, as of now it is not critical,
+            // the allocation is 2-20 MB per click, beginning at 90 - 100 MB after start of the application
+            // it was a lot higher not so long ago, but it is still too much, considering the fact that 
+            // the objects should dissapear completely or being garbage collected on each click
+
             ActiveFlowDocument = new FlowDocument();
             ActiveFlowDocument.TextAlignment = TextAlignment.Left;
             ActiveFlowDocument.PageHeight = 640;
@@ -379,7 +536,6 @@ namespace SharedLivingCostCalculator.ViewModels
 
             if (FlatViewModel != null && SelectedYear > 0)
             {
-                PrintOutputBase print = new PrintOutputBase(this, FlatViewModel, SelectedYear);
 
                 Style textParagraph = new Style();
                 Style headerParagraph = new Style();
@@ -400,13 +556,14 @@ namespace SharedLivingCostCalculator.ViewModels
                 ActiveFlowDocument.Blocks.Add(p);
                 //ActiveFlowDocument.Blocks.Add(BuildAddressDetails(headerParagraph, textParagraph));
 
-
-                if (RoomAreaDataSelected)
+                if (ContractDataOutputSelected)
                 {
-                    ActiveFlowDocument.Blocks.Add(print.BuildRoomAreaData()); 
+                    if (RoomAreaDataSelected)
+                    {
+                        ActiveFlowDocument.Blocks.Add(_Print.BuildRoomAreaData());
+                    }
                 }
 
-                
                 if (BillingOutputSelected)
                 {
 
@@ -414,17 +571,10 @@ namespace SharedLivingCostCalculator.ViewModels
 
                     if (billingViewModel != null)
                     {
-                        p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
-                        ActiveFlowDocument.Blocks.Add(p);
-
-                        p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
-
-                        p.Inlines.Add(new Run($"Annual Billing {SelectedYear}: ")
-                        { FontWeight = FontWeights.Bold, FontSize = 16.0 });
-                        p.Inlines.Add(new Run($"{print.BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
-                        //p.Style = headerParagraph;
-                        ActiveFlowDocument.Blocks.Add(p);
-
+                        if (PrintAllSelected || PrintFlatSelected)
+                        {
+                            ActiveFlowDocument.Blocks.Add(_Print.BuildHeader($"Annual Billing {SelectedYear}: "));
+                        }
 
                         BillingPrintOutput billingPrintOutput = new BillingPrintOutput(this, billingViewModel, SelectedYear, TenantSelected);
 
@@ -436,17 +586,10 @@ namespace SharedLivingCostCalculator.ViewModels
                 if (RentOutputSelected)
                 {
 
-                    p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
-                    ActiveFlowDocument.Blocks.Add(p);
-
-                    p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
-
-                    p.Inlines.Add(new Run($"Rent Plan Flat {SelectedYear}: ")
-                    { FontWeight = FontWeights.Bold, FontSize = 16.0 });
-                    p.Inlines.Add(new Run($"{print.BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
-                    //p.Style = headerParagraph;
-                    ActiveFlowDocument.Blocks.Add(p);
-
+                    if (PrintAllSelected || PrintFlatSelected)
+                    {
+                        ActiveFlowDocument.Blocks.Add(_Print.BuildHeader($"Rent Plan Flat {SelectedYear}: "));
+                    }
 
                     RentPrintOutput rentPrintOutput = new RentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected);
 
@@ -455,15 +598,10 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 if (OtherOutputSelected)
                 {
-                    p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
-                    ActiveFlowDocument.Blocks.Add(p);
-
-                    p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
-                    p.Inlines.Add(new Run($"Other Costs Plan {SelectedYear}: ")
-                    { FontWeight = FontWeights.Bold, FontSize = 16.0 });
-                    p.Inlines.Add(new Run($"{print.BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
-                    //p.Style = headerParagraph;
-                    ActiveFlowDocument.Blocks.Add(p);
+                    if (PrintAllSelected || PrintFlatSelected)
+                    {
+                        ActiveFlowDocument.Blocks.Add(_Print.BuildHeader($"Other Costs Plan {SelectedYear}: "));
+                    }
 
                     CreditsAndOtherCostsRentPrintOutput creditsAndOther = new CreditsAndOtherCostsRentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected, false);
 
@@ -472,15 +610,10 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 if (CreditOutputSelected)
                 {
-                    p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
-                    ActiveFlowDocument.Blocks.Add(p);
-
-                    p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
-                    p.Inlines.Add(new Run($"Credit Plan {SelectedYear}: ")
-                    { FontWeight = FontWeights.Bold, FontSize = 16.0 });
-                    p.Inlines.Add(new Run($"{print.BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
-                    p.Style = headerParagraph;
-                    ActiveFlowDocument.Blocks.Add(p);
+                    if (PrintAllSelected || PrintFlatSelected)
+                    {
+                        ActiveFlowDocument.Blocks.Add(_Print.BuildHeader($"Credit Plan {SelectedYear}: "));
+                    }
 
                     CreditsAndOtherCostsRentPrintOutput creditsAndOther = new CreditsAndOtherCostsRentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected, true);
 
@@ -514,7 +647,7 @@ namespace SharedLivingCostCalculator.ViewModels
                         TimeScale.Add(item.Year);
                     }
                 }
-                
+
                 TimeScale = new ObservableCollection<int>(TimeScale.OrderBy(i => i));
 
                 if (FlatViewModel.RentUpdates.Count > 0)
@@ -543,8 +676,15 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 if (TimeScale.Count > 0)
                 {
-                    SelectedYear = TimeScale.Last();
-                } 
+                    if (_LastSelectedYear != 0)
+                    {
+                        SelectedYear = _LastSelectedYear;
+                    }
+                    else
+                    {
+                        SelectedYear = TimeScale.Last();
+                    }
+                }
             }
 
             OnPropertyChanged(nameof(SelectedYear));
@@ -552,8 +692,66 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private void ResetMenu()
+        {
+            // default
+            ConsumptionSelected = true;
+
+            ContractCostsSelected = true;
+
+            ContractDataOutputSelected = true;
+
+            RentOutputSelected = true;
+
+            RoomAreaDataSelected = true;
+
+            PrintAllSelected = true;
+
+            SelectedDetailOption = DataOutputProgressionTypes.ValueChange;
+
+
+            // deactivate
+            AllCostsSelected = false;
+
+            AnnualCostsSelected = false;
+
+            BillingOutputSelected = false;
+
+            ContractCostsIncludeCreditsSelected = false;
+
+            CreditOutputSelected = false;
+
+            DataOutputProgressionSelected = false;
+
+            DetailedNonContractItemsSelected = false;
+
+            DisplaySummarySelected = false;
+
+            IncludeTaxesSelected = false;
+
+            PrintWarningsSelected = false;
+
+            OtherOutputSelected = false;
+
+            RentCostsOnBillingBalanceSelected = false;
+
+            RentCostsOutputOnBillingSelected = false;
+
+            TenantSelected = false;
+        }
+
+
         public void Update()
         {
+            // there is a memory allocation happening if print button is repeatedly clicked.
+            // this is not the fix for that, but shall serve as a reminder to also look out for events as possible cause.
+            // only rent, credit and other cost print output affected, as of now, i am unsure where the cause is located.
+            if (_FlatManagementViewModel != null)
+            {
+                _FlatManagementViewModel.PropertyChanged -= _FlatManagementViewModel_PropertyChanged;
+                _FlatManagementViewModel.PropertyChanged += _FlatManagementViewModel_PropertyChanged; 
+            }
+
             ActiveFlowDocument = null;
 
             if (Accounting.FlatViewModel != null)
@@ -568,12 +766,9 @@ namespace SharedLivingCostCalculator.ViewModels
                 _FlatViewModel = _FlatManagementViewModel.SelectedItem;
             }
 
-            BuildTimeScale();
+            _Print = new PrintOutputBase(this, FlatViewModel, SelectedYear);
 
-            if (TimeScale.Count > 0)
-            {
-                SelectedYear = TimeScale.First();
-            }
+            BuildTimeScale();
 
             OnPropertyChanged(nameof(BillingViewModel));
             OnPropertyChanged(nameof(FlatViewModel));

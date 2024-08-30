@@ -32,7 +32,7 @@ namespace SharedLivingCostCalculator.Utility
         public double Area { get; set; }
 
 
-        public bool DataLock { get; set; }
+        public double Deposit { get; set; }
 
 
         public string Details { get; set; }
@@ -108,7 +108,7 @@ namespace SharedLivingCostCalculator.Utility
             Address = flatViewModel.Address;
             Area = flatViewModel.Area;
             RoomCount = flatViewModel.RoomCount;
-            DataLock = flatViewModel.HasDataLock;
+            Deposit = flatViewModel.Deposit;
             Details = flatViewModel.Details;
             FlatNotes = flatViewModel.FlatNotes;
 
@@ -137,7 +137,7 @@ namespace SharedLivingCostCalculator.Utility
             {
                 Area = Area,
                 Address = Address,
-                HasDataLock = DataLock,
+                Deposit = Deposit,
                 Details = Details,
                 RoomCount = RoomCount,
                 FlatNotes = FlatNotes,

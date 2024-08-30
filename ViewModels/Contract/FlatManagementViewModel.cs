@@ -353,6 +353,9 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         public ICommand NewFlatCommand { get; }
 
 
+        public ICommand PrintClickCommand { get; }
+
+
         public ICommand UseFlatCostsCommand { get; }
 
 
@@ -381,6 +384,8 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
             
             LeftPressCommand = new RelayCommand((s) => Move(), (s) => true);
 
+            PrintClickCommand = new RelayCommand((s) => PrintClicked(), (s) => true);
+
             UseFlatCostsCommand = new RelayCommand((s) => UseFlatCosts(), (s) => true);
 
             UseRoomCostsCommand = new RelayCommand((s) => UseRoomCosts(), (s) => true);
@@ -391,10 +396,7 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             ShowFlatManagement = true;
 
-            SelectFirstFlatCollectionItem();
-
             LoadData();
-
         }
 
         #endregion constructors
@@ -491,6 +493,15 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
                 _FlatCollection.CollectionChanged -= LoadUp;
             }
+            else if (applicationData.FlatViewModelSelectedIndex == -1)
+            {
+                if (FlatCollection.Count > 0)
+                {
+                    SelectedItem = FlatCollection[0];
+                }
+
+                _FlatCollection.CollectionChanged -= LoadUp;
+            }
         }
 
         #endregion async methods
@@ -505,18 +516,15 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
             flatViewModel.RentUpdates.Add(new RentViewModel(flatViewModel, new Rent()));
 
-            flatViewModel.HasDataLock = true;
-
             flatViewModel.UseRoomCosts4InitialRent(false);
+
+            flatViewModel.InitialValuesFinalized = false;
 
             _FlatCollection.Add(flatViewModel);
 
-            SelectedIndex = FlatCollection.Count;
+            SelectedItem = flatViewModel;
 
             OnPropertyChanged(nameof(FlatCollection));
-
-            //SelectFirstFlatCollectionItem();
-
             OnPropertyChanged(nameof(SelectedItem));
             OnPropertyChanged(nameof(HasFlat));
             OnPropertyChanged(nameof(FlatSetup));
@@ -542,6 +550,12 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
         private void Move()
         {
             Application.Current.MainWindow.DragMove();
+        }
+
+
+        private void PrintClicked()
+        {
+            new PersistanceHandler().SaveData(this);
         }
 
 

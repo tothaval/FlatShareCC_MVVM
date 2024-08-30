@@ -38,7 +38,7 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_Accounting>Accounting</IDF_Accounting>
   <IDF_AnnualBilling>Annual Billing</IDF_AnnualBilling>
   <IDF_Back>Back</IDF_Back>
-  <IDF_BaseRentOnBilling>add billing</IDF_BaseRentOnBilling>
+  <IDF_ContractData>Contract Data</IDF_ContractData>
   <IDF_DeleteBilling>Delete Annual Billing</IDF_DeleteBilling>
   <IDF_DeleteFlat>Delete Flat</IDF_DeleteFlat>
   <IDF_DeleteRent>Delete Rent</IDF_DeleteRent>
@@ -54,12 +54,15 @@ Heating Units</IDF_CombinedRoomHeatingUnits>
   <IDF_Other>Other</IDF_Other>
   <IDF_PrintView>Print</IDF_PrintView>
   <IDF_Raise>Add Raise</IDF_Raise>
+  <IDF_ResetMenuButton>Reset Menu</IDF_ResetMenuButton>
   <IDF_RoomCosts>Room Costs Overview</IDF_RoomCosts>
   <IDF_RoomSetup>Rooms</IDF_RoomSetup>
   <IDF_Settings>Settings</IDF_Settings>
   <IDF_ShowCosts>Costs</IDF_ShowCosts>
   <IDF_Tenants>Tenants</IDF_Tenants>
   <IDF_ContractStart>Contract Start:</IDF_ContractStart>
+  <IDF_Deposit>Deposit</IDF_Deposit>
+  <IDF_DepositShare>Deposit Share</IDF_DepositShare>
   <IDF_StartDate>Begin</IDF_StartDate>
   <IDF_EndDate>End</IDF_EndDate>
   <IDF_ID>ID</IDF_ID>

@@ -133,7 +133,7 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="120"/>
+                <ColumnDefinition Width="Auto" MinWidth="142"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -158,7 +158,7 @@
         <Grid Visibility="{Binding SelectedTenant.IsActive,
                     Converter={StaticResource inviscon}}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="120"/>
+                <ColumnDefinition Width="Auto" MinWidth="142"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition SharedSizeGroup="B"/>
             </Grid.ColumnDefinitions>
@@ -182,7 +182,7 @@
         </Grid>
 
         <comps:ObjectInputView Label="{DynamicResource IDF_RoomTenant}"
-                               LabelMinWidth="118"
+                               LabelMinWidth="140"
                                Value="{Binding SelectedTenant.Name,
                     NotifyOnSourceUpdated=True,
                     Mode=TwoWay,
@@ -190,7 +190,14 @@
                                IsEnabled="{Binding FlatViewModel.HasDataLock}"
                                PopupHint="Insert tenants name."/>
 
-
+        <comps:CurrencyInputView Label="{DynamicResource IDF_DepositShare}"
+                                 LabelMinWidth="140"
+                                 Value="{Binding SelectedTenant.DepositShare,      
+            NotifyOnSourceUpdated=True,
+            Mode=TwoWay,
+            UpdateSourceTrigger=PropertyChanged}"
+                                 ValueAlignment="Right"
+                                 PopupHint="Insert tenants deposit share."/>
     </StackPanel>
 
 </UserControl>

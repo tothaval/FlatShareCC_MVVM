@@ -82,6 +82,7 @@
 
                     <ToggleButton Content="{DynamicResource IDF_PrintView}"
                                   IsChecked="{Binding ShowPrintView}"
+                                  Command="{Binding PrintClickCommand}"
                                   Visibility="{Binding HasFlat, Converter={StaticResource VisibilityConverterToHidden}}"
                                   Style="{StaticResource toggleButtonStyle}"
                                   ToolTip="Click to hide or expand print output page. The output text can be selected and copied."                        
