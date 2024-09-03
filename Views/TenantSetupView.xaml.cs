@@ -89,15 +89,15 @@ namespace SharedLivingCostCalculator.Views
                     {
 
                         case 0:
-                            sortBy = "TotalFixedCostsPerPeriod";
+                            sortBy = "ProRataCosts";
                             break;
 
                         case 1:
-                            sortBy = "TotalFixedCostsPerPeriod";
+                            sortBy = "ProRataCosts";
                             break;
 
                         case 2:
-                            sortBy = "TotalHeatingCostsPerPeriod";
+                            sortBy = "FixedAmountCosts";
                             break;
 
                         case 3:

@@ -60,6 +60,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         public double Balance => DetermineBalance();
 
 
+        /// <summary>
+        /// represents the costs of the Fixed Amount that relates to basic heating costs,
+        /// which should be infrastructure and therefor area shared costs.
+        /// </summary>
         public double BasicHeatingCosts
         {
             get { return Billing.BasicHeatingCosts.TransactionSum; }
@@ -74,6 +78,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        /// <summary>
+        /// represents the percemtage of the basic heating costs compared to the Fixed Amount
+        /// </summary>
         public double BasicHeatingCostsPercentage
         {
             get { return Billing.BasicHeatingCostsPercentage; }
@@ -81,7 +88,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             {
                 Billing.BasicHeatingCostsPercentage = value;
 
-                BasicHeatingCosts = value / 100 * TotalHeatingCostsPerPeriod;
+                BasicHeatingCosts = value / 100 * FixedAmountCosts;
                 
                 ConsumptionHeatingCostsPercentage = 100 - BasicHeatingCostsPercentage;                
 
@@ -108,6 +115,10 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        /// <summary>
+        /// represents that part of the Fixed Amount that is consumption based 
+        /// and relates to consumed heating costs
+        /// </summary>
         public double ConsumptionHeatingCosts
         {
             get { return Billing.ConsumptionHeatingCosts.TransactionSum; }
@@ -122,6 +133,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        /// <summary>
+        /// represents the percemtage of the consumption heating costs compared to the Fixed Amount
+        /// </summary>
         public double ConsumptionHeatingCostsPercentage
         {
             get { return Billing.ConsumptionHeatingCostsPercentage; }
@@ -129,7 +143,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             {
                 Billing.ConsumptionHeatingCostsPercentage = value;
 
-                ConsumptionHeatingCosts = value / 100 * TotalHeatingCostsPerPeriod;
+                ConsumptionHeatingCosts = value / 100 * FixedAmountCosts;
 
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(ConsumptionHeatingCostsPercentage)));
 
@@ -216,13 +230,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// </summary>
         public double TotalCostsPerPeriod
         {
-            get { return TotalFixedCostsPerPeriod + ColdWaterCosts + WarmWaterCosts + TotalHeatingCostsPerPeriod; }
+            get { return ProRataCosts + ColdWaterCosts + WarmWaterCosts + FixedAmountCosts; }
         }
 
 
         public double TotalCostsPerPeriodIncludingRent
         {
-            get { return TotalRentCosts + TotalFixedCostsPerPeriod + ColdWaterCosts + WarmWaterCosts + TotalHeatingCostsPerPeriod; }
+            get { return TotalRentCosts + ProRataCosts + ColdWaterCosts + WarmWaterCosts + FixedAmountCosts; }
         }
                       
 
@@ -234,30 +248,30 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// superintendent and so on and distributes them to each renting party. advances are paid during the
         /// period and are calculated with the actual costs after the period is over.
         /// </summary>
-        public double TotalFixedCostsPerPeriod
+        public double ProRataCosts
         {
-            get { return Billing.TotalFixedCostsPerPeriod.TransactionSum; }
+            get { return Billing.ProRataCosts.TransactionSum; }
 
             set
             {
                 _Helper.ClearError(nameof(TotalCostsPerPeriod));
-                _Helper.ClearError(nameof(TotalFixedCostsPerPeriod));
+                _Helper.ClearError(nameof(ProRataCosts));
 
                 if (double.IsNaN(value))
                 {
-                    _Helper.AddError("value must be a number", nameof(TotalFixedCostsPerPeriod));
+                    _Helper.AddError("value must be a number", nameof(ProRataCosts));
                 }
 
                 if (value < 0)
                 {
-                    _Helper.AddError("value must be greater than 0", nameof(TotalFixedCostsPerPeriod));
+                    _Helper.AddError("value must be greater than 0", nameof(ProRataCosts));
                 }
 
 
-                Billing.TotalFixedCostsPerPeriod.TransactionSum = value;
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalFixedCostsPerPeriod)));
+                Billing.ProRataCosts.TransactionSum = value;
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(ProRataCosts)));
 
-                OnPropertyChanged(nameof(TotalFixedCostsPerPeriod));
+                OnPropertyChanged(nameof(ProRataCosts));
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
                 OnPropertyChanged(nameof(ContractBalance));
 
@@ -279,29 +293,29 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// advances are paid during the period and are calculated with the actual costs after
         /// the period is over.
         /// </summary>
-        public double TotalHeatingCostsPerPeriod
+        public double FixedAmountCosts
         {
-            get { return Billing.TotalHeatingCostsPerPeriod.TransactionSum; }
+            get { return Billing.FixedAmountCosts.TransactionSum; }
 
             set
             {
                 _Helper.ClearError(nameof(TotalCostsPerPeriod));
-                _Helper.ClearError(nameof(TotalHeatingCostsPerPeriod));
+                _Helper.ClearError(nameof(FixedAmountCosts));
 
                 if (double.IsNaN(value))
                 {
-                    _Helper.AddError("value must be a number", nameof(TotalHeatingCostsPerPeriod));
+                    _Helper.AddError("value must be a number", nameof(FixedAmountCosts));
                 }
 
                 if (value < 0)
                 {
-                    _Helper.AddError("value must be greater than 0", nameof(TotalHeatingCostsPerPeriod));
+                    _Helper.AddError("value must be greater than 0", nameof(FixedAmountCosts));
                 }
 
-                Billing.TotalHeatingCostsPerPeriod.TransactionSum = value;
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalHeatingCostsPerPeriod)));
+                Billing.FixedAmountCosts.TransactionSum = value;
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(FixedAmountCosts)));
 
-                OnPropertyChanged(nameof(TotalHeatingCostsPerPeriod));
+                OnPropertyChanged(nameof(FixedAmountCosts));
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
                 OnPropertyChanged(nameof(ContractBalance));
 
@@ -1227,7 +1241,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        internal double GetRoomConsumptionPercentage(Room room, string transactionItem = "Heating")
+        internal double GetRoomConsumptionRatio(Room room, string transactionItem = "Heating")
         {
             // search consumption items
             foreach (ConsumptionItemViewModel item in ConsumptionItemViewModels)

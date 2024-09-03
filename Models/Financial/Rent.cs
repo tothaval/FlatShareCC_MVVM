@@ -37,6 +37,14 @@ namespace SharedLivingCostCalculator.Models.Financial
         };
 
 
+        public FinancialTransactionItemBilling BasicHeatingCostsAdvance { get; set; } = new FinancialTransactionItemBilling()
+        {
+            TransactionItem = "Basic Heating Costs Advance",
+            TransactionShareTypes = TransactionShareTypesBilling.Area,
+            TransactionSum = 0.0
+        };
+
+
         /// <summary>
         /// ColdRent represents the monthly contract costs for the rented area itself,
         /// absent all other cost structures.
@@ -49,12 +57,20 @@ namespace SharedLivingCostCalculator.Models.Financial
         };
 
 
-        /// <summary>
-        /// probably obsolete, due to the fact that this was a prop 
-        /// when other costs had a separate window. this prop marked
-        /// the state of the datalock togglebutton of that window.
-        /// </summary>
-        public bool CostsHasDataLock { get; set; } = false;
+        public FinancialTransactionItemBilling ColdWaterCostsAdvance { get; set; } = new FinancialTransactionItemBilling()
+        {
+            TransactionItem = "Cold Water Costs Advance",
+            TransactionShareTypes = TransactionShareTypesBilling.Equal,
+            TransactionSum = 0.0
+        };
+
+
+        public FinancialTransactionItemBilling ConsumptionHeatingCostsAdvance { get; set; } = new FinancialTransactionItemBilling()
+        {
+            TransactionItem = "Consumption Heating Costs Advance",
+            TransactionShareTypes = TransactionShareTypesBilling.Consumption,
+            TransactionSum = 0.0
+        };
 
 
         /// <summary>
@@ -64,13 +80,6 @@ namespace SharedLivingCostCalculator.Models.Financial
         /// option set by the user.
         /// </summary>
         public bool HasCredits { get; set; } = false;
-
-
-        /// <summary>
-        /// intended to signal whether the datalock togglebutton
-        /// has been checked or has not been checked by the user.
-        /// </summary>
-        public bool HasDataLock { get; set; } = false;
 
 
         /// <summary>
@@ -86,6 +95,17 @@ namespace SharedLivingCostCalculator.Models.Financial
         /// Value must be set to true if this is the Initial Rent.
         /// </summary>
         public bool IsInitialRent { get; set; } = false;
+
+        // Pro Rata
+        // all annual costs that are not rent, heating or water.
+        // can be calculated per room using
+        // (((room area) + (shared space)/(amount of Rooms))/(total area)) * fixed costs
+        public FinancialTransactionItemBilling ProRataCostsAdvance { get; set; } = new FinancialTransactionItemBilling()
+        {
+            TransactionItem = "Pro Rata Advance",
+            TransactionShareTypes = TransactionShareTypesBilling.Area,
+            TransactionSum = 0.0
+        };
 
 
         /// <summary>
@@ -113,6 +133,14 @@ namespace SharedLivingCostCalculator.Models.Financial
         /// room depending on workplace count per that room.
         /// </summary>
         public bool UseWorkplaces { get; set; } = false;
+
+
+        public FinancialTransactionItemBilling WarmWaterCostsAdvance { get; set; } = new FinancialTransactionItemBilling()
+        {
+            TransactionItem = "Warm Water Costs Advance",
+            TransactionShareTypes = TransactionShareTypesBilling.Equal,
+            TransactionSum = 0.0
+        };
 
         #endregion properties
 

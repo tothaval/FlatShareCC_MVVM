@@ -10,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Financial;
-using System.Windows.Media;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels;
 using SharedLivingCostCalculator.Enums;
@@ -47,7 +46,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         #region Constructors
 
         public CreditsAndOtherCostsRentPrintOutput(PrintViewModel printViewModel, FlatViewModel flatViewModel, int selectedYear, bool showTenant, bool isCredit)
-        {            
+        {
             _PrintViewModel = printViewModel;
             _FlatViewModel = flatViewModel;
             _SelectedYear = selectedYear;
@@ -80,27 +79,12 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                         if (RentList[iterator].StartDate.Year < _SelectedYear)
                         {
-                            if (isFlat)
-                            {
-                                documentContext.Blocks.Add(BuildNewPlanTable(documentContext, RentList[iterator], monthCounter));
-                            }
-                            else
-                            {
-                                documentContext.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[iterator], monthCounter));
-                            }
-
+                            documentContext = WriteFTIDataToFlowDocument(documentContext, RentList, iterator, monthCounter);
                         }
                         else if (RentList[iterator].StartDate.Year == _SelectedYear
                             && monthCounter >= RentList[iterator].StartDate.Month)
                         {
-                            if (isFlat)
-                            {
-                                documentContext.Blocks.Add(BuildNewPlanTable(documentContext, RentList[iterator], monthCounter));
-                            }
-                            else
-                            {
-                                documentContext.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[iterator], monthCounter));
-                            }
+                            documentContext = WriteFTIDataToFlowDocument(documentContext, RentList, iterator, monthCounter);
                         }
 
                     }
@@ -112,39 +96,22 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                         }
                         else
                         {
-                            if (isFlat)
-                            {
-                                documentContext.Blocks.Add(BuildNewPlanTable(documentContext, RentList[iterator], monthCounter));
-                            }
-                            else
-                            {
-                                documentContext.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[iterator], monthCounter));
-                            }
+                            documentContext = WriteFTIDataToFlowDocument(documentContext, RentList, iterator, monthCounter);
                         }
-
                     }
-
                 }
             }
             else
             {
-                if (isFlat)
-                {
-                    documentContext.Blocks.Add(BuildNewPlanTable(documentContext, RentList[iterator], -1));
-                }
-                else
-                {
-                    documentContext.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[iterator]));
-                }
-
+                documentContext = WriteFTIDataToFlowDocument(documentContext, RentList, iterator, -1);
             }
 
             return documentContext;
         }
 
-               
 
-            private Section BuildNewPlanTable(Section rentOutput, RentViewModel rentViewModel, int monthCounter, bool isCredit = false)
+
+        private Section BuildNewPlanTable(Section rentOutput, RentViewModel rentViewModel, int monthCounter, bool isCredit = false)
         {
             if (IsCredit)
             {
@@ -163,71 +130,42 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         {
             Section rentOutput = new Section();
 
-            if (_PrintViewModel.PrintAllSelected || _PrintViewModel.PrintFlatSelected)
-            {
-                ObservableCollection<RentViewModel> RentList = new PrintOutputBase(_PrintViewModel, _FlatViewModel, _SelectedYear).FindRelevantRentViewModels();
+            ObservableCollection<RentViewModel> RentList = new PrintOutputBase(_PrintViewModel, _FlatViewModel, _SelectedYear).FindRelevantRentViewModels();
 
-                for (int i = 0; i < RentList.Count; i++)
-                {
-                    Section? valueChangeHeader = _Print.BuildValueChangeHeader(rentOutput, RentList, i);
-
-                    if (valueChangeHeader == null)
-                    {
-                        continue;
-                    }
-
-                    rentOutput = valueChangeHeader;
-
-                    rentOutput = BuildDataOutputProgressionCreditsAndOtherCosts(rentOutput, RentList, SelectedDetailOption, i, true);
-                } 
-            }
-
-            if (_PrintViewModel.PrintExcerptSelected || _PrintViewModel.PrintAllSelected || _PrintViewModel.PrintRoomsSelected)
-            {
-                rentOutput.Blocks.Add(BuildRoomDetailsOther(SelectedDetailOption));
-            }
-
-            return rentOutput;
-        }
-
-
-        private Section BuildRoomDetailsOther(DataOutputProgressionTypes SelectedDetailOption)
-        {
-            Section roomsOutput = new Section();
-
-            Paragraph p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
-
-            roomsOutput.Blocks.Add(p);
-
-            if (IsCredit)
-            {
-                roomsOutput.Blocks.Add(_Print.BuildHeader($"Credit Plan Rooms {_SelectedYear}: "));
-            }
-            else
-            {
-                roomsOutput.Blocks.Add(_Print.BuildHeader($"Other Costs Plan Rooms {_SelectedYear}: "));
-            }
-
-            p.Inlines.Add(new Run($"{_Print.BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
-            roomsOutput.Blocks.Add(p);
-
-            ObservableCollection<RentViewModel> RentList = _Print.FindRelevantRentViewModels();
-
+            // adds an overview of all found items
             for (int i = 0; i < RentList.Count; i++)
             {
-                Section? valueChangeHeader = _Print.BuildValueChangeHeader(roomsOutput, RentList, i);
+                Section? valueChangeHeader = _Print.BuildValueChangeHeader(rentOutput, RentList, i, true);
+            }
+
+            // displays the contents of each item according to options set in print menu
+            for (int i = 0; i < RentList.Count; i++)
+            {
+                Section? valueChangeHeader = _Print.BuildValueChangeHeader(rentOutput, RentList, i, false);
 
                 if (valueChangeHeader == null)
                 {
                     continue;
                 }
 
-                roomsOutput = valueChangeHeader;
+                rentOutput = valueChangeHeader;
 
-                roomsOutput = BuildDataOutputProgressionCreditsAndOtherCosts(roomsOutput, RentList, SelectedDetailOption, i, false);
+                if (_PrintViewModel.PrintAllSelected || _PrintViewModel.PrintFlatSelected)
+                {
+                    if (!IsCredit)
+                    {
+                        rentOutput.Blocks.Add(_Print.BuildHeader($"Other Costs Plan {_PrintViewModel.SelectedYear}: "));
+                    }
+                    else
+                    {
+                        rentOutput.Blocks.Add(_Print.BuildHeader($"Credit Plan {_PrintViewModel.SelectedYear}: "));
+                    }
+                }
+
+                rentOutput = BuildDataOutputProgressionCreditsAndOtherCosts(rentOutput, RentList, SelectedDetailOption, i, true);
             }
 
-            return roomsOutput;
+            return rentOutput;
         }
 
 
@@ -284,7 +222,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     }
                 }
 
-                dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, rentViewModel, monthCounter, result, false); 
+                dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, rentViewModel, monthCounter, result, false);
             }
             else
             {
@@ -296,7 +234,6 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 {
                     dataRowGroup = _Print.BuildTaxDisplay(dataRowGroup, rentViewModel, monthCounter, rentViewModel.OtherFTISum, true);
                 }
-
             }
 
             otherPlanFlatTable.RowGroups.Add(dataRowGroup);
@@ -329,7 +266,6 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             TableRowGroup dataRowGroup = new TableRowGroup();
             dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
 
-
             if (_PrintViewModel.DisplaySummarySelected)
             {
                 dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("monthly summary", true));
@@ -339,6 +275,9 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             foreach (RoomCostShareRent item in rentViewModel.RoomCostShares)
             {
+                double result = 0.0;
+                double sum = 0.0;
+
                 RoomViewModel thisRoom = new RoomViewModel(item.Room, _FlatViewModel);
 
                 bool printThisRoom = new Compute().PrintThisRoom(_PrintViewModel, thisRoom);
@@ -347,17 +286,12 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 {
                     if (!_PrintViewModel.DisplaySummarySelected)
                     {
-                        double result = 0.0;
-
                         dataRowGroup.Rows.Add(_Print.RoomSeparatorTableRow(item, _ShowTenant));
 
                         dataRowGroup.Rows.Add(_Print.TableRowRoomHeader());
 
-
                         foreach (FinancialTransactionItemRentViewModel fti in FTIs)
                         {
-                            double sum = 0.0;
-
                             if (fti.TransactionShareTypes == Enums.TransactionShareTypesRent.Equal)
                             {
                                 sum = item.EqualShareRatio() * fti.TransactionSum;
@@ -412,19 +346,70 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                         if (IsCredit)
                         {
                             dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, rentViewModel, month, item.RoomName, item.CreditShare, true);
+
+                            sum += Math.Round(item.CreditShare);
                         }
                         else
                         {
                             dataRowGroup = _Print.BuildTaxDisplayRooms(dataRowGroup, rentViewModel, month, item.RoomName, item.OtherCostsShare, true);
+
+                            sum += Math.Round(item.OtherCostsShare);
                         }
-                    } 
+                    }
                 }
             }
 
-
             rentPlanRoomsTable.RowGroups.Add(dataRowGroup);
 
+            double otherCostsSum = 0.0;
+            double creditSum = 0.0;
+
+            foreach (RoomCostShareRent item in rentViewModel.RoomCostShares)
+            {
+                otherCostsSum += Math.Round(item.OtherCostsShare, 2);
+                creditSum += Math.Round(item.CreditShare, 2);
+            }
+
+            if (IsCredit)
+            {
+                dataRowGroup = _Print.WriteCheckToTableRowGroup(
+                    dataRowGroup,
+                    creditSum,
+                    rentViewModel.CreditSum,
+                    "Check: credit sum",
+                    false
+                    );
+            }
+            else
+            {
+                dataRowGroup = _Print.WriteCheckToTableRowGroup(
+                    dataRowGroup,
+                    otherCostsSum,
+                    rentViewModel.OtherFTISum,
+                    "Check: other costs sum",
+                    false
+                    );
+            }
+
             return rentPlanRoomsTable;
+        }
+
+
+        private Section WriteFTIDataToFlowDocument(Section documentContext, ObservableCollection<RentViewModel> RentList, int iterator, int monthCounter)
+        {
+
+            if (_PrintViewModel.PrintAllSelected || _PrintViewModel.PrintFlatSelected)
+            {
+                documentContext.Blocks.Add(BuildNewPlanTable(documentContext, RentList[iterator], monthCounter));
+            }
+
+            if (_PrintViewModel.PrintExcerptSelected || _PrintViewModel.PrintRoomsSelected || _PrintViewModel.PrintAllSelected)
+            {
+                documentContext.Blocks.Add(CreditsAndOtherCostsPlanTableRooms(RentList[iterator], monthCounter));
+            }
+
+
+            return documentContext;
         }
 
         #endregion

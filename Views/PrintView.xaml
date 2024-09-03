@@ -52,7 +52,14 @@
             <TextBlock Text="Configurate Print Output:" Style="{StaticResource Header}" FontSize="14" />
 
             <Grid>
-                <Menu>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+
+                </Grid.ColumnDefinitions>
+                
+                <Menu Grid.Column="0">
 
                     <MenuItem Header="Print Selection">
 
@@ -74,7 +81,6 @@
                               IsChecked="{Binding CreditOutputSelected}"/>
 
                     </MenuItem>
-
 
                     <MenuItem Header="Print Options">
                         <MenuItem Header="Annual Billing"
@@ -116,6 +122,14 @@
                                   IsChecked="{Binding AnnualCostsSelected}"/>
 
 
+                            <MenuItem Header="Append Contract Costs Details"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding AppendContractCostsDetailsSelected}"/>
+
+                            <MenuItem Header="Detailed Contract Costs Output"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding DetailedContractCostsSelected}"/>
+
                             <MenuItem Header="Detailed Non Contract Items Output"
                                   IsCheckable="True"
                                   IsChecked="{Binding DetailedNonContractItemsSelected}"/>
@@ -151,8 +165,19 @@
                               IsChecked="{Binding TenantSelected}"/>
                     </MenuItem>
 
-
                     <MenuItem Header="Configuration">
+
+                        <MenuItem Header="Print Most Recent __WIP__"
+                         IsCheckable="True"
+                         IsChecked="{Binding PrintMostRecentSelected}"/>
+
+                        <MenuItem Header="Print Selected Item __WIP__"
+                         IsCheckable="True"
+                         IsChecked="{Binding PrintSelectedItemSelected}"/>
+
+                        <MenuItem Header="Print Items per Year"
+                         IsCheckable="True"
+                         IsChecked="{Binding PrintItemsPerYearSelected}"/>
 
                         <MenuItem Header="Print All Data"
                          IsCheckable="True"
@@ -162,20 +187,17 @@
                          IsCheckable="True"
                          IsChecked="{Binding PrintFlatSelected}"/>
 
-
-
                         <MenuItem Header="Print All Rooms"
                          IsCheckable="True"
                          IsChecked="{Binding PrintRoomsSelected}"/>
-
 
                         <MenuItem Header="Print Room Data"
                          IsCheckable="True"
                          IsChecked="{Binding PrintExcerptSelected}"/>
 
                         <MenuItem Visibility="{Binding PrintExcerptSelected,
-         Converter={StaticResource viscon}}"
-               IsCheckable="False">
+                            Converter={StaticResource viscon}}"
+                                  IsCheckable="False">
                             <MenuItem.Header>
                                 <WrapPanel>
                                     <TextBlock Text="Room"
@@ -184,14 +206,14 @@
                             Style="{StaticResource StringValueTextBlock}"/>
 
                                     <ComboBox ItemsSource="{Binding FlatViewModel.Rooms,
-                     UpdateSourceTrigger=PropertyChanged,
-                     Delay=200}"
-                           SelectedItem="{Binding SelectedRoom}"
-                           MinWidth="150">
+                                        UpdateSourceTrigger=PropertyChanged,
+                                        Delay=200}"
+                                              SelectedItem="{Binding SelectedRoom}"
+                                              MinWidth="150">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Style="{StaticResource StringValueTextBlock}">
-                                 <Run Text="{Binding RoomName}"/>
+                                                    <Run Text="{Binding RoomName}"/>
                                                 </TextBlock>
 
                                             </DataTemplate>
@@ -205,11 +227,16 @@
                     </MenuItem>
                 </Menu>
 
+                <Button Style="{DynamicResource buttonStyle}"
+                        Command="{Binding CreatePrintOutputCommand}"
+                        Content="Create New Print Output"
+                        Grid.Column="1"/>
+                
                 <Button Content="{DynamicResource IDF_ResetMenuButton}"
                         Command="{Binding ResetMenuCommand}"
                         Style="{StaticResource buttonStyle}"
-                        HorizontalAlignment="Right"/>
-
+                        HorizontalAlignment="Right"
+                        Grid.Column="2"/>
             </Grid>
 
             <MenuItem Visibility="{Binding DataOutputProgressionSelected,
@@ -265,31 +292,95 @@
         </StackPanel>
 
 
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="2">
+            <Grid Visibility="{Binding PrintItemsPerYearSelected,
+            Converter={StaticResource viscon}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="150"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Text="{DynamicResource IDF_Year}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       FontSize="12"
+                       FontFamily="Verdana"
+                       Margin="10 10"
+                       Grid.Column="0" />
+                <ComboBox ItemsSource="{Binding TimeScale}"
+                              MinWidth="150"
+                      
+                      SelectedItem="{Binding SelectedYear}"
+                      Grid.Column="1" />
+            </Grid>
 
-            <TextBlock Text="{DynamicResource IDF_Year}"
+            <Border  Visibility="{Binding NonBillingOutputSelected,
+            Converter={StaticResource viscon}}">
+                <Grid Visibility="{Binding PrintSelectedItemSelected,
+            Converter={StaticResource viscon}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="150"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="{DynamicResource IDF_RentChange}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       FontSize="12"
+                       FontFamily="Verdana"
+                       Margin="10 10"
+                       Grid.Column="0"/>
+                    <ComboBox ItemsSource="{Binding FlatViewModel.RentUpdates}"
+                              MinWidth="150"
+                              SelectedItem="{Binding SelectedRentChange}"
+                              Grid.Column="1" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StartDate, StringFormat=d}"
+                                           Style="{StaticResource StringValueTextBlock}"/>
+
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                        
+                    </ComboBox>
+                </Grid>
+            </Border>
+
+            <Border  Visibility="{Binding BillingOutputSelected,
+                Converter={StaticResource viscon}}">
+                <Grid Visibility="{Binding PrintSelectedItemSelected,
+                    Converter={StaticResource viscon}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="150"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="{DynamicResource IDF_AnnualBillings}"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
                                FontSize="12"
                                FontFamily="Verdana"
-                       Margin="10 0"
-                      Grid.Column="0"  />
-            <ComboBox ItemsSource="{Binding TimeScale}"
-                          Text="{DynamicResource IDF_Year}"
-                          
-                      SelectedItem="{Binding SelectedYear}"
-                      Grid.Column="1"  />
+                               Margin="10 10"
+                               Grid.Column="0"/>
+                    <ComboBox ItemsSource="{Binding FlatViewModel.AnnualBillings}"
+                              MinWidth="150"
+                              SelectedItem="{Binding SelectedAnnualBilling}"
+                              Grid.Column="1" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Year, StringFormat=d}"
+                                           Style="{StaticResource StringValueTextBlock}"/>
 
-            <Button Style="{DynamicResource buttonStyle}"
-                Command="{Binding CreatePrintOutputCommand}"
-                Content="Create New Print Output"
-                      Grid.Column="2"  />
-        </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </Border>
+
+        </StackPanel>
 
 
         <FlowDocumentScrollViewer Grid.Row="3"

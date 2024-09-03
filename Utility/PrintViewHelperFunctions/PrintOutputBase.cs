@@ -205,16 +205,27 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         {
             Section s = new Section();
 
-            Paragraph p = new Paragraph() { Background = new SolidColorBrush(Colors.LightGray) };
+            Paragraph p = new Paragraph(new Run($"\n{headerText}\n"))
+            {
+                Margin = new Thickness(0, 20, 0, 20),
+                FontWeight = FontWeights.Bold,
+                FontSize = 16.0,
+                Background = new SolidColorBrush(Colors.LightGray)
+            };
+
             s.Blocks.Add(p);
 
-            p = new Paragraph() { Margin = new Thickness(0, 20, 0, 20) };
-
-            p.Inlines.Add(new Run(headerText)
-            { FontWeight = FontWeights.Bold, FontSize = 16.0 });
-            p.Inlines.Add(new Run($"{BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 14.0 });
+            p = new Paragraph(new Run($"{BuildAddressDetails()}") { FontWeight = FontWeights.Bold, FontSize = 14.0 });
 
             s.Blocks.Add(p);
+
+            if (_PrintViewModel.ContractDataOutputSelected)
+            {
+                if (_PrintViewModel.RoomAreaDataSelected)
+                {
+                    s.Blocks.Add(BuildRoomAreaData());
+                }
+            }
 
             return s;
         }
@@ -223,8 +234,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         {
             Section s = new Section();
 
-            s.Blocks.Add(new Paragraph(new Run($"{BuildAddressDetails()}")) { FontWeight = FontWeights.Normal, FontSize = 14.0 });
-            s.Blocks.Add(new Paragraph(new Run($"Room Area Data")) { FontWeight = FontWeights.Bold, FontSize = 14.0 });
+            s.Blocks.Add(new Paragraph(new Run($"Room Area Data")) { FontWeight = FontWeights.Normal, FontSize = 16.0, Background = new SolidColorBrush(Colors.LightGray) });
 
             s.Blocks.Add(RoomAreaTable());
 
@@ -464,7 +474,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public Section? BuildValueChangeHeader(Section documentContext, ObservableCollection<RentViewModel> RentList, int iterator)
+        public Section? BuildValueChangeHeader(Section documentContext, ObservableCollection<RentViewModel> RentList, int iterator, bool isOverview)
         {
             if (RentList[iterator].StartDate.Year < SelectedYear)
             {
@@ -476,23 +486,23 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     }
                     else
                     {
-                        documentContext.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[iterator].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
+                        documentContext = WriteRentChangeToFlowDocument(documentContext, RentList, iterator, isOverview);
                     }
                 }
                 else
                 {
-                    documentContext.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[iterator].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
+                    documentContext = WriteRentChangeToFlowDocument(documentContext, RentList, iterator, isOverview);
                 }
             }
             else
             {
                 if (iterator == 0)
                 {
-                    documentContext.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[iterator].StartDate:d}")) { Margin = new Thickness(0, 0, 0, 0), FontWeight = FontWeights.Bold });
+                    documentContext = WriteRentChangeToFlowDocument(documentContext, RentList, iterator, isOverview);
                 }
                 else
                 {
-                    documentContext.Blocks.Add(new Paragraph(new Run($"rent change:\t\t{RentList[iterator].StartDate:d}")) { Margin = new Thickness(0, 20, 0, 0), FontWeight = FontWeights.Bold });
+                    documentContext = WriteRentChangeToFlowDocument(documentContext, RentList, iterator, isOverview);
                 }
             }
 
@@ -849,6 +859,24 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
+        public TableRow OutputTableRowCheck(double payment, string item, bool FontWeightBold = false, bool HasTopLine = true)
+        {
+            TableRow dataRow = new TableRow();
+
+            TableCell DueTime = new TableCell();
+
+            TableCell Item = new TableCell();
+
+            Item.Blocks.Add(new Paragraph(new Run(item)));
+
+            dataRow.Cells.Add(DueTime);
+            dataRow.Cells.Add(Item);
+            dataRow.Cells.Add(ConfiguratePaymentCell(payment, FontWeightBold, HasTopLine));
+
+            return dataRow;
+        }
+
+
         public TableRow OutputTableRowRoomAreaData(RoomViewModel roomViewModel, FlatViewModel flatViewModel)
         {
             TableRow dataRow = new TableRow();
@@ -1183,6 +1211,46 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             headerRow.Cells.Add(Costs);
 
             return headerRow;
+        }
+
+
+        public TableRowGroup WriteCheckToTableRowGroup(
+            TableRowGroup dataRowGroup,
+            double roomValues,
+            double contractValue,
+            string headerText,
+            bool isSub = true
+            )
+        {
+            dataRowGroup.Rows.Add(SeparatorTextTableRow(headerText, isSub));
+            dataRowGroup.Rows.Add(OutputTableRowCheck(roomValues, "room values"));
+            dataRowGroup.Rows.Add(OutputTableRowCheck(contractValue, "contract value"));
+            dataRowGroup.Rows.Add(OutputTableRowCheck(roomValues - contractValue, "balance"));
+
+            dataRowGroup.Rows.Add(SeparatorLineTableRow(true));
+
+            return dataRowGroup;
+        }
+
+
+        private Section WriteRentChangeToFlowDocument(Section documentContext, ObservableCollection<RentViewModel> RentList, int iterator, bool isOverview)
+        {
+
+            if (!isOverview)
+            {
+                documentContext.Blocks.Add(new Paragraph(new Run($"\nrent change:\t\t{RentList[iterator].StartDate:d}\n")) { Margin = new Thickness(0, 20, 0, 0), FontFamily= new FontFamily("Verdana"), FontWeight = FontWeights.Bold, Background = new SolidColorBrush(Colors.LightGray) });
+            }
+            else
+            {
+                if (iterator == 0)
+                {
+                    documentContext.Blocks.Add(new Paragraph(new Run($"\nrent changes {RentList[iterator].StartDate.Year}\n")) { Background = new SolidColorBrush(Colors.LightGray), FontFamily = new FontFamily("Verdana"), FontWeight = FontWeights.Bold, FontSize = 16.0 });
+
+                }
+                    documentContext.Blocks.Add(new Paragraph(new Run($"rent change: {RentList[iterator].StartDate:d}")) { FontFamily = new FontFamily("Verdana"), FontSize = 12.0 });
+            }
+
+            return documentContext;
         }
 
         #endregion

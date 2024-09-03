@@ -23,7 +23,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public double ActualAdvancePerPeriod { get; set; } = 0.0;
 
-
+                
         public FinancialTransactionItemBilling BasicHeatingCosts { get; set; } = new FinancialTransactionItemBilling()
         {
             TransactionItem = "Basic Heating Costs",
@@ -84,24 +84,27 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double TotalCostsPerPeriod { get; set; } = 0.0;
 
 
-        // fixed costs
+        // Pro Rata
+        // all annual costs that are not rent, heating or water.
         // can be calculated per room using
         // (((room area) + (shared space)/(amount of Rooms))/(total area)) * fixed costs
-        public FinancialTransactionItemBilling TotalFixedCostsPerPeriod { get; set; } = new FinancialTransactionItemBilling()
+        public FinancialTransactionItemBilling ProRataCosts { get; set; } = new FinancialTransactionItemBilling()
         {
-            TransactionItem = "Fixed",
+            TransactionItem = "Pro Rata",
             TransactionShareTypes = TransactionShareTypesBilling.Area,
             TransactionSum = 0.0
         };
 
 
-        // heating costs 
+        // Fixed Amount
+        // warm and cold water costs and heating costs
+        // heating costs are comprised of basic heating costs and consumption heating costs        
+        //
         // shared space heating costs can be devided by the number of Rooms
-        // room based heating costs must take heating units constumption into
-        // account
-        public FinancialTransactionItemBilling TotalHeatingCostsPerPeriod { get; set; } = new FinancialTransactionItemBilling()
+        // room based heating costs must take heating units consumption into account
+        public FinancialTransactionItemBilling FixedAmountCosts { get; set; } = new FinancialTransactionItemBilling()
         {
-            TransactionItem = "Heating",
+            TransactionItem = "Fixed Amount",
             TransactionShareTypes = TransactionShareTypesBilling.Consumption,
             TransactionSum = 0.0
         };
@@ -176,8 +179,8 @@ namespace SharedLivingCostCalculator.Models.Financial
             StartDate = startDate;
             EndDate = endDate;
             TotalCostsPerPeriod = totalCostsPerPeriod;
-            TotalFixedCostsPerPeriod.TransactionSum = totalFixedCostsPerPeriod;
-            TotalHeatingCostsPerPeriod.TransactionSum = totalHeatingCostsPerPeriod;
+            ProRataCosts.TransactionSum = totalFixedCostsPerPeriod;
+            FixedAmountCosts.TransactionSum = totalHeatingCostsPerPeriod;
 
 
             Costs.CollectionChanged += Costs_CollectionChanged;
@@ -324,15 +327,15 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public void Check4HeatingCosts()
         {
-            TotalHeatingCostsPerPeriod.TransactionShareTypes = TransactionShareTypesBilling.Consumption;
-            TotalHeatingCostsPerPeriod.TransactionItem = "Heating";
+            FixedAmountCosts.TransactionShareTypes = TransactionShareTypesBilling.Consumption;
+            FixedAmountCosts.TransactionItem = "Heating";
 
             int heatingCostsCount = 0;
             bool hasForeignObject = false;
 
             foreach (ConsumptionItem item in ConsumptionItems)
             {
-                if (item.ConsumptionCause.TransactionItem.Equals(TotalHeatingCostsPerPeriod.TransactionItem))
+                if (item.ConsumptionCause.TransactionItem.Equals(FixedAmountCosts.TransactionItem))
                 {
                     heatingCostsCount++;
 
@@ -354,7 +357,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             if (heatingCostsCount == 0)
             {
-                ConsumptionItems.Add(new ConsumptionItem(TotalHeatingCostsPerPeriod));
+                ConsumptionItems.Add(new ConsumptionItem(FixedAmountCosts));
             }
             else if (heatingCostsCount > 1)
             {

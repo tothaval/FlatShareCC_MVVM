@@ -6,12 +6,14 @@
  */
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Interfaces.Financial;
+using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.Metrics;
 
 
 namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
@@ -74,7 +76,18 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(Advance)));
 
-                //RebuildRoomCostShares();
+                CalculateAdvanceDetails();
+            }
+        }
+
+
+        public double BasicHeatingCostsAdvance
+        {
+            get { return Rent.BasicHeatingCostsAdvance.TransactionSum; }
+            set
+            {
+                Rent.BasicHeatingCostsAdvance.TransactionSum = value;
+                OnPropertyChanged(nameof(BasicHeatingCostsAdvance));
             }
         }
 
@@ -92,13 +105,34 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 OnPropertyChanged(nameof(CompleteCosts));
 
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(ColdRent)));
-
-                //RebuildRoomCostShares();
             }
 
         }
 
+        public double ColdWaterCostsAdvance
+        {
+            get { return Rent.ColdWaterCostsAdvance.TransactionSum; }
+            set
+            {
+                Rent.ColdWaterCostsAdvance.TransactionSum = value;
+                OnPropertyChanged(nameof(ColdWaterCostsAdvance));
+            }
+        }
+
+
         public double CompleteCosts => CostsTotal + OtherFTISum;
+
+
+        public double ConsumptionHeatingCostsAdvance
+        {
+            get { return Rent.ConsumptionHeatingCostsAdvance.TransactionSum; }
+            set
+            {
+                Rent.ConsumptionHeatingCostsAdvance.TransactionSum = value;
+
+                OnPropertyChanged(nameof(ConsumptionHeatingCostsAdvance));
+            }
+        }
 
 
         public double CostsTotal => ColdRent + Advance;
@@ -131,6 +165,28 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 OnPropertyChanged(nameof(CostsAndCredits));
 
                 //RebuildRoomCostShares();
+            }
+        }
+
+
+        public double ProRataCostsAdvance
+        {
+            get { return Rent.ProRataCostsAdvance.TransactionSum; }
+            set
+            {
+                Rent.ProRataCostsAdvance.TransactionSum = value;
+                OnPropertyChanged(nameof(ProRataCostsAdvance));
+            }
+        }
+
+
+        public double WarmWaterCostsAdvance
+        {
+            get { return Rent.WarmWaterCostsAdvance.TransactionSum; }
+            set
+            {
+                Rent.WarmWaterCostsAdvance.TransactionSum = value;
+                OnPropertyChanged(nameof(WarmWaterCostsAdvance));
             }
         }
 
@@ -335,6 +391,82 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        public void AdvanceShare(BillingViewModel billingViewModel)
+        {
+            Compute get = new Compute();
+
+            ProRataCostsAdvance =
+                get.CostsFactor(billingViewModel.ProRataCosts, billingViewModel.TotalCostsPerPeriod)
+                * Advance;
+
+            BasicHeatingCostsAdvance =
+                get.CostsFactor(billingViewModel.BasicHeatingCosts, billingViewModel.TotalCostsPerPeriod)
+                * Advance;
+
+            // water could become consumption shared via an print menu option for example,
+            // the transaction share type could be changed to consumption. in order to work
+            // like Heating, related code would need some work. it would be guessing in all
+            // situations, where water consumption per person is not measured or measurable,
+            // that is why it is set to equal for the time being.
+            ColdWaterCostsAdvance =
+                get.CostsFactor(billingViewModel.ColdWaterCosts, billingViewModel.TotalCostsPerPeriod)
+                * Advance;
+
+            // water could become consumption shared via an print menu option for example,
+            // the transaction share type could be changed to consumption. in order to work
+            // like Heating, related code would need some work. it would be guessing in all
+            // situations, where water consumption per person is not measured or measurable,
+            // that is why it is set to equal for the time being.
+            WarmWaterCostsAdvance =
+                get.CostsFactor(billingViewModel.WarmWaterCosts, billingViewModel.TotalCostsPerPeriod)
+                * Advance;
+
+            ConsumptionHeatingCostsAdvance =
+                get.CostsFactor(billingViewModel.ConsumptionHeatingCosts, billingViewModel.TotalCostsPerPeriod)
+                * Advance;
+        }
+
+
+        public void CalculateAdvanceDetails()
+        {
+            bool billingViewModelFound = false;
+
+            foreach (BillingViewModel item in _FlatViewModel.AnnualBillings)
+            {
+                if (item.StartDate.Year == StartDate.Year - 1
+                    && (StartDate > item.BillingDate))
+                {
+                    AdvanceShare(item);
+
+                    billingViewModelFound = true;
+
+                    break;
+                }
+            }
+
+            if (!billingViewModelFound)
+            {
+                foreach (BillingViewModel item in _FlatViewModel.AnnualBillings)
+                {
+                    if (item.StartDate.Year <= StartDate.Year - 1
+                        && (StartDate > item.BillingDate))
+                    {
+                        AdvanceShare(item);
+
+                        billingViewModelFound = true;
+
+                        break;
+                    }
+                }
+            }
+
+            if (!billingViewModelFound)
+            {
+                ProRataCostsAdvance = Advance;
+            }
+        }
+
+
         public double CalculateAnnualPriceFactor()
         {
             double factor = DetermineMonthsUntilYearsEnd();
@@ -497,8 +629,9 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public void RecalculateRoomCosts()
+        public void RecalculateCosts()
         {
+            CalculateAdvanceDetails();
             RebuildRoomCostShares();
         }
 
