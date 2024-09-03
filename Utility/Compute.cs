@@ -19,6 +19,17 @@ namespace SharedLivingCostCalculator.Utility
         }
 
 
+        public double CostsFactor(double costs, double totalCosts)
+        {
+            if (totalCosts != null)
+            {
+                return costs / totalCosts;
+            }
+
+            return -2;
+        }
+
+
         public DateTime DateEvaluation(DateTime date, FlatViewModel flatViewModel)
         {
             DateTime contractStart = new DateTime(
@@ -87,23 +98,6 @@ namespace SharedLivingCostCalculator.Utility
             double rentedArea = RentedAreaShare(room, flatViewModel);
 
             return rentedArea / flatViewModel.Area;
-        }
-
-
-        public double RoomAdvanceShare(BillingViewModel billingViewModel, RentViewModel rentViewModel, Room room)
-        {
-            double fixedCostsFactor = billingViewModel.TotalFixedCostsPerPeriod / billingViewModel.TotalCostsPerPeriod;
-            double heatingCostsFactor = billingViewModel.TotalHeatingCostsPerPeriod / billingViewModel.TotalCostsPerPeriod;
-
-            double roomConsumptionPercentage =
-                billingViewModel.GetRoomConsumptionPercentage(
-                    room
-                    );
-
-            double advanceShare = fixedCostsFactor * rentViewModel.Advance * RentedAreaShareRatio(room, rentViewModel.GetFlatViewModel())
-                + heatingCostsFactor * rentViewModel.Advance * roomConsumptionPercentage;
-
-            return advanceShare;
         }
     }
 }

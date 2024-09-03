@@ -1,5 +1,17 @@
 # SharedLivingCostCalculator dev_build
 
+Update 09/2024:
+main focus of development currently lies with finalizing print output options and
+fixing known issues and bugs, as well as implementing the rest of the intended 
+features. This process is accompanied by running the app with real world data 
+in a real world scenario, which has brought a variety of issues and some calculation
+errors to light until now. they need to be addressed in upcoming commits.
+
+refactoring, commenting and testing all calculations and the code base will be done
+either to small fractions of the code while working in the area or in later commits
+focused on such endeavours
+-- End of Update --
+
 !!! this document is not up to date, some information might be obsolete.
 
 

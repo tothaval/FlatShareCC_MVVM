@@ -219,11 +219,11 @@ namespace SharedLivingCostCalculator.ViewModels.Contract
 
                 if (value == true && SelectedItem != null)
                 {
-                    SelectedItem.InitialRent.RecalculateRoomCosts();
+                    SelectedItem.InitialRent.RecalculateCosts();
 
                     foreach (RentViewModel item in SelectedItem.RentUpdates)
                     {
-                        item.RecalculateRoomCosts();
+                        item.RecalculateCosts();
                     }
 
                     Print.Update();

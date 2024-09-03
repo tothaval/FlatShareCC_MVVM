@@ -67,7 +67,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public double FirstYearContractCostsShare => FirstYearAdvanceShare + FirstYearRentShare;
 
-        public double FirstYearAdvanceShare => AdvanceShare * DetermineMonthsUntilYearsEnd();
+        public double FirstYearAdvanceShare => ContractCostsAdvanceShare * DetermineMonthsUntilYearsEnd();
 
 
         public double FirstYearOtherCostsShare => OtherCostsShare * DetermineMonthsUntilYearsEnd();
@@ -81,6 +81,10 @@ namespace SharedLivingCostCalculator.Models.Financial
         // Monthly Costs
         #region Monthly Costs
 
+        /// <summary>
+        /// represents the sum of all monthly area share type FTI
+        /// costs setup in other costs tab in rent changes view
+        /// </summary>
         public double AreaSharedCostsShare { get; set; }
 
 
@@ -90,21 +94,91 @@ namespace SharedLivingCostCalculator.Models.Financial
         public double CostAndCreditShare { get; set; }
 
 
+        /// <summary>
+        /// represents the sum of all monthly credit FTIs
+        /// setup in credits tab in rent changes view
+        /// </summary>
         public double CreditShare { get; set; }
 
 
+        /// <summary>
+        /// represents the sum of all monthly equal share type FTI
+        /// costs setup in other costs tab in rent changes view
+        /// </summary>
         public double EqualSharedCostsShare { get; set; }
 
 
-        public double AdvanceShare { get; set; }
+        /// <summary>
+        /// represents the sum of all monthly contract cost related advances absent rent costs
+        /// </summary>
+        public double ContractCostsAdvanceShare =>
+            ProRataAdvanceShare
+            + FixedAmountAdvanceShare;
 
 
+        /// <summary>
+        /// represents the sum of all monthly non pro rata contract cost advances, absent rent costs
+        /// </summary>
+        public double FixedAmountAdvanceShare =>
+            BasicHeatingCostsAdvanceShare
+            + ConsumptionHeatingCostsAdvanceShare
+            + ColdWaterCostsAdvanceShare
+            + WarmWaterCostsAdvanceShare;
+
+
+        /// <summary>
+        /// monthly heating related basic costs advance absent consumption,
+        /// area shared
+        /// </summary>
+        public double BasicHeatingCostsAdvanceShare { get; set; }
+
+
+        /// <summary>
+        /// monthly cold water consumption costs advance, currently not used
+        /// as a consumption share type FTI like heating, thoughts suggest
+        /// to make it an option sometime in the future
+        /// </summary>
+        public double ColdWaterCostsAdvanceShare { get; set; }
+
+
+        /// <summary>
+        /// represents the monthly advance for Pro Rata costs, which
+        /// are building maintainance and operation related costs
+        /// that are distributed between all renting factions via
+        /// area share. excluded from these costs are cold water,
+        /// warm water, basic heating costs and consumption heating costs.
+        /// </summary>
+        public double ProRataAdvanceShare { get; set; }
+
+
+        /// <summary>
+        /// monthly heating related consumption costs advance
+        /// </summary>
+        public double ConsumptionHeatingCostsAdvanceShare { get; set; }
+
+
+        /// <summary>
+        /// monthly warm water consumption costs advance, currently not used
+        /// as a consumption share type FTI like heating, thoughts suggest
+        /// to make it an option sometime in the future
+        /// </summary>
+        public double WarmWaterCostsAdvanceShare { get; set; }
+
+
+        /// <summary>
+        /// monthly other costs advances or costs setup in the other costs tab
+        /// in rent changes view, represents all consumption share types
+        /// </summary>
         public double OtherCostsShare { get; set; }
 
 
         public double PriceShare { get; set; }
 
 
+        /// <summary>
+        /// represents the monthly rent share of the room, calculated using the
+        /// area share ratio of the rented area compared to the flat area.
+        /// </summary>
         public double RentShare { get; set; }
 
         #endregion
@@ -112,6 +186,9 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         // Other Properties
         #region Other Properties
+
+        public double ConsumptionShareRatio { get; set; }
+
 
         public double RentedAreaShare { get; set; }
         
@@ -166,9 +243,9 @@ namespace SharedLivingCostCalculator.Models.Financial
             if (_RentViewModel.IsInitialRent && _RentViewModel.Rent.UseRoomCosts4InitialRent)
             {
                 RentShare = room.InitialColdRent;
-                AdvanceShare = room.InitialAdvance;
+                ProRataAdvanceShare = room.InitialAdvance;
 
-                PriceShare = RentShare + AdvanceShare;
+                PriceShare = RentShare + ContractCostsAdvanceShare;
 
                 CompleteCostShare = PriceShare + 0.0;
             }
@@ -204,7 +281,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                     && (_RentViewModel.StartDate > item.BillingDate))
                 {
 
-                    AdvanceShare = new Compute().RoomAdvanceShare(item, _RentViewModel, _Room);
+                    RoomAdvanceShare(item);
 
                     counter++;
                     break;
@@ -218,7 +295,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                     if (item.StartDate.Year == _RentViewModel.StartDate.Year - 2)
                     {
 
-                        AdvanceShare = new Compute().RoomAdvanceShare(item, _RentViewModel, _Room);
+                        RoomAdvanceShare(item);
 
                         alt_counter++;
                         break;
@@ -229,7 +306,13 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             if (counter == 0 && alt_counter == 0)
             {
-                AdvanceShare = RentedAreaShareRatio * _RentViewModel.Advance;
+                // in case no billing was found, costs advances are split by area share
+                // until the first billing has been received. if all tenants share an equal 
+                // consumption behaviour towards heating, smaller areas probably need
+                // less units to keep them cozy.
+                // alternatively the user could use room costs for the inital rent setup
+                // and use self calculated numbers or some future feature of slcc to calculate those.
+                ProRataAdvanceShare = RentedAreaShareRatio * _RentViewModel.Advance;                
             }
 
 
@@ -237,7 +320,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             EqualSharedCostsShare = new Compute().GetEqualSharedCostShare(_RentViewModel);
 
-            PriceShare = RentShare + AdvanceShare;
+            PriceShare = RentShare + ContractCostsAdvanceShare;
 
             OtherCostsShare = AreaSharedCostsShare + EqualSharedCostsShare;
 
@@ -247,20 +330,6 @@ namespace SharedLivingCostCalculator.Models.Financial
             FillObservableCollection();
 
             CostAndCreditShare = CompleteCostShare - CreditShare;
-
-            //OnPropertyChanged(nameof(RentedAreaShare));
-            //OnPropertyChanged(nameof(RentShare));
-            //OnPropertyChanged(nameof(AdvanceShare));
-
-            //OnPropertyChanged(nameof(OtherCostsShare));
-            //OnPropertyChanged(nameof(CompleteCostShare));
-
-            //OnPropertyChanged(nameof(AnnualFixedCostsAdvanceShare));
-            //OnPropertyChanged(nameof(AnnualHeatingCostsAdvanceShare));
-            //OnPropertyChanged(nameof(AnnualOtherCostsShare));
-            //OnPropertyChanged(nameof(AnnualRentShare));
-
-            //OnPropertyChanged(nameof(AnnualCompleteCostShare));
         }
 
         public double EqualShareRatio()
@@ -339,7 +408,51 @@ namespace SharedLivingCostCalculator.Models.Financial
         }
 
 
+        public void RoomAdvanceShare(BillingViewModel billingViewModel)
+        {
+            Compute get = new Compute();
 
+            ProRataAdvanceShare =
+                get.CostsFactor(billingViewModel.ProRataCosts, billingViewModel.TotalCostsPerPeriod)
+                * _RentViewModel.Advance
+                * RentedAreaShareRatio;
+
+            BasicHeatingCostsAdvanceShare =
+                get.CostsFactor(billingViewModel.BasicHeatingCosts, billingViewModel.TotalCostsPerPeriod)
+                * _RentViewModel.Advance
+                * RentedAreaShareRatio;
+
+            // water could become consumption shared via an print menu option for example,
+            // the transaction share type could be changed to consumption. in order to work
+            // like Heating, related code would need some work. it would be guessing in all
+            // situations, where water consumption per person is not measured or measurable,
+            // that is why it is set to equal for the time being.
+            ColdWaterCostsAdvanceShare =
+                get.CostsFactor(billingViewModel.ColdWaterCosts, billingViewModel.TotalCostsPerPeriod)
+                * _RentViewModel.Advance
+                * EqualShareRatio();
+
+            // water could become consumption shared via an print menu option for example,
+            // the transaction share type could be changed to consumption. in order to work
+            // like Heating, related code would need some work. it would be guessing in all
+            // situations, where water consumption per person is not measured or measurable,
+            // that is why it is set to equal for the time being.
+            WarmWaterCostsAdvanceShare =
+                get.CostsFactor(billingViewModel.WarmWaterCosts, billingViewModel.TotalCostsPerPeriod)
+                * _RentViewModel.Advance
+                * EqualShareRatio();
+
+
+            ConsumptionShareRatio =
+                billingViewModel.GetRoomConsumptionRatio(
+                    Room
+                    );
+
+            ConsumptionHeatingCostsAdvanceShare =
+                get.CostsFactor(billingViewModel.ConsumptionHeatingCosts, billingViewModel.TotalCostsPerPeriod)
+                * _RentViewModel.Advance
+                * ConsumptionShareRatio;
+        }
 
         //public double RentedAreaShareRatio()
         //{

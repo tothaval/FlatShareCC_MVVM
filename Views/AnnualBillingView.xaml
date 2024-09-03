@@ -82,7 +82,7 @@
                             <GridViewColumn Header="{DynamicResource IDF_FixedCosts}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding TotalFixedCostsPerPeriod,
+                                        <TextBlock Text="{Binding ProRataCosts,
                                             StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
                                             NotifyOnSourceUpdated=True,
@@ -96,7 +96,7 @@
                             <GridViewColumn Header="{DynamicResource IDF_HeatingCosts}" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding TotalHeatingCostsPerPeriod,
+                                        <TextBlock Text="{Binding FixedAmountCosts,
                                             StringFormat=C2,
                                             UpdateSourceTrigger=PropertyChanged,
                                             NotifyOnSourceUpdated=True,
@@ -268,7 +268,7 @@
                                                ToolTip="Insert the annual fixed costs."
                                                Grid.Column="1"
                                                Grid.Row="2"/>
-                            <TextBox Text="{Binding SelectedValue.TotalFixedCostsPerPeriod,
+                            <TextBox Text="{Binding SelectedValue.ProRataCosts,
                                 StringFormat=C2,
                                 Mode=TwoWay,
                                 NotifyOnSourceUpdated=True,
@@ -360,8 +360,8 @@
                                                ToolTip="Insert the annual heating costs."
                                                Grid.Column="1"
                                                Grid.Row="5"/>
-                            
-                            <TextBox Text="{Binding SelectedValue.TotalHeatingCostsPerPeriod,
+
+                            <TextBox Text="{Binding SelectedValue.FixedAmountCosts,
                                 StringFormat=C2,
                                 Mode=TwoWay,
                                 NotifyOnSourceUpdated=True,

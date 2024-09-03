@@ -18,6 +18,11 @@ there is a grocery store nearby.</FlatNotes>
       <TransactionShareTypes>Area</TransactionShareTypes>
       <TransactionSum>355</TransactionSum>
     </Advance>
+    <BasicHeatingCostsAdvance>
+      <TransactionItem>Basic Heating Costs Advance</TransactionItem>
+      <TransactionShareTypes>Area</TransactionShareTypes>
+      <TransactionSum>0</TransactionSum>
+    </BasicHeatingCostsAdvance>
     <ColdRent>
       <Duration>Ongoing</Duration>
       <EndDate>2024-09-01T00:00:00</EndDate>
@@ -26,14 +31,32 @@ there is a grocery store nearby.</FlatNotes>
       <TransactionShareTypes>Area</TransactionShareTypes>
       <TransactionSum>715</TransactionSum>
     </ColdRent>
-    <CostsHasDataLock>false</CostsHasDataLock>
+    <ColdWaterCostsAdvance>
+      <TransactionItem>Cold Water Costs Advance</TransactionItem>
+      <TransactionShareTypes>Equal</TransactionShareTypes>
+      <TransactionSum>0</TransactionSum>
+    </ColdWaterCostsAdvance>
+    <ConsumptionHeatingCostsAdvance>
+      <TransactionItem>Consumption Heating Costs Advance</TransactionItem>
+      <TransactionShareTypes>Consumption</TransactionShareTypes>
+      <TransactionSum>0</TransactionSum>
+    </ConsumptionHeatingCostsAdvance>
     <HasCredits>false</HasCredits>
-    <HasDataLock>true</HasDataLock>
     <HasOtherCosts>false</HasOtherCosts>
     <IsInitialRent>true</IsInitialRent>
+    <ProRataCostsAdvance>
+      <TransactionItem>Pro Rata Advance</TransactionItem>
+      <TransactionShareTypes>Area</TransactionShareTypes>
+      <TransactionSum>355</TransactionSum>
+    </ProRataCostsAdvance>
     <StartDate>2023-02-15T00:00:00</StartDate>
     <UseRoomCosts4InitialRent>false</UseRoomCosts4InitialRent>
     <UseWorkplaces>false</UseWorkplaces>
+    <WarmWaterCostsAdvance>
+      <TransactionItem>Warm Water Costs Advance</TransactionItem>
+      <TransactionShareTypes>Equal</TransactionShareTypes>
+      <TransactionSum>0</TransactionSum>
+    </WarmWaterCostsAdvance>
     <OtherCosts />
     <Credits />
   </InitialRent>
@@ -59,7 +82,7 @@ there is a grocery store nearby.</FlatNotes>
         <TransactionShareTypes>Consumption</TransactionShareTypes>
         <TransactionSum>0</TransactionSum>
       </ConsumptionHeatingCosts>
-      <ConsumptionHeatingCostsPercentage>0</ConsumptionHeatingCostsPercentage>
+      <ConsumptionHeatingCostsPercentage>100</ConsumptionHeatingCostsPercentage>
       <BillingDate>2024-08-08T00:00:00</BillingDate>
       <CostsHasDataLock>false</CostsHasDataLock>
       <EndDate>2023-12-31T00:00:00</EndDate>
@@ -69,16 +92,16 @@ there is a grocery store nearby.</FlatNotes>
       <HasPayments>true</HasPayments>
       <StartDate>2023-04-01T00:00:00</StartDate>
       <TotalCostsPerPeriod>1507.12</TotalCostsPerPeriod>
-      <TotalFixedCostsPerPeriod>
-        <TransactionItem>Fixed</TransactionItem>
+      <ProRataCosts>
+        <TransactionItem>Pro Rata</TransactionItem>
         <TransactionShareTypes>Area</TransactionShareTypes>
-        <TransactionSum>550.14</TransactionSum>
-      </TotalFixedCostsPerPeriod>
-      <TotalHeatingCostsPerPeriod>
-        <TransactionItem>Heating</TransactionItem>
+        <TransactionSum>1050</TransactionSum>
+      </ProRataCosts>
+      <FixedAmountCosts>
+        <TransactionItem>Fixed Amount</TransactionItem>
         <TransactionShareTypes>Consumption</TransactionShareTypes>
-        <TransactionSum>956.9799999999999</TransactionSum>
-      </TotalHeatingCostsPerPeriod>
+        <TransactionSum>0</TransactionSum>
+      </FixedAmountCosts>
       <WarmWaterCosts>
         <TransactionItem>Warm Water Costs</TransactionItem>
         <TransactionShareTypes>Equal</TransactionShareTypes>
@@ -196,6 +219,11 @@ there is a grocery store nearby.</FlatNotes>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionSum>250</TransactionSum>
       </Advance>
+      <BasicHeatingCostsAdvance>
+        <TransactionItem>Basic Heating Costs Advance</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </BasicHeatingCostsAdvance>
       <ColdRent>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
@@ -204,14 +232,32 @@ there is a grocery store nearby.</FlatNotes>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionSum>500</TransactionSum>
       </ColdRent>
-      <CostsHasDataLock>false</CostsHasDataLock>
+      <ColdWaterCostsAdvance>
+        <TransactionItem>Cold Water Costs Advance</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </ColdWaterCostsAdvance>
+      <ConsumptionHeatingCostsAdvance>
+        <TransactionItem>Consumption Heating Costs Advance</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </ConsumptionHeatingCostsAdvance>
       <HasCredits>false</HasCredits>
-      <HasDataLock>true</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <IsInitialRent>false</IsInitialRent>
+      <ProRataCostsAdvance>
+        <TransactionItem>Pro Rata Advance</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>250</TransactionSum>
+      </ProRataCostsAdvance>
       <StartDate>2023-04-01T00:00:00</StartDate>
       <UseRoomCosts4InitialRent>false</UseRoomCosts4InitialRent>
       <UseWorkplaces>false</UseWorkplaces>
+      <WarmWaterCostsAdvance>
+        <TransactionItem>Warm Water Costs Advance</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </WarmWaterCostsAdvance>
       <OtherCosts>
         <FinancialTransactionItemRent>
           <Duration>Ongoing</Duration>
@@ -249,6 +295,11 @@ there is a grocery store nearby.</FlatNotes>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionSum>220</TransactionSum>
       </Advance>
+      <BasicHeatingCostsAdvance>
+        <TransactionItem>Basic Heating Costs Advance</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </BasicHeatingCostsAdvance>
       <ColdRent>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
@@ -257,14 +308,32 @@ there is a grocery store nearby.</FlatNotes>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionSum>522.17</TransactionSum>
       </ColdRent>
-      <CostsHasDataLock>false</CostsHasDataLock>
+      <ColdWaterCostsAdvance>
+        <TransactionItem>Cold Water Costs Advance</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </ColdWaterCostsAdvance>
+      <ConsumptionHeatingCostsAdvance>
+        <TransactionItem>Consumption Heating Costs Advance</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </ConsumptionHeatingCostsAdvance>
       <HasCredits>false</HasCredits>
-      <HasDataLock>true</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <IsInitialRent>false</IsInitialRent>
+      <ProRataCostsAdvance>
+        <TransactionItem>Pro Rata Advance</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>220</TransactionSum>
+      </ProRataCostsAdvance>
       <StartDate>2024-08-01T00:00:00</StartDate>
       <UseRoomCosts4InitialRent>false</UseRoomCosts4InitialRent>
       <UseWorkplaces>false</UseWorkplaces>
+      <WarmWaterCostsAdvance>
+        <TransactionItem>Warm Water Costs Advance</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </WarmWaterCostsAdvance>
       <OtherCosts />
       <Credits />
     </Rent>
@@ -277,6 +346,11 @@ there is a grocery store nearby.</FlatNotes>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionSum>240</TransactionSum>
       </Advance>
+      <BasicHeatingCostsAdvance>
+        <TransactionItem>Basic Heating Costs Advance</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </BasicHeatingCostsAdvance>
       <ColdRent>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
@@ -285,14 +359,32 @@ there is a grocery store nearby.</FlatNotes>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionSum>522.17</TransactionSum>
       </ColdRent>
-      <CostsHasDataLock>false</CostsHasDataLock>
+      <ColdWaterCostsAdvance>
+        <TransactionItem>Cold Water Costs Advance</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </ColdWaterCostsAdvance>
+      <ConsumptionHeatingCostsAdvance>
+        <TransactionItem>Consumption Heating Costs Advance</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </ConsumptionHeatingCostsAdvance>
       <HasCredits>false</HasCredits>
-      <HasDataLock>true</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <IsInitialRent>false</IsInitialRent>
+      <ProRataCostsAdvance>
+        <TransactionItem>Pro Rata Advance</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>240</TransactionSum>
+      </ProRataCostsAdvance>
       <StartDate>2024-09-01T00:00:00</StartDate>
       <UseRoomCosts4InitialRent>false</UseRoomCosts4InitialRent>
       <UseWorkplaces>false</UseWorkplaces>
+      <WarmWaterCostsAdvance>
+        <TransactionItem>Warm Water Costs Advance</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </WarmWaterCostsAdvance>
       <OtherCosts />
       <Credits />
     </Rent>
@@ -305,6 +397,11 @@ there is a grocery store nearby.</FlatNotes>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionSum>260</TransactionSum>
       </Advance>
+      <BasicHeatingCostsAdvance>
+        <TransactionItem>Basic Heating Costs Advance</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </BasicHeatingCostsAdvance>
       <ColdRent>
         <Duration>Ongoing</Duration>
         <EndDate>2024-09-01T00:00:00</EndDate>
@@ -313,14 +410,32 @@ there is a grocery store nearby.</FlatNotes>
         <TransactionShareTypes>Area</TransactionShareTypes>
         <TransactionSum>522.17</TransactionSum>
       </ColdRent>
-      <CostsHasDataLock>false</CostsHasDataLock>
+      <ColdWaterCostsAdvance>
+        <TransactionItem>Cold Water Costs Advance</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </ColdWaterCostsAdvance>
+      <ConsumptionHeatingCostsAdvance>
+        <TransactionItem>Consumption Heating Costs Advance</TransactionItem>
+        <TransactionShareTypes>Consumption</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </ConsumptionHeatingCostsAdvance>
       <HasCredits>false</HasCredits>
-      <HasDataLock>true</HasDataLock>
       <HasOtherCosts>false</HasOtherCosts>
       <IsInitialRent>false</IsInitialRent>
+      <ProRataCostsAdvance>
+        <TransactionItem>Pro Rata Advance</TransactionItem>
+        <TransactionShareTypes>Area</TransactionShareTypes>
+        <TransactionSum>260</TransactionSum>
+      </ProRataCostsAdvance>
       <StartDate>2024-10-01T00:00:00</StartDate>
       <UseRoomCosts4InitialRent>false</UseRoomCosts4InitialRent>
       <UseWorkplaces>false</UseWorkplaces>
+      <WarmWaterCostsAdvance>
+        <TransactionItem>Warm Water Costs Advance</TransactionItem>
+        <TransactionShareTypes>Equal</TransactionShareTypes>
+        <TransactionSum>0</TransactionSum>
+      </WarmWaterCostsAdvance>
       <OtherCosts />
       <Credits />
     </Rent>

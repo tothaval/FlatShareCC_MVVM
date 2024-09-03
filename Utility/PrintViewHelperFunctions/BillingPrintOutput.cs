@@ -381,27 +381,32 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
         public Section BuildBillingDetails()
         {
+
             Section billingOutput = new Section();
 
             if (_BillingViewModel != null)
             {
 
-                if (_PrintViewModel.PrintFlatSelected || _PrintViewModel.PrintAllSelected)
-                {
-                    billingOutput.Blocks.Add(BillingPlanTable(_BillingViewModel));
-                }
+                billingOutput.Blocks.Add(_Print.BuildHeader($"Annual Billing {_PrintViewModel.SelectedYear}: "));
 
+                if (_PrintViewModel.PrintAllSelected || _PrintViewModel.PrintFlatSelected)
+                {
+                    billingOutput.Blocks.Add(BillingPlanTable(_BillingViewModel)); 
+                }
 
                 if (_PrintViewModel.PrintExcerptSelected || _PrintViewModel.PrintAllSelected || _PrintViewModel.PrintRoomsSelected)
                 {
+                    double contractCostsSum = 0.0;
+                    double allCostsSum = 0.0;
+
                     foreach (RoomViewModel item in _BillingViewModel.FlatViewModel.Rooms)
                     {
                         bool printThisRoom = new Compute().PrintThisRoom(_PrintViewModel, item);
 
+                        RoomCostShareBilling roomCostShareBilling = new RoomCostShareBilling(item.Room, _BillingViewModel);
+
                         if (printThisRoom)
                         {
-                            RoomCostShareBilling roomCostShareBilling = new RoomCostShareBilling(item.Room, _BillingViewModel);
-
                             billingOutput.Blocks.Add(BuildRoomSeparatorLine(roomCostShareBilling));
                             if (_PrintViewModel.ConsumptionSelected)
                             {
@@ -411,6 +416,56 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                             billingOutput.Blocks.Add(BillingOutputTableRooms(roomCostShareBilling));
                         }
+
+
+                        if (_PrintViewModel.ContractCostsSelected)
+                        {
+                            contractCostsSum += Math.Round(roomCostShareBilling.TotalContractCostsShare, 2);
+                        }
+
+                        if (_PrintViewModel.AllCostsSelected)
+                        {
+                            allCostsSum += Math.Round(roomCostShareBilling.TotalCostsAnnualCostsShare, 2);
+                        }
+
+                    }
+
+                    if (_PrintViewModel.ContractCostsSelected)
+                    {
+                        Table table = new Table();
+
+                        TableRowGroup tableRowGroup = new TableRowGroup();
+                        tableRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
+
+                        tableRowGroup = _Print.WriteCheckToTableRowGroup(
+                            tableRowGroup,
+                            contractCostsSum,
+                            _BillingViewModel.TotalCostsPerPeriod,
+                            "check: contract costs",
+                            false);
+
+                        table.RowGroups.Add(tableRowGroup);
+
+                        billingOutput.Blocks.Add(table);
+                    }
+
+                    if (_PrintViewModel.AllCostsSelected)
+                    {
+                        Table table = new Table();
+
+                        TableRowGroup tableRowGroup = new TableRowGroup();
+                        tableRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
+
+                        tableRowGroup = _Print.WriteCheckToTableRowGroup(
+                            tableRowGroup,
+                            allCostsSum,
+                            _BillingViewModel.TotalCostsNoRent,
+                            "check: all costs",
+                            false);
+
+                        table.RowGroups.Add(tableRowGroup);
+
+                        billingOutput.Blocks.Add(table);
                     }
                 }
             }
@@ -572,11 +627,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             dataRowGroup.Rows.Add(_Print.BillingOutputTableRow(
                 viewModel,
-                viewModel.TotalFixedCostsPerPeriod,
-                viewModel.Billing.TotalFixedCostsPerPeriod.TransactionItem)
+                viewModel.ProRataCosts,
+                viewModel.Billing.ProRataCosts.TransactionItem)
                 );
 
-            sum += viewModel.TotalFixedCostsPerPeriod;
+            sum += viewModel.ProRataCosts;
 
             dataRowGroup.Rows.Add(_Print.BillingOutputTableRow(
                 viewModel,
@@ -737,7 +792,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 _BillingViewModel,
                 roomCostShareBilling.RoomName,
                 roomCostShareBilling.ProRataAmounts,
-                _BillingViewModel.Billing.TotalFixedCostsPerPeriod.TransactionItem));
+                _BillingViewModel.Billing.ProRataCosts.TransactionItem));
 
             sum += roomCostShareBilling.ProRataAmounts;
 
@@ -764,7 +819,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 _BillingViewModel,
                 roomCostShareBilling.RoomName,
                 roomCostShareBilling.BasicHeatingCostsShare,
-                _BillingViewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem));
+                _BillingViewModel.Billing.BasicHeatingCosts.TransactionItem));
 
             sum += roomCostShareBilling.BasicHeatingCostsShare;
 
@@ -840,7 +895,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     newPricePerMonth,
                     true);
             }
-            
+
             return dataRowGroup;
         }
 
@@ -862,7 +917,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 roomCostShareBilling.RoomName,
                 roomCostShareBilling.HeatingUnitsTotalConsumptionShare,
                 _BillingViewModel.Billing.ConsumptionItems[0].ConsumedUnits,
-                _BillingViewModel.Billing.TotalHeatingCostsPerPeriod.TransactionItem));
+                _BillingViewModel.Billing.FixedAmountCosts.TransactionItem));
 
             foreach (RoomConsumptionViewModel roomConsumptionViewModel in roomCostShareBilling.ConsumptionItemViewModels)
             {
