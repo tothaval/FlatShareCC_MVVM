@@ -141,6 +141,7 @@ Share</IDF_RentShare>
 Month</IDF_TotalPricePerMonth>
   <IDF_TotalPricePerYear>Total Price
 Year</IDF_TotalPricePerYear>
+  <IDF_UserCalculatedRentValues>Use Imported Values</IDF_UserCalculatedRentValues>
   <IDF_Background>Background</IDF_Background>
   <IDF_ButtonBackground>Button</IDF_ButtonBackground>
   <IDF_ButtonCornerRadius>Button</IDF_ButtonCornerRadius>

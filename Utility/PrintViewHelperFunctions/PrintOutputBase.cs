@@ -16,6 +16,7 @@ using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.ViewModels;
 using System.Drawing;
 using SharedLivingCostCalculator.Models.Financial;
+using SharedLivingCostCalculator.Interfaces.Financial;
 
 namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 {
@@ -56,6 +57,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             BillingViewModel viewModel,
             double payment,
             string item,
+            string shareTypeString = "",
             bool FontWeightBold = false,
             bool Currency = true,
             bool HasTopLine = true
@@ -71,15 +73,20 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             TableCell Item = new TableCell();
 
+            TableCell ShareType = new TableCell();
+
             //StartTime.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate:d}-{viewModel.EndDate:d}")) { Margin = new Thickness(0, 0, 10, 0) });
             StartTime.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate:d}")) { Margin = new Thickness(0, 0, 10, 0) });
             EndTime.Blocks.Add(new Paragraph(new Run($"{viewModel.EndDate:d}")) { Margin = new Thickness(0, 0, 10, 0) });
             Item.Blocks.Add(new Paragraph(new Run(item)));
 
+            ShareType.Blocks.Add(new Paragraph(new Run(shareTypeString)));
+
             dataRow.Cells.Add(StartTime);
             dataRow.Cells.Add(EndTime);
             dataRow.Cells.Add(Item);
-            dataRow.Cells.Add(ConfiguratePaymentCellBilling(payment, FontWeightBold, Currency, HasTopLine));
+            dataRow.Cells.Add(ShareType);
+            dataRow.Cells.Add(ConfiguratePaymentCell(payment, FontWeightBold, Currency, HasTopLine));
 
             return dataRow;
         }
@@ -87,77 +94,29 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
         public TableRow BillingOutputTableRowRooms(
             BillingViewModel viewModel,
-            string roomname,
             double payment,
             string item,
+            string shareType = "",
             bool FontWeightBold = false,
             bool Currency = true,
-            bool HasTopLine = true)
+            bool HasTopLine = true
+            )
         {
             TableRow dataRow = new TableRow();
 
-            TableCell Year = new TableCell();
-            Year.TextAlignment = TextAlignment.Left;
 
-            TableCell RoomName = new TableCell();
             TableCell Item = new TableCell();
+            Item.ColumnSpan = 3;
 
-            Year.Blocks.Add(new Paragraph(new Run()));
-            RoomName.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate.Year}")));
+            TableCell ShareType = new TableCell();
+
+
             Item.Blocks.Add(new Paragraph(new Run(item)));
+            ShareType.Blocks.Add(new Paragraph(new Run(shareType)));
 
-            dataRow.Cells.Add(Year);
-            dataRow.Cells.Add(RoomName);
             dataRow.Cells.Add(Item);
-            dataRow.Cells.Add(ConfiguratePaymentCellBilling(payment, FontWeightBold, Currency, HasTopLine));
-
-            return dataRow;
-        }
-
-
-        public TableRow BillingOutputTableRowRoomsNoCurrency(BillingViewModel viewModel, string roomname, double value, string item, bool FontWeightBold = false)
-        {
-            TableRow dataRow = new TableRow();
-
-            TableCell Year = new TableCell();
-            Year.TextAlignment = TextAlignment.Left;
-
-            TableCell RoomName = new TableCell();
-            TableCell Item = new TableCell();
-
-            TableCell Payment = new TableCell();
-            Payment.TextAlignment = TextAlignment.Right;
-
-            Year.Blocks.Add(new Paragraph(new Run()));
-            RoomName.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate.Year}")));
-            Item.Blocks.Add(new Paragraph(new Run(item)));
-
-            if (FontWeightBold)
-            {
-                Paragraph paymentParagraph = new Paragraph(new Run($"{value:N2}"))
-                {
-                    BorderBrush = new SolidColorBrush(Colors.Black),
-                    BorderThickness = new Thickness(0, 1, 0, 0),
-                    FontWeight = FontWeights.Bold,
-                    Margin = new Thickness(0, 0, 10, 0)
-                };
-
-                Payment.Blocks.Add(paymentParagraph);
-            }
-            else
-            {
-                Paragraph paymentParagraph = new Paragraph(new Run($"{value:N2}"))
-                {
-                    Margin = new Thickness(0, 0, 10, 0)
-                };
-
-                Payment.Blocks.Add(paymentParagraph);
-            }
-
-            dataRow.Cells.Add(Year);
-            dataRow.Cells.Add(RoomName);
-            dataRow.Cells.Add(Item);
-            dataRow.Cells.Add(Payment);
+            dataRow.Cells.Add(ShareType);
+            dataRow.Cells.Add(ConfiguratePaymentCell(payment, FontWeightBold, Currency, HasTopLine));
 
             return dataRow;
         }
@@ -197,7 +156,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             //p.Style = textParagraph;
             //section.Blocks.Add(p);
 
-            return $"{FlatViewModel.Address}, {_FlatViewModel.Area}m², {_FlatViewModel.RoomCount} {rooms}";
+            return $"{FlatViewModel.Address},\n\t{_FlatViewModel.Area}m²,\n\t{_FlatViewModel.RoomCount} {rooms}";
         }
 
 
@@ -209,18 +168,18 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             {
                 Margin = new Thickness(0, 20, 0, 20),
                 FontWeight = FontWeights.Bold,
-                FontSize = 16.0,
+                FontSize = 14.0,
                 Background = new SolidColorBrush(Colors.LightGray)
             };
 
             s.Blocks.Add(p);
 
-            p = new Paragraph(new Run($"{BuildAddressDetails()}") { FontWeight = FontWeights.Bold, FontSize = 14.0 });
-
-            s.Blocks.Add(p);
-
             if (_PrintViewModel.ContractDataOutputSelected)
             {
+                p = new Paragraph(new Run($"{BuildAddressDetails()}") { FontWeight = FontWeights.Normal, FontSize = 12.0 });
+
+                s.Blocks.Add(p);
+
                 if (_PrintViewModel.RoomAreaDataSelected)
                 {
                     s.Blocks.Add(BuildRoomAreaData());
@@ -230,11 +189,20 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             return s;
         }
 
+
         public Section BuildRoomAreaData()
         {
             Section s = new Section();
 
-            s.Blocks.Add(new Paragraph(new Run($"Room Area Data")) { FontWeight = FontWeights.Normal, FontSize = 16.0, Background = new SolidColorBrush(Colors.LightGray) });
+            s.Blocks.Add(
+                new Paragraph(new Run($"Room Area Data"))
+                {
+                    FontFamily = new FontFamily("Verdana"),
+                    FontWeight = FontWeights.Normal,
+                    FontSize = 14.0,
+                    Background = new SolidColorBrush(Colors.LightGray)
+                }
+                );
 
             s.Blocks.Add(RoomAreaTable());
 
@@ -255,14 +223,14 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                     if (isSummary)
                     {
-                        dataRowGroup.Rows.Add(OutputTableRow(viewModel, taxationTarget, "sum", month, true, false));
+                        dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, "sum", "", true, false));
                     }
                     else
                     {
-                        dataRowGroup.Rows.Add(OutputTableRow(viewModel, taxationTarget, "sum", month, true));
+                        dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, "sum", "", true));
                     }
 
-                    dataRowGroup.Rows.Add(OutputTableRow(viewModel, taxedSum, $"including {_PrintViewModel.TaxValue}% taxes", month));
+                    dataRowGroup.Rows.Add(OutputTableRow(taxedSum, $"including {_PrintViewModel.TaxValue}% taxes", ""));
                 }
                 else
                 {
@@ -271,26 +239,26 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                     if (isSummary)
                     {
-                        dataRowGroup.Rows.Add(OutputTableRow(viewModel, taxationTarget, "sum", month, false, false));
+                        dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, "sum", "", false, false));
                     }
                     else
                     {
-                        dataRowGroup.Rows.Add(OutputTableRow(viewModel, taxationTarget, "sum", month, true));
+                        dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, "sum", "", true));
                     }
-                    dataRowGroup.Rows.Add(OutputTableRow(viewModel, taxedSum, $"tax {_PrintViewModel.TaxValue}%", month));
+                    dataRowGroup.Rows.Add(OutputTableRow(taxedSum, $"tax {_PrintViewModel.TaxValue}%", ""));
 
-                    dataRowGroup.Rows.Add(OutputTableRow(viewModel, withTaxes, "taxed sum", month, true));
+                    dataRowGroup.Rows.Add(OutputTableRow( withTaxes, "taxed sum", "", true));
                 }
             }
             else
             {
                 if (isSummary)
                 {
-                    dataRowGroup.Rows.Add(OutputTableRow(viewModel, taxationTarget, "sum", month, true, false));
+                    dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, "sum", "", true, false));
                 }
                 else
                 {
-                    dataRowGroup.Rows.Add(OutputTableRow(viewModel, taxationTarget, "sum", month, true));
+                    dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, "sum", "", true));
                 }
             }
 
@@ -313,14 +281,38 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                     if (isSummary)
                     {
-                        dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, taxationTarget, "sum", true, true, false));
+                        dataRowGroup.Rows.Add(
+                            BillingOutputTableRow(
+                                viewModel,
+                                taxationTarget,
+                                "sum",
+                                "",
+                                true,
+                                true,
+                                false));
                     }
                     else
                     {
-                        dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, taxationTarget, "sum", true, true, true));
+                        dataRowGroup.Rows.Add(
+                            BillingOutputTableRow(
+                                viewModel,
+                                taxationTarget,
+                                "sum",
+                                "",
+                                true,
+                                true,
+                                true));
                     }
 
-                    dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, taxedSum, $"including {_PrintViewModel.TaxValue}% taxes", false, true, false));
+                    dataRowGroup.Rows.Add(
+                        BillingOutputTableRow(
+                            viewModel,
+                            taxedSum,
+                            $"including {_PrintViewModel.TaxValue}% taxes",
+                            "",
+                            false,
+                            true,
+                            false));
                 }
                 else
                 {
@@ -329,27 +321,75 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                     if (isSummary)
                     {
-                        dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, taxationTarget, "sum", false, true, false));
+                        dataRowGroup.Rows.Add(
+                            BillingOutputTableRow(
+                                viewModel,
+                                taxationTarget,
+                                "sum",
+                                "",
+                                false,
+                                true,
+                                false));
                     }
                     else
                     {
-                        dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, taxationTarget, "sum", true, true, true));
+                        dataRowGroup.Rows.Add(
+                            BillingOutputTableRow(
+                                viewModel,
+                                taxationTarget,
+                                "sum",
+                                "",
+                                true,
+                                true,
+                                true));
                     }
 
-                    dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, taxedSum, $"tax {_PrintViewModel.TaxValue}%", false, true, false));
+                    dataRowGroup.Rows.Add(
+                        BillingOutputTableRow(
+                            viewModel,
+                            taxedSum,
+                            $"tax {_PrintViewModel.TaxValue}%",
+                            "",
+                            false,
+                            true,
+                            false));
 
-                    dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, withTaxes, "taxed sum", true, true, true));
+                    dataRowGroup.Rows.Add(
+                        BillingOutputTableRow(
+                            viewModel,
+                            withTaxes,
+                            "taxed sum",
+                            "",
+                            true,
+                            true,
+                            true));
                 }
             }
             else
             {
                 if (isSummary)
                 {
-                    dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, taxationTarget, "sum", true, true, false));
+                    dataRowGroup.Rows.Add(
+                        BillingOutputTableRow(
+                            viewModel,
+                            taxationTarget,
+                            "sum",
+                            "",
+                            true,
+                            true,
+                            false));
                 }
                 else
                 {
-                    dataRowGroup.Rows.Add(BillingOutputTableRow(viewModel, taxationTarget, "sum", true, true, true));
+                    dataRowGroup.Rows.Add(
+                        BillingOutputTableRow(
+                            viewModel,
+                            taxationTarget,
+                            "sum",
+                            "",
+                            true,
+                            true,
+                            true));
                 }
             }
 
@@ -370,14 +410,14 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                     if (isSummary)
                     {
-                        dataRowGroup.Rows.Add(OutputTableRowRooms(viewModel, roomName, taxationTarget, roomName, month, true, false));
+                        dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, roomName, "", true, false));
                     }
                     else
                     {
-                        dataRowGroup.Rows.Add(OutputTableRowRooms(viewModel, roomName, taxationTarget, "sum", month, true));
+                        dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, "sum", "", true));
                     }
 
-                    dataRowGroup.Rows.Add(OutputTableRowRooms(viewModel, roomName, taxedSum, $"including {_PrintViewModel.TaxValue}% taxes", month));
+                    dataRowGroup.Rows.Add(OutputTableRow(taxedSum, $"including {_PrintViewModel.TaxValue}% taxes", ""));
                 }
                 else
                 {
@@ -387,26 +427,26 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                     if (isSummary)
                     {
-                        dataRowGroup.Rows.Add(OutputTableRowRooms(viewModel, roomName, taxationTarget, roomName, month, false, false));
+                        dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, $"sum {roomName}", "", false, false));
                     }
                     else
                     {
-                        dataRowGroup.Rows.Add(OutputTableRowRooms(viewModel, roomName, taxationTarget, "sum", month, true));
+                        dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, "sum", "", true));
                     }
-                    dataRowGroup.Rows.Add(OutputTableRowRooms(viewModel, roomName, taxedSum, $"tax {_PrintViewModel.TaxValue}%", month));
+                    dataRowGroup.Rows.Add(OutputTableRow(taxedSum, $"tax {_PrintViewModel.TaxValue}%", ""));
 
-                    dataRowGroup.Rows.Add(OutputTableRowRooms(viewModel, roomName, withTaxes, "taxed sum", month, true));
+                    dataRowGroup.Rows.Add(OutputTableRow(withTaxes, "taxed sum", "", true));
                 }
             }
             else
             {
                 if (isSummary)
                 {
-                    dataRowGroup.Rows.Add(OutputTableRowRooms(viewModel, roomName, taxationTarget, roomName, month, true, false));
+                    dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, $"sum {roomName}", "", true, false));
                 }
                 else
                 {
-                    dataRowGroup.Rows.Add(OutputTableRowRooms(viewModel, roomName, taxationTarget, "sum", month, true));
+                    dataRowGroup.Rows.Add(OutputTableRow(taxationTarget, "sum", "", true));
                 }
             }
 
@@ -429,14 +469,40 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                     if (isSummary)
                     {
-                        dataRowGroup.Rows.Add(BillingOutputTableRowRooms(viewModel, roomName, taxationTarget, roomName, true, true, false));
+                        dataRowGroup.Rows.Add(
+                            BillingOutputTableRowRooms(
+                                viewModel,
+                                taxationTarget,
+                                roomName,
+                                "",
+                                true,
+                                true,
+                                false
+                                )
+                            );
                     }
                     else
                     {
-                        dataRowGroup.Rows.Add(BillingOutputTableRowRooms(viewModel, roomName, taxationTarget, roomName, true, true, true));
+                        dataRowGroup.Rows.Add(
+                            BillingOutputTableRowRooms(
+                                viewModel,
+                                taxationTarget,
+                                roomName,
+                                "",
+                                true,
+                                true,
+                                true));
                     }
 
-                    dataRowGroup.Rows.Add(BillingOutputTableRowRooms(viewModel, roomName, taxedSum, $"including {_PrintViewModel.TaxValue}% taxes", false, true, false));
+                    dataRowGroup.Rows.Add(
+                        BillingOutputTableRowRooms(
+                            viewModel,
+                            taxedSum,
+                            $"including {_PrintViewModel.TaxValue}% taxes",
+                            "",
+                            false,
+                            true,
+                            false));
                 }
                 else
                 {
@@ -446,27 +512,75 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                     if (isSummary)
                     {
-                        dataRowGroup.Rows.Add(BillingOutputTableRowRooms(viewModel, roomName, taxationTarget, roomName, true, true, false));
+                        dataRowGroup.Rows.Add(
+                            BillingOutputTableRowRooms(
+                                viewModel,
+                                taxationTarget,
+                                roomName,
+                                "",
+                                true,
+                                true,
+                                false));
                     }
                     else
                     {
-                        dataRowGroup.Rows.Add(BillingOutputTableRowRooms(viewModel, roomName, taxationTarget, roomName, true, true, true));
+                        dataRowGroup.Rows.Add(
+                            BillingOutputTableRowRooms(
+                                viewModel,
+                                taxationTarget,
+                                roomName,
+                                "",
+                                true,
+                                true,
+                                true));
                     }
 
-                    dataRowGroup.Rows.Add(BillingOutputTableRowRooms(viewModel, roomName, taxedSum, $"tax {_PrintViewModel.TaxValue}%", false, true, false));
+                    dataRowGroup.Rows.Add(
+                        BillingOutputTableRowRooms(
+                            viewModel,
+                            taxedSum,
+                            $"tax {_PrintViewModel.TaxValue}%",
+                            "",
+                            false,
+                            true,
+                            false));
 
-                    dataRowGroup.Rows.Add(BillingOutputTableRowRooms(viewModel, roomName, withTaxes, "taxed sum", true, true, true));
+                    dataRowGroup.Rows.Add(
+                        BillingOutputTableRowRooms(
+                            viewModel,
+                            withTaxes,
+                            "taxed sum",
+                            "",
+                            true,
+                            true,
+                            true));
                 }
             }
             else
             {
                 if (isSummary)
                 {
-                    dataRowGroup.Rows.Add(BillingOutputTableRowRooms(viewModel, roomName, taxationTarget, roomName, true, true, false));
+                    dataRowGroup.Rows.Add(
+                        BillingOutputTableRowRooms(
+                            viewModel,
+                            taxationTarget,
+                            roomName,
+                            "",
+                            true,
+                            true,
+                            false));
                 }
                 else
                 {
-                    dataRowGroup.Rows.Add(BillingOutputTableRowRooms(viewModel, roomName, taxationTarget, roomName, true, true, true));
+                    dataRowGroup.Rows.Add(
+                        BillingOutputTableRowRooms(
+                            viewModel,
+                            taxationTarget,
+                            roomName,
+                            "",
+                            true,
+                            true,
+                            true));
                 }
             }
 
@@ -474,7 +588,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public Section? BuildValueChangeHeader(Section documentContext, ObservableCollection<RentViewModel> RentList, int iterator, bool isOverview)
+        public Section? BuildValueChangeHeader(Section documentContext, ObservableCollection<RentViewModel> RentList, int iterator, string text, bool isOverview)
         {
             if (RentList[iterator].StartDate.Year < SelectedYear)
             {
@@ -486,23 +600,23 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     }
                     else
                     {
-                        documentContext = WriteRentChangeToFlowDocument(documentContext, RentList, iterator, isOverview);
+                        documentContext = WriteRentChangeToFlowDocument(documentContext, RentList[iterator], text, isOverview);
                     }
                 }
                 else
                 {
-                    documentContext = WriteRentChangeToFlowDocument(documentContext, RentList, iterator, isOverview);
+                    documentContext = WriteRentChangeToFlowDocument(documentContext, RentList[iterator], text, isOverview);
                 }
             }
             else
             {
                 if (iterator == 0)
                 {
-                    documentContext = WriteRentChangeToFlowDocument(documentContext, RentList, iterator, isOverview);
+                    documentContext = WriteRentChangeToFlowDocument(documentContext, RentList[iterator], text, isOverview);
                 }
                 else
                 {
-                    documentContext = WriteRentChangeToFlowDocument(documentContext, RentList, iterator, isOverview);
+                    documentContext = WriteRentChangeToFlowDocument(documentContext, RentList[iterator], text, isOverview);
                 }
             }
 
@@ -510,50 +624,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public TableCell ConfiguratePaymentCell(double payment, bool FontWeightBold, bool HasTopLine)
-        {
-            TableCell Payment = new TableCell();
-            Payment.TextAlignment = TextAlignment.Right;
-
-            Paragraph paymentParagraph = new Paragraph();
-
-            if (FontWeightBold)
-            {
-                //dataRow.Background = new SolidColorBrush(Colors.Silver);
-                Payment.Background = new SolidColorBrush(Colors.Silver);
-
-                paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
-                {
-                    BorderBrush = new SolidColorBrush(Colors.Black),
-                    BorderThickness = new Thickness(0, 0, 0, 0),
-                    FontWeight = FontWeights.Bold,
-                    Margin = new Thickness(0, 0, 10, 0)
-                };
-
-                if (HasTopLine)
-                {
-                    paymentParagraph.BorderThickness = new Thickness(0, 1, 0, 0);
-                }
-
-                Payment.Blocks.Add(paymentParagraph);
-            }
-            else
-            {
-                paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
-                {
-                    Margin = new Thickness(0, 0, 10, 0)
-                };
-
-                Payment.Blocks.Add(paymentParagraph);
-            }
-
-            Payment.Blocks.Add(paymentParagraph);
-
-            return Payment;
-        }
-
-
-        public TableCell ConfiguratePaymentCellBilling(double payment, bool FontWeightBold, bool Currency, bool HasTopLine)
+        public TableCell ConfiguratePaymentCell(double payment, bool FontWeightBold, bool Currency, bool HasTopLine)
         {
             TableCell Payment = new TableCell();
             Payment.TextAlignment = TextAlignment.Right;
@@ -616,171 +687,44 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public ObservableCollection<RentViewModel> FindRelevantRentViewModels()
+        public ObservableCollection<RentViewModel> FillRentList()
         {
-            ObservableCollection<RentViewModel> preSortList = new ObservableCollection<RentViewModel>();
             ObservableCollection<RentViewModel> RentList = new ObservableCollection<RentViewModel>();
 
-            DateTime startDate = new DateTime(SelectedYear, 1, 1);
-            DateTime endDate = new DateTime(SelectedYear, 12, 31);
-
-            int counter = 0;
-
-            // rent begins before selected year ends
-            if (_FlatViewModel.InitialRent.StartDate < endDate)
+            if (_PrintViewModel.PrintMostRecentSelected)
             {
-                counter++;
+                RentList.Add(new Compute().SearchForMostRecentRentViewModel(_FlatViewModel));
             }
-
-            // rent begins after Billing period start but before Billing period end
-            if (_FlatViewModel.InitialRent.StartDate > startDate || _FlatViewModel.InitialRent.StartDate < endDate)
+            else if (_PrintViewModel.PrintSelectedItemSelected)
             {
-                counter++;
-            }
-
-
-            if (counter > 0)
-            {
-                preSortList.Add(_FlatViewModel.InitialRent);
-            }
-
-            if (FlatViewModel.RentUpdates.Count > 0)
-            {
-                // filling the collection with potential matches
-                foreach (RentViewModel rent in FlatViewModel.RentUpdates)
+                if (_PrintViewModel.SelectedRentChange != null)
                 {
-                    // rent begins after selected year ends
-                    if (rent.StartDate.Year > SelectedYear)
-                    {
-                        continue;
-                    }
-
-                    // rent begins before selected year starts
-                    if (rent.StartDate < startDate)
-                    {
-                        preSortList.Add(rent);
-                        continue;
-                    }
-
-                    // rent begins before selected year ends
-                    if (rent.StartDate < endDate)
-                    {
-                        preSortList.Add(rent);
-
-                        continue;
-                    }
-
-                    // rent begins after Billing period start but before Billing period end
-                    if (rent.StartDate >= startDate || rent.StartDate <= endDate)
-                    {
-                        preSortList.Add(rent);
-                    }
+                    RentList.Add(_PrintViewModel.SelectedRentChange); 
                 }
             }
-
-            RentViewModel? comparer = null;
-            bool firstRun = true;
-            bool beginsWithYear = false;
-
-            // building a collection of relevant rent items
-            foreach (RentViewModel item in preSortList)
+            else
             {
-                if (firstRun)
-                {
-                    firstRun = false;
-                    comparer = item;
-                    continue;
-                }
-
-
-                if (item.StartDate >= startDate)
-                {
-                    RentList.Add(item);
-
-                    if (item.StartDate == startDate)
-                    {
-                        beginsWithYear = true;
-                    }
-                    continue;
-                }
-
-                if (item.StartDate < startDate && item.StartDate > comparer.StartDate && !beginsWithYear)
-                {
-                    comparer = item;
-                }
-            }
-
-
-            if (comparer != null)
-            {
-                RentList.Add(comparer);
-            }
-
-            if (beginsWithYear)
-            {
-                int i = 0;
-
-                while (true)
-                {
-                    if (RentList.Count > i)
-                    {
-                        if (RentList[i].StartDate.Year < SelectedYear)
-                        {
-                            RentList.RemoveAt(i);
-
-                            i--;
-                        }
-
-                        i++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-
-
-            // sort List by StartDate, ascending
-            if (RentList.Count > 1)
-            {
-                RentList = new ObservableCollection<RentViewModel>(RentList.OrderBy(i => i.StartDate));
+                RentList = new Compute().FindRelevantRentViewModels(_FlatViewModel, SelectedYear);
             }
 
             return RentList;
         }
 
-
-        public Table OutputTableForFlat()
+              
+        public Table OutputTable()
         {
-
-            Table dataOutputTable = new Table();
-
-            TableColumn DateColumn = new TableColumn() { Width = new GridLength(100) };
-            TableColumn ItemColumn = new TableColumn() { Width = new GridLength(250) };
-            TableColumn CostColumn = new TableColumn() { Width = new GridLength(100) };
-
-            dataOutputTable.Columns.Add(DateColumn);
-            dataOutputTable.Columns.Add(ItemColumn);
-            dataOutputTable.Columns.Add(CostColumn);
-
-            return dataOutputTable;
-        }
-
-
-        public Table OutputTableForFlatBilling()
-        {
-
             Table dataOutputTable = new Table();
 
             TableColumn StartDateColumn = new TableColumn() { Width = new GridLength(100) };
             TableColumn EndDateColumn = new TableColumn() { Width = new GridLength(100) };
-            TableColumn ItemColumn = new TableColumn() { Width = new GridLength(250) };
+            TableColumn ItemColumn = new TableColumn() { Width = new GridLength(200) };
+            TableColumn ShareTypeColumn = new TableColumn() { Width = new GridLength(100) };
             TableColumn CostColumn = new TableColumn() { Width = new GridLength(100) };
 
             dataOutputTable.Columns.Add(StartDateColumn);
             dataOutputTable.Columns.Add(EndDateColumn);
             dataOutputTable.Columns.Add(ItemColumn);
+            dataOutputTable.Columns.Add(ShareTypeColumn);
             dataOutputTable.Columns.Add(CostColumn);
 
             return dataOutputTable;
@@ -810,68 +754,56 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
         public Table OutputTableRooms()
         {
-
             Table dataOutputTable = new Table();
 
+            TableColumn DateColumn = new TableColumn() { Width = new GridLength(50) };
             TableColumn RoomNameColumn = new TableColumn() { Width = new GridLength(150) };
-            TableColumn DateColumn = new TableColumn() { Width = new GridLength(100) };
-            TableColumn ItemColumn = new TableColumn() { Width = new GridLength(250) };
+            TableColumn ItemColumn = new TableColumn() { Width = new GridLength(200) };
+            TableColumn ShareTypeColumn = new TableColumn() { Width = new GridLength(100) };
             TableColumn CostColumn = new TableColumn() { Width = new GridLength(100) };
 
-            dataOutputTable.Columns.Add(RoomNameColumn);
             dataOutputTable.Columns.Add(DateColumn);
+            dataOutputTable.Columns.Add(RoomNameColumn);
             dataOutputTable.Columns.Add(ItemColumn);
+            dataOutputTable.Columns.Add(ShareTypeColumn);
             dataOutputTable.Columns.Add(CostColumn);
 
             return dataOutputTable;
         }
 
 
-        public TableRow OutputTableRow(RentViewModel viewModel, double payment, string item, int month = -1, bool FontWeightBold = false, bool HasTopLine = true)
+        public TableRow OutputTableRow(double payment, string item, string shareTypeString, bool FontWeightBold = false, bool HasTopLine = true, bool Currency = true)
         {
             TableRow dataRow = new TableRow();
 
-            TableCell DueTime = new TableCell();
-            DueTime.TextAlignment = TextAlignment.Right;
-
             TableCell Item = new TableCell();
+            Item.ColumnSpan = 3;
 
-            if (month == -1 && viewModel.StartDate.Year == SelectedYear)
-            {
-                DueTime.Blocks.Add(new Paragraph(new Run($"> {viewModel.StartDate.Month}/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
-            }
-            else if (month == -1 && viewModel.StartDate.Year < SelectedYear)
-            {
-                DueTime.Blocks.Add(new Paragraph(new Run($"> 1/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
-            }
-            else
-            {
-                DueTime.Blocks.Add(new Paragraph(new Run($"{month}/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
-            }
+            TableCell ShareType = new TableCell();
+
+            ShareType.Blocks.Add(new Paragraph(new Run(shareTypeString)));
 
             Item.Blocks.Add(new Paragraph(new Run(item)));
 
-            dataRow.Cells.Add(DueTime);
             dataRow.Cells.Add(Item);
-            dataRow.Cells.Add(ConfiguratePaymentCell(payment, FontWeightBold, HasTopLine));
+            dataRow.Cells.Add(ShareType);
+            dataRow.Cells.Add(ConfiguratePaymentCell(payment, FontWeightBold, Currency, HasTopLine));
 
             return dataRow;
         }
 
 
-        public TableRow OutputTableRowCheck(double payment, string item, bool FontWeightBold = false, bool HasTopLine = true)
+        public TableRow OutputTableRowCheck(double payment, string item, bool FontWeightBold = false, bool HasTopLine = true, bool Currency=true)
         {
             TableRow dataRow = new TableRow();
 
-            TableCell DueTime = new TableCell();
-
             TableCell Item = new TableCell();
+            Item.ColumnSpan = 4;            
 
             Item.Blocks.Add(new Paragraph(new Run(item)));
 
-            dataRow.Cells.Add(DueTime);
             dataRow.Cells.Add(Item);
-            dataRow.Cells.Add(ConfiguratePaymentCell(payment, FontWeightBold, HasTopLine));
+            dataRow.Cells.Add(ConfiguratePaymentCell(payment, FontWeightBold, Currency, HasTopLine));
 
             return dataRow;
         }
@@ -950,104 +882,6 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public TableRow OutputTableRowRooms(RentViewModel viewModel, string roomname, double payment, string item, int month = -1, bool FontWeightBold = false, bool HasTopLine = true)
-        {
-            TableRow dataRow = new TableRow();
-
-            TableCell RoomName = new TableCell();
-
-            TableCell DueTime = new TableCell();
-            DueTime.TextAlignment = TextAlignment.Right;
-
-            TableCell Item = new TableCell();
-
-            RoomName.Blocks.Add(new Paragraph(new Run()));
-
-            if (month == -1 && viewModel.StartDate.Year == SelectedYear)
-            {
-                DueTime.Blocks.Add(new Paragraph(new Run($"> {viewModel.StartDate.Month}/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
-            }
-            else if (month == -1 && viewModel.StartDate.Year < SelectedYear)
-            {
-                DueTime.Blocks.Add(new Paragraph(new Run($"> 1/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
-            }
-            else
-            {
-                DueTime.Blocks.Add(new Paragraph(new Run($"{month}/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
-            }
-
-            Item.Blocks.Add(new Paragraph(new Run(item)));
-
-            dataRow.Cells.Add(RoomName);
-            dataRow.Cells.Add(DueTime);
-            dataRow.Cells.Add(Item);
-            dataRow.Cells.Add(ConfiguratePaymentCell(payment, FontWeightBold, HasTopLine));
-
-            return dataRow;
-        }
-
-
-        public TableRow OutputTableRowRoomsWithRoomName(RentViewModel viewModel, string roomname, double payment, string item, int month = -1, bool FontWeightBold = false)
-        {
-            TableRow dataRow = new TableRow();
-
-            TableCell RoomName = new TableCell();
-
-            TableCell DueTime = new TableCell();
-            DueTime.TextAlignment = TextAlignment.Right;
-
-            TableCell Item = new TableCell();
-            TableCell Payment = new TableCell();
-            Payment.TextAlignment = TextAlignment.Right;
-
-            RoomName.Blocks.Add(new Paragraph(new Run(roomname)));
-
-            if (month == -1 && viewModel.StartDate.Year == SelectedYear)
-            {
-                DueTime.Blocks.Add(new Paragraph(new Run($"> {viewModel.StartDate.Month}/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
-            }
-            else if (month == -1 && viewModel.StartDate.Year < SelectedYear)
-            {
-                DueTime.Blocks.Add(new Paragraph(new Run($"> 1/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
-            }
-            else
-            {
-                DueTime.Blocks.Add(new Paragraph(new Run($"{month}/{SelectedYear}")) { Margin = new Thickness(0, 0, 10, 0) });
-            }
-
-            Item.Blocks.Add(new Paragraph(new Run(item)));
-
-            if (FontWeightBold)
-            {
-                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}\n"))
-                {
-                    BorderBrush = new SolidColorBrush(Colors.Black),
-                    BorderThickness = new Thickness(0, 1, 0, 0),
-                    FontWeight = FontWeights.Bold,
-                    Margin = new Thickness(0, 0, 10, 0)
-                };
-
-                Payment.Blocks.Add(paymentParagraph);
-            }
-            else
-            {
-                Paragraph paymentParagraph = new Paragraph(new Run($"{payment:C2}"))
-                {
-                    Margin = new Thickness(0, 0, 10, 0)
-                };
-
-                Payment.Blocks.Add(paymentParagraph);
-            }
-
-            dataRow.Cells.Add(RoomName);
-            dataRow.Cells.Add(DueTime);
-            dataRow.Cells.Add(Item);
-            dataRow.Cells.Add(Payment);
-
-            return dataRow;
-        }
-
-
         private Block RoomAreaTable()
         {
             Table roomAreaTable = OutputTableRoomAreaData();
@@ -1068,28 +902,38 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public TableRow RoomSeparatorTableRow(IRoomCostShare roomCostShare, bool showTenant)
+        public Paragraph RoomSeparatorLine(IRoomCostShare roomCostShare, bool showTenant, string cause)
         {
             if (showTenant)
             {
-                return SeparatorTextTableRow($"{roomCostShare.RoomName} {roomCostShare.RoomArea}m² {roomCostShare.Tenant}");
+                return new Paragraph(new Run($"\n{roomCostShare.RoomName} {roomCostShare.RoomArea}m²\n{cause}\n{roomCostShare.Tenant}\n")){
+                    Background = new SolidColorBrush(Colors.LightGray),
+                    FontFamily = new FontFamily("Verdana"),
+                    FontWeight = FontWeights.Bold,
+                    FontSize = 14.0 };
             }
 
-            return SeparatorTextTableRow($"{roomCostShare.RoomName} {roomCostShare.RoomArea}m²");
+            return new Paragraph(new Run($"\n{roomCostShare.RoomName} {roomCostShare.RoomArea}m²\n{cause}\n\n")){
+                Background = new SolidColorBrush(Colors.LightGray),
+                FontFamily = new FontFamily("Verdana"),
+                FontWeight = FontWeights.Bold,
+                FontSize = 14.0 };
         }
 
 
-        public BillingViewModel? SearchForBillingViewModel()
+        public TableRow RoomSeparatorTableRow(IRoomCostShare roomCostShare, bool showTenant, string cause)
         {
-            foreach (BillingViewModel billingViewModel in FlatViewModel.AnnualBillings)
+            if (showTenant)
             {
-                if (billingViewModel.Year == SelectedYear)
-                {
-                    return billingViewModel;
-                }
+                return SeparatorTextTableRow(
+                    $"\n{roomCostShare.RoomName} {roomCostShare.RoomArea}m²\n{cause}\n{roomCostShare.Tenant}\n",
+                    false, 14.0,
+                    FontWeights.Bold);
             }
 
-            return null;
+            return SeparatorTextTableRow($"\n{roomCostShare.RoomName} {roomCostShare.RoomArea}m²\n{cause}\n\n",
+                false, 14.0,
+                FontWeights.Bold);
         }
 
 
@@ -1120,25 +964,39 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public TableRow SeparatorTextTableRow(string text, bool sub = false)
+        public TableRow SeparatorTextTableRow(string text, bool sub = false, double FontSize = 14.0 , FontWeight? fontWeight = null)
         {
             TableRow tableRow = new TableRow();
 
             TableCell cell = new TableCell();
             TableCell emptycell = new TableCell();
 
-            cell.Blocks.Add(new Paragraph(new Run(text)) { Background = new SolidColorBrush(Colors.LightGray), FontSize = 14.0 });
+            if (fontWeight != null)
+            {
+                cell.Blocks.Add(new Paragraph(new Run(text)) { 
+                    Background = new SolidColorBrush(Colors.LightGray),
+                    FontFamily = new FontFamily("Verdana"),
+                    FontSize = FontSize,
+                    FontWeight = (FontWeight)fontWeight });
+            }
+            else
+            {
+            cell.Blocks.Add(new Paragraph(new Run(text)) {
+                Background = new SolidColorBrush(Colors.LightGray),
+                FontFamily = new FontFamily("Verdana"),
+                FontSize = FontSize });
+            }
 
             if (sub)
             {
-                cell.ColumnSpan = 3;
+                cell.ColumnSpan = 4;
 
                 tableRow.Cells.Add(emptycell);
                 tableRow.Cells.Add(cell);
             }
             else
             {
-                cell.ColumnSpan = 4;
+                cell.ColumnSpan = 5;
 
                 tableRow.Cells.Add(cell);
             }
@@ -1148,67 +1006,98 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        public TableRow TableRowBillingHeader()
+        public TableRow TableRowHeader(bool hasShareType)
         {
             TableRow headerRow = new TableRow();
 
-            TableCell headerCell = new TableCell();
-            TableCell headerCell_DueTime = new TableCell();
             TableCell headerCell_Item = new TableCell();
+            headerCell_Item.ColumnSpan = 3;
+
+            TableCell headerCell_ShareType = new TableCell();
             TableCell headerCell_Costs = new TableCell();
 
-            headerCell.Blocks.Add(new Paragraph(new Run()));
-            headerCell_DueTime.Blocks.Add(new Paragraph(new Run("Time")) { FontWeight = FontWeights.Bold, FontSize = 12 });
             headerCell_Item.Blocks.Add(new Paragraph(new Run("Item")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+
+            if (hasShareType)
+            {
+                headerCell_ShareType.Blocks.Add(new Paragraph(new Run("Share Type")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+            }
+            
             headerCell_Costs.Blocks.Add(new Paragraph(new Run("Costs")) { FontWeight = FontWeights.Bold, FontSize = 12 });
 
-            headerRow.Cells.Add(headerCell);
-            headerRow.Cells.Add(headerCell_DueTime);
             headerRow.Cells.Add(headerCell_Item);
+            headerRow.Cells.Add(headerCell_ShareType);
             headerRow.Cells.Add(headerCell_Costs);
 
             return headerRow;
         }
 
 
-        public TableRow TableRowRentHeader()
+        public TableRow TableRowBillingHeaderConsumption(bool isFlat)
         {
             TableRow headerRow = new TableRow();
 
-            TableCell headerCell_DueTime = new TableCell();
             TableCell headerCell_Item = new TableCell();
-            TableCell headerCell_Costs = new TableCell();
 
-            headerCell_DueTime.Blocks.Add(new Paragraph(new Run("Time")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+            TableCell headerCell_Consumption = new TableCell();
+
             headerCell_Item.Blocks.Add(new Paragraph(new Run("Item")) { FontWeight = FontWeights.Bold, FontSize = 12 });
-            headerCell_Costs.Blocks.Add(new Paragraph(new Run("Costs")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+            headerCell_Consumption.Blocks.Add(new Paragraph(new Run("Consumption")) { FontWeight = FontWeights.Bold, FontSize = 12 });
 
-            headerRow.Cells.Add(headerCell_DueTime);
-            headerRow.Cells.Add(headerCell_Item);
-            headerRow.Cells.Add(headerCell_Costs);
+            if (isFlat)
+            {
+                headerCell_Item.ColumnSpan = 2;
+
+                TableCell headerCell_Begin = new TableCell();
+                headerCell_Begin.Blocks.Add(new Paragraph(new Run("Begin")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+
+                TableCell headerCell_End = new TableCell();
+                headerCell_End.Blocks.Add(new Paragraph(new Run("End")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+
+                headerRow.Cells.Add(headerCell_Begin);
+                headerRow.Cells.Add(headerCell_End);
+                headerRow.Cells.Add(headerCell_Item);
+                headerRow.Cells.Add(headerCell_Consumption);
+            }
+            else
+            {
+                headerCell_Item.ColumnSpan = 4;
+                headerRow.Cells.Add(headerCell_Item);
+                headerRow.Cells.Add(headerCell_Consumption);
+            }
 
             return headerRow;
         }
 
 
-        public TableRow TableRowRoomHeader()
+        public TableRow TableRowBillingHeaderFlat(bool hasShareType)
         {
             TableRow headerRow = new TableRow();
 
-            TableCell RoomName = new TableCell();
-            TableCell DueTime = new TableCell();
-            TableCell Item = new TableCell();
-            TableCell Costs = new TableCell();
+            TableCell headerCell_Begin = new TableCell();
+            TableCell headerCell_End = new TableCell();
 
-            RoomName.Blocks.Add(new Paragraph(new Run()));
-            DueTime.Blocks.Add(new Paragraph(new Run("Time")) { FontSize = 12, FontWeight = FontWeights.Bold });
-            Item.Blocks.Add(new Paragraph(new Run("Item")) { FontSize = 12, FontWeight = FontWeights.Bold });
-            Costs.Blocks.Add(new Paragraph(new Run("Costs")) { FontSize = 12, FontWeight = FontWeights.Bold });
+            TableCell headerCell_Item = new TableCell();
 
-            headerRow.Cells.Add(RoomName);
-            headerRow.Cells.Add(DueTime);
-            headerRow.Cells.Add(Item);
-            headerRow.Cells.Add(Costs);
+            TableCell headerCell_ShareType = new TableCell();
+            TableCell headerCell_Costs = new TableCell();
+
+            headerCell_Begin.Blocks.Add(new Paragraph(new Run("Begin")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+            headerCell_End.Blocks.Add(new Paragraph(new Run("End")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+            headerCell_Item.Blocks.Add(new Paragraph(new Run("Item")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+
+            if (hasShareType)
+            {
+                headerCell_ShareType.Blocks.Add(new Paragraph(new Run("Share Type")) { FontWeight = FontWeights.Bold, FontSize = 12 }); 
+            }
+            
+            headerCell_Costs.Blocks.Add(new Paragraph(new Run("Costs")) { FontWeight = FontWeights.Bold, FontSize = 12 });
+
+            headerRow.Cells.Add(headerCell_Begin);
+            headerRow.Cells.Add(headerCell_End);
+            headerRow.Cells.Add(headerCell_Item);
+            headerRow.Cells.Add(headerCell_ShareType);
+            headerRow.Cells.Add(headerCell_Costs);
 
             return headerRow;
         }
@@ -1233,21 +1122,29 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         }
 
 
-        private Section WriteRentChangeToFlowDocument(Section documentContext, ObservableCollection<RentViewModel> RentList, int iterator, bool isOverview)
+        private Section WriteRentChangeToFlowDocument(Section documentContext, RentViewModel rentViewModel, string text, bool isOverview)
         {
 
             if (!isOverview)
             {
-                documentContext.Blocks.Add(new Paragraph(new Run($"\nrent change:\t\t{RentList[iterator].StartDate:d}\n")) { Margin = new Thickness(0, 20, 0, 0), FontFamily= new FontFamily("Verdana"), FontWeight = FontWeights.Bold, Background = new SolidColorBrush(Colors.LightGray) });
+                string rentChangeInfo = $"\n{text}\t\t{rentViewModel.StartDate:d}\n";
+
+                documentContext.Blocks.Add(new Paragraph(new Run(rentChangeInfo)) { 
+                    Margin = new Thickness(0, 20, 0, 0),
+                    FontFamily = new FontFamily("Verdana"),
+                    FontWeight = FontWeights.Bold,
+                    FontSize = 14.0,
+                    Background = new SolidColorBrush(Colors.LightGray) });
             }
             else
             {
-                if (iterator == 0)
-                {
-                    documentContext.Blocks.Add(new Paragraph(new Run($"\nrent changes {RentList[iterator].StartDate.Year}\n")) { Background = new SolidColorBrush(Colors.LightGray), FontFamily = new FontFamily("Verdana"), FontWeight = FontWeights.Bold, FontSize = 16.0 });
+                string rentChangeInfo = $"\n{text}\t{rentViewModel.StartDate:d}\n";
 
-                }
-                    documentContext.Blocks.Add(new Paragraph(new Run($"rent change: {RentList[iterator].StartDate:d}")) { FontFamily = new FontFamily("Verdana"), FontSize = 12.0 });
+                documentContext.Blocks.Add(new Paragraph(new Run(rentChangeInfo))
+                { Background = new SolidColorBrush(Colors.LightGray),
+                    FontFamily = new FontFamily("Verdana"),
+                    FontWeight = FontWeights.Normal,
+                    FontSize = 14.0 });               
             }
 
             return documentContext;

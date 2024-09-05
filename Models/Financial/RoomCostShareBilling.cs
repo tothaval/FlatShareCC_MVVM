@@ -7,6 +7,7 @@
 using SharedLivingCostCalculator.Interfaces.Contract;
 using SharedLivingCostCalculator.Interfaces.Financial;
 using SharedLivingCostCalculator.Models.Contract;
+using SharedLivingCostCalculator.Utility;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
@@ -202,6 +203,7 @@ namespace SharedLivingCostCalculator.Models.Financial
              */
         }
 
+
         public double CalculateBasicHeatingCostsShare()
         {
             BillingViewModel billingViewModel = (BillingViewModel)ViewModel;
@@ -210,10 +212,11 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             double basicHeatingCostsShare = basicHeatingCostsPercentage * billingViewModel.FixedAmountCosts;
 
-            basicHeatingCostsShare = CalculateEqualCostShare(basicHeatingCostsShare);
+            basicHeatingCostsShare = RentedAreaShareRatio() * basicHeatingCostsShare;
 
             return basicHeatingCostsShare;
         }
+
 
         public double CalculateConsumptionHeatingCostsShare()
         {
@@ -305,8 +308,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             if (((BillingViewModel)ViewModel).HasPayments)
             {
                 // sort List by StartDate, ascending
-                ObservableCollection<RentViewModel> RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
-
+                ObservableCollection<RentViewModel> RentList = new Compute().FindRelevantRentViewModels(ViewModel.GetFlatViewModel(), ((BillingViewModel)ViewModel).Year);
 
                 for (int i = 0; i < RentList.Count; i++)
                 {
@@ -374,7 +376,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                 else
                 {
 
-                    ObservableCollection<RentViewModel> RentList = ((BillingViewModel)ViewModel).FindRelevantRentViewModels();
+                    ObservableCollection<RentViewModel> RentList = new Compute().FindRelevantRentViewModels(ViewModel.GetFlatViewModel(), ((BillingViewModel)ViewModel).Year);
 
                     for (int i = 0; i < RentList.Count; i++)
                     {

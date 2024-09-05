@@ -2,6 +2,9 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="Views\ImportedRentValuesInputView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\InitialRentSetupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -13,6 +16,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\ImportedRentValuesInputView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\InitialRentSetupView.xaml">
       <SubType>Designer</SubType>
     </Page>

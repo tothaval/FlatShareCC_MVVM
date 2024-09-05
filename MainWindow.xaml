@@ -101,6 +101,11 @@
             <views:CreditSetupRentView/>
         </DataTemplate>
 
+
+        <DataTemplate DataType="{x:Type vmsfin:ImportedRentValuesInputViewModel}">
+            <views:ImportedRentValuesInputView/>
+        </DataTemplate>
+
         <!--#endregion vmsfin-->
 
         <DataTemplate DataType="{x:Type mVMs:MainPageViewModel}">

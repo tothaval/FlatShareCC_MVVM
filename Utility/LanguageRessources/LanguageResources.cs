@@ -358,7 +358,9 @@ namespace SharedLivingCostCalculator.Utility
             Application.Current.Resources["IDF_perYear"] = languageResource.IDF_perYear;         
             Application.Current.Resources["IDF_perMonth"] = languageResource.IDF_perMonth;
             Application.Current.Resources["IDF_perRoom"] = languageResource.IDF_perRoom;
-            
+
+            Application.Current.Resources["IDF_UserCalculatedRentValues"] = languageResource.IDF_UserCalculatedRentValues;
+
             #endregion rent views
 
 

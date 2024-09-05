@@ -130,10 +130,6 @@
                                   IsCheckable="True"
                                   IsChecked="{Binding DetailedContractCostsSelected}"/>
 
-                            <MenuItem Header="Detailed Non Contract Items Output"
-                                  IsCheckable="True"
-                                  IsChecked="{Binding DetailedNonContractItemsSelected}"/>
-
                         </MenuItem>
 
                         <MenuItem Header="All Costs"
@@ -143,6 +139,10 @@
                         <MenuItem Header="Contract Costs"
                            IsCheckable="True"
                            IsChecked="{Binding ContractCostsSelected}"/>
+            
+                        <MenuItem Header="Detailed Non Contract Items Output"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding DetailedNonContractItemsSelected}"/>
 
                         <MenuItem Header="Display Summary"
                          IsCheckable="True"
@@ -167,11 +167,11 @@
 
                     <MenuItem Header="Configuration">
 
-                        <MenuItem Header="Print Most Recent __WIP__"
+                        <MenuItem Header="Print Most Recent"
                          IsCheckable="True"
                          IsChecked="{Binding PrintMostRecentSelected}"/>
 
-                        <MenuItem Header="Print Selected Item __WIP__"
+                        <MenuItem Header="Print Selected Item"
                          IsCheckable="True"
                          IsChecked="{Binding PrintSelectedItemSelected}"/>
 

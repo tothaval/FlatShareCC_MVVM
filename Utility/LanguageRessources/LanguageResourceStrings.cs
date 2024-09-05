@@ -294,9 +294,9 @@ namespace SharedLivingCostCalculator.Utility
         public string IDF_RentStartDate { get; set; } = "Begin";
 
 
-        public string IDF_RentUpdateData { get; set; } = "Rent Data"; 
+        public string IDF_RentUpdateData { get; set; } = "Rent Data";
 
-        
+
         public string IDF_SharedAdvance { get; set; } = "Shared Advance";
 
 
@@ -308,6 +308,8 @@ namespace SharedLivingCostCalculator.Utility
 
         public string IDF_TotalPricePerYear { get; set; } = "Total Price\nYear";
 
+
+        public string IDF_UserCalculatedRentValues { get; set; } = "Use Imported Values";
 
         #endregion rent views
 

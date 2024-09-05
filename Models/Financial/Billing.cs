@@ -27,7 +27,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         public FinancialTransactionItemBilling BasicHeatingCosts { get; set; } = new FinancialTransactionItemBilling()
         {
             TransactionItem = "Basic Heating Costs",
-            TransactionShareTypes = TransactionShareTypesBilling.Equal,
+            TransactionShareTypes = TransactionShareTypesBilling.Area,
             TransactionSum = 0.0
         };
 
