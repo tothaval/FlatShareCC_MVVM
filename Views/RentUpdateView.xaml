@@ -84,6 +84,17 @@
                 <local:CreditSetupRentView DataContext="{Binding CreditViewViewModel}"/>
             </TabItem>
 
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="{DynamicResource IDF_UserCalculatedRentValues}"
+                               ToolTip="Selected if you want to use self calculated values."/>
+                </TabItem.Header>
+
+                <local:ImportedRentValuesInputView DataContext="{Binding ImportedRentValuesInputViewModel}"/>
+
+
+            </TabItem>
+
         </TabControl>
 
     </Grid>

@@ -20,10 +20,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using SharedLivingCostCalculator.Commands;
 using System.Collections.ObjectModel;
-using System.Windows.Media;
 using SharedLivingCostCalculator.Utility.PrintViewHelperFunctions;
-using SharedLivingCostCalculator.Models.Contract;
 using SharedLivingCostCalculator.Enums;
+using SharedLivingCostCalculator.Utility;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
@@ -255,8 +254,8 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(NonBillingOutputSelected));
             }
         }
-      
-        
+
+
         private PrintOutputBase _Print { get; set; }
 
 
@@ -382,7 +381,7 @@ namespace SharedLivingCostCalculator.ViewModels
                 OnPropertyChanged(nameof(PrintMostRecentSelected));
             }
         }
-              
+
 
         private bool _PrintRoomsSelected;
         public bool PrintRoomsSelected
@@ -500,6 +499,18 @@ namespace SharedLivingCostCalculator.ViewModels
         }
 
 
+        private BillingViewModel _SelectedAnnualBilling;
+        public BillingViewModel SelectedAnnualBilling
+        {
+            get { return _SelectedAnnualBilling; }
+            set
+            {
+                _SelectedAnnualBilling = value;
+                OnPropertyChanged(nameof(SelectedAnnualBilling));
+            }
+        }
+
+
         private DataOutputProgressionTypes _SelectedDetailOption;
         public DataOutputProgressionTypes SelectedDetailOption
         {
@@ -508,6 +519,18 @@ namespace SharedLivingCostCalculator.ViewModels
             {
                 _SelectedDetailOption = value;
                 OnPropertyChanged(nameof(SelectedDetailOption));
+            }
+        }
+
+
+        private RentViewModel _SelectedRentChange;
+        public RentViewModel SelectedRentChange
+        {
+            get { return _SelectedRentChange; }
+            set
+            {
+                _SelectedRentChange = value;
+                OnPropertyChanged(nameof(SelectedRentChange));
             }
         }
 
@@ -636,7 +659,7 @@ namespace SharedLivingCostCalculator.ViewModels
             // it was a lot higher not so long ago, but it is still too much, considering the fact that 
             // the objects should dissapear completely or being garbage collected on each click
 
-            ActiveFlowDocument = new FlowDocument();
+            ActiveFlowDocument = new FlowDocument() { FontFamily = new System.Windows.Media.FontFamily("Verdana")};
             ActiveFlowDocument.TextAlignment = TextAlignment.Left;
             ActiveFlowDocument.PageHeight = 640;
             ActiveFlowDocument.PageWidth = 640;
@@ -665,7 +688,24 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 if (BillingOutputSelected)
                 {
-                    BillingViewModel? billingViewModel = new PrintOutputBase(this, FlatViewModel, SelectedYear).SearchForBillingViewModel();
+                    BillingViewModel? billingViewModel = null;
+
+
+                    if (PrintMostRecentSelected)
+                    {
+                        billingViewModel = new Compute().SearchForMostRecentBillingViewModel(FlatViewModel);
+                    }
+                    else if (PrintSelectedItemSelected)
+                    {
+                        if (SelectedAnnualBilling != null)
+                        {
+                            billingViewModel = SelectedAnnualBilling; 
+                        }
+                    }
+                    else
+                    {
+                        billingViewModel =new Compute().SearchForBillingViewModel(FlatViewModel,SelectedYear);
+                    }
 
                     if (billingViewModel != null)
                     {
@@ -826,7 +866,7 @@ namespace SharedLivingCostCalculator.ViewModels
             if (_FlatManagementViewModel != null)
             {
                 _FlatManagementViewModel.PropertyChanged -= _FlatManagementViewModel_PropertyChanged;
-                _FlatManagementViewModel.PropertyChanged += _FlatManagementViewModel_PropertyChanged; 
+                _FlatManagementViewModel.PropertyChanged += _FlatManagementViewModel_PropertyChanged;
             }
 
             ActiveFlowDocument = null;

@@ -36,7 +36,6 @@ namespace SharedLivingCostCalculator.Interfaces.Contract
 
         // Methods
         #region Methods
-
         public void CalculateValues(); 
 
         #endregion

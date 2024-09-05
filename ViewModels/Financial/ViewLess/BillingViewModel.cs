@@ -803,6 +803,19 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
+        private void CheckAdvanceDeviation(double advance)
+        {
+            if (advance != ActualAdvancePerPeriod)
+            {
+                AdvanceDeviation = true;
+            }
+            else
+            {
+                AdvanceDeviation = true;
+            }
+        }
+
+
         private void ClearCosts()
         {
             Billing.ClearCosts();
@@ -832,6 +845,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
 
             return ActualAdvancePerPeriod - TotalCostsPerPeriod;
         }
+
 
         public double DeterminePaymentMonths(ObservableCollection<RentViewModel> RentList, int i)
         {
@@ -891,21 +905,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         }
 
 
-        public double GetMonths()
-        {
-            // sort List by StartDate, ascending
-            ObservableCollection<RentViewModel> RentList = FindRelevantRentViewModels();
-
-            double months = 0.0;
-
-            for (int i = 0; i < RentList.Count; i++)
-            {
-                months += DeterminePaymentMonths(RentList, i);                
-            }
-
-            return months;
-        }
-
         private double DetermineRentCostsForPaymentOption()
         {
             double rentCosts = 0.0;
@@ -913,7 +912,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             if (HasPayments)
             {
                 // sort List by StartDate, ascending
-                ObservableCollection<RentViewModel> RentList = FindRelevantRentViewModels();
+                ObservableCollection<RentViewModel> RentList = new Compute().FindRelevantRentViewModels(_FlatViewModel, Year);
 
                 for (int i = 0; i < RentList.Count; i++)
                 {
@@ -933,7 +932,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             double advance = 0.0;
 
             // sort List by StartDate, ascending
-            ObservableCollection<RentViewModel> RentList = FindRelevantRentViewModels();
+            ObservableCollection<RentViewModel> RentList = new Compute().FindRelevantRentViewModels(_FlatViewModel, Year);
 
 
             for (int i = 0; i < RentList.Count; i++)
@@ -951,17 +950,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             return advance;
         }
 
-        private void CheckAdvanceDeviation(double advance)
-        {
-            if (advance != ActualAdvancePerPeriod)
-            {
-                AdvanceDeviation = true;
-            }
-            else
-            {
-                AdvanceDeviation = true;
-            }
-        }
 
         private DateTime FindEarliestStartDate(int year)
         {
@@ -999,102 +987,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
             
             return comparer.StartDate;           
-        }
-
-
-        public ObservableCollection<RentViewModel> FindRelevantRentViewModels()
-        {
-            ObservableCollection<RentViewModel> preSortList = new ObservableCollection<RentViewModel>();
-            ObservableCollection<RentViewModel> RentList = new ObservableCollection<RentViewModel>();
-
-            preSortList.Add(GetFlatViewModel().InitialRent);
-
-            if (GetFlatViewModel().RentUpdates.Count > 0)
-            {
-                // filling the collection with potential matches
-                foreach (RentViewModel rent in GetFlatViewModel().RentUpdates)
-                {
-                    // rent begins after Billing period ends
-                    if (rent.StartDate > EndDate)
-                    {
-                        continue;
-                    }
-
-                    // rent begins before Billing period starts
-                    if (rent.StartDate <= StartDate)
-                    {
-                        preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
-                        continue;
-                    }
-
-                    // rent begins before Billing period end
-                    if (rent.StartDate < EndDate)
-                    {
-                        preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
-
-                        continue;
-                    }
-
-                    // rent begins after Billing period start but before Billing period end
-                    if (rent.StartDate >= StartDate && rent.StartDate < EndDate)
-                    {
-                        preSortList.Add(new RentViewModel(GetFlatViewModel(), rent.Rent));
-                    }
-                }
-
-                if (preSortList.Count > 1)
-                {
-                    preSortList = new ObservableCollection<RentViewModel>(preSortList.OrderBy(i => i.StartDate));
-                }               
-
-                RentViewModel? comparer = null;
-                bool firstRun = true;
-                bool beginsWithYear = false;
-
-                // building a collection of relevant rent items
-                foreach (RentViewModel item in preSortList)
-                {
-                    if (firstRun)
-                    {
-                        firstRun = false;
-                        comparer = item;
-                        continue;
-                    }
-
-
-                    if (item.StartDate >= StartDate)
-                    {
-                        RentList.Add(item);
-
-                        if (item.StartDate == StartDate)
-                        {
-                            beginsWithYear = true;
-                        }
-                        continue;
-                    }
-
-                    if (item.StartDate < StartDate && item.StartDate > comparer.StartDate && !beginsWithYear)
-                    {
-                        comparer = item;
-                    }
-                }
-
-
-                if (comparer != null)
-                {
-                    RentList.Add(comparer); 
-                }
-
-
-            }
-
-            // sort List by StartDate, ascending
-            if (RentList.Count > 1)
-            {
-                RentList = new ObservableCollection<RentViewModel>(RentList.OrderBy(i => i.StartDate)); 
-            }
-
-            return RentList;
         }
 
 
@@ -1238,6 +1130,22 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             }
 
             return shareSum;
+        }
+
+
+        public double GetMonths()
+        {
+            // sort List by StartDate, ascending
+            ObservableCollection<RentViewModel> RentList = new Compute().FindRelevantRentViewModels(_FlatViewModel, Year);
+
+            double months = 0.0;
+
+            for (int i = 0; i < RentList.Count; i++)
+            {
+                months += DeterminePaymentMonths(RentList, i);                
+            }
+
+            return months;
         }
 
 

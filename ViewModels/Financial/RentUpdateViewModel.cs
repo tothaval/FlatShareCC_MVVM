@@ -33,21 +33,16 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         }
 
 
-        //private bool _DataLockCheckbox;
-        //public bool DataLockCheckbox
-        //{
-        //    get { return _DataLockCheckbox; }
-        //    set
-        //    {
-        //        _DataLockCheckbox = value;
-        //        _RentViewModel.HasDataLock = _DataLockCheckbox;
-        //        OnPropertyChanged(nameof(DataLockCheckbox));
-        //        OnPropertyChanged(nameof(HasDataLock));
-        //    }
-        //}
-
-        
-        //public bool HasDataLock => DataLockCheckbox;
+        private ImportedRentValuesInputViewModel _ImportedRentValuesInputViewModel;
+        public ImportedRentValuesInputViewModel ImportedRentValuesInputViewModel
+        {
+            get { return _ImportedRentValuesInputViewModel; }
+            set
+            {
+                _ImportedRentValuesInputViewModel = value;
+                OnPropertyChanged(nameof(ImportedRentValuesInputViewModel));
+            }
+        }
 
 
         private OtherCostsRentViewModel _OtherCostsRentViewModel;
@@ -95,6 +90,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             OtherCostsRentViewModel = new OtherCostsRentViewModel(rentViewModel);
             CreditViewViewModel = new CreditViewViewModel(rentViewModel);
+            ImportedRentValuesInputViewModel = new ImportedRentValuesInputViewModel(rentViewModel);
 
             SelectedIndex = 0;            
         }

@@ -130,18 +130,18 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         {
             Section rentOutput = new Section();
 
-            ObservableCollection<RentViewModel> RentList = new PrintOutputBase(_PrintViewModel, _FlatViewModel, _SelectedYear).FindRelevantRentViewModels();
+            ObservableCollection<RentViewModel> RentList = _Print.FillRentList();
 
             // adds an overview of all found items
             for (int i = 0; i < RentList.Count; i++)
             {
-                Section? valueChangeHeader = _Print.BuildValueChangeHeader(rentOutput, RentList, i, true);
+                Section? valueChangeHeader = _Print.BuildValueChangeHeader(rentOutput, RentList, i, "Rent Change Found", true);
             }
 
             // displays the contents of each item according to options set in print menu
             for (int i = 0; i < RentList.Count; i++)
             {
-                Section? valueChangeHeader = _Print.BuildValueChangeHeader(rentOutput, RentList, i, false);
+                Section? valueChangeHeader = _Print.BuildValueChangeHeader(rentOutput, RentList, i, "Rent Change", false);
 
                 if (valueChangeHeader == null)
                 {
@@ -149,18 +149,6 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 }
 
                 rentOutput = valueChangeHeader;
-
-                if (_PrintViewModel.PrintAllSelected || _PrintViewModel.PrintFlatSelected)
-                {
-                    if (!IsCredit)
-                    {
-                        rentOutput.Blocks.Add(_Print.BuildHeader($"Other Costs Plan {_PrintViewModel.SelectedYear}: "));
-                    }
-                    else
-                    {
-                        rentOutput.Blocks.Add(_Print.BuildHeader($"Credit Plan {_PrintViewModel.SelectedYear}: "));
-                    }
-                }
 
                 rentOutput = BuildDataOutputProgressionCreditsAndOtherCosts(rentOutput, RentList, SelectedDetailOption, i, true);
             }
@@ -171,14 +159,28 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
         private Block CostsAndCreditsPlanTable(RentViewModel rentViewModel, ObservableCollection<IFinancialTransactionItem> FTIs, int monthCounter = -1)
         {
-            Table otherPlanFlatTable = _Print.OutputTableForFlat();
+            Table otherPlanFlatTable = _Print.OutputTable();
 
             TableRowGroup dataRowGroup = new TableRowGroup();
             dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
 
+            if (!IsCredit)
+            {
+                dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow($"\nFlat {rentViewModel.GetFlatViewModel().Area:N2}m²\n" +
+                    $"Other costs per month\n" +
+                    $"Rent Change\t\t> {rentViewModel.StartDate:d}\n", false, 14.0, FontWeights.Bold));
+            }
+            else
+            {
+                dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow($"\nFlat {rentViewModel.GetFlatViewModel().Area:N2}m²\n" +
+                    $"Credits per month\n" +
+                    $"Rent Change\t\t> {rentViewModel.StartDate:d}\n", false, 14.0, FontWeights.Bold));
+            }
+
+
             double result = 0.0;
 
-            dataRowGroup.Rows.Add(_Print.TableRowRentHeader());
+            dataRowGroup.Rows.Add(_Print.TableRowHeader(true));
 
             if (!_PrintViewModel.DisplaySummarySelected)
             {
@@ -186,7 +188,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 {
                     if (fti.Duration == Enums.TransactionDurationTypes.Ongoing)
                     {
-                        dataRowGroup.Rows.Add(_Print.OutputTableRow(rentViewModel, fti.TransactionSum, fti.TransactionItem, monthCounter));
+                        dataRowGroup.Rows.Add(
+                            _Print.OutputTableRow(
+                                fti.TransactionSum,
+                                fti.TransactionItem,
+                                fti.TransactionShareTypes.ToString()));
 
                         result += fti.TransactionSum;
                     }
@@ -194,7 +200,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     {
                         if (fti.StartDate.Year == _SelectedYear && fti.EndDate.Year > _SelectedYear)
                         {
-                            dataRowGroup.Rows.Add(_Print.OutputTableRow(rentViewModel, fti.TransactionSum, fti.TransactionItem, monthCounter));
+                            dataRowGroup.Rows.Add(
+                                _Print.OutputTableRow(
+                                    fti.TransactionSum,
+                                    fti.TransactionItem,
+                                    fti.TransactionShareTypes.ToString()));
 
                             result += fti.TransactionSum;
                         }
@@ -207,14 +217,22 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                             if (fti.StartDate.Month == monthCounter)
                             {
-                                dataRowGroup.Rows.Add(_Print.OutputTableRow(rentViewModel, fti.TransactionSum, fti.TransactionItem, monthCounter));
+                                dataRowGroup.Rows.Add(
+                                    _Print.OutputTableRow(
+                                        fti.TransactionSum,
+                                        fti.TransactionItem,
+                                        fti.TransactionShareTypes.ToString()));
 
                                 result += fti.TransactionSum;
                             }
 
                             if (monthCounter > fti.StartDate.Month && monthCounter <= fti.EndDate.Month)
                             {
-                                dataRowGroup.Rows.Add(_Print.OutputTableRow(rentViewModel, fti.TransactionSum, fti.TransactionItem, monthCounter));
+                                dataRowGroup.Rows.Add(
+                                    _Print.OutputTableRow(
+                                        fti.TransactionSum,
+                                        fti.TransactionItem,
+                                        fti.TransactionShareTypes.ToString()));
 
                                 result += fti.TransactionSum;
                             }
@@ -268,9 +286,9 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
             if (_PrintViewModel.DisplaySummarySelected)
             {
-                dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("monthly summary", true));
+                dataRowGroup.Rows.Add(_Print.SeparatorTextTableRow("monthly summary"));
 
-                dataRowGroup.Rows.Add(_Print.TableRowRoomHeader());
+                dataRowGroup.Rows.Add(_Print.TableRowHeader(false));
             }
 
             foreach (RoomCostShareRent item in rentViewModel.RoomCostShares)
@@ -286,9 +304,18 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 {
                     if (!_PrintViewModel.DisplaySummarySelected)
                     {
-                        dataRowGroup.Rows.Add(_Print.RoomSeparatorTableRow(item, _ShowTenant));
+                        if (IsCredit)
+                        {
+                            dataRowGroup.Rows.Add(_Print.RoomSeparatorTableRow(item, _ShowTenant, $"Credits per month\n" +
+                                $"Rent Change\t\t> {rentViewModel.StartDate:d}")); 
+                        }
+                        else
+                        {
+                            dataRowGroup.Rows.Add(_Print.RoomSeparatorTableRow(item, _ShowTenant, $"Other costs per month\n" +
+                                $"Rent Change\t\t> {rentViewModel.StartDate:d}"));
+                        }
 
-                        dataRowGroup.Rows.Add(_Print.TableRowRoomHeader());
+                        dataRowGroup.Rows.Add(_Print.TableRowHeader(true));
 
                         foreach (FinancialTransactionItemRentViewModel fti in FTIs)
                         {
@@ -303,7 +330,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                             if (fti.Duration == Enums.TransactionDurationTypes.Ongoing)
                             {
-                                dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, sum, fti.TransactionItem, month));
+                                dataRowGroup.Rows.Add(
+                                    _Print.OutputTableRow(
+                                        sum,
+                                        fti.TransactionItem,
+                                        fti.TransactionShareTypes.ToString()));
 
                                 result += sum;
                             }
@@ -311,7 +342,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                             {
                                 if (fti.StartDate.Year == _SelectedYear && fti.EndDate.Year > _SelectedYear)
                                 {
-                                    dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, sum, fti.TransactionItem, month));
+                                    dataRowGroup.Rows.Add(
+                                        _Print.OutputTableRow(
+                                            sum,
+                                            fti.TransactionItem,
+                                            fti.TransactionShareTypes.ToString()));
 
                                     result += sum;
                                 }
@@ -324,14 +359,22 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
 
                                     if (fti.StartDate.Month == month)
                                     {
-                                        dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, sum, fti.TransactionItem, month));
+                                        dataRowGroup.Rows.Add(
+                                            _Print.OutputTableRow(
+                                                sum,
+                                                fti.TransactionItem,
+                                                fti.TransactionShareTypes.ToString()));
 
                                         result += sum;
                                     }
 
                                     if (month > fti.StartDate.Month && month <= fti.EndDate.Month)
                                     {
-                                        dataRowGroup.Rows.Add(_Print.OutputTableRowRooms(rentViewModel, item.RoomName, sum, fti.TransactionItem, month));
+                                        dataRowGroup.Rows.Add(
+                                            _Print.OutputTableRow(
+                                                sum,
+                                                fti.TransactionItem,
+                                                fti.TransactionShareTypes.ToString()));
 
                                         result += sum;
                                     }
