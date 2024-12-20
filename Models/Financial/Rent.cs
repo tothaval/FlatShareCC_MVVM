@@ -116,6 +116,18 @@ namespace SharedLivingCostCalculator.Models.Financial
 
 
         /// <summary>
+        /// __WIP__
+        /// Plan:
+        /// If true, the program will show a view for editing
+        /// or creation of roomcostshare rent class or a new one
+        /// and calculate all values for monthly costs related
+        /// print output, using these user values instead of
+        /// calculating those values for the user
+        /// </summary>
+        public bool UseImportedRoomCostShareValues { get; set; } = false;
+
+
+        /// <summary>
         /// If true, inital monthly cost calculation
         /// will use room cost values to calculate flat cost values,
         /// else

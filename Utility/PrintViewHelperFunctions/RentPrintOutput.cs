@@ -268,6 +268,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         {
             Section rentOutput = new Section();
 
+            rentOutput.BreakPageBefore = true;
+
             ObservableCollection<RentViewModel> RentList = _Print.FillRentList();
                 
             // adds an overview of all found items
@@ -670,6 +672,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             if (_PrintViewModel.PrintExcerptSelected || _PrintViewModel.PrintAllSelected || _PrintViewModel.PrintRoomsSelected)
             {
                 Table rentPlanRoomsTable = _Print.OutputTableRooms();
+
+                rentPlanRoomsTable.BreakPageBefore = true;
 
                 TableRowGroup dataRowGroup = new TableRowGroup();
                 dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;

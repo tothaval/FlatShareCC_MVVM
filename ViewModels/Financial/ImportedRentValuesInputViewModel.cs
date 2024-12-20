@@ -15,18 +15,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 		public RentViewModel RentViewModel => _RentViewModel;
 
 
-		private bool _UseImportedValues;
-		public bool UseImportedValues
-		{
-			get { return _UseImportedValues; }
-			set
-			{
-				_UseImportedValues = value;
-				OnPropertyChanged(nameof(UseImportedValues));
-			}
-		}
-
-
 		public ImportedRentValuesInputViewModel(RentViewModel rentViewModel)
         {
 			_RentViewModel = rentViewModel;

@@ -179,6 +179,10 @@
                          IsCheckable="True"
                          IsChecked="{Binding PrintItemsPerYearSelected}"/>
 
+                        <MenuItem Header="Print Interval __WIP__"
+                         IsCheckable="True"
+                         IsChecked="{Binding PrintIntervalSelected}"/>
+
                         <MenuItem Header="Print All Data"
                          IsCheckable="True"
                          IsChecked="{Binding PrintAllSelected}"/>
@@ -382,18 +386,21 @@
 
         </StackPanel>
 
-
-        <FlowDocumentScrollViewer Grid.Row="3"
-                                  Margin="0 0 0 10"
-                                              
-                                
-                            
+        <!--<FlowDocumentReader Grid.Row="3"
+                            Margin="0 0 0 10"
+                            Document="{Binding ActiveFlowDocument}"
+                            Padding="20 23"
+                            IsPageViewEnabled="True"/>-->
+              
+        <FlowDocumentScrollViewer Grid.Row="4"
+                                  Margin="0 0 0 10" 
+                                  
                                   MinWidth="840"
-                            MaxHeight="720"
+                                  MaxHeight="720"
+                                  
                                   Foreground="Black"
                                   Document="{Binding ActiveFlowDocument}"
                                   BorderBrush="DimGray"
                                   BorderThickness="2" />
-
     </Grid>
 </UserControl>

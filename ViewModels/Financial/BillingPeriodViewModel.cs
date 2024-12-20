@@ -18,14 +18,13 @@ using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.Financial.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
 namespace SharedLivingCostCalculator.ViewModels.Financial
 {
-    public class BillingPeriodViewModel : BaseViewModel, INotifyDataErrorInfo
+    public class BillingPeriodViewModel : BaseViewModel
     {
 
         // properties & fields
@@ -49,25 +48,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
         public CreditSetupViewModel CreditSetupViewModel { get; set; }
 
 
-        private bool _DataLockCheckbox;
-        public bool DataLockCheckbox
-        {
-            get { return _DataLockCheckbox; }
-            set
-            {
-                _DataLockCheckbox = value;
-
-                SelectedValue.HasDataLock = _DataLockCheckbox;
-
-                OnPropertyChanged(nameof(DataLockCheckbox));
-                OnPropertyChanged(nameof(DataLock));
-            }
-        }
-
-
-        public bool DataLock => !DataLockCheckbox;
-
-
         private readonly FlatManagementViewModel _FlatManagementViewModel;
 
 
@@ -81,9 +61,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 OnPropertyChanged(nameof(FlatViewModel));
             }
         }
-
-
-        public IEnumerable GetErrors(string? propertyName) => _Helper.GetErrors(propertyName);
 
 
         public bool HasCredit
@@ -137,9 +114,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 OnPropertyChanged(nameof(SetCreditVisibility));
             }
         }
-
-
-        public bool HasErrors => _Helper.HasErrors;
 
 
         public bool HasOther
@@ -237,9 +211,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
                 OnPropertyChanged(nameof(SetPaymentVisibility));
             }
         }
-
-
-        private ValidationHelper _Helper = new ValidationHelper();
 
 
         public OtherCostsBillingViewModel OtherCostsViewModel { get; set; }
@@ -358,13 +329,6 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
             DeleteBillingCommand = new RelayCommand(p => DeleteAnnualBilling(p), (s) => true);
             NewBillingCommand = new RelayCommand(p => AddAnnualBilling(), (s) => true);
-
-
-            _Helper.ErrorsChanged += (_, e) =>
-            {
-                OnPropertyChanged(nameof(_Helper));
-                ErrorsChanged?.Invoke(this, e);
-            };
 
             SelectFirstItem();
         }

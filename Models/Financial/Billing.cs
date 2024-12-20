@@ -102,7 +102,7 @@ namespace SharedLivingCostCalculator.Models.Financial
         //
         // shared space heating costs can be devided by the number of Rooms
         // room based heating costs must take heating units consumption into account
-        public FinancialTransactionItemBilling FixedAmountCosts { get; set; } = new FinancialTransactionItemBilling()
+        public FinancialTransactionItemBilling HeatingCosts { get; set; } = new FinancialTransactionItemBilling()
         {
             TransactionItem = "Fixed Amount",
             TransactionShareTypes = TransactionShareTypesBilling.Consumption,
@@ -180,7 +180,7 @@ namespace SharedLivingCostCalculator.Models.Financial
             EndDate = endDate;
             TotalCostsPerPeriod = totalCostsPerPeriod;
             ProRataCosts.TransactionSum = totalFixedCostsPerPeriod;
-            FixedAmountCosts.TransactionSum = totalHeatingCostsPerPeriod;
+            HeatingCosts.TransactionSum = totalHeatingCostsPerPeriod;
 
 
             Costs.CollectionChanged += Costs_CollectionChanged;
@@ -327,15 +327,15 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         public void Check4HeatingCosts()
         {
-            FixedAmountCosts.TransactionShareTypes = TransactionShareTypesBilling.Consumption;
-            FixedAmountCosts.TransactionItem = "Heating";
+            HeatingCosts.TransactionShareTypes = TransactionShareTypesBilling.Consumption;
+            HeatingCosts.TransactionItem = "Heating";
 
             int heatingCostsCount = 0;
             bool hasForeignObject = false;
 
             foreach (ConsumptionItem item in ConsumptionItems)
             {
-                if (item.ConsumptionCause.TransactionItem.Equals(FixedAmountCosts.TransactionItem))
+                if (item.ConsumptionCause.TransactionItem.Equals(HeatingCosts.TransactionItem))
                 {
                     heatingCostsCount++;
 
@@ -357,7 +357,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             if (heatingCostsCount == 0)
             {
-                ConsumptionItems.Add(new ConsumptionItem(FixedAmountCosts));
+                ConsumptionItems.Add(new ConsumptionItem(HeatingCosts));
             }
             else if (heatingCostsCount > 1)
             {
