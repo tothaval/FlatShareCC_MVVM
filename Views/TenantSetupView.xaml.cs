@@ -97,7 +97,7 @@ namespace SharedLivingCostCalculator.Views
                             break;
 
                         case 2:
-                            sortBy = "FixedAmountCosts";
+                            sortBy = "HeatingCosts";
                             break;
 
                         case 3:

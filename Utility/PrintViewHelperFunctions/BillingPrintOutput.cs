@@ -10,7 +10,6 @@ using System.Windows;
 using System.Windows.Media;
 using SharedLivingCostCalculator.Models.Financial;
 using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
-using SharedLivingCostCalculator.Interfaces.Contract;
 using SharedLivingCostCalculator.ViewModels;
 
 namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
@@ -461,6 +460,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         {
             Table billingPlanTable = _Print.OutputTable();
 
+            billingPlanTable.BreakPageBefore = true;
+
             TableRowGroup dataRowGroup = new TableRowGroup();
             dataRowGroup.Style = Application.Current.FindResource("DataRowStyle") as Style;
 
@@ -507,6 +508,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
         {
 
             Section billingOutput = new Section();
+
+            billingOutput.BreakPageBefore = true;
 
             if (_BillingViewModel != null)
             {
@@ -1099,7 +1102,7 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 roomCostShareBilling.RoomName,
                 roomCostShareBilling.HeatingUnitsTotalConsumptionShare,
                 _BillingViewModel.Billing.ConsumptionItems[0].ConsumedUnits,
-                _BillingViewModel.Billing.FixedAmountCosts.TransactionItem));
+                _BillingViewModel.Billing.HeatingCosts.TransactionItem));
 
             foreach (RoomConsumptionViewModel roomConsumptionViewModel in roomCostShareBilling.ConsumptionItemViewModels)
             {

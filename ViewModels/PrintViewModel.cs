@@ -23,6 +23,7 @@ using System.Collections.ObjectModel;
 using SharedLivingCostCalculator.Utility.PrintViewHelperFunctions;
 using SharedLivingCostCalculator.Enums;
 using SharedLivingCostCalculator.Utility;
+using System.Windows.Media;
 
 namespace SharedLivingCostCalculator.ViewModels
 {
@@ -325,6 +326,18 @@ namespace SharedLivingCostCalculator.ViewModels
                 }
 
                 OnPropertyChanged(nameof(PrintFlatSelected));
+            }
+        }
+
+
+        private bool _PrintIntervalSelected;
+        public bool PrintIntervalSelected
+        {
+            get { return _PrintIntervalSelected; }
+            set
+            {
+                _PrintIntervalSelected = value;
+                OnPropertyChanged(nameof(PrintIntervalSelected));
             }
         }
 
@@ -664,6 +677,10 @@ namespace SharedLivingCostCalculator.ViewModels
             ActiveFlowDocument.PageHeight = 640;
             ActiveFlowDocument.PageWidth = 640;
 
+            Section mainTextAnchor = new Section();
+
+            ActiveFlowDocument.Blocks.Add(mainTextAnchor);
+
             if (FlatViewModel != null && SelectedYear > 0)
             {
 
@@ -683,8 +700,8 @@ namespace SharedLivingCostCalculator.ViewModels
 
                 Paragraph p;
                 p = new Paragraph(new Run("Shared Living Cost Calculator: print output")) { Style = headerParagraph };
-                ActiveFlowDocument.Blocks.Add(p);
-                //ActiveFlowDocument.Blocks.Add(BuildAddressDetails(headerParagraph, textParagraph));
+                
+                mainTextAnchor.Blocks.Add(p);
 
                 if (BillingOutputSelected)
                 {
@@ -711,7 +728,7 @@ namespace SharedLivingCostCalculator.ViewModels
                     {
                         BillingPrintOutput billingPrintOutput = new BillingPrintOutput(this, billingViewModel, SelectedYear, TenantSelected);
 
-                        ActiveFlowDocument.Blocks.Add(billingPrintOutput.BuildBillingDetails());
+                        mainTextAnchor.Blocks.Add(billingPrintOutput.BuildBillingDetails());
                     }
 
                 }
@@ -720,21 +737,21 @@ namespace SharedLivingCostCalculator.ViewModels
                 {
                     RentPrintOutput rentPrintOutput = new RentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected);
 
-                    ActiveFlowDocument.Blocks.Add(rentPrintOutput.BuildRentDetails(SelectedDetailOption));
+                    mainTextAnchor.Blocks.Add(rentPrintOutput.BuildRentDetails(SelectedDetailOption));
                 }
 
                 if (OtherOutputSelected)
                 {
                     CreditsAndOtherCostsRentPrintOutput creditsAndOther = new CreditsAndOtherCostsRentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected, false);
 
-                    ActiveFlowDocument.Blocks.Add(creditsAndOther.BuildOtherCostDetails(SelectedDetailOption));
+                    mainTextAnchor.Blocks.Add(creditsAndOther.BuildOtherCostDetails(SelectedDetailOption));
                 }
 
                 if (CreditOutputSelected)
                 {
                     CreditsAndOtherCostsRentPrintOutput creditsAndOther = new CreditsAndOtherCostsRentPrintOutput(this, FlatViewModel, SelectedYear, TenantSelected, true);
 
-                    ActiveFlowDocument.Blocks.Add(creditsAndOther.BuildOtherCostDetails(SelectedDetailOption));
+                    mainTextAnchor.Blocks.Add(creditsAndOther.BuildOtherCostDetails(SelectedDetailOption));
                 }
 
             }

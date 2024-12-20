@@ -78,7 +78,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
             //StartTime.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate:d}-{viewModel.EndDate:d}")) { Margin = new Thickness(0, 0, 10, 0) });
             StartTime.Blocks.Add(new Paragraph(new Run($"{viewModel.StartDate:d}")) { Margin = new Thickness(0, 0, 10, 0) });
             EndTime.Blocks.Add(new Paragraph(new Run($"{viewModel.EndDate:d}")) { Margin = new Thickness(0, 0, 10, 0) });
-            Item.Blocks.Add(new Paragraph(new Run(item)));
+
+            Item.Blocks.Add(new Paragraph( new Run(item)));
 
             ShareType.Blocks.Add(new Paragraph(new Run(shareTypeString)));
 
@@ -681,6 +682,11 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 }
             }
 
+            if (payment < 0)
+            {
+                paymentParagraph.Foreground = new SolidColorBrush(Colors.Red);
+            }
+
             Payment.Blocks.Add(paymentParagraph);
 
             return Payment;
@@ -910,14 +916,17 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                     Background = new SolidColorBrush(Colors.LightGray),
                     FontFamily = new FontFamily("Verdana"),
                     FontWeight = FontWeights.Bold,
-                    FontSize = 14.0 };
+                    FontSize = 14.0,
+                    BreakPageBefore = true};
             }
 
             return new Paragraph(new Run($"\n{roomCostShare.RoomName} {roomCostShare.RoomArea}m²\n{cause}\n\n")){
                 Background = new SolidColorBrush(Colors.LightGray),
                 FontFamily = new FontFamily("Verdana"),
                 FontWeight = FontWeights.Bold,
-                FontSize = 14.0 };
+                FontSize = 14.0,
+                BreakPageBefore = true
+            };
         }
 
 
@@ -928,7 +937,8 @@ namespace SharedLivingCostCalculator.Utility.PrintViewHelperFunctions
                 return SeparatorTextTableRow(
                     $"\n{roomCostShare.RoomName} {roomCostShare.RoomArea}m²\n{cause}\n{roomCostShare.Tenant}\n",
                     false, 14.0,
-                    FontWeights.Bold);
+                    FontWeights.Bold
+                    );
             }
 
             return SeparatorTextTableRow($"\n{roomCostShare.RoomName} {roomCostShare.RoomArea}m²\n{cause}\n\n",

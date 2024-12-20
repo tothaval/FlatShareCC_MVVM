@@ -58,14 +58,17 @@ namespace SharedLivingCostCalculator.ViewModels.Financial
 
                 SelectedItemChange?.Invoke(this, new EventArgs());
 
-                // used for IsEnabled property, therefor it needs to be set true
-                // in this case, value handles 
-                _SelectedValue.NoDataLock = true;
+                if (_SelectedValue != null)
+                {
+                    // used for IsEnabled property, therefor it needs to be set true
+                    // in this case, value handles 
+                    _SelectedValue.NoDataLock = true;
 
-                RentUpdateSelected = true;
+                    RentUpdateSelected = true;
 
-                OnPropertyChanged(nameof(RentUpdateSelected));
-                OnPropertyChanged(nameof(SelectedValue));
+                    OnPropertyChanged(nameof(RentUpdateSelected));
+                    OnPropertyChanged(nameof(SelectedValue)); 
+                }
 
             }
         }

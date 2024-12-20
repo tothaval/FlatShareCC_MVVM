@@ -12,7 +12,8 @@
         <TextBlock Text="__WIP__ MISSING ELEMENT" Style="{StaticResource Header}"/>
 
         <CheckBox Content="Use self calculated room values for output and calculations"
-                  IsChecked="{Binding UseImportedValues}"/>
+                  IsChecked="{Binding RentViewModel.UseImportedRoomCostShareValues,
+            UpdateSourceTrigger=PropertyChanged}"/>
 
     </StackPanel>
 </UserControl>

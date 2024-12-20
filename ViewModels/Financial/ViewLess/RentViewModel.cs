@@ -13,7 +13,6 @@ using SharedLivingCostCalculator.ViewModels.Contract.ViewLess;
 using SharedLivingCostCalculator.ViewModels.ViewLess;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics.Metrics;
 
 
 namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
@@ -293,6 +292,18 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
 
                 ChangeDateValues();
+            }
+        }
+        
+
+        public bool UseImportedRoomCostShareValues
+        {
+            get { return Rent.UseImportedRoomCostShareValues; }
+            set
+            {
+                Rent.UseImportedRoomCostShareValues = value;
+
+                OnPropertyChanged(nameof(UseImportedRoomCostShareValues));
             }
         }
 

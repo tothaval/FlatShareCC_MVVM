@@ -88,7 +88,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             {
                 Billing.BasicHeatingCostsPercentage = value;
 
-                BasicHeatingCosts = value / 100 * FixedAmountCosts;
+                BasicHeatingCosts = value / 100 * HeatingCosts;
                 
                 ConsumptionHeatingCostsPercentage = 100 - BasicHeatingCostsPercentage;                
 
@@ -143,7 +143,7 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
             {
                 Billing.ConsumptionHeatingCostsPercentage = value;
 
-                ConsumptionHeatingCosts = value / 100 * FixedAmountCosts;
+                ConsumptionHeatingCosts = value / 100 * HeatingCosts;
 
                 DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(ConsumptionHeatingCostsPercentage)));
 
@@ -230,13 +230,13 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// </summary>
         public double TotalCostsPerPeriod
         {
-            get { return ProRataCosts + ColdWaterCosts + WarmWaterCosts + FixedAmountCosts; }
+            get { return ProRataCosts + ColdWaterCosts + WarmWaterCosts + HeatingCosts; }
         }
 
 
         public double TotalCostsPerPeriodIncludingRent
         {
-            get { return TotalRentCosts + ProRataCosts + ColdWaterCosts + WarmWaterCosts + FixedAmountCosts; }
+            get { return TotalRentCosts + ProRataCosts + ColdWaterCosts + WarmWaterCosts + HeatingCosts; }
         }
                       
 
@@ -293,29 +293,29 @@ namespace SharedLivingCostCalculator.ViewModels.Financial.ViewLess
         /// advances are paid during the period and are calculated with the actual costs after
         /// the period is over.
         /// </summary>
-        public double FixedAmountCosts
+        public double HeatingCosts
         {
-            get { return Billing.FixedAmountCosts.TransactionSum; }
+            get { return Billing.HeatingCosts.TransactionSum; }
 
             set
             {
                 _Helper.ClearError(nameof(TotalCostsPerPeriod));
-                _Helper.ClearError(nameof(FixedAmountCosts));
+                _Helper.ClearError(nameof(HeatingCosts));
 
                 if (double.IsNaN(value))
                 {
-                    _Helper.AddError("value must be a number", nameof(FixedAmountCosts));
+                    _Helper.AddError("value must be a number", nameof(HeatingCosts));
                 }
 
                 if (value < 0)
                 {
-                    _Helper.AddError("value must be greater than 0", nameof(FixedAmountCosts));
+                    _Helper.AddError("value must be greater than 0", nameof(HeatingCosts));
                 }
 
-                Billing.FixedAmountCosts.TransactionSum = value;
-                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(FixedAmountCosts)));
+                Billing.HeatingCosts.TransactionSum = value;
+                DataChange?.Invoke(this, new PropertyChangedEventArgs(nameof(HeatingCosts)));
 
-                OnPropertyChanged(nameof(FixedAmountCosts));
+                OnPropertyChanged(nameof(HeatingCosts));
                 OnPropertyChanged(nameof(TotalCostsPerPeriod));
                 OnPropertyChanged(nameof(ContractBalance));
 

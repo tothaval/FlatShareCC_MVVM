@@ -210,7 +210,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             double basicHeatingCostsPercentage = billingViewModel.BasicHeatingCostsPercentage / 100;
 
-            double basicHeatingCostsShare = basicHeatingCostsPercentage * billingViewModel.FixedAmountCosts;
+            double basicHeatingCostsShare = basicHeatingCostsPercentage * billingViewModel.HeatingCosts;
 
             basicHeatingCostsShare = RentedAreaShareRatio() * basicHeatingCostsShare;
 
@@ -224,7 +224,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
             double fixedAmountPercentage = billingViewModel.ConsumptionHeatingCostsPercentage / 100;
 
-            double fixedAmountShare = fixedAmountPercentage * billingViewModel.FixedAmountCosts * HeatingUnitsTotalConsumptionShareRatio;
+            double fixedAmountShare = fixedAmountPercentage * billingViewModel.HeatingCosts * HeatingUnitsTotalConsumptionShareRatio;
 
             return fixedAmountShare;
         }
@@ -414,7 +414,7 @@ namespace SharedLivingCostCalculator.Models.Financial
 
         private void DetermineHeatingUnitsAnnualConsumptionShares()
         {
-            FinancialTransactionItemBilling financialTransactionItem = ((BillingViewModel)ViewModel).Billing.FixedAmountCosts;
+            FinancialTransactionItemBilling financialTransactionItem = ((BillingViewModel)ViewModel).Billing.HeatingCosts;
 
             foreach (ConsumptionItemViewModel consumptionItemViewModel in ((BillingViewModel)ViewModel).ConsumptionItemViewModels)
             {
@@ -476,7 +476,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                     foreach (RoomConsumptionViewModel roomConsumptionViewModel in item.RoomConsumptionViewModels)
                     {
                         if (roomConsumptionViewModel.RoomArea == RoomArea && roomConsumptionViewModel.RoomName.Equals(RoomName)
-                            && !roomConsumptionViewModel.ConsumptionCause.Equals(((BillingViewModel)ViewModel).Billing.FixedAmountCosts.TransactionItem)
+                            && !roomConsumptionViewModel.ConsumptionCause.Equals(((BillingViewModel)ViewModel).Billing.HeatingCosts.TransactionItem)
                             )
                         {
                             double totalshare = roomConsumptionViewModel.ConsumptionValue + item.RoomSharedConsumption;
@@ -564,7 +564,7 @@ namespace SharedLivingCostCalculator.Models.Financial
                         {
                             if (roomConsumption.RoomName.Equals(RoomName) && roomConsumption.RoomArea == RoomArea
                                 && roomConsumption.ConsumptionCause.Equals(item.TransactionItem)
-                                && !roomConsumption.ConsumptionCause.Equals(((BillingViewModel)ViewModel).Billing.FixedAmountCosts.TransactionItem))
+                                && !roomConsumption.ConsumptionCause.Equals(((BillingViewModel)ViewModel).Billing.HeatingCosts.TransactionItem))
                             {
                                 FTIvm.TransactionSum = roomConsumption.ConsumptionCost;
 
